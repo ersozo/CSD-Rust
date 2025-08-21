@@ -1,0 +1,13825 @@
+
+                                            Son Güncelleme: 14/08/2025 - Perşembe
+# 1. Ders 24/02/2025 - Pazartesi
+
+    Kursumuzda önce Rust'ın nasıl bir programlama dili olduğunu açıklyacağız.
+
+    Rust genel amaçlı, yapısal, prosedürel ve fonksiyonel programlama modellerini destekleyen çok modelli (multi-paradigm),
+    statik tür sistemine sahip modern bir programlama dilidir. Tasarımında özellikle eşzamanlı (concurrent) programlama
+    etkinliklerinin daha güvenli biçimde sağlanması ön planda tutulmuştur. Bunun sağlanabilmesi için de bellek erişim güvenliğine
+    (memory safety) özel bir önem verilmiştir.
+
+    Rust bir sistem programlama dili olarak kullanılabilecek biçimde tasarlanmıştır. Bu nedenle C Programlama Diline ve kısmen
+    de C++ Programlama Diline yenilikçi bir seçenek oluşturmaktadır. Rust C Programlama Dilinden biraz daha yüksek seviyeli
+    bir dildir. Birtakım modern özellikler performans kaybına yol açmayacak biçimde dile entegre edilmiştir.
+
+    Rust nesne yönelimli ya da nesne tabanlı bir programlama dili değildir. Ancak nesne yönelimli programlama tekniğindeki
+    bazı prensiplerin uygulanabileceği bir tasarım özelliğine sahiptir.
+
+    Rust çeşitli programlama dillerinden ilham alınarak tasarlanmıştır. Rust'ı etkileyen programlama dilleri şunlardır:
+
+    - C/C++
+    - ML / OCaml
+    - Erlang
+    - Scheme
+    - Haskell
+    - Go
+    - Swift
+    - Kotlin
+    - Python
+
+    Rust'ın temel bir kütüphanesi vardır. Ayrıca zamanla kendine özgü bir ekosistem de oluşmuştur. Bu ekosistemde Rust
+    programcıları kendi çalışmalarını başkalarıyla paylaşmaktadır. Dolayısıyla daha spesifik gereksinimler için "crates.io"
+    deposu içerisindeki üçüncü parti kütüphanelerden faydalanılmaktadır.
+
+# 2. Ders 26/02/2025 - Çarşamba
+
+    Rust nispeten yeni bir programlama dilidir. Dolayısıyla kısa bir tarihi vardır.
+
+    Rust'ın tasarımına 2006 yılında Mozilla şirketi çalışanı olan "Graydon Hoare" ("Greydın Ho:r" biçiminde okunuyor) tarafından
+    başlanmıştır. Hoare bu çalışmaları 2009'a kadar tek başına ve ancak boş zamanlarında yürütmüştür. Hoare 2009 yılından itibaren
+    yaptığı çalışmaları Mozilla'daki çalışma arakadaşlarıyla paylaşmaya başlamıştır. İlk Rust derleyicisi de deneysel amaçla
+    OCaml Dili kullanılarak yazılmıştır. Mozilla 2009 yılında Rust projesine sponsor olmaya başlamıştır. Rust derleyicisi 2010
+    yılında LLVM kullanan Rust derleyicisi ile yeniden yazılmıştır. (Bir derleyicinin kendisiyle derlenmesine İngilizce "self
+    hosting compiler" denilmektedir.) Rust'ın ilk resmi sürümü (0.1 versiyonu) 2012 yılında herkesin kullanımına sunulmuştur.
+    Bu yıllarda Rust projesine Mozilla dışında pek çok gönüllü de katılmaya başlamıştır. Mozilla tam zamanlı çalışmak üzere
+    çeşitli geliştiricileri de işe almıştır. Rust 2012 yılından sonra sürekli iyileştirilmeye çalışılmıştır. Graydon Hoare 2013
+    yılında Rust'ın geliştirilme sürecinde kendini geri plana çekmiştir. Dil üzerindeki pek çok değişiklikten sonra 2015 yılında
+    Rust'ın 1.0 versiyonu kullanıma sunulmuştur. Bu süreçte Rust topluluğu da gitgide büyümüştür.
+
+    Rust'ın ilk versiyonu çıktıktan sonra Mozilla dışında Facebook (Meta), DropBox, Amazon gibi şirketler de Rust'a ilgi göstermeye
+    başlamıştır. University of Minho, NOVA University Lisbon, ve University of Coimbra yaptığı araştımalara göre Rust Java'dan
+    iki kat daha az elektrik harcamaktadır. Ancak C ile kıyaslandığında C'den biraz daha fazla elektrik harcamaktadır.
+
+    Mozilla 2020 yılında Covid salgınının da etkisiyle Rust projesinden çekilme kararı almıştır. Böylece sponsorluk bağlamında
+    işe aldığı kişileri de işten çıkarmıştır. 2021 yılında Amazon Web Services, Google, Huawei, Microsoft, Mozilla şirketlerinin
+    desteğiyle "Rust Foundation" isimli bir kurum oluşturulmuştur. 2021'de Google Andorid'te Rust'ın da kullanılacağını
+    belirtmiştir. 2024'te Beyaz Saray Rust'ın kullanılmasını teşvik eden 19 sayfalık bir doküman yayınlamıştır. Her ne kadar
+    Beyaz Saray'ın bu konuyla doğrudan bir ilgisi yoksa da bu rapor Rust'ın geleceği konusunda iyimser bir hava estirmiştir.
+
+    Rust'ın geliştirilmesine halen "Rust Foundation" kurumu tarafından devam edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın versiyonlarının tarihsel gelişimi şöyledir:
+
+    2006: Rust geliştirilmesine başlandı.
+    2009: Mozilla, Rust projesini desteklemeye başladı.
+    2010: İlk bootstrap (ön-yükleme) derleyicisi yayımlandı.
+    2012: Rust’un kendini derleyen (self-hosted) derleyicisinin alfa sürümleri (örneğin, 0.3 alfa) yayımlandı.
+    Mayıs 2015: Rust 1.0 stabil sürümü piyasaya sürüldü; dil, artık üretim ortamında kullanılmaya hazır hale geldi.
+    Temmuz 2016: 1.10 sürümü piyasaya sürüldü.
+    Ağusatos 2017: 1.20 sürümü piyasaya sürüldü
+    Ekim 2018: 1.30 sürümü piyasaya sürüldü.
+    Aralık 2019: 1.40 sürümü piyasaya sürüldü.
+    Şubat 2021: 1.50 sürümü piyasaya sürüldü.
+    Nisan 2022: 1.60 sürümü piyasaya sürüldü.
+    Temmuz 2023: 1.70 sürümü piyasaya sürüldü.
+    Temmuz 2024: 1.80 sürümü piyasaya sürüldü.
+
+    Kursun başladığı sırada en son stabil versiyonu 1.85'tir ve Ocak 2025'te piyasaya sürülmüştür.
+---------------------------------------------------------------------------------------------------------------------------
+    "Rust Foundation" Rust Programlama Dilinin geliştirilmesinden ve sürdürümünden sorumludur. Resmi sitesine aşağıdaki
+    bağlantıdan erişilebilir:
+
+    https://www.rust-lang.org
+
+    Rust'ın üç önemli resmi (formal) dokümanı vardır.
+
+    1) The Rust Reference (https://doc.rust-lang.org/reference/index.html)
+    2) The Rust Standard Library (https://doc.rust-lang.org/std/index.html)
+    3) The Rustonomicon (https://doc.rust-lang.org/nomicon/index.html)
+
+    "The Rust Reference" dokümanı programlama dilinin resmi (formal) açıklamasını içermektedir. Yani bu doküman adeta Rust
+    Programalama Dilinin standart dokümanı gibi düşünülmelidir. Ancak bu tür referans dokümanlarını oluşturmak kolay değildir.
+    Dolayısıyla kursun yapıldığı tarihlerde bu dokümanda boşluklar da vardır. "The Rust Standard Library" dokümanları Rust'ın
+    standart  kütüphanesini açıklamaktadır. "The Rustonomicon" dokğmanları ise Rust'ta unsafe özellikler ve unsafe kodların
+    oluşturulmasına ilişkin bilgiler içermektedir. Ayrıca Rust'ın resmi sitesinde "tutorial" biçiminde "The Rust Programming
+    Language" isimli bir kitap da bulunmaktadır. Bu kitap aynı zamanda basılı biçimde de kitapçılarda satılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Şüphesiz Rust'ı öğrenirken ilk yapılması gereken şey Rust derleyicisinin ve gerekli birtakım araçların bilgisayara
+    yüklenmesidir. Bu işlem "rustup" isimli program tarafından yapılmaktadır. Bu rustup programı güncelleme amacıyla da
+    kullanılmaktadır. Windows sistemlerinde bu "rustup" gerçekten çalıştırılabilir (executable) bir programdır. Unix/Linux
+    sistemlerinde ve macOS sistemlerinde kurulum işlemi "sh.rustup.rs" bir shell script tarafından yapılmaktadır. Bu sistemlerde
+    tek yapılacak şey aşağıdaki komutu komut satırına yazıp ENTER tuşuna basmaktır:
+
+    $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+    rustup bir konsol programı gibi çalışmaktadır. Program çalıştırıldığında bir seçenek menüsü çıkartır. Kurulumu kendisi
+    yapar. Bu kurulum yapıldığında PATH çevre değişkeni otomatik olarak güncellenmektedir. Dolayısıyla bir terminal açıldığında
+    rust derleyicisi ve cargo gibi araçlar çalıştırılabilmektedir. Kurulum için aşağıdaki bağlantıyı kullanabilirsiniz:
+
+    https://www.rust-lang.org/tools/install
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de "Hello world" programının nasıl derlenerek çalıştırılacağını görelim. Rust'ın derleyicisi diğer derleyicilerde
+    olduğu gibi bir konsol uygulaması biçiminde yazılmıştır. Derleyici programın ismi "rustc" biçimindedir. Bunun için önce
+    herangi bir editörde "Hello world" programı yazılır ve dosya uzantısı ".rs" olacak biçimde save edilir. Rust kaynak
+    dosyalarının doğal uzantıları ".rs" biçimindedir. Aşağıdaki programı herhangi bir text editörde yazarak "sample.rs"
+    biçiminde save edelim:
+
+    fn main() {
+        println!("Hello world");
+    }
+
+    Rust kaynak dosyalarının UNICODE UTF-8 kodlamasıyla oluşturulmuş olması gerekmektedir. Yani Rust derleyicisi kaynak kodun
+    bu kodlama biçimine sahip olduğunu varsaymaktadır.
+
+    Derleme oldukça basittir. Derlenecek program dosyası rustc derleyicisine komut satırı argümanı olarak verilir:
+
+    rustc sample.rs
+
+    Bu işlemle önce kaynak dosya derlenecek sonra link edilerek çalıştırılabilen dosya oluşturulacaktır. Windows sistemlerinde
+    komut satırında doprundan dosya ismini yazarak programı çalıştırabilirsiniz. UNIX/linux ve macOS sistemlerinde çalıştırma
+    aşağıdaki gibi yapılmalıdır:
+
+    $ ./sample
+
+    Rust'ı Windows'a yüklediğimizde rustc default durumda link işlemi için Microsoft'un "link.exe" programını kullanmaktadır.
+    Dolayısıyla Windows sistemlerinde MSVC araçlarının yüklü olması gerekir. Kurulum sırasında "rustup" programı bu
+    kontrolü yapmakta ve eğer MSVC aracı yoksa bunu kullanıcya sorarak yüklemektedir. Ancak Windows sistemlerinde "GNU Araç
+    Zinciriyle (GNU Toolchain)" çalışılabilmektedir.
+
+    Tıpkı gcc ve clang derleyicilerinde olduğu gibi rustc derleyicisi de link işleminden sonra "amaç dosyayı (object file)"
+    silmektedir. Dolayısıyla rustc programını çalıştırdıktan sonra bir amaç dosya göremezseniz şaşırmayınız.
+
+    Link işlemini yapmadan yalnızca amaç dosya oluşturmak için "--emit=obj" seçeneği kullanılmaktadır. Örneğin:
+
+    rustc --emit=obj sample.rs
+
+    Bu işlemle "sample.o" isminde bir amaç dosya oluşturulacaktır. Ancak link işlemi yapılmayacaktır.
+
+    Tıpkı gcc ve clang derleyeicilerinde olduğu gibi "-o <hedef_dosya_ismi>" seçeneği ile hedef dosyaya istenilen bir isim
+    verilebilmektedir. Örneğin:
+
+    rustc -o project.exe sample.rs
+
+    Burada artık Winodws'ta çalıştırılabilen dosya "sample.exe" isminde değil "project.exe" isminde olacaktır. Tabii UNIX/Linux
+    ve macOS sistemlerinde çalıştırılabilen dosyaların belli bir uzantısı yoktur. Aynı işlem bu sistemlerde şöyle yapılabilir:
+
+    rustc -o project sample.rs
+
+
+# 3. Ders 03/03/2025 - Pazartesi
+
+    Aslında Rust programcıları kaynak dosyaları komut satırından doğrudan "rustc" derleyicisi ile derlemek yerine genellikle
+    "cargo" isimli bir programla  derleme işlemini yaparlar. cargo hem bir paket yöneticisi hem de bir build otomasyon aracıdır.
+    Yani cargo programı hem depolardan çeşitli kütüphaneleri (crates) indirip projeye dahil edebilmekte hem de birden fazla
+    kaynak dosyayı derleyerek link işlemini yapabilmektedir. Rust paket olarak yüklendiğinde zaten cargo aracı da bilgisayarınıza
+    yüklenmiş olacaktır. Biz kurusumuzda cargo programının ayrıntılı kullanımını ileride ele alacağız. Ancak burada bu
+    programın bir proje (paket) oluşturup onu derlemek ve çalıştırmak için yalın bir biçimde nasıl kullanılacağını göreceğiz.
+
+    Rust dünyasında çalıştırılabilir bir dosya ya da bir kütüphane dosyası elde etmek için oluşturulmuş olan bir ya da birden
+    fazla Rust kaynak dosyasına "crate" denilmektedir. Crate "derlendiğinde çalıştırılabilir dosya elde edilecek olan bir ya da
+    birden Rust kaynak dosyasını" belirtebileceği gibi "derlendiğinde bir kütüphane oluşturan bir ya da birden fazla Rust kaynak
+    dosyasını" da belirtebilmektedir. Crate kavramı diğer programlama ortamlarındaki "proje" kavramına benzemektedr. Örneğin
+    biz C++'ta çalışırken bir proje yaratıp o projenin içerisine birden fazla kaynak dosya yerleştirip projeyi build edebiliriz.
+    İşte aynı biçimde Rust dünyasında da bir crate'in içerisinde birden fazla kaynak dosya bulunabilmektedir. Rust dünyasında
+    "paket (package)" crate'leri tutan mantıksal bir kap gibidir. Bir pakette birden fazla crate olabilir. Örneğin "Visual Studio"
+    IDE'sinde projeleri tutan mantıksal kaba "çözüm (solution)" denilmektedir. Rust'taki paket Visual Studio'daki çözüm kavramına
+    benzetilebilir. Paket sözcüğü aslında diğer başka programlama dillerinde de benzer anlamda kullanılabilmektedir. Örneğin
+    Python dünyasında paket denildiğinde bir grup modül anlaşılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    cargo ile yeni bir paket (proje de diyebiliriz) oluşturmak için "cargo new" komutu kullanılmaktadır. Komutun genel
+    biçimi şöyledir:
+
+    cargo new <paket_ismi>
+
+    Bu işlemden sonra ismi paket_ismi olan bir dizin yaratılır. Yaratılan dizinin içeriği şöyle olacaktır:
+
+    23.11.2022  13:50    <DIR>          .
+    23.11.2022  13:50    <DIR>          ..
+    23.11.2022  13:50                 8 .gitignore
+    23.11.2022  13:50               175 Cargo.toml
+    23.11.2022  13:50    <DIR>          src
+                2 File(s)            183 bytes
+                3 Dir(s)  679.902.699.520 bytes free
+
+    Buradaki "Cargo.toml" dosyası paketin ana yönetim dosyasıdır. Pakete ilişkin öğelerle ilgili bilgiler bu dosyada tutulmaktadır.
+    Yeni yaratılmış olan minimal bir projede bu dosyanın içeriği aşağıdaki gibi çok küçüktür:
+
+    [package]
+    name = "myproject"
+    version = "0.1.0"
+    edition = "2021"
+
+    [dependencies]
+
+    "src" dizininin altında "main.rs" isminde aşağıdaki gibi bir "Hello World" programı oluşturulmaktadır:
+
+    fn main() {
+        println!("Hello, world!");
+    }
+
+    Burada paketin ana crate'i bu "main.rs" dosyasındna oluşan binary bir crate'tir. Aslında paket yaratımı sırasında "--bin"
+    ya da "--lib" seçenekleri de kullanılabilmektedir. Bu durumda çalıştırılabilir ya da kütüphane projeleri oluşturulmaktadır.
+    Default durum eskiden "--lib" biçimindeydi ancak sonraları sürümlerde "--bin" haline getirildi.
+
+    Projeyi built etmek için proje dizinine geçilip "cargo build" komutu uygulanır. Örneğin:
+
+    cargo build
+
+    Build işleminden sonra "target" isimli bir dizin ve onun içerisinde de "debug" isimli bir dizin oluşturulacaktır.
+    "cargo build" komutu proje dizininde ya da onun alt dizinlerinde uygulanabilir. Ancak proje dizini dışından uygulanamaz.
+    Build işlemi sonucunda çalıştırılabilen dosya ya da kütüphane dosyası default durumda "target/debug" dizininde paket
+    ismiyle oluşturulacaktır.
+
+    Build işleminden sonra oluşturulan çalıştırılabilir dosyayı çalıştırmak için doğrudan "cargo run" komutu kullanılabilir.
+    Örneğin:
+
+    cargo run
+
+    Bu komut da proje dizinin de ya da projenin bir alt dizininde uygulanabilmektedir. Tabii pek çok benzer build sisteminde
+    de olduğu gibi sonraki aşama önceki aşamaların yapılmasına da yol açmaktadır. Yani biz "cargo build" komutundan önce
+    "cargo run" komutunu kullanırsak zaten önce build işlemi yapılıp sonra oluşturulan çalıştırılabilir dosya çalıştırılacaktır.
+
+    "cargo build" komutuyla yapılan işlemlerin ortadan kaldırılması için "cargo clean" komutu kullanılmaktadır. Örneğin:
+
+    cargo clean
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yazılım geliştirmekte kullanılan çeşitli araçların bir araya getirilmesiyle oluşturulmuş araçlara IDE (Integrated Development
+    Environment) denilmektedir. Yazılım geliştirme sürcinde IDE'ler özellikle bazı dillerde yoğun olarak kullanılmaktadır.
+    Microsoft'un ünlü IDE'sine "Visual Studio" denilmektedir. Apple firmasının da "XCode" isimli bir IDE'si vardır. Bazı IDE'ler
+    açık kaynok kodlu biçimde yazılmıştır. Dolayısıya bu IDE'ler aynı zamanda bedavadır. Bazı IDE'ler paralı olsa da bunların
+    parasız versiyonları da oluşturulmuştur. Yine IDE'lerin bazıları "cross platform" özelliğe sahiptir. Yani hem Windows
+    sistemlerinde hem macOS sistemlerinde hem de Linux sistemlerinde aynı arayüz ile kullanılabilmektedir. Belli bir süredir
+    IDE'ler artık bir plugin mimarisi ile tasarlanmaktadır. Böylece IDE'lerin işlevleri üçüncü parti plugin'lerle değiştirilebilmektedir.
+    Bazı IDE'ler yalnızca belli bir programlama dili için oluşturulmuştur. Bazı IDE'ler ise pek çok programlama dilini desteklemektedir.
+    Bazı araçlar tam bir IDE gibi olmasa da IDE'ye benzer özelliklere sahiptir. Bunlar adeta editör ile IDE arasında bir konumda
+    bulunmaktadır. İngilizce bunlara "lightweight IDE (hafif siklet IDE)" de denilmektedir.
+
+    Rust nispeten yeni bir programlama dili olduğu için Rust IDE'leri ve plugin'leri de yeni yeni geliştirilmeye başlanmıştır.
+    Rust için çok kullanılan IDE'ler ve IDE benzeri editörler şunlardır:
+
+    - VSCode (Cross Platform)
+    - RustRover (Cross Platform)
+    - Eclipse (Cross Platform)
+    - Sublime Text (Linux/macOS)
+
+    Biz kurusumuzda Microsoft'un cross platform editör ile IDE arasındaki VSCode'unu ve JetBrains firmasının nispeten yeni
+    olan RustRover IDE'sini kullanacağız. VSCode bedava bir araçtır. RustRover da şimdilik bedavadır. İleride paralı versiyonu
+    oluşturulduğunda muhtemelen bedava versiyonu da devam ettirilecektir. Biz kurusumuzda VSCode için genellikle "editör"
+    terimini kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    VSCode editöründe Rust ile çalışmak için pek çok plugin bulunmaktadır. Önemli Rust plugin'leri şunlardır:
+
+    - Rust Analyzer
+    - crates
+    - Better ToML
+    - CodeLLDB
+    - cargo
+
+    "Rust Extension Pack" isimli plugin'ler zaten yukarıdaki plugin'lerin çoğunu yüklemektedir.
+
+    VSCode editöründe program çalıştırmak için bazı JSON dosyaları üzerinde değişiklikler yapmak gerekebilir. Ancak pratik
+    bir biçimde program çalıştırmak için de plugin'ler vardır. "Code Runner" isimli plugin bu amaçla yaygın biçimde kullanılmaktadır.
+    Bu plugin tek bir tuşla (Ctrl+Alt+N) pek çok programlama dilinde yazılmış programı derleyerek çalıştırmaktadır. Biz kursumuzda
+    VSCode'da bu "Code Runner" plugin'ini kullanacağız.
+
+    Code Runner plugin'i kurulduğunda Rust için derleme default biçimde "rustc" derleyicisi ile yapılmaktadır. Yani "cargo"
+    ile yapılmamaktadır. Eğer derleme ve çalıştırmada cargo'yu kullanmak istiyorsanız bunun için "settings.json" dosyasını
+    uygun biçimde güncellemeniz gerekir. VSCode'ta üç önemli JSON dosyası vardır:
+
+    Default Settings JSON dosyası
+    User Settings JSON dosyası
+    Workspace Settings JSON dosyası
+
+    Belirlemeyi hangi JSON dosyasında yaparsanız yukarıdakileri geçersiz hale getirecektir. Burada "User Settings JSON"
+    dosyasını kullanabilirsiniz. Bu dosyayı edit ederek dosyada "code-runner.executorMap" kısmına gelip "rust" satırında
+    şu değişikliği yapabilrisiniz:
+
+     "code-runner.executorMap": {
+        ...
+        "rust": "cd $dir && cargo run"
+        ...
+    }
+
+    Code Runner plugin'inin default "rust" satırı aşağıdaki gibidir:
+
+    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
+
+    Tabii eski duruma dönmek için bu satırı değiştirmek yerine orijinal ismi de değiştirebilirsiniz. İsmini nasıl değiştirdiğinizin
+    bir önemi yoktur. Örneğin:
+
+      "code-runner.executorMap": {
+        ...
+        "rust_old": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
+        "rust": "cd $dir && cargo run"
+        ...
+    }
+
+    Şimdi artık "Ctrl+Alt+N" tuşlarına bastığınızda "cargo run" komutu çalıştırılacak dolayısıyla derleme ve çalıştırma
+    cargo tarafından yapılacaktır. Tabii cargo bir paket (proje de diyebiliriz) dizinini kullandığı için sizin daha önce
+    "cargo new" ile yeni bir paket dizini oluşturmuş olmanız gerekir. Bunu oluşturduktan sonra editöre "src" dizini içerisindeki
+    "main.rs" dosyasını çekip Ctrl+Alt+N tuşlarına basarsanız programınız cargo ile program sorunsuz derlenip çalıştırılacaktır.
+    Aslında VSCode bir klasörü de "File/Open Folder" menüsü ile açabilmektedir. Dolayısıyla editöre tek bir dosyayı çekmek
+    yerine dizini açıp dosyayı oradan seçmek daha kolay bir kullanım sunacaktır.
+
+    VSCode'da "Code Runner" ile çalışırken edit ettiğiniz kaynak dosyanın Ctrl+Alt+N tuşlarıyla çalıştırma sırasında save
+    edilmiş olduğuna emin olunuz. Bu tuşlara basmadan önce kaynak dosyanın otomatik save edilmesi "Code Runner" plugin'in
+    kendi ayar menüsünden "Save File Before Run" ile yapılmaktadır.
+
+# 4. Ders 05/03/2025 - Çarşamba
+
+    RustRover IDE'si ile bir proje (paket) oluşturmak oldukça kolaydır. Bunun için menüden "New Project" seçilir. Proje için
+    bir dizin ismi belirlenir. Zaten RustRover arka planda işlemlerini cargo ile yapmaktadır. Dolayısyla ilgili proje zaten
+    cargo ile yaratılmış olacaktır. Burada tek bir düğmeye tıklamayla (Windows'ta kısa yol tuşu Shift+F10) proje derlenip
+    çalıştırılabilir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yeni bir programlama diline başlarken ilk öğrenilmesi gereken şey o programlama dilinin tür sistemidir. Tür (type) nesnelerin
+    (ya da değişkenlerin) bellekte ne kadar yer kaplayacağını, onların içerisindeki 1'lerin 0'ların nasıl ele alınacağını,
+    onların hangi operatörlerle işleme sokulabileceğini belirten temel kavramlardan biridir.
+
+    Programlama dillerinde türler genel olarak "temel türler" ve "bileşik türler" olmak üzere ikiye ayrılmaktadır. Temel türler
+    tekil nesnelerin türlerini belirtmektedir. Bileşik türler ise birden fazla nesnenin bir araya gelmesiyle oluşturulan
+    türleri belirtmektedir. Birden fazla nesnenin bir araya gelmesiyle oluşturulan topluluğa "veri yapısı (data structure)"
+    da denilmektedir. Fakat "temel tür" ve "bileşik tür" kavramları değişik programlama dillerinde değişik biçimde isimlendirilmiştir.
+    Örneğin bazı programlama dillerinde"temel türlere için İngilizce "primitive types" denilmektedir. Temel türler de genellikle
+    programlama dillerinde kendi içerisinde birkaç grubu ayrılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    "The Rust Reference" dokümanlarına göre Rust'taki türler şu kategorilerden oluşmaktadır:
+
+    Primitive types:
+        Boolean
+        Numeric
+        Textual
+        Never
+    Sequence types:
+        Tuple
+        Array
+        Slice
+    User-defined types:
+        Struct
+        Enum
+        Union
+    Function types:
+        Functions
+        Closures
+    Pointer types:
+        References
+        Raw pointers
+        Function pointers
+    Trait types:
+        Trait objects
+        Impl trait
+
+    Biz burada önce temel türleri (primitive types) sonra ilerleyen bölümlerde de demet (tuple), dizi (array) ve dilim (slice)
+    gibi dizilim türlerini (sequence types) ve kullanıcı tanımlı türleri göreceğiz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta nümerik türler kendi aralarında tamsayı türleri ve gerçek sayı türleri biçiminde ikiye ayrılmaktadır. Tamsayı
+    türleri de kendi aralarında "işaretli tamsayı türleri", "işaretsiz tamsayı türleri" ve "makine bağımlı tamsayı türleri"
+    olmak üzere üçe ayrılmaktadır. Rust'ta işaretli tamsayılar 2'ye tümleyen artimetiği ile tutulmaktadır. (Halbuki örneğin C
+    ve C++ standartlarında her ne kadar tüm derleyiciler 2'ye tümleyen artimetiğini kullanıyor olsa da işaretli tamsayıların
+    2'ye tümleyen aritmetiği ile tutulacağı konusunda bir garanti verilmemiştir.) Rust'ta tamsayı türlerinin isimleri oldukça
+    kısa bir biçimde oluşturulmuştur. N bit sayısını belirtmek üzere işaretli tamsayı türlerinin isimleri iN biçiminde, işaretsiz
+    tamsayı türlerinin isimleri de uN biçimindedir. Rust'ın tüm tamsayı türlerinin isimleri aşağıda verilmiştir:
+
+    İşaretli Tamsayı Türleri
+    ------------------------
+    i8
+    i16
+    i32
+    i64
+    i128
+
+    İşaretsiz Tamsayı Türleri
+    -------------------------
+    u8
+    u16
+    u32
+    u64
+    u128
+
+    Makine Bağımlı Tamsayı Türleri
+    ------------------------------
+    isize
+    usize
+
+    Anımsanacağı gibi 2'ye tümleyen artimetiğinde N bitlik bir işaretli tamsayının sınır değerleri [-2^N, +2^N - 1] aralığındadır.
+    Rust'ta 128 bitlik tamsayı türünün de olduğuna dikkat ediniz. Henüz 128 bitlik işlemciler kullanılmıyor olsa da bazı durumlarda
+    (özellikle bit işlemlerinde) 128 bitlik tamsayılar daha verimli kod yazımını sağlayabilmektedir.
+
+    Rust'ta ayrıca çalışılan sisteme bağlı uzunlukta olan isize ve usize isimli iki tamsayı türü de vardır. Bu tamsayı türleri
+    çalışılan sistemdeki teorik bellek büyüklüğüne hizalanmış olan bir uzunluğa sahiptir. Dolayısıyla bu türler 32 bit sistemlerde
+    32 bit (4 byte), 64 bit sistemlerde 64 bit (8 byte) uzuznluğundadır. Bugün artık 16 bit işlemcilerin kullanımı oldukça
+    azalmıştır. Ancak 16 bit işlemcilerin kullanıldığı sistemlerde bu türler 16 bit uzunluğunda olacaktır. "The Rust Reference"
+    dokümanlarına göre bu tür ilgili sistemdeki göstericilerin bit uzunuğu kadar olmak zorundadır. usize türünü C'deki size_t
+    türüne benzetebilirsiniz. C'de de size_t türünün ilgili sistemdeki teorik bellek büyüklüğüne göre typedef edildiğini anımsayınız.
+    Böylece sistem programcısı farklı işlemcilerin kullanıldığı sistemlerde daha taşınabilir kodlar yazabilmektedir. İki adres
+    bilgisini çıkardığımızda sonuç negatif de olabilir pozitif de olabilir İşte isize türü iki adres farkını tutabilen usize
+    türünün işaretli biçimidir. Pek çok işletim sisteminde proseslerin sanal bellek alanları isize büyüklüğündedir. usize ve
+    isize türleri aynı bit uzunluğuna sahiptir. Ayrıca "The Rust Reference" dokümanları bir yapı değişkeninin ya da dizinin
+    bellekte kapladığı alanın en fazla isize kadar olabileceğini söylemektedir. Yukarıda da belirttiğimiz gibi bugün yaygın
+    sistemlerde usize ve isize ya 64 ya da 32 bit uzunluğundadır. Yukarıda da belirttiğimiz gibi 16 bit işlemciler artık çok
+    seyrek kullanılmaktadır. 128 bit işlemciler ise henüz kullanıma girmemiştir. Şimdilik 128 bitlik işlemcilere gereksinim
+    duyulmamaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta iki gerçek sayı türü vardır. Bunlar f32 ve f64 türleridir. "The Rust Reference" dokümanlarında bu türlerin IEEE
+    754 formatlarına sahip olduğu belirtilmektedir. Bugün artık matematik işlemciler ve emülasyon araçları hep bu formatı
+    kullanmaktadır. C Pprogramlama Dilinin standartlarında açıkça bu formatın kullanılacağı söylenmemiştir. Oysa Rust'ta bu
+    durum garanti edilmektedir. Rust'ın f32 türü C'nin float türüyle, Rust'ın f64 türü C'nin double türüyle örtüşmektedir.
+    C'de long double isminde bir gerçek sayı türünün daha olduğunu anımsayınız. C'nin long double pek çok derleyicide double
+    türüyle aynı uzunluktadır. (Tabii aslında C'de float türünün 4 byte double türünün 8 olacağının da bir garantisi de
+    yoktur. Ancak yaygn derleyicilerin hepsinde durum böyledir.)
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta pek çok programlama dilinde olduğu gibi true ve false değerlerinin tutulduğu bool isminde bir tür de vardır.
+    Rust'ta bool türünün 1 byte yer kaplayacağı garanti edilmiştir. (C ve C++'ın böyle bir garanti vermediğini anımsayınız.)
+    Ayrıca false değerinin bitsel olarak 0 ve true değerinin de bitsel olarak 1 olduğu da "The Rust Reference" dokümanlarında
+    açıkça belirtilmiştir. C ve C++ standartlarında böyle bir belirlemede bulunulmamıştır.
+
+# 5. Ders 10/03/2025 - Pazartesi
+
+    Rust'ta iki yazısal tür (textual type) vardır:
+
+    char
+    str
+
+    char türü bir karakterin Unicode UTF-32 kod numarasını (code point) tutmaktadır. Dolayısıyla char türü 4 byte uzunluğundadır.
+    Biz char türden bir değişkene tek tırnak içerisine aldığımız bir Unicode karakteri atayabiliriz. Buradaki "Unicode UTF-32"
+    teriminin anlaşılmasını sağlamak için karakter tablolama sistemleri hakkında bazı temel bilgiler üzerinde rumak itiyoruz.
+
+    Karakterlerin bilgisayardaki temsili için oluşturulan tablolara "karakter tabloları (character sets)" denilmektedir. Dünyanın
+    bilgisayar alanında kullanılan ilk karakter tablosu ASCII (American Standard Code Information Interchange) denilen tablodur.
+    Bu tablo 60'ların başlarında tasarlanmaya başlamış ve 1963 yılında ANSI (American National Standard Institute) tarafından
+    standardize edilmiştir. ASCII tablosunun dışında EBCDIC gibi WISCII gibi başka karakter tabloları da geliştirilmiştir. Bunlar
+    arasında en yaygın kullanılanı ASCII tablosu olmuştur. ASCII tablosu 7 bitlik bir tabloydu. Yani 128 karakter içeriyordu.
+    Sonra zamanla 8'inci bit değişik ülkeler tarafından değişik biçimlerde organize edildi ve "code page" varyasyonları ortaya
+    çıkmaya başladı. Örneğin bugün Türkçe için ilk yarısı standart ASCII tablosunun aynısı olan ikinci yarısı değişik düzenlenmiş
+    olan üç farklı code page varyasyonu bulunmaktadır: IBM 857 (eski DOS sistemlerinde kullanılıyordu), Microsoft 1254 (Windows'ta
+    kullanılıyor) ve ISO 8859-9 (ISO standardı, Microsoft 1254'e çok benziyor). Bu karakter tablolarının hepsi temelde 8 bit
+    tablolardır. Yani en fazla 256 farklı karakteri barındırabilmektedir. Eskiden belleklerin çok kıt olduğu dönemlerde karakterlerin
+    az bitle ifade edilmesi anlamlıydı. Ancak bellekler bollaşınca artık bunun önemi de kalmamıştır. 8 bitlik code page'ler
+    dünyanın tüm dillerini ve çeşitli işaret dillerini temsil edememektedir. Ayrıca farklı dillerdeki yazıların aynı doküman
+    içerisinde tutulduğu durumlarda 8 bitlik code page'ler sorunlara yol açmaktadır. İşte son 30 yıldır her bir karakterin kabaca
+    1 byte ile değil 2 byte ile kodlandığı ismine "Unicode" denilen bir tablo oluşturulmuştur. Unicode tablo zamanla programlama
+    dillerini de etkisi altına almış ve diller de bu tabloyu destekleyecek biçimde evrim geçirmişlerdir. Unicode karakter tablosu
+    ISO tarafından "ISO/IEC 10646" kod numarasıyla da standardize edilmiştir. Unicode tablodaki karakterlerin kod numaraları (code
+    points) için ilk zamanlar 2 byte yeterli oluyordu. Ancak zamanla Unicode'un çeşitli versyionlarında tabloya karakterler eklendi.
+    Bugün Unicode tabloda yaklaşık 150,000 karakter bulunmaktadır. Yani artık Unicode karakterler için 2 byte da yetmemektedir.
+
+    Karakter tablolarını anlayabilmek için bazı terimlerin anlamlarının bilinemsi gerekir. Bir karakter tablosundaki karakterlerin
+    görüntülerine İngilizce "glyph" denilmektedir. Karakter tablosundaki her karaktere 0'dan başlanarak bir artan sırada bir sayı
+    karşılık getirilir. Karakterin bu sıra numaralarına "kod numarası (code point)" denilmektedir. Örneğin ASCII tablosunda 'a'
+    karakterinin kod numarası 97'dir. Bir karakter tablosundaki kod numaralarının 2'lik sistemde nasıl ifade edileceğine de
+    "karakter kodlaması (character encoding)" denilmektedir.
+
+    Unicode tablonun ilk 128 kod numarasına ilişkin karakterleri standart ASCII karakterleriyle aynıdır. Unicode tablonun
+    128 ile 255 arasındaki kod numaralarına ilişkin karakterler de ASCII Latin-1 (ISO 8859-1) code page'i ile aynıdır. Türkçe
+    özel karakterlerin Unicode tablodaki kod numaraları 200'lü ve 300'lü sıralardadır ve bunların sıraları Türk alfabesindeki
+    sıra ile uyumlu değildir.
+
+    Unicode tablonun üç temel encoding'i bulunmaktadır: UTF-8, UTF-16 ve UTF-32. Unicode'un UTF-8 kodlaması multibyte bir kodlamadır.
+    Bu kodlamada çok kullanılan karakterler az byte ile az kullanılan karakterler çok byte ile kodlanmaktadır. Örneğin standart
+    ASCII karakterlerine ilişkin kod numaralarının hepsi UTF-8 kodlamasında 1 byte ile, Türkçe karakterler 2 byte ile, Japonca
+    ve Çince'deki kanji karakterleri ise 3 byte ile ve çok az kullanılan karakterler de 4 byte ile kodlanmaktadır. Bu nedenle
+    Unicode UTF-8 kodlanmış bir yazının byte sayısına bakarak onun kaç karakter içerdiği anlaşılamaz. Unicode UTF-16 kodlamasında
+    her karakter 2 byte ile kodlanır. Eskiden Unicode tablonun tüm karakterleri böyle 2 byte ile kodlanabiliyordu. Ancak Unicode
+    tablo büyüyünce artık bazı karakterler UTF-16 encoding'inde iki ayrı iki byte ile kodlanmaktadır. Zaten tüm dillerin karakterlerinin
+    kod numaraları 65535 içerisindedir. İşte UTF-32 de her karakterin sabit 4 byte ile kodlandığı encoding'tir. Yukarıda Unicode
+    tablonun ilk 128 karakterinin kod numaraları ile ASCII tablosundaki karakterlerin kod numaralarının aynı olduğunu belirtmiştik.
+    Bu durumda standarT ASCII ile kodlanmış bir yazı ile Unicode UTF-8 kodlanmış bir yazı arasında bir farkın kalmadığına dikkat
+    ediniz.
+
+    Java ve C# dillerindeki char türü Unicode UTF-16 encoding'ini kullanmaktadır. Zaten bu diller Unicode tablonun daha büyük
+    kod numaralarını doğrudan desteklememektedir. Python'daki CPython  yorumlayıcısı da Unicode UTF-16 encoding'ini kullanmaktadır.
+    C++'a UTF-8, UTF-16 ve UTF-32 desteği C++11 standartları ile, C'ye de C11 standartları ile eklenmiştir.
+
+    İşte Rust'ta char türü en genel Unicode encoding'i olan UTF-32 encoding'ini kullanmaktadır. Bu nedenle char türü Rust'ta
+    4 byte uzunluktadır.
+
+    Rust'ta str türü iki tırnak içerisindeki string'leri temsil etmektedir. Bu türe Rust'ta "string dilimi (string slice)"
+    de denilmektedir. Ancak bu tür genel olarak referanslı bir biçimde yani &str biçiminde kullanılır. &str türüne ise
+    "string dilimi referansı (string slice reference)" denilmektedir. Biz Rust'ta iki tırnak içerisindeki yazıları str türünden
+    değişkenlere değil &str türünden değişkenlere atayabiliriz. Referans kavramının ve dilim kavramının Rust'ta ne anlam
+    ifade ettiği kursumuzun ilerleyen bölümlerinde ayrıntılarıyla ele alınacaktır.
+
+    Rust'ta iki tırnak içerisindeki yazılar Unicode UTF-8 encoding'iyle tutulmaktadır. Yukarıda da belirttiğimiz gibi Unicode
+    UTF-8 encoding'i ile kodlanmış yazıların karakter uzunlukları yazının kapladığı byte uzunluğuna bakarak anlaşılamamaktadır.
+
+    Rust'ta iki tırnak içerisindeki yazıların sonunda C'de ve C++'ta olduğu gibi bir null karakter ('\0' karakteri)
+    bulunmamaktadır. Bu nedenle Rust'ya yazının sonu özel bir karakterle değil yazının uzunluğundan hareketle belirlenmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta ! ile temsil edilen ismine "never türü" denilen bir tür de vardır. Bu never türü "akışın o noktadan devam etmeyeceği
+    anlamına gelmektedir. Never türü özellikle fonksiyonların geri dönüş değerlerinde kullanılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Şimdi Rust'ta değişken tanımlamaları üzerinde duracağız. Rust yeni bir programlama dilidir. Bu nedenle dilin terminolojisi
+    de maalesef tam olarak oturtulamamıştır. Bir değişkenin oluşturulmasına yani faaliyet alanına sokulmasına bazı dillerinde
+    "bildirim (declaration)" bazı dillerde "tanımlama (definition)" denilmektedir. Ancak genel olarak Rust bu iki terimi de
+    kullanmamaktadır. Rust programcıları bu terimler yerine "değişkeni bağlamak (variable binding)" terimini tercih etmektedir.
+    "The Rust Reference" dokümanlarında da diğer dillerdeki bildirim ya da tanımlama işlemi için şimdilik açık bir terim
+    kullanılmamıştır. Ancak dokümanların değişik yerlerinde "bağlama" teriminin kullanıldığı görülmektedir. Biz kursumuzda
+    bir değişkenin faaliyet alanına sokulması için "bağlama (binding)" bazen de tanımlama (definition) terimini kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bir değişkenin faaliyet alanına sokulması (yani bağlanması) let deyimiyle yapılmaktadır. let deyimi "kalıp uyuşumu
+    (pattern matching)" özelliği ile çalışır. Bu nedenle let deyiminin genel biçimi biraz ayrıntılıdır. Biz bu bölümde kalıp
+    uyuşumu özelliğini göz ardı ederek let deyiminin temel kullanımı üzerinde duracağız.
+
+    Rust'ta bir değişkenin faaliyet alanına sokulması (yani bağlanması) let deyimiyle yapılmaktadır. let deyiminin genel biçimi
+    kabaca şöyledir:
+
+    let <kalıp> = ifade [else {...}]
+
+    let deyimi kalıp uyuşumu ile çalışmaktadır. Ancak biz kalıp uyuşumlarını ileride başka bölümlerde ele alacağız. Bu bölümde
+    let deyiminin temel kullanım üzerinde duracağız. let deyiminin yalın kullanımının genel biçimi şöyledir:
+
+    let <değişken_ismi> [: <tür>] [= <ilkdeğer>];
+
+    Bu yalın genel biçime göre let deyiminin üç temel kullanım biçimi vardır:
+
+    1) let <değişken_ismi>: <tür>;
+    2) let <değişken_ismi> = <ilkdeğer>;
+    3) let <değişken_ismi>: <tür> = ilkdeğer;
+
+    let deyimi ile bir değişken bağlanırken değişken isminden sonra ':' atomu ve sonra değişkin türü belirtilebilir. Örneğin:
+
+    let a: i32;
+    let b: f64;
+    let c: bool;
+
+    Eğer bağlanan değişkene ilkdeğer veriliyorsa tür belirtilmeyebilir. Örneğin:
+
+    let a = 10;
+    let b = 3.14;
+    let c = true;
+
+    Bu durumda değişkenin türü ona verilen ilkdeğerden hareketle tespit edilmektedir. let deyiminde hem tür belirtilebilir
+    hem de değişkene ilkdeğer verilebilir. Örneğin:
+
+    let a: i32 = 10;
+    let b: f64 = 3.14;
+    let c: bool = true;
+
+    Aşağıdaki bağlama geçersizdir:
+
+    let a;          // geçersiz!
+
+    Çünkü burada a'nın türü belirtilmemiştir ve ilkdeğer de verilmediği için otomatik tespit de yapılamamaktadır.
+
+    Aslında verilen ilkdeğerden hareketle otomatik tür tespiti pek çok programlama diline sokulmuştur. C'de böyle bir özellik
+    yoktur ancak C++11 ile birlikte C++'a auto anahtar sözcüğü ile bu özellik eklenmiştir. Örneğin:
+
+    auto a = 123;       // 123 int türden olduğu için a da int türden
+
+    Java ve C#'ta da aynı özellik var anahtar sözcüğü ile sağlanmaktadır. Örneğin:
+
+    var a = 10;
+
+    Pek çok programlama dilinde aynı türden birden fazla değişkenin bildirimi tek hamlede yapılabilmektedir. Örneğin C'de
+    aşağıdaki gibi bir bildirim geçerlidir:
+
+    int a = 10, b, c = 20;
+
+    Ancak Rust'taki let deyimi "kalıp uyuşumu (pattern matching)" ile çalışmaktadır. Rust'ta bu biçimde tek hamlede bağlama
+    yapılamamaktadır. Örneğin:
+
+    let a = 10, b = 20;         // error!
+
+    Rust'ta bu işlem tipik olarak "demet (tuple) kalıbı" ile yapılmaktadır. Örneğin:
+
+    let (a, b) = (10, 20);      // geçerli
+
+# 6. Ders 17/03/2025 - Pazartesi
+
+    Rust "büyük harf küçük harf duyarlılığı olan (case sensitive)" bir programlama dilidir. Yani büyük harfler ve küçük
+    harfler farklı karakterler olarak ele alınmaktadır. Rust'ta değişken isimlendirmesinde Unicode tablodaki tüm dillerin
+    alfabetik ve nümerik karakterleri kullanılabilmektedir. Örneğin biz bir değişken ismini Türkçe karakterlerden oluşturabiliriz:
+
+    let ağrı_dağının_yüksekliği = 5137;
+
+    Her ne kadar böyle bir serbestlik varsa da diğer pek çok dilde olduğu gibi değişken isimlendirmesinde yoğun olarak İngilizce
+    karakterler tercih edilmektedir. Birden fazla sözcük içeren değişkenlerin harflendirilmesi (capitalization) için Rust'ta
+    genel olarak C'deki gibi "yılan notasyonu (snake casting)" tercih edilmektedir. Ancak "yapı, enum, trait gibi "elemanlar
+    (items)" genellikle Pascal tarzı, sembolik sabitler ise genellikle Pascal tarzı ya da tüm harfleri büyük olacak biçimde
+    harflendirilmektedir. Biz de kursumuzda Rust'taki bu geleneğe uyacağız.
+
+    Rust'ta bir değişken isminin başında '_' karakteri varsa bu durum Rust derleyicisi tarafından özel bir anlama gelmektedir.
+    Rust derleyicisi default durumda bağlanmış (tanımlanmış) ancak kullanılmamış değişkenler için uyarı vermektedir. Ancak
+    eğer değişkenin başında '_' varsa bu uyarıyı vermemektedir. Yani programcı ismini '_' ile başlattığı değişken için derleyiciye
+    "Ben bu değişkeni kullanmayabilirim. Belki de daha sonra kullanacağım. Bunun için bana uyarı verme" demek istemektedir.
+    Örneğin:
+
+    let _number = 123;
+
+    Biz burada artık bu number değişkenini kullanmasak bile derleyici bunun için bize uyarı vermeyecektir.
+
+    Rust'ta tek bir _ karakterinden oluşan değişkenler bir yer tutucu olarak görev yapmaktadır. Örneğin:
+
+    let _ = foo();
+
+    Burada programcı foo fonksiyonunun geri dönüş değerinden faydalanmak istemediğini dolaylı bir biçimde derleyiciye
+    söylemektedir. Tabii aslında Rust derleyicisi bu _ değişkeni için bellekte bir yer ayırmaz. Zaten programcı da bu _
+    ismini programının içerisinde bir değişken ismi gibi kullanamaz. Örneğin:
+
+    let _ = 123;
+
+    println!("{}", _);      // error!
+
+    Belli bir versiyondan sonra Rust'ta _ isimli değişken hiç bağlama yapmadan atama işleminde de kullanılabilir hale gelmiştir.
+    Örneğin:
+
+    _ = foo();
+
+    Burada bizim _ isminde bir değişkeni daha önce tanımlamış olmamız gerekmez. Değişken isimleri yerine _ kullanımı ile özellikle
+    demet açımlarında sıkça karşılaşılmaktadır. Demetler ileride ele alınacaktır.
+
+    Rust'ta değişkenlerin maksimum karakter uzunluğu konusunda "The Rust Reference" dokümanlarında bir belirlemede bulunulmamıştır.
+    Bu konuda bir belirlemede bulunulmamış olması bu durumun derleyicileri yazanların isteğine bırakıldığı anlamına gelmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bir değişken bağlandığında (tanımlandığında) o değişken default olarak "değiştirilemez (immutable)" durumdadır.
+    Yani o değişken C'deki const nesne gibidir. Örneğin:
+
+    let a = 10;
+
+    Burada a değişkeni default olarak değiştirilemez (immutable) durumdadır. Ancak değiştirilemez bir değişkene ilkdeğer
+    verilmesi zorunlu da değildir. Bu değişkene bağlamadan sonra da değer atanabilir. Ancak ne olursa olsun değiştirilemez
+    değişkenlere toplamda yalnızca bir kez değer atanabilmektedir. Örneğin:
+
+    let a: i32;
+
+    a = 10;         // geçerli
+    a = 20;         // error!
+
+    Değişkenlerin default durumda değiştirilemez olması Rust'a özgü bir özellik değildir. Swift gibi Kotlin gibi yeni programlama
+    dillerinde de Erlang ve Haskell gibi fonksiyonel dillerde de değişkenler default durumda değiştirilemez biçimdedir. Değişkenin
+    değiştirilebilir (mutable) olmasını sağlamak için değişken isminin soluna mut anahtar sözcüğü getirilir. Örneğin:
+
+    let mut a: i32 = 10;
+
+    a = 20;         // geçerli
+    //...
+    a = 30;         // geçerli
+
+    Örneğin:
+
+    let mut a: i32;
+
+    a = 10;
+    println!("{}", a);              // 10
+    a = 20;                         // geçerli
+    println!("{}", a);              // 20
+---------------------------------------------------------------------------------------------------------------------------
+
+    Java, C# ve yeni tasarlanmış olan bazı dillerde olduğu gibi Rust'ta da henüz değer atanmamış bir değişkenin kullanılması
+    (içerisindeki değerin elde edileceği bir ifadede kullanılması) derleme aşamasında error oluşturmaktadır. Örneğin:
+
+    let a: i32;
+
+    prinln!("{}", a);       // derleme aşamasında error oluşur!
+
+    C'de değer henüz içerisine değer atanmamış nesnelerin kullanılabildiğini ancak bu durumun "tanımsız davranışa (undefined
+    behavior)" yol açtığını anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta C, C++, Java, C# gibi dillerde bulunmayan ismine "gölgeleme (shaowing)" denilen bir faaliyet alanı (scope) özelliği
+    vardır. Rust'ta aynı faaliyet alanında aynı isimli değişkenler bağlanabilir (tanımlanabilir). Bu durumda ikinci bağlamaya
+    kadar ilk değişken faaliyet göstermeye devam eder. Ancak ikinci bağlamadan sonra artık ilk değişken kullanılamaz, ancak
+    ikinci değişken kullanılabilir. Örneğin:
+
+    let a: i32 = 10;
+
+    println!("{}", a);      // 10
+
+    let a: f64 = 3.14;      // geçerli, gölgeleme (shadowing) deniyor
+
+    println!("{}", a);      // 3.14
+
+    Burada aynı fonksiyon içerisinde aynı isimli değişken let deyimi ile birden fazla kez bağlanmıştır. Bu tür bildirimlerin
+    C, C++, Java ve C# gibi pek çok dilde geçerli olmadığını anımsayınız.
+
+    "The Rust Reference" dokümanlarına göre gölgeleme sırasında türler aynı olsa bile farklı bir değişken yaratılır. Örneğin:
+
+    let a: i32 = 10;
+    //...
+    let a: i32 = 20;
+
+    Burada iki a'nın adresi alındığında farklı adresler görülecektir. Tabii kodun gözlemlenebilen davranışı değişmedikten sonra
+    derleyiciler kodu daha hızlı çalışacak ya da daha az yer kaplayacak biçimde düzenleyebilirler. Buna derleyicilerin "kod
+    optimizasyonu" denilmektedir. Aşağıdaki kodu inceleyiniz:
+
+    let a: i32 = 10;
+
+    println!("{}", a);      // 10
+
+    let a: i32 = 20;
+
+    println!("{}", a);      // 20
+
+    Bu kodda biz a için ikinci kez farklı bir yer ayrılıp ayrılmadığını anlayamayız. Çünkü kodumuzda bu gözlemi yapabilecek
+    bir durum oluşmamıştır. Dolayısıyla derleyici burada tek bir a oluşturup kodu optimize etmeye çalışabilir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Statik tür sistemine sahip olan programlama dillerinde yalnızca değişkenlerin değil sabitlerin de (genel olarak tüm
+    ifadelerin (expression) de) bir türü vardır. Sabitlerin türleri onların yazım biçimlerine göre ve niceliklerine göre
+    (yani değerlerine göre) değişebilmektedir. Bir programlama dilini öğrenirken ilk öğrenilecek konulardan birisi de o
+    programlama dilindeki sabitlerin nasıl oluşturulduğu ve türlerinin nasıl belirlendiğidir. Biz de bu bölümde Rust
+    dilindeki sabitlerin nasıl oluşturulduğunu ve türlerinin nasıl belirlendiğini ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Program içerisinde doğrudan yazılmış olan değerlere "sabit (literal)" denilmektedir. Örneğin:
+
+    a = b + 10;
+
+    Burada a ve b birer değişken 10 ise bir sabittir. Biz burada b'nin içerisindeki değerle doğrudan 10'u topluyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust katı tür kontrolüne (strict type checking) sahip bir programlama dilidir. Atama sırasında kaynak değerin türüyle
+    hedef değerin türünün aynı olması gerekir. Örneğin:
+
+    let a: i8 = 10;
+    let b: i32;
+
+    b = a;      // error!
+
+    Burada her ne kadar i8 türündeki her değer i32 türüyle ifade edilebiliyorsa da başka bir deyişle atamada bilgi kaybının
+    oluşması söz konusu değilse de bu atama error ile sonuçlanacaktır. Çünkü kaynak türle hedef tür birbirinden farklıdır.
+    Yukarıdaki gibi atamaların C, Java ve C# gibi programlama dillerinde tamamen normal ve geçerli olduğunu anımsayınız.
+
+    Rust'ta iki operand'lı operatörlerde operand'ların türleri de aynı olmak zorundadır. Örneğin:
+
+    let a: i8 = 10;
+    let b: i32 = 20;
+    let c: i32;
+
+    c = a + b;      // error!
+
+# 7. Ders 19/03/2025 - Çarşamba
+
+    Rust'ta nokta içermeyen ve sonunda tür eki bulunmayan sabitler onların kullanıldığı bağlama göre gereksinim duyulan türün
+    sınırları içerisinde kalıyorsa o türden kabul edilmektedir. Örneğin:
+
+    let a: i8 = 127;        // geçerli
+
+    Burada 127 sabitinin sonunda bir tür eki yoktur. i8 türünün sınır değerlerinin [-128, +127] olduğuna dikkat ediniz. İşte
+    burada 127 değeri bu sınırlar içerisinde olduğu için sanki i8 türündenmiş gibi işlem görmektedir. Örneğin:
+
+    let a: u16 = 50000;
+
+    Burada 50000 değeri içinde bulunulan bağlamda u16 türüne atanmak amacıyla kullanılmıştır. 50000 değeri u16 sınırları
+    içerisinde kaldığı için sanki u16 türünden bir sabitmiş gibi ele alınmaktadır. Örneğin:
+
+    let a: i8 = 10;
+    let b: i8;
+
+    b = a + 10;
+
+    İki operand'lı operatörlerin operand'larının aynı türden olması gerektiğini belirtmiştik. Buradaki a + 10 işleminde 10
+    sanki i8 sabit gibi ele alınacaktır. Çünkü 10 sayısı i8 türünün sınırları içerisinde kalmaktadır. Örneğin:
+
+    let a: u16;
+
+    a = 70000;      // error!
+
+    Burada 70000 değeri u16 sınırlarının içerisinde kalmadığı için u16 türünden bir sabit gibi ele alınmayacaktır.
+
+    Ancak let ile bağlama yapılırken verilen ilkdeğer tür eki içermeyen bir tamsayı ise bu durumda sabit her zaman i32 türünden
+    kabul edilmektedir. Örneğin:
+
+    let a = 3000000000;         // error!
+
+    Burada 3 milyar değeri i32 türünün sınırları dışındadır. Dolayısıyla error oluşacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta tıpkı Python'da olduğu gibi sayıların daha kolay algılanabilmesi için basamaklar '_' karakteriyle ayrıştırılabilmektedir.
+    Örneğin:
+
+    let a: u64 = 3_000_000_000;     // geçerli
+
+    Burada basamakları ayıran '_' karakterinin sayı üzerinde bir etkisi yoktur. Tabii '_' karakteri ile üçerli ayrıştırma
+    yapmak zorunlu değildir. Ayrıştırma herhangi bir basamakta bir ya da birden fazla '_' karakteri kullanılarak yapılabilir.
+    Örneğin:
+
+    a = 3_0_0_0_0_0_0_0_0_0;        // geçerli
+
+    Sayının sonunda da '_' karakteri bulunabilir, ancak başında bulunamaz. Yukarıda da belirttiğimiz gibi birden fazla '_'
+    karakterinin peşi sıra kullanılmasına da izin verilmiştir. Örneğin:
+
+    a = 3___0_0_0_0_0_0_0_0_0__;        // geçerli
+
+    Tabii bu '_' karakterlerinin amacı okunabilirliği artırmak olduğu için bunlar 10'luk sistemde tipik olarak binli basamakları
+    ayrıştırmak için kullanılmaktadır.
+
+    Basamak ayırçaları eski dillerin yeni sürümlerine de zamanla eklenmiştir. Örneğin C++'a C++14 ile C'ye de C23 ile bu
+    özellik eklenmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Tamsayı sabitlerinin sonlarına onların türlerini belirten ekler getirilebilmektedir. Bu sonekler tamsayı türlerinin
+    isimlerinden oluşmaktadır:
+
+    i8
+    u8
+    i16
+    u16
+    i32
+    u32
+    i64
+    u64
+    i128
+    u128
+
+    Biz tamsayı sabitlerinin sonuna yapışık bir biçimde bu sonekleri getirirsek artık sabitler kesinlikle bu türlerden olur.
+    Örneğin:
+
+    123i32
+    3000000000u32
+    10i8
+    20u64
+
+    Örneğin:
+
+    let a: u64;
+
+    a = 10u64;
+
+    Burada 10 sabitinin açıkça u64 türünden olduğu belirtilmiştir. Örneğin:
+
+    let a = 10;
+
+    Burada a değişkeni i32 türündendir. Fakat örneğin:
+
+    let a = 10u32;
+
+    Burada ise a değişkeni u32 türündendir.
+
+    Basamakları ayrıştırmak için kullanılan '_' karakterlerinin sayının sonunda da bulunabileceğini belirtmiştik. Tür soneklerinin
+    okunabilirliği bozmasını engellemek amacıyla soneklerden önce '_' karakteri de kullanılabilir. Örneğin:
+
+    let a = 10_u32;
+
+    Bazı Rust programcıları soneklerden önce '_' karakterini kullanmaktadır. Bazı programcılar ise yalnızca büyük sabitlerde
+    kullanmayı tercih etmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Tamsayı sabitleri 2'lik (binary) sistemde, 8'lik (octal) sistemde ve 16'lık (hexadecimal) sistemde yazılabilmektedir.
+    Bunun için sabitin önüne 2'lik sistem için 0b, 8'lik sistem için 0o ve 16'lık sistem için 0x önekleri getirilmektedir.
+    (Bu öneklerin 0B, 0O ve 0X biçiminde büyük harfli biçimleri yoktur.) Örneğin aşağıdaki sabitler geçerlidir:
+
+    0b1010
+    0b_1_0_1_0_
+    0b1010_1010
+    0o712_564
+    0xFC_16_FD_32
+
+    C'de 0o biçiminde bir önek bulunmadığını sayının başındaki 0'ın 8'lik sistem anlamına geldiğini anımsayınız. Oysa Rust'ta
+    sayının başındaki 0 rakamı 8'lik sistem anlamına gelmemektedir. 8'lik sistem için zaten 0o kullanılmaktadır. C'de 2'lik
+    sistemde sabit belirtilemiyordu. Ancak C'nin en yeni standardı olan C23 sürümünde bu özellik eklenmiştir.
+
+    Sabitin kaçlık sistemde yazıldığı ile tür arasında bir ilişki yoktur. Örneğin:
+
+    let a = 0x1234;
+
+    Buradaki 0x1234 değeri i32 türünün sınırlrı içerisindedir. Bu nedenle a da i32 türündendir. Örneğin:
+
+    let a = 0x123456789;        // error!
+
+    Buradaki sayı i32 türünün sınırları dışındadır. Dolayısıyla bu bağlama error oluşturacaktır. Örneğin:
+
+    let a: i8 = 100;
+    let b: i8;
+
+    b = a + 0x10;           // geçerli
+
+    Buradaki 0x10 aslında 10'luk sistemdeki 16 sayısıdır. Dolayısıyla bu bağlamda bu sayı i8 türünün sınırları içerisinde
+    olduğu için i8 sabit olarak ele alınacaktır.
+
+    Tabii biz 2'lik, 8'lik ve 16'lık sistemlerde yazdığımız sabitlerin sonuna da yine tür ekleri getirebiliriz. Örneğin:
+
+    let a = 0x123456789u64;
+
+    Burada artık sabit u64 türündendir. Tabii basamak ayıraçları yine bu sistemlerde yazılan sayılarda da kullanılabilir.
+    Örneğin 2'lik sistemdeki sayıların dörderli biçimde gruplanması bir gelenektir:
+
+    let a = 0b_1010_0101;
+
+    Burada a i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta sayı nokta içeriyorsa ve sabitin sonunda bir tür eki yoksa ve bu biçimde yazılan sabitler onların kullanıldığı
+    bağlama göre gereksinim duyulan türün sınırları içerisinde kalıyorsa o türden kabul edilmektedir. Örneğin:
+
+    let f: 32 = 3.14;       // geçerli
+
+    Burada 3.14 sabiti f32 türü ile ifade edilebilmektedir. Bu nedenle sanki f32 türünden bir sabitmiş gibi kullanılabilmiştir.
+    Örneğin:
+
+    let a: f32 = 12.3;
+    let b: f32;
+
+    b = a + 1.2;            // geçerli
+
+    Burada 1.2 bağlam içerisinde f32 türünden bir sabit olarak ele alınacaktır. Çünkü 1.2 sayısı f32 türü ile ifade edilebilmektedir.
+    Ancak bu durum tamsayılar için geçerli değildir. Örneğin:
+
+    let a: f32 = 10;        // error
+
+    Burada her ne kadar 10 sabiti f32 türü ile ifade edilebiliyorsa da tamsayı sabiti olduğu için bağlama geçersizdir. Noktalı
+    bir sayı eğer f32 türünün basamaksal olarak (duyarlılık olarak değil) sınıfları dışında kalırsa bu durum derleme aşamasında
+    error oluşturmaktadır. Örneğin:
+
+    let a: f32 = 1e50;      // error!
+
+    Burada 1e50 sabiti basamaksal olarak f32 türünün sınırları içerisinde kalmamaktadır. Bu nedenle bu sabit ataması error
+    ile sonuçlanacaktır. Eğer noktalı sayı basamaksal değil de mantis bakımından f32 türü ile ifade edilemiyorsa bu durum error
+    oluşturmaz. f32 ile ifade edilebilen ona en yakın değer elde edilir. (Bu durumda f32 türüne dönüştürme kuralı uygulanmaktadır.
+    Bu dönüştürme kuralını tür dönüştürme operatörünü anlatırken ele alacağız.) Diğer pek çok dilde olduğu gibi '.' karakterinin
+    sağına bir şey yazılmazsa sabit sanki .0 gibi ele alınmaktadır. Örneğin:
+
+    let a: f64 = 1.;        // geçerli
+
+    Ancak gerçek sayı sabitlerinde noktanın solu boş bırakılamaz. Örneğin:
+
+    let a: f64 = .10;       // error!
+
+    Tabii noktanın solundaki ve sağındaki sayılarda istenildiği kadar '_' ile ayrıştırma yapılabilir. Örneğin:
+
+    let a: f64 = 123_456.789_012;       // geçerli
+
+    Ancak noktadan hemen sonra '_' ayrıştırma karakteri kullanılamamaktadır. Örneğin:
+
+    let a: f64 = 1._234;       // error!
+
+    let deyiminde değişkenin türü belirtilmezse ve verilen ilkdeğer sonek içermeyen bir noktalı sayı ise bu durumda sabit
+    f64 türünden kabul edilir, değişken de o türden olur. Örneğin:
+
+    let a = 3.14;
+---------------------------------------------------------------------------------------------------------------------------
+
+    Burada a değişkeni f64 türündendir.
+
+    Gerçek sayı sabitlerinin sonuna da onların türünü belirten tür soneki getirilebilmektedir. Bunun için aşağıdaki iki tür
+    soneki kullanılmaktadır:
+
+    f32
+    f64
+
+    Örneğin:
+
+    let a = 3.14f32;
+
+    Burada a değişkeni artık f32 türünden olacaktır. Halbuki örneğin:
+
+    let a = 3.14;
+
+    Burada a değişkeni f64 türünden olur. Tabii yine tür sonekinden önce okunabilirliği artırmak için '_' ile ayrıştırma
+    tercih edilebilir. Örneğin:
+
+    let a = 3.14_f32;
+
+    Gerçek sayı sabitlerinde tür soneki noktadan hemen sonra başlatılamaz. Örneğin:
+
+    let a: f64 = 1.f64;         // error!
+    let b: f64 = 1._f64;        // error!
+
+    Gerçek sayı sabitlerinde açıkça tür belirtmek iyi bir tekniktir. Gerçek sayı sabitibe f32 ve f64 soneki getirmiş olsak
+    bile eğer sabit basamaksal olarak soneke ilişkin türün sınırları dışında kalıyorsa sabit geçersiz olmaktadır. Örneğin:
+
+    let a: f32 = 1e50;      // error! sabit f32 sınırlarını basamaksal olarak aşıyor
+
+    C'de gerçek sayı soneklerini (f ve lf) kullanabilmek için sabitin nokta içermesi gerekmektedir. Rust'ta sabit nokta içermese
+    de sabitin sonuna f32 ve f64 sonekleri getirilebilmektedir. Örneğin:
+
+    let f: 64 = 1f64;       // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+
+    Pek çok programlama dilinde olduğu gibi Rust'ta da gerçek sayı sabitleri (f32 ve f64 türünden sabitler) üstel biçimde
+    belirtilebilmektedir. Gerçek sayı sabitleri üstel biçimde belirtilirken e ya da E harfi 10'un kuvveri anlamına gelmektedir.
+    Örneğin:
+
+    let f = 1.23e12;
+
+    Bu sabit 1.23 * 10^12 anlamına gelmektedir. Örneğin:
+
+    let f = 1.23e-12;
+
+    Bu sabit 1.23 * 10^-12 anlamına gelmektedir. Gerçek sayı sabitleri üstel biçimde belirtilirken yine basamak ayıracı olarak
+    _ karakteri kullanılabilmektedir. Aşağıdaki sabitte her ne kadar basamak ayıraçlarının kullanılması gereksizse de sabit
+    geçerlidir:
+
+    let f = 1_.2_3E_10;
+
+    Diğer pek çok dilde olduğu gibi gerçek sayı sabitleri üstel formatta yazılırken nokta içermese bile gerçek sayı sabiti
+    olarak ele alınmaktadır. Örneğin:
+
+    let f: f64 = 1e5;       // geçerli
+    let f: i64 = 1e5;       // error!
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bool türden iki sabit vardır. Bunlar true ve false anahtar sözcükleridir. Örneğin:
+
+    let b = true;
+
+    Burada b değişkeni bool türdendir
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir Unicode karakter tek tırnak içerisine alınırsa char türden sabit belirtir. Örneğin:
+
+    let c = 'x';
+
+    Burada c değişkeni char türdendir. Rust'ta da diğer bazı dillerde olduğu gibi tek tırnağın içerisinde ters bölü karakter
+    sabitleri kullanılabilmektedir. Ancak Rust'ta biz C'deki tüm ters bölü karakterlerini kullanamamaktayız. Rust'ta kullanabileceğimiz
+    ters bölü karakterleri şunlardır:
+
+    \n
+    \r
+    \t
+    \\
+    \'
+    \"
+    \0
+
+    Diğer dillerde olduğu gibi tek tırnak içerisinde Unicode kod numarası belirtilerek de herhangi bir Unicode karakterden
+    karakter sabiti oluşturulabilmektedir. Bunun için tek tırnak içerisinde önce \u sonra da küme parantezleri içerisinde
+    Unicode kod numarası girilmelidir. Örneğin:
+
+    let c = '\u{6728}'
+
+    println!("{}", c);      // 木
+
+# 8. Ders 24/03/2025 - Pazartesi
+
+    Tek tırnak içeisine bir ASCII karakteri yerleştirilip başına da bununla yapışık b karakteri getirilirse bu biçimdeki
+    sabitlere Rust'ta "byte sabitleri (byte literals)" denilmektedir. Byte sabitleri u8 türündendir. Byte sabitleri tek
+    tırnak içerisindeki ASCII karakterinin kod numarasına ilişkin bir sayı belirtirler. Örneğin:
+
+    let b: u8;
+
+    b = b'a';       // geçerli, b'a' u8 türünen
+
+    Burada b'a' sabiti bir byte sabitidir. Byte sabitler u8 türünden kabul edikleri için biz onları ancak u8 türünden bir değişkene
+    atayabiliriz. Byte sabitlerinde tek tırnak içerisine yalnızca standart ASCII karalterlerinden biri yerleştirilebilir. Yani
+    tek tırnak içine yerleştirilecek karakterin Unicode kod numarasının [0, 127] aralığında olması gerekir. Örneğin:
+
+    let b: u8 = b'ş';                // error!
+
+    Burada 'ş' karakteri bir ASCII karakter olmadığı için byte sabit geçersiz bir biçimde oluşturulmuştur. Tabii Rust'ın
+    yukarıda belirtmiş olduğumuz ters bölü karakter sabitleri aynı zamanda ASCII karakterleri olduğu için byte sabit olarak
+    kullanılabilir. Örneğin:
+
+    let b: u8 = b'\n';               // geçerli
+
+    Byte sabitleri oluştururken tek tırnak içerisine \u {...} biçiminde Unicode kod numarası belirtilerek karakterler yerleştirilemez.
+    Örneğin:
+
+    let b: u8 = b'\u{61}';           // error!
+
+    'a' gibi bir sabitin char türden olduğuna ama b'a' biçiminde bir sabitin u8 türünden olduğuna dikkat ediniz.
+
+    Aşağıdaki bağlamaya dikkat ediniz:
+
+    let b: u8 = b'a';
+
+    Burada aslında b'nin içerisinde 97 sayısı vardır. Biz b'yi yazdırırsak 97 görürürüz. Örneğin:
+
+    println!("{}", b);      // 97
+
+    Pekiyi o halde yukarıdaki bağlamanın aşağıdakinden ne farkı vardır?
+
+    let b: u8 = 97;
+
+    Aslında bu iki bağlama arasında işlevsel bir farklılık yoktur. Ancak byte sabitler özellikle standart ASCII karakterlerin
+    kod numaralarının oluşturulması için tercih edilmektedir. Yani bağlamına göre b'a' gibi bir sabit amaçlanan şeyi daha
+    iyi ifade edebilecektir.
+
+    Byte sabitlerini oluştururken tek tırnak içerisine yalnızca ASCII karakterlerinin yazılabileceğini belirtmiştik. Ancak
+    eğer istenirse [128, 255] arasındaki kod numaraları '\xHH' (Burada HH iki hex digit belirtmektedir) biçiminde de belirtilebilir.
+    Örneğin:
+
+    let b: u8 = b'\xFC';        // geçerli
+
+    Byte sabitleri Python'da uzun süredir bulunmaktadır. Tabii Python'da bir byte'lık başka bir tür olmadığı için oradaki
+    byte türü ve byte sabitlerinin yeri başka biçimde doldurulamamaktadır. Python'da byte sabitlerin öneki 'b' ya da 'B'
+    olabilmektedir. Halbuki Rust'ta bu önek yalnızca 'b' biçimindedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta iki tırnak içerisine yazılmış olan karakterlere iki tırnaklarıyla birlikte "string sabiti (string literal)"
+    denilmektedir. Daha önceden de belirttiğimiz gibi Rust iki tırnak içerisindeki karakterleri Unicode UTF-8 kodlamasıyla
+    tutmaktadır. Bu nedenle biz iki tırnak içerisinde tüm Unicode karakterleri, Rust'ın ters bölü karakterlerini \u{...}
+    biçiminde Unicode kod numarasıyla belirttiğimiz karakterleri kullanabiliriz. Rust'ın stringlerinin sonuna null karakter
+    yerleştirilmediğini de daha önce belirtmiştik. C'den geçen kişiler özellikle şu iki noktaya dikkat etmelidirler:
+
+    1) Rust'taki string'lerin içerisindeki karakterler Unicode UTF-8 kodlamasıyla tutulmaktadır.
+    2) Rust'ta string'lerin sonunda null karakter yoktur.
+
+    C'de string'ler ifade içerisinde kullanıldığında char * türünden, C++'te const char * türünden kabul edilmektedir.
+    Java, C# ve Python gibi dillerde string'ler o dillerin String sınıfı türünden (Python'da str sınıfı türünden) değişken
+    referansı belirtmektedir. Örneğin Java ve C#'ta iki tırnak ifadeleri o dillerin String sınıfı türünden bir değişkene
+    atanabilmektedir.
+
+    Rust'ta iki tırnak içerisindeki string'ler str türündendir. Ancak str türü hep referanslı bir biçimde kullanılır. Dolayısıyla
+    Rust'ta biz bir string'i &str türünden bir değişkene atayabiliriz. &str türüne "string dilim referansı" denilmektedir.
+    Referanslar ve dilimler ilerideki bölümlerde ele alınacaktır. Örneğin:
+
+    let s: &str;
+
+    s = "ağrı dağı";            // geçerli
+
+    Unicode UTF-8 kodlamasıyla oluşturulan bir yazının n'inci karakterine tek hamlede (tek makine komutuyla) erişilememektedir.
+    Çünkü bu kodlamada daha önce belirttiğimiz gibi her karakter farklı byte uzunluklarında olabilmektedir. Dolayısıyla biz
+    böyle bir string'in n'inci karakterini ancak string'in başından itibaren ilerleyerek bulabiliriz. Programda dillerinde []
+    operatörü ratgele erişimlerde (O(1) erişim de denilmektedir) kullanılmaktadır. Bu nedenle Rust'ın string'lerinin karakterlerine
+    bu operatörle erişilemez. Örneğin:
+
+    let s: &str = "ağrı dağı";
+    let c = s[4];               // error!
+
+    Rust string'lerinde s[4] biçiminde bir erişim yoktur.
+
+    Rust'ta string'ler tek satıra yazılmak zorunda değildir. Yani biz string'leri birden fazla satıra yazabiliriz. Tabii istersek
+    \ karakteri ve hemen ardından \n karakteri lle (yani editörde \ karakterine bastıktan sonra ENTER tuşuna basıp) "aşağı
+    satırdan devam et" diyerek de aynı şeyi yapabiliriz. Örneğin:
+
+    let s: &str;
+
+    s = "Ankara Türkiye'nin         // geçerli
+    başkentidir";
+
+    Ancak örneğin:
+
+    s = "Ankara Türkiye'nin \       // geçerli
+    başkentidir";
+
+    \ karakteri ile farklı satırların sanki tek bir satırmış gibi birleştirilmesi özelliği C'de ve diğer bazı dillerde de
+    bulunmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta "saf string sabitleri (raw string literals)" adında string sabitleri de vardır. Aslında Rust'taki bu saf string
+    sabitleri farklı isimlerle pek çok programlama dilinde de bulunmaktadır. Örneğin C#'ta bu tür string'lere "verbatim string",
+    Python'da "regular string" denilemektedir. C++'a da C++11 ile birlikte bu özellik eklenmiştir. Rust gibi nispeten yeni
+    tasarlanan dillerde de artık doğuştan itibaren bu biçimde string sabitleri bulunmaktadır.
+
+    Rust'ta saf string sabitleri (kısaca "saf string'ler" de diyebiliriz) içerisindeki '\' karakterleri gerçekten '\' karakteri
+    anlamına gelmektedir. Yani bu string'ler içerisindeki ters bölü karakterleri ters bölü karakter sabiti oluşturma anlamında
+    ele alınmamaktadır. Örneğin:
+
+    let s: &str = "ali\nveli";
+
+    Buradaki string'te \n tek bir karakterdir. Bu yazı ekrana yazdırıldığında bu \n karakteri imlecin aşağı satırın başına
+    geçirilmesine yol açacaktır. Eğer buradaki string saf string olsaydı bu \n karakterleri "new line" karakteri yerine
+    ayrı ayrı '\' karakteri ve 'n' karakteri anlamına gelecekti.
+
+    Rust'ta saf string'ler iki tırnağın başına onunla yapışık r öneki getirilerek oluşturulmaktadır. Örneğin:
+
+    let s: &str = r"ali\veli";
+
+    println!("{}", s);          // ali\nveli
+
+    Saf string sabitleri ters bölü karakteri içeren yazıların daha kolay ve okunabilir bir biçimde oluşturulmasına olanak
+    sağlamaktadır. Örneğin:
+
+    let path: &str = r"c:\temp\test.txt";
+
+    Eğer saf string sabitleri olmasaydı biz bu yazıyı şöye oluşturmak zorunda kalırdık:
+
+    let path: &str = "c:\\temp\\test.txt";
+
+    Pekiyi biz iki tırnak içerisinde iki tırnak karakteri içeren bir yazıyı nasıl oluşturabiliriz? Bu Rust'ta diğer dillerde
+    olduğu gibi \" kullanılarak yapılabilmektedir. Örneğin:
+
+    let s = "\"ankara\"";
+
+    println!("{}",s);       "ankara"
+
+    Tabii iki tırnak içerisinde tek tırnak karakteri kullanmanın, tek tırnak içerisinde de iki tırnak karakteri kullanmanın
+    bir sakıncası olmadığını biliyorsunuz.
+
+    Rust'ta saf string'ler ayrıca r önekininin yanında bir ya da birden fazla # ile de oluşturulabilmektedir. Ancak bu durumda
+    kapanış iki tırnak karakterinden sonra açılış iki tırnak karakterinin önündeki sayıda # karakterinin bulundurulması
+    gerekmektedir. Örneğin:
+
+    let s: &str = r#"ankara"#;
+    println!("{}", s);          // ankara
+
+    Burada r önekinden sonra iki tırnağın başına ve sonuna # karakterinin getirildiğine dikkat ediniz. #'lerin sayısı birden
+    fazla olabilir ancak kapanışta da aynı sayıda # karakterinin bulundurulması gerekir. Örneğin:
+
+    let s: &str = r###"ankara"###;
+    println!("{}", s);      // ankara
+
+    Burada açılış iki tırnak karakterinin solunda üç tane # karakteri olduğu için sağında da üç tane # karakteri bulunmak zorundadır.
+    Pekiyi saf string'lerde # karakterlerini bulundurmanın anlamı nedir? İşte bunun amacı iki tırnak içerisindeki iki tırnak
+    karakterlerinin kolay yazılmasını sağlamaktır. Örneğin biz JSON formatına benzer bir formatta anahtar değer çiftlerini bir yazı
+    biçiminde oluşturmak isteyelim. Ancak anahtarların da iki tırnaklı yazılardan oluştuğunu varsayalım. Bu durumda aşağıdaki gibi
+    bir string geçersiz olacaktır:
+
+    let s: &str = "{"ali": 123, "veli": 234}";      // error!
+
+    Çünkü burada iki tırnak içerisindeki iki tırnak karakteri iki tırnağı kapatmak anlamına gelmektedir. Bu string'in başına r
+    öneki getirerek de bunu geçerli yapamayız:
+
+    let s: &str = r"{"ali": 123, "veli": 234}";         // error!
+
+    Tabii bu string'i geçerli bir biçimde şöyle belirtebilirdik:
+
+    let s: &str = "{\"ali\": 123, \"veli\": 234}";      // geçerli
+
+    Fakat bu durumda da yazı okunabilir olmaktan çıkmaktadır. İşte #'li saf string'ler bu kolaylığı sağlamaktadır:
+
+    let s: &str = r#"{"ali": 123, "veli": 234}"#;      // geçerli
+
+    Pekiyi neden artık bu string geçerli olmuştur? Çünkü string #" ile başlatıldığı ve bitimi de "# biçiminde olacağı için
+    bunun içerisindeki çift tırnak karakteri artık string'i bitirmek anlamına gelmemektedir. Şimdi de aşağıdaki string'e
+    dikkat ediniz:
+
+    let s: &str = r#"ben "#" karakterini çok seviyorum"#;      // error!
+
+    Bu string geçersizdir. Çünkü burada yazı içerisinde tesadüfen bulunan "# karakterleri saf string'i bitiren karakterler
+    olarak ele alınacaktır. İşte bu tür durumlarda #'lerin sayısını artırabiliriz:
+
+    let s: &str = r##"ben "#" karakterini çok seviyorum"##;     // geçerli
+
+    Burada artık string ##" ile başlatıldığı için bitimi de "## ile yapılmaktadır.
+
+    Saf string'lerin farklı bir tür belirtmediğine yalnızca yazının içeriği konusunda etkili olduğuna dikkat ediniz. Normal
+    string'ler de saf string'ler de &str türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta diğer bir string sabiti de "byte string sabiti (byte string literals)" denilen sabittir. Bu sabitlere kısaca "byte
+    string'ler" de denilmektedir. Byte string'ler iki tırnağın önünde ona yapışık bir biçimde b öneki ile oluşturulmaktadır.
+    byte string'ler u8 türünden bir dizi dilimi (ya da kısaca dilim de diyebiliriz) belirtmektedir. Dolayısıyla &[u8] türünden
+    bir değişkene atanabilirler. Örneğin:
+
+    let bs: &[u8] = b"ankara";
+
+    println!("{:?}",bs);        // [97, 110, 107, 97, 114, 97]
+
+    Tabii byte string'lerin içerisindeki karakterlerin de yine byte sabitlerde olduğu gibi yalnızca ASCII karakterlerinden
+    oluşturulması gerekir. Örneğin:
+
+    let bs: &[u8] = b"ağrı dağı";       // error!
+
+    Burada byte string'in içerisinde Türkçe karakterler bulundurulmuştur. Ancak byte sabitlerinde olduğu gibi byte string
+    sabitlerinde de [128, 255] arasındaki karakterler \xHH (Burada HH iki hex digit belirtmektedir) ifade edilebilir. Örneğin:
+
+    let bs: &[u8] = b"abc\xFF\xFCdef";       // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+
+    Byte string sabitleri de "saf (raw)" biçimde oluşturulabilmektedir. Bunlara "saf byte string sabitleri (raw byte string
+    literals)" denilmektedir. Bunun için iki tırnağa yapışık br öneki bulundurulmaktadır.  Buradaki semantik saf string
+    sabitlerinde olduğu gibidir. Yani iki tırnağın içerisindeki ters bölü karakterleri ters bölü karakter sabitleri olarak değil
+    gerçekten ters bölü karakterleri olarak ele alınmaktadır. Örneğin:
+
+    let bs: &[u8] = br"a\nb";
+
+    Burada \n "new line" karakterini değil \ ve n karalterlerini belirtmektedir. Dolayısıyla burada byte string'i 3 uzunlukta
+    değil 4 uzunluktadır.
+
+    Yine saf byte string sabitlerinde br önekinden sonra bunlara yapışık bir ya da birden fazla # karakteri bulundurulabilir.
+    Saf string sabitlerinde olduğu gibi bu da iki tırnak içerisinde iki tırnak karakterinin daha kolay kullanılmasını sağlamaktadır.
+    Örneğin:
+
+    let bs: &[u8] = br#"ankara""#;
+    let bs: &[u8] = br##""#"##;
+
+# 9. Ders 26/03/2025 - Çarşamba
+
+    Rust'ı C Programala Dili ile birlikte kullanabilmek için C tarzı string'ler de bulundurulmuştur. Bunlara "C string sabitleri
+    (C string lietarls)" denilmektedir. C string sabitleri iki tırnağın soluna onunla yapışık c harfi getirilerek oluşturulmaktadır.
+    Örneğin:
+
+    let cs = c"ankara";
+
+    C String sabitleri &CStr türündendir. Yani CStr türünden bir dilim referansı belirtmektedir. Ancak CStr türü ffi isimli
+    modülün içerisindedir ve otomatik olarak derleyici tarafından tanınmamaktadır. (Bu durum "prelude" denilen bir konu içerisinde
+    ileride ayrı bir başlık halinde ele alınacaktır.) CStr türü std::ffi modülünün içerisinde tanımlanmıştır. Bu tür std::ffi::CStr
+    biçiminde niteliklendirme yapılarak kullanılabilir ya da ileride de göreceğimiz gibi niteliklendirmeyi ortadan kaldırıp
+    kolay bir kullanım oluşturmak için aşağıdaki gibi use bildirimi de yapılabilir:
+
+    use std::ffi::CStr;
+
+    ffi sözcüğü "foreign function interface" sözcüklerinden kısaltılmıştır. Aslında C string sabitlerinin normal string
+    sabitlerinden en önemli farklılığı C string sabitlerinin sonunda '\0' (null karakter) bulunmasıdır. Yani bu sabitlerde
+    Rust derleyicisi yazının sonuna '\0' karakterini de yerleştirmektedir. Böylece örneğin biz C'de yazılmış ve parametresi
+    char * ya da const char * türünden olan fonksiyonlara C'deki beklentiyi karşılamak için '\0' ile biten bir C string sabiti
+    gönderebiliriz. C'de yazılmış olan fonksiyonların Rust'tan, Rust'ta yazılmış olan fonksiyonların C'den kullanılabilmesi
+    kursumuzda ayrı bir başlık altında ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    C String sabitleri de "saf (raw)" biçimde kullanılabilmektedir. Bunun için iki tırnağa yapışık onun önünce cr öneki
+    getirilmektedir. Semantik tamamen diğer saf string'lerde olduğu gibidir. Örneğin:
+
+    let cs: &std::ffi::CStr = cr"a\nb";
+
+    Burada \n karakterleri "new line" karakterini değil ayrı ayrı \ ve n karakterlerini belirtmektedir. Yine aynı biçimde C
+    string sabitlerinde de yazının içerisinde iki tırnak karakterinin kolay kullanılması için iki tırnakların başına ve sonuna
+    aynı sayıda  # karakteri getirilebilmektedir. Örneğin:
+
+    let cs: &std::ffi::CStr = cr#""ankara""#;       // geçerli
+    let cs: &std::ffi::CStr = cr##""#"##;           // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta never türünden (! türünden) bir sabit ya da da değer yoktur. Yani Rust'ta ! bir değer değil tür belirtmektedir.
+    Never türünden bir değerin olmamasının nedeni bu türün "akış buradan devam etmeyecek" anlamına gelmesindendir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust terminolojisine yönelik önemli bir noktaya değinmek istiyoruz. C'de çokça kullanılan "nesne (object)" terimi Rust'ta
+    kullanılmamaktadır. Rust'ta bellekte yer kaplayan ve bir isimle erişilebilen bölgelere "değişken (variable)", bellekte
+    yer kaplayan ancak ismi olmayan nesnelere ve sabitlere ise "değer (value)" denilmektedir. Eğer hem değişken hem de değeri
+    kastetmek isiyorsanız "ifade (expression)" terimini kullanabilirsiniz. Aşağıda C'deki terimlerin Rust karşılıklarını
+    veriyoruz:
+
+    C                       Rust
+    ---------------------------------
+    Nesne                   Değişken
+    Geçici nesne            Değer
+    Sabit                   Sabit/Değer
+    İfade                   İfade
+
+    Örneğin biz C'de "bir yapı nesnesi" derken Rust'ta "bir yapı değişkeni" deriz. C'de "fonksiyon bir yapı nesnesine geri
+    döner" derken Rust'ta "fonksiyon bir yapı değerine geri döner" deriz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bu bölümde Rust'ta fonksiyon tanımlaması ve fonksiyonların çağrılması üzerinde duracağız. Böylece artık örneklerimizde
+    fonksiyonları da kullanabileceğiz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bir fonksiyon tanımlamanın temel genel biçimi şöyledir:
+
+    fn <fonksiyon_ismi>([parametre_tanımlamaları]) [ -> <geri_dönüş_değerinin_türü>] {
+        //...
+    }
+
+    Bu temel bir genel biçimdir. Fonksiyon tanımlamanın genel biçiminde henüz üzerinde durmayacağımız bazı ayrıntılar da vardır.
+    Şimdi bu temel genel biçim üzerinde duralım. Bir fonksiyon tanımlarken tanımlamanın başında fn anahtar sözcüğü bulundurulmaktadır.
+    Bu fn anahtar sözcüğünü fonksiyon ismi izler. Fonksiyon isminden sonra parantezlerin açılıp kapanması gerekir. Ancak parantezlerin
+    içerisinde fonksiyonun parametre değişkenleri tanımlanabilmektedir. Tabii fonksiyonlar parametreye sahip olmak zorunda değildir.
+    Bir fonksiyonun onu çağıran fonksiyona ilettiği değere "geri dönüş değeri (return value)" denildiğini biliyorsunuz. Fonksiyonların
+    geri dönüş değerlerinin türleri Rust'ta fonksiyonun parametre parantezinden sonra -> atomu ve sonra tür yazılarak belirtilmektedir.
+    Örneğin:
+
+    fn foo() -> i32 {
+        //...
+    }
+
+    Burada foo fonksiyonu parametreye sahip değildir ve geri dönüş değeri i32 türündendir. Tabii fonksiyonların geri dönüş değerleri
+    olmak zorunda değildir. Bu durumda parametre parantezinden sonra geri dönüş değeri belirtilmez. Örneğin:
+
+    fn bar() {
+        //...
+    }
+
+    Burada fonksiyonun geri dönüş değeri yoktur. C'de fonksiyonun geri dönüş değerinin olmadığını belirtmek için void  anahtar
+    sözcüğünün kullanıldığını anımsayınız. Örneğin:
+
+    void bar(void)
+    {
+        //...
+    }
+
+    Rust'ta böyle bir void anahtar sözcüğü yoktur. Ancak onun yerine () ile temsil edilen ve ismine "birim (unit)" ya da "birim
+    türü (unit type)" denilen bir sentaks kullanılmaktadır. Örneğin:
+
+    fn bar() -> () {
+        //...
+    }
+
+    Fonksiyonun geri dönüş değerinin türünün belirtilmemesiyle -> () biçiminde belirtilmesi tamamen aynı anlama gelmektedir.
+    Aslında Rust'ta bu birim türü boş bir "demet (tuple)" belirtmektedir. Örneğin:
+
+    let s: (i32, i32) = (10, 20);
+
+    Burada s iki elemanlı bir demettir. s'in türü de (i32, i32) biçiminde ifade edilmektedir. Örneğin:
+
+    let s: () = ();
+
+    Burada s elemanı olmayan (yani sıfır elemanlı) bir demettir. Bunun türü de () biçiminde ifade edilmektedir. Yani aslında
+    "birim (unit)" ya da "birim türü (unit type)" sıfır elemanlı bir demet belirtmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    C'de ve C++ programcılarının büyük çoğunluğu (fakat hepsi değil) fonksiyonların ana bloklarındaki küme parantezlerini
+    genellikle aşağı satırın başında açarlar. Örneğin:
+
+    void foo(void)
+    {
+        //...
+    }
+
+    Fakat Rust'ta ana blok küme parantezinin aynı satırda açılması bir gelenek biçiminde yerleşmiştir. Örneğin:
+
+    fn foo() {
+        //...
+    }
+
+    Biz Derneğimizde hangi programlama dilinde çalışıyorsa o dilin geleneklerine uygun bir kod yerleşimi kullanıyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta fonksiyonlar diğer pek çok dildeki gibi çağrılmaktadır.
+
+    fonksiyon_ismi([argüman_listesi])
+
+    Örneğin:
+
+    foo();
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta fonksiyonların geri dönüş değerleri diğer pek çok dilde olduğu gibi return deyimiyle oluşturulabilmektedir.
+    return deyiminin genel biçimi şöyledir:
+
+    return [ifade];
+
+    return deyimi hem fonksiyonu sonlandırır hem de geri dönüş değerini oluşturur. Eğer fonksiyonun geri dönüş değeri yoksa
+    (yani geri dönüş değeri "birim (unit)" türündense) return anahtar sözcüğünün yanına bir ifade yazılmayabilir. Bu durumda
+    örneğin:
+
+    return;
+
+    kullanımı ile aşağıdaki kullanım tamamen eşdeğerdir:
+
+    return ();
+
+    Rust "katı bir tür kontrolüne sahip (strict type checking)" programlama dili olduğu için bir fonksiyonun geri dönüş
+    değeri hangi türdense onu aynı türden bir değişkene atamak gerekir. Örneğin:
+
+    fn main() {
+        let result: i32;
+
+        result = foo();
+        println!("{}", result);     // 100
+    }
+
+    fn foo() -> i32 {
+        println!("foo");
+        return 100;
+    }
+
+    Tabii Rust'ta da fonksiyonun geri dönüş değerinin olması onu kullanmayı zorunlu hale getirmemektedir. Örneğin:
+
+    fn main() {
+        foo();          // geçerli, fonksiyonun geri dönüş değerini kullanmak zorunda değiliz
+    }
+
+    fn foo() -> i32 {
+        println!("foo");
+        return 100;
+    }
+
+    Bazı "statik analiz araçları" bu tür durumlarda uyarı üretebilmektedir. Bundan kaçınmak için _ ile temsil edilen ve yer
+    tutucu olarak kullanılan isme bağlama yapabilrisiniz. Örneğin:
+
+    let _ = foo();
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta Fonksiyonlar "Öğe (Item)" denilen bir sentaks grubuna ilişkindir. Genel olarak öğelerde tanımlama sırasının bir
+    önemi yoktur. Yani biz örneğin bir fonksiyonu aşağıda tanımlayıp onu yukarıda çağırabiliriz. Halbuki C ve C++'ta derleyici
+    derleme işlemini yukarıdan aşağıya doğru yapmaktadır. Bu dillerde bir değişken görüldüğünde onun daha önce bildirimin
+    görülmüş olması gerekmektedir. Bu nedenle C ve C++'ta eğer çağrılan fonksiyon çağıran fonksiyonun daha altında tanımlanmışsa
+    çağırma noktasının yukarısında bir yerde "prototip bildiriminin" yapılması gerekmektedir. Ancak modern dillerin hemen hespinde
+    bu kısıtlama artık kaldırımıştır.
+
+    Örneğin aşağıdaki gibi bir tanımalama ve çağırma C'de ve C++'ta geçerli değildir:
+
+    int main(void)
+    {
+        foo();          // geçersiz!
+    }
+
+    void foo(void)
+    {
+        //...
+    }
+
+    Çünkü derleyici yukarıdan aşağıya doğru kodu derlerken foo çağrısına geldiğinde henüz foo hakkında bir bilgi edinememiştir.
+    (C90'da bu kuralda bazı ayrıntıların olduğunu anımsayınız.) Halbuki bunun eşdeğeri Rust'ta geçerlidir:
+
+    fn main() {
+        foo();          // geçerli
+    }
+
+    fn foo() {
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta fonksiyonların parametre değişkenleri parametre parantezinin içerisinde bir argüman listesi biçiminde tanımlanmaktadır:
+
+    <değişken_ismi>: <tür>, <değişken_ismi>: <tür>, ....
+
+    Örneğin:
+
+    fn add(a: i32, b: i32) -> i32 {
+        return a + b;
+    }
+
+    Burada add fonksiyonunun iki parametre değişkeni vardır. Fonksiyon da iki parametresinin toplamını geri döndürmektedir.
+
+    Aslında Rust'ta fonksiyonların parametre değişkenleri yalnızca bir değişken biçiminde değil genel olarak "çürütülemez
+    (irrefutable)" kalıplar biçiminde de oluşturulabilmektedir. Kalıplar (patterns) Rust'ta oldukça aytıntılı bir konudur.
+    Bu konu kursumuzda çeşitli bölümlerde ele alınacaktır.
+
+    Rust'ta fonksiyonların parametre değişkenleri yine default durumda "değiştirilemez (immutable) biçimdedir. Örneğin:
+
+    fn foo(a: i32) {
+        //...
+        a = 10;         // error!
+        //...
+    }
+
+    Burada a parametre değişkeni değiştirilemez durumda olduğu için error oluşacaktır. Eğer parametre değişkeninin değiştirilmesi
+    isteniyorsa mut yapılmalıdır. Örneğin:
+
+    fn foo(mut a: i32) {
+        //...
+        a = 10;         // geçerli
+        //...
+    }
+
+    Ancak Rust'ta parametre değişkeninin mut yapılması genel olarak iyi bir teknik kabul edilmemektedir. Bu durum fonksiyonun
+    imzasını değiştirmekte ve yeni başlayanları tereddüt içerisinde bırakabilmektedir. Rust'ta parametre değişkenini mut yapma
+    yerine "gölgeleme (shadwing)" ile aynı isimli yeni bir mut yerel değişken oluşturma tercih edişmektedir. Örneğin:
+
+    fn foo(a: i32) {
+        let mut a = a;          // doğru teknik
+        //...
+
+        a = 10;
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    if gibi, switch gibi deyimlerin de birer ifade gibi kullanılabildiği programlama dillerine "ifadesel diller (expression
+    languages)" denilmektedir. C ve C++, Java ve C# gibi diller bu bağlamda ifadesel bir diller değildir. İfadesel dillerde
+    deyimler birer değer de üretmektedir. Dolayıyla bu dillerde deyimlerin ürettikleri değerler başka ifadelerde kullanılabilmekte
+    ve değişkenlere atanabilmektedir. Örneğin:
+
+    x = if (koşul) {
+        //...
+    }
+    else {
+        //..
+    }
+
+    Böyle bir kullanım C'de ve C++'ta geçerli değildir ancak ifadesel dillerde geçerlidir. Yeni ve modern dillerin çoğu ifadesel
+    özelliklere sahip olarak tasarlanmaktadır. Örneğin Swift, Kotlin gibi yeni diller, Ruby, Haskell, Scheme gibi eski diller
+    bu özelliklere sahiptir. İşte bu bağlamda Rust da ifadesel bir dildir. Dolayısıyla Rust'ta biz deyimlerin ürettiği değerleri
+    yukarıdaki örnekte olduğu gibi kullanabiliriz.
+
+    C'de ve C++'ta olduğu gibi Rust'ta da bloklar bir deyim belirtir. Rust'ta bloklara "blok deyimi (block statement)" ya da
+    "block ifadesi (block expression)" denilmektedir. Rust'ta bir blok deyimi çalıştırılırken bu blok içerisindeki deyimler
+    sırasıyla tek tek çalıştırılır, blok deyimi de bloğun sonundaki ifadenin (expression) değerini üretir. İfade (expression)
+    kavramı izleyen bölümlerde ele alınacağı gibi ';' içermemektedir. Örneğin:
+
+    let x: i32;
+
+    x = {
+        prinln!("one");
+        prinln!("two");
+        prinln!("three");
+        100
+    };
+
+    Burada x'e 100 değeri atanacaktır. Blok içerisindeki deyimlerin ';' ile sonlandırıldığına ancak bloğun sonundaki ifadenin
+    ';' ile sonlandırılmadığına dikkat ediniz. Rust'ta eğer bloğun sonunda bir ifade yoksa o blok "birim türünü" üreti.
+    Örneğin:
+
+    let x = {
+        prinln!("one");
+        prinln!("two");
+        prinln!("three");
+    };
+
+    Burada bloğun sonunda bir ifade yoktur, dolayısıyla x değişkeni () türündendir. Anımsanacağı gibi Rust'ta birim türü
+    "olmamayı, boş olmayı" temsil etmektedir.
+
+    Biz ifadeler ve deyimleri izleyen bölümlerde zaten ele alacağız. Burada ifadesel dil kavramına bir giriş yapmış olduk.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Aslında Rust'ta bir fonksiyon bir blok deyiminden oluşmaktadır. Fonksiyonun çağrılması da o blok deyiminin çalıştırılması
+    anlamına gelmektedir. Bu nedenle Rust'ta (ve diğer pek çok ifadesel dilde) aslında fonksiyonun ana bloğunun sonundaki
+    ifade aynı zamanda fonksiyonun geri dönüş değerini oluşturmaktadır. Örneğin:
+
+    fn foo() -> i32 {
+        println!("foo");
+        100
+    }
+
+    Burada fonksiyonun geri dönüş değerini oluşturmak için return deyimi yerine doğrudan blok deyiminin ürettiği değer olan
+    100 ifadesi yerleştirilmiştir. Tabii aslında yukarıdaki ile aşağıdaki arasında işlevsel bir farklılık yoktur:
+
+    fn foo() -> i32 {
+        println!("foo");
+        return 100;
+    }
+
+    Şimdi size sanki Rust'ta return deyimi gereksizmiş gibi gelebilir. Ancak fonksiyonun ortasında yani bir bloğun içerisinde
+    fonksiyonu sonlandırmak istediğimizde mecburen yine return deyimini kullanmak zorunda kalırız.
+
+# 10. Ders 07/04/2025 - Pazartesi
+
+    Rust'ta da bazı programlama dillerinde olduğu gibi "iç içe (nested)" fonksiyonlar tanımlanabilmektedir. İç içe fonksiyon
+    tanımlamaları C'de ve C++'ta yoktur. Eski dillerden Pascal'da iç içe fonksiyon tanımlamaları vardı. Nispeten yeni tasarlanan
+    Swift, Kotlin gibi programlama dillerinde de bu özellik bulunmaktadır. C# gibi bazı dillere ise bu özellik sonradan eklenmiştir.
+    Örneğin:
+
+    fn foo() {
+        //...
+        fn bar() {
+            //...
+        }
+        //...
+    }
+
+    Burada bar fonksiyonu foo fonksiyonun içerisinde tanımlanmıştır. Bir fonksiyon başka bir fonksiyonun içerisinde tanımlanmışsa
+    o fonksiyon ancak tanımlandığı fonksiyonun içerisinden çağrılabilir. Yani dışarıdan iç bir fonksiyon çağrılamamaktadır.
+    Örneğin:
+
+    fn main() {
+        foo();
+        bar();      // error!
+    }
+
+    fn foo() {
+        println!("foo");
+
+        fn bar() {
+            println!("bar");
+        }
+
+        bar();      // geçerli
+    }
+
+    Bu örnekte br fonksiyonunun main fonksiyonu içerisinden çağrılamadığına foo fonksiyonun içerisinden çağrılabildiğine dikkat
+    ediniz.
+
+    Rust'ta fonksiyonlar için prototip bildiriminin bulunmadığını ve zaten buna gerek de olmadığını belirtmiştik. Genel olarak
+    Rust'ta aşağıda tanımlanan bir fonksiyon daha yukarıda çağrılabilmektedir. Dolayısıyla iç bir fonksiyonu aşağıda tanımlayıp
+    daha yukarıda çağırabiliriz. Örneğin:
+
+    fn foo() {
+        println!("foo");
+        bar();      // geçerli
+
+        fn bar() {
+            println!("bar");
+        }
+    }
+
+    Tabii iç fonksiyonun da geri dönüş değeri söz konusu olabilir. Örneğin:
+
+    fn foo() {
+        let val: i32;
+
+        val = bar(10);
+        println!("{}", val);
+
+        fn bar(a: i32) -> i32 {
+            a * a
+        }
+    }
+
+    İç içe fonksiyon tanımlamalarının yapıldığı pek çok dilde iç fonksiyonlar dış fonksiyonların yerel değişkenlerini doğrudan
+    kullanabilmektedir. Ancak Rust'ta bu mümkün değildir. Örneğin:
+
+    fn foo() {
+        let val = 123;
+
+        fn bar() {
+            println!("{}", val);        // error!
+        }
+        //...
+    }
+
+    Burada bar içerisinden foo fonksiyonun yerel değişkenlerini kullanamayız.
+
+    Pekiyi iç içe fonksiyon tanımlamalarına neden gereksinim duyulmaktadır? İşt bunun en önemli nedeni iç fonksiyonun dışarıdan
+    gizlenmek istenmesidir. Bir fonksiyon dışarıda tanımlanmışsa kodu inceleyen kişiler o fonksiyonun daha genel bir işlem
+    yaptığını düşünürler. Ancak bir fonksiyon başka bir fonksiyonun içerisinde tanımlanmışsa kodu inceleyen kişiler iç fonksiyonun
+    "genel bir işlem değil yalnızca dış fonksiyon için anlamlı bir işlem yaptığını" düşünürler. Bu düşünce de kodu inceleyenin
+    algısını güçlendirir ve mantıksal karmaşıklığı azaltır. O halde biz eğer bir fonksiyonu yalnızca başka bir fonksiyonun yazımını
+    kolaylaştırmak için tanımlayacaksak onu dışarıda değil ilgili fonksiyonun içerisinde tanımlayabiliriz. Örneğin do_something
+    isimli bir fonksiyon belli bir işin parçalarını foo, bar ve tar fonksiyonlarına yaptırıyor olsun. Bu örnekteki fooi bar ve tar
+    fonksiyonlarının dışarıdan kullanımları anlamlı değildir. Bunlar do_something fonksiyonun yazımını kolaylaştımak amacıyla
+    tanımlanmıştır. O halde bizim bu foo, bar ve tar fonksiyonlarını do_something fonksiyonun içerisinde tanımlamamız daha uygun
+    olur. Örneğin:
+
+    fn do_something() {
+        fn foo() {
+            //...
+        }
+
+        fn bar() {
+            //...
+        }
+
+        fn tar() {
+            //...
+        }
+
+        //...
+        foo();
+        //...
+        bar();
+        //...
+        tar();
+        //...
+    }
+
+    Pekiyi okunabilirlik sağlamak için iç fonksiyonu dış fonksiyonun neresinde tanımlamak uygun olur? Genellikle Rust programcıları
+    iç fonksiyonu dış fonksiyonun hemen başında tanımlarlar. Ancak bazı programcılar bunun tam tersini de yapmaktadır. Yani
+    iç fonksiyonu dış fonksiyonun sonunda tanımlamaktadır. Bazı programcılar ise iç fonksiyonu kullanıldığı yerin hemen yukarısında
+    tanımlamayı tercih etmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bu bölümde Rust'ta "ifade (expression)" ve "deyim (statement)" kavramları üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Programlama dillerinde "değişkenlerin, sabitlerin ve operatörlerin her bir bileşimine ifade (expression)" denilmektedir.
+    Örneğin:
+
+    a
+    10
+    a + 10
+    a[i] + b + 10
+    10 + 20
+
+    birer ifadedir. Tek başına bir sabitin ifade belirttiğine, tek başına bir değişkenin ifade belirttiğine ancak tek başına
+    bir operatörün ifade belirtmediğine dikkat ediniz. Bir ifade alt ifadelerden oluşuabilir. Yani bir ifade başka ifadelerin
+    operatörlerle bir araya getirilmesinden oluşabilir. Örneği a * b + c * d ifadesi a * b ifadesi ile c * d ifadesinin + operatörü
+    ile birleştirilmesiyle oluşturulmuştur.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta ifadeler iki sınıfa ayrılmaktadır:
+
+    1) Yer belirten ifadeler (place expression)
+    2) Değer belirten ifadeler (value expression)
+
+    Yer belirten ifadeler C'deki "sol taraf değeri (lvalue)", yer belirtmeyen ifadeler ise C'deki "sağ taraf değeri (rvalue)"
+    ile aynı anlamdadır. "The Rust Reference" dokümanları bu konuda şöyle demektedir:
+
+    "Note: Historically, place expressions were called lvalues and value expressions were called rvalues."
+
+    Yer belirten ifadeler (place expressions) ismi üzerinde bellekte bir yer belirtmektedir. Dolayısıyla bu ifadelere atama
+    yapılabilir ve bu ifadelerin adresleri alınabilir. Değer ifadeleri ise bellekte bir yer belirtmeyen ifadelerdir. Bir operatörün
+    operand'ı kullanıldığı bağlamda ya yer ifadesi ya da değer ifadesi durumundadır. Örneğin:
+
+    a = b + 10;
+
+    Burada a ifadesi bir yer ifadesi, b ve 10 birer değer ifadesi belirtmektedir. "The Rust Reference" dokümanlarında hangi
+    operatörlerin hangi operand'larının yer belirten ifade olarak ele alınacağı belitrilmiştir. Geri kalan durumlarda operatörlerin
+    operand'ları değer belirten ifade olarak ele alınmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Programlama dillerindeki çalıştırma birimlerine "deyim (statement)" denilmektedir. Bir program deyimlerin çalıştırışmasıyla
+    çalışmaktadır. Örneğin aşağıda C'de yazılmış olan kod parçasına bakınız:
+
+    ...
+    max = a[0];
+    for (int i = 1; i < size; ++i)
+        if (a[i] > max)
+            max = a[i];
+    printf("%d\n", max);
+    ...
+
+    Bu kod parçasında üç deyim vardır. Bunları birer satır boşluk vererek belirtmek istiyoruz:
+
+    max = a[0];
+
+    for (int i = 1; i < size; ++i)
+        if (a[i] > max)
+            max = a[i];
+
+    printf("%d\n", max);
+
+    Burada for döngüsünün tamamının tek bir deyim olduğuna dikkat ediniz. Genel olarak programlama dillerinde for gibi, if
+    gibi programın akışı üzerinde etkili olan deyimlere "kontrol deyimleri (control statements)", Rust Programlama Dilinde
+    ise böyle deyimlere "bloklu deyimler (expression with block)" denilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    C, C++, Java ve C# gibi imperative dillerin büyük çoğunluğunda bir ifade bir sonlandırıcı (tipik olarak ';') ile sonlandırıldığında
+    bu ifade deyim haline gelmektedir. Bu tür deyimlere pek çok programlama dilinde "basit deyim (simple statement)" ya da
+    "ifadesel deyim (expression statement)" denilmektedir. Örneğin:
+
+    max = a[0]
+
+    biçimindeki atom yığını C'de bir ifade belirtmektedir, deyim belirtmemektedir. Ancak örneğin:
+
+    max = a[0];
+
+    artık burada ifadenin sonuna ';' yerleştirildiği için bu atom yığını bir deyim belirtmektedir. Benzer biçimde örneğin:
+
+    printf("%d\n", max)
+
+    biçimindeki atom yığını bir ifade belirtirken bunun sonuna ';' yerleştirirsek artık bu bir deyim belirtir hale gelmektedir:
+
+    printf("%d\n", max);
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir öğenin kendisi gibi başka öğeleri içermesi durumuna "özyineleme (recursion)" denilmektedir. Doğada ve bilgisayar
+    bilimlerinde özyinelemeyle sıkça karşılaşılmaktadır. Örneğin bir dizin (directory) kendisi gibi dizinleri içerebilmektedir.
+    İşte bir deyim de başka deyimleri içerebilir. Örneğin:
+
+    if koşul {
+        ifade1;
+        ifade2;
+        loop {
+            //...
+        }
+    }
+    else {
+        ifade3;
+        ifade4;
+    }
+
+    Burada bloklar da bir deyimdir. Ancak bu bloklar bağımsız birer deyim değil if deyiminin içerisindeki deyimlerdir. Blok
+    deyimlerinin içerisinde de başka deyimler vardır. Bu durumu bir kutunun içerisinde başka kutuların olduğu duruma benzetebiliriz.
+    Örneğin bir kutunun içerisinde birtakım nesneler ve başka kutular olsun. O kutuların içerisinde de başka kutular olsun.
+    Böyle bir kutuya dışarıdan baktığımızda yalnızca bir tane kutu görürüz. Çünkü diğer kutular bu kutunun içerisindedir.
+    İşte benzer biçimde yukarıdaki kod parçasına dışarından bakıldığında tek bir deyim görülecektir. Diğer deyimler buradaki
+    if deyiminin içerisindedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ın bir "ifadesel dil (expression language)" olduğunu belirtmiştik. Rust'ta for gibi if gibi bloklu yapılar bir ifade
+    belirtmektedir. "The Rust Reference" dokümanlarında "deyim (statement)" için BNF grameri şöyle verilmiştir:
+
+        Statement :
+        ;
+    | Item
+    | LetStatement
+    | ExpressionStatement
+    | MacroInvocationSemi
+
+    Burada bir deyimin yalnızca bir ';' atomundan (C, Java ve C# gibi  dillerdeki boş deyim), bir program öğesinden (Item),
+    bir ifadeden (ExpressionStatement) ve bir makro çağrımından (MacroInvocationSemi) oluşturulabileceği belirtilmektedir.
+    Biz bu gramerdeki ExpressionStatement ara sembolüne "ifadesel deyim" diyeceğiz. Gramerdeki ExpressionStatement ise şöyle
+    açılmaktadır:
+
+    ExpressionStatement :
+        ExpressionWithoutBlock ;
+    | ExpressionWithBlock ;?
+
+    Buradaki "ExpressionWithoutBlock ;" bir ifadenin sonuna ';' getirilerek deyim oluşturulabileceğini belirtmektedir.
+    ExpressionWithBlock ise küme parantezlerine sahip olan sentaktik yapıları (yani diğer dillerdeki bileşik deyimleri, if gibi,
+    for gibi deyimleri) belirtir. Gramerdeki ExpressionWithBlock bir ifadenin parçası olmaksızın bu bloklu yapıların tek başına
+    kullanılması durumunu anlatmaktadır. Ayrıca bu BNF gramerine göre ExpressionWithBlock sembülünden sonra ';' yerleştirilebilir
+    ya da yerleştirilmeyebilir. Bu gramerden çıkan sonuçları birkaç örnekle açıklamak istiyoruz. Aşağıdaki ifadesel deyime dikkat
+    ediniz:
+
+    x = if (koşul) {
+        //...
+    }
+    else {
+        //...
+    };
+
+    Burada aslında bir atama işlemi söz konusudur. Dolayısıyla bu kod parçası gramerde "ExpressionWithoutBlock ;" biçiminde
+    açılmaktadır. Burada ';' atomunun deyim oluşturmak için ifadenin sonuna yerleştirilmesi zorunludur. Aşağıdaki kod parçasına
+    dikkat ediniz:
+
+    if (koşul) {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Burada bloklu sentaks yapısı kendi başına kullanılmıştır. Dolayısıyla bu sentaks gramerde "ExpressionWithBlock ;?" ile
+    açılır. Bu durumda ';' atomunun kullanılıp kullanılmayacağı isteğe bağlıdır. Yani bu gramere göre yukarıdaki if deyimi
+    şöyle de yazılabilirdi:
+
+    if (koşul) {
+        //...
+    }
+    else {
+        //...
+    };
+
+    Ancak izleyen paragraflarda ele alınacağı gibi eğer bloklu deyimler değer üretiyorsa ("birim (unit)" dışında bir değer
+    üretiyorsa) onların ';' ile sonlandırılması zorunludur.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta tıpkı C'de olduğu gibi etkisiz kodlar geçersiz kabul edilmemektedir. Örneğin:
+
+    a + b;
+    10 + 20;
+    30;
+    a[i];
+
+    gibi deyimler pogramda bir durum değişikliği yaratmadığı halde Rust'ta geçerlidir. Tabii etkisiz deyimlerin geçerli olduğu
+    programlama dillerinde derleyiciler uyarı mesajı (warning) verebilmektedir. Java ve C# gibi bazı dillerde ise etkisiz
+    ifadelerden deyim yapılamamaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta if gibi, while gibi for gibi deyimlerin sonuna bazen açıkça ';' atomunun getirilmesi gerekebilmektedir. Eğer bloklu
+    deyimler bir değer üretmiyorsa (yani () dışında bir değer üretmiyorsa) onların sonuna ';' getirmeye gerek yoktur. Ancak
+    bunlar bir değer üretiyorsa onların sonuna ';' getirilmesi zorunludur. Örneğin:
+
+    if koşul {
+        println!("doğru");
+    }
+    else {
+        println!("yanlış");
+    }
+
+    Burada if ifadesi bir değer üretmemektedir. (Yani () değeri üretmektedir). Bu durumda bu ifadeyi deyim haline getirmek için
+    ifadenin sonuna ';' getirilmeyebilir. Ancak örneğin:
+
+    if koşul {
+        println!("doğru");
+        10
+    }
+    else {
+        println!("yanlış");
+        20
+    };
+
+    Burada if ifadesi bir değer üretmektedir. Artık bunun deyim haline getirilmesi için bunun sonuna ';' getirilmesi gerekir.
+    Tabii yine de yukarıdaki kodda mantıksal bir sorun vardır. Bu kodda if ifadesi değer ürettiği halde bu değer kullanılmamıştır.
+    Bu durumda if ifadesinin bir değer üretmesinin anlamı da kalmamıştır. Örneğin:
+
+    x = if koşul {
+        println!("doğru");
+        10
+    }
+    else {
+        println!("yanlış");
+        20
+    };
+
+    Burada artık gramere göre bloklu bir ifade söz konusu değildir. Bu bir atama deyimidir. Atama deyimin solundaki ifade
+    bloklu bir ifadedir. Dolayısıyla buradaki son ';' atama deyiminin sonundaki olması gereken ';' atomudur.
+
+    Aşağıdaki gibi bir deyim söz konusu olsun:
+
+    if koşul {
+        //...
+    }
+    else {
+        //...
+    } [2];
+
+    Burada iki deyim mi vardır yoksa tek deyim mi vardır? İşte Rust derleyicisi burada if ifadesinin bir değer üretip
+    üretmediğine (yani () değerini üretip üretmediğine) bakmaktadır. Eğer if ifadesi bir değer üretmiyorsa bu if ifadesinin
+    sonunda ';' olmak zorunda değildir, dolayısıyla burada iki ayrı deyim vardır. Ancak if ifadesi bir değer üretiyorsa burada
+    tek bir deyim vardır. Tabii bu durumda if ifadesinden üretilen değere [] operatörü uygulanamazsa derleme zamanında error
+    oluşacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Pekiyi Rust gramerine göre Rust'taki if gibi while gibi bloklu yapılar bir deyim midir yoksa bir ifade midir? İşte Rust
+    gramerine göre bu bloklu yapılar birer ifadedir. Ancak bunların deyim haline getirilmesi için eğer bu ifadeler bir değer
+    üretmiyorsa ';' kullanmaya gerek yoktur, ancak değer üretiyorsa ';' kullanılması gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir programlama dilinde ilk öğrenilmesi gereken konulardan biri de dildeki temel operatörlerdir. Bu bölümde Rust'taki
+    temel operatörleri ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Programlama dillerinde bir işleme yol açan ve işlem sonucunda bir değer üretilmesini sağlayan atomlara "operatör (operator)"
+    denilmektedir. Örneğin +, -, *, /, >, < birer operatör atomdur. Tabii dillerdeki operatörlerin sayısı fazla olduğunda artık
+    klavyedeki özel semboller de yetmediği için anahtar sözcüklerden de operatörler oluşturulmaktadır. Örneğin C'deki sizeof
+    bir sembol olmadığı halde bir operatör belirtmektedir.
+
+    Operatörler konusunun iyi anlaşılması için öncelikle operatörlerin sınıflandırılması üzerinde durmak gerekir. Operatörler
+    üç biçimde sınıflandırımaktadır:
+
+    1) Operatörün İşlevine Göre
+    2) Operand Sayılarına Göre
+    3) Operatör Konumuna Göre
+
+    İşlevlerine göre operatörler çeşitli biçimlerde sınıflandırılabilmektedir. Örneğin:
+
+    - Artimetik Operatörler (Arithmetic Operators): +, -, *, / gibi artimetik işlemler yapan operatörlere "aritmetik operatörler"
+    denilmektedir.
+
+    - Karşılaştırma Operatörleri (Comparision Operators/Relational Operatos): >, <, >=, <= gibi iki değeri karşılaştıran operatörlere
+    karşılaştırma operatörleri denilmektedir.
+
+    - Mantıksal Operatörler (Logical Operators): Programlama dillerinde AND, OR, NOT gibi mantıksal işlemler yapan operatörlere
+    mantıksal operatörler denilmektedir.
+
+    - Bit Operatörleri (Bitwise Opeators): Değeri bir bütün olarak değil de bit bit ele alıp bitsel düzeyde işlemleri yapan
+    operatörlerdir.
+
+    - Adres Operatörleri (Pointer Operators): Adres bilgileri üzerinde işlem yapan yapan operatörlerdir.
+
+    - Özel Amaçlı Operatörler (Special Purpose Operators): Yukarıdaki amaçların dışında kullanılan operatörlerdir.
+
+# 11. Ders 09/04/2025 - Çarşamba
+
+    Bir operatörün işleme soktuğu ifadelere "operand" denilmektedir. Örneğin:
+
+    a + b
+
+    ifadesinde + operatör a ve b bu operatörün operand'larıdır. Örneğin:
+
+    a + b * c
+
+    Bu ifadede önce * operatörü yapılacaktır. * operatörünün operand'ları b ve c'dir. + operatörünün operand'ları ise a ve
+    b * c'dir.
+
+    Operand sayılarına göre operatörler üç gruba ayrılmaktadır:
+
+    1) İki Operand'lı operatörler (Binary Operators)
+    2) Tek Operand'lı Operatörler (Unary Operators)
+    3) Üç operand'lı Operatörler (Ternary Operators)
+
+    Operatörlerin büyük bölümü iki operand'lıdır. Örneğin biz * operatörünü kullanırken onun soluna ve sağına iki operand
+    yerleştiririz. ! operatörü gibi, işaret - operatörü gibi operatörlerin ise tek operand'ı vardır. Örneğin biz iki değeri
+    mantıksal NOT işlemine sokmayız, tek bir değeri mantıksal NOT işlemine sokarız. Nihayet çok seyrek olarak programlama
+    dillerinde üç operand'lı operatörler de bulunabilmektedir. Örneğin C, Java ve C# gibi dillerdeki ?: operatörü üç operand'lı
+    bir operatördür. Rust'ta üç operand'lı bir operatör yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Operatörler konumlarına göre de üçe ayrılmaktadır:
+
+    1) Araek Oeratörler (Infix Operatos)
+    2) Önek Operatörler (Prefix Operators)
+    3) Sonek Operatörler (Postfix Operators)
+
+    Araek operatörler operand'larının arasına getirilerek kullanılır. Örneğin / operatörü araek bir operatördür. Biz bu
+    operatörü a / b biçiminde kullanırız. Operand'ının önüne getirilerek kullanılan operatörlere önek operatörler denir.
+    Örneğin ! operatörü işaret - operatörü önek operatörlerdir. Bazı operatörler ise operand'larının sonuna getirilerek
+    kullanılmaktadır. Bunlara da sonek operatörler denir. Örneğin fonksiyon çağırma operatörü ve [] operatörü sonek
+    operatörlerdir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Programlama dillerinde operatörler açıklanırken önce operatörün yukarıda belirttiğimiz üç sınıflandırmada da nereye
+    düştüğü belirtilir. Sonra operatörün ne yaptığı ve diğer özellikleri açıklanır. Örneğin "/ operatörü iki operand'lı araek
+    (binary indifx) bir operatördür, soldaki operand'ın sağdaki operand'a bölüm değerini üretir" gibi. Örneğin "işaret - operatörü
+    tek operand'lı önek (unary prefix) bir operatördür, operand'ının negatif değerini üretir" gibi.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Aynı ifade içerisinde birden fazla operatör kullanıldığında bunlar birbirilerine göre belli sırada işleme sokulurlar.
+    Buna "operatörler arasındaki öncelik ilişkisi (operator precedency)" denilmektedir. Örneğin:
+
+    a = b + c * d
+
+    ifadesinde önce * işlemi sonra toplama işlemi sonra atama işlemi yapılır:
+
+    İ1: c * d
+    İ2: b + İ1
+    İ3: a = İ2
+
+    Aynı öncelikli operatörler kendi aralarında soldan sağa ya da sağdan sola öncelikli yapılmaktadır. Örneğin + ve - operatörleri
+    soldan sağa önceliklidir:
+
+    a = b - c + d - e
+
+    Burada işlemler şu sırada yapılır:
+
+    İ1: b - c
+    İ2: İ1 + d
+    İ3: İ2 - e
+    İ4: a = İ4
+
+    Ancak örneğin işaret - operatörü sağdan sola önceliklidir:
+
+    a = ---b;
+
+    İ1: -b
+    İ2: -İ1
+    İ3: -İ2
+    İ4: a = İ3
+
+    Operatörler arasındaki öncelik ilişkisi "operatörlerin öncelik tablosu" denilen bir tabloyla betimlenmektedir. Bu tablo
+    satırlardan oluşur. Üst satırdaki operatörler alt satırdaki operatörlerden daha yüksek önceliklidir. Aynı satırdaki
+    operatörler eşit önceliklidir. Bu satırların sağında "Soldan Sağa (Left to Right)" ya da "Sağdan Sola (Right to Left)"
+    ibaresi bulunur. Buna İngilizce "Associativity" denilmektedir. Associativity eşit ölçekli operatörlerin hangisinin önce
+    yapılacağını belirtir. "Soldan Sağa" öncelik "o satırdaki operatör aynı ifadede birlikte bulunuyorsa ifade içerisinde hangisi
+    daha soldaysa önce o yapılır" anlamına gelmektedir. "Sağdan Sola" öncelik de ifade içerisinde sağda olan operatör daha önce
+    yapılır" anlamına gelir.
+
+    Bir operatörü diğer operatörden daha önce işleme sokmak istiyorsanız parantezlerek ona öncelik kazandırmalısınız. Örneğin:
+
+    a = (b + c) * d;
+
+    İ1: b + c
+    İ2: İ1 * d
+    İ3: a = İ2
+
+    Operatörlerin öncelik tablosunun en yalın hali şöyle oluşturulabilir:
+
+    ()      Soldan Sağa
+    * /     Soldan Sağa
+    + -     Soldan Sağa
+    =       Sağdan Sola
+
+    Burada en tepedeki () hem fonksiyon çağırma operatörünü hem de öncelik parantezini temsil etmektedir. Biz bu yalın tabloyu
+    temel alacağız. Operatörleri gördükçe bu tabloya ekleyeceğiz.
+
+    Operatörlerin öncelik tablosu pek çok programlama dilinin standart dokümanlarında ya da referans kitaplarında verilmemektedir.
+    Çünkü zaten öncelik çoğu durumda BNF gramerinden doğal olarak elde edilmektedir. Yani BNF grameri zaten öncelik tablosunu
+    da oluşturmaktadır. Ancak "The Rust Reference" dokümanlarında operatörler arasındaki öncelik ilişkisi ayrı bir başlık altında
+    bir tabloyla açıklanmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta daha önceden de belirttiğimiz gibi iki operand'lı operatörlerin operand'ları aynı türden olmak zorundadır. Dolayısyla
+    Rust'ta "işlem öncesi otomatik tür dönüştürmesi (usual arithmetic conversion)" yoktur. Benzer biçimde Rust'ta "işlem öncesinde
+    int türüne dönştürme  (integral promotion)" biçiminde de bir kural da yoktur. Örneğin C'de biz int ile long değeri artimetik
+    işleme sokarsak long türünden bir değer elde ederiz. Ancak Rust'ta i64 ile i32 türlerini zaten işleme sokamayız. Rust'ta
+    operand'lar aynı türden olmak zorunda olduğu için işlemin sonucu da aynı türden olur. Örneğin Rust'ta iki i8 türünden değeri
+    toplarsak sonuç i8 türünden olur. Fakat örneğin C'de iki char türünden değer toplanırsa "int türüne yükseltme kuralı" gereği
+    sonuç int türden elde edilir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    C'de ce C++17'ye kadar C++'ta artimetik operatörlerin operand'larının ele alınış sırası belirsiz (unspecified) bırakılmıştır.
+    C ve C++ programcılarının önemli bir bölümü operatörlerin öncelik tablosunun etkisi altında kalarak bu kuralı yanlış
+    bilmektedir. Çünkü operatörlerin öncelik tablosu pratik bir anlatım sağlamak için oluşturulmuştur; durumu kesin betimlemek
+    için yetersiz kalmaktadır. Örneğin:
+
+    result = foo() + bar();
+
+    Pek çok C programcısı burada önce foo fonksiyonun çağrılacağını samnmaktadır. Derleyicilerin hemen hepsi böyle yapsa da
+    aslında C standartlarına göre önce bar fonksiyonu da çağrılabilir. Çünkü +, -, * / gibi operatörlerin soldaki operand'ının
+    mı önce ele alınacağı yoksa sağdaki operand'ının mı önce ele alınacağı konusunda bir belirleme yapılmamıştır (unspecified).
+    Tabii öncelik tablosuna bakanlar () operatörünün yanında "Soldan Sağa" ibaresini görünce önce foo fonksiyonun çağrılacağını
+    sanmaktadır. Zaten bu nedenden dolayı C'de aşağıdaki gibi bir ifade tanımsız davranış oluşturmaktadır:
+
+    result = a + ++a;
+
+    Çünkü burada + operatörünün sol tarafı önce yapılırsa farklı bir sonuç sağ tarafı önce yapılırsa farklı bir sonuç elde
+    edilir. Tabii kural "önce soldaki operand ele alınır, sonda sağdaki operand ele alınır" biçiminde olsaydı hiçbir karışıklık
+    oluşmazdı. Bu durumda kesinlikle ilk örnekte önce foo fonksiyonu sonra bar fonksiyonu çağrılırdı. İşte temel sentaksı ve
+    semantiği büyük ölçüde C'den alınmış olan Java ve C# gibi dillerde kesinlikle soldaki operand önce ele alınmaktadır. Bu
+    nedenle bu dillerde a + ++a gibi bir ifadeden ne elde edileceği bellidir. Örneğin a'nın içerisinde 3 değeri varsa bu dillerde
+    bu ifade 3 + 4 değerini üretir. (İfade ++a + a biçiminde olsaydı 4 + 4 değerini üretecekti.) C++17'de radikal bir değişiklik
+    yapılarak operand'ların ele alınma sırası "öncek soldaki sonra sağdaki" biçiminde değiştirilmiştir. Dolayısıyla artık C++'ta
+    da a + ++a ve ++a + a gibi ifadeler tanımsız davranış olmaktan çıkmıştır. İşte Rust'ta da aritmetik operatörlerin kesinlikle
+    önce soldaki operand'ı sonra sağdaki operand'ı ele alınmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    *, /, + ve - operatörleri iki operand'lı araek aritmetik operatörlerdir. Klasik dört işlemi yaparlar. Öncelik tablosunda
+    * ve / operatörleri, + ve - operatörlerinden daha yüksek öncelikli grupta bulunmaktadır:
+
+    ()      Soldan Sağa
+    * /     Soldan Sağa
+    + -     Soldan Sağa
+    =       Sağdan Sola
+
+    Aritmetik operatörlerde operand'lar aynı türden olmak zorunda olduğuna göre ya sonuç bu türün sınırlarının dışına çıkarsa
+    ne olacaktır? Bu duruma programlama dillerinde "taşma (overflow)" denilmektedir. C ve C++'ta işaretli tamsayı türlerinde
+    taşma oluşursa "tanımsız davranış (undefined behavior)" oluşmaktadır. Ancak işaretsiz tamsayı türlerinde taşma oluşursa
+    yüksek anlmlı bitler atılmakta başka bir deyişle "sarma (wrapping)" yapılmaktadır. C#'ta checked ve unchecked bağlam kavramı
+    vardır. Rust'ta ise taşma olduğunda default durumda panic oluşmaktadır. (panic bir programın umulmadık bir durumla karşılaştığında
+    çökmesi anlamına gelmektedir. Bu nesne yönelimli dillerdeki exception'a benzer bir kavramdır. panic durumu Rust'ta programcı
+    tarafından panic fonksiyonuyla da oluşturulabilmektedir.) Ayrıca Rust derleyicisi taşmayı derleme aşamasında belirleyebiliyorsa
+    error de oluşturabilmektedir. Ancak bu durum "The Rust Reference" dokümanlarında derleyicileri yazanların isteğine bırakılmıştır.
+    "The Rust Reference" dokümanları şöyle söylemektedir:
+
+    "Outside of const contexts, whether overflow is detected at compile time or not is unspecified and may change across compiler
+    versions."
+
+    Örneğin:
+
+    fn foo(a: i8, b: i8) {
+        let c: i8;
+
+        c = a + b;
+        println!("{}", c);
+    }
+
+    Biz bu fonksiyonu aşağıdaki çağırmış olalım:
+
+    let a: i8 = 127;
+    let b: i8 = 1;
+
+    foo(a, b);
+
+    Bu çağrıda panic oluşacaktır. Örneğin:
+
+    let a:u8 = 255;
+    let b: u8 = 1;
+    let c: u8;
+
+    c = a + b;      // bu satırda error oluşabilir
+
+    Burada a + b işlemindeki taşmanın derleme aşamsında kontrol edilip edilmeyeceği derleyicileri yazanların isteğine
+    bırakılmıştır. Kursun yapıldığı zamanda kullanılan Rust derleyicisi bu satırda error oluşturmaktadır.
+
+    Rust'ta temel türler sanki bir yapıymış gibi de kullanılmaktadır. Bu nedenle i32, f64 gibi temel türler bazı metotlara
+    da sahiptir. Eğer taşma durumunda "sarma (wrapping)" yapılması istiyorsa bu türlerin wrapping_ttt isimli metotları
+    kullanılabilir. Burada ttt işlemin türünü belirtmektedir. Örneğin:
+
+    fn foo(a: i8, b: i8) {
+        let c: i8;
+
+        c = a.wrapping_add(b);
+        println!("{}", c);
+    }
+
+    Şimdi fonksiyonu şöyle çağırmış olalım:
+
+    let a: i8 = 127;
+    let b: i8 = 1;
+
+    foo(a, b);
+
+    Artık sarma yapılacağı için +127'den sonraki işaretli sayı -128 olduğu için -128 elde edilecektir. Temel türlerin taşma
+    için yalnızca wrapping_xxx metotları yoktur, başka metotları da vardır. Ancak biz bu bağlamda diğer metotlar üszerinde
+    durmayacağız.
+
+    Rust'ta gerçek sayı türlerindeki taşmalarda +inf ya da -inf değerleri üretilmektedir. Geçersiz bir değere sahip işlemlerden
+    de ise NaN değeri elde edilmektedir. "The Rust Reference" dokümanları bu konuda şöyle demektedir:
+
+    "Overflow in floating-point operations does not cause a panic. Instead, the result is ±∞ or NaN, following IEEE 754 rules."
+---------------------------------------------------------------------------------------------------------------------------
+
+    % operatörü iki operand'lı araek aritmetik operatördür. Tıpkı C'deki gibi soldaki operandın sağdaki operand'a bölümünden
+    elde edilen kalan değerini üretir. Öncelik tablosunda * ve / ile aynı öncelik grubunda bulunmaktadır:
+
+    ()          Soldan Sağa
+    * /  %      Soldan Sağa
+    + -         Soldan Sağa
+    =           Sağdan Sola
+
+    Aslında programlama dillerinde a % b gibi bir işlemin sonucu şöyle oluşturulmaktadır:
+
+    a - a / b * b
+
+    Bu durumda örneğin C, Java, C# ve Rust'ta -10 % 4 işleminin sonucu -2'dir:
+
+    -10 - -10 / 4 * 4 = -2
+
+    Ancak bu dillerde 10 % -4 işleminin sonucu 2'dir:
+
+    10 - 10 / -4 * -4 = 2
+
+    Python'da tamsayılı bölmenin // operatörüyle yapıldığını ve bu operatöre "floordiv" dendiğini anımsayınız. floor işlemi
+    kendisinden "küçük ilk tamsayı anlamına" gelmektedir. Örneğin -2.5 değerinin floor sonucu -3'tür. Bu durumda Python'da
+    -10 % 4 işleminin sonucu 2 olur:
+
+    -10 - -10 // 4 * 4 = 2
+
+    C ce C++ dillerinde % operatörünün iki operandının da tamsayı türlerine ilişkin olması zorunludur. Ancak Rust'ta tıpkı
+    C#, Java ve Python'da olduğu gibi bu operatörün operand'ları gerçek sayı türlerine ilişkin de olabilir. Örneğin:
+
+    let a: f64 = 10.5;
+    let result: f64;
+
+    result = a % 2.0;
+    println!("{}", result);     // 0.5
+---------------------------------------------------------------------------------------------------------------------------
+
+# 12.  Ders 14/04/2025 - Pazartesi
+
+    Rust'ta işaret - operatörü vardır ancak gereksiz olduğu nedeniyle işaret + operatörü dile sokulmamıştır. İşaret - operatörü
+    tek operand'lı önek (unary prefix) bir operatördür ve operand'ının negatif değerini (ikiye tümleyen değerini) üretir. Ancak
+    Rust'ta işaret - operatörü işaretsiz tamsayı türlerine uygulanamamaktadır. Yani bu operatörün operand'ı işaretli tamsayı
+    türünden ya da gerçek sayı türünden olmak zorundadır. Halbuki C'de ve C#'ta işaret - operatörü işaretsiz tamsayı türlerine
+    de uygulanabilmektedir.
+
+    İşaret - operatörü öncelik tablosunda *, / ve % operatörlerinin yukarısında sağdan sola grupta bulunmaktadır:
+
+    ()          Soldan Sağa
+    -           Sağdan Sola
+    * /  %      Soldan Sağa
+    + -         Soldan Sağa
+    =           Sağdan Sola
+
+    Örneğin:
+
+    a = ---3;
+
+    Burada işlemler şu sırada yapılacaktır:
+
+    İ1: -3 => -3
+    İ2: -İ1 => 3
+    İ3: -İ2 => -3
+    İ4: a = İ3 => ()
+---------------------------------------------------------------------------------------------------------------------------
+
+    C'de, Java'da ve C#'ta bulunan ++ ve -- operatörleri Rust'ta yoktur. Aslında fonksiyonel programlama modelini (functional
+    programming paradigm) destekleyen yeni programlama dillerinin bazılarına da bu operatör sokulmamıştır. Örneğin bu operatörler
+    Python'da da yoktur. Swift'te eskiden vardı ancak 2.0 versiyonu ile birlikte dilden çıkartıldı. Bu operatörlerin ifade
+    içerisinde yan etkiye yol açması fonksiyonel programlamaya uygun değildir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta diğer dillerin çoğunda da var olan olan altı karşılaştırma operatörü bulunmaktadır. Bu operatörlerin hepsi iki
+    operand'lı araek (binary infix) operatörlerdir. Karşılatırma operatörleri Rust'ta bool türden değer üretmektedir. Halbuki
+    C'de karşılaştırma operatörlerinin int türden değer ürettiğini anımsayınız. C++ gibi, Java, C# ve Python gibi bool türünün
+    olduğu programlama dillerinde de karşılaştırma operatörleri bool değer üretmektedir. Örneğin:
+
+    let a:i32 = 10;
+    let b:i32 = 20;
+    let result: bool;
+
+    result = a < b;
+    println!("{}", result);     // true
+
+    C'de ve C++'ta karşılaştırma operatörleri de kombine edilerek kullanılabilmektedir. Örneğin:
+
+    result = a == b > c;
+
+    Böyle bir ifade C'de geçerlidir. Burada önce b > c işlemi yapılır. Buradan int türden 1 ya da 0 değeri elde edilir. Bu int
+    değer a ile karşılaştırılır. Ancak Rust'ta bu operatörler parantezsiz biçimde birbirleriyle kombine edilerek kullanılamamaktadır.
+    C'de >, <, >=, <= operatörlerinin öncelik tablosunda ==, != operatörlerinden daha yüksek önclikte bulunduğunu anımsayınız.
+    Rust'ta zaten bunlar parantezsiz biçimde kombine edilemediği için bunların aralarında da bir öncelik ilişkisi de yoktur.
+    Python gibi bazı dillerde karşılaştırma operatörlerinin kombine edilmesi ise tamamen başka bir anlama gelmektedir. Örneğin:
+
+    result = a == b > c
+
+    Bu ifade Python'da aşağıdaki ile eşdeğerdir:
+
+    result = a == b and b > c
+
+    Programlama dillerinin büyük çoğunluğunda karşılaştırma operatörleri artimetik operatörlerden düşük önceliktedir. Rust'ta
+    da durum böyledir. Örneğin:
+
+    result = a + b > c + d;
+
+    Burada a + b ile c + d karşılaştırılmaktadır.
+
+    ()                      Soldan Sağa
+    -                       Sağdan Sola
+    * /  %                  Soldan Sağa
+    + -                     Soldan Sağa
+    < > >= <= == !=         Parantezsiz Kombine Edilemez
+    =                       Sağdan Sola
+
+    Tüm iki operand'lı aritmetik operatörlerde olduğu gibi karşılaştırma operatörlerinin de operand'larının aynı türden olması
+    gerekir. Aksi takdirde error oluşur. Örneğin.
+
+    let a: i32 = 10;
+    let b: i16 = 20;
+    let result: bool;
+
+    result = a > b;     // error! operand'lar farklı türlerden
+
+    Rust'ta karşılaştırma operatörlerinin operand'ları bool türden de olabilmektedir. Karşılaştırma true değerinin false
+    değerinden büyük olduğu kabulü ile yapılmaktadır. Örneğin:
+
+    let mut result: bool;
+
+    result = true > false;
+    println!("{}", result);     // true
+
+    result = true == true;
+    println!("{}", result);     // true
+
+    Karşılaştırma operatörlerinin parantezsiz kombine edilemediğini belirtmiştik. Ancak parantezler kullanılarak bir karşılaştırma
+    operatörünün ürettiği bool değer diğer bir karşılaştırma operatörüne operand yapılabilmektedir. Örneğin:
+
+    let result: bool;
+
+    result = (true > false) == true;
+    println!("{}", result);     // true
+
+    Ancak böylesi kullanımlara çok seyrek gereksinim duyulmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta da tıpkı C, Java ve C#'ta olduğu gibi üç mantıksal operatör vardır:
+
+    !       Mantıksal NOT operatörü
+    &&      Mantıksal AND operatörü
+    ||      Mantıksal OR operatörü
+
+    && ve || operatörleri iki operand'lı araek (binary infix), ! operatörü ise tek operand'lı önek (unary prefix) operatörlerdir.
+    && ve || operatörleri öncelik tablosunda karşılaştırma operatörlerinden daha düşük öncelikli, ! operatörü ise arirmetik
+     operatörlerden daha yüksek önceliklidir:
+
+    ()                      Soldan Sağa
+    - !                     Sağdan Sola
+    * /  %                  Soldan Sağa
+    + -                     Soldan Sağa
+    < > >= <= == !=         Parantezsiz Kombine Edilemez
+    &&                      Soldan Sağa
+    ||                      Soldan Sağa
+    =                       Sağdan Sola
+
+    Bu operatörlerin operand'ları bool türden olmak zorundadır. Bu operatörler bool türden değer üretirler.
+
+    && ve || operatörlerinin diğer dillerde olduğu gibi "kısa devre (short circuit)" özelliği vardır. Bu operatörlerin önce
+    sol tarafındaki ifade yapılır. Eğer && operatörünün sol tarafındaki ifade false ise, || operatörünün sağ tarafındaki ifade
+    true ise bunların sağ tarafındaki ifade hiç yapılmaz, sonuç hemen belirlenir. Tabii && operatörünün solundaki ifade true
+    ise || operatörünün sol tarafındaki ifade false ise gerçekten bu operatörlerin sağ tarafındaki ifadeler de yapılır. Örneğin:
+
+    result = foo() || bar();
+
+    Burada foo ve bar fonksiyonlarının geri dönüş değerlerinin bool türden olması zorunludur. Önce foo fonksiyonu çağrılır.
+    Eğer bu fonksiyondan true değeri elde edilirse bar fonksiyonu hiç çağrılmaz.
+
+    && ve || operatörleri kombine edildiğinde soldaki operatörün sol tarafı önce yapılmaktadır. Bu durum kişilere tuhaf gelebilmektedir.
+    Örneğin:
+
+    result = foo() || bar() && tar();
+
+    Her ne kadar && operatörü || operatöründen daha yüksek öncelkliyse de burada önce foo fonksiyonu çağrılır. Eğer foo
+    true değere geri dönerse diğer fonksiyonlar hiç çağrılmaz. Eğer foo false değerine geri dönerse bu durumda bar fonksiyonu
+    çağrılır. bar da true değerine geri dönerse tar fonksiyonu çağrılır. Ancak bar false değerine geri dönerse tar fonksiyonu
+    çağrılmaz. Bu durum size && operatörünün || operatörüne göre öncelikli olmasıyla çelişiyormuş gibi gelebilir. Ancak aslında
+    önce && operatörünün yapılmasıyla önce || operatörünün sol tarafınının yapılması arasında elde edilen sonuç bakımından bir
+    farklılık yoktur. Önce foo fonksiyonun çağrılması bu sonucun daha hızlı elde edilemsine yol açmaktadır. Biz önce && sonra
+    || operatörünün işletildiğini varsayalım:
+
+    İ1: bar() && tar()
+    İ2: foo() || İ1
+    İ3: result = İ2
+
+    && operatörünün ve || operatörünün önce sol tarafı yapılmak zorundadır. Bunun da tek yolu aslında önce foo fonksiyonun
+    çağrılmasıdır. Örneğin:
+
+    result = foo() && bar() || tar();
+
+    Burada da önce foo fonksiyonu çağrılır. Eğer foo false değerine geri dönerse bar fonksiyonu çağrılmaz ama tar fonksiyonu
+    çağrılır. Eğer foo true değerine geri dönerse bar fonksiyonu çağrılır. bar da true değerine geri dönerse tar fonksiyonu
+    çağrılmaz.
+
+    Rust'ta tıpkı Java ve C#'ta olduğu gibi mantıksal işlemler kısa devre özelliği olmadan da yapılabilmektedir. Bunun için
+    & ve | operatörleri kullanılmaktadır. Bu operatörler aslında bit düzeyinde (bitwise) işlem yapmaktadır. Ancak bu operatörler
+    eğer tamsayı türlerine ilişkin operand almayıp bool operand alırlarsa mantıksal işlem yaparlar. Fakat bu durumda kısa devre
+    özelliğine sahip olmazlar. Dolayısıyla Rust'ta & operatörü && operatörünün kısa devre özelliği olmayan biçimi gibi, | operatörü
+    de || operatörünün kısa devre özelliği olmayan biçimi gibi kullanılabilmektedir. Örneğin:
+
+    result = foo() | bar() & tar();
+
+    Burada kısa devre özelliği olmadığı için foo, bar ve tar fonksiyonları önce çağrılır. Sonra & işlemi ve | işlemi yapılır.
+    Dolayısıyla mantıksal işlemler kısa devre özelliksiz yapılmış olur.
+
+    Rust'ta ! operatörü mantıksal NOT işleminin yanı sıra bitsel NOT işlemi de yapmaktadır. Eğer ! operatörünün operand'ı
+    bool türdense operatör true için false, false için true değerini üretir. ! operatörünün sağdan sola öncelik grubunda
+    olduğuna dikkat ediniz. Örneğin:
+
+    result = !!!true
+
+    İ1: !true => false
+    İ2: !İ1 => true
+    İ3: !İ2 => false
+    İ4: result = İ3
+
+    Aşağıdaki örneği tamel alarak yukarıda anlattıklarımız üzerinde denemeler yapabilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result: bool;
+
+    result = foo() || bar() && tar();
+    println!("{}", result);
+}
+
+fn foo() -> bool {
+    println!("foo");
+    false
+}
+
+fn bar() -> bool {
+    println!("bar");
+    false
+}
+
+fn tar() -> bool {
+    println!("tar");
+    false
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bit düzeyinde işlem yapan (bitwise) altı operatör vardır:
+
+    !           Bit NOT operatörü
+    << >>       Sola öteleme ve sağa öteleme operatörleri
+    &           Bit AND operatörü
+    ^           Bit EXOR operatörü
+    |           Bir OR operatörü
+
+    Bu operatörlerin C'de, Java ve C#'ta da bulunduğuna dikkat ediniz. Ancak yukarıda da belirttiğimiz gibi bit düzeyinde NOT
+    işlemi için C'deki ~ operatörü yerine yine ! operatörü kullanılmıştır. Bit operatörleri sayıları bir bütün olarak değil
+     bit bit ele alarak işlem yapmaktadır. ! operatörü yukarıda da belirttiğimiz gibi tek operand'lı önek (unary prefix) bir
+     operatördür. Ancak diğer bit operatörlerinin hepsi iki operand'lı araek (binary infix) operatörlerdir.
+
+    C'de (ve tabii C++'ta) &, ^ ve | operatörleri karşılaştırma operatörlerinden daha düşük önceliklidir. Bu durum C'de uzun
+    süredir eleştirilmektedir. Aşağıdaki C koduna dikkat ediniz:
+
+    if (val & 1 == 0) {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Burada programcı muhtemelen val değişkeninin en düşük anlamlı bitinin 0 olup olmadığını kontrol etmek istemiştir. Ancak
+    C'de == operatörü & operatöründen daha yüksek öncelikli olduğu için burada önce 1 == 0 karşılaştırması yapılıp buradan
+    0 değeri elde edilir. val & 0 işleminden de 0 elde edileceği için niyet edilen işlemler gerçekleşmez. C'de bu karşılaştırmanın
+    paranteze alınarak yapılması gerekmektedir:
+
+    if ((val & 1) == 0) {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Halbuki Rust'ta bu üç operatör karşılaştırma operatörlerinden daha yüksek önceliğe sahiptir. Dolayısıyla Rust'ta bu biçimde
+    paranteze almaya gerek kalmamaktadır.
+
+    Rust'ta yine tıpkı C'de olduğu gibi bit operatörlerinin de operand'larının tamsayı türlerine ilişkin olması gerekir.
+
+# 13. Ders 16/04/2025 - Çarşamba
+
+    & operatörü iki tamsayının karşılıklı bitlerini AND işlemine, | operatörü ise tamsayının karşılıklı bitlerini OR işlemine
+    sokmaktadır. Bu operatörlerin operand'larının yine aynı türden olması gerekir. Örneğin:
+
+    let a: u8 = 0xC5;       // 1100 0101
+    let b: u8 = 0x3C;       // 0011 1100
+    let mut result: u8;
+
+    result = a & b;
+    println!("{:x}", result);     // 4
+
+    result = a | b;
+    println!("{:X}", result);     // FD
+
+    Genellikle programcılar bit düzeyinde AND ve OR işlemlerini işaretsiz tamsayı türler üzerinde yaparlar. Ancak işaretli
+    sayılar üzerinde de bu işlemler uygulanabilmektedir. Burada işaretli bir tamsayı türünden değişkene değer atarken bir
+    noktaya dikkatinizi çekmek istiyoruz. Aşağıdaki bağlamaya dikkat ediniz:
+
+    let a: i8 = 0xC3;       // error
+
+    Bu bağlama error ile sonuçlanacaktır. Çünkü sayının kaçlık sistemde yazıldığının sayının türü üzerinde bir etkisi yoktur.
+    Buradaki 0xC3 yazmakla 195 yazmak arasında hiçbir farklılık yoktur. 195 de hedef türün sınırları içerisinde kalmadığı
+    için error oluşmaktadır.
+
+    Bilindiği gibi EXOR işlemi bitler aynıyken 0 değerini, bitler farklıyken 1 değerini veren bir işlemdir. EXOR geri
+    dönüşümlü bir işlem olduğu için özellikle kriptoloji alanında yaygın biçimde kullanılmaktadır. a ^ b = c ise, c ^ a = b
+    ve c ^ b = a'dır.
+
+    Rust'ta ^ operatörünün iki openad'ı da bool türdense EXOR işlemi bool düzeyde yapılmaktadır. Örneğin true ^ true işlemi
+    geçerlidir ve burada false değeri elde edilir. true ^ false işlemi geçerlidir buradan true değeri elde edilir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta da C'de (Java ve C#'ta da) olduğu gibi >> (sağa öteleme) ve << (sola öteleme) operatörleri bulunmaktadır. Bu
+    operatörler de iki operand'lı araek operatörlerdir. İşaretsiz bir tamsayı sağa bir kez ötelendiğinde tüm bitler bir sağa
+    kaydırılır sayı en soldan 0 ile beslenir. Bu da aslında sayının 2'ye bölünmesi anlamına gelmektedir. İşaretli negatif
+    tamsayıların sağa ötelenmesi biraz kafa karıştırabilmektedir. Çünkü bu durumda eğer en soldan 0 ile besleme yapılırsa
+    negatif sayı pozitif haline gelir. Negatif sayının negatifliğinin korunması için en soldan 1 ile beslenmesi gerekir.
+    Negatif tamsayıların en soldan  1 ile beslenmesine makine dillerinde "arithmetic right shift" denilmektedir. C Programlama
+    Dilinde işaretli negatif tamsayıların sağa ötelnmesinde beslemenin en soldan 0 ile mi yoksa 1 ile mi yapılacağı derleyicileri
+    yazanların isteğini bırakışmıştır (implementation depenedent). Ancak yaygın derleyicilerin hemen hepsi en soldan beslemeyi
+    1 ile yapmaktadır. En soldan besleme 1 ile yapıldığında sayı negatifliği korunarak 2'ye bölünmüş olur. Örneğin bir byte
+    içerisinde (yani i8 olarak) -10 değerini yazalım. bunu önce +10 yazıp 2'ye tümleyenini alarak yapabiliriz:
+
+    0000 1010       +10
+    1111 0110       -10
+
+    Şimdi bu -10 değerini işaret bitini koruyarak 1 kez sağa öteleyelim:
+
+    1111  1011
+
+    Bu sayı -5'tir. Sayının -5 olduğunu 2'ye tümleyenini alarak anlayabilirsiniz:
+
+    0000 0101       +5
+
+    Ancak işaretli negatif tamsayı eğer tek ise kişileri tereddüte sevkeden bir durum oluşmaktadır. -5 sayısının aritmetik
+    biçimde sağa ötelenmesi sonucunda -2 değil -3 değeri elde edilmektedir. Örneğin:
+
+    1111  1011      -5
+
+    Bu sayıyı sağa ötelediğimizde şu bitleri elde ederiz:
+
+    1111 1101       -3
+
+    Bu değerin -3 olduğunu sayının 2'ye tümleyenini alarak anlayabiliriz:
+
+    0000 0011       +3
+
+    Her ne kadar C'de işaretli negatif tamsayıların sağa ötelenmesi derleyiciye bağlı olarak değişebiliyorsa da Rust'ta
+    işaretli negatif tamsayılar sağa ötelendiğinde her zaman en soldan besleme işaret biti korunacak biçimde 1 ile yapılmaktadır.
+    Örneğin:
+
+    let a: i8 = -10;            // 1100 0101
+    let mut result: i8;
+
+    result = a >> 1;
+    println!("{}", result);     // -5
+
+    result = a >> 2;
+    println!("{}", result);     // -3
+
+    Bir tamsayı sola bir kez ötelendiğinde tüm bitler bir sola kaydırılır, sayı en sağdan 0 ile beslenir. Bu da sayıyı 2
+    ile çarpmak anlamına gelmektedir. Rust'ta sayı ister işaretli olsun isterse işaretsiz olsun sola öteleme aynı biçimde
+    yapılmaktadır ve taşma dikkate alınmamaktadır. Oysa C'de işaretli bir tamsayı sola ötelenirken taşma olursa bu durumun
+    "tanımsız davranışa (undefined behavior)" yol açtığını anımsayınız. C'de de işaretsiz tamsayılarda her zaman bitler bir
+    sola ötelenmektedir. Örneğin:
+
+    let a: u8 = 0x78;            // 120
+    let result: u8;
+
+    result = a << 1;
+    println!("{}", result);     // 240 = F0
+
+    Tabii işaretli bir tamsayı sola ötelenirken taşma nedeniyle işaretini de deiiştirebilir. Örneğin:
+
+    let a = 120;                // hex 78
+    let result: i8;
+
+    result = a << 1;
+    println!("{}", result);     // -16 hex F0
+
+    Rust'ta genel olarak iki operand'lı operatörlerin operand'larının aynı türden olması gerektiğini belirtmiştik. Ancak
+    öteleme operatörleri buna bir istisna oluşturmaktadır. Öteleme operatörlerinde ötelenecek miktar (yani sağ taraftaki
+    operand) herhangi bir tamsayı türünden olabilir. Ancak öteleme miktarı (yani sağdaki operand'ın değeri) negatifse ya da
+    ötelenecek türün bit uzunluğunu aşarsa panic oluşmaktadır. Örneğin:
+
+    fn main() {
+        foo(-5);     // panic oluşur!
+        foo(10);     // sorun yok
+    }
+
+    fn foo(n: i32) {
+        let a: u8 = 1;
+        let result: u8;
+
+        result = a << n;
+        println!("{}", result);
+    }
+
+    "The Rust Reference" dokümanlarına göre ötelenecek değerde (yani sağ taraftaki operand'da) yukarıda bahsettiğimiz anomali
+    eğer derleme aşamasında tespit edilebiliyorsa derleyicileri yazanların isteğine bağlı olarak derleyici error de
+    oluşturabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Mantıksal operatörleri ele aldığımız paragrafta da belirttiğimiz gibi Rust'ta ! operatörü hem mantıksal NOT hem de bit
+    düzeyinde NOT işlemi yapmaktadır. Yani Rust'ta C'deki bit NOT işlemi için bir ~ operatörü bulunmamaktadır. Örneğin:
+
+    let a: u8 = 0xC5;               // 1100 0101
+    let result: u8;
+
+    result = !a;
+    println!("{:X}", result);         // 0011 1010 = 3A
+
+    Rust'ta işaretli tamsyılar üzerinde de ! operatörü uygulanabilmektedir. Örneğin:
+
+    let a: i8 = 0x1A;               // 0001 1010
+    let result: i8;
+
+    result = !a;
+    println!("{:X}", result);         // 1110 1010 = EA
+    println!("{}", result);           // -27
+---------------------------------------------------------------------------------------------------------------------------
+    &, | ve ^ operatörleri kendi aralarında öncelik tablosunda pek çok programlama dilinde şu sırada bulunmaktadır:
+
+    &       Soldan Sağa
+    ^       Soldan Sağa
+    |       Soldan Sağa
+
+    ! operatörünün tek operand'lı operatörlerin grubunda solduğunu görmüştük. << ve >> operatörleri pek çok programlama dilinde
+    hemen aritmetik operatörlerden sonraki satırdadır. Rust'ta (tıpkı Java ve C#'ta olduğu) &, | ve ^ operatörleri karşılaştırma
+    operatörlerinden daha yüksek önceliğe konumlandırılmıştır. Konuya girişte de belirttiğimiz gibi C'de durum böyle değildir.
+    Örneğin:
+
+    if x & 1 == 0 {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Burada önce x & 1 işlemi yapılıp daha sonra karşılaştırma yapılmaktadır. Halbuki C'de önce 1 == 0 işlemi yapılıp bunun
+    sonucu & işlemine sokulmaktadır.
+
+    Bu operatörleri de yerleştirdiğimizde Rust'ta görmüş olduğumuz operatör için öncelik tablosu şöyle olaacaktır:
+
+    ()                      Soldan Sağa
+    - !                     Sağdan Sola
+    * /  %                  Soldan Sağa
+    + -                     Soldan Sağa
+    <<  >>                  Soldan Sağa
+    &                       Soldan Sağa
+    ^                       Soldan Sağa
+    |                       Soldan Sağa
+    < > >= <= == !=         Parantezsiz Kombine Edilemez
+    &&                      Soldan Sağa
+    ||                      Soldan Sağa
+    =                       Sağdan Sola
+---------------------------------------------------------------------------------------------------------------------------
+    Atama operatörü iki operand'lı araek bir operatördür. Ancak Rust'ta atama işlemi "taşıma" ya da "sahipliği devretme"
+    işlemlerini de yapmaktadır. Bu nedenle Rust'taki atama operatörü diğer dillerdeki atama operatöründen daha farklı bir
+    semantiğe sahiptir. Rust'ta yapı gibi bazı türler hedefe atandığı zaman tuttukları kaynakları taşıyabilecek biçimde
+    bir semantik uygulanmaktadır. Ancak atamanın yapıldığı hedef değişken üzerinde -eğer hedef değişken Copy türünden değilse-
+    "bırakma (drop)" işlemi gerçekleşmektedir. Rust'a özgü olan bu konu Rust için oldukça önemlidir. Biz bu konuyu ayrı başlık
+    halinde ele alacağız. Ancak bu konu C++'taki "taşıma atama operatör fonksiyonuna (move assignment operator function)" oldukça
+    benzemektedir. C++11 ile eklenen bu özelliğe İngilizce "move semantic" denilmektedir. Şimdiye kadar gördüğümz i32, i64,
+    f64 gibi temel türler atama sırasında tıpkı C'de olduğu gibi kopyalanmaktadır. Temel türlerin Copy trait'ini desteklediği
+    varsayılmaktadır. Örneğin:
+
+    a = b;
+
+    Burada örneğin eğer a ve b birer yapı türünden değişken ise atama işlemi sırasında önce a bırakılır (drop edilir) sonra
+    b'nin sahipliği a'ya devredilir. Yani b'nin içerisindeki bilgiler a'ya taşınır. Bu konu ileride ayrıntılarıyla zaten
+    ele alınacaktır.
+
+    Rust'ta atama operatörü kombine edilemez. Örneğin aşağıdaki gibi zincirli atama geçerli değildir:
+
+    let a: i32;
+    let b: i32;
+    let c: i32 = 10;
+
+    a = b = c;          // error!
+
+    Bu durum geçerli olsaydı c'nin sahipliği b'ye, b'nin sahipliği de a'ya aktarılırdı. Bu durumda bu işlemin a = c;
+    işleminden bir farkı kalmazdı. Dolayısıyla a = b = c; gibi bir işlem anlamsız olduğu gerekçesiyle yasaklanmıştır.
+    Aslında teknik olarak Rust'ta atama operatör birim (unit) değerini (yani () değerini) üretmektedir. Biz birim değerini
+    de ancak birim türünden bir değeişkene atayabiliriz. Aşağıdaki atama geçerli fakat anlamlı değildir:
+
+    let a: ();
+    let b: i32;
+    let c: i32 = 20;
+
+    a = b = c;          // b = c işleminden () elde edilir
+
+    println!("{:?}, {}, {}", a, b, c);          // (), 20, 20
+
+    Burada b = c işlemindne birim değeri elde edildiği için a da birim türünden olduğu için b = c işleminin sonucu a'ya
+    atanabilmiştir. Ancak işleme bir bütün olarak baktığımızda anlamlı gözükmemektedir.
+
+    Atama operatörünün öncelik tablosunun en sonunda (her ne kadar kombine etmek anlamsızsa da) sağdan sola grupta bulunduğuna
+    dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta da tıpkı C, Java ve C#'ta olduğu gibi "bileşik atama operatörleri de (compund assignment operators)" bulunmaktadır.
+    Bunların listesi şöyledir:
+
+    += -= *= /= %= &= |= ^= <<= >>=
+
+    op bir operatör olmak üzere a op= b tamamen a = a op b ile eşdeğerdir. Bileşik atama operatörleri öncelik tablosunda atama
+    operatöryle sağdan sola aynı gruptadır:
+
+    ()                                      Soldan Sağa
+    - !                                     Sağdan Sola
+    * /  %                                  Soldan Sağa
+    + -                                     Soldan Sağa
+    <<  >>                                  Soldan Sağa
+    &                                       Soldan Sağa
+    ^                                       Soldan Sağa
+    |                                       Soldan Sağa
+    < > >= <= == !=                         Parantezsiz Kombine Edilemez
+    &&                                      Soldan Sağa
+    ||                                      Soldan Sağa
+    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+
+    Bileşik atama operatörlerinden de yine birim (unit) değeri (yani () değeri) elde edilmektedir. Yabi bu operatörler de
+    kombine edilememektedir.
+
+# 14. Ders 21/04/2025 - Pazartesi
+    Bu bölümde Rust'ta tür dönüştürmelerini göreceğiz. Anımsanacağı gibi Rust'ta bir atama işlemi söz konusu olduğunda kaynak
+    türle hedef türün aynı olması gerekiyordu. (Bunun referanslar ve göstericiler bağlamında bazı istisnalar vardır.) Tabii
+    programlama dillerinin büyük çoğunluğunda ilkdeğer verme de, fonksiyon çağırılırken argümanlardan parametre değişkenlerine
+    aktarım da, fonksiyonun geri dönüş değerinin oluşturulması da bir çeşit atama işlemi gibi ele alınmaktadır. Yani bu bağlamlarda
+    da atama işlemindeki semantik uygulanmaktadır. Dolayısıyla Rust'ta nasıl atama operatörünün kaynak ve hedef türleri aynı
+    olmak zorundaysa argümanın türüyle parametre değişkeninin türünün, return ifadesinin türüyle fonksiyonun geri dönüş değeri
+    türünün de aynı olması gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta farklı türleri birbirine atamak için ya da iki operand'lı operatörlerle işleme sokmak için programcının as operatörü
+    ile açıkça tür dönüştürmesi yapması gerekmektedir. as operatörü iki operand'lı araek (binary infix) bir operatördür. Operatörün
+    sol tarafındaki operand dönüştürülecek ifadeyi sağ tarafındaki operand dönüştürülecek türü belirtmektedir. Örneğin:
+
+    let a: i32 = 10;
+    let b: i16;
+
+    b = a as i16;
+
+    Burada a değişkeni açıkça (explicitly) i16 türüne dönüştürülmüştür. Tabii programlama dillerinde genel olarak tür dönüştürmesi
+    hep geçici nesne yoluyla yapılmaktadır. Yani biz bir ifadeyi bir türe dönüştürürken önce derleyici hedef tür türünden
+    geçici bir nesne oluşturur, kaynak değeri bu geçici nesneye atar, işlemde bu geçici nesneyi kullanır, işlem bitince de
+    geçici nesneyi yok eder. Örneğin:
+
+    b = a as i16;
+
+    Burada a'nın türü i16 olarak değiştirilmemektedir. i16 türünden geçici bir değişken yaratılıp a'nın içerisindeki değer o
+    değişkene atanıp işlemde o değişken kullanılmaktadır. Tabii derleyiciler buradaki geçici değişkeni olanak elveriyorsa CPU'nun
+    yazmaçlarında yaratmaktadır. Yani bu geçici değişkenlerin yaratılması genellikle bir performans kaybına yol açmaz.
+
+    Rust'ta iki operand'lı operatörlerin operand'larının da aynı türden olması gerektiğini anımsayınız. Aşağıdaki toplama
+    işlemi operand'lar farklı türlerden olduğu için error ile sonuçlanacaktır:
+
+    let a: i32 = 10;
+    let b: i16 = 20;
+    let result: i32;
+
+    result = a + b;       // error!
+
+    Bu tür durumlarda da bir operand'ın açıkça diğerinin türüne as operatöryle dönüştürülmesi gerekmektedir. Örneğin:
+
+    let a: i32 = 10;
+    let b: i16 = 20;
+    let result: i32;
+
+    result = a + b as i32;          // geçerli
+    print!("{} ", result);          // 30
+
+    as operatörü öncelik tablosunda artimetik operatörlerden daha yüksek öncelikli grupta bulunmaktadır.
+
+    ()                                      Soldan Sağa
+    - !                                     Sağdan Sola
+    as                                      Soldan Sağa
+    * /  %                                  Soldan Sağa
+    + -                                     Soldan Sağa
+    <<  >>                                  Soldan Sağa
+    &                                       Soldan Sağa
+    ^                                       Soldan Sağa
+    |                                       Soldan Sağa
+    < > >= <= == !=                         Parantezsiz Kombine Edilemez
+    &&                                      Soldan Sağa
+    ||                                      Soldan Sağa
+    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+
+    Örneğin:
+
+    result = a + b as i16;
+
+    işleminde operatörler şu sırada işleme sokulacaktır:
+
+    İ1: b as i16
+    İ2: a + İ1
+    İ3: result = İ2
+
+    Eğer bir işlem sonucunu bir türe dönüştürmek istiyorsanız parantez kullanmalısınız:
+
+    c = (a + b) as i32;
+---------------------------------------------------------------------------------------------------------------------------
+    Bazı dönüştürmeler bilgi kaybına yol açmazlar. Örneğin i16 türünden bir ifadenin i32 türüne dönüştürülmesi sırasında
+    bir bilgi kaybı oluşmaz. Genel olarak küçük türden büyük türe yapılan dönüştürmeler bilgi kaybına neden olmamaktadır.
+    C gibi bazı programlama dillerinde temel türlerin her biri diğerine otomatik olarak (implicitly) dönüştürülebilmektedir.
+    Java ve C# gibi bazı dillerde ise yalnızca bilgi kaybına yol açmayacak dönüştürmeler otomatik yapılabilmektedir. Örneğin
+    Java ve C#'ta int türünden long türüne otomatik dönüştürme olduğu için int türü long türüne atanabilmektedir. Ancak long
+    türünden int türüne otomatik dönüştürme olmadığı için long türü int türüne atanamamaktadır. İşte tür dönüştürmeleri ele
+    alınırken bilgi kaybına yol açabilecek dönüştürmelerin nasıl gerçekleştiği üzerinde durulmalıdır. Biz de izleyen paragraflarda
+    tek tek bu durumun üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+    - Küçük işaretli tamsayı türünden büyük işaretli tamsayı türüne, küçük işaretsiz tamsayı türünden büyük işaretsiz tamsayı
+    türüne yapılan dönüştürmelerde bilgi kaybı oluşmaz. Kaynak değer aynı biçimde hedef türle ifade edilir.
+
+    - Aynı tamsayı türünün işaretli ve işaretsiz biçimler arasında yapılan dönüştürmelerde sayının bitleri değişmez, yalnızca
+    işaret bitinin anlamı değişir. Örneğin:
+
+    let a: i32 = -1;            // 0xFFFFFFFF
+    let b: u32;
+
+    b = a as u32;
+    println!("{}", b);      // 4394967395
+
+    i32 içerisindeki -1 değeri tüm bitler 1 olan bir değerdir. Tüm bitleri 1 olan bir sayı u32 türünden bir değişkenin içerisine
+    yerleştirilirse bu değer en büyük pozitif sayı haine gelir. Örneğin:
+
+    let a: u32 = 4294967294;            // 0xFFFFFFFE
+    let b: i32;
+
+    b = a as i32;
+    println!("{}", b);                  // -2
+
+    - Büyük tamsayı türünden (işaretli ya da işaretsiz) küçük tamsayı türüne (işaretli ya da işaretsiz) dönüştürmelerde
+    sayının yüksek anlamlı bitleri atılır, düşük anlamlı bitleri atanır. Ancak eğer kaynak türe ilişkin değer hedef türün
+    sınırları içerisinde kalıyorsa bir bilgi kaybı söz konusu olmaz.
+
+    Örneğin:
+
+    let a: i32 = -2;            // 0xFFFFFFFE
+    let b: i16;
+
+    b = a as i16;
+    println!("{}", b);          // -2
+
+    Burada i32 içerisindeki -2 değeri 0xFFFFFFFE bitlerine sahip olacaktır. Biz yüksek anlamlı 2 byte'ı atıp düşük anlamlı
+    2 byte'ı elde edersek 0xFFFE bitleri oluşur. Bu da zaten i16 türü için -2'dir. Görüldüğü gibi i32 içerisindeki -2 değeri
+    i16 ile temsil edilebildiğinden dolayı bilgi kaybı söz konusu olmamıştır. Örneğin:
+
+    let a: i32 = -2;            // 0xFFFFFFFE
+    let b: u8;
+
+    b = a as u8;
+    println!("{}", b);          // 254
+
+    Burada yine i32 içerisindeki değerin yüksek anlamlı byte'ları atılıp düşük anlamlı byte'ları elde edilmiştir. Bu da
+    0xFE bitleridir. Tabii bu bitler işaretsiz 1 byte'lık bir değişkenin içerisine yerleştirildiği için 254 olarak ele alınacaktır.
+
+    - Küçük işaretli tamsayı türünden büyük işaretli ya da büyük işaretsiz türe dönüştürme yapılırken önce küçük işaretli
+    türdeki bitlerin hepsi büyük tamsayı türünün düşük anlamlı bitlerine yerleştirilir. Sonra geri kalan bitler kaynak türe
+    ilişkin değer negatif ise 1'lerle pozitif ise 0'larla doldurulur. Örneğin:
+
+    let a: i8 = -1;             // 0XFF
+    let b: u32;
+
+    b = a as u32;
+    println!("{}", b);          // 4294967295 = 0xFFFFFFFF
+
+    Burada kaynak türdeki değer işaretli ve negatiftir. 1 byte içerisinde -1 değeri 0xFF bitlerinden oluşmaktadır. Buradaki
+    sayı negatif olduğu için u32'ye dönüştürme yapılırken geri kalan 3 byte 1'lerle doldurulacaktır. Dolayısıyla sayı çok
+    büyük pozitif bir sayı haline gelmektedir. Burada i8 içerisindeki -1 değerinin u32 türüne +1 olarak dönüştürülmediğine
+    dikkat ediniz. Tabii yukarıdaki örnekte küçük türle belirtilen değer pozitf olsaydı doldurma 0 bitleriyle yapılacak ve
+    aslında yine aynı pozitif sayı elde edilecektir. Örneğin:
+
+    let a: i8 = 1;              // 0X01
+    let b: u32;
+
+    b = a as u32;
+    println!("{}", b);          // 0x00000001 = 1
+
+    Aslında C'de de aynı durum söz konusudur. Yalnızca C standartlarında anlatım değişik yapılmıştır. C standartlarında küçük
+    işaretli tamsayı türünden büyük işaretsiz tamsayı türüne dönüştürmeninm iki aşamada yapılacağı söylenmiştir: Önce kaynak
+    değer hedef türün işaretli biçimine sonra hedef türün işaretli biçiminde işaretsiz biçimine dönüştürülmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    - f32 ya da f64 türünden bir değer tamsayı türlerine dönüştürüldüğünde noktadan sonraki kısım atılır, tam kısım elde
+    edilir. (Noktalı pozitif ya da negatif bir sayının noktadan sonraki kısmının atılmasına İngilize "truncation toward zero"
+    denilmektedir.) Pekiyi sayının noktadan sonraki kısmı atıldıktan sonra tam kısmı hedef türün sınırları içerisinde kalmıyorsa
+    ne olacaktır? İşte Rust'ta bu durumda eğer gerçek sayı poiztifse hedef türle ifade edilebilen en büyük pozitif tamsayı,
+    gerçek sayı negatif ise hedef türle ifade edilebilen en küçük negatif sayı elde edilmektedir. Örneğin:
+
+    let f: f64 = 1000.12;
+    let b: u8;
+
+    b = f as u8;
+    println!("{}", b);      // 255
+
+    Burada 1000.12 sayısının noktadan sonraki kısmı atıldıktan sonra 1000 değeri elde edilir. Ancak bu 1000 değeri hedef tür
+    olan u8'in sınırları dışında kalmaktadır. u8 ile ifade edilecek en büyük pozitif sayı 255'tir. Örneğin:
+
+    let f: f64 = -1000.12;
+    let b: i8;
+
+    b = f as i8;
+    println!("{}", b);      // -128
+
+    C'de gerçek sayı türlerine ilişkin bir değerin noktadan sonraki kısmı atılıp tam kısmı elde edildiğine bu değer hala
+    hedef türün sınırları içerisinde kalmıyorsa "tanımsız davranış (undefined behavior)" oluşmaktadır. (Ancak C derleyicilerinin
+    hemen hepsi bu tür durumlarda noktadan sonraki kısmı atılmış olan sayının yüksek anlamlı byte'larını atarak dönüşürmeyi
+    yapmaktadır.)
+
+    - Tamsayı türlerinden f32 ve f64 türlerine dönüştürme yapılırken bir bilgi kaybı oluşmayabilir ya da bilgi kaybı oluşabilir.
+    Bu tür durumlarda basamaksal kayıp değil mantis kaybı oluşuyorsa (yani sayının mertebesi aynı ama sayı tam olarak ifade
+    edilemiyorsa) dönüştürülmek istenen tamsayıya en yakın hedef türe ilişkin gerçek sayı elde edilir. Burada en yakın demekle
+    dönüştürülmek istenen tamsayıdan büyük ya da küçük olan (yani mutlak değerce) sayı kastedilmektedir. Örneğin i64 türünden
+    bir değer tam olarak f32 türü ile ifade edilemeyebilir. Bu durumda i64 değerine en yakın f32 değeri elde edilmektedir.
+    (Bazen dönüştürülecek tamsayı değere en yakın ondan büyük ve ondan küçük iki gerçek sayı birlikte bulunuyor olabilir.
+    Bu durumda çift olan sayı tercih edilmektedir.) Örneğin:
+
+    let a: i32 = 1234567890;
+    let b: f32;
+
+    b = a as f32;
+    println!("{}", b);      // 1234568000
+
+    Burada 1234567890 sayısı f32 türü ile tam olarak ifade edilememiştir. Ancak mantis kaybıyla ona en yakın bir sayı elde
+    edilmiştir.
+
+    Tamsayı türlerinden gerçek sayı türlerine dönüştürme yapılırken aynı basamakta bir sayı elde edilemiyorsa (yani hedef
+    gerçek sayı türünün basamaksal sınırları aşılıyorsa) bu duruma "basamaksal kayıp" denilmektedir. Programlama dillerinde
+    genel olarak basamaksal kayıplar tolere edilmemektedir. Rust'ta eğer dönüştürülecek tamsayı türünden değer hedef türün
+    sınıtları içerisinde kalmıyorsa (yani basamaksal bir kayıp oluşuyorsa) bu durumda kaynak tamsayı pozitifse hedef türdne
+    +inf, kaynak tamsayı negatifse hedef türden -inf değeri elde edilmektedir. Fakat böylesi bir durum ancak u128'den f32
+    yapılan dönüştürmelerde söz konusu olabilir.
+
+    - f32 türünden f64 türüne dönüştürmelerde bilgi kaybı oluşmaz. Dolayısıyla sayı tam olarak hedef türle ifade edilir.
+
+    - f64 türünden f32 türüne dönüştürme yapılırken eğer mantis kaybı oluşuyorsa f32 ile temsil edilen dönüştürülecek sayıya
+    en yakın sayı elde edilir. Yine eşit uzaklıkta sayılarda çift olan tercih edilmektedir. Eğer basamaksal bir kayıp söz
+    konusu olursa dönüştürülecek sayı pozitifse +inf, negatifse -inf değeri elde edilmektedir.
+
+# 15. Ders 28/04/2025 - Pazartesi
+    char türü as operatörü ile tamsayı türlerine dönüştürülebilir, ancak f32 ve f64 türlerine dönüştürülemez. char türü tamsayı
+    türlerine dönüştürüldüğünde ilgili karakterin Unicode UTF-32 kod numarasına (code point) ilişkin sayı elde edilmektedir.
+    Rust'ta char türü Unicode UTF-32 kod numaralarını tutabilen 4 byte genişlikte olduğu için char türünün dönüştürüleceği
+    en uygun tamsayı türü de u32 türüdür. Örneğin:
+
+    let c: char = 'a';
+    let a: u32;
+
+    a = c as u32;
+    println!("a: {}", a);           // 97
+
+    char türü u32 türünden daha küçük türlere dönüştürüldüğünde yüksek anlamlı byte'lar kırpılmaktadır. Örneğin:
+
+    let c: char = 'ş';
+    let a: i8;
+
+    a = c as i8;            // kırpılma olacak
+    println!("a: {}", a);
+
+    Rust'ta yalnızca u8 türü as operatörüyle char türüne dönüştürülebilmektedir. Diğer türlerinden char türüne dönüştürme
+    yoktur. Örneğin:
+
+    let c: char;
+    let a: u8 = 97;
+
+    c = a as char;
+    println!("a: {}", c);       // a
+---------------------------------------------------------------------------------------------------------------------------
+   bool türü as operatörüyle tamsayı türlerine dönüştürülebilir. Bu durumda true için 1, false için 0 elde edilmektedir.
+   Ancak bool türü gerçek sayı türlerine (f32 ve f64 türlerine) dönüştürülemez. Tamsayı ya da gerçek sayı türlerinden bool
+   türüne de as operatörüle dönüştürme yapılamamakatdır. Örneğin:
+
+    let b: bool = true;
+    let a: i32;
+
+    a = b as i32 + 10;
+    println!("{}", a);      // 11
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de hangi temel türlerden hangi temel türlere as operatörüyle dönüştürme yapılacağını özet bir tabloyla belirtelim:
+
+    Kaynak Tür                  Hedef Tür                   Dönüştürme Durumu
+    -------------------         -------------------         -----------------
+    Tamsayı Türleri             Gerçek Sayı Türleri         VAR
+    Gerçek Sayı Türleri         Tamsayı Türleri             VAR
+    bool Türü                   Tamsayı Türleri             VAR
+    bool Türü                   Gerçek Sayı Türleri         YOK
+    Herhangi Bir Tür            bool Türü                   YOK
+    char Türü                   Tamsayı Türleri             VAR
+    char Türü                   Gerçek Sayı Türleri         YOK
+    u8 Türü                     char Türü                   VAR
+    u8 Dışındaki Türler         char Türü                   YOK
+---------------------------------------------------------------------------------------------------------------------------
+    Temel türleri görürken ! ile temsil edilen "never" isimli bir tür de görmüştük. Bu tür fonksiyonların geri dönüş değerlerinde
+    kullanıldığında fonksiyonların geri dönmeyeceği anlamına geliyordu. Örneğin:
+
+    fn foo() -> ! {
+        //...
+    }
+
+    Burada foo fonksiyonu çağrıldığında akış bu fonksiyondan geri dönmeyecektir. Yani fonksiyonu yazan kişi derleyiciye fonksiyonun
+    geri dönmeyeceği sözünü vermektedir. Ancak programcı bu sözünde durmazsa derleme aşamasında error oluşur. Örneğin:
+
+    fn foo() -> ! {
+        println!("foo");
+    }
+
+    Burada programcı foo fonksiyonu çağrıldığında fonksiyonun geri dönmeyeceği sözünü vermiştir. Ancak bu sözü yerine getirmemiştir.
+    Buradaki foo fonksiyonu çağrıldığında fonkiyon geri dönecektir. Bu nedenle bu fonksiyonda derleme sırasında error oluşacaktır.
+    Örneğin:
+
+    fn foo() -> ! {
+        loop {
+        }
+    }
+
+    loop deyimi izleyen paragraflarda görecek olduğumuz sonsuz döngü oluşturan bir deyimdir. Dolayısıyla burada foo fonksiyonu
+    geri dönmeyecektir. Programcı verdiği sözü tutumuştur. Örneğin:
+
+    fn foo() -> ! {
+        println!("foo");
+        std::process::exit(0);
+    }
+
+    Burada foo içerisinde exit fonksiyonu ile program sonlandırılmıştır. exit fonksiyonu da ! geri dönüş değerine sahiptir.
+    Dolayısıyla derleyici exit fonksiyonu geri dönmediği için foo fonksiyonun da geri dönmeyeceğini anlar. Kod geçerli olarak
+    derlenir.
+
+    Bir fonksiyonun geri dönmeyeceği bilgisi derleyicinin o fonksiyon için daha kısa bir kod üretmesini sağlamaktadır. C++'a
+    bu özellik resmi olarak C++11 ile eklenen [[noreturn]] özniteliği ile gelmiştir. Örneğin:
+
+    [[noreturn]] void foo()
+    {
+        //...
+
+        exit(0);
+    }
+
+    C11 ile C'ye _Noreturn anahtar sözcüğü eklenmiştir. Ancak C23 ile birlikte C'ye de C++'taki gibi öznitelikler (attributes)
+    eklenince bu işlem artık C'de de C++'ta olduğu gibi [[noreturn]] ile yapılabilmektedir.
+
+    Rust'ta never türü "akış geriye gelmeyecek" anlamına geldiği için never türünden herhangi bir türe otomatik dönüştürme
+    vardır. Örneğin:
+
+    fn main() {
+        let a: i32;
+
+        a = foo();      // geçerli
+        //...
+    }
+
+    fn foo() -> ! {
+        println!("foo");
+        std::process::exit(0);
+    }
+
+    Burada foo fonksiyonun geri dönüş değeri never türündendir. Never türü de "fonksiyon geriye dönmeyecek" anlamına gelir.
+    Akış zaten geriye dönmeyeceğine göre foo() çağrım ifadesinin herhangi bir türe atanmasında sakınca görülmemiştir.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıda tüm temel türler arasındaki dönüştürmeleri gördük. Ancak bu dönüştürmelerin dışında enum dönüştürmeleri ve
+    adres dönüştürmeleri bu konuların anlatıldığı bölümlerde ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdiye kadar klavyeden (stdin dosyasından) okuma yapmadık. Maalesef Rust'ta klavyeden okuma yapmak ancak birkaç satırlık
+    kodla sağlanabilmektedir. Bu birkaç satırlık kod içerisinde henüz görmediğimiz birtakım konular da kullanılmaktadır. Biz
+    de bu bölümde ayrıntılara girmeden klavyeden okumanın kalıp olarak nasıl yapıldığı üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın stdout dosyası default olarak "satır tabanlı (line buffered)" tamponlanmaktadır. Dolayısıyla yazılanların ekranda
+    görünmesi için ya yazının sonuna \n karakterinin iliştirilmesi ya da stdout dosyasının flush edilmesi gerekmektedir. stdout
+    dosyasının flush edilmesi şöyle yapılmaktadır:
+
+    use std::io::Write;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush().expect("cannot flush stdout!..");
+
+    Burada std::io::stdout() çağrısı stdout dosya değişkenine erişmeyi sağlamaktadır. Bu değişkenle yapının flush metodu çağrılmıştır.
+    Ancak flush metodu başarısız da olabilmektedir. Burada expect çağrısının agrümanı flush başarısız olursa stderr dosyasına
+    (default olarak ekrana) basılacak yazıyı belirtmektedir. Bu yazı basıldıktan sonra panic oluşacak ve programın çalışması
+    sonlanacaktır. Tabii stdout dosyasının flush edilmesinde bir sorun ortaya çıkması normal koşullarda mümkün değildir. Aslında
+    biz flush metodunun geri dönüş değerini hiç dikkate almayabilirdik:
+
+    use std::io::Write;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush();
+
+    Ancak bu durumda Rust derleyicisi bir uyarı verecektir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta klavyeden (stdin dosyasından) i32 gibi bir türden okuma yapmak için önce bir satır String olarak okunur, sonra
+    bu satır parse edilerek hedef türe (örneğin i32 türüne) dönüştürülür. Bu işlem şöyle yapılmaktadır:
+
+    let val: i32;
+    let mut s: String = String::new();
+
+    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+    val = s.trim().parse().expect("cannot parse!..");
+
+    Bu kodu satır satır ele alıp açıklayalım:
+
+    let mut s: String = String::new();
+
+    Burada String isimli bir yapı değişkeni içi boş olarak yaratılmaktadır. String yapısı Rust'ın standart kütüpahensinde
+    bulunan string işlemleri yapan bir yapıdır. Bu yapıyı nesne yönelimli programlama dillerindeki string sınıflarına
+    benzetebilirsiniz. Şimdi aşağıdaki satırı açıklayalım:
+
+    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+
+    Burada önce std::io::stdint() çağrısı ile stdin dosyasına ilişkin bir yapı türünden değer elde edilmiştir. Bu yapı türünde
+    ilişkin değerler yapının read_line metodu çağrılmıştır. Bu metot klavyeden (stdin dosyasından) bir satır okuyarak okunanları
+    String değişkeninin içine yerleştirmektedir. read_line metodunu çağırırken String değişkenin adresi &mut operatöryle alınarak
+    metoda verilmiştir. read_line metodu başarısız olabilmektedir. Örneğimizde metodun başarısı ele alınmış ve eğer metot başarısız
+    olursa (gerçi başarısız olması  pek de mümkün değildir) stderr dosyasına bir mesaj bastırılarak panic oluşturulmuştur. Şimdi
+    de aşağıdaki satırı açıklayalım:
+
+    val = s.trim().parse().expect("cannot parse!..");
+
+    read_line metodu klavyeden (stdin dosyasından) bir satır okuduğunda satırın sonundaki '\n' karakterini de String değişkenine
+    yerleştirmektedir. Dolayısıyla bu yazıyı parse etmeden önce bu '\n' karakterinden kurtulmak gerekir. String yapısının trim
+    metodu yazının başındaki ve sonundaki boşluk karakterlerini (white space) atmaktadır. trim metodu string dilimine (&str
+    türüne) geri dönmektedir. Bu string dilimi ile str yapısının parse metodu çağrılmıştır. İşte yazıyı i32 türüne dönüştüren
+    bu parse metodudur. Ancak parse metodu da başarısız olabilmektedir. Aynı gerekçelerle metodun başarısı yine yapının expect
+    metodu ile ele alınmıştır. Eğer parse metodu başarısız olursa stderr dosyasına bir mesaj basılacak ve panic durumu oluşacaktır.
+    Ancak yukarıdaki kodda kişilerin bir nokta kafasını karıştırmaktadır. parse metodu hangi türe dönüştürme yapacağını nereden
+    bilmektedir? İşte bu konu Rust'ın "generic" mekanizmasıyla ilgilidir ve ileride ele alınacaktır. Yukarıdaki kodda derleyici
+    ifade i32 türüne atandığı için i32'ye dönüştürme yapan parse metodunu çağırmaktadır. Örneğin biz yukarıdaki kodda f64 türünden
+    okuma yapmak isteseydik yalnızca val değişkenin türünü değiştirmemiz yeterli olacaktı:
+
+    let val: f64;
+    let mut s: String = String::new();
+
+    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+    val = s.trim().parse().expect("cannot parse!..");
+
+    Yukarıdaki işlemleri nit fonksiyona da yaptırabiliriz. Örneğin:
+
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
+
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number")
+    }
+
+    Burada getval fonksiyonu klavyeden okunan i32 türünden bir değerle geri dönmektedir. Bu fonksiyonu farklı bütü okuyacak
+    hale getirmek için tek yapılacak şey geri dönüş değerinin türünü değiştirmektir:
+
+    fn getval() -> f64 {
+        let mut buf: String = String::new();
+
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number")
+    }
+
+    Artık fonksiyon f64 türünden (C'deki double türünden) değerle geri dönmektedir.
+
+    Aslında yukarıdaki fonksiyonu "genel (generic)" biçimde de yazabiliriz. Biz "genel fonksiyonlar (generic functions)"
+    konusunu ileride göreceğiz. Ancak burada açıklama fonksiyonun genelleştirilmiş halini aşağıda veriyoruz.
+
+    fn getval<T>() -> T
+    where
+        T: std::str::FromStr,
+        <T as std::str::FromStr>::Err: std::fmt::Debug,
+    {
+        let mut buf = String::new();
+        std::io::stdin()
+            .read_line(&mut buf)
+            .expect("cannot read line!..");
+        buf.trim()
+            .parse::<T>()
+            .expect("cannot parse!..")
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::Write;
+
+fn main() {
+    let val: i32;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush().expect("cannot flush stdout!");
+
+    val = getval();
+    print!("{}\n", val * val);
+}
+
+fn getval<T>() -> T
+where
+    T: std::str::FromStr,
+    <T as std::str::FromStr>::Err: std::fmt::Debug,
+{
+    let mut buf = String::new();
+    std::io::stdin()
+        .read_line(&mut buf)
+        .expect("cannot read line!..");
+    buf.trim()
+        .parse::<T>()
+        .expect("cannot parse!..")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'taki if gibi, for gibi temel kontrol deyimlerini ele alacağız. Bazı kontrol deyimleri "kalıp uyuşumu
+    (pattern matching)" konusu ile ilgili olduğu için enum, struct gibi temel veri yapıları görüldükten sonra ele alınacaktır.
+    Rust'ta deyimlerin de birer ifade gibi kullanılabildiğini dolayısıyla deyimlerin de değer ürettiğini belirtmiştik. Bu
+    nedenle Rust dünyasında "if deyimi, while deyimi" gibi terimler yerine "if ifadesi", "while ifadesi" gibi terimler tercih
+    edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    "The Rust Reference" dokümanlarında "deyimler (statements)" için oluşturulan BFN grameri şöyledir:
+
+    Statement :
+      ;
+      | Item
+      | LetStatement
+      | ExpressionStatement
+      | MacroInvocationSemi
+
+    Burada ExpressionStatement ara sembolü şöyle açılmaktadır:
+
+    ExpressionStatement :
+      ExpressionWithoutBlock ;
+      | ExpressionWithBlock ;?
+
+    Bu BNF grameri ifadesel deyimlerin iki biçimde oluşturulabileceği belirtilmektedir:
+
+    1) Bir ifadenin sonuna ';' getirilerek o ifade deyim yapılabilir.
+    2) Blok içeren sentaktik yapılar sonunda ';' olmasa da deyim belirtmektedir.
+
+    Biz daha önceki konularda bloklu yapıların sonunda ifade varsa bloklarının sonuna ';' atomunun getirilmesi gerektiğini
+    görmüştük. Anımsayacağınız gibi blokların sonunda ifade yoksa ya da () ifadesi varsa bloklardan sonra ';' atomunun
+    getirilmesi zorunlu değildir.
+
+    Gramerdeki ExpressionWithBlock ara sembolü de şöyle açılmıştır:
+
+    ExpressionWithBlock :
+      OuterAttribute*†
+      (
+      BlockExpression
+      | ConstBlockExpression
+      | UnsafeBlockExpression
+      | LoopExpression
+      | IfExpression
+      | IfLetExpression
+      | MatchExpression
+      )
+---------------------------------------------------------------------------------------------------------------------------
+    Daha önceden de belirttiğimiz gibi Rust'ta küme parantezi içerisindeki kod parçası da bir deyim dolayısıyla bir ifade
+    belirtmektedir. Blok deyimi de bir değer üretmektedir. Blok deyiminin ürettiği değer bloğun sonundaki ifadedir. Örneğin:
+
+    let result: i32;
+
+    result = {
+        println!("this is a block");
+        100
+    };
+
+    Burada result değişkenşne blok ifadesinin ürettiği değer atanmıştır. Rust gramerinde blok ifadelerinin ExpressionWithBlock
+    ara sembolü içerisinde bulunduğuna dikkat ediniz. Daha önceden de belirttiğimiz gibi blok ifadeleri eğer birim dışında
+    (yani () dışında) bir değer üretiyorsa tek başlarına kullanıldığında bloğun sonunda bir ';' gerekmektedir. Örneğin:
+
+    {
+        println!("this is a block");
+        100
+    }               // error!
+
+    Burada blok ifadesi birim değerini üretmediği için bloğun sonunda sonunda ';' bulunmak zorundadır:
+
+    {
+        println!("this is a block");
+        100
+    };               // geçerli
+
+    Tabii yukarıdaki kod geçeli olsa da mantıksal bakımdan anlamsızdır. Blok ifadesinin değeri kullanılmadıktan sonra ondan
+    bir değerin elde edilmesinin anlamı yoktur. Örneğin:
+
+    result = {
+        println!("this is a block");
+        100
+    };
+
+    Buradaki ';' her durumda bulundurulmak zorundadır. Çünkü bu ';' artık atama operatörünün sonundaki ';' durumundadır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta if ifadesinin genel biçimi şöyledir:
+
+    if <ifade> {
+        //...
+    }
+    [
+    else {
+        //...
+    }
+    ]
+
+    if anahtar sözcüğünü bool türden bir kontrol ifadesi izlemek zorundadır. Bu kontrol ifadesinin paranteze alınmadığına dikkat
+    ediniz. (C, C++, Java ve C# gibi dillerde if deyimindeki kontrol ifadesinin paranteze alınmasının zorunlu olduğunu anımsayınız.)
+    if ifadesinin doğruysa ve yanlışsa kısmında bir blok ifadesinin bulunması zorunludur. (Halbuki C, C++, Java ve C# gibi dillerde
+    eğer if deyiminin doğruysa ve yanlışsa kısmında tek deyim varsa bloklama yapmak zorunlu değildir.) Diğer dillerde olduğu
+    gibi if ifadesinin else kısmı da bulunmayabilir. "The Rust Reference" dokümanlarında if ifadesinin  BNF grameri ise şöyle
+    verilmiştir:
+
+    IfExpression :
+      if Expression BlockExpression
+      (else ( BlockExpression | IfExpression | IfLetExpression ) )?
+
+    if ifadesi şöyle çalışmaktadır: Derleyici if anahtar sözcüğünün yanındaki kontrol ifadesinin değerini hesaplar. Eğer bu
+    değer true ise yalnızca doğruysa kısmındaki blok deyimini, false ise yalnızca yanlışsa kısmındaki blok deyimini çalıştırır.
+
+    if anahtar sözcüğünden sonra neden parantezlerin gerekmediğini (ya da C, C++, Java ve C# gibi dillerde neden gerektiğini)
+    merak edebilirsiniz. Rust'ta if ifadesinin doğruysa ve yanlışsa kısmında bloklama yapmak zorunlu olduğu için bu parantezlere
+    gerek kalmamıştır. Halbuki C, C++, Java ve C# gibi dillerde tek deyim için bloklama zorunlu olmadığından kontrol ifadesiyle
+    if deyiminin doğruysa kısmınadaki ifadenin ayrıştırılabilemsi için parantezler gerekmektedir. Örneğin:
+
+    if (a > 0) x = 10; else  y = 20;
+
+    Burada parantezler olmasaydı kontrol ifadesiyle doğruysa kısmındaki ifade ayrıştırılamazdı. Parantezleri kaldırarak aynı
+    ifadeyi yeniden veriyoruz:
+
+    if a > 0  x = 10; else y = 20;
+
+    Bloklu deyimlerde parantezin bulunmaması Rust'a özgü değildir. Swift, Kotlin, Go, Python gibi dillerde de benzer
+    nedenlerden dolayı kontrol ifadesinin paranteze alınmasına gerek duyulmamaktadır.
+
+    Tabii biz yine de if ifadesindeki kontrol ifadesini paranteze alabiliriz. Fakat buradaki parantezler artık öncelik
+    parantezi olur. Zaten biz her ifadeyi paranteze alabiliriz. Tabii parantezleri kullanmak iyi bir teknik değildir. Rust
+    derleyicisi bu tür gereksiz parantezlere uyarı da vermektedir.
+# 16. Ders 30/04/2025 - Çarşamba
+    Aşağıdaki örnekte klavyeden (stdin dosyasından) okunan i32 türünden bir değerin pozitif olup olmadığı ekrana (stdout
+    dosyasına) yazdırılmıştır. if ifadesi şöyle kullanılmıştır:
+
+    if val > 0 {
+        println!("pozitif");
+    }
+    else {
+        println!("negatif ya da sıfır");
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::Write;
+
+fn main() {
+    let val: i32;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush().expect("cannot flush stdout!");
+
+    val = getval();
+
+    if val > 0 {
+        println!("pozitif");
+    }
+    else {
+        println!("negatif ya da sıfır");
+    }
+}
+
+fn getval() -> i32 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse into number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    if ifadesinin else kısmında başka bir if ifadesi varsa yazım biraz karnaşık hale gelmektedir. Örneğin:
+
+    if val > 0 {
+        println!("pozitif");
+    }
+    else {
+        if val < 0 {
+            println!("negatif");
+        }
+        else {
+            println!("sıfır");
+        }
+    }
+
+    İşte bu karmaşıklığı azaltmak için if gramerine şu özellik eklenmştir: "Eğer else anahtar sözcüğünden sonra hemen başka bir
+    if ifadesi geliyorsa bloklama yapmaya gerek yoktur." Bu kural sayesinde else-if merdivenleri daha kolay yazılabilmektedir.
+    Örneğin:
+
+    if val > 0 {
+        println!("pozitif");
+    }
+    else if val < 0 {
+        println!("negatif");
+    }
+    else {
+        println!("sıfır");
+    }
+
+    Tabii if ifadesinin doğruysa kısmına başka bir if ifadesi yerleştirilecekse içteki if ifadesini blok açmadan yazmanın
+    bir yolu yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+    if bir ifade olduğu için bir değer de üretmektedir. Biz if ifadesinden elde edilen değeri doğrudan kullanabiliriz. Örneğin
+    onu bir değişkene atayabiliriz:
+
+    result = if val > 0 {
+        //...
+        100
+    }
+    else {
+        //...
+        200
+    };
+
+    if ifadesinin doğruysa ve yanlışsa kısmında aynı türden değerlerin oluşturulması zorunludur. Örneğin:
+
+    result = if val > 0 {
+        //...
+        10
+    }
+    else {
+        //...
+        20.5
+    };
+
+    Yukarıdaki kod error oluşturacaktır. Çünkü if ifadesinin kolları aynı türden değer oluşturmamaktadır.
+
+    if ifadesinin else kısmının olmayabileceğini belirtmiştik. Pekiyi durumda aşağıdaki gibi bir atama işleminde ne olacaktır:
+
+    result = if val > 0 {
+        //...
+        100
+    };
+
+    Burada koşul sağlanıyorsa result değişkenine 100 değeri atanır. Pekiyi ya koşul sağlanmıyorsa? İşte "The Rust Reference"
+    dokümanlarında "eğer if ifadesinin else kısmı yoksa sanki boş bir else kısmı varmış ve oradan "birim (unit) değeri elde
+    ediliyormuş gibi bir işlemin" uygulandığı belirtilmiştir. Dolayısıyla yukarıdaki atama işleminde if ifadesinin doğruysa
+    ve yanlışsa kısımları farklı türlerden ifade oluşturduğu için error oluşacaktır. Tabii aşağıdaki gibi bir atama error
+    ile sonuçlanmaz:
+
+    result = if val > 0 {
+        //...
+        ()
+    };
+
+    Burada result değişkeninin birim türünden olması gerekir. Fakat böyle bir atamanın da mantıksal bir anlamı yoktur.
+    O halde Rust'ta else kısmı olmayan if ifadesinden bir değer oluşturmaya çalışmak anlamlı değildir.
+
+    else-if merdivenlerinde yine her bloğun oluşturduğu değerin aynı türden olması gerekmektedir. Örneğin:
+
+    result = if val == 1 {
+        //...
+        10
+    }
+    else if val == 2 {
+        //...
+        20
+    }
+    else if val == 3 {
+        //...
+        30
+    }
+    else {
+        0
+    };
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta if ifadesinin yanı sıra if let biçiminde if ifadesine benzeyen başka bir ifade daha vardır. Ancak if let ifadesi
+    "kalıp uyuşumu (pattern matching)" özelliği ile çalışmaktadır. Biz kalıp uyuşumunu başka bir başlık altında ve çeşitli
+    konuların içerisine yaydırarak inceleyeceğiz.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir program parçasının yinelemeli olarak çalıştırılmasını sağlayan deyimlere "döngü deyimleri (loop statements)" denilmektedir.
+    Örneğin pek çok programlama dilinde döngü oluşturmak için while ve for deyimleri bulunmaktadır. Bir süredir programlama
+    dillerine "dolaşılabilir (iterable)" nesneleri dolaşan özel for döngüleri de sokulmuştur. Bu for döngülerine örneğin
+    C++11'de "aralık tabanlı for döngüleri (range based loop)", C#'ta foreach döngüleri denilmektedir. Rust'ta deyimler birer
+    ifade gibi olduğu için biz "döngü deyimleri" terimi yerine "döngü ifadeleri (loop expressions)" terimini kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki döngü ifadeleri şunlardır:
+
+    - loop döngüleri
+    - while döngüleri
+    - while let döngüleri
+    - for döngüleri
+
+    "The Rust Reference" dokümanlarında döngü ifadeleri için BNF grameri şöyle verilmiştir:
+
+    LoopExpression :
+      LoopLabel? (
+        InfiniteLoopExpression
+        | PredicateLoopExpression
+        | PredicatePatternLoopExpression
+        | IteratorLoopExpression
+        | LabelBlockExpression
+   )
+
+    Burada InfiniteLoopExpression ara sembolü loop döngülerini, PredicateLoopExpression ara sembolü while döngülerini,
+    PredicatePatternLoopExpression ara sembolü while let döngülerini, IteratorLoopExpression ara sembolü de for döngülerini
+    belirtmektedir. LabelBlockExpression ara sembolü aslında bir döngü belirtmez. Ancak gramer olarak buraya yerleştirilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta loop ifadesi sonsuz döngü oluşturmak için kullanılmaktadır. Genel biçimi şöyledir:
+
+    loop {
+        //...
+    }
+
+    loop anahtar sözcüğünden sonra bir blok ifadesi bulunmak zorundadır. Döngü sürekli olarak buradaki deyimleri çalıştırır.
+    Örneğin:
+
+    fn main() {
+        let mut i = 0;
+
+        loop {
+            println!("{}", i);
+            i += 1;
+        }
+    }
+
+    Burada bir sonsuz döngü içerisinde i değişkeni sürekli artırılıp değeri yazdırılmıştır. Tabii ileride göreceğimiz gibi
+    sonsuz döngülerden break ifadesi ile çıkabiliriz.
+
+    loop ifadesi içerisinde eğer break ifadesi kullanılmamışsa loop ifadesi never türünden (! türünden) değer üretir. Never
+    türünün herhangi bir türe doğrudan dönüştürülebildiğini anımsayınız. Bu durumda biz loop ile oluşturduğumuz sonsuz döngüyü
+    herhangi bir türe atayabiliriz. Ancak bunun bir anlamı olmaz. Örneğin:
+
+    let result: f64;
+
+    result = loop {
+        //...
+    }
+
+    Bu kod parçası geçerli olsa da anlamsızdır. Zaten loop döngüsünden çıkılamadığına göre onun sonucunu değişkene atamanın
+    da bir anlamı yoktur. Rust terminolojisinde bir akışın bir biçimde geri dönmemesi durumuna "divergent" ya da "diverging"
+    denilmektedir. Eğer loop döngüsünden break ile çıkılırsa (yani loop döngüsü "divergent" değilse) bu durumda loop ifadesi
+    break anahtar sözcüğünün yanındaki ifadenin değerini oluşturur. Örneğin:
+
+    fn main() {
+        let mut i = 0;
+        let result: i32;
+
+        result = loop {
+            println!("{}", i);
+            i += 1;
+            if i == 10 {
+                break 100;
+            }
+        };
+
+        println!("{}", result);       // 100
+    }
+
+    Burada loop içerisinden break ifadesi ile çıkılmıştır. Artık loop never değil 100 değerini oluşturmaktadır. Eğer break
+    anahtar sözcüğünün yanında bir ifade kullanılmazsa bu durumda sanki birim (unit) ifadesi kullanılmış gibi işlem yapılır.
+    Örneğin:
+
+    result = loop {
+        println!("{}", i);
+        i += 1;
+        if i == 10 {
+            break;
+        }
+    };
+
+    Burada result birim (unit) türünden olmak zorundadır. Tabii bu durumda loop ifadesinin bir değişkene atanmasının da anlamı
+    kalmamaktadır. loop ifadesinde birden fazla ifadeli break kullanılıyorsa bütün break ifadelerinin de aynı türden olması
+    gerekir. Örneğin:
+
+    result = loop {
+        //...
+        if ifade1 {
+            break 10;
+        }
+        //...
+        if ifade2 {
+            break 3.14;
+        }
+    }
+
+    Burada eğer result değişkeni tamsayı türlerine ilişkinse error ikinci break ifadesinde rapor edilecektir.
+
+    loop ifadesinin bir blok ifadesi içerdiğini belirttik. Ancak loop ifadesindeki bloğun sonuna bir ifade yerleştirilemez.
+    (Halbuki genel olarak blok ifadelerinin sonuna bir ifade yerleştirilebilmektedir.) Örneğin:
+
+    result = loop {
+        //...
+        100             // anlamsız, error oluşacaktır!
+    };
+
+    Burada loop bloğunun sonuna yerleştirilen ifade error oluşturacaktır. Ancak burada ilginç bir durumdan bahsetmek istiyoruz.
+    Aşağıdaki gibi bir döngüde Rust derleyicisi error oluşturmamaktadır:
+
+    result = loop {
+        //...
+        ()
+    };
+
+    Aslında Rust'ta () atomları hem bir ifade hem de bir tür belirtmektedir. Zaten bunun için () atomlarına "birim (unit)"
+    de denilmektedir, "birim türü (unit type)" da denilmektedir. Örneğin aşağıdaki gibi bir bağlama geçerlidir:
+
+    let a: () = ();
+
+    İşte Rust'ta () atomlarının bir tür mü yoksa bir değer mi (yani ifade mi) belirttiğine içinde bulunulan bağlama göre karar
+    verilmektedir. Yukarıdaki loop ifadesinin sonundaki () ifade olamayacağı için Rust derleyicisi tarafından bir tür tanımlaması
+    olarak ele alınmaktadır. Bu da Rust'ta geçerlidir. Yani aşağıdaki gibi bir loop deyimi nasıl geçerliyse yukarıdaki de aynı
+    biçimde geçerlidir:
+
+    result = loop {
+        //...
+        struct Point {
+            x: i32,
+            y: i32
+        }
+    };
+
+    Dolayısıyla sonu () ile biten loop ifadesi divergent biçimdedir ve yine never türüne ilişkindir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta diğer pek çok programlama dilinde oluduğu gibi while döngüleri de bulunmaktadır. while döngülerinin genel biçimi
+    şöyledir:
+
+    while <ifade> {
+        //...
+    }
+
+    while anahtar sözcüğünden sonra yine parantez kullanmaya gerek yoktur. Ancak yinelenen deyimler blok içerisinde bulunmak
+    zorundadır. while döngülerinde kontol ifadesinin bool türden olması zorunludur.
+
+    while döngüsü şöyle çalışmaktadır: Kontrol ifadesinin değeri elde edilir. Eğer bu değer true ise döngü deyimleri (yani
+    blok ifadesi) çalıştırılır ve başa dönülür. Kontrol ifadesi false ise döngüden çıkılır. Yani while döngüleri "koşul
+    doğru olduğu sürece" yinelenmeye yol açmaktadır.
+
+    Rust'ta kontrolün sonda yapıldığı while döngüleri (yani do-while döngüleri) bulunmamaktadır. Eğer bu tarzda bir algoritmik
+    yapı ile kaşılaşırsanız (zaten seyrek karşılaşılmaktadır) bunu kontrolün başta yapıldığı while döngüsü ile sağlamalısınız.
+
+    Aşağıda while döngüsünün örnek bir kullanımını görüyorsunuz:
+
+    fn main() {
+        let mut i = 0;
+
+        while i < 10 {
+            println!("{}", i);
+            i += 1;
+        }
+    }
+
+    Rust'ta atama operatörü birim değerini (yani () değerini) ürettiği için C gibi dillerde çokça yaptığımız "önce ata, sonra
+    atanmış değeri karşılaştır" işlemini yapamamaktayız. Örneğin:
+
+    while (val = getval()) != 0 {           // Rust'ta error oluşturur!
+        //...
+    }
+
+    Bu durumu sağlamanın bir yolu döngüyü sonsuz döngü biçimine dönüştürmektir:
+
+    loop {
+        val = getval();
+        if val == 0 {
+            break;
+        }
+        //...
+    }
+
+    Ya da aynı şey koşul parantez içerisindeki ifadenin iki kez yazılmasıyla da yapılabilirdi:
+
+    val = getval();
+    while val != 0 {
+        //...
+        val = getval();
+    }
+# 17. Ders 05/05/2025 - Pazartesi
+    Rust'ta while ifadesi her zaman birim değerini (yani () değerini) üretmektedir. Bu nedenle biz while ifadesinde bloğun
+    sonuna bir ifade yerleştiremeyiz. (Bloğun sonuna () ifadesi yerleştirilirse bu bir tür tanımlaması (item) olarak ele
+    alınmaktadır.) Bu durumda Rust'ta while ifadesini bir değişkene atamanın da pratik bir faydası yoktur. Örneğin:
+
+    result = while i < 10 {
+        println!("{}", i);
+        i += 1;
+    };
+    println!("{:?}", result);           // ()
+
+    Örneğin:
+
+    result = while i < 10 {
+        println!("{}", i);
+        i += 1;
+        100             // error!
+    };
+
+    while bloğunun sonuna bir ifade yerleştirmenin bir anlamı olmadığı için bu sentaks yasaklanmıştır.
+
+    while döngülerinde de break ifadesi kullanılabilir. Yani while döngüleri de break ile sonlandırılabilir. Örneğin:
+
+    while true {
+        println!("{}", i);
+        i += 1;
+        if i == 10 {
+            break;
+        }
+    };
+
+    Fakat while içerisinde kullanılan break ifadesinin yanına bir ifade yerleştirilemez. ifadeli break yalnızca loop döngüsünde
+    kullanılabilmektedir. Örneğin:
+
+    result = while true {
+        println!("{}", i);
+        i += 1;
+        if i == 10 {
+            break 100;      // error!
+        }
+    };
+
+    while ifadesi her zaman birim değerini (yani () değerini) üretmektedir. Dolayısıyla while içerisinde ifadeli break
+    kullanmak geçerli değildir.
+---------------------------------------------------------------------------------------------------------------------------
+    Klavyeden (stdin dosyasından) bir döngü içerisinde getval isimli bir fonksiyonla bir sayı okuyup o sayının karesini
+    yazdırmak isteyelim. Ancak 0 girildiğinde döngüyü sonlandırılacak olsun. Yukarıda da belirttiğimiz gibi bu işlem C, C++,
+    Java ve C# gibi dillerde pratik bir biçimde aşağıdaki gibi yapılabilmektedir:
+
+    while ((val = getval()) != 0)
+        printf("%d\n", val * val);
+
+    Ancak Rust'ta atama operatörü birim değerini (yani () değerini) ürettiği için bu işlem yukarıdaki gibi yapılamamaktadır.
+    Bu tür durumalarda loop döngüsünü tercih edebilirsiniz:
+
+    loop {
+        val = getval();
+        if val == 0 {
+            break;
+        }
+        println!("{}", val * val);
+    };
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::Write;
+
+fn main() {
+    let mut val;
+
+    loop {
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush();
+        val = getval();
+        if val == 0 {
+            break;
+        }
+        println!("{}", val * val);
+    };
+}
+
+fn getval() -> i32 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse into number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta nasıl if ifadesinin kalıp uyuşumuyla çalışan if let isminde bir biçimi varsa while ifadesinin de while let isminde
+    kalıp uyuşumuyla çaışan bir biçimi de vardır. Biz while let döngüsünü kalıp uyuşumu (pattern matching) konusundan sora
+    ele acağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta dolaşım (iteratör) mekanizmasıyla çalışan bir for döngüsü de bulunmaktadır. Bu for döngüsü ancak dolaşım (iterator)
+    türlerine ilişkin değişken ya da değerlerle kullanılabilmektedir. Biz kurusumuzda  dolaşım (iterator) yapılarının nasıl
+    oluşturulduğunu sonraki bölümlerde göreceğiz. Ancak burada genel olarak Rust'ın for döngüsünü ele alacağız.
+
+    Dolaşım mekanizmasıyla çalışan döngüler Rust gibi C# gibi yeni programlama dillerinde doğuştan bulunmaktadır. Eski bazı
+    dillere ise bu döngüler belli zamandan sonra eklenmiştir. Örneğin C++'a dolaşım yoluyla çalışan döngüler "aralık tabanlı
+    fo döngüleri (range based for loops)" ismi ile C++11 standartlarında eklenmiştir. Java'ya ise bu döngüler 2004 yılında
+    "Java Language Specification 5" ile eklenmiştir. C#'ta bu döngülere foreach döngüleri, Java'da ise "genişletilmiş for
+    döngüleri (enhanced for loops)" denilmektedir.
+
+    Rust'ta dolaşım mekanizmasıyla çalışan for döngülerinin genel biçimi şöyledir:
+
+    for <kalıp> in <dolaşım_ifadesi> {
+        //...
+    }
+
+    for anahtar sözcüğünden sonra bir kalıp ifadesi gelmektedir. Burada tipik olarak bir değişken ismi (variable pattern)
+    kullanılabilir. Daha sonra bu kalıbı in anahtar sözcüğü ve bir dolaşım ifadesi (iterator expression) izler. Dolaşım
+    ifadesi dolaşım türünden (iterator type) bir değişken ya da değer belirtmektedir.
+
+    Dolaşım türünden bir ifade dolaşıldığında dolaşan kişiye değerler verilmektedir. Dolaşım ifadesi her dolaşım sırasında bir
+    değer verir, en sonunda verecek değeri kalmadığında dolaşım sonlanır. Rust'taki bazı yapılar zaten dolaşım özelliğine sahiptir.
+    Dolayısıyla onlar türünden değişkenleri ve değerleri for döngüleriyle dolaşabiliriz.
+
+    Rust'ta for döngüleri kabaca şöyle çalışmaktadır: Dolaşım ifadesi bir değer verir. Bu değer kalıpla belirtilen değişkenlere
+    atanır. Döngünün bloğu çalıştırılır. Sonra dolaşım ifadesi yeni bir değer verir bu değer de kalıp belirtilen değişkenlere
+    atanır ve yine döngünün bloğu çalıştırılır. En sonunda dolaşım ifadesi artık değer vermez duruma gelir. Çünkü verecek değeri
+    kalmamıştır. Döngü de sonlanır.
+
+    Rust'ın for döngülerinin bazı dillerdeki for (i = 0; i < 10; ++i) biçimindeki for döngüleri gibi çalılmadığına dikkat ediniz.
+    Rust'ın for döngülerinin iyi anlaşılabilmesi için iki konusunun bilinmesi geremektedir:
+
+    1) Kalıp uyuşumu (pattern matching) konusu.
+    2) Dolaşım ifadelerinin (dolaşım türünden değişkenlerin ve değerlerin) nasıl oluşturulduğu konusu.
+
+    Biz bu konuları ilerde ayrı bir bölümde ele alacağız. Ancak burada Rust'ın for döngülerinin temel kullanımı üzerinde
+    duracağız.
+
+    Dolaşım mekanizmasıyla çalışan for döngülerinin en önemli avantajı "farklı veri yapılarının aynı biçimde dolaşılmasına"
+    olanak sağlamasıdır. Biz bu tür for döngüleriyle her türden dolaşım (iterator) ifadelerini aynı biçimde dolaşabilmekteyiz.
+    Örneğin:
+
+    fn main() {
+        let a: [i32;5] = [1, 2, 3, 4, 5];
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!("");
+
+        let v: Vec<i32> = vec![1, 2, 3, 4, 5];
+
+        for val in v {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    Burada bir dizi ve bir Vec türünden aynı biçimde dolaşılmıştır. Tabii biz henüz dizileri ve vektörleri görmedik. Yalnızca
+    bu örneği aynı biçimde dolaşıma bir örnek olarak verdik.
+---------------------------------------------------------------------------------------------------------------------------
+    Dolaşım mekanizmasıyla çalışan for döngüleri ile klasik "for (i = 0; i < 10; ++i)" biçimindeki for döngülerini oluşturmak
+    için Rust'ın standart kütüphanesinde Range, RangeInclusive ve RangeFrom  isimli yapılar bulunmaktadır. Dolaşımda kullanılan
+    bu yapılar "genel (generic)" yapılardır. Bir genel yapı kullanılırken tür parametreleri için türler açıkça ya da gizlice
+    belirtilmektedir. Genel bir türün belli türler için açılmasına Rust'ta "monomorfize edilmesi (monomorphize)" denilmektedir.
+    Genel türler kurusumuzda ileride başka bir bölümde ele alınmaktadır.
+
+    Range isimli yapı türünden bir ifade for döngüsü ile dolaşılmak istendiğinde bu ifade dolaşım sırasında start değerinden
+    itibaren end değerine kadar (end değeri dahil değil) tamsayı değerleri vermektedir. Böylece klasik for döngüleri bu Range
+    yapısı yoluyla oluşturulabilmektedir. Örneğin:
+
+    let r: std::ops::Range<i32> = std::ops::Range {start: 0, end: 10};
+
+    for i in r {
+        //...
+    }
+
+    Burada r değişkenş Range<i32> türündendir. Dolaşım sırasında bu değişken 0'tan itibaren 10'a kadar (10 dahil değil) i32
+    tamsayı değerlerini verecektir. Dolayısıyla bu döngü C, C++, Java ve C#'taki aşağıdaki döngüyle işlevsel olarak eşdeğer hale
+    gelmektedir:
+
+    for (int i = 0; i < 10; ++i) {
+        //...
+    }
+
+    Range yapısının std::ops modülünde bulunduğuna dikkat ediniz. Yazımı kolaylaştırmak için use deyimini kullanabilirsiniz:
+
+    use std::ops::Range;
+
+    let r: Range<i32> = Range {start: 0, end: 10};
+
+    for i in r {
+        print!("{} ", i);
+    }
+
+    Tabii let deyiminde bağlama yapılırken değişken için tür de belirtilmeyebilir. Örneğin:
+
+    let r = Range {start: 0, end: 10};
+
+    Range değişkeninin yaratılması for döngüsünün içerisinde de yapılabilmektedir. Ancak bu durumda ifadenin paranteze
+    alınması gerekir. Örneğin:
+
+    for i in (Range {start: 0, end: 10}) {
+        print!("{} ", i);
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Klasik for döngülerine benzer döngüler çok sık oluşturulduğu için Rust'ta Range değerlerin .. operatörü ile daha kolay
+    bir biçimde oluşturulmasına olanak sağlanmıştır. .. opertatörüne İngilizce "exlusive range" operatörü denilmektedir.
+    Örneğin:
+
+    for i in 1..10 {
+        //...
+    }
+
+    biçimindeki for döngüsü tamamen aşağıdakiyle eşdeğerdir:
+
+    for i in (Range {start: 0, end: 10}) {
+        //...
+    }
+
+    Range değişkenlerinde start değerinin aralığa dahil olduğunu ancak end değerinin aralığa dahil olmadığını bir kez daha
+    vurgulamak istiyoruz.
+
+    Range değişkeni yaratılıken tür parametresi herhangi bir tamsayı türü olarak belirlenebilir. Ancak tür parametresi f32
+    ya da f64 olursa Range değişkeni dolaşım ifadesi olmaktan çıkmaktadır. Örneğin:
+
+    let r: Range<u8> = Range {start: 0, end: 10};
+
+    for i in  r {
+        //...
+    }
+
+    Yukarıdaki işlemi .. operatörüyle aşağıdaki gibi de yapabilirdik:
+
+    for i in  0u8..10u8 {
+        //...
+    }
+
+    Fakat biz Range yapısını f32 ya da f64 türüyle "monomorfize" edersek artık onu for döngüsüyle dolaşamayız. Çünkü değişken
+    dolaşım ifadesi olmaktan çıkar. Örneğin:
+
+    let r: Range<f64> = Range {start: 0., end: 10.};
+
+    for i in  r {           // error! Range<f64> dolaşım ifadesi olmaktan çıktı
+        //...
+    }
+
+    Tabii biz f64 türünden Range değerini .. operatörü ile örneğin 0.0..10.0 biçiminde ya da 0f64..10f64 biçiminde de
+    oluşturabilirdik.
+
+    Pekiyi Range türünden bir ifade ile atlamalı (yani step değeri ile) dolaşım sağlayabilir miyiz? İşte Range yapısının step_by
+    metodu parametre olarak atlama miktarını (step miktarını) bizden alır, bize başka bir dolaşım değeri verir. Bu dolaşım
+    değerini dolaştığımızda artık değerleri atlamalı biçimde elde ederiz. Örneğin:
+
+    let r: Range<i32> = Range {start: 0, end: 10};
+
+    for i in  r.step_by(2) {
+        //...
+    }
+
+    Burada döngünün her yinelenmesinde sırasıyl 0, 2, 4, 6, 8 değerleri elde ediliecektir. step_by metodunun parametresi
+    usize türündendir. Dolayısıyla biz Range sınıfı ile noktalı artırımlar (örneğin her defasında 0.5 artırım) yapamayız.
+    Noktalı artırımlara pek çok programlama dilinde "sorunlu olduğu gerekçesiyle" izin verilmemiştir. (Eğer noktalı artırım
+    yapılabilseydi yuvarlama hataları nedeniyle bazı durumlarda döngünün yinelenme miktarı farklı olabilirdi.) Artırımlı
+    dolaşım için Rust'ta .. operatörüyle ilgili başka pratik bir sentaks bulunmamaktadır. Bunun en pratik yolu aşağıdaki
+    gibidir:
+
+    for i in (0..10).step_by(2) {
+        //...
+    }
+
+    Burada .. operatörünün önceliği nedeniyle paranteze alındığına dikkat ediniz. Öncelik tablosunda .. operatörü düşük
+    bir önceliktedir:
+
+    ()                                      Soldan Sağa
+    - !                                     Sağdan Sola
+    as                                      Soldan Sağa
+    * /  %                                  Soldan Sağa
+    + -                                     Soldan Sağa
+    <<  >>                                  Soldan Sağa
+    &                                       Soldan Sağa
+    ^                                       Soldan Sağa
+    |                                       Soldan Sağa
+    < > >= <= == !=                         Parantezsiz Kombine Edilemez
+    &&                                      Soldan Sağa
+    ||                                      Soldan Sağa
+    .. ..=                                  Parantezsiz Kombine Edilemez
+    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+
+    Pekiyi elimizde bir dolaşım ifadesi varsa biz onu tersten dolaşabilir miyiz? İşte bir dolaşım ifadesinin tersten dolaşılabilirliği
+    o dolaşım ifadesine ilişkin yapıyı yazanlar tarafından belirlenmektedir. Başka bir deyişle eğer dolaşım ifadesine ilişkin
+    yapıyı yazanlar izin vermişse tersten dolaşım mümkün olmaktadır. Range ifadesini tersten dolaşabilmek için Range yapısının
+    rev metodu kullanılmaktadır. rev metodu parametresizdir. rev metodu bize tersten dolaşım yapılabilecek yeni bir dolaşım
+    nesnnesi vermektedir. Örneğin:
+
+    let r: Range<i32> = Range {start: 0, end: 10};
+
+    for i in  r.rev() {
+        //...
+    }
+
+    Burada yine start değeri aralığa dahildir ancak end değeri aralığa dahil değildir. Yani burada i değişkenine sırasıyla
+    9, 8, 7, 6, 5, 4, 3, 2, 1, 0 değerleri yerleştirilecektir. Tabii biz rev metodunun verdiği dolaşım türünden değerin üzerinde
+    de yeniden step_by metodunu çağırabiliriz. Örneğin:
+
+    let r: Range<i32> = Range {start: 0, end: 10};
+
+    for i in r.rev().step_by(2) {
+       //...
+    }
+
+    Burada i değişkeni sırasıyla 9, 7, 5, 3, 1 değerlerini alacaktır. Tabii biz rev metodunu .. operatörü üzerinde de
+    uygulayabilirdik. Örneğin:
+
+    for i in (0..10).rev() {
+        //...
+    }
+
+    Benzer biçimde rev netodunun verdiği dolaşım türünden değer üzerinde yine step_by metodunu uygulayabiliriz:
+
+    for i in (0..10).rev().step_by(2) {
+        //...
+    }
+
+    Pekiyi burada rev ve step_by çağrılarının sırasını değiştirirsek ne olur?
+
+    for i in  (0..10).step_by(2).rev() {
+        //...
+    }
+
+    Burada önce step_by ile verilen dolaşım türünden değer dolaşıldığında 0, 2, 4, 6, 8 değerleri elde edileceğine göre bu
+    değerler de tersten dolaşıldığında i değişkeni sırasıyla 8, 6, 4, 2, 0 değerlerini alacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Bazen dolaşıma end değerinin de dahil edilmesini isteyebiliriz. Örneğin şağıdaki C döngüsünün Rust eşdeğerini yazmak
+    isteyelim:
+
+    for (int i = 0; i <= 10; ++i) {
+        //...
+    }
+
+    Burada i değişkeni 10 değrini de almaktadır. İşte bunu sağlamak için Rust'ın strandart kütüphanesinde std::ops modülünde
+    RangeInclusive isimli bir yapı bulundurulmuştur. Ancak RangeInclusive yapısının start ve end elemanları private durumdadır.
+    Bu nedenle RangeInclusive türünden bir değerin yaratılması yapının new isimli "ilişkili fonksiyonuyla (associated function)"
+    yapılmaktadır. Tabii RangeInclusive yapısı da "genel (generic)" bir yapıdır. Örneğin:
+
+    use std::ops::RangeInclusive;
+
+    let ri: RangeInclusive<i32> = RangeInclusive::new(0, 10);
+
+    for i in  ri {
+        //...
+    }
+
+    Burada artık dolaşıma 10 değeri de dahil edilecektir. RangeInclusive türünden bir değeri kolay oluşturabilmek için ..=
+    operatörü de bulundurulmuştur. ..= operatörüne İngilizce "inclusive range" operatörü denilmektedir. Bu durumda yukarıdaki
+    işlemin işlevsel eşdeğeri basit bir biçimde aşağıdaki gibi oluşturulabilmektedir. Örneğin:
+
+    for i in  0..=10 {
+        //...
+    }
+
+    Burada dolaşıma 10 da dahil edilmiştir.
+# 18. Ders 07/05/2025 - Çarşamba
+
+    std::ops modülünde RangeFrom isimli bir dolaşım türü daha vardır. RangeFrom isimli yapı start değeri olan ancak end değeri
+    olmayan dolaşımlar için kullanılmaktadır. Bu türden bir ifade for döngüsüyle dolaşılmaya çalışılırsa start değerinden
+    başlanarak artan sırada tamsayılar elde edilir. Ancak end değeri olmadığı için ifade bize sürekli olarak değer verecektir.
+    Böylece bir sonsuz döngü oluşacaktır. Örneğin:
+
+    use std::ops::RangeFrom;
+
+    let rf: RangeFrom<i32> = RangeFrom{start: 5};
+    for i in rf {
+        //...
+    }
+
+    Burada 5'ten başlanarak sürekli artan tamsayılar elde edilecektir.
+
+    RangeFrom yapısının da genel (generic) bir yapı olduğuna dikkat ediniz. Bu yapı da f32 ve f64 türleriyle "monomorfize
+    (monomophize)" edilirse artık elde edilen değişken ya da değer dolaşım ifadesi olmaktan çıkmaktadır.
+
+    .. operatöründe sol taraftaki operand belirtilir ancak sağ taraftaki operand belirtilmezse bu durum RangeFrom yapısı
+    türünden bir değerin yaratılacağı anlamına gelmektedir. Örneğin:
+
+    for i in 5.. {
+        //...
+    }
+
+    Burada 5.. ifadesi RangeFrom türünden bir değerin yaratılıp kullanılması anlamına gelmektedir. Yani yukarıdaki for ifadesi
+    aşağıdakiyle eşdeğerdir:
+
+    for i in (RangeFrom {start: 5}) {
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    std::ops modülünde dolaşım sağlayamayan RangeTo, RangeToInclusive ve RangeFull isimli üç yapı daha vardır. RangeTo yapısı
+    start değeri olmayan ancak end değeri olan bir range değişkeni oluşturmaktadır. Ancak RangeTo yapısı yukarıda da belirttiğimiz
+    gibi bir dolaşım türü (iterator type) değildir. Yani biz bir RangeTo türünden bir ifadeyi for döngüsünde kullanamayız. Bu
+    nedenle aşağıdaki kod error oluşacaktır. Örneğin:
+
+    use std::ops::RangeTo;
+
+    let rt: RangeTo<i32> = RangeTo {end: 10};
+    for i in rt  {          // error! RangeTo değişkeni bir dolaşım ifadesi değildir
+        //...
+    }
+
+    Yukarıda for döngüsünde RangeTo değişkeni bir dolaşım ifadesi olmadığı için error oluşacaktır. RangeTo yapısı türünden
+    değerler de .. operatörüyle oluşturulabilmektedir. Bunun için operatörün sol tarafındaki operand'ı boş bırakılır, yalnızca
+    sağ tarafındaki operand'ı belirtilir. Örneğin:
+
+    use std::ops::RangeTo;
+
+    let rt: RangeTo<i32> = ..10;
+
+    RangeTo türünden değişkenlerde end değeri aralığa dahil değildir. RangeTo konusunda iki soru akla gelmektedir: Birincisi
+    "start değerinin kaç olduğu" sorusudur. İkincisi de "bu türden bir ifade for döngüsüyle dolaşılmadığına göre ne işe yarıyor"
+    sorusudur.
+
+    RangeTo yapısında start değerinin ne olduğuna yönelik bir açıklamada bulunulmamıştır. Ancak pek çok bağlamda bu değer 0 olarak
+    kabul edilmektedir. RangeTo yapısı aslında değişik bağlamlarda kullanılabilmektedir. Programcılar da kendi yapılarında eğer
+    anlamlıysa RangeTo kullanımını mümkün hale getirebilmektedir. Yani RangeTo yapısı dolaşım amaçlı değil de başka amaçlarla
+    kullanılabilmektedir. Örneğin bir diziyi dilimlerken biz RangeTo türünden ifade kullanabiliriz. RangeTo türünden ifadelerin
+    bu tür kullanımları ilgili konuların ele alındığı yerde açıklanacaktır.
+
+    RangeTo yapısının semantiğinde end değeri aralığa dahil değildir. Eğer end değerinin de aralığa dahil olması isteniyorsa
+    RangeToInclusive yapısı kullanılmalıdır. RangeToInclusive türünden bir değiiken benzer biçimde yaratılmaktadır:
+
+    let rti: RangeToInclusive<i32> = RangeToInclusive { end: 10 };
+
+    Tabii RangeToInclusive yapısı da bir dolaşım türü belirtmemektedir. Yani bu yapı türünden değişken de for döngüsüyle
+    dolaşılamamaktadır. RangeToInclusive türünden değerler ..= operatörü ile "sol taraftaki operand boş bırakılıp sağ taraftaki
+    operand belirtilerek" de yaratılabilmektedir. Örneğin:
+
+    let rti: RangeToInclusive<i32> = ..=10;
+
+    Son range yapsı da RangeFull isimli yapıdır. RangeFull yapısı genel (generic) bir yapı değildir. Bu yapı da semantik bakımdan
+    start ve end değeri olmayan bir aralık oluşturmak için kullanılmaktadır. Örneğin:
+
+    let rf: RangeFull = RangeFull {};
+
+    RangeFull yapısı da bir dolaşım türü belirtmez. Yani biz bu yapı türünden ifadeleri de for döngüsünde kullanamayız. Bu yapı
+    çeşitli bağlamlarda "bütünü temsil etmek için" kullanılmaktadır. RangeFull türünden değer .. operatörü ile "operatörün sol
+    tarafındaki ve sağ tarafındaki operand boş bırakılarak" oluşturulabilmektedir. Örneğin:
+
+    let rf: RangeFull = ..;
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de yukarıda tek tek gördüğümüz range yapılarını bir tablo biçiminde özetleyelim:
+
+    Yapı İsmi               Range Operatör İle Yaratım                  Dolaşılabilirlik
+    ------------            --------------------------                  -----------------
+    Range                   a..b                                        Dolaşılabilir
+    RangeInclusive          a..=b                                       Dolaşılabilir
+    RangeFrom               a..                                         Dolaşılabilir
+    RangeTo                 ..b                                         Dolaşılamaz
+    RangeToInclusive        ..=b                                        Dolaşılamaz
+    RangeFull               ..                                          Dolaşılamaz
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta sonek almayan tamsayı sabitlerinin bağlama göre değerlendirildiğini yani ilgili türün sınırları içerisinde
+    kalıyorsa o türden kabul edildiğini belirtmiştik. Bu durum range operatörlerinde de geçerlidir. Örneğin:
+
+    let r: Range<i8> =1..10;
+
+    Burada 1..10 range ifadesindeki 1 ve 10 zaten i8 türünden kabul edilecektir. Yani türlerin aşağıdaki gibi açıkça
+    yazılmasına gerek yoktur:
+
+    let r: Range<i8> =1i8..10i8;
+
+    Tabii bağlam belli değilse sabitlerin i32 türündne olduğu varsayılır. Örneğin:
+
+    let r = 1..10;
+
+    Bu bağlamanın eşdeğeri şöyledir:
+
+    let r = 1i32..10i32;
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıda 1'den n'e kadar sayıların toplamını döngü yoluyla hesaplayan bir fonksiyon örneği verilmiştir. (Tabii aslında
+    1'den n'e kadar sayıların toplamını döngüyle hesaplamaya gerek yoktur.)
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result: i32;
+
+    result = get_total(100);
+    println!("{}", result);
+}
+
+fn get_total(n: i32) -> i32 {
+    let mut total = 0;
+
+    for i in 1..=n {
+        total += i;
+    }
+    total
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıda bir sayının asal olup olmadığını belirleyen isprime isimli bir fonksiyon yazılmıştır. Fonsiyon i32 türünden
+    bir parametreye sahiptir. Eğer girilen argüman asalsa fonksiyonu true değerine asal değilse false değeerine geri dönmektedir.
+    Fonksiyon şöyle yazılmıştır:
+
+    fn isprime(val: i32) -> bool {
+        let end = (val as f64).sqrt() as i32;
+
+        if val % 2 == 0 {
+            return val == 2;
+        }
+        for i in (3..=end).step_by(2) {
+            if val % i == 0 {
+                return false;
+            }
+        }
+        true
+    }
+
+    Öklit teoremine göre asal olmayan her sayının en az iki asal çarpanı vardır. Bu iki asal çarpanın ikisi de sayının
+    karekökünden büyük olmaz. O halde sayı asal değilse sayının kareköküne kadar (karekökü de dahil) en bir asal çarpanı
+    olmak zorundadır. Yani kontrol sayının karekökükne kadar yapılabilir. Bütün çift sayıları kontrol etmeye de gerek yoktur.
+    En başta sayının çift olup olmadığı yalnızca bir kez kontrol edilebilir. Sonra hep tek sayılarla kontrol yapılabilir.
+    Rust'ta bir sayının karekökü f32 ve f64 türleri üzerinde sqrt metodu çağrılarak elde edilebilir. Yukarıdaki isprime
+    fonksiyonunun parametresi i32 türündendir. Bu nedenle önce bu parametre f64 türüne dönüştürülüp sqrt metodu çağrılmıştır.
+    Tabii elde edilen değer yeniden i32 türüne dönüştürülmüştür. Aşağıda 2'den kalvyedne girilen sayıya kadarki tüm asal
+    sayılar yazdırılmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::{stdin, Write};
+
+fn main() {
+    let val: i32;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush().expect("Can't flush stdout");
+    val = getval();
+
+    for i in 2..=val {
+        if isprime(i) {
+            print!("{} ", i);
+        }
+    }
+}
+
+fn isprime(val: i32) -> bool {
+    let end = (val as f64).sqrt() as i32;
+
+    if val % 2 == 0 {
+        return val == 2
+    }
+    for i in (3..=end).step_by(2) {
+        if val % i == 0 {
+            return false;
+        }
+    }
+    true
+}
+
+fn getval() -> i32 {
+    let mut buf: String = String::new();
+
+    stdin().read_line(&mut buf).expect("cannot read line..");
+    buf.trim().parse().expect("not a number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    for döngülerinde döngü değişkeni (aslında kalıp) mut da olabilir. Örneğin:
+
+    for i in 0..10 {
+        //...
+       i += 1;                  // error!
+       //...
+    }
+
+    Burada döngü değişkeni mut olmadığı için içerisindeki değer döngü içerisinde değiştirilememektedir. Eğer bu değerin
+    döngü içerisinde değiştirilesini istiyorsanız. Döngü değişkenini mut yapabilirsiniz:
+
+    for mut i in 0..10 {
+        //...
+        i += 1;                  // error!
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta diğer pek çok dilde de olduğı gibi break ifadesi bulunmaktadır. Biz de zaten break ifadesini bazı örneklerimizde
+    kullanmıştık. break ifadesinin genel biçimi şöyledir:
+
+    break [etiket] [ifade];
+
+    "The Rust Reference" dokümanlarında "break ifadesi" yerine "break ifadesi" terimi kullanılmıştır. Tabii break anahtar
+    sözcüğünün yanına ';' konulduğunda zaten bu ifade de bir deyim olmaktadır. Biz kursumuzda "break ifadesi" demeyi tercih
+    edeceğiz.
+
+    break ifadesi döngü deyimini sonlandırmak için kullanılmaktadır. Genel biçimden break anahtar sözücüğünün yanında bir etiket
+    (label) bulunabileceği anlaşılmaktadır. Pekiyi bu etiket ne anlama gelmektedir? İşte eğer break ifadesi etiketsiz kullanılırsa
+    yalnızca içinde bulunduğu döngü deyimini sonlandırmaktadır. Örneğin:
+
+    for i in 0..10 {
+        for k in 0..10 {
+            println!("({}, {})", i, k);
+            if i == 5 && k == 5 {
+                break;
+            }
+        }
+    }
+
+    Burada i == 5 ve k == 5 durumunda programın akışı break ifadesini görecektir. Ancak yalnızca içteki döngü sonlanacaktır.
+    Anımsanacağı gibi C, C++, C# gibi dillerde iç bir döngüde tek hamlede tüm döngülerden çıkmak için goto deyimi kullanılıyordu.
+    Ancak Java gibi Rust gibi bazı dillerde goto deyimi bulunmamaktadır. İşte bu dillerde iç döngüden tek hamlede çıkışı sağlamak
+    için etiketler kullanılmaktadır. Döngü deyimlerinin BNF gramerini hatırlayalım, şöyleydi:
+
+    LoopExpression :
+      LoopLabel? (
+        InfiniteLoopExpression
+        | PredicateLoopExpression
+        | PredicatePatternLoopExpression
+        | IteratorLoopExpression
+        | LabelBlockExpression
+      )
+
+    Bu gramerde tüm döngü deyimlerinin başında isteğe bağlı olarak bir etiketin (label) bulunabileceği anlaşılmaktadır. Rust'ta
+    etiketler tek tırnak karakterine yapışık bir değişken isminden oluşmaktadır. Döngü etiketlerinde yine etiket isminden
+    sonra ':' atomu da kullanılmak zorundadır. Örneğin:
+
+    'lbl: loop {
+        //...
+    }
+
+    Burada 'lbl etiketi belirtmektedir. İşte break işlemi yapılırken break anahtar sözcüğünün yanına "hangi döngünün kırılacağını
+    belirten" bir etiket getirilebilmektedir. Örneğin:
+
+    'lbl: loop {
+        i += 1;
+        if i == 10 {
+            break 'lbl;
+        }
+        println!("{}", i);
+    }
+
+    Tabii iç içe döngü söz konusu olmadıktan sonra döngüye etiket iliştirmenin ve etiketli break kullanmanın anlamı yoktur.
+    Fakat iç içe döngülerden tek hamlede çıkmak için etiketli break kullanmak gerekir. Örneğin:
+
+    'lbl:
+    for i in 0..10 {
+        for k in 0..10 {
+            println!("({}, {})", i, k);
+            if i == 5 && k == 5 {
+                break 'lbl;
+            }
+        }
+    }
+
+    Burada break ile tek hamlede iki döngüden de çıkılmıştır. Döngü bir etikete sahipse ancak break ifadesinde etiket
+    kullanılmamışsa Rust derleyicisi uyarı vermektedir.
+
+    Biz daha önce break ifadesinin yanında bir ifade de kullanmıştık. Rust'ta ifadeli break yalnızca loop döngüsü içerisinde
+    kullanılabilmektedir. Bu durumda loop döngüsü "divergent" olmaktan çıkıp break ifadesindeki değeri üretiyordu. Örneğin:
+
+    let mut i = 0;
+    let result: i32;
+
+    result = loop {
+        println!("{}", i);
+        i += 1;
+        if i == 10 {
+            break 1000;
+        }
+    };
+    println!("{}", result);
+
+    Burada ifadeli break ifadesi nedeniyle loop döngüsünden i32 türünden değer elde edilmiştir. Tabii loop döngüsü içerisinde
+    hem etiket hem de ifade birlikte kullanılabilir. Örneğin:
+
+    let mut i = 0;
+    let result: i32;
+
+    result = 'lbl: loop {
+        //...
+        i += 1;
+        if i == 10 {
+            break 'lbl 1000;
+        }
+    };
+    println!("{}", result);
+
+    Burada break anahtar sözcüğünde önce etiket sonra ifade bulundurulmuştur. Bunları ters sırada yerleştiremeyiz. Burada
+    bir kez daha anımsatmak istiyoruz: ifadeli break ifadesi yalnızca loop döngüsü içerisinde kullanılabilmektedir. while
+    ve for döngülerinde kullanılamamaktadır. Örneğin:
+
+    let result = for i in 0.100 {
+        //...
+        if i == 5 {
+            break 1000;         // error
+        }
+    }
+
+    C, C++, Java ve C# gibi dillerde break ifadesi o dillerin switch deyimleri içerisinde de kullanılabilmektedir. Rust'taki
+    switch benzeri deyime match deyimi denilmektedir. match deyimi içerisinde break kullanımı yoktur.
+
+    break ifadesinin kendi ürettiği değer (yani deyimin yerleştirildiği yerden elde edilen değer) ! türündendir. Yani break
+    ifadesi divergent biçimdedir. ! türünün herhangi bir türe otomatik dönüştürüldüğünü anımsayınız. Bu durumda örneğin anlamlı
+    olmasa da biz break ifadesini herhangi bir değişkene atayabiliriz:
+
+    loop {
+        //...
+        if ifade {
+            x = break;      // x hangi türden olursa olsun geçerli!
+        }
+    }
+# 19. Ders 12/05/2025 - Pazartesi
+    Burada konuya devam etmeden önce sınıfta sorulan bir sorunun yanıtı hakkkında bir açıklamada bulunmak istiyoruz. Soru
+    şöyle: "Neden aşağıdaki kodda break ifadesinden sonra ';' konulmadığında error ortaya çıkmıyor?". Yani aşağıdaki kodda
+    neden ';' bulunmaması soruna yol açmıyor?
+
+    fn main() {
+        let mut i = 0;
+        let result: i32;
+
+        result = loop {
+            if i == 10 {
+                break 1000
+            }
+            println!("{}", i);
+            i += 1;
+        };
+
+        println!("\n{}", result);
+    }
+
+    Burada break ifadesi if ifadesinin doğruysa bloğunun son ifadesi durumunda olduğu için, blokların da değer üretmesinden
+    dolayı ';' kullanılmasa da ifade geçerli olmaktadır. break ifadesinin ! türünden değer ürettiğini anımsayınız. Bu durumda
+    if ifadesinin else kısmı olmadığı için else kısmından () değerinin elde edildiği kabul edilmektedir. ! türü de her türe
+    otomatik dönüştürülebildiği için bu if ifadesinden () değeri elde edilecektir. Tabii burada if ifadesinin else kısmı olsaydı
+    ve else kısmından başka türdne bir değer elde edilseydi kod anlamsız fakat yine geçerli olurdu. Örneğin:
+    Örneğin:
+
+    fn main() {
+        let mut i = 0;
+        let result: i32;
+
+        result = loop {
+            if i == 10 {
+                break 1000
+            }
+            else {
+                //...
+                100         // anlamsız ama geçerli
+            };
+            println!("{}", i);
+            i += 1;
+        };
+
+        println!("\n{}", result);
+    }
+
+    Burada if ifadesinden i32 türünden değer elde edilecektir. Ancak bu değer kullanılmadığı için else kısmın bir değer
+    üretmesi anlamsızdır.
+
+    Tabii if ifadesinin hem doğruysa hem de yanlışsa kısmında break ifadesi varsa bu durumda if ifadesi de ! türünden değer
+    üretir. Örneğin:
+
+    loop {
+        //...
+        if koşul {
+            //...
+            break
+        }
+
+        else {
+            //...
+            break
+        }
+    }
+
+    Burada if deyimi ! türünden değer vermektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta aslında bir döngü belirtmediği halde gramerde LoopExpression ara sembolünün altına yerleştirilen ve ismine
+    "etiketli block ifadesi (labeled block expression)" denilen bir deyim daha vardır. LoopExpression ara sembolünün açılımını
+    aşağıda yeniden veriyoruz:
+
+    LoopExpression :
+    LoopLabel? (
+      InfiniteLoopExpression
+      | PredicateLoopExpression
+      | PredicatePatternLoopExpression
+      | IteratorLoopExpression
+      | LabelBlockExpression
+   )
+
+   Bir blok ifadesi içerisinde break ifadesi kullanılabilir. Ancak bu durumda break ifadesinde bir etiketin olması ve bloğun
+   başında da bir etiketin bulunması gerekir. Örneğin:
+
+    val = getval();
+    'a: {
+        println!("block begins");
+        if val > 0 {
+            break 'a;
+        }
+        println!("block ends");
+    };
+
+    Bu blok ifadesi geçerlidir. İşte bu blok ifadesine "etiketli blok ifadesi" denilmektedir. Yukarıda da belirttiğimiz
+    gibi bir bloğun içerisinde break ifadesinin kullanılabilmesi için break ifadesinin etiketli olması zorunludur. Örneğin:
+
+    val = getval();
+    {
+        println!("block begins");
+        if val > 0 {
+            break;          // error!
+        }
+        println!("block ends");
+    };
+
+    Bu blok ifadesinde break etiketsiz kullanıldığı için error oluşacaktır. Etiketli blok ifadelerinde hiç break kullanılmaması
+    error oluşturmasa da anlamsız olduğu gerekçesiyle uyarı mesajı oluşturmaktadır. Örneğin:
+
+    'a: {
+        println!("block begins");
+        //...
+        println!("block ends");
+    };
+
+    Yukarıdaki kod geçerlidir fakat bloğa etiket iliştirilmesi anlamsız olduğu için uyarı oluşturacaktır. Tabii etiketli blok
+    ifadelerindeki break ifadesinde break anahtar sözcüğünün yanında hem etiket hem de ifade bulunabilir. Bu durumda önce etiketin
+    sonra ifadenin bulundurulması zorunludur. Örneğin:
+
+    val = getval();
+    result = 'a: {
+        println!("block begins");
+        if a > 0 {
+            break 'a 100;
+        }
+        println!("block ends");
+        200
+    };
+    println!("{}", result);
+---------------------------------------------------------------------------------------------------------------------------
+    Pek çok programlama dilinde bulunan continue ifadesi Rust'ta da bulunmaktadır. continue ifadesinin genel biçimi şöyledir:
+
+    continue [etiket];
+
+    continue anahtar sözcüğü de sonunda ';' olmazsa bir ifade gibi kullanılabildiği için biz "break ifadesi" yerine "continue
+    ifadesi" demeyi tercih edeceğiz.
+
+    continue ifadesi ancak döngü deyimlerinin içerisinde kullanılabilir. Etiketli blok deyimi içerisinde continue kullanılamaz.
+    Programın akışı continue ifadesini gördüğünde akış sonraki yinelemeye geçer. Yani continue ifadesi döngü deyimini değil döngü
+    deyimi içerisindeki blok ifadesini sonlandırmaktadır. continue ifadesinin döngü deyimini sonlandırdığına continue deyiminin
+    ise döngünün içerisindeki blok ifadesini sonlandırdığına dikkat ediniz. Döngü içerisindeki blok ifadesi bittiğinde ne oluyorsa
+    progamın akışı continue ifadesini gördüğünde aynısı olmaktadır. Örneğin:
+
+     for i in 0..10 {
+        if i % 2 == 0 {
+            continue;
+        }
+        println!("{}", i);
+    }
+
+    Burada ekrana tek sayılar basılacaktır. Programın akışı continue ifadesini gördüğünde sanki döngü içerisindeki blok sonlanmış
+    gibi bir etki oluşacağı için Range iteratörü de yeni bir değer verecektir.
+
+    Genel biçimden contine deyiminin de bir etikete sahip olabileceğini görüyorsunuz. Diğer pek çok dilde iç içe döngülerde
+    continue yalnızca kullanıldığı döngünün deyimini sonlandırmaktadır. Ancak Rust'taki bu etiket sayesinde iç içe döngülerde
+    dıştaki döngü üzerinde de continue yapılabilmektedir. Örneğin:
+
+    'a: for k in 0..10 {
+        for i in 0..10 {
+            //...
+            if ifade {
+                continue 'a;
+            }
+        }
+        //...
+    }
+
+    Burada artık continue ifadesi içteki döngünün blok ifadesini değil dıştaki döngünün blok ifadesini sonlandırmaktadır.
+
+    Biz yukarıdaki continue ifadesinin çalışmasını açıklayacak örnekler verdik. Bu örneklerde aslında continue kullanılmadan
+    da hedeflenen işlemler yapılabilirdi. Pekiyi continue ifadesine hangi durumlarda gereksinim duyulmaktadır? Bazı algoritmalarda
+    (özellikle switch içeren kodlarda) continue ifadesinin kullanılması kodu kısaltabilmektedir. Ancak continue ifadesi çoğu
+    kez döngü içerisinde büyük if bloklarını elimine etmek için kullanılmaktadır. Aşağıdaki gibi kod parçası olsun:
+
+    loop {
+        val = getval();
+        if val > 0 {
+            //...
+        }
+    }
+
+    Burada döngü içerisindeki if ifadesinin çok uzun olduğunu varsayalım. BU if ifadesinin içerisinde de pek çok kontrol
+    deyimi kullanılmış olsun. Biz yukarıdaki döngüde bu geniş if bloğunu continue sayesinde elimine edebiliriz.
+
+    loop {
+        val = getval();
+        if val <= 0 {
+            continue;
+        }
+        //...
+    }
+
+    continue ifadesi de tıpkı break ifadesi gibi ! değerini üretmektedir. Yani continue ifadesi de "divergent" durumdadır.
+    continue ifadesini biz herhangi türden bir değişkene atayabiliriz. Örneğin yukarıdaki if ifadesinde else kısım herhangi
+    bir türden olabilirdi:
+
+    loop {
+        val = getval();
+        if val <= 0 {
+            continue;
+        }
+        else {
+            100         // geçerli ama anlamsız!
+        };
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde göreceğimiz son kontrol deyimi match deyimidir. Rust'taki match deyimi C, C++, Java ve C# gibi dillerdeki
+    switch deyimine benzemektedir. Ancak Rust'taki match deyimi bu dillerdeki switch deyiminden çok daha fazla olanaklara sahip
+    bir deyimdir. Dolayısıyla match deyiminin Rust'ta kullanımı bu dillerdeki switch deyiminin kullanımından çok daha yoğundur.
+
+    Rust'ta match deyimi "kalıp uyuşumu (pattern matching)" kurallarıyla çalışmaktadır. Kalıp uyuşumu konusu ise oldukça
+    ayrıntılıdır. Bu konunun henüz görmediğimiz dizilerle, demetlerle, enum türleriyle, yapılarla bağlantısı vardır. Bu nedenle
+    biz bu bölümde match deyimini henüz geldiğimiz noktaya kadarki konular eşliğinde ele alacağız. Sonra bu konuların anlatıldığı
+    yerde çeşitli eklemeler yapacağız. En sonunda da kalıp uyuşumu konusunu bütünsel olarak yeniden gözden geçireceğiz.
+
+    Aslında kalıp uyuşumuyla çalışan switch ya da match deyimleri Rust'a özgü değildir. Ruby gibi, Swift gibi, Kotlin gibi,
+    hatta Python gibi dillerde de kalıp uyuşumuyla çalışan match benzeri deyimler bulunmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta match ifadesinin genel biçimi şöyledir:
+
+    match <ifade> {
+        <kalıp1> => ifade1,
+        <kalıp2> => ifade2,
+        <kalıp3> => ifade3,
+        ....
+    }
+
+    match anahtar sözcüğünü bir ifade izlemek zorundadır. Buradaki ifade herhangi bir türe ilişkin olabilir. match ifadesinin
+    aslında çalışması oldukça basittir. Derleyici match anahtar sözcüğünün yanındaki ifadeyi inceler. Sonra match kalıplarını
+    yukarıdan aşağıya doğru ele alır. Kalıbın uyuştuğu ilk ifadeyi çalıştırır. match ifadesinden bu çalıştırılan ifadenin değeri
+    elde edilir. match ifadesinde diğer bazı dillerdeki case anahtar sözcüğünün bulunmadığına dikkat ediniz. match ifadesinde
+    break ifadesi kullanılırsa bu break ifadesinin match ifadesi ile biri ilgisi yoktur. match ifadesinin içinde bulunduğu
+    döngü ile ilgisi vardır. match deyiminde C gibi, Java gibi dillerdeki "aşağıya düşme (fall through)" mekanizması da yoktur.
+    Dolayısıyla Rust'taki match deyiminde yalnızca uyuşan ilk kalıbın ifadesi işletilmektedir.
+
+    "The Rust Reference" dokümanlarında match deyimindeki => içeren her kısma "match kolu (match arm)" denilmektedir. match
+    deyiminde akışın hangi kola aktaralıcağını anlayabilmek için kalıp uyuşumu konusunun bilinmesi geremektedir. Biz burada
+    geldiğimiz noktaya kadarki kalıp uyuşumları üzerinde duracağız. Rust'ta match deyiminde mutlaka bir match kolunun kalıp
+    uyuşumunu sağlaması gerekir. Aksi takdirde derleme sırasında error oluşmaktadır. Bu duruma Rust'ta match deyiminin
+    "exhaustive" olması denilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    "The Rust Reference" dokümanlarında kalıpların (patterns) BNF grameri şöyle verilmiştir:
+
+    Pattern :
+      |? PatternNoTopAlt ( | PatternNoTopAlt )*
+
+    PatternNoTopAlt :
+        PatternWithoutRange
+    | RangePattern
+
+    PatternWithoutRange :
+        LiteralPattern
+      | IdentifierPattern
+      | WildcardPattern
+      | RestPattern
+      | ReferencePattern
+      | StructPattern
+      | TupleStructPattern
+      | TuplePattern
+      | GroupedPattern
+      | SlicePattern
+      | PathPattern
+      | MacroInvocation
+
+    Görüldüğü gibi her kalıp bir isimle belirtilmektedir.
+
+    Rust'ta kalıp uyuşumu ile ilgili olan tek deyim match deyimi değildir. Aşağıdaki deyimlerde de kalıp uyuşumu etkili olmaktadır:
+
+    - let deyimi
+    - if let deyimi
+    - while let deyimi
+    - for deyimi
+
+    Ayrıca fonksiyonların parametrelerinde de genel olarak kalıplar kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    En basit kalıp "sabit kalıbı (literal pattern)" denilen kalıptır. İsmi üzerinde sabit kalıbında kalıp ifadesi sabitlerden
+    oluşturulmaktadır. Bu durumda match deyimi C'deki switch deyimine benzer hale gelmektedir. match anahtar sözcüğünün yanındaki
+    ifadeyle ilk eşleşen sabit kalıbının ifadesi çalıştırılacaktır. match deyiminin exhaustive olmasını sağlamak için _ kalıbı
+    kullanılır. Bu kalıba "wildcard kalıbı (wildcard pattern)" da denilmektedir. Wildcard kalıbı her ifadeyle uyuşum sağlamaktadır.
+    Bu nedenle wilkcard kalıbı genellikle match ifadesini "exhaustive" hale getirmek için match ifadesinin son kolunda bulundurulur.
+    Örneğin:
+
+    match val {
+        1 => println!("bir"),
+        2 => println!("iki"),
+        3 => println!("üç"),
+        _ => println!("hiçbiri"),
+    }
+
+    Burada val ifadesinin çeşitli değerleri için farklı ifadeler yapılmaktadır. Tabii bu örnekte println! makrosu birim değeri
+    ürettiği için math ifadesi de birim değerini üretmektedir.
+
+    match ifadesinin son kolunun ',' atomu ile bitirilmesi zorunlu değildir. Ancak Rust programcılarının çoğu son kola da ','
+    atomunu yerleştirmektedir. Örneğin yukarıdaki match ifadesi aşağıdaki gibi de olabilirdi:
+
+     match val {
+        1 => println!("bir"),
+        2 => println!("iki"),
+        3 => println!("üç"),
+        _ => println!("hiçbiri")
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::Write;
+
+fn main() {
+    let val: i32;
+
+    print!("Bir sayı giriniz:");
+    std::io::stdout().flush().expect("cannot flush stdout!..");
+    val = getval();
+    match val {
+        1 => println!("bir"),
+        2 => println!("iki"),
+        3 => println!("üç"),
+        _ => println!("hiçbiri"),
+    }
+}
+
+fn getval() -> i32 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse into number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Sabit kalıbında (literal pattern) kullanılacak sabit herhangi bir türe ilişkin olabilir. Örneğin:
+
+     match val {
+        'a' => println!("a"),
+        'b' => println!("b"),
+        'c' => println!("c"),
+        _ => println!("hiçbiri"),
+    }
+
+    C, C++, Java ve C# gibi dillerde switch anahtar sözcüğünün yanındaki kontrol ifadesinin tamsayı türlerine ilişkin olması
+    gerekmektedir. Ancak Rust'ta böyle bir zorunluluk yoktur. Ancak ne olursa olsun yuvarlama hatalarından dolayı sabit
+    kalıplarında gerçek sayı sabitlerini kullanmak kötü bir tekniktir. Örneğin:
+
+    match val {
+        1.0 => println!("bir"),
+        2.0 => println!("iki"),
+        3.0 => println!("üç"),
+        _ => println!("hiçbiri"),
+    }
+
+    Sabit kalıbında sabitlerin match anahtar sözcüğünün yanındaki kontrol kalıbındaki tür türünden olması gerekmektedir.
+
+    Sabit kalıbında eğer match anahtar sözcüğünün yanındaki ifade &str türündense sabitler string de olabilmektedir. Örneğin:
+
+    let city: &str = "eskişehir";
+    //...
+
+    match city {
+        "ankara" => println!("6"),
+        "izmir" => println!("35"),
+        "adana" => println!("1"),
+        "eskişehir" => println!("26"),
+        _ => println!("hiçbiri"),
+    }
+
+    Burada da görüldüğü gibi eğer match kollarında sabit kalıbı olarak string sabiti kullanılacaksa match anahtar sözcüğünün
+    yanındaki ifadenin de &str türünden olması gerekir.
+# 20. Ders 14/05/2025 - Çarşamba
+    Aşağıda basit bir komut satırı örneği verilmiştir. Bu örnekte bir döngü içerisinde stdin dosyasından komutlar alınmış
+    ve match ifadesi ile bu komutlar işlenmiştir. Programdaki match deyiminin nasıl oluşturulduğuna dikkat ediniz:
+
+    match getstr().as_str() {
+        "" => continue,
+        "dir" => println!("dir command"),
+        "copy" => println!("copy command"),
+        "rename" => println!("rename command"),
+        "quit" => break,
+        _ => println!("unknown command"),
+    }
+
+    Tabii burada komutların işlenmesi için fonksiyonlar oluşturulup her match kolunda da ilgili fonksiyon çağrılabilirdi.
+    Örneğin:
+
+    match getstr().as_str() {
+        "" => continue,
+        "dir" => dir_proc(),
+        "copy" => copy_proc(),
+        "rename" => rename_proc(),
+        "quit" => break,
+        _ => println!("unknown command"),
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::{self, Write};
+
+fn main() {
+   loop {
+      print!("CSD>");
+      io::stdout().flush().expect("cannot flush stdout!");
+
+      match getstr().as_str() {
+         "" => continue,
+         "dir" => println!("dir command"),
+         "copy" => println!("copy command"),
+         "rename" => println!("rename command"),
+         "quit" => break,
+         _ => println!("unknown command"),
+      }
+   }
+}
+
+fn getstr() -> String {
+   let mut buf: String = String::new();
+
+   std::io::stdin().read_line(&mut buf).expect("read line failed");
+   buf.trim().to_string()
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir match kolunda birden fazla deyim bulundurulmak isteniyorsa blok ifadesi oluşturulmalıdır. Örneğin:
+
+    match val {
+        1 => {
+            //...
+        },
+        2 => {
+            //...
+        },
+        3 => {
+            //...
+        },
+        _ => ()
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii match ifadesi de diğer deyimlerde olduğu gibi bir değer de üretmektedir. match ifadesinden elde edilen değer çalıştırılan
+    match kolundaki ifadenin değeridir. Tabii bu durumda match ifadesinin bütün kollarından elde edilen değerlerin aynı türden
+    olması gerekir. Örneğin:
+
+    loop {
+        print!("CSD>");
+        io::stdout().flush().expect("cannot flush stdout!");
+        let result: i32;
+
+        result = match getstr().as_str() {
+            "" => continue,
+            "quit" => break,
+            "dir" => {
+                println!("dir command");
+                1
+            },
+            "copy" => {
+                println!("copy command");
+                2
+            },
+            "rename" => {
+                println!("rename command");
+                3
+            },
+            _ => {
+                println ! ("unknown command");
+                0
+            }
+        };
+        println!("result: {}", result);
+   }
+
+    Burada match ifadesinin her kolu i32 türünden değer üretmektedir. break ve continue ifadelerinin never türünden (! türünden)
+    değer ürettiğini anımsayınız. Never türü diğer her türe otomatik dönüştürülebildiği için diğer her türle bu bağlamda bir
+    arada bulunabilmektedir.
+
+    Pekiyi aşağıdaki gibi bir match ifadesindeki result değişkeninin match kolundaki kullanımı geçerli midir?
+
+    let result: i32;
+
+    result = match val {
+        1 => {
+            println!("{}", result),         // error!
+            10
+        }
+        //...
+        _ => 0
+    };
+
+    Bu örnekte result değişkeni match ifadesi bittiğinde değer alacaktır. Dolayısıyla bu kullanım "içerisinde henüz değer
+    atanmamış değişkenin içerisindeki değerin" kullanılması nedeniyle error oluşturacaktır. Tabii biz baştan result değişkenine
+    değer atamış olsaydık bu durum soruna yol açmayacaktı:
+
+    let mut result: i32 = 0;
+
+    result = match val {
+        1 => {
+            println!("{}", result),         // geçerli
+            10
+        }
+        //...
+        _ => 0
+    };
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi match ifadesinin son koluna wildcard kalıbı getirildiğinde bu wildcard kalıbındaki ifade ne olmalıdır? match ifadesinin
+    wildcard kolu diğer kollarla aynı değeri üretmelidir. Eğer diğer kollar unit değeri üretiyorsa bu durumda wildcard ifadesinde
+    de bir şey yapmak istemiyorsanız oaradaki oradaki () biçiminde ya da eşdeğer olarak {} biçiminde oluşturabilirsiniz.
+    Örneğin:
+
+    match val {
+        1 => println!("bir"),
+        2 => println!("iki"),
+        3 => println!("üç"),
+        _ => (),
+    }
+
+    Daha önceden de belirttiğimiz gibi match ifadesinde match kollarına yukarıdan aşağıya doğru sırasıyla bakılmaktadır.
+    Rust'ta birden fazla match kolunda kalıp uyuşumu sağlanabilir. Bu durum error oluşturmamaktadır. Bu durumda yukarıdan
+    aşağıya doğru ilk uyuşan kalıbım match ifadesi işletilmektedir. Tabii bazen derleyici sabit kalıplarında ya da diğer bazı
+    kalıplarda bir durum tespiti yapıp uyarı mesajı verebilmektedir. Örneğin:
+
+    match val {
+        1 => println!("bir"),
+        1 => println!("yine bir"),
+        _ => (),
+    }
+
+    Burada val değeri 1 ise ilk koldaki ifade çalıştırılacaktır. Bu durumda açıkça diğer ikinci kol "erişilemeyen (unreachable)
+    durumda olur. Rust derleyicisi bunu tespit edip bir uyarı mesajı oluşturacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+   Bazen farklı değerler için aynı şeylerin yapılması istenebilir. Bunun için match ifadesinde "veya kalıbı (or pattern)
+   kullanılmaktadır. Veya kalıbı | atomuyla oluşturulmaktadır. Örneğin.
+
+   match val {
+      1 | 2 | 3 => println!("bir ya da iki ya da üç"),
+      4 => println!("dört"),
+      5 => println!("beş"),
+      _ => println!("diğer bir sayı")
+   }
+
+   Burada birinci match kolu aşağıdaki gibidir:
+
+    1 | 2 | 3 => println!("bir ya da iki ya da üç"),
+
+    Bu kalıp 1 ya da 2 ya da 3 anlamına gelmektedir. Örneğin daha önce yazmış olduğumuz komut satırı uygulamasında biz
+    döngüden "quit" ya da "exit" komutu girildiğinde çıkmak isteyebiliriz:
+
+      loop {
+        //...
+        match getstr().as_str() {
+            "" => continue,
+            "dir" => println!("dir command"),
+            "copy" => println!("copy command"),
+            "rename" => println!("rename command"),
+            "quit" | "exit" => break,
+            _ => println!("unknown command"),
+        }
+    }
+
+    Tabii veya kalıbındaki kalıplar sabit kalıplarıysa bunların aynı türden olması gerekir.
+---------------------------------------------------------------------------------------------------------------------------
+    match ifadelerinde çok kullanılan diğer bir kalıp da range kalıbıdır. range kalıbı bir değerin bir aralık içerisinde olup
+    olmadığını belirlemekte kullanılmaktadır. Range kalıbını oluşturabilmek için yine daha önce görmüş olduğumuz .. ve ..=
+    operatörleri kullanılmaktadır. Range kalıbında kullanılabilecek range ifadeleri şunlardır:
+
+    a..b
+    a..=b
+    ..b
+    ..=b
+    a..
+
+    Bu range ifadelerinin ne anlama geldiğini daha önce görmüştük. Bir kalıp olarak kullanıldığında bu range kalıpları şu
+    anlamlara gelmektedir (a ve b'nin aynı tamsayı türlerine ilişkin değerler olduğunuvarsayıyoruz):
+
+    a..b        a'dan b'ye b dahil olmamak üzere (exclusive range) tamsayıların herhangi biri
+    a..=b       a'dan b'ye b dahil olmak üzere (inclusive range) tamsayıların herhangi biri
+    ..b         b'ye kadar olan fakat b dahil değil (range to) tamsayıların herhangi biri (negatif değerler de dahil)
+    ..=b        b'ye kadar olan fakat b de dahil (range to inclusive) tamsayıların herhangi biri (negatif değerler de dahil)
+    a..         a'dan başlayan tamsayıların herhangi biri (range from)
+
+   Örneğin:
+
+    let val = getval()
+
+    match val {
+        0 => break,
+        1 => println!("1"),
+        2..5 => println!("2..5"),
+        5 => println!("5"),
+        6..=8 => println!("6..=8"),
+        ..10 => println!("..10"),
+        ..=20 => println!("..=20"),
+        21.. => println!("30.."),
+    }
+
+    Burada çeşitli kalıplar birlikte kullanılmıştır. Bu örnekte ilginç olan bir durum hiç wildcard kalıbının kullanılmamış
+    olmasıdır. Çünkü bu örnekte zaten match "exhaustive" durumdadır. Yani i32 türünün her değeri için çalıştırılacak bir
+    match kolu bulunmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::{self, Write};
+
+fn main() {
+   loop {
+      let val: i32;
+
+      print!("Bir değer giriniz:");
+      io::stdout().flush().expect("cannot flush stdout!");
+
+      val = getval();
+      match val {
+         0 => break,
+         1 => println!("1"),
+         2..5 => println!("2..5"),
+         5 => println!("5"),
+         6..=8 => println!("6..=8"),
+         ..10 => println!("..10"),
+         ..=20 => println!("..=20"),
+         21.. => println!("30.."),
+      }
+   }
+}
+
+fn getval() -> i32 {
+   let mut buf: String = String::new();
+
+   std::io::stdin().read_line(&mut buf).expect("read line failed");
+   buf.trim().parse().expect("parse into number failed")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Range kalıplarında match anahtar sözcüğünün yanındaki ifadenin türü ile range ifadesindeki türlerin aynı olması gerekmektedir.
+    Örneğin:
+
+    let val: i8;
+
+    val = getval();
+    match val {
+        1..10 => println!("1..10"),
+        _ => (),
+    }
+
+    Burada val ifadesi i8 türündendir. 1..10 range kalıbı bağlama göre 1i8..10i8 gibi ele alınmaktadır. Dolayısıyla buradaki
+    range kalıbı geçerlidir. Örneğin:
+
+    let val: i32;
+
+    val = getval();
+    match val {
+        1i8..10i8 => println!("1i8..10i8"),            // error!
+        _ => (),
+    }
+
+    Bu örnekte val değişkeni i32 türündendir. Ancak range kalıbı i8 türüne ilişkindir. Bu nedenle error oluşacaktır.
+
+    Tabii range kalıbında çok seyrek olsa da f32 ve f64 türleri kullanılabilmektedir. Örneğin:
+
+    let val: f64;
+
+    val = getval();
+    match val {
+        1.0..3.0 => println!("1.0..3.0"),
+        _ => ()
+    }
+
+    Burada val f64 türündendir. Range kalıbı da f64 türüne ilişkindir. Yani örneğimizde val değeri 1 ile 3 arasında herhangi
+    bir gerçek sayı değeri ise uyuşum sağlanacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Range kalıbında kalıp range operatörleriyle oluşturulmalıdır. Eğer biz bir match koluna Range türünden bir değişken
+    yerleştirirsek bu bir range kalıbı olmaz. Sonraki paragrafta göreceğimiz gibi bir değişken kalıbı olur. Örneğin.
+
+    let a = 10;
+    let r = 1..100;
+
+    match a {
+        r => println!("{}", r),     // dikkat! bu bir range kalıbı değil
+        //...
+    }
+
+    match kolundaki r yeni bir değişkendir ve bu değişken izleyen paragrafta da görüleceği üzere a'nın türünden, yani örneğimizde
+    i32 türünden olacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Diğer ilginç bir kalıba da "değişken kalıbı (identifer pattern)" denilmektedir. Değişken kalıbında kalıp bir değişken
+    olur. Bu durumda uyuşum her zaman sağlanır. Değişken kalıbında kalıpla uyuşan değer kalıpta belirtilen değişkene yerleştirilir.
+    Örneğin:
+
+    val = getval();
+    match val {
+        a => println!("a = {}", a),
+    }
+
+    Burada bu değişken kalıbı tüm val değerleriyle uyuşum sağlayacaktır. Uyuşum sağlandığında val değişkeninin içerisindeki
+    değer a değişkenine atanacaktır. a değişkeninin yukarıda let ile bağlanmış olması gerekmez. Çünkü zaten match kolunda
+    yeni bir değişken bağlaması yapılmaktadır. Bu kalıpta değişkene bir tür bilgisi iliştirilmez. Değişkenin türünün match
+    anahtar szöcüğünün yanındaki ifadenin türüyle aynı olduğu kabul edilir. Örneğin yukarıdaki match ifadsinde a değişkenin
+    türü val değişkenin türü ile aynıdır. Yani a değişkeni de i32 türündedir. Burada ayrıca match ifadesinin "exhaustive"
+    olduğuna dikkat ediniz. Dolayısıyla wildcard kalıbı gerekmemektedir. Kalıpta belirtilen değişken yalnızca o match kolunda
+    kullanılabilmektedir.
+
+ # 21. Ders 21/05/2025 - Çarşamba
+
+    match kollarına yukarıdan aşağıya doğru bakıldığını anımsayınız. Bu durumda biz değişken kalıbını örneğin sabit kalıplarından
+    sonraya yerleştirebiliriz:
+
+    val = getval();
+    match val {
+        10 => println!("this is literal pattern 10"),
+        x => println!("{}", x),
+    }
+
+    Burada eğer val 10 ise birinci kol, val 10 dğeilse ikinci kol işletilecektir.
+
+    Değişken kalıbı size biraz anlamsız gelebilir. Ne de olsa match edilen değer zaten match anahtar sözcüğünün yanındaki
+    değerdir. Yani örneğin yukarıdaki örnek işlevsel olarak aşağıdakiyle eşdeğerdir:
+
+    val = getval();
+    match val {
+        10 => println!("this is literal pattern 10"),
+        _ => println!("{}", val),
+    }
+
+    Pekiyi o zaman gerçekten değişken kalıbı gereksiz midir? Yanıt hayır. Biz henüz pek çok kalıbı görmedik. Başka kalıplarda
+    uyuşum sağlayan değerlerin değişkenlere atanmasının önemi ortaya çıkmaktadır.
+
+    Değişken kalıbında ayrıca değişkenin önüne mut anahtar sözcüğü de getirilebilir. Bu durumda değişken "mutable" olur. Örneğin:
+
+    val = getval();
+    match val {
+        mut x => {
+            println!("{}", x);
+            x = 20;
+            println!("{}", x);
+        }
+    }
+
+    Eğer burada x'i mut yapmasaydık blok içerisinde x'in değerini değiştiremezdik.
+---------------------------------------------------------------------------------------------------------------------------
+    if anahtar sözcüğü ile kalıplara bir koşul da eklenebilir. Bu durumda kalıp şu hale gelmektedir:
+
+    <kalıp> if <koşul>
+
+    Burada uyuşum ancak ilgili koşul sağlandığında sağlanmaktadır. Örneğin:
+
+    val = getval();
+    match val {
+        x if x > 0 => println!("positive: {}", x),
+        _ => println!("zero or negative"),
+    }
+
+    Buradaki if anahtar sözcüğünün else kısmı yoktur. if anahtar sözcüğünü bir koşul izlemek zorundadır. Tabii yukarıdaki
+    örnekte böyle bir koşul eklendiğinde artık match ifadesi "exhaustive" olmaktan çıkmaktadır. Değişken kalıbına if kullanma
+    durumuna "match koruması (match guard)" denilmektedir. Yukarıda da belirttiğimiz gibi tipik olarak match guard değişken
+    kalıplarında kullanılıyor olsa da istenirse diğer kalıplarda da kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    match kollarındaki kalıplarda "bağlama (binding)" da oluşturulabilmektedir. Bağlama @ atomu ile yapılır. Bu atomun soluna
+    bir değişken sağına ise bir kalıp getirilir. Bağlama yapılmış kalıplara "at kalıpları (at patterns) " da denilmektedir.
+    Eğer @ atomunun sağındaki kalıp uyuşum sağlarsa uyuşan değer soldaki değişkene yerleştirilmektedir. Örneğin:
+
+    val = getval();
+    match val {
+        x @ 1..20 => println!("{}", x),
+        _ => println!("zero or negative"),
+    }
+
+    Burada at kalıbının kullanıldığı kola dikkat ediniz:
+
+    x @ 1..20 => println!("{}", x),
+
+    Eğer match anahtar sözcüğünün yanındaki ifadenin değeri 1..20 aralığındaysa uyuşum sağlanacak ve bu değer x'e atanacaktır.
+    Bağlama işleminde @ atomunun sağındaki kalıbın uyuşumu dikkate alınmaktadır. Uyuşum sağlanırsa ilgili değer x değişkenine
+    bağlanmaktadır. Tabii yukarıdaki örnekte siz yine "bu durumda x'e bağlamaya ne gerek var, zaten ilgili değer val değişkeni
+    içerisinde bulunuyor" diye düşünebilirsiniz. Ancak ileride göreceğimiz başaka kalıplarda bu "at kalıbının" daha anlamlı
+    kullanımlarıyla karşılaşacağız. Burada önemli olan nokta bu at kalıbında match yanındaki değerin değil uyuşan değerin
+    değişkene yerleştirilmesidir. Bu konu hakkında ileride açıklamalar yapılacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz bu bölümde match kalıplarının şimdilik bu kadarını gördük. Başka konular işlendikçe o konulara ilişkin kalıplar ayrıca
+    ele alınacaktır. Henüz ele almadığımız tipik kalıplar şunlardır:
+
+    - enum kalıpları
+    - Yapı kalıpları
+    - Demet kalıpları
+    - Dizi kalıpları
+    - ref ve ref mut kalıpları
+---------------------------------------------------------------------------------------------------------------------------
+    match deyimi aynı zamanda bir ifade belirttiğine göre bir match kolunda başka bir match ifadesi bulunabilir. Örneğin:
+
+    match val1 {
+        1..20 => match val2 {
+            //...
+        },
+        _ => (),
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında Rust'ta let deyimi de match gibi kalıp uyuşumu ile bağlama yapmaktadır. Yani match ifadesindeki kalıpların hepsi
+    olmasa da birçoğu aslında let deyiminde de kullanılabilmektedir. Örneğin:
+
+    let a = 10;
+
+    Bu let deyimini biz match ifadesinde gördüğümüz "değişken kalıbı (identifier pattern)" biçiminde ele alabiliriz. Örneğin:
+
+    let (a, b) = (10, 20);
+
+    Burada aslında kaynak değer bir demettir. let deyiminde de "demet kalıbı (tuple pattern)" kullanılmıştır. Örneğin:
+
+    let a = [10, 20, 30];
+    let [x, y, z] = a;
+
+    Burada biz aslında x, y, ve  değişkenlerini oluşturmuş olmaktayız. x'in içerisine 10, y'nin içerisine 20 ve z'nin
+    içerisine 30 yerleştirilecektir. Bu kalıba "dilim kalıbı (slice pattern)" denilmektedir. Bu kalıpları ileride ilgili
+    konuların içerisinde göreceğiz.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz deyimler kısmında Rust'ta if let ve while let isimli iki deyimin daha bulunduğunu belirtmiştir. Ancak bu deyimler
+    hakkında bir şey söylememiştik. Şimdi bu deyimlerin çalışma biçimini açıklayacağız. Aslında bu deyimler özellikle enum
+    denilen türlerle (yani enum kalıplarıyla) kullanılmaktadır. enum türlerini ileride ayrı bir başlık altında inceleyeceğiz.
+    Biz kontrol deyimlerinde olduğu gibi if let ve while let deyimleri için if let ifadesi ve while let ifadesi terimlerini
+    kullanacağız.
+
+    if let ifadesi "kalıp uyuşuyorsa doğruysa kısmın, kalıp uyuşmuyorsa yanlışsa kısmın çalıştırıldığı" ilginç bir if deyimdir.
+    if let ifadesinin genel biçimi şöyledir:
+
+    if let <kalıp> = <ifade> {
+        //...
+    }
+    [ else {
+        //...
+    }
+    ]
+
+    if let anahtar sözcüklerinin yanında bir kalıp bulunur, bu kalıbı '=' atamu ile bir ifade izler. Eğer kalıp uyuşumu sağlanırsa
+    if let ifadesinin doğruysa kısmındaki blok deyimi, kalıp uyuşumu sağlanmazsa yanlışsa kısmındaki blok deyimi çalıştırılır.
+    if let ifadesi de if ifadesi gibi bir değer üretmektedir. Örneğin:
+
+    val = getval();
+    if let 1..10 = val {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Bu örnekte kalıp 1..10 biiminde belirtilmiş olan range kalıbıdır. Eğer val değeri bu aralıktaysa bu kalıp uyuşumu sağlanacak
+    dolayısıyla if deyiminin doğruysa kısmı çalıştırılacaktır. Eğer val bu aralıkta değilse if deyiminin yanlışsa kısmı
+    çalıştırılacaktır. Tabii biz match deyiminde gördüğümüz ve henüz görmediğimiz kalıpları if let ifadesinde de kullanabiliriz.
+    Örneğin:
+
+    val = getval();
+    if let x @ 1..10 = val {
+        println!("matched 1..10, x = {}", x);
+    }
+    else {
+        println!("pattern cannot match!");
+    }
+
+    Burada at kalıbı (@ kalıbı) uygulanmıştır. Bağlanan x değeri yalnızca if ifadesinin doğruysa kısmında kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io::Write;
+
+fn main() {
+    let val: i32;
+    print!("Bir değer giriniz:");
+    std::io::stdout().flush().expect("Can't flush stdout");
+
+    val = getval();
+    if let Some(x) = val {
+        println!("matched 1..10, x = {}", x);
+    }
+    else {
+        println!("pattern cannot match!");
+    }
+}
+
+fn getval() -> i32 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    if let ifadesinde de else if kısmı ya da else if let kısmı kullanılabilir. Benzer biçimde if ifadesinde de else if kısmının
+    yanı sıra else if let kısmı da bulundurulabilmektedir. Örneğin:
+
+    val = getval();
+    if let 0..10 = val {
+        println!("matched");
+    }
+    else if val % 2 == 0 {
+        println!("val is even");
+    }
+    else {
+        println!("other...");
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında if let ifadesi tamamen iki kollu match ifadesi ile karşılanabilir. Örneğin:
+
+    if let pattern = expression {
+        //...
+    }
+    else {
+        //...
+    }
+
+    ifadesinin match eşdeğeri şöyledir.
+
+    match expression {
+        pattern => {
+            //...
+        }
+        _ => {
+            //...
+        }
+    }
+
+    Tabii bu tür durumalarda if let ifadesini okunabilirlik bakımından tercih edebilirsiniz. match ifadesi çok kollu durumlar
+    için tercih edilmelidir.
+---------------------------------------------------------------------------------------------------------------------------
+    while let döngüsü de "kalıp uyuştuğu sürece yinelenen" bir döngüdür. while let ifadesinin genel biçimi şöyledir:
+
+    while let <pattern> = <ifade> {
+        //...
+    }
+
+    Burada da match deyiminde görmüş olduğumuz ve henüz görmemiş olduğumuz kalıplar kullanılabilmektedir. Döngü kalıp
+    uyuştuğu sürece yinelenmektedir. Örneğin:
+
+    i = 0;
+    while let 0..10 = i {
+        print!("{} ", i);
+        i += 1;
+    }
+
+    Burada bir range kalıbı kullanılmıştır. Bu kalıp uyuşumu i'nin 0 ile 9 arasındaki değerleri için sağlanacaktır. Ancak
+    i = 10 olduğu zaman kalıp uyuşumu artık sağlanmayacak ve döngüden çıkılacaktır. Örneğin:
+
+    while let x @ 1..=10 = getval() {
+        //...
+    }
+
+    Burada klavyeden (stdin dosyasından) girilen değer 1 ile 10 arasında olduğu sürece x'e yerleştirilip blok deyimi çalıştırılacaktır.
+    Eğer girilen değer bu aralıkta değilse kalıp uyuşmayacağı için döngü sonlanacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    if let ve while let ifadelerinin daha uygun kullanımları ile kursumuzun ilerleyen aşamalarında karşılaşacağız. Burada
+    biz bu deyimlerin kalıp uyuşumu ile nasıl çalıştığını açıkladık.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Diziler elemanları aynı türden olan ve bellekte ardışıl bir biçimde bulunan veri yapılarıdır. Genellikle programlama dilleri
+    tarafından "built-in" biçimde desteklenmektedir. Biz de bu bölümde Rust'ta diziler üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda belirttiğimiz gibi diziler aynı türden elemanlara sahiptir ve dizi elemanları bellekte fiziksel bakımdan ardışıl
+    bir biçimde tutulmaktadır. Dizi elemanlarının ardışıl biçimde tutulması iki bakımdan önemlidir:
+
+    1) Bu sayede dizinin bir elemanına çok hızlı (buna "rastege erişim (random access)" ya da "O(1) karmaşıklıkta erişim" de
+    denilmektedir) bir biçimde erişilir. İşlemciler bir adresten belli bir uzaklıktaki nesnelere tek bir makine komutuyla
+    erişebilmektedir.
+
+    2) Dizi elemanlarının ardışıl olması nedeniyle diziler fonksiyonlara başlangıç adresleriyle aktarılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta dizi türleri [tür; uzunluk] biçiminde ifade edilmektedir. Örneğin:
+
+    let a: [i32; 5];
+
+    Yazım biçimi olarak noktalı virgülden sonra boşluk bırakmaka daha yaygındır. Ancak boşluk bırakmayan Rust programcıları
+    da vardır. Biz kurusumuzda buradaki nokralı virgülden sonra boşuk bırakacağız. Dizi bildirirken uzunluğun sabit ifadesi
+    biçiminde belirtilmesi zorunludur. Örneğin:
+
+    let n = 5;
+    let a: [i32; n];        // error! uzunluk sabit ifadesi biçiminde belirtilmemiş
+
+    Yukrıdaki dizi bildirimi error oluşturacaktır. Çünkü dizi uzunluğu sabit ifadsi ile belirtilmemiştir.
+
+    Rust'ta bir dizi oluşturulurken tipik olarak dizi elemanlarına ilkdeğerleri verilmektedir. Bu işlem köşeli parantezlerlerle
+    yapılmaktadır. (Dizi elamanlarına C'de küme ğarantezleri içerisinde ilkdeğer verildiğini anımsayınız.) Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    Tabii verilen her ilkdeğerin dizi türünden olması gerekir. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50.5];       // error!
+
+    Rust'ta dizi elemanlarına ilkdeğer verilirken verilen ilkdeğerlerin tam olarak dizi uzunluğu kadar olması zorunludur.
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40];      // error!
+
+    Burada a dizisi 5 elemanlı olduğu halde biz bu diziye 4 tane ilkdeğer verdik. Bu durum error oluşturacaktır. Halbuki
+    örneğin C ve C++'ta dizinin az sayıda elemanına ilkdeğer verilebilmektedir. Bu durumda diğer elemanlara 0 yerleştirilmektedir.
+    Rust'ta böyle bir durum söz konusu değildir. Rust'ta da dizi elemanlarına verilen ilkdeğerlerin sabit ifadesi olması
+    zorunlu değildir. Örneğin:
+
+    let (x, y, z) = (10, 20, 30);
+    let a: [i32; 3] = [x, y, z];      // geçerli
+
+    Rust'ta dizi elemanlarına ilkdeğer verirken köşeli parantez içerisindeki değerlerin hepsinin aynı türden olması gerekir.
+# 22. Ders 26/05/2025 - Pazartesi
+    Dizilere ilkdeğer verilirken let deyiminde tür belirtilmezse derleyici tür çıkarımını aşağıda belirtildiği gibi yapmaktadır:
+
+    - Dizi uzunluğu köşeli parantez içerisindeki eleman sayısı kadardır.
+    - Dizinin türü verilen ilkdeğerlerin türünden olur.
+    - Verilen ilkdeğerler sonek içermeyen tamsayı sabitlerinden oluşuyorsa dizi i32 türünden kabul edilir.
+    - Verilen ilkdeğerler sonek içermeyen gerçek sayı sabitlerden oluşuyorsa dizi f64 türünden kabul edilir.
+    - Verilen ilkdeğerlerin sonek içermeyen sabitlerden oluşması durumunda ya bu sabitlerin hepsinin tamsayı sabiti olması ya da
+    gerçek sayı sabiti olması gerekir.
+    - Verilen ilkdeğerlerden en az biri sonek içeren bir sabit ise diğerlerinin de ya bu soneki içermesi ya da bu sonekin
+    ilişkin olduğu türün sınırları içerisinde olması gerekir.
+
+    Örneğin:
+
+   let a = [10i16, 20i16, 30i16];
+
+   Bu ilkdeğer verme geçerlidir. Dizi [i16; 3] türündendir. Örneğin:
+
+   let a = [10i16, 20, 30, 40, 50];
+
+   Bu ilkdeğer verme de geçerlidir. Sonek almayan tamsayı sabitleri i16 türünün sınırları içerisinde kaldığı için i16 türünden
+   kabul edilir. Örneğin:
+
+    let a = [10, 20.2, 30];          // error!
+
+   Bu ilkdeğer verme error ile sonuçlanır. Çünkü verilen ilkdeğerlerden bir kısmı tamsayı sabitlerindne bir kısmı gerçek sayı
+   sabitlerinden oluşmaktadır. Örneğin:
+
+   let a = [10, 20.2f64, 30];       // error
+
+    Bu ilkdeğer verme de aynı gerekçelerle error oluşturacaktır. Örneğin:
+
+    let a = [10.2, 20.3, 30.4];
+
+    Bu ilkdeğer verme geçerlidir. Dizi [f64; 3] türündendir. Örneğin:
+
+    let a = [10.2, 20.3f32, 30.4];
+
+    Bu ilkdeğer verme de geçerlidir. Çünkü 10.2 ve 30.4 f32 türüyle temsil edilebilmektedir.
+
+    Dizi bağlanırken tür belirtildiğinde tüm ildeğerlerin aynı türden olması gerekir. Örneğin:
+
+    let a: [i8; 3] = [10i8, 20, 30];
+
+    Bu bağlama geçerlidir. Çünkü tüm sonek almayan ilkdeğerler i8 türü ile temsil edilebilmektedir. Örneğin:
+
+    let a: [f64; 3] = [3.14, 10, 20];       // error!
+
+    Burada ilkdeğer olarak verilen sabitlerin tamsayı sabiti bir kısmı da geröek sayı sabitidir.Dolayısıyla bu ilkdeğer verme
+    geçersizdir. Ancak aşağıdaki ilkdeğer verme geçerlidir:
+
+    let a: [f64; 3] = [3.14, 10f64, 20f64];
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında Rust'ta köşeli parantezler içerisinde ifade listesi yazıldığında bu sentaks "dizi yarat" anlamına gelmektedir.
+    Bu biçimde yaratılan dizilerin türünin tespiti "tür belirtilmeyen let deyimindeki dizi türünün belirlenmesi" kurallarıyla
+    yapılmaktadır. Yani örneğin [10, 20, 30] biçiminde yaratılan dizinin türü daha önce görmüş olduğumuz "let deyimiyle tür
+    belirtilmeden yapılan bağlamadaki tür tespiti" kurallarına göre yapılmaktadır. Örneğin:
+
+    let a = [10, 20, 30]
+
+    Biz daha önce bu dizinin türünün [i32; 3] biçiminde belirlendiğini görmiştük. İşte [10, 20, 30] ifadesi de [i32; 3]
+    biçiminde bir dizinin yaratılmasına yol açmaktadır. Rust'ta tamsayı ve gerçek sayı sabitlerinin türlerinin bağlama
+    göre değerlendirildiğini de anımsayınız. Örneğin:
+
+    let a: [i8; 3];
+
+    a = [10, 20, 30];       // geçerli
+
+    Burada artık [10, 20, 30] dizisi hedef tür dikkate alınacağı için [i8; 3] türündenmiş gibi ele alıanacaktır.
+
+    Mademki Rust'ta etkisiz kodlar error oluşmasına yol açmamaktadır o halde aşağıdaki gibi anlamsız bir kod parçası da
+    geçerlidir:
+
+    [10, 20, 30];
+
+    Burada [i32; 3] türünden bir dizi oluşturulmuş ancak hiçbir değişkene atanmamıştır. Tabii Rust derleyicisi bu durumda
+    bir uyarı verecek ve optmizasyon sürecinde tamamen koddan atılacaktır.
+
+    Yukarıdaki örnekten de gördüğünüz gibi Rust'ta bir dizi türünden değişkene istenildiği zaman aynı dizi türünden bir başka
+     değişken atanabilir. Bu bakımdan Rust C'ye benzememektedir. Örneğin:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+    //...
+    a = [100, 200, 300, 400, 500];      // geçerli
+
+    Halbuki bunun C karşılığı C'de geçersizdir:
+
+    int a[5] = {10, 20, 30, 40, 50};
+    //...
+    a = {100, 200, 300, 400, 500};      // geçersiz!
+
+    C'de dizi isimleri ifade içerisinde kullanıldığında dizinin başlangıç adresine dönüştürülmektedir. Zaten küme parantezleri
+    C'de yalnızca ilkdeğer vermede ve C99'da bileşik sabit oluşturmakta kullanılmaktadır.
+
+    Rust'ta bu durumun nasıl geçerli olduğunu merak edebilirsiniz. C'de aynı türden iki yapı nesnesinin atanabildiğini, bu
+    durumda yapının karşılıklı elemanlarının atandığını anımsayınız. Örneğin:
+
+    struct SAMPLE {
+        int a[5];
+    };
+
+    struct SAMPLE s = {{1, 2, 3, 4, 5}};
+    struct SAMPLE k;
+
+    k = s;            // geçerli!
+
+    Rust'ta bir dizi türünden değişkene daha sonra aynı dizi türünden değişken atandığında yine C'deki yapılarda olduğu
+    gibi dizinin karşılıklı elemanları birbirine atanmaktadır. Ancak Rust'ta bir diziye aynı türden bir dizi atanırken aslında
+    Rust'a özgü başka bir süreç daha devreye girmektedir. a ve b'nin dizi türünden olduğunu varsayalım:
+
+    a = b;
+
+    Rust'ta burada eğer bu dizilerin eleman türleri Copy ise (yani Copy trait'ini destekliyorsa, temel türler Copy trait'ini
+    desteklemektedir) atama işleminde bir sahiplik devredilmesi ve bir drop işlemi söz kousu olmaz. Ancak dizinin eleman
+    türleri Copy trait'ini desteklemiyorsa (yani Copy türünden  değilse) bu durumda atama işleminde soldaki dizi drop edilir,
+    sağdaki dizinin sahipliği de devredilir. Tabii biz henüz bu konuları görmedik. Sahiplik ve ödünç alma konuları ayrı bir
+    bölümde ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizinin bütün elemanlarına ilkdeğer atamadan dizi kullanılamamaktadır. Ancak bazen diziler çok büyük olabilir ve dizi
+    elemanlarına ilkdeğer atamak çok zahmetli hale gelebilir. İşte Rust'ta elemanları belli bir değerden oluşan oluşan
+    bir dizi yaratmak için pratik bir sentaks bulundurulmuştur. Rust'ta [değer; uzunluk] biçiminde bir sentaks "bu uzunlukta
+    dizi yarat ve dizinin her elemanına buradaki değeri yerleştir" anlamına gelmektedir. Örneğin:
+
+    let a: [i32; 100] = [0; 100];
+
+    Burada 100 elemanlı bir dizi oluşturulmuş ve dizinin her elemanına 0 yerleştirilmiştir. (Bu sentakta ';' atomunun solundaki
+    ve sağındaki öğeleri yanlış yerleştirebilirsiniz. Doğru biçimin ne olduğunu hatırlamanın basit bir yolu şudur: "Dizi türlerinde
+    uzunluk her zaman ';' atomunun sağında belirtilmektedir. O halde bu sentaksta ';' atomunun solunda doldurulacak değer
+    olmalıdır.) Tabii önceki paragrafta da belirttiğimiz gibi bir diziye bildirildikten sonra da aynı türden bir diziyi atabiliriz:
+
+    let a: [i32; 100];
+
+    a = [0; 100];
+
+    Pekiyi [değer; uzunluk] sentaksıyla yaratılan dizinin türü ne olacaktır? Burada dizinin uzunluğunu zaten biz vermek
+    zorundayız. Doldurulacak değerin türü de dizinin türünü belirtmektedir. Örneğin [0; 100] dizisi [i32; 100] türündendir.
+    Örneğin [1u8; 10] dizisi [u8; 10] türündedir. Aşağıdaki atama işlemi türler farklı olduğu için geçersizdir:
+
+    let a: [i32; 100]= [3.14; 100];     // error!
+
+    Burada 3.14 sabiti f64 türünden olduğu için burada yaratılan dizinin türü de [f64; 100] biçiminde olacaktır.
+
+    [değer; uzunluk] sentaksında yine uzunluğun sabit ifadesi biçiminde belirtilmesi zorunludur. Ancak değer sabit sabit
+    ifadesi olmak zorunda değildir. Örneğin:
+
+    let val: u8 = 1;
+    let a: [u8; 1000]= [val; 1000];     // geçerli
+
+    Fakat "The Rust Reference" dokümanlarına göre  [değer; uzunluk] sentaksındaki değerin bir Copy türünden olması (yani
+    Copy trait'ini destekliyor olması) ya da sabit olması zorunludur. Örneğin Rust'ın standart kütüphanesindeki String yapısı
+    Copy türündne olmadıüı için bu sentaksla kullanılamaz. Örneğin:
+
+    let x = ["ankara".to_string(); 5];      // error!
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta dizi elemanlarına erişmek için yine [] operatörü kullanılmaktadır. Köşeli parantezlerin içerisinde usize türünden
+    indeks belirten bir ifade bulunmak zorundadır. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let i: i32 = 2;
+    let val: i32;
+
+    val = a[i];             // error!
+    println!("{}", val);
+
+    Burada i değişkeni i32 türünden olduğu için error oluşacaktır. Örneğin:
+
+    val = a[2];     // geçerli
+
+    2 sabiti usize türünün sınırları içerisinde kaldığı için usize olarak da ele alınmaktadır. Bu nedenle a[2] gibi bir indekslemeyle
+    geçerlidir. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for i in 0..5 {
+        println!("a[{}] = {}", i, a[i]);
+    }
+
+    Burada her ne kadar 0..5 ifadesi Range<i32> türündense de döngü içerisinde i değişkeni dizi indeksi olarak kullanıldığı için
+    derleyici tarafından usize olarak ele alınmaktadır. Bu Rust'ın tür çıkarımı (type inference) konusunun ayrıntılarıyla
+    ilgilidir. Bu konunun ayrıntıları ileride ayrı bir başlık halinde ele alınacaktır.
+
+    Rust'ta dizi elemanlarına erişimde her zaman "sınır kontrolü (bounds check)" uygulanmaktadır. Eğer erişim geçerli bir
+    indekse yapılmıyorsa panic durumu oluşturulmaktadır. (Halbuki C'de ve C++'ta böyle bir kontrolün yapılmadığını anımsayınız.
+    Java, C# ve Python gibi dillerde de sınır kontrolü programın çalışma zamanı sırasında uygulanmaktadır.)
+
+    Rust'taki bu sınır kontrolü Rust programlarını eşdeğer C programlarına göre yavaşlatabilir mi? Evet bu kontrol Rust programlarını
+    eşdeğer C programlarına göre yavaşlatabilmektedir. Ancak modern derleyicilerin çok gelişmiş kod optimizasyonlarına sahiptir.
+    Rust derleyicileri kod optimizasyonu sırasında eğer bir sınır ihlali tehlikesi yoksa sınır kontrolünü aslında hiç yapmamaktadır.
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for i in 0..5 {
+        println!("a[{}] = {}", i, a[i]);
+    }
+
+    Buradaki kodda dizinin sınırları dışına erişim mümkün değildir. O halde Rust derleyicisi burada aslında herhangi bir sınır
+    kontrolü yapmayabilir. Başka bir deyişle Rust derleyicisi yalnızca aslında potansiyel bir tehlike varsa sınır kontrolü
+    uygulamaktadır.  Bu da performans kaybını azaltmaktadır.
+
+    Rust'ta ayrıca dizilerin sınır kontrolü yapmadan erişimi sağlayan get_unchecked ve get_unchecked_mut isimli metotları da
+    bulunmaktadır. Ancak bu metotlar yalnızca unsafe bloklar içerisinde kullanılabilmektedir. get_unchecked metodu bize
+    değiştirilemez (immutable) bir referans, get_unchecked_mut metodu ise değiştirilebilir (mutable) bir referns vermektedir.
+    Biz henüz Rust'ta referanslar ve göstericiler konusunu görmedik. Ancak yine de aşağıdaki örneği vermek istiyoruz:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let mut val: &i32;
+
+    for i in 0..5 {
+        unsafe {
+            val = a.get_unchecked(i);
+            println!("a[{}] = {}", i, *val);
+        }
+    }
+
+    Dizi elemanları üzerinde değişiklik yapmak istersek bu durumda get_unchecked_mut metodunu kullanmalıyız:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+    let mut val: &i32;
+
+    for i in 0..5 {
+        unsafe {
+            val = a.get_unchecked_mut(i);
+            println!("a[{}] = {}", i, *val);
+        }
+    }
+
+    "The Rust Reference" dokümanlarında dizi erişimlerinde sınır ihlali eğer derleme zamanında tespit edilebiliyorsa derleyicilerin
+    error mesajını derleme zamanında verebileceği (optional özellik) belirtilmiştir. örneğin:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    a[100] = 100;           // error!
+
+    Burada sınrı ihlali açık bir biçimde yapılmıştır. Derleyici bu erişimi derleme zamanında tespit edebildiği için derleme
+    zamanında error oluşturabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Diziler de normal diğer türden değişkenler gibi default olarak değiştirilemez (immutable) durumdadır. Dizi elemanları
+    üzerinde değişiklik yapılmak isteniyorsa dizinin mut olması gerekir. Örneğin:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for i in 0..5 {
+        a[i] = a[i] * a[i];
+    }
+    println!("a = {:?}", a);
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizinin uzunluğu len isimli metotla elde edilebilmektedir. (Tabii dizi yaratılırken dizi uzunluğu sabit ifadesi
+    biçiminde verildiğine göre dizi uzunluğunu zaten programcı bilmektedir.) len metodu bize dizi uzunluğunu usize türünden
+    vermektedir. usize türünün çalışılan sisteme göre o sistemin teorik bellek büyüklüğü ile ilgili olduğunu anımsayınız.
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for i in 0..a.len() {
+        print!("{} ",a[i]);
+    }
+    println!("");
+
+    len metodu aslında dizilerin değil dilimlerin (slices) metodudur. Rust'ta dizi üzerinde bir metot çağrıldığında eğer
+    metot diziye ilişkin değilse dizi referansı otomatik olarak dilim referansına dönüştürülüp dilimin len metodu çağrılmaktadır.
+    Bu konuileride ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki örnekte bir dizinin en büyük elemanı bulunmuştur.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+    let mut max: i32;
+
+    max = a[0];
+    for i in 1..a.len() {
+        if a[i] > max {
+            max = a[i];
+        }
+    }
+    println!("{}", max);
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki örnekte "kabarcık sıralamsı (boubble sort)" algoritması ile bir dizi sıraya dizilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+    let mut temp: i32;
+
+    for i in 0..a.len() - 1 {
+        for k in 0..a.len() - 1 - i {
+            if a[k] > a[k + 1] {
+                temp = a[k];
+                a[k] = a[k + 1];
+                a[k + 1] = temp;
+            }
+        }
+    }
+    for i in 0..a.len() {
+        print!("{} ", a[i]);
+    }
+    println!("");
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizi for döngüsüyle dolaşılabilir. Rust'ta dolaşım işlemi için dizilerin iteratör veren metotları kullanılmaktadır.
+    Diziyi dolaşmak için bize iteratör veren metotlardan biri into_iter isimli metottur. Örneğin:
+
+    let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+
+    for x in a.into_iter() {
+        //...
+    }
+
+    Bu döngü her yinelendikçe dizinin bir elemanı x'e yerleştirilmektedir. Dizi elemanları bitince döngü de sonlanmaktadır.
+    Aslında Rust'ta dizilerin kendisi doğrudan iterator değildir. Ancak diziler IntoIterator trait'ini desteklediği için bu
+    doğrudan for döngülerinde de kullanılabilmektedir. Yukarıdaki dolaşım tamamen eşdeğer biçimde aşağıdaki gibi de yapılabilir:
+
+    for x in a {
+        //...
+    }
+
+    Dizileri bu biçimde dolaşırken dizi elemanları döngü değişkenine atandığı için eğer dizi türü Copy değilse dizinin
+    sahipliği de kaybedilmektedir. (Buna İngilizce "dizinin consume edilmesi" de denilmektedir.) Örneğin:
+
+    let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+
+    for name in names {
+        println!("{}", name);
+    }
+    println!("{:?}", names);        // error!
+
+    Bu örnekte dizi elemanları Copy türünden olmayan String değerlerinden oluşmaktadır. İşte biz bu diziyi bu biçimde for
+    döngüsüyle döndüğümüzde artık dizi elemanları taşınmış olur ve asıl dizi (örneğimizdeki names) sahipliğini kaybeder.
+    Dolayısıyla bu for döngüsünden sonra biz bu diziyi artık kullanamayız. Tabii eğer dizi i32 gibi bir Copy türünden olsaydı
+    böyle bir error oluşmayacaktı. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    for x in a {
+        println!("{}", x);
+    }
+    println!("{:?}", a);            // geçerli
+
+    i32 türü taşınmamakta kopyalanmaktadır. Halbuki String türü taşınmaktadır. Bu konu ileride ayrı bir bölümde ele alınacaktır.
+
+    Dizileri for döngüsüyle dolaşmanın diğer bir yolu iter metodunu kullanmaktır. (iter metodu aslında dizi türünün değil dilim
+    türünün bir metodudur.) iter metodu bize bir iteratör verir. Ancak biz bu iteratörle dolaştıkça dizi elemanlarının kendisini
+    değil referanslarını (yani adreslerini) elde ederiz. Rust'ta bir referansın gösterdiği yerdeki değere erişmek için tek operand'lı
+    önek (unary prefix) * operatörü kullanılmaktadır. Bu biçimde diziyi dolaştığımızda dizi elemanları "ödünç alındığı (borrow)"
+    için dolaşım sonrasında dizi tüketilmemiş (consume edilmemiş) olur. Dolayısıyla dizi eleman türü Copy trait'ini desteklemiyor
+    olsa bile biz diziyi dolaşımdan sonra da kullanabiliriz. Örneğin:
+
+    let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+
+    for name in names.iter() {
+        println!("{}", *name);
+    }
+    println!("{:?}", names);            // geçerli
+
+    Buradaki for döngüsünde name değişkeni String türünden değil &String türündendir. Dolayısıyla döngü her yinelendiğinde
+    String değerlerinin kendisi değil adresleri name değişkenine atanmaktadır. Döngü bittikten sonra biz names dizisini
+    kullanabiliriz. Yukarıda da belirttiğimiz gibi eğer dizi Copy Trait'ini destekliyorsa zaten dizinin tüketilmesi gibi
+    bir durum söz konusu olmamaktadır. Tabii Copy trait'ini destekleyen türlere ilişkin dizileri de biz yine iter metodu
+    ile dolaşabiliriz. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for x in a.iter() {
+        println!("{}", *x);
+    }
+    println!("{:?}", a);            // geçerli
+
+    Burada x değerişkeni i32 türünden değil &i32 türündedir. Yani içerisinde i32 türünden değer bulunan dizi elemanının
+    adresini tutmaktadır. Biz de örneğimizde ilgili dizi elemanına * operatörü ile eriştik.
+
+# 23. Ders 28/05/2025 - Çarşamba
+
+    for döngüsünde bir diziyi iter metodu ile dolaşmakla dizinin adresini alarak dolaşmak işlevsel olarak eşdeğerdir.
+    Aşağıdaki iki dolaşım biçimi eşdeğerdir:
+
+    for x in a.iter() {
+        //...
+    }
+
+    for x in &a {
+        //...
+    }
+
+    Her iki dolaşımda da dizinin türü T olmak üzere x değişkeni &T türündendir. Yani for döngüsünde eğer bir diziyi adres
+    yoluyla dolaşmak istiyorsak iter metodunu çağırmak yerine dizi nesnesinin adresini de alabiliriz. Tabii dizi adres yoluyla
+    dolaşıldığı için bu durumda dizinin sahipliği devredilmez. Dolayısıyla for dögüsü bittiğinde de biz diziyi kullanılabiliriz.
+    Örneğin:
+
+    let names: [String; 5] = [
+        String::from("Ali"),
+        String::from("Veli"),
+        String::from("Selami"),
+        String::from("Ayşe"),
+        String::from("Fatma")
+    ];
+
+    for name in &names {
+        println!("{}", *name);
+    }
+    println!("{:?}", names);            // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+
+    let names: [String; 5] = [
+        String::from("Ali"),
+        String::from("Veli"),
+        String::from("Selami"),
+        String::from("Ayşe"),
+        String::from("Fatma")
+    ];
+
+    for name in &names {
+        println!("{}", *name);
+    }
+    println!("{:?}", names);            // geçerli
+
+---------------------------------------------------------------------------------------------------------------------------
+    Burada belki şu anda anlamayacak olsanız da geleceğe yönelik bir ayrıntıyı açıklamak istiyoruz. Rust'ta bir dizinin &
+    operatöryle adresi alındığında elde edilen ürün &[T; N] türünden olur.  &[T; N]  türünden &[T] türüne (&[T] türüne "T
+    türünden dilim referansı" da denilmektedir) otomatik dönüştürme vardır. Rust'ta bir türün hiç as kullanılmadan başka
+    bir türe otomatik dönüştürülmesine İngilizce "type coercion" denilmektedir. İşte Rust'ta aşağıdaki dönüştürme otomatik
+    olarak yapılabilmektedir:
+
+    let rnames: &[String; 5] = &names;          // geçerli burada "coercion" yok, türler aynı
+    let srnames: &[String] = rnames;            // geçerli &[String; 5] türü otomatik olarak &[String] türüne dönüştürülebilir
+
+    İşte dilim referanları for döngüsünde kullanıldığında sanki dilim referansıyla iter metodu çağrılmış gibi olmaktadır.
+    Yani aslında:
+
+    for name in &names {
+        //...
+    }
+
+    Bu işlemin eşdeğeri şöyledir:
+
+    let temp: &[String] = &names;
+    for name in temp.iter() {
+        //...
+    }
+
+    Buradaki iter metodu diziye ilişkin iter metodu değil, dilime ilşkin iter metodudur.
+
+    Burada yaptığımız açıklamaları anlamamış olabilirsiniz. Referanslar ve göstericiler konusu ileride ayrı bir başlık halinde
+    ele alınacaktır. Şu anda bilinmesi gereken özet durum bir diziyi tüketmeden (consume etmeden) adres yoluyla dolaşımın iter
+    metoduyla ya da dizinin adresinin alınmasyla da yapılabileceğidir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir diziyi itreatör yoluyla dolaşmanın diğer bir yolu da iter_mut metodunu kullanmaktadır. iter_mut metodu ile dolaşımda
+    yine dizi elemanlarının adresleri elde edilir. Ancak bu adresler mut adreslerdir. Dolayısıyla artık döngü değişkeni kullanılarak
+    dizi elemanları üzerinde değişiklikler yapılabilir. Tabii iter_mut metodunun kullanılabilmesi için dizinin de mut olması
+    gerekir. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for x in a.iter_mut() {             // error!
+        //...
+    }
+
+    Burada dizi mut olmadığı için biz dizi ile iter_mut metodunu çağıramayız. Şimdi diziyi mut yapalım:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for x in a.iter_mut() {             // geçerli
+        //...
+    }
+
+    Burada artık x &i32 türünden değil &mut i32 türünden olacaktır. Dolayısıyla artık biz döngü değişkenini * operatörüyle
+    kullanarak atama yaparsak dizinin ilgili elemanına atama yapmış oluruz. Örneğin:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for x in a.iter_mut() {
+        *x = *x * *x;
+    }
+
+    Burada x &mut i32 türündendir. Biz aslında dizinin her elemanını onun karesiyle değiştirmiş olduk.
+
+    Burada henüz tam olarak anlamlandıracak olmasanız da yine bir ayrıntıdan bahsetmek istiyoruz. Aslında Rust'ta iter_mut
+    metodu dizinin bir metodu değildir. Dilimin (dizi diliminin) bir metodudur. Biz bir dizi ile iter_mut metodunu çağırdığımızda
+    aslında dizi otomatik olarak dilime dönüştürülüp dilime ilişkin iter_mut metodu çağrılmaktadır.
+
+    Diziyi iter_mut yoluyla dolaşmanın da kısa yolu vardır. Eğer dizi mut ise biz dizinin adresini değiştirilebilir bir biçimde
+    &mut operatörüyle elde edebiliriz. Bu adres de Rust'ta otomatik olarak mut bir dilim referansına dönüştürülebilmektedir.
+    Yani a dizisi mut ve [T; N] türündne olmak üzere &mut a aslında &mut [T; N] türünden bir dizi referansının elde edilmesine
+    yol açmaktadır. Bu dizi referansı da otomatik olarak &mut [T] türüne dönüştürülmektedir. İşte bu türün de iter_mut metodu
+    devreye girmektedir. Dolayısıyla T dizinin türünü belirtmek üzere aşağıdaki üç döngü işlevsel olarak tamamen eşdeğerdir:
+
+    for x in a.iter_mut() {
+        //...
+    }
+
+    for x &mut a {
+        //...
+    }
+
+    let temp: &[T] = &a;
+    for x &mut temp {
+        //...
+    }
+
+    Yazım bakımından hangisinin tercih edileceği programcıya kalmıştır. Tabii daha az tuşa basmak isteniyorsa ikinci biçim
+    tercih edilebilir. Ancak bazen ileride göreceğimiz gibi zincirli çağrımlar yapılması gerekrbilir. Bu durumda birinci
+    biçimi kullanmak daha uygun olabilir. Örneğin:
+
+    let mut a: [i32;5] = [10, 20, 30, 40, 50];
+
+    for x in &mut a {
+        *x = *x * *x;
+    }
+
+    for x in a {
+        print!("{} ",x);
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    fn main() {
+    let mut a: [i32;5] = [10, 20, 30, 40, 50];
+
+    for x in &mut a {
+        *x = *x * *x;
+    }
+
+    for x in a {
+        print!("{} ",x);
+    }
+    println!("");
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir diziyi iteratör yoluyla dolaşmanın üç yöntemini aşağıda özetliyoruz. a dizisinin T türünden olduğunu varsayıyoruz:
+
+    1) Tüketici dolaşım:
+
+    for x in a.into_iter() {
+        //...
+    }
+
+    Eşdeğeri:
+
+    for x in a {
+        //...
+    }
+
+    Burada x T türündendir. int_iter metodu dizi türünün bir metodudur.
+
+    2) Adres yoluyla dolaşım:
+
+    for x in a.iter() {
+        //...
+    }
+
+    Eşdeğeri:
+
+    for x in &a {
+        //...
+    }
+
+    Burada x &T tründendir. iter metodu dilim türünün bir metodudur.
+
+    3) mut adres yoluyla dolaşım:
+
+     for x in a.iter_mut() {
+        //...
+    }
+
+    Eşdeğeri:
+
+    for x in &mut a {
+        //...
+    }
+
+    Burada x &mut T türündendir. iter_mut metodu dilim türünün bir metodudur.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizinin belli bir kısmının elde edilmesi işlemine "dizinin dilimlenmesi (array slicing)" denilmektedir. Dizi dilimleme
+    yalnızca Rust'a özgü bir özellik değildir. Örneğin Python'da, Ruby'de, Go'da, Swift'te ve Kotlin'de de dizi dilimlemesi
+    vardır. Rust'ta dizileri dilimleyebilmek için [] operatörünün içerisine range ifadelerinin yerleştirilmesi gerekir.
+    Range ifadelerinin pratik oluşturulma biçimlerini aşağıdaki özet tabloyla yeniden anımsatmak istiyoruz:
+
+      Yapı İsmi              Range Operatör İle Yaratım
+    ------------            --------------------------
+    Range                   a..b
+    RangeInclusive          a..=b
+    RangeFrom               a..
+    RangeTo                 ..b
+    RangeToInclusive        ..=b
+    RangeFull               ..
+
+    Biz bu range ifadelerinin hepsini for döngülerinde kullanamıyorduk. Ancak bu range ifadelerinin hepsi dilimlemede
+    kullanılabilmektedir. Bir dizi range ifadeleriyle dilimlendiğinde elde edilen ürüne "dizi dilimi (array slice)" ya da
+    kısaca "dilim (slice)" denilmektedir. Ancak Rust'ta dilimler türünden değişkenler tanımlanamamaktadır. Rust'ta dilimler
+    metot çağırma dışında doğrudan ifadelerde kullanılamamaktadır. Dilimlerin ifade içerisinde kullanılabilmesi için onların
+    & operatörüyle adreslerinin alınması gerekir. Bir diiminin adresi alındığında elde edilen ürüne "dilim referansı (slice
+    reference)" denilmektedir. Rust'ta yukarıda da belirttiğimiz gibi program içerisimde dilimlerin kendileri değil referansları
+    kullanılmaktadır. Örneğin a bir dizi belirtsin, biz de bu a dizisini a[3..6] biçiminde dilimlemiş olalım. İşte biz bu
+    a[3..6] ifadesini doğrudan ancak dilim metotlarını çağırmakta kullanabiliriz. Bu ifadeyi bir değişkene atayamayız. Ancak
+    bu ifadenin &[3..6] biçiminde adresini alırsak elde ettiğimiz dizi dilim referansını aynı türdne bir dizi dilim referansına
+    atayarak çeşitli ifadelerde kullanabiliriz.
+
+    a T türünden bir dizi belirtiyor olsun. Biz de a dizisini a[x..y] biçiminde dilimlemiş olalım. Yukarıda bu dilim ifadesinin
+    metot çağırma dılında tek başlarına kullanılamayacağını belirtmiştik. İşte Rust'ta bu dilim ifadesi [T] türünden kabul
+    edilmektedir. Eğer biz bu dilim ifadesinin adresini alırsak (yani ifadeyi &a[x..y] biçimine getirirsek) artık bu ifadenin
+    türü &[T] olmaktadır. [T] türü "T türünden bir dilim" anlamına gelir. Ancak bu türde bir uzunluk bilgisi olmadığı için bu ifade
+    yalnızca bmetot çağrılarında doğrudan kullanılabilmektedir. Fakat &[T] türü "T türünden dilim referansı" anlamına gelir.
+    Dilim referansları Rust'ta ifadelerde kullanılabilmektedir.
+
+    Yukarıda da belirttiğimiz gibi biz bir dilimi [T] türünden bir değişkene de atayamayız. Örneğin a dizisi i32 türünden olsun:
+
+     let s:[i32] = a[..];           // error
+
+    Burada a[..] ifadesi bir dilim belirtmektedir ve [i32] türündendir. Ancak biz bu dilimi [i32] türünden bir değişkene bile
+    atayamayız. Ancak dilimler doğrudan dilim metotlarının çağrılmasında kullanılabilmektedir. Örneğin Rust'ta a[..].len()
+    ifadesi geçerlidir.
+---------------------------------------------------------------------------------------------------------------------------
+    Burada terminolojiye ilişkin bir açıklama yapmak istiyoruz. Dilim referansları "bellekte ardışıl biçimde bulunan değerlerin
+    başlangıç adreslerini ve uzunluklarını belirten" genel bir terimdir. Diziler bellekte ardışıl olarak turulduğu için dilimler
+    de diziler gibi ardışıl değerlerin belli bir kısmını belirtmektedir. Bu nedenle "dilim referansı (slice reference)" yerine
+    "dizi dilimi referansı (array slice reference)" da denilebilmektedir. Ancak Rust'ın resmi dokümanlarında "dizi dilimi"
+    yerine yalnızca "dilim", "dizi dilim referansı" yerine de yalnızca "dilim referansı" terimi kullanılmaktadır. Biz de
+    kursumuzda genellikle "dilim" ve "dilim referansı" terimlerini kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki anlatımlar ışığında biz &a[x..y] ifadesini biz ancak &[T] türünden bir değişkene atayabiliriz. Örneğin:
+
+    let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let sr: &[i32];
+
+    sr = &a[3..6];      // geçerli!
+
+    Pekiyi böylesi bir atamada sr referansının içerisine ne yerleştirilmektedir? İşte dilim referansları aslında iki elemanlı
+    bir yapı gibi bellekte yer kaplamaktadır. Yani buradaki sr değişkeni aslında iki parçadan oluşmaktadır. Birinci parça
+    dilimlenen yerin başlangıç adresini, ikinci parça da dilimlenen yerin eleman uzunluğunu tutmaktadır. Rust'ta bu biçimde
+    hem adres hem de uzunluk tutan referanslara (referanslar da bir çeşit göstericidir) "şişman göstericiler (fat pointers)"
+    da denilmektedir. Bir dilim referansını şekilsel olarak şöyle gösterebiliriz:
+
+     Dilim Referansı
+    ┌────────────┐
+    │ gösterici  │
+    └────────────┘
+    ┌────────────┐
+    │ uzunluk    │
+    └────────────┘
+
+    Pekiyi bu biçimdeki bir dizi dilim referansı bellekte kaç byte yer kaplayacaktır? İşte anımsanacağı gibi adres bilgileri
+    çalışılan sistemin kaç bitlik olduğuna bağlı olarak değişeblmekteydi. Dizi dilim referansının uzunluk tutan kısmı usize
+    türündendir. Referansın bu kısmı da sistemin kaç bitlik olduğuna göre değişebilmektedir. O halde 32 bit sistemlerde bu
+    referans toplam 4 + 4 = 8 byte, 64 bit sistemlerde 8 + 8 = 16 byte yer kaplayacaktır.
+# 24. Ders 02/06/2025 - Pazartesi
+
+    Dizileri dilimlerken daha önce görmüş olduğumuz tüm range ifadeleri kullanılabilmektedir. Örneğin a bir dizi olsun.
+    Aşağıdaki dilimlemelerin hepsi geçerlidir:
+
+    Dilimleme Biçimi            Anlamı
+
+    a[x..y]                    x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
+    a[x..=y]                   x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil
+    a[..y]                     Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
+    a[..=y]                    Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil
+    a[..]                      Dizinin tüm elemanları
+
+    Daha önceden de belirttiğimiz gibi (bu konun ayrıntıları ileride ayrı bir başlık halinde ele alınacak) bir dizinin adresi
+    otomatik olarak dizi dilim referansına dönüştürülebilmektedir. Bu durumda bir dizinin tamamından dilim elde etmenin iki
+    yolu vardır (dizinin T türünden olduğunu varsayıyoruz):
+
+    1) let sr: &[T] = &a[..];
+    2) let sr: &[T] = &a;
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta diziler fonksiyonlara iki yöntemle aktarılmaktadır:
+
+    1) Dizinin tamamının kopyalanarak fonksiyona aktarılması yöntemi: Rust'ta dizinin tüm elemanlarını fonksiyona kopyalayarak
+    bu biçimde aktarabiliriz. Böyle bir aktarım yöntemi C'de yoktur. Bu yöntemde fonksiyonun parametre değişkeni dizi ile aynı
+    türden bir dizi olur. Fonksiyon da aynı türden bir dizi ile çağrılır. Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        foo(a);
+    }
+
+    fn foo(a: [i32; 10]) {
+        //...
+    }
+
+    Zaten biz Rust'ta bir diziyi aynı türden bir diziye atayabiliyorduk. Fonksiyon çağrıldığında argümanlardan parametre
+    değişkenlerine atama yapıldığını anımsayınız. Bu biçimde aktarımda eğer dizi türü Copy değilse (yani taşınabilen bir türse)
+    bu durumda aktarımdan sonra dizinin sahipliği kaybedilir. Dizi çağıran fonksiyonda artık kullanılamaz.
+    Örneğin:
+
+    fn main() {
+        let names:[String; 5] = [
+            "ali".to_string(),
+            "veli".to_string(),
+            "selami".to_string(),
+            "ayşe".to_string(),
+            "fatma".to_string()
+        ];
+
+        foo(names);
+
+        for name in &names {                // error!
+            println!("{}", *name);
+        }
+    }
+
+    fn foo(names: [String; 5]) {
+        for name in &names {
+            println!("{}", *name);
+        }
+    }
+
+    Bu örnekte standart kütüpahedeki String türü bir Copy türü olmadığı için sahiplik kaybedilmiştir. Tabii dizilerin bu biçimde
+    fonksiyonlara aktarılması özel bir durum söz konusu sonra tercih edilmez. Dolayısıyla kötü bir tekniktir. (Bu durumu C'deki
+    yapı nesnelerinin fonksiyona adres yoluyla değil de kopyalama yoluyla aktarılmasına benzetebilirsiniz.)
+
+    2) Dizinin dilimlenerek fonksiyona aktarılması yöntemi: Bu yöntemde fonksiyonun parametre değişkeni bir dilim referansı
+    olur. Fonksiyon da dizi elemanlarına ilişkin dilim adresiyle çağrılır. Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        foo(&a);        // foo(&a[..]);
+    }
+
+    fn foo(a: &[i32]) {
+    //...
+    }
+
+    Bu yöntemde dizi ne kadar büyük olursa olsun aslında fonksiyona yalnızca diziin başlangıç adresi ve uzunluğu aktarılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi elimizde bir dilim referansı varsa biz bu referansla dizi elemanlarına nasıl erişebiliriz? İşte Rust'ta dilim
+    referansı ile yine [] operatörünü kullanarak dizinin elemanlarına (referansın gösterdiği yerdeki dizinin elemanlarına)
+    erişebiliriz. Başka bir deyişle dilim referansları sanki diziymiş gibi kullanılabilmektedir. Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        foo(&a);        // foo(&a[..]);
+    }
+
+    fn foo(sr: &[i32]) {
+        for i in 0..sr.len() {
+            print!("{} ", sr[i]);
+        }
+        println!("");
+    }
+
+    Tabii yine erişimde sınır kontrolü (bounds check) yapılmaktadır. foo fonksiyonun yazımına dikkat ediniz:
+
+    fn foo(sr: &[i32]) {
+        for i in 0..sr.len() {
+            print!("{} ", sr[i]);
+        }
+        println!("");
+    }
+
+    Burada dilimin len metodu kullanılmıştır. (Aslında dizilerin len metodu yoktur. Zaten dizilerle len metodunu çağırdığımızda
+    dilimin len metodunu çağırmış oluruz.) Dilim referansının içerisinde zaten uzunluk bilgisinin bulunduğunu anımsayınız. len
+    metodu doğrudan referansın içerisindeki bu uzunluk bilgisini bize vermektedir.
+
+    Daha önceden de belirtitğimiz gibi aslında biz bir diziyle iter metodunu kullandığımızda dizinin iter metodu değil diliminin
+    iter metodu çağrılmaktadır. Aynı durum iter_mut metodu için de geçerlidir. Yani aslında dizilerin iter ve iter_mut metotları
+    yoktur. Biz dizilerle bu metotları çağırdığımızda zaten dilimlerinin iter ve iter_mut metotları çağrılmaktadır. O halde
+    elimizde bir dilim referansı varsa biz doğrudan bu referans ile iter ve iter_mut metotlarını çağırabiliriz.
+
+    Dilim referanslarıyla iter metodu çağrıldığında yine referansın gösterdiği diziye ilişkin dizi elemanlarının adreslerini
+    veren bir iteratör elde edilmektedir. Örneğin:
+
+    fn foo(sr: &[i32]) {
+        for val in sr.iter() {
+            print!("{} ", *val);
+        }
+        println!("");
+    }
+
+    Burada val değişkeni i32 türünden değildir, &i32 türündendir. Yani dizi elemanlarının adresini tutan bir gösterici gibidir.
+    Biz de *val ifadesi ile dizi elemanına erişmiş olduk. Rust'ta zaten dilimler bir iteratör belirtmektedir. Dolayısyla yukarıdaki
+    döngünün eşdeğeri hiç iter metodunu çağırmadan dilim referansının kendisi kullanılarak da oluşturulabilmektedir. Örneğin:
+
+    fn foo(sr: &[i32]) {
+        for val in sr {
+            print!("{} ", *val);
+        }
+        println!("");
+    }
+
+    Her iki biçim de tamamen eşdeğer etkiye yol açmaktadır. iter metodunu çağırmak yerine dilim referansının kendisinin
+    kullanılabilmesinin nedeni dizi dilimlerinin IntoIterator trait'ini desteklemelerinden kaynaklanmaktadır. Bu konu ileride
+    başka bir bölümde ele alınacaktır.
+
+    Yukarıdaki gibi dilim referansıyla dizi elemanlarına erişirken val referansı değiştirilemez (immutable) bir referanstır.
+    (Yani C'deki gösteridiği yer const olan gösterici gibidir.) Eğer dolaşımın mut bir referansla yapılması isteniyorsa iter_mut
+    metodu kullanımalıdır. Bu metodun verdiği iteratör diziler konusunda da gördüğümüz gibi mut referanslar vermektedir. Tabii
+    bu durumda dilim referansının da mut olması gerekir. mut bir dilim referansına atama yapabilmek için dizi de mut olmalıdır.
+    Örneğin:
+
+    fn main() {
+        let mut a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        foo(&mut a);        // foo(&mut a[..]);
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    fn foo(sr: &mut [i32]) {
+        for val in sr.iter_mut() {
+            *val = *val * 2;
+        }
+        println!("");
+    }
+
+    Burada fonksiyonun parametresi olan dilim referansının mut bir referans olduğuna ve asıl dizinin de mut bir dizi
+    olduğuna dikkat ediniz. Aslında bir dilim referansı mut ise zaten bu referansı for döngüsünde kullandığımızda
+    iter_mut metodunun çağrılmasıyla aynı etki oluşmaktadır. Yani yukarıdaki foo fonksiyonunu şöyle de yazabilirdik:
+
+    fn foo(sr: &mut [i32]) {
+        for val in sr {
+            *val = *val * 2;
+        }
+        println!("");
+    }
+
+    Biz dizilerle into_iter metodunu çağırdığımızda dizi elemanlarının adreslerini değil kopyalarını elde ediyorduk.
+    İşte dilimlerin de aslında into_iter metotları vardır. Çünkü dilimler de IntoIterator isimli trait'i desteklemektedir.
+    into_iter metodu da bu trait'ten gelmektedir. Ancak biz dilim referanslarıyla into_iter metodunu çağırdığımızda dizi
+    elemanlarının kendisini elde etmeyiz. Yine referans mut değilse mut olmayan bir referans, referans mut ise mut bir referans
+    elde ederiz. Özetle aşağıdaki üç dolaşım biçimi de işlevsel olarak eşdeğerdir:
+
+    fn foo(sr: &[i32]) {
+        for val in sr.iter() {
+            //...
+        }
+    }
+
+    fn foo(sr: &[i32]) {
+        for val in sr.into_iter() {
+            //...
+        }
+    }
+
+    fn foo(sr: &[i32]) {
+        for val in sr {
+            //...
+        }
+    }
+
+    Burada üç dolaşım biçiminde de val değişkeni &i32 türündendir. Şimdi de referansın mut olduğunu varsayalım. Yine aşağıdaki üç
+    dolaşım biçimi işlevsel olarak aynıdır:
+
+     fn foo(sr: &mut [i32]) {
+        for val in sr.iter_mut() {
+            //...
+        }
+    }
+
+    fn foo(sr: &mut [i32]) {
+        for val in sr.into_iter() {
+            //...
+        }
+    }
+
+    fn foo(sr: &mut [i32]) {
+        for val in sr {
+            //...
+        }
+    }
+
+    Burada üç dolaşım biçiminde de val değişkeni &mut i32 türündendir.
+
+    Aşağıda bir dizini en büyük elemanına geri dönen bir fonksiyon örneği verilmiştir. Örneğimizde biz bu fonksiyonu dizinin
+    tamamına ilişkin bir dilim referansıyla çağırdık:
+
+    maxval = getmax(&a);
+
+    Tabii aslında dizinin bvelli bir kısmının en büyük elemanını da elde edebilirdik. Örneğin:
+
+    maxval = getmax(&a[..5]);
+
+    Burada dizinin ilk beş elemanının en büyüğü elde edilmştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+    let maxval: i32;
+
+    maxval = getmax(&a);
+    println!("Max: {}", maxval);
+}
+
+fn getmax(sr: &[i32]) -> i32 {
+    let mut maxval: i32;
+
+    maxval = sr[0];
+    for i in 0..sr.len() {
+        if sr[i] > maxval {
+            maxval = sr[i];
+        }
+    }
+    maxval
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Nasıl C'de const olmayan bir nesnenin adresi const bir göstericiye atanabiliyorsa aynı gerekçelerle Rust'ta mut bir
+    dizi referansı mut olmayan bir dilim referansına atanabilmektedir. Başka bir deyişle mut bir referanstan mut olmayan
+    referansa Rust'ta otomatik dönüştürme (type coercion) vardır. Örneğin:
+
+    let rs1: &mut [i32];
+    let rs2: &[i32];
+    //...
+
+    rs2 = rs1;      // geçerli
+
+    Bu durumda örneğin bir fonksiyonun parametre değişkeni mut olmayan bir dilim referansı ise biz bu fonksiyonu mut bir
+    dizi diliminin adresiyle çağırırsak bir sorun oluşmaz.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizi ile bir metot çağrılıken dizi adresi dilim referansına otomatik dönüştürülebildiği için aslında bir dizi ile
+    yalnızca dizinin metotları değil dilimin metotları da çağrılabilmektedir. İşte daha önceden de belirttiğimiz gibi aslında
+    dizilerle kullandığımız len, iter ve iter_mut metotları dizilere ilişkin değil dilimlere ilişkin metotlardır. Bir metodun
+    dizinin metodu mu yoksa diliminin metodu mu olduğunu anlamanın pratik bir yolu yoktur. Bunun için "The Rust Standard Library"
+    dokümanlarına başvurmanız gerekir. Bu dokümanlara ilşkin bağlantıyı yeniden vermek istiyoruz:
+
+    https://doc.rust-lang.org/std/
+
+    Bu dokümanlarda "Primitive Types" başlığı altındaki "array" ve "slice" kısımlarını gözden geçirebilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta dizilerin ve dilimlerinin aslında pek çok metodu vardır. Bu metotların bazılarını kullanabilmek için bazı konuları
+    bilmemiz gerekir. Ancak bazı metotları kursumuzun bu noktasında gözden geçirebiliriz. Yalnızca dizilerde olan ancak dilimlerde
+    olmayan metotların önemli olanları şunlardır:
+
+    map
+    try_map
+    into_iter (dilimlerde de var ama işlevi aynı değil)
+    Default (izleyen paragraflarda açıklayacağız)
+
+    Dizilerde olmayan fakat dilimlerde olan metotların önemli olanları da şunlardır:
+
+    contains(&item)
+    starts_with(slice)
+    ends_with(slice)
+    binary_search(&item)
+    binary_search_by(|probe| ...)
+    windows(n)
+    chunks(n)
+    rchunks(n)
+    chunks_exact(n)
+    split(|x| condition)
+    splitn(n, |x| condition)
+    rsplit(...) / .rsplitn(...)
+    as_ptr()
+    as_mut_ptr()
+    as_ref() / as_mut()
+    get(index) / get_mut(index)
+    get_unchecked(index) (unsafe)
+    first() / .last()
+    split_at(mid)
+    split_at_mut(mid)
+    as_chunks() (1.63+)
+    sort()
+    sort_by(...)
+    sort_by_key(...)
+    reverse()
+    rotate_left(n) / rotate_right(n)
+    fill(value) (1.50+)
+    copy_from_slice(slice)
+    iter()
+    iter_mut()
+    windows(n).map(...)
+    chunks(n).map(...)
+    iter().enumerate()
+
+    Şimdi bu metotların bazılarını gözden geçirelim. Bir dizi ile hem dizinin hem de dilimin metotlarını kullanabildiğimize
+    bir kez daha dikkatiniz çekmek istiyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+    - contains metodu belli bir elemanın dizinin içerisinde olup olmadığına ilişkin bool bir değer geri döndürmektedir. Ancak
+    bu metot bizden parametre olarak bir referans istemektedir. Biz de & operatörünü kullanarak argümanı oluşturmalıyız.
+    Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        let result: bool;
+
+        result = a.contains(&42);
+        println!("{}", result);     // true
+    }
+
+    Burada sabit bir değerin adresinin alınması size biraz tuhaf gelebilir. Çünkü C'de böyle bir şey mümkün değildir. Ancak
+    Rust'ta bir sabitin adresi alındığında derleyici önce sabiti statik ömürlü bir değişkene yerleştirir onun adresini alır.
+
+    - starts_with ve end_with metotları dizinin ilk kısmının ve son kısmının argüman olarak verilenle aynı olup olmadığına
+    bakar. Bu metot bizden bir dilim referansı istemektedir. Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        let result: bool;
+
+        result = a.ends_with(&[42, 8, 53]);
+        println!("{}", result);     // true
+    }
+
+    - windows metodu bizden argüman olarak bir usize türünden bir tamsayı değeri alır. Bu değerin n olduğunu varsayalım.
+    Söz konusu diziyi n'erli biçimde dilimleyerek bize dilim referanslarının elde edileceği veren bir iteratör verir.
+    Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+
+        for sr in a.windows(3) {
+            println!("{:?}", sr);
+        }
+    }
+
+    Buradaki sr &[i32] türündedir. Bu programdan aşağıdaki çıktı elde edilecektir:
+
+    [45, 23, 12]
+    [23, 12, 45]
+    [12, 45, 34]
+    [45, 34, 26]
+    [34, 26, 87]
+    [26, 87, 42]
+    [87, 42, 8]
+    [42, 8, 53]
+
+    - chunks metodu da windows metoduna benmektedir. Ancak örtüşmeyen dilimlerin referanslarını verir. Örneğin:
+
+    fn main() {
+        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+
+        for sr in a.chunks(3) {
+            println!("{:?}", sr);
+        }
+    }
+
+    Buradan şu çıktı elde edilecektir:
+
+    [45, 23, 12]
+    [45, 34, 26]
+    [87, 42, 8]
+    [53]
+
+    - sort metodu eğer dizinin eleman türü Ord trait'ini destekliyorsa diziyi sıraya dizmektedir. Tabii dizinin mut olması
+    gerekir. Örneğin:
+
+    fn main() {
+        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+
+        a.sort();
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    - reverse metodu dizi ters yüz etmektedir. Örneğin:
+
+    fn main() {
+        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+
+        a.reverse();
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    - fill metodu diziyi belli bir değerle doldurmaktadır. Örneğin:
+
+    fn main() {
+        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+
+        a.fill(0);
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    Burada artık dizinin bütün elemanları 0 olacaktır.
+
+    - copy_from_slice metodu bir diziyi başka bir dizinin elemanlarıyla kopyalamak için kullanılmaktadır. Örneğin:
+
+    fn main() {
+        let mut a:[i32; 3] = [45, 23, 12];
+
+        a.copy_from_slice(&[10, 20, 30]);
+        println!("{:?}", a);        // [10, 20, 30]
+    }
+
+    Bu metotta kaynak ve hedef dilimler aynı uzunlukta olmalıdır. Tabii bazen dizinin belli bir kısmına kopyalama yapmak
+    isteyebiliriz. Bunun için hedef diziyi de dilimlemek gerekir. Örneğin:
+
+    fn main() {
+        let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+
+        a[3..6].copy_from_slice(&[10, 20, 30]);
+        println!("{:?}", a);        // [45, 23, 12, 10, 20, 30, 6, 2, 10, 34]
+    }
+
+    - Dilim referansının içerisindeki uzunluk bilgisinin len metoduyla elde edildiğini görmüştük. Pekiyi dilim referansının
+    içerisindeki adres bilgisi nasıl elde edilebilir? İşte bunun için as_ptr isimli bir metot kullanılmaktadır. Tabii bu metot bize
+    bir referansa değil C'deki gibi bir gösterici vermektedir. Rust'ta C'deki gibi göstericilere "ham göstericiler (raw pointers)"
+    denilmektedir. Ham göstericiler de Rust'ta ancak unsafe bloklarda kullanılabilmektedir. Bu konunun ayrıntılarını zaten ileride
+    ayrı bir başlık halinde ele alacağız. Örneğin:
+
+    let a:[i32; 5] = [10, 20, 30, 40, 50];
+    let sr: &[i32] = &a[2..4];
+
+    let pt: *const i32 = sr.as_ptr();
+    unsafe {
+        println!("{}", *pt);        // 30
+    }
+
+    Eğer dizi mut ise as_mut_ptr metodu ile "mut bir ham gösterici" elde edilebilmektedir. Örneğin:
+
+   let mut a:[i32; 5] = [10, 20, 30, 40, 50];
+   let sr: &mut [i32] = &mut a[2..4];
+
+    let pt: *mut i32 = sr.as_mut_ptr();
+    unsafe {
+        *pt = 100;
+    }
+    println!("{:?}", a);        // [10, 20, 100, 40, 50]
+
+    Ayrıca dilimlerin as_ref isimli bir metodu da vardır. Bu metot önemli bir şey yapmamaktadır. Doğrudan dilim referansının
+    kendisini vermektedir.
+# 25. Ders 04/06/2025 - Çarşamba
+
+    Aslında yukarıdaki örnekten de görüldüğü gibi bir diziyi dilimler dilimlemez o dilim ile doğrudan dilimin metotlarını
+    çağırabiliriz. Yani onun adresini alarak metot çağırmamıza gerek yoktur. Örneğin:
+
+    let a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+    let result: bool;
+
+    result = a[2..6].contains(&8);
+    println!("{}", result);
+
+    Buradaki contains metodunun nasıl çağrıldığına dikkat ediniz:
+
+    result = a[2..6].contains(&8);
+
+    Biz a[2..6] gibi bir ifadenin bir dilim belirttiğini ve dilimlerin de doğrudan bazı durumlar dışında kullanılamadığını
+    belirtmiştik. Tabii eğer dizi mut ise dilim de mut kabul edilmektedir. Örneğin:
+
+    let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+
+    a[..5].sort();
+    println!("{:?}", a);        // [5, 8, 12, 23, 45, 9, 6, 2, 10, 34]
+
+    sort metodunun mut bir dilim referansı istediğini anımsayınız. a[..5] ifadesi a mut olduğu için otomatik olarak mut bir
+    referansa dönüştürülmektedir. Dolayısıyla yukarıdaki örnekte diziinn ilk 5 elemanı sıraya dizilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta herhangi türden sıfır elemanlı bir dizi oluşturulabilir. Örneğin:
+
+    let a:[i32; 0];
+
+    Tabii 0 elemanlı bir diziye içi boş köşeli parantezlerle değer verilebilir. Örneğin:
+
+    let a:[i32; 0] = [];
+
+    Bu dizinin uzunluğunu len metoduyla almak istediğimizde 0 değerini elde ederiz.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta çok boyutlu diziler "dizi dizileri gibi" oluşturulmaktadır. Örneğin biz i32 türünden 3 satırlı 2 sütunlu bir
+    matris oluşturmak istsyelim. Bunu Rust'ta her biri 2 elemandan oluşan 3 elemanlı bir dizi gibi oluştururuz:
+
+    let a: [[i32; 2]; 3];
+
+    Tabii bu biçimdeki dizilere iç içe köşeli parantezlerle ildeğer verilebilir. Örneğin:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+
+    Bu dizide elemana erişim de iki köşeli parantezle yapılmaktadır. Örneğin:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+
+    println!("{}", a[2][1]);        // 60
+
+    Tabii diğer dillerde olduğu iki boyutlu bir diziyi iç içe iki döngüyle dolaşabiliriz:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+
+    for i in 0..a.len() {
+       for j in 0..a[i].len() {
+           print!("{} ", a[i][j]);
+       }
+       println!("");
+    }
+
+    Bu koddan aşağıdaki gibi bir çıktı elde edilecektir:
+
+    10 20
+    30 40
+    50 60
+
+    Tabii biz aslında bu iki boyutlu diziyi iteratör yoluyla da dolaşabiliriz. Örneğin:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+
+    for x in a.iter() {
+        for y in x.iter() {
+            print!("{} ", *y);
+        }
+        println!("");
+    }
+
+    iter metodu ile verilen iteratörün dolaşım sırasında dizi elemanlarının adreslerini verdiğini anımsayınız. O halde Yukarıdaki
+    örnekte x değişkeni &[i32; 2] türünden olur. x.iter() çağrısı da aslında bu iç diziler üzerinde iteratör elde etmektedir.
+    (Burada çağrının x.iter yerine (*x).iter() biçiminde yapılması gerektiğini düşünebilirsiniz. Ancak Rust'ta bu işlem de
+    otomatik yapılmaktadır.) Bu durumda y değişkenin türü de &i32 olacaktır. Tabii yukarıdaki döngülerdeki ifadeler daha önce
+    belirtiğimiz gibi şöyle de kısaltılabilirdi:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+
+    for x in &a {
+        for y in x {
+            print!("{} ", *y);
+        }
+        println!("");
+    }
+
+    Programlamada üçten fazla boyuta sahip dizilere çok seyrek biçimde gereksinim duyulmaktadır. Ancak üç boyutlu dizilerle
+    çokça karşılabilmektedir. Rust'ta ikiden fazla boyutlu diziler benzer biçimde oluşturulmaktadır. Örneğin 2x2x2'lik bir diziyi
+    şöyle oluşturabiliriz:
+
+    let a: [[[i32; 2]; 2]; 2] = [[[10, 20], [30, 40]], [[50, 60], [70, 80]]];
+
+    Anımsanacağı gibi elemanlarının hepsi belli bir değerden oluşan diziler Rust'ta [değer; uzunluk] sentaksıyla yaratılabiliyordu.
+    İşte aynı sentaksı biz çok boyutlu dizilerde de kullanabiliriz. Örneğin:
+
+    let a: [[i32; 2]; 3];
+
+    a = [[0; 2]; 3];
+
+    Buradaki [[0; 2]; 3] ifadesine dikkat ediniz. Burada aslında [0; 2] dizisinden 3 tane oluşturulmaktadır. Öte yandan [0; 2]
+    dizisi de elemanları 0 olan iki elemanlı dizi oluşturmaktadır. O halde bu ifade her elemanında 0 olan 3x2'lik bir dizi
+    belirtmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir dizinin elemanları pratik bir biçimde değişkenlere atanabilir. Buna Rust'ta dizinin  "açılması (destructuring)"
+    denilmektedir. Dizinin açılması "The Rust Reference" dokümanlarında kalıp uyuşumu biçiminde ele alımıştır. Bu kalıba
+    "dilim kalıbı (slice pattern)" ismi verilmiştir. Biz kursumuzda bu işleme amaç bağlamında bazen "açım (destructuring)"
+    bazen de dilim kalıbı (slice pattern)" bazen de "dizi kalıbı (array pattern) diyeceğiz. Açım (destructuring) özelliği
+    modern pek çok dilde bulunmaktadır. Örneğin bu özelliğe Python'da "unpacking", C#'ta ve Swift'te "deconstructing"
+    denilmektedir.
+
+    Yukarıda da belirttiğimiz gibi açım sentaksı bir kalıp biçiminde oluşturulmaktadır. Bu kalıba "dilim kalıbı (slice pattern)"
+    denilmektedir. Dilim kalıbında köşeli parantezler içerisinde elemanlar yerine kalıplar bulundurulmaktadır.
+
+    let deyiminde kalıp olarak köşeli parantezler içerisinde değişken listesi kullanılırsa (variable patterns) dizinin elemanları
+    sırasıyla bu değişkenlere atanır. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+    let [x, y, z] = a;
+
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
+
+    Burada aslında biz x, y, ve z isminde üç tane değişken yaratıp bu değişkenlere de dizi elemanlarını sırasıyla atamış
+    olduk. Yukarıda yapılan işlemin tamamen eşdeğeri şöyledir:
+
+    let a: [i32; 3] = [10, 20, 30];
+    let x = a[0];
+    let y = a[1]
+    let z = a[2];
+
+    let deyimi ile dizi açımı sırasında ayrıca tür de belirtilebilir. Ancak bunun bir faydası olmadığı için Rust programcıları
+    gereksiz tür belirtmekten kaçınmaktadır. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+    let [x, y, z]: [i32; 3] = a;       // geçerli ama açım sırasında tür belirtmenin bir faydası yok
+
+    Dizi açımı dolaylı bir atama anlamına geldiği için Copy türünden olmayan dizilerin elemanları bu işlem sırasında taşınmaktadır.
+    Dolayısıyla açımdan sonra bu elemanlar kullanılamamaktadır. Örneğin:
+
+    let a: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+    let [x, y, z] = a;
+
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = ali, y = veli, z = selami
+    println!("{}", a[2]);       // error!
+
+    Açım yaparken (yani dilim kalıbını kullanırken) değerini bir değişkene yerleştirmek istemediğimiz elemanlar için _ atomunu
+    kullanabiliriz. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let [x, _, y, _, z] = a;
+
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 30, z = 50
+
+    Buradaki açıma dikkat ediniz:
+
+    let [x, _, y, _, z] = a;
+
+    Dizinin 0'ıncı indeksli elemanı x değişkenine, 2'inci indeksli elemanı y değişkenine ve 4'üncü indeksli elemanı da z
+    değişkenine atanmaktadır. Buradaki _ karakterleri "bu indekse karşı gelen elemanların bir değişkene atanmasını istemiyorum"
+    anlamına gelmektedir.
+
+    Normal olarak açım sırasında (yani dilim kalıbında) köşeli parantezlerin içerisinde kaynak dizi ile aynı uzunukta bir
+    bir eleman listesinin bulundurulması gerekir. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let [x, y, z] = a;    //error!
+
+    Burada dizi 10 eleman uzunluğunda olduğu halde kalıpta yalnızca 3 eleman belirtilmiştir. İşte kalıptaki .. sentaksı "herhangi
+    0 tane ya da daha fazla elemanla eşleş" anlamına gelmektedir. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let [x, y, z, ..] = a;      //geçerli
+
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
+
+    Burada açım kalıbına dikkat ediniz:
+
+    let [x, y, z, ..] = a;      //geçerli
+
+    Buradaki .. sentaksı "geri kalanların hepsi ama ben bunlarla ilgilenmiyorum" anlamına gelmektedir. "The Rust Reference"
+    dokümanlarında .. biçiminde oluşturulan kalıplara "rest patterns" denilmektedir.
+
+    Aslında .. sentaksı dilim kalıbında herhangi bir yerde bulunabilir. Yani sonda bulunmak zorunda değildir. Ancak bu sentaks
+    dilim kalıbında yalnızca toplamda bir kez kullanılabilmektedir. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let [x, .., y, z] = a;
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
+
+    let [.., x, y, z] = a;
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 80, y = 90, z = 100
+
+    .. sentaksı "0 tane" anlamına da gelmektedir. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+    let [x, y, z, ..] = a;      // geçerli
+
+    Burada .. ile sıfır eşleşme yapılacaktır. Ancak kalıp geçerlidir.
+
+    .. kalıbında @ ile değişken bağlaması da yapılabilmektedir. Bu durumda ilgi değişken bir dizi olur. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let [x, others @ .., y, z] = a;
+
+    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
+    println!("others: {:?}", others);                   // others: [20, 30, 40, 50, 60, 70, 80]
+
+    Buradaki açıma dikkat ediniz:
+
+    let [x, others @ .., y, z] = a;
+
+    Kalıptaki .. sentaksı 7 tane elemanla uyuşmaktadır. İşte biz others @ .. sentaksı ile bu 7 elemanı da bir dizi biçiminde
+    elde edebilmekteyiz. Rust'ta sıfır elemanlı dizilerin neden geçerli olduğu bu bağlamdan da anlaşılmaktadır.
+
+    Çok boyutlu diziler için açım özyinelemeli biçimde (yani kalıpta iç içe birden fazla köşeli parantez kullanılarak)
+    yapılabilmektedir. Örneğin:
+
+    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+    let [[x, y], _, [z, k]] = a;
+
+    println!("x = {}, y = {}, z = {}, k = {}", x, y, z, k);     // x = 10, y = 20, z = 50, k = 60
+---------------------------------------------------------------------------------------------------------------------------
+    Bir kalıp "her durumda zaman uyuşum gösterir" biçimdeyse bu tür kalıplara Rust'ta "çürütülemez (irrefuatble)" kalıplar
+    denilmektedir. let deyimindeki kalıpların da "çürütülemez (irrefutable)" olması gerekmektedir. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    let [x, y, _] = a;          // geçerli
+
+    Buradaki dilim kalıbı "çürütülemez (irrefutable)" biçimdedir. Dolayısıyla let bağlaması geçerlidir. Ancak örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    let [x, y, 30] = a;         // error!
+
+    Burada let deyimindeki kalıp çürütülemez (irrefutable) değildir. (Çürütülmez olmayan kalıplara "çürütülebilir (refutable)"
+    kalıplar da denilmektedir.) Bu nedenle yukarıdaki bağlama error ile sonuçlanacaktır. Bu örnekte kalıbın uyuştuğunu
+    düşünebilirsiniz. Ancak bu genel bir uyuşma değildir. Örneğin:
+
+    let mut a: [i32; 3] = [10, 20, 30];
+    //...
+    let [x, y, 30] = a;         // error!
+
+    Burada ikinci let deyiminden önce dizinin son elemanı değiştirilirse kalıp uyuşumu sağlanmayacaktır. Çürütülemez kalıp
+    demek her koşul altında kesinlikle uyuşum göstyeren kalıp demektir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın 1.65.0 (Kasım 2022) versiyonuyla birlikte let deyimine "irrefutable" olmayan kalıpların kullanılmasına olanak
+    sağlamak amacıyla isteğe bağlı bir else kısmı da eklenmiştir. let deyiminin genel biçimi şu hale getirilmiştir:
+
+    let <kalıp> = ifade [ else { [deyimler] }]
+
+    let deyiminin else kısmı kalıp uyuşumu sağlanamazsa çalıştırılmaktadır. Ancak else kısımdaki blok ifadesinin ! türünden
+    olması (yani bu blok ifadesindeki akışın geri dönmemesi) gerekmektedir. Örneğin a değişkeni [i32; 3] türünden bir dizi
+    olsun.
+
+    let [10, x, y] = a;         // error! kalıp "irrefutable" değil
+
+    Buradaki dilim kalıbı "irrefutable" olmadığı için derleme işleminde error oluşacaktır. Ancak bu let deyimine else kısmı
+    eklenirse kalıp irrefutable olmasa bile derleme başarılı olur:
+
+    let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
+
+    Burada kalıp uyuşumu sağlanamazsa panic oluşacak ve program sonlanacaktır. panic! makrosunun ! türünden olduğuna ve
+    else kısımdaki blok deyiminin de ! türünden olduğuna dikkat ediniz. Ayrıca Rust'ta bloğun son deyimi "divergent" ise
+    yani ! türündense bloğun da bu değeri ürettiği kabul edilmektedir. Yani özel bir durum olarak biz yukarıdaki bağlamada
+    panic! makrosundan sonra ';' atomunu da bulundurabilirdik:
+
+    let [10, x, y] = a else { panic!("refutable pattern in let statement!"); };
+
+    Burada yine bloktan elde edilen değer () türünden değil ! türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a = [10, 20, 30];
+    let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
+
+    println!("{} {}", x, y);        // 20 30
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Dilim kalıplarında kaynak ifade bir dizi referansı olursa köşeli parantez içerisindeki değişkenler de birer referans olur
+    (Yani dizi elemanlarının adreslerini tutan gösterici gibi olur). Örneğin:
+
+    let a:  = [10, 20, 30];
+    let [x, y, z] = &a;
+
+    println!("{}, {}, {}", *x, *y, *z);     // 10 20 30
+
+    Bu açımda x, y ve z i32 türünden değil &i32 türündendir. Ancak bu biçimdeki kalıplarda köşeli parantezlerin önüne '&'
+    atomu getirilirse değişkenler artık referans olmaktan çıkar. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+    let &[x, y, z] = &a;
+
+    Burada artık x, y ve z i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Dilim kalıbı (yani yukarıdaki açım kalıpları) benzer biçimde match ifadesinde de kullanılabilmektedir. match anahtar
+    sözcüğünün yanındaki ifade bir dizi olursa match kalıpları da dilim kalıplarından oluşabilir. Ancak tabii artık match
+    kollarındaki dilim kalıplarında değişken yerine sabitlerin bulunması anlamlı olur. (match kollardaki kalıplarda değişken
+    bulundurulmasına "değişken kalıbı (variable pattern)" dendiğini ve değişken kalıplarının da her zaman uyuşum sağladığını
+    anımsayınız.) Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    match a {
+        [10, 20, 50] => println!("[10, 20, 30]"),
+        [10, _, 50] => println!("[10, _ 30]"),
+        [.., 30] => println!("[.., 30]"),
+        [others @ .., 50] => println!("[others @ ..,  50]"),
+        _ => println!("cannot match"),
+    }
+
+    Burada birinci kol ve ikinci kol uyuşum sağlamayacaktır. Ancak üçüncü kol uyuşum sağlayacaktır.
+
+    match ifadesindeki dizinin türü ile match kollarındaki dilim kalbının türünün uyuşması gerekmektedir. Örneğin yukarıdaki
+    match ifadesinde dizi 3 elemanlıdır. Burada biz 4 elemana sahip bir match kolu bulunduramayız.
+# 26. Ders 11/06/2025 - Çarşamba
+    Match ifadesinde dilim kalıplarında da match koruması uygulanabilir. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    match a {
+       [x, y, _] if x + y < 50 => println!("[x, y, _] if x + y < 50"),
+        _ => println!("cannot match"),
+    }
+
+    Burada dilim kalıbından hemen sora match korumasının getirildiğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Dilim kalıplarındaki köşeli parantez içerisindeki elemanlarda '|' atamu ile "veya kalıbı (or pattern)" da uygulanabilir.
+    Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    match a {
+       [0 | 5 | 10, ..] => println!("[10|20|30, ..]"),
+        _ => println!("cannot match"),
+    }
+
+    Buradaki birinci match kolundaki kalıba dikkat ediniz. Bu kalıpta "dizininin ilk elemanı 0 ya da 5 ya da 10 ise" uyuşum
+    sağlanacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Dilim kalıplarında köşeli parantezler içerisindeki elemanlarda range kalıbı da kullanılabilmaktedir. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    match a {
+        [1..=15, ..] => println!("[1..=15, ..]"),
+        _ => println!("cannot match"),
+    }
+
+    Burada [1..=15, ..] kalıbı "dizinin ilk elemanı 1 ile 15 arasındaysa uyuşum sağlayacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii biz dilim kalıbını da kalıp uyuşumu ile çalışan if let ve while let ifadelerinde kullanabiliriz. Örneğin:
+
+    let a: [i32; 3] = [10, 20, 30];
+
+    if let [10, ..] = a {
+        println!("Ok")
+    }
+    else {
+        println!("Not ok")
+    }
+
+    Tabii dilim kalıbındaki köşeli parantezler içerisindeki elemanlarda değişken kullanırsak ilgili eleman koşulunun her
+    zaman sağlandığı kabul edilir. Biz de if let deyiminin doğruysa kısmında bu değişkeni kullanabiliriz. Örneğin:
+
+    if let [x, 20, 30] = a {
+        println!("{}", x);
+    }
+    else {
+        println!("Not ok")
+    }
+
+    Burada eğer a dizisinin son iki elemanı 20 ve 30 ise uyuşum sağlanacak ve ilk eleman da x değişkenine yerleştirilecektir.
+    Tabii dilim kalıbı while let ifadesinde de benzer biçimde kullanılabilmektedir. Örneğin:
+
+    while let [x, 10, 20] = a {
+        //...
+    }
+
+    Burada kalıp uyuşumu saplandığı sürece döngü yinelenecektir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta fonksiyon tanımlanırken parametrelerde  kalıplar da kullanılabilmektedir. Çünkü aslında Rust'ta fonksiyon parametreleri
+    genel bir kalıp biçiminde oluşturulabilmektedir. Tabii fonksiyon parametreleri için oluşturulan kalıpların da "çürütülemez
+    (irrefuable)" olması gerekir. Örneğin:
+
+    fn main() {
+        let a: [i32; 3] = [10, 20, 30];
+
+        foo(a);
+    }
+
+    fn foo([x, _, _]: [i32; 3])  {
+        println!("{}", x);          // 10
+    }
+
+    Burada foo fonksiyonun tanımlanmasında parametre değişkeni olarak kullanılan kalıp "çürütülemez (irrefuable)" bir kalıptır.
+    Aşağıdaki fonksiyon tanımlamasında parametrede belirtilen kalıp "çürütülebilir (refutable)" olduğu için derleme error ile
+    sonuçlanacaktır:
+
+    fn foo([x, _, 30]: [i32; 3])  {        // error! parametre olarak kullanılan kalıp çürütülemez değil
+        println!("{}", x);
+    }
+
+    Parametre olarak kalıp kullanılması ile dizi elemanlarınının açılarak fonksiyona aktarılması sağlanabilmektedir. Örneğin:
+
+    fn main() {
+        let a: [i32; 3] = [10, 20, 30];
+
+        foo(a);
+    }
+
+    fn foo([x, y, z]: [i32; 3])  {
+        println!("{}, {}, {}", x, y, z);
+    }
+
+    Fonksiyon parametrelerinde kalıp oluştururken tür belirtilmesi zorunludur. Örneğin aşağıdaki gibi bir fonksiyon tanımlaması
+    geçerli değildir:
+
+    fn foo([x, y, z])  {                // error! tür bilgisi yok
+        println!("{}, {}, {}", x, y, z);
+    }
+
+    Daha önceden de belirttiğimiz gibi fonksiyon parametresi bir dizi türünden referans ise dilim kalıbındaki değişkenler de
+    dizi elemanlarının adreslerini tutan referanslar haline gelecektir. Örneğin:
+
+    fn foo([x, y, z]: &[i32; 3]) {
+        //...
+    }
+
+    Burada x, y ve z i32 türünden değil &i32 türündendir. Tabii köşeli parantezlerin de önüne '&' atomunu getirirsek artık
+    değişkenler referans olmaktan çıkacaktır:
+
+    fn foo(&[x, y, z]: &[i32; 3]) {
+        //...
+    }
+
+    Burada x, y ve z artık &i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Dilim kalıplarında kalıba karşı gelen ifade bir dizi yerine bir dilim referansı ya da bizaat bir dilim de olabilir.
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let sr: &[i32] = &a[..3];
+
+    match sr {
+        [1..200, 20, 30] => println!("[1..200, 20, _]"),
+        _ => println!("cannot match")
+    }
+
+    Burada match ifadesi &[i32] türünden bir dilim referansıdır. Derleyici programın çalışma zamanı soırasında kalıp uyuşumunu
+    denetleyecek kodları oluşturmaktadır. Yukarıdaki match deyiminin ilk kolu uyuşum sağlayacaktır.
+
+    Dilimlerin kendi başlarına Rust'ta kullanımlarının çok sınırlı olduğunu, onların hemen her zaman referanslarla kullanıldığını
+    belirtmiştik.
+
+    Dilim kalıplarında ifadeler doğrudan dilim de olabilmektedir. Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    match a[..3] {
+        [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
+        _ => println!("cannot match")
+    }
+
+    Burada a[..3] bir dilim referansı değil bir dilimdir. Ancak match deyiminde dilimler de dilim kalıplarıyla kullanılabilmektedir.
+    Tabii if let ve while let deyimlerinde de dilimlerin dilim kalıpları eşliğinde kullanılması mümkündür:
+
+    if let [x, y, z] = a[..3] {
+        println!("x = {}, y = {}, z = {}", x, y, z);
+    }
+    else {
+        println!("cannot match");
+    }
+
+    Tabii bu durumda sr bir dilim referansı olmak üzere *sr bir dilim belirteceğine göre sr de *sr de match ve if let, while
+    let gibi deyimlerdeki dilim kalıplarında kullanılabilir. Ancak gereksiz biçimde * operatörünü kullanmanın da bir anlamı
+    yoktur. Örneğin:
+
+    fn main() {
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+        foo(&a[..3]);
+    }
+
+    fn foo(sr: &[i32]) {
+        match *sr {         // geçerli
+            [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
+            _ => println!("cannot match")
+        }
+    }
+
+    Burada biz match ifadesini zaten sr biçiçinde de belirtebilirdik.
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Rust'ta "demet (tuple)" denilen veri yapısını göreceğiz. Demetler eski dillerin bazılarında yeni dillerin ise
+    hemen hepsinde bulunan bir veri yapsıdır. Bazı diller ise demetleri standart kütüphaneleri yoluyla desteklemektedir.
+    Demetlerin built-in desteklendiği bazı programlama dilleri şunlardır:
+
+    Python
+    Haskell
+    Erlang
+    C# (7.0 ile 2017 yılında)
+    Java ("record" ismi altında Java 14 ile 2020 yılında)
+    C++ (built-in değil standart kütüphane yoluyla)
+    Swift
+    Go (kısıtlı biçimde)
+    Rust
+---------------------------------------------------------------------------------------------------------------------------
+    Bir demet "elemanları farklı türlerden olabilen sıralı bir grup değeri belirtmektedir. Bazı dinamik tür sistemine sahip
+    olan dillerde elemanlar arasındaki sırasal ilişki onların bir dizi kullanılmasına olanak vermektedir. Demetler bir bakıma
+    yapılara (structures) benzemektedir. Yapılarda da elemanlar farklı türlerden olabilmektedir. Her ne kadar aralarında bir
+     benzerlik varsa da demetlerle yapılar hem sentaks hem de semantik bakımdan farklı veri yapılarıdır.
+
+    Rust'ta demetler normal parantezlerle temsil edilmektedir. Bir demetin türü "parantezler içerisinde sırasıyla elemanların
+    türleri belirtilerek ifade edilmektedir. Örneğin:
+
+    let t: (i32, f64, i32);
+
+    Burada t değişkeni üç elemanlı bir demet belirtmektedir. Bu değişkenin türü (i32, f64, i32) biçiminde ifade edilmektedir.
+
+    Demet yaratmak (yani demetler türünden değerler yaratmak) oldukça kolaydır. Tek yapılacak şey normal parantezler içerisinde
+    elemanları aralarına ',' atomu getirerek belirtmektir. Örneğin:
+
+    let t: (i32, f64, i32);
+
+    t = (10, 3.14, 20);
+
+    Burada t demetine onunla aynı türden olan bir demet atanmıştır. Tabii bu işlem ilkdeğer verme sentaksıyla da yapılabilmektedir:
+
+    let t: (i32, f64, i32) = (10, 3.14, 20);
+
+    let deyiminde tür belirtilmeden de bir demet oluşturulabilir. Bu durumda tür çıkarımı daha önce diziler konusunda açıkladığımız
+    kurallara göre yapılmaktadır. Normal parantezler içerisinde sonek almamış sabitler varsa ve bu sabitler tamsayı belirtiyorsa
+    i32 türünden, noktalı sayı belirtiyorsa f64 türünden kabul edilmektedir. Örneğin
+
+    let t = (10, 20, 30.5),
+
+    Burada t demeti (i32, i32, f64) türündedir. Tabii eğer parantezler içerisindeki değerlerin türleri zaten biliniyorsa
+    tür tespiti bu türler dikkate alınarak yapılmaktadır. Örneğin:
+
+    let t = (10u8, 20f32, 30i64);
+
+    Burada t demeti (u8, f32, i64) türündendir.
+
+    Tabii parantezlerle demet yaratılırken demet değerlerinin sabit ifadesi biçiminde belirtilmesi gerekmez. demet değerleri
+    herhangi bir ifade biçiminde oluşturulabilir. Örneğin:
+
+    t = (10 + a, x + y, foo())
+
+    Burada bu ifadelerin değerleri hesaplanıp demet bu değerlerle yaratılacaktır. Örneğin:
+
+    let x = 10;
+    let y = 3.14;
+
+    let t = (x, y);
+
+    Burada t demeti (i32, f64) türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Aynı türden iki demet birbirine atanabilir. Ancak farklı türden demetler birbirine atanamazlar. Örneğin:
+
+    let t: (i32, f64) = (10, 3.14);
+    let k: (i32, f64);
+
+    k = t;      // geçerli
+
+    Burada her iki demet de aynı türden olduğu için atama geçerlidir. Ancak örneğin:
+
+    let t: (i32, f32) = (10, 3.14);
+    let k: (i32, f64);
+
+    k = t;      // error!
+
+    Burada iki demetin türleri farklı olduğu için atama error ile sonuçlanacaktır.
+
+    Tabii normal parantezlerle demet yaratılırken sabitler sonek almamışsa Rust'ta yine "bağlama dayalı tür çıkarımı"
+    yapılmaktadır. Örneğin:
+
+    let t: (i8, i32, f32);
+
+    t = (10, 20, 3.14);     // geçerli
+
+    Burada 10 sabiti i32 türünden değildir. Bağlamda buna karşı gelen eleman i8 türünden olduğu için ve 10 sabiti i8 türüyle
+    ifade edilebildiği için i8 türünden kabul edilmektedir. Aynı durum 20 ve 3.14 sabitleri için de geçerlidir. Fakat örneğin:
+
+    let t: (i8, i32, f32);
+
+    t = (10i32, 20, 3.14);     // error!
+
+    Burada ilk demet elemanı açıkça sonek belirtilerek i32 türünden yapılmıştır. Bağlam yalnızca sonek almayan sabitler
+    için dikkate alınmaktadır. Bu atama demetler farklı türlerden olduğu için error ile sonuçlanacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir demetin elemanlarına nokta operatöryüle açıkça indeks numarası belirtilerek erişilmektedir. Örneğin demet
+    türünden değişkenin ismi t olmak üzere bu demetin elemanlarına t.0, t.1, t.2, t.3 ifadeleriyle erişilir:
+
+    let t = (10, 3.14, 20);
+
+    println!("{}", t.0);        // 10
+    println!("{}", t.1);        // 3.14
+    println!("{}", t.2);        // 20
+
+
+    Buradaki 0, 1, 2, 3 gibi indeks belirten sabitlere tür iliştirilemez. Buradaki indeksler yerine değişkenler kullanılamaz.
+    Örneğin:
+
+    let i = 0;
+
+    println!("{}", t.i);        // error!
+---------------------------------------------------------------------------------------------------------------------------
+    Sıfır elemanlı bir demet söz konusu olabilir. Anımsayacağınız gibi sıfır elemanlı demetlere "birim (unit)" deniliyordu.
+    Rust'ta () sentaksının hemen 0 elemanlı bir demet türünü hem de sıfır elemanlı bir demet türünden değeri belirttiğini
+    anımsayınız. Bu nedenle Rust'ta () ifadesine bazen "birim (unit)" bazen de "birim türü (unit type)" denilmektedir. Örneğin:
+
+    let t: () = ();         // geçerli
+
+    Burada t değişkeni () türündedir. Bu türden bir değişkene yalnızca () ifadesi ya da içerisinde bu değer olan bir demet
+    atanabilir.
+---------------------------------------------------------------------------------------------------------------------------
+    Tek elemanlı demetler oluşturulurken ekstra bir ',' atomu kullanılmak zorundadır. Örneğin:
+
+    let t = (10);
+
+    Burada (10) ifadesi tek elemanlı bir demet anlamına gelmemektedir. Buradaki parantezler demet parantezi değil öncelik
+    parantezidir. Biz her ifadeyi gereksiz olsa da parantezlere alabiliriz. Fakat örneğin:
+
+    let t = (10, );
+
+    Burada artık ekstra ',' atomundan dolayı parantezler demet parantezi olarak ele alınmaktadır. Tabii tek elemanlı demetlere
+    aslında gerçek anlamda bir gereksinim yoktur.
+
+    Tek elemanlı demet türü belirtilirken de ekstra ',' atomunun bulundurulması gerekmektedir. Örneğin:
+
+    let a: (i32) = (10, );      // error!
+
+    Rust'ta her ne kadar gereksiz ve anlamsız olsa da tür ifadeleri de paranteze alınabilmektedir. Dolayısıyla buradaki
+    a değişkeni i32 türündendir. Bir demet belirtmemektedir. Tabii aşağıdaki bildirim geçerlidir:
+
+    let a: (i32, ) = (10, );      // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+    Demetin elemanları başka bir demet olabilir. Örneğin:
+
+    let t: ((i32, i32), f64);
+
+    Burada t değişkeni iki elemanlı bir demet belirtmektedir. Bu demetin ilk elemanı da (yani .0 elemanı da) bir demet
+    belirtmektedir. Örneğin:
+
+    t = ((10, 20), 3.14);
+
+    Tabii aslında biz let deyiminde tür belirtmeden de aynı değişkeni bildirebilirdik:
+
+    let t = ((10, 20), 3.14);
+
+    Demet içerisindeki demetin elemanlına birden fazla noktasal indekslemeyle erişilmektedir. Örneğin yukarıdaki demetin
+    ilk elemanın ilk elemanına t.0.0 ifadesiyle erişilir:
+
+    let t: ((i32, i32), f64) = ((10, 20), 3.14);
+
+    println!("{}", t.0.0);      // 10
+    println!("{}", t.0.1);      // 20
+    println!("{}", t.1);        // 3.14
+
+    Bir demetin elemanı bir dizi de olabilir. Örneğin:
+
+    let t: ((i32, [i32; 3]), f64) = ((10, [20, 30, 40]), 3.14);
+---------------------------------------------------------------------------------------------------------------------------
+    Demet dizileri de söz konusu olabilir. Örneğin:
+
+    let a: [(i32, i32); 5];
+
+    Buarada a her elemanı (i32, i32) türünden olan 5 elemanlı bir dizidir. Dizi elemanlarına  ilkdeğerlerini şöyle verebiliriz:
+
+    let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
+
+    Biz bu diziyi for döngüsüyle dolaşırsak demetleri elde ederiz:
+
+    let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
+
+    for t in a {
+        println!("{} {}", t.0, t.1);
+    }
+
+    Örneğin:
+
+    fn main() {
+        let people: [(&str, i32); 5] = [("ali", 10), ("veli", 20), ("selami", 30), ("ayşe", 40), ("fatma", 50)];
+
+        for person in people {
+            println!("{} {}", person.0, person.1);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Aynı türden iki demet biribirine atanırken yine hedef değişken drop edilmekte ve sahiplik devredilmektedir. Eğer kaynak
+    demetin eleman türlerinin hepsi Copy türünden değilse atamadan sonra sahiplik devredildiği (değer taşındığı için)
+    için artık kaynak değişkeni kullanamayız. Örneğin:
+
+    let people: [(String, i32); 5] = [
+        (String::from("ali"), 10),
+        (String::from("veli"), 20),
+        (String::from("selami"), 30),
+        (String::from("ayşe"), 40),
+        (String::from("fatma"), 50)
+    ];
+
+    let others: [(String, i32); 5];
+
+    others = people;
+
+    println!("{}", people[0].0);        // error!
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi demetlerin bellek organizasyonu nasıldır? "The Rust Reference" dokümanlarında açıkça bir bellek organizasyonu
+    belirtilmemiştir. Rust'ta değişkenlerin ve değerlerin bellek organizasyonları aslında "tür temsili (type representation)"
+    konusuyla ilgilidir. Bu organizasyon "demetsel yapılarda (tuple struct) değiştirilebilmektedir. Fakat default durumda
+    Rust'ta demet elemanlarının bellek organizasyonu hakkında açıkça bir belirlemede bulunulmamıştır. Ancak demetlerin
+    fonksiyonlara adres yoluyla aktarılabildiği dikkate alındığında demet elemanlarının mecburen bellekte ardışıl bir dizilime
+    sahip olması gerektiği sonucu çıkartılabilir. (Tabii elemanlar arasında hizalama (alignment) amaçlı kontrollü boşluklar
+    da bulundurulabilmektedir.) Rust derleyicileri optimizasyon amacıyla elemanların sırasını da değiştirebilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Demetler fonksiyonlara dizilerde olduğu gibi iki yolla aktarılabilmektedir:
+
+    1) Kopyalama ya da taşıma yoluyla
+    2) Adres yoluyla (ödünç alma yoluyla)
+
+    Kopyalama ya da taşıma yoluyla aktarımda fonksiyonun parametre değişkeni bir demet olur. Fonksiyon da aynı türden bir demet
+    ifadesiyle (adresiyle değil) çağrılır. Yukarıda da belirttiğimiz gibi böyle bir aktarımda eğer demetin her elemanı Copy
+    türünden değilse sahiplik devredilmekte yani demet değerleri taşınmaktadır. Örneğin:
+
+    fn main() {
+        let a: (String, i32) = (String::from("Ali"), 123);
+
+        foo(a);
+    }
+
+    fn foo(t: (String, i32)) {
+        println!("{}, {}", t.0, t.1)
+    }
+
+    Buçağrımdan sonra artık biz main fonksiyonu içerisinde a demetini kullanamayız. Çünkü String türü bir Copy türü değildir,
+    sahiplik devredilmiştir.
+
+    Adres yoluyla aktarımda ise fonksiyonun parametre değişkeni demet türünden bir referans olur. Fonksiyon da aynı demet
+    türünden bir değişkenin adresi alınarak çağrılır. Örneğin:
+
+    fn main() {
+        let a: (String, i32) = (String::from("Ali"), 123);
+
+        foo(&a);
+    }
+
+    fn foo(t: &(String, i32)) {
+        //...
+    }
+
+    Burada t parametre değişkeninin türüne dikkat ediniz. t artık bir referanstır (yani bir göstericidir.) Buradaki aktarım
+    kopyalama ya da taşıma yoluyla değil adres yoluyla yapılmaktadır. Yani foo fonksiyonu içerisinde aslında t bir göstericidir.
+    Onun gösterdiği yerde de -ardışıl biçimde- iki elemanlı bir demet bulunmaktadır. Rust'ta C'de olduğu gibi gösterici  yoluyla
+    erişimlerde -> gibi operatörün olmadığını anımsayınız. Bu t regeransının gösterdiği yerdeki demetin elemanlarına yine t.0 ve t.1
+    ifadeleriyle erişilmektedir. Örneğin:
+
+    fn foo(t: &(String, i32)) {
+        println!("{}, {}", t.0, t.1)
+    }
+
+    Pekiyi hangi aktarımı tercih etmeliyiz? Adres yoluyla aktarım çoğu zaman daha etkindir. Çünkü aktarılan bir yalnızca
+    bir adres bilgisidir. Fakat küçük demetler özellikle eleman türleri Copy ise değerle de aktarılabilir. Örneğin:
+
+    fn main() {
+        let pt = (10, 20);
+
+        foo(pt);
+    }
+
+    fn foo(pt: (i32, i32)) {
+        println!("{}, {}", pt.0, pt.1)
+    }
+
+    Tabii adres yoluyla aktarımda asıl demeti fonksiyonda değiştirmek istiyorsak referansın ve değişkenin mut olması gerekir.
+    Örneğin:
+
+    fn main() {
+        let mut pt = (10, 20);
+
+        println!("{}, {}", pt.0, pt.1);
+        foo(&mut pt);
+        println!("{}, {}", pt.0, pt.1);
+    }
+
+    fn foo(pt: &mut (i32, i32)) {
+        pt.0 = 30;
+        pt.1 = 40;
+    }
+# 27. Ders 16/06/2025 - Pazartesi
+
+    Fonksiyonların geri dönüş değerleri demet biçiminde olabilir. Bu sayede birden fazla değerle geri dönen fonkiyonların
+    yazımı kolaylaşmaktadır-. Örneğin:
+
+    fn foo() -> (i32, f64) {
+        //...
+    }
+
+    Bu fonksiyon (i32, f64) türünden bir demetle geri dönmektedir. C'de demet olmadığını anımsayınız. (C++'ın standart
+    kütüphanesinde demet işlevselliğini sağlayan tuple isimli bir sınıf vardır.) C'de yukarıdaki fonksiyonun eşdeğeri ancak
+    bir yapı ile oluşturulabilir. Tabii bir fonksiyonun birden fazla değerle geri dönmesi eğer değer sayısı çok fazlaysa
+    bir zaman kaybı oluşturabilmektedir. Ancak fonksiyonların birkaç elemanlı demetlerle geri döndürülmesindeki zaman kaybı
+    genellikle önemsenmemektedir.
+
+    Pekiyi fonksiyonların demetlerle geri dönmesi durumunda başarı kontrolü nasıl yapılabilir? Örneğin ikinci derece bir
+    denklemin köklerini geri döndüren bir fonksiyonun parametrik yapısı aşağıdaki gibi olabilir mi?
+
+    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
+        //...
+    }
+
+    Buradaki sorun denklemin kökünün olmaması durumunda fonksiyonun neyle geri döndürüleceğidir. Rust'ta bu tür durumlarda
+    genellikle henüz görmediğimiz Option ve Result isimli sayımlama (enumeration) türleri tercih edilmektedir. Bu sayımlama
+    türleri asıl değerlerin yanı sıra başarısızlığın da iletilmesini sağlamaktadır. Tabii biz başarı durumunu da bir demet
+    elemanı ile iletebiliriz. Bu durumda fonksiyonumuzun parametrik yapısı şöyle olacaktır:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+        //...
+    }
+
+    Bu yöntemin de sorunu başarısızlık durumunda gereksiz bir biçimde iki kök için değer kullanılmayacağı halde değer
+    girilmesidir. Örneğin:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+        let delta: f64;
+
+        delta = b * b - 4.0 * a * c;
+        if delta < 0.0 {
+            (0., 0., false)
+        }
+        else {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 =  (-b - delta.sqrt()) / (2. * a);
+
+            (x1, x2, true)
+        }
+    }
+
+    Burada delta < 0 olduğu durumda kullanılmayacak olduğu halde iki kök değeri de girilmek zorunda kalınmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result: (f64, f64, bool);
+
+    result = get_roots(1., 0., -4.);
+    if result.2 {
+        println!("{} {}", result.0, result.1);
+    }
+    else {
+        println!("No roots!");
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        (0., 0., false)
+    }
+    else {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 =  (-b - delta.sqrt()) / (2. * a);
+
+        (x1, x2, true)
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki örnek için alternatif bir çözüm de şöyle oluşturulabilir: Fonksiyon dışarıdan adresiyle aldığı bir demetin
+    içini doldurabilir. Geri dönüş değeri de başarı ya da başarısızlığı belirtebilir. Bu durumda fonksiyonun parametrik yapısı
+    şöyle olacaktır:
+
+    fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
+            //...
+    }
+
+    Fonksiyonda  aşağıdaki gibi çağrılacaktır:
+
+    let mut result: (f64, f64) = (0., 0.);
+
+    if get_roots(1., 0., -4., &mut result) {
+        println!("x1 = {}, x2 = {}", result.0, result.1);
+    }
+    else {
+        println!("No roots!...")
+    }
+
+    Aşağıdaki örnekte bu çözüm uygulanmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut result: (f64, f64) = (0., 0.);
+
+    if get_roots(1., 0., -4., &mut result) {
+        println!("x1 = {}, x2 = {}", result.0, result.1);
+    }
+    else {
+        println!("No roots!...")
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        false
+    }
+    else {
+        result.0 = (-b + delta.sqrt()) / (2. * a);
+        result.1 = (-b - delta.sqrt()) / (2. * a);
+        true
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Daha önceden de belirttiğimiz gibi yukarıdaki örnektekine benzer durumlarda aslında Rust'ta en iyi yöntem fonksiyonun
+    Option<(f64, f64)> sayımlama türüyle (bazı durumlarda da Result sayımlama türüyle) geri döndürülmesidir:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+        //...
+    }
+
+    Biz sayımlama türlerini henüz görmedik. Sonraki bölümde sayımlama türlerini göreceğiz. Aşağıda henüz bu konuları
+    görmemiş olsak da Rust'ça böyle bir fonksiyonun nasıl tanımlanıp kullanıldığına ilişkin somut bir örnek verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    if let Some(result) = get_roots(1., 0., -4.) {
+        println!("x1 = {} x2 = {}", result.0, result.1);
+    }
+    else {
+        println!("No roots!");
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        None
+    }
+    else {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 =  (-b - delta.sqrt()) / (2. * a);
+
+        Some((x1, x2))
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Demetler de tıpkı diziler gibi açılabilmektedir. Daha önceden de belirttiğimiz gibi  aslında açım (destructuring) işlemi
+     bir kalıp uyuşumu ile yapılmaktadır. Demet açımı için kullanoılan kalıplaara "demet kalıpları (tuple patterns)" denilmektedir.
+     Yani açım (destructuring) işlemi aslında kalıp uyuşumu (pattern matching) sürecinin özel bir durumudur.
+
+    Demet açımında normal parantezler kullanılmaktadır. Örneğin:
+
+    let t: (i32, i32) = (10, 20);
+    let (x, y) = t;             // demet açımı
+
+    Burada t demetinin ilk elemanı x değişkenine, ikinci elemanı da y değişkenine atanacaktır. Dizilerde olduğuğu gibi bu tür
+    açımlarda ayrıca türün belirtilmesine gerek yoktur. Ancak yapılsa da bir sorun oluşturmaz. Örneğin:
+
+    let t: (i32, i32) = (10, 20);
+    let (x, y): (i32, i32) = t;     // tür belirtmeye gerek yok, ancak belirtilse de bir sorun oluşmaz
+
+    Rust programcıları bu biçimdeki gereksiz tür belirtmelerini tercih etmemektedir.
+
+    Açım işlemi tıpkı dizilerde olduğu gibi fonksiyon çağrısı sırasında da yapılabilmektedir. Fonksiyonların parametre
+    değişkenlerinin bir kalıp biçiminde oluşturulabildiğini anımsayınız. Örneğin:
+
+    fn main() {
+        let t: (i32, i32) = (10, 20);
+
+        foo(t);
+    }
+
+    fn  foo((x, y): (i32, i32))  {
+        println!("x = {}, y = {}", x, y);
+    }
+
+    Burada t demeti fonksiyona açılarak gönderilmektedir. Tabii fonksiyon parametrelerinde mutlaka türün belirtilmesi
+    gerekmektedir.
+
+    Dilim kalıplarında olduğu gibi demet kalıplarında da demetin adresi alınırsa kalıptaki değişkenler artık referans haline
+    gelmektedir. Örneğin:
+
+    fn  foo((x, y): &(i32, i32))  {
+        println!("x = {}, y = {}", *x, *y);
+    }
+
+    Burada x ve y değişkenleri i32 türünden değil &i32 türündendir. Tabii fonksiyon da demetin adresiyle çağrılmalıdır.
+    Tıpkı dilim kalıplarında olduğu gibi kalıptaki parantezlerin önüne '&' atomu getirilebilir. Bu durumda kalıptaki değişkenler
+    referans olmaktan çıkar. Örneğin:
+
+    fn  foo(&(x, y): &(i32, i32))  {
+        println!("x = {}, y = {}", x, y);
+    }
+
+    Burada x ve y artık i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let t: (i32, i32) = (10, 20);
+
+    foo(&t);
+}
+
+fn  foo((x, y): &(i32, i32))  {
+    println!("x = {}, y = {}", *x, *y);
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Demetlerin kullanıldığı programlama dillerinde fonksiyonların geri dönüş değerleri demet ise bunların açılarak elde
+    edilmesiyle biçimindeki kodlarla sık karşılaşılmaktadır. Örneğin:
+
+    fn main() {
+        let (x, y, z) = foo();
+        println!("{}, {}, {}", x, y, z);
+    }
+
+    fn  foo() -> (i32, i32, i32) {
+        (10, 20, 30)
+    }
+
+    Burda foo fonksiyonunun gri dönüş değeri açılarak elde edilmiştir:
+
+    let (x, y, z) = foo();
+
+    Aşağıdaki örnekte ikinci derece denklemin köklerine geri dönen fonksiyonun geri dönüş değeri açılarak elde edilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let (x1, x2, result) = get_roots(1., 0., -4.);
+
+    if result {
+        println!("x1 = {}, x2 = {}", x1, x2);
+    }
+    else {
+        println!("No roots!");
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        (0., 0., false)
+    }
+    else {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 =  (-b - delta.sqrt()) / (2. * a);
+
+        (x1, x2, true)
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Demet içerisinde bir demet ya da dizi özyinelemeli biçimde açılabilmektedir. Örneğin:
+
+    let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
+    let (x, y, z) = t;
+
+    println!("{}", x);          // 10
+    println!("{:?}", y);        // (20, 30, 40)
+    println!("{}", z);          // 50
+
+    Burada y değişkeni bir demet olarak açılacaktır. Çünkü y değişkenine karşı gelen demet elemanı bir demettir. Ancak biz
+    özyinelemeli açım da yapabiliriz. Örneğin:
+
+    let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
+    let (x, (y, z, k), m) = t;
+
+    println!("{}", x);          // 10
+    println!("{:?}", y);        // 20
+    println!("{}", z);          // 30
+    println!("{}", k);          // 40
+    println!("{}", m);          // 50
+
+    Bu örnekte iç demet de açılmıştır. Demetin elemanları dizi ise ya da dizinin elemanları demet ise yine açım benzer biçimde
+    yapılmaktadır. Örneğin:
+
+    let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
+    let (x, [y, z, k], m) = t;
+
+    println!("{}", x);          // 10
+    println!("{:?}", y);        // 20
+    println!("{}", z);          // 30
+    println!("{}", k);          // 40
+    println!("{}", m);          // 50
+
+    Burada bir noktaya dikkatinizi çekmek istiyoruz. Biz şimdiye kadarki örneklerimizde genellikle let deyiminde değişkenin
+    türünü tülerin daha iyi kavranabilmesi için açıkça belirttik. Aslında Rust programcıları bu tür gereksiz tür ifadelerini
+    hiç kullanmamaktadır. Biz de kursumuz ilerledikçe artık açık tür ifadelerini gerekmedikçe kullanmayacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de demet kalıpları üzerinde ayrıca duralım. Demet kalıpları dilim kalıplarına (yani dizi kalıplarına) oldukça
+    benzemektedir. Ancak köşeli parantezlerle değil normal parantezlerle oluşturulmaktadır. Burada biz çeşitli örneklerle
+    demet kalıplarının hepsini gözden geçireceğiz.
+
+    Genel olarak demet kalıplarında parantezler içerisindeki demet elemanlarının her biri bir kalıp ifadesi olabilir. Örneğin
+    demet kalıbı aşağıdaki gibi sabitlerden oluşturulabilir:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (10, 20, 30) => println!("(10, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Burada (10, 20, 30) kalıbında demetin her elemanı bir sabittir.
+
+    Yine kalıpta değişken kullanılırsa her zaman uyuşum sağlanır. Değişkene karşı gelen demet değerleri değişkenlere yerleştirilir.
+    Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (x, 20, y) => println!("x = {}, y = {}", x, y),
+        _ => println!("No match!"),
+    }
+
+    Burada (x, 20, y) kalıbı ile uyuşum sağlanırsa yeni x ve y değişkenleri yaratılıp t'nin ilgili elemanları bu değişkenlere
+    yerleştirilecektir.
+
+    Demet kalıplarında da demet elemanlarının bir ya da birden fazlasında '_' atomu (wildcard pattern) kullanılabilir. Bu
+    durumda bu atoma karşı gelen demet elemanlarının uyuştuğu kabul edilir. Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (_, 100, _) => println!("(_, 100, _) matched"),
+        (_, 20, 30) => println!("(_, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Burada match iafdesinin ikinci kolu uyuşum sağlayacaktır. Tabii yine kollardan birden fazlası uuyuşum sağlayabilir. Ancak
+    ilk uyuşum sağlayan kol işleme sokulur. Yine demet kalıbındaki küme parantezi içerisindeki elemanlarda ".." atomu kullanılırsa
+    "diğerlerinin hepsinin uyuşum saladığı" kabul edilmektedir. Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (10, ..) => println!("(_, ..) matched"),
+        (10, 20, 30) => println!("(_, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Burada (10, ..) kalıbı ilk elemanı 10 olan diğer elemanları herhangi değerlere sahip olan demetlerle uyuşum sağlamaktadır.
+    Bu örnekte birden fazla kolun uyuşum sağladığına da dikkat ediniz. Örneğimizde uyuşumu sağlayan birinci kol çalıştırılacaktır.
+    Tabii yine ".." atomu demet elemanlarında yalnızca bir kez kullanılabilmektedir. Demet kalıplarında da  ".." atomu demetin
+    sonunda bulunmak zorunda değildir. Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (.., 20) => println!("(.., 20) matched"),
+        (10, 20, 30) => println!("(_, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Byrada ikinci kol uyuşum sağlayacaktır.
+
+    Kalıptaki demet elemanlarında range kalıpları da kullanılabilir. Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (10, 15..25, 30) => println!("(10, 25..25, 30) matched"),
+        (10, 20, 30) => println!("(_, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Buradaki (10, 15..25, 30) kalıbına dikkat ediniz. Bu demet kalıbının ikinci elemanında range kalıbı kullanılmıştır.
+    Demet kalıplarında da kalıptan sonra if anahtar sözcüğü ile "koruma (guard)" oluşturulabilmektedir. Örneğin:
+
+    let t: (i32, i32, i32) = (10, 20, 30);
+
+    match t {
+        (x, y, z) if x + y > 100 => println!("(x, y, z) if x + y > 100 matched"),
+        (10, 20, 30) => println!("(_, 20, 30) matched"),
+        _ => println!("No match!"),
+    }
+
+    Burada (x, y, z) if x + y > 100 kalıbına dikkat ediniz. Her ne kadar sanki demet kalıbındaki elemanlarda değişken
+    kalıpları kullanıldığı için birinci kolun uyuşum sağlayacağı sanılabiliyorsa da koruma yüzünden birinci kalıp uyuşum
+    sağlamamaktadır.
+
+    Dilim kalıbında (dizi kalıbında) @ ile dizinin bir kısmı değişkene bağlanabiliyordu. Bu işlem demetlerde geçerli değildir.
+    Örneğin:
+
+    let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
+    let (10, others @ .., 50) = t;      // error!
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii demet kalıpları da yalnızca let ve match deyimlerinde değil if let ve while let deyimlerinde de kullanılabilmektedir.
+    Örneğin:
+
+    let t: (i32, i32) = (10, 20);
+
+    if let (x, 20) = t {
+        println!("matched! x = {}", x);
+    }
+    else {
+        println!("not matched!");
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi demetler for döngüsüyle dolaşılabilir mi? Başka bir deyişle demetler bir iteratör belirtmekte midir? Statik tür
+    sistemine sahip programlama dillerindeki bu konudaki temel sorun demet elemanlarının türleri farklı olabildiği için
+    dolaşım sırasında elde edilecek değişkenin türünün ne olacağıdır. Python gibi Ruby gibi dinamik tür sistemine sahip
+    programlama dillerinde böyle bir sorun yoktur. Ancak Rust gibi statik tür sistemine sahip dillerde genel olarak bu sorun
+    yüzünden böyle bir dolaşım mümkün değildir.
+
+# 28. Ders 18/06/2025 - Çarşamba
+
+    Kurusumuzun bu bölümünde Rust'tın "sayımlama (enumeration)" türleri üzerinde duracağız. Sayımlama türleri pek çok
+    programlama dilinde bulunmaktadır. Ancak o dillerin çoğundaki sayımlama türleri Rust'taki kadar merkezi bir öneme sahip
+    değildir. Bu nedenle o dillerin eğtiminde bu konuyu önem derecesini dikkate alarak daha ilerilere öteliyoruz. Fakat
+    Rust'ta sayımlama türleri merkezi bir önemdedir. Bu nedenle biz kursumuzda henüz yapıları görmeden sayımlama türlerini
+    ele alacağız. Kurusumuzda "sayımlama türleri" terimi yerine "enum türleri" terimini de kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Programlama dillerinde sayımlama türlerine (enumeration types) ve sayımlama sabitlerine (enumerator) neden gereksim
+    duyulmaktadır? Bunu C# üzerinden bir örnekle açıklayalım. Örneğin bir oyundaki bir topu sola, yukarı, sağa ve aşağı bir
+    birim ilerleten Move isimli bir fonksiyon (C#'ta her fonksiyon bir sınıfın içerisinde bulunmaktadır. Bu nedenle bunlara
+    metot denilmektedir) yazmak isteyelim. Böyle bir fonksiyonun parametresi ne olmalıdır? Buradaki yön bilgisi dört seçenekten
+    biri olabilir. İlk akla gelecek seçenek parametreyi int türden yapmak ve parametreyi bir switch içerisine sokarak ele
+    almaktır:
+
+    public static void Move(int direction)
+    {
+        switch (direction) {
+            case 0:             // left
+                //...
+                break;
+            case 1:             // up
+                //...
+                break;
+            case 2:             // right
+                //...
+                break;
+            case 3:             // down
+                //...
+                break;
+        }
+    }
+
+    Bu durumda fonksiyonu (metodu) şöyle çağırırız:
+
+    Move(0);        // left
+    //...
+    Move(1);        // up
+    //...
+    Move(2);        // right
+    //...
+    Move(3);        // down
+
+    Parametrenin yukarıdaki gibi bir tamsayı türünden alınmasının şu dezavantajları vardır:
+
+    1) Okunabilirlik zayıf olur. Koda bakan kişi topun hangi yöne götürülmek istendiğini çabuk anlayamaz.
+    2) Fonksiyona (metoda) yanlış değer geçilirse hata derleme aşamasında değil çalışma zamanı sırasında sinsice ortaya çıkar.
+
+    Pekiyi fonksiyonun parametresi string yapılsa nasıl olur? Örneğin:
+
+    public static void Move(string direction)
+    {
+        switch (direction) {
+            case "left":
+                //...
+                break;
+            case "up":
+                //...
+                break;
+            case "right":
+                //...
+                break;
+            case "down":
+                //...
+                break;
+        }
+    }
+
+    Bu durumda fonksiyon da şöyle çağrılacaktır:
+
+    Move("left");
+    //...
+    Move("up");
+    //...
+    Move("right");
+    //...
+    Move("down");
+
+    Bu tasarımda biz okunabilirlik problemini çözmüş olduk ancak hala bu tasarımın iki dezavantajı vardır:
+
+    1) Fonksiyona (metoda) yanlış argüman geçilirse hata yine derleme aşamasında değil programın çalışma zamanı sırasında
+    sinsice ortaya çıkacaktır.
+    2) String'lerin karşılaştırılması sayıların karşılaştırılmasına göre çok daha yavaştır. (İki string'in karşılaştırılmasının
+    bir döngü içerisinde string'lerin karşılıklı karakterlerinin karşılaştırılması yoluyla yapıldığını anımsayınız.)
+
+    İşte sayımlama türleri bu tür durumlar için düşünülmüştür. Birtakım olgular ya da seçenekler hem yazısal biçimle ifade
+    edilsin hem de arka planda aslında sayısal biçimde işleme sokulsun ve geçersiz değerler derleme aşamasında teşhis
+    esilsin isteniyorsa sayımlama türleri tercih edilmelidir. Yine C# üzerinden örnek verelim:
+
+    enum Direction
+    {
+        Left, Up, Right, Down
+    }
+    //...
+
+    public static void Move(Direction d)
+    {
+        switch (d)
+        {
+            case Direction.Left:
+                //...
+                break;
+            case Direction.Up:
+                //...
+                break;
+            case Direction.Right:
+                //...
+                break;
+            case Direction.Down:
+                //...
+                break;
+        }
+    }
+
+    Çağırma şöyle yapılabilir:
+
+    Move(Direction.Left);
+    //...
+    Move(Direction.Up);
+    //...
+    Move(Direction.Right);
+    //...
+    Move(Direction.Down);
+    //...
+
+    Buarada enum eşemanları aslında tamsayısal bir değer belirtmektedir. Artık biz bu fonksiyonu (metodu) olmayan bir yön
+    ile çağırırsak hata derleme aşamasında ortaya çıkacaktır. İşte programlama dillerinde "haftanın günleri", "yılın ayları",
+    "renkler", "protokoller" gibi seçenekler sayımlama türleriyle ifade edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki sayımlama türleri amaç bakımından diğer dillerdeki sayımlama türlerine benziyor olsa da Rust'taki sayımlama
+    türlerinin diğer dillerdeki sayımlama türlerinden semantik bakımdan fazlalıkları ve farklılıkları vardır. Rust'taki sayımlama
+    türleri yalnızca basit sembolik sabitler oluşturmak için değil aynı zamanda birlik (union) benzeri  oluşturmak için de
+    kullanılmaktadır.
+
+    Anımsanacağı gibi C/C++ gibi dillerde "birlikler (unions)" elemanları çakışık olarak yerleştirilen veri yapılarıdır. Bir
+    birliğin tüm elemanları aynı adresten itibaren yerleştirilir. Dolayısıyla bir birliğin bir elemanına değer atandığında diğer
+    elemanların da değerleri değişecek ve anlamsızlaşacaktır. Örneğin C'de aşağıdaki bigi bir birlik söz konusu olsun:
+
+    union sample {
+        int a;
+        sdhort b;
+        double c;
+    };
+
+    Bu birlik türünden bir değişken tanımlayalım:
+
+    union Sample s;
+
+    Burada s değişkeni için birliğin en büyük elemanının uzunluğu kadar yer ayrılacaktır. Çünkü elemanlar çakışık yerleştirilmektedir:
+
+    Offset:     0  1  2  3  4   5   6   7   8
+          ------------------------------------
+    İçerik:    a0  a1  a2  a3  ??  ??  ??  ??
+               b0  b1  ??  ??  ??  ??  ??  ??
+               c0  c1  c2  c3  c4  c5  c6  c7
+
+    Örneğin:
+
+    s.c = 3.14;
+
+    Artık s.a ve s.b elemanlarının değerleri anlamsız olacaktır. Birlikler "farklı bilgilerin yalnızca bir tanesinin bulundurulması
+    durumunda" yer kazancı sağlamaktadır. Ancak elimizde bir birlik varsa bizim onun hangi elemanının set edilmiş olduğunu
+    bilmemiz gerekir. Örneğin:
+
+    void foo(union Sample *ps)
+    {
+        //...
+    }
+
+    Burada biz birliğin hangi elemanının set edilmiş olduğunu bilmezsek içerisindeki değeri kullanamayız. O halde bizim bir
+    biçimde birliğin hangi elemanının set edilmiş olduğu bilgisini de yukarıdaki fonksiyona parametre olarak geçirmemiz gerekir.
+    Tabii bunu daha organize bir biçimde yapı içerisinde birlik kulllanarak sağlayabiliriz:
+
+    struct sample {
+        union {
+            int a;
+            short b;
+            double c;
+        } info;
+        int type;       // 0 => a, 1 => b, 2 => c
+    };
+
+    struct sample s;
+
+    s.info.c = 3.14;
+    s.type = 2;
+
+    foo(&s);
+
+    Bu durumda foo fonksiyonu da şöyle olacaktır:
+
+    void foo(struct sample *ps)
+    {
+        swich (ps->type) {
+            case 0:             // a elemanına başvur
+                //...
+                break;
+            case 1:             // b elemanına başvur
+                //...
+                break;
+            case 2:             // c elemanına başvur
+                //...
+                break;
+        }
+    }
+
+    Bu örnek ve açıklama Rust'taki enum türlerini anlamamızı kolaylaştıracaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta sayımlama türleri sentaktik olarak "Item" grubunundadır. "The Rust Reference" dokümanlarında "Item" ara sembolünün
+    BNF açılımı şöyledir:
+
+    Item:
+        OuterAttribute*
+        VisItem
+        | MacroItem
+
+    VisItem:
+       Visibility?
+      (
+          Module
+        | ExternCrate
+        | UseDeclaration
+        | Function
+        | TypeAlias
+        | Struct
+        | Enumeration
+        | Union
+        | ConstantItem
+        | StaticItem
+        | Trait
+        | Implementation
+        | ExternBlock
+    )
+
+    MacroItem:
+        MacroInvocationSemi
+    | MacroRulesDefinition
+
+    Item'lar "global alanda ya da bir fonksiyonun içerisinde tanımlanabilen sentaktik öğeleri belirtmektedir. Item öğelerinin
+    sonunda ';' bulundurulmadığını anımsayınız. Daha önceden de belirtitğimiz gibi "Item" öğeleri kodun aşağısında bulundurulsa
+    bile kodun yukarısından kullanılabilmektedir. Fonksiyonların da sentaktik olarak "Item" grubu altında bulunduğuna dikkat
+    ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir sayımlama türü (enum türü) tanımlamanın genel biçimi şöyledir:
+
+    enum <isim> {
+        [enum_elemanları]
+    }
+
+    Görüldüğü gibi enum anahtar sözcüğünü bir "enum ismi" izlemektedir. Küme parantezlerinin içerisine de enum elemanları
+    yerleştirilmektedir. enum elemanları ',' atomuyla birbirinden ayrılmaktadır. Rust'ta enum elemanlarına "varyant (variant)"
+    da denilmektedir.
+
+    enum elemanları (yani varyantları) üç gruba ayrılmaktadır:
+
+    - Birimsel (unit-like) enum elemanları
+    - Demetsel (tuple-like) enum elemanları
+    - Yapısal (struct-like) enum elemanları
+
+    En basit enum elemanları "birimsel (unit-like)" denilen ya da "birim varyant" denilen enum elemanlarıdır. Bu enum elemanları
+    yalnızca bir isimden oluşmaktadır. Yalnızca birimsel elemanlardan oluşan enum türleri C/C++, C#, Java gibi dillerdeki
+    enum türlerine oldukça benzemektedir. Örneğin:
+
+    enum MyEnum {
+        A, B, C
+    }
+
+    Burada A, B ve C varyantları MyEnum isimli enum türünün birimsel elemanlarıdır. Rust programcıları okunabilirlik bakımından
+    genellikle her enum elemanını ayrı bir satırda yazmayı tercih etmektedir. Örneğin:
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+
+    Sayımlama türlerinin demetsel ve yapısal elemanlarını izleyen paragraflarda açıklayacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Pek çok programlama dilinde olduğu gibi Rust'ta da enum'lar türünden değişkenler bildirilebilmektedir. Örneğin:
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+    //...
+
+    let d: Direction;
+
+    Burada d değişkeni Direction türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi C/C++, Java ve C# gibi dillerde enum elemanlarına "enumerator" deniyordu. Ancak yukarıda da belirttiğimiz
+    gibi Rust'ta enum elemanlarına genellikle "varyant" denilmektedir. Bir enum varyantına erişmek için (yani onu kullanabilmek
+    için) enum ismi ile varyant ismi :: operatörü (path separtor) ile birleştirilir. :: operatörü iki operand'lı araek bir
+    opeatördür. Örneğin Direction enum türünün elemanlarına Direction::Left, Direction::Right biçiminde erişilmektedir.
+
+    Rust'ta enum türünün varyantları ilgili enum türündendir. Örneğin:
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+
+    Burada Direction::Left, Direction::Up, Direction::Left ve Direction::Down varyantları Direction türündedir. Rust'ta atama
+    işleminde kaynak ve hedef türlerin aynı olması gerektiğini anımsayınız. O halde bir enum varyantı ancak o enum türünden
+    bir değişkene atanabilir. Enum türlerinden diğer türlere, diğer türlerden enum türlerine otomatik dönüştürme (coercion)
+    yoktur. Örneğin:
+
+    let d: Direction;
+
+    d = Direction::Down;        // geçerli, d ile Direction::Down aynı türden
+
+    Örneğin:
+
+    enum Fruit {
+        Banana,
+        Apple,
+        Ornage,
+        Cherry
+    }
+
+    enum Company {
+        Microsoft,
+        Apple,
+        Google,
+        Oracle
+    }
+    //...
+
+    let f: Fruit;
+
+    f = Company::Apple;      // error! f ile Company::Apple farklı türlerden
+---------------------------------------------------------------------------------------------------------------------------
+    Enum türlerinin demetsel varyantları bir isim ve parantezler içerisinde tür listesiyle oluşturulmaktadır. Bu sentaks
+    demet sentaksına benzediği için bu varyantlara demetsel varyantlar (tuple-like variants) denilmiştir. Örneğin:
+
+    enum MyEnum {
+        A,              // birimsel varyant
+        B(i32, f64),    // demetsel varyant
+    }
+
+    Burada MyEnum enum türünün B isimli varyantı demetsel bir varyanttır. Enum türünün demetsel varyantları kullanılırken
+    tıpkı bir demet oluşturuluyormuş gibi demet türleri için değerler belirtilir. Örneğin:
+
+    let s: MyEnum;
+
+    s = MyEnum::B(10, 3.14);
+
+    Rust'taki enum türlerinin yalnızca sembolik sabitleri barındırmadığına aynı zamanda sanki bir birlik gibi değerler
+    de tuttuğuna dikkat ediniz. Bir enum türünün farklı demetsel varyantları bulunabilmektedir. Örneğin:
+
+    enum IPAdress {
+        V4(u8, u8, u8, u8),
+        V6(String)
+    }
+    //...
+
+    let ipv4 = IPAdress::V4(127, 0, 0, 1);
+    let ipv6 = IPAdress::V6(String::from("2001:db8:85a3::8a2e:370:7334"));
+---------------------------------------------------------------------------------------------------------------------------
+    Biz henüz yapıları görmedik. Ancak enum türlerinin yapısal varyantları sentaks bakımından yapılara (structures) benzemektedir.
+    Yapısal varyant oluşturmanın genel biçimi şöyledir:
+
+    <isim> { <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, ... }
+
+    Varyant isminden sonra küme parantezlerinin kullanıldığına dikkat ediniz. Örneğin:
+
+    enum MyEnum {
+        A,                          // birimsel varyant
+        B(i32, f64),                // demetsel varyant
+        C { x: i32, y: f64 }        // yapısal varyant
+    }
+
+    enum türünün yapısal varyantları oluşturulurken küme parantezleri içerisinde eleman isimleri, sonra ':' atomu ve tür
+    bilgisi bulundurulmaktadır.
+
+    Yapısal varyantlar bilgi taşıma yeteneği bakımından demetsel varyantlara benzemektedir. Ancak iki varyant türü arasında
+    sentaks dışında semantik farklılıklar da vardır. İzleyen paragraflarda bu farklılıkları açıklayacağız.
+
+    enum türlerinin yapısal varyantlarını oluştururken Rust programcıları genellikle varyant isminden sonra ve küme
+    parantezlerinin başı ile sonunda birer SPACE karakteri bulundurmaktadır. Halbuki demetsel varyantlarda Rust programcıları
+    bu boşlukları bulundurmazlar. Biz de kursumuzda -her ne kadar bu yazım biçimini eleştiriyorsak da- bu genel eğilime
+    uyacağız.
+ # 29. Ders 23/06/2025 - Pazartesi
+    Enum türlerinin yapısal varyantlarına ilişkin enum türünden değerler oluşturmanın genel biçimi şöyledir:
+
+    <enum_ismi>::<varyant_ismi> {<eleman_ismi>: değer, <eleman_ismi>: değer, <eleman_ismi>: değer, ...}
+
+    Görüldüğü gibi enum türünün yapısal varyantlarına ilişkin bir enum değeri sanki yapı türünden değer yaratılıyormuş gibi
+    yaratılmaktadır. Yaratım sırasında önce varyantın ismi sonra küme parantezleri içerisinde alanların isimleri ve onların
+    değerleri belirtilmektedir. Eleman ismiyle değeri arasında ':' atomu bulundurulmaktadır. Örneğin:
+
+    enum MyEnum {
+        A,                          // birimsel varyant
+        B(i32, f64),                // demetsel varyant
+        C { x: i32, y: f64 }        // yapısal varyant
+    }
+    //...
+
+    let s: MyEnum = MyEnum::C { x: 100, y: 3.14 };
+
+    Yine pek çok Rust programcısı varyant isminden sonra, küme parantezlerinin başında ve sonunda birer SPACE karakteri
+    bulundurmaktadır.
+
+    enum türlerinin demetsel varyantları ile yapısal varyantları içerdikleri bilgi bakımından birbirine oldukça benzemektedir.
+    Ancak yapısal varyantlardaki varyant elemanlarının (bunlara "The Rust Reference" dokümanlarında "field" denilmektedir)
+    isimli olduğuna dikkat ediniz. Tabii yapısal varyantları oluştururken isimlerin sırasının bir önemi yoktur. Örneğin:
+
+    let s: MyEnum = MyEnum::C { y: 3.14, x: 100 };        // geçerli
+
+    Ancak yapısal varyantlara ilişkin enum değerleri oluşturulurken varyantın tüm alanları için değer belirtilmek zorundadır.
+    Örneğin:
+
+    let s: MyEnum = MyEnum::C { x: 100 };     // error! y için değer belirtilmemiş
+---------------------------------------------------------------------------------------------------------------------------
+    Demetsel ve yapısal varyantlara ilişkin enum değerleri yaratılırken yaratım sanki bir fonksiyon çağırma işlemiymiş gibi
+    yapılmaktadır. Bu nedenle "The Rust Reference" dokümanlarında ve Rust programcıları arasında enum varyantlarına ilişkin
+    değerlerin yaratılması için kullanılan ifadelere "enum yapıcı fonksiyonları (enum consructors)" da denilmektedir. Örneğin:
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Apricot { price: i32, unit: i32 }
+    }
+
+    Burada Fruit::Banana(10) gibi bir ifadeye ya da Fruit::Apricot { price: 300, unit: 1 } gibi bir ifadeye "yapıcı fonksiyon
+    (constructor)" da denilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi bir enum yapıcı fonksiyonundaki öğelere "alan (field)" denilmektedir. Örneğin:
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Apricot { price: i32, unit: i32 }
+    }
+
+    Buaradaki Banana varyantının i32 öğesi bir alandır. Benzer biçimde Apricot varyantının x ve y öğeleri de birer alan
+    belirtmektedir. Görüldüğü gibi alanlar da Banana varyantında olduğu gibi isimsiz, Apricot varyantında olduğu gibi isimli
+    olabilmektedir.
+
+    Eğer bir enum türünde yapıcı fonksiyonların hepsi alansızsa tür enum türlerine "alansız (field-less)" enum türleri
+    denilmektedir. Örneğin.
+
+    enum City {
+        NewYork,
+        Paris(),
+        Ankara {}
+    }
+
+    Burada City isimli enum türü "alansız (field-less)" bir enum türüdür. Her ne kadar buradaki Paris varyantı demetsel bir
+    varyantsa da bir alanı yoktur. Benzer biçimde her ne kadar Ankara varyantı yapısal bir varyantsa da bir alana sahip değildir.
+    Dolayısıyla buradaki City enum türü "alansız (field-less)" bir enum türüdür. Tabii buradaki enum türünden Paris varyantına
+    ilişkin ve Ankara varyantına ilişkin enum değerleri yaratılırken yine demet ve yapı sentaksı kullanılmaktadır. Örneğin:
+
+    let x = City::Paris();
+    let y = City::Ankara {};
+
+    Eğer bir enum türünün tüm elemanları birimsel (unit-like) ise bu biçimdeki enum türlerine "yalnızca birimsel elemanlardan
+    oluşan enum türleri (unit-only enums)" denilmektedir. Örneğin:
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+
+    Buradaki Direction enum türü "yalnızca birimsel elemanlardan oluşan (unit-only)" bir enum türüdür.
+---------------------------------------------------------------------------------------------------------------------------
+    Enum varyantlarına ilişkin enum değerleri yaratılırken yukarıda açıklamadığımız iki özel durum daha vardır:
+
+    1) Demetsel varyantlara ilişkin enum değerleri küme parantezleriyle de (yani sanki yapısal enum varyanntında olduğu gibi
+    de) yaratılabilmektedir. Ancak bu yaratım sentaksında demetsel varyantlara ilişkin alanların isimleri olmadığı için indeksleri
+    kullanılmaktadır. Örneğin:
+
+    enum Vehicle {
+        Car,
+        Truck(i32, f64),
+        Motorcycle { x: i32, y: i32 },
+    }
+
+    Biz Truck varyantına ilişkin bir enum değerini şöyle yaratıyorduk:
+
+    let v = Vehicle::Truck(10, 5.5);
+
+    Ancak şöyle yaratabiliriz:
+
+    let v = Vehicle::Truck { 0: 10, 1: 5.5 };
+
+    Burada isim yerine elemanın demetteki indeks numarasının belirtildiğine dikkat ediniz. "Bu sentaksın ne anlamı olabilir"
+    diye düşünebilirsiniz. Bu sayede demetsel varyantlarını yapıcı fonksiyonlarında elemanları farklı sıralarda belirtebilmekteyiz.
+    Örneğin:
+
+    let v = Vehicle::Truck { 1: 5.5, 0: 10 };
+
+    2) The Rust Reference dokümanlarına göre enum türünün birimsel varyantlarına ilişkin enum değerleri boş küme parantezleriyle
+    de yaratılabilmektedir. Anımsayacağınız gibi biz birimsel varyantlara ilişkin enum değerlerini doğrudan isim belirterek
+    yaratıyorduk:
+
+    let v = Vehicle::Car;
+
+    Bu yaratımı şöyle de yapabilmekteyiz:
+
+    let v = Vehicle::Car {};
+
+    Ancak demet sentaksıyla birimsel varyantlara ilişkin enum değerleri yaratılamamaktadır:
+
+    let v = Vehicle::Car();         // error!
+---------------------------------------------------------------------------------------------------------------------------
+    Bir enum türünün varyantlarına enum ismi ve :: operatöryle erişildiğini belirtmiştik. Rust'ta :: operatörüne "yol ayıracı
+    (path seperator)" denilmektedir. Eğer enum varyantlarına bu operatör olmadan doğrudan erişilmek isteniyorsa use deyimimden
+    faydalanılmaktadır. Biz kurusumuzda use deyimini ileride ayrı bir başlık altında ele alacağız. Ancak burada bu deyimle
+    niteliklendirmenin nasıl elimine edileceği hakkında bir açıklama yapmak istiyoruz.
+
+    Niteliklendirmenin elimine edilmesi için use deyimi şöyle kullanılmaktadır:
+
+    use <enum_ismi>::*;
+
+    Örneğin:
+
+    enum Vehicle {
+        Car,
+        Truck(i32, f64),
+        Motorcycle { x: i32, y: i32 },
+    }
+
+    use Vehicle::*;
+    //...
+
+    fn main() {
+        let v = Truck(10, 5.5);     // geçerli
+        //...
+    }
+
+    Burada use deyiminden dolayı enum varyantı enum ismi kullanılmadan doğrudan belirtilmiştir. Daha önceden de belirttiğimiz
+    gibi use deyimi gramer olarak bir "Item" durumundadır. "Item" öğelerinin yazım sırasının bir önemi yoktur. Yani biz
+    önce use deyimini kullanıp sonra enum tanımalasını yapabiliriz:
+
+    use Vehicle::*;         // geçerli
+
+    enum Vehicle {
+        Car,
+        Truck(i32, f64),
+        Motorcycle { x: i32, y: i32 },
+    }
+
+    enum türünün tüm varyantları için değil tek bir varyantı için de use deyimini kullanabiliriz. Örneğin:
+
+    use Vehicle::Car;
+
+    Burada yalnızca Car varyantı niteliklendirilmedne kullanılabilir durumdadır. Birden fazla varyantın niteliklendirilmeden
+    kullanılmasını sağlamak istiyorsnız küme parantezlerini kullanmalısınız. Örneğin:
+
+    use Vehicle::{Car, Truck};
+
+    Burada Vehicle enum türünün Car ve Truck varyantları niteliklendirilmeden kullanılabilir.
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi enum türleri konusunda biraz daha ilerleyelim.
+
+    Bir enum türünden değişkenin içerisinde enum türünün yalnızca bir varyantı bulunabilir. Örneğin:
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Apricot { price: i32, unit: i32 }
+    }
+
+    let f: Fruit = Fruit::Banana(10);
+
+    Burada f isimli enum değişkeninin içerisinde Banana varyantı vardır. f değişkeninin içerisinde belli bir anda tek bir
+    varyant bulunabilir. Ancak bu varyanty daha sonra değiştirilebilir. Örneğin:
+
+    let mut f: Fruit = Fruit::Banana(10);
+    //...
+    f = Fruit = Fruit::Apple;
+
+    Pekiyi Rust'ta bir enum değişkeninin içerisinde hangi varyantın bulunduğunu nasıl anlarız? Bunu anladıktan sonra o varyantın
+    alanlarını nasıl elde edebiliriz? İşte bu soruları yanıtlayabailmemiz için öncelikle enum varyantlarına ilişkin "ayırıcı
+    değer (discriminant)" kavramını gözden geçirmemiz gerekir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir enum türünün her varyantı bir "ayırıcı değere (discriminant)" sahiptir. Default durumda (yani programcı bir belirleme
+    yapmamışsa) enum türünün ayırıcı değerleri 0'dan itibaren tamsayılarla temsil edilmektedir. Örneğin:
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Apricot { price: i32, unit: i32 }
+    }
+
+    Burada Apple varyantının ayırıcı değeri 0, Banana varyantının 1, Apricot varyantının 2'dir. Programcı enum varyantlarının
+    ayırıcı değerlerini bazı koşullar sağlanıyorsa açıkça da (explicitly) belirleyebilmektedir. Eğer programcı enum varyantı
+    için bir ayrıcı değeri açıkça belirtmişse sonraki varyantlar bu değeri izlemektedir. (Bu durum C/C++, Java ve C# gibi
+    dillerde de benzerdir.)
+
+    Rust'ta enum varyant'ları için açıkça "= <sabit_ifadesi>" sentaksıyla ayırıcı değer belirlemesinin yapılabilmesi için
+    enum türünün aşağıda belirtilen iki koşuldan en az birini sağlıyor olması gerekmektedir:
+
+    1) Eğer enum türü yalnızca birimsel elemanlardan oluşuyorsa (yani "unit-only" ise) enum türünün varyantları için açıkça
+    ayırıcı değer belirlemesi yapılabilmektedir. Örneğin:
+
+    enum Direction {
+        Left,
+        Up = 10,
+        Right,
+        Down = 20
+    }
+
+    Burada Left varyantının ayırıcı değeri 0, Up varyantının 10, Right varyantının 11 ve Down varyantının 20'dir. enum türünün
+    yalnızca birimsel elemanlardan oluştuğuna (yani "unit-only" olduğuna) dikkat ediniz.
+
+    2) Eğer enum türüne repr özniteliği iliştirilmişse bu durumda enum varyantları için yine açıkça ayrıcı değer belirlemesi
+    yapılabilir. Biz henüz "öznitelikler (attributes)" konusunu işlemedik. Ancak Rust'ta öznitelikler #[....] sentaksıyla
+    oluşturulmaktadır. Öznitelikler çeşitli sentaktik öğelere iliştirilebilmektedir. İşte bir enum tanımalamsının başına
+    (yani enum anahtar sözcüğünden önce) repr ("represent" sözcüğünden kısaltma) özniteliği iliştirilirse bu öznitelik
+    enum türünün varyantlarına ilişkin ayırıcı değerlerin türünü belirtir. Örneğin:
+
+    #[repr(u8)]
+    enum Direction {
+        Left(i32),
+        Up(i32) = 10,
+        Right(i32),
+        Down(i32) = 20
+    }
+
+    Burada enum türü yalnızca birimsel varyantlardan oluşmadığı halde enum tanımlamasına repr özniteliği iliştildiği için
+    enum varyantları için "= <sabit_ifadesi>" sentaksıyla ayırıcı değer belirlemesi yapılabilmiştir. Örneğimizdeki #[repr(u8)]
+    özniteliğindeki u8 ayırıcı değerin türünü belirtmektedir. Ayırıcı değerler repr özniteliğinde belirtilen türün sınırları
+    dışında değerlere sahip olamazlar. Örneğin aşağıdaki enum tanımlaması error ile sonuçlanacaktır:
+
+    #[repr(u8)]
+    enum Direction {
+        Left(i32),
+        Up(i32),
+        Right(i32) = 255,
+        Down(i32)               // error!
+    }
+
+    Burada Down varyantının ayırıcı değeri 256 olacaktır. Ancak bu değer u8 türünün sınırları dışında kalmaktadır.
+
+    Yukarıdaki iki koşuldan en az biri sağlanmıyorsa biz enum varyantları için ayırıcı değer belirlemesi yapamayız. Örneğin:
+
+    enum Direction {            // error!
+        Left(i32),
+        Up(i32) = 10,
+        Right(i32),
+        Down(i32) = 20
+    }
+
+    Bu örnekte ayırıcı değer belirleme işlemi geçerli değildir.
+
+    enum tanımlamasına repr ile ayırıcı değer türü iliştirilirken bu türün tamsayı türlerine ilişkin olması zorunludur. Örneğin:
+
+    #[repr(f64)]                // error!
+    enum Direction {
+        Left(i32),
+        Up(i32),
+        Right(i32),
+        Down(i32)
+    }
+
+    Rust'ta enum varyantlarına ilişkin ayırıcı değerlerinin hepsi birbirinden farklı olmak zorundadır. (Halbuki C/C++, Java ve
+    C# gibi dillerde böyle bir koşul yoktur.) Örneğin:
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down = 1        // error!
+    }
+
+    Buarada Up varyantının ayrıcı değeri de Down varyantının ayırıcı değeri de 1'dir. Bu durum error oluşturacaktır.
+
+    Mademki enum varyantlarının ayırıcı değerlerinin bir türü var ve bu türü biz repr özniteliği ile belirleyebiliyoruz,
+    pekiyi bu belirlemeyi hiç yapmadığımız durumdaki ayırıcı değerlerin default türü nedir? İşte Rust'ta açıkça repr
+    özniteliği ile bir tür belirtilmemişse default durumda "Rust temsili (Rust representation)" geçerli olmaktadır. Rust
+    temsiline göre de enum varyantlarının ayırıcı değerleri isize türündendir. Ancak "The Rust Reference" dokümanları bu
+    isize türünün yalnızca temsil amacıyla kullanıldığını belirtmektedir. Yani default ayırıcı değer türü isize olsa da
+    derleyiciler isterse kod üretirken bundan daha küçük türleri de kullanabilirler.
+# 30. Ders 25/06/2025 - Çarşamba
+    Bir enum türünden değişkenin bellek organizasyonu daha önce de belirttiğimiz gibi adeta bir "birlik (union)" organizasyonu
+    gibidir. enum türünden bir değişken için C'de olduğu gibi enum türünün en büyük elemanını içerecek büyüklükte bir yer
+    ayrılmaktadır. Ancak C'den farklı olarak Rust'taki enum değişkenleri aynı zamanda ayırıcı değeri de kendi içerisinde tutmaktadır.
+    Böylece derleyici enum değişkeninde hangi varyantın tutulduğunu da bu ayrıcı değerden hareketle anlayabilmektedir. O halde
+    Rust'ta bir enum türünden değişken için ayrılacak alanın uzunluğu şöyle ifade edilebilir:
+
+    enum değişkeni için ayrılacak yerin uzunluğu = ayrıca değerin uzunluğu + enum türünün en büyük elemanının uzunluğu
+
+    Tabii ayrıcı değerler ile tutulan enum varyantı arasında hizalama amacıyla padding byte'ları bulunabilir. Aslında "The
+    Rust Reference" dokümanlarında enum değişkeninin uzunluğunun ne olduğu ve içsel yerleşiminin nasıl yapıldığı hakkında bir
+    şey söylenmemiştir. Yani bu durum derleyici yazanların isteğine bırakılmıştır. durumdadır. Biz yukarıda tipik olarak bir
+    enum değişkeninin içsel organizasyonunun nasıl olması gerektiği konusunda bir açıklama yaptık. Şimdi açıklamalarımızı
+    somut bir örnekle pekiştirelim. Aşağıdaki gibi bir enum tanımlanmış olsun:
+
+    enum Fruit {
+        Apple,
+        Banana(i32, f64),
+        Apricot { price: i32, unit: i32 }
+    }
+
+    Burada Apple varyantı birimsel bir varyanttır. Birimsel varyantların aslında değişken içerisinde bir yer kaplamasına
+    gerek yoktur. Çünkü zaten birimsel varyantlar değer tutmamaktadır. Dolayısıyla aslında onlar yalnızca ayırıcı değer
+    yoluyla teşhis edilebilirler. Örneğimizde Banana varyantı 4 + 8 = 12 byte, Apricot varyantı ise 4 + 4 = 8 byte yer
+    kaplayacaktır. Bu durumda bu enum türünün en büyük varyantı Banana varyantıdır. O halde bu enum türünden değişken "bu
+    varyantın uzunluğu + ayrıcı değerin (discriminant) uzunluğu" kadar yer kaplayacaktır. Ayırıcı değerin dil içerisindeki
+    default türünün isize olduğunu belirtmiştik. isize türü de 64 bit sistemlerde 8 byte uzunluğundaydı. Ancak yukarıda biz
+    "her ne kadar ayırıcı değerin türü isize olarak belirtiliyorsa da derleyicilerin ayırıcı değer için içsel olarak aha
+    küçük türleri de kullanabileceğini" belirtmiştik. Elimizde derleyicide bu enum türünden değişkenin uzunluğu 16 byte olarak
+    rapor edilmektedir. Muhtemelen derleyicimiz bu enum türünün ayırıcı değeri için 8 byte değil 4 byte ayırmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let f = Fruit::Apple;
+    let size = std::mem::size_of_val(&f);
+
+    println!("{}", size);       // 16
+}
+
+enum Fruit {
+    Apple,
+    Banana(i32, f64),
+    Apricot { price: i32, unit: i32 }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bu konuda sıkça tereddüt edilen bir konu hakkında açıklamada bulunmak istiyoruz. Aşağıdaki enum türünden değişkene dikkat
+    ediniz:
+
+    enum Fruit {
+        Apple,
+        Banana(i32, f64),
+        Apricot { price: i32, unit: i32 }
+    }
+    //...
+
+    let f = Fruit::Apple;
+
+    Burada neden f için 16 byte yer ayrılıyor? Örneğin 4 byte bunun için yetmez miydi? İşte tıpkı C'deki birliklerde olduğu
+    derleyicinin enum türünden değişkeni için enum türünün en büyük elemanını tutabilecek kadar yer ayırması gerekmektedir.
+    Çünkü daha sonra (eğer değişken mut ise) bu değişken aynı enum türünün başka bir varyantını da tutabilmelidir. Örneğin:
+
+    let mut f = Fruit::Apple;
+    //...
+    f = Fruit::Banana(10, 5.5);
+
+    Burada başlangıçta f değişkeni Fruit::Apple varyantını tutarken sonra Fruit::Banana(10, 5.5) varyantını tutar hale
+    gelmiştir. İşte işin başında f için en kötü olasılıkla en uzun elemanı da tutabilecek uzunlukta bir yer ayrılması
+    gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi elimizde bir enum türünden değişken varsa biz onun ayırıcı değerini sayısal olarak elde edebilir miyiz? İşte Rust'ta
+    aslında ayrıcı değerin sayısal biçimde elde edilmesi dilin tasarımsal prensipleriyle çelişmektedir. Yani Rust tasarımcıları
+    enum türünden değişkenin ayırıcı değerinin sayısal biçimde elde edilmesini pek de istememiştir. Ancak yine de iki durumda
+    bu ayırıcı değer açıkça sayısal biçimde elde edilebilmektedir.
+
+    1) Eğer enum türünün tüm varyantları birimsel varyantlarsa (yani enm türü "unit-only" biçimindeyse) bu durumda bu enum
+    türünden bir değişken as operatöryle herhangi bir tamsayı türüne (ancak gerçek sayı türlerine değil) dönüştürülerek ayırıcı
+    değer elde edilebilir. Örneğin:
+
+    fn main() {
+        let d = Direction::Right;
+        let dval: i32;
+
+        dval = d as i32;            // geçerli, enum "unit-only"
+        println!("{}", dval);       // 2
+    }
+
+    enum Direction {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+
+    Byrada d değişkeni Direction isimli enum türündendir. Bu enum türünün tüm varyantları birimseldir. Bu nedenle bu enum
+    türünden bir değişken ya da değer as operatörü ile bir tamsayı türüne dönüştürüldüğünde ayırıcı değer elde edilebilir.
+
+    2) Alansız (field-less) bir enum türünün birimsel varyantları dışındaki hiçbir varyantı için "= <sabit_ifadesi> ile açıkça
+    değer belirtilmemişse bu enum türünden değişken ya da değer tamsayı türlerine dönüştürülerek ayırıcı değer elde edilebilir.
+    Örneğin:
+
+    enum Color {
+        Red,
+        Green(),
+        Blue {},
+        Magenta
+    }
+
+    Burada Color alansız (field-less) bir enum türüdür. Bu enum türünün birimsel olmayan varyantları için açıkça değer belirtilmediği
+    için bu enum türünden değişken ya da değer as operatörüyle tamsayı türlerine dönüştürülerek ayırıcı değer elde edilebilir:
+
+    fn main() {
+        let d = Color::Blue{};
+        let dval: i32;
+
+        dval = d as i32;            // geçerli
+        println!("{}", dval);       // 2
+    }
+
+    Burada bir hatırlatma yapmak istiyoruz. Yukarıdaki enum türünün varyantları için ancak repr özniteliği ile ayırıcı değer
+    belirtilebilmektedir. Aşağıdaki enum türüne dikkat ediniz:
+
+    #[repr(i32)]
+    enum Color {
+        Red = 10,
+        Green(),
+        Blue {},
+        Magenta
+    }
+
+    Burada biz bu enum türünden bir değişken ya da değeri yine as operatörüyle tamsayı türlerine dönüştürebiliriz. Çünkü açıkça
+    değeri belirtilen varyant birimsel varyanttır:
+
+    fn main() {
+        let d = Color::Blue{};
+        let dval: i32;
+
+        dval = d as i32;            // geçerli
+        println!("{}", dval);       // 2
+    }
+
+    #[repr(i32)]
+    enum Color {
+        Red = 10,
+        Green(),
+        Blue {},
+        Magenta
+    }
+
+    Fakat aşağıdaki dönüştürme error ile sonuçlanacaktır:
+
+    fn main() {
+        let d = Color::Blue{};
+        let dval: i32;
+
+        dval = d as i32;            // error!
+        println!("{}", dval);
+    }
+
+    #[repr(i32)]
+    enum Color {
+        Red,
+        Green() = 10,
+        Blue {},
+        Magenta
+    }
+
+    Tabii enum alansız değilse zaten hiçbir durumda dönüştürme yapılamamaktadır. Örneğin:
+
+    fn main() {
+        let d = Color::Blue{};
+        let dval: i32;
+
+        dval = d as i32;            // error!
+        println!("{}", dval);
+    }
+
+    enum Color {
+        Red,
+        Green(i32),
+        Blue,
+        Magenta
+    }
+
+    Burada Color alansız (field-less) bir enum değildir. Dolayısıyla bu enum türünden bir değişken ya da değer tamsayı türlerine
+    dönüştürülemez.
+---------------------------------------------------------------------------------------------------------------------------
+    std::mem modülü içerisindeki discriminant isimli fonksiyon bir enum değişkeninin adresini alır. O enum değişkeninin ayırıcı
+    değerine ilişkin std::mem::Discriminant<E> türünden (buradaki E adresi alınan enum değişkeninin ilişkin olduğu enum türünü
+    belirtmektedir) bir değer verir. std::mem::Discriminant<E> türü generic bir yapı belirtmektedir. Bu yapının elemanları
+    da == ve != operatörleriyle karşılaştırılabilmektedir. Bu sayede biz aynı türden iki enum değişkeninin ya da değerinin
+    içerisinde aynı ayrıcı değerin olup olmadığını dolaylı bir biçimde anlayabiliriz. Örneğin:
+
+    enum Color {
+        Red(i32),
+        Green(i32),
+        Blue(i32),
+        Magenta(i32)
+    }
+    //...
+
+    let x = Color::Blue(10);
+    let y = Color::Blue(20);
+
+    Burada x ve y değişkenleri alan değerleri farklı olsa da aynı varyantı turmaktadır. İşte biz bu x ve y değişkenlerinin
+    içerisindeki ayırıcı değerlerin aynı olup olmadığını std::mem::discriminant fonksiyonuyla anlayabiliriz:
+
+    let disc_x: std::mem::Discriminant<Color>;
+    let disc_y: std::mem::Discriminant<Color>;
+    let result: bool;
+
+    disc_x = std::mem::discriminant(&x);
+    disc_y = std::mem::discriminant(&y);
+
+    result = disc_x == disc_y;
+    println!("result: {}", result);         // true
+
+    Burada x ve y içerisinde aynı varyant bulunmaktadır. Ancak bu varyantların tuttukları değer farklıdır. Fakat std::mem::discriminant
+    fonksiyonu bu alan değerlerine değil yalnızca ayırıcı değere bakmaktadır. Tabii bu tür karşılaştırmalar aslında daha kısa
+    bir biçimde aşağıdaki gibi de yapılabilmektedir:
+
+    use std::mem::discriminant;
+
+    let x = Color::Blue(10);
+    let y = Color::Blue(20);
+    let result: bool;
+
+    result = discriminant(&x) == discriminant(&y);
+    println!("{}", result);     // true
+
+    Ya da örneğin:
+
+    let x = Color::Blue(10);
+
+    if discriminant(&x) == discriminant(&Color::Blue(10)) {
+        println!("yes");
+    }
+    else {
+       println!("no");
+    }
+
+    Ancak bu Discriminant<E> değeri ile >, <, >=, <= gibi karşılaştırmalar yapılamamaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::mem::discriminant;
+
+fn main() {
+    let x = Color::Blue(10);
+
+    if discriminant(&x) == discriminant(&Color::Blue(10)) {
+        println!("yes");
+    }
+    else {
+       println!("no");
+    }
+}
+
+enum Color {
+    Red(i32),
+    Green(i32),
+    Blue(i32),
+    Magenta(i32)
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi bir enum türünden nesnesnin içerisindeki varyant alanlarını nasıl elde edebiliriz? İşte varyant alanları ancak
+    Rust'taki "kalıp uyuşumu" mekanizması ile elde edilebilmektedir. Bunun için tipik olarak match ifadesi kullanılmaktadır.
+    match anahtar sözcüğünün yanındaki ifade bir enum türündense match kollarında bu enum türüne ilişkin varyant kalıpları
+    bulundurulabilir.
+---------------------------------------------------------------------------------------------------------------------------
+    Birimsel enum varyantları için kalıplar doğrudan varyant ismiyle belirtilmektedir. Örneğin:
+
+    enum Direction  {
+        Left,
+        Up,
+        Right,
+        Down
+    }
+    //...
+
+    let d = Direction::Right;
+
+    match d {
+        Direction::Left => println!("left"),
+        Direction::Up => println!("up"),
+        Direction::Right => println!("right"),
+        Direction::Down => println!("down")
+    }
+
+    Burada kalıpların oluşturulma biçimine dikkat ediniz. Kalıplar yalnızca varyant isimlerinden oluşturulmuştur. Çünkü
+    kalıplara ilişkin varyantlarda alanlar yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let d = Direction::Right;
+
+    match d {
+        Direction::Left => println!("left"),
+        Direction::Up => println!("up"),
+        Direction::Right => println!("right"),
+        Direction::Down => println!("down")
+    }
+}
+
+enum Direction  {
+    Left,
+    Up,
+    Right,
+    Down
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    enum türünün demetsel varyantları için daha önce demetler (tuples) konusunda görmüş olduğumuz demet kalıplarının hepsi
+    kullanılabilir. Yani bu durumda kalıp bir demet kalıbı gibi oluşturulmaktadır. Önce enum varyantının ismi belirtilir,
+    sonra parantezler içerisinde demet kalıbı oluşturulur. Örneğin:
+
+    enum Color  {
+        RGB(u8, u8, u8),
+        GrayScale(u8),
+        CMYK(u8, u8, u8, u8),
+    }
+
+    Buradaki enum türünün varyantları demetsel biçimdedir. Biz de match deyiminde varyant isminden sonra demet kalıplarını
+    kullanabiliriz:
+
+     match color {
+        Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
+        Color::GrayScale(c) => println!("Grayscale, {}", c),
+        Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
+    }
+
+    Burada match kollarında uyuşma sağlandığında biz hem değişkenin hangi varyantı tuttuğunu hem de o varyantın alanlarını
+    elde etmiş oluruz. Yukarıdaki match deyiminin "exhaustive" olduğuna da dikkat ediniz. Bu nedenle match ifadesinin sonuna
+    _ kolu yerleştirmedik.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let color = Color::RGB(255, 255, 0);
+
+    match color {
+        Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
+        Color::GrayScale(c) => println!("Grayscale, {}", c),
+        Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
+    }
+}
+
+enum Color  {
+    RGB(u8, u8, u8),
+    GrayScale(u8),
+    CMYK(u8, u8, u8, u8),
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Demetsel varyantlarda varyant isminden sonra yalnızca değişken kalıplarını değil daha önce görmüş olduğumuz tüm demet
+    kalıplarını kullanabiliriz. Örneğin:
+
+     match color {
+        Color::RGB(255, g, _) => println!("RGB: {}", g),
+        Color::GrayScale(c) => println!("Grayscale, {}", c),
+        Color::CMYK(..) => println!("CMYK"),
+        _=> println!("None")
+    }
+
+    Burada ilk match koluna dikkat ediniz:
+
+    Color::RGB(255, g, _) => println!("RGB: {}", g),
+
+    Bu match kolunun uyuşması için ilk değerin 255 olması gerekir. Burada demetin üçüncü elemanı her durumda uyuşum sağlayacaktır.
+    Programcı demetin ikinci elemanının değerini elde etmek istemiştir. Şimdi de üçüncü match koluna dikkat ediniz:
+
+    Color::CMYK(..) => println!("CMYK"),
+
+    Burada programcı CMYK varyantının her alanına uyuşum sağlamak istemiştir. Bu kalıp şöyle yazılamazdı:
+
+    Color::CMYK => println!("CMYK"),            // error!
+
+    Yine demetsel varyantlarda .. atomu herhangi bir elemanda bulunabilmektedir. Örneğin:
+
+    Color::RGB(.., b) => println!("RGB: {}", b),
+
+    Tabii .. atomu yalnızca tek bir elemanda bulunabilir. Biz yine @ sentaksı ile "başlama (binding)" yapabiliriz. Örneğin:
+
+    c @ Color::RGB(255, g, _) => println!("RGB: {:?} {}", c, g),
+
+    Burada tüm varyantın değeri ayrıca c değişkenine de yerleştirilmiştir. Tabii demetsel varyantlarda demet elemanlarında
+    demet kalıplarındaki diğer diğer tüm kalıplar kullanılabilir. Örneğin biz bir alanda range kalıbını kullanabiliriz:
+
+    Color::RGB(200..=255, g, b) => println!("RGB: {} {}", g, b),
+
+    Yine demetsel varyantlara ilişkin kalıplarda koruma (guard) uygulanabilir. Örneğin:
+
+    Color::RGB(_, g, b) if g + b > 100 => println!("RGB: {} {}", g, b),
+
+    Burada kalıp uyuşumunun sağlanması içinb ayrıca g + b > 100 koşulunun da sağlanması gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz daha önce ikinci derece bir denklemin köklerini veren bir fonksiyon örneği yazmıştık. Ancak o fonksiyonda göze
+    hoş gelmeyen bir durum vardı. Denklemin kökü yoksa biz gereksiz bir biçimde yine bir demet oluşturuyorduk. Fonksiyonun
+    tasarımını anımsayınız:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+        let delta: f64;
+
+        delta = b * b - 4.0 * a * c;
+        if delta < 0.0 {
+            (0., 0., false)
+        }
+        else {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 =  (-b - delta.sqrt()) / (2. * a);
+            (x1, x2, true)
+        }
+    }
+
+    İşte bu tür durumlarda aslında Rust'ta enum türleri tercih edilmektedir. enum türleri farklı içerikteki bilgileri çakıuşık
+    biçimde tutabildiği için bu tür durumlara çok uygundur. Aşağıdaki tasarıma dikkat ediniz:
+
+    enum QuadraticResult {
+        Roots(f64, f64),
+        None
+    }
+
+    fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+        let delta = b * b - 4. * a * c;
+
+        if delta > 0. {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 = (-b - delta.sqrt()) / (2. * a);
+            QuadraticResult::Roots(x1, x2)
+        }
+        else {
+            QuadraticResult::None
+        }
+    }
+
+    Burada artık fonksiyon bir enum değerine geri dönemektedir. Bu değer de ya QuadraticResult::Roots varyantına ilişkin
+    olabilir ya da QuadraticResult::None varyantına ilişkin olabilir. Şimdi fonksiyonu çağıralım:
+
+    let qresult: QuadraticResult;
+
+    qresult = get_roots(1., 0., -4.);
+
+    Bizim burada fonksiyonun köklerinin olup olmadığını belirleyip eğer kök varsa kök değerlerini elde etmemiz gerekir. İşte
+    bunu kalıp uyuşumu ile match ifadesini kullanarak sağlayabiliriz:
+
+    match qresult {
+        QuadraticResult::Roots(x1, x2) => println!("x1 = {} x2 = {}", x1, x2),
+        QuadraticResult::None => println!("No root found"),
+    }
+
+    Tabii biz kalıp uyuşumu ile çalışan if let deyimini de kullanabilirdik. Ne de olsa örneğimizdeki QuadraticResult enum
+    türünün yalnızca iki varyantı vardır. Örneğin:
+
+    if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
+        println!("x1 = {}, x2 = {}", x1, x2);
+    }
+    else {
+        println!("No root found!")
+    }
+
+    Burada eğer kalıp uyuşuyorsa zaten kök var demektir. Kökün olmaması durumunda kalıp uyuşumu da sağlanmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
+        println!("x1 = {}, x2 = {}", x1, x2);
+    }
+    else {
+        println!("No root found!")
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+    let delta = b * b - 4. * a * c;
+
+    if delta > 0. {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 = (-b - delta.sqrt()) / (2. * a);
+        QuadraticResult::Roots(x1, x2)
+    }
+    else {
+        QuadraticResult::None
+    }
+}
+
+enum QuadraticResult {
+    Roots(f64, f64),
+    None
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki enum türünü hata mesajını da barındıracak biçimde aşağıdaki hale dönüştürebiliriz:
+
+    enum QuadraticResult {
+        Roots(f64, f64),
+        Error(String),
+    }
+
+    Artık enum türünün bir elemanı kökleri, diğer elemanı kökün olmaması durumundaki hata mesajı belirtmektedir. Tabii fonksiyonu
+    da Fonksiyon da şöyle değiştirmemiz gerekecektir:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+        let delta = b * b - 4. * a * c;
+
+        if delta > 0. {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 = (-b - delta.sqrt()) / (2. * a);
+            QuadraticResult::Roots(x1, x2)
+        }
+        else {
+            QuadraticResult::Error(String::from("No roots found"))
+        }
+    }
+
+    Biz de artık fonksiyonun geri dönüş değerini match ifadesi ile aşağıdaki gibi ele alırız:
+
+    match get_roots(1., 0., 4.) {
+        QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
+        QuadraticResult::Error(msg) => println!("{}", msg)
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    match get_roots(1., 0., 4.) {
+        QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
+        QuadraticResult::Error(msg) => println!("{}", msg)
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+    let delta = b * b - 4. * a * c;
+
+    if delta > 0. {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 = (-b - delta.sqrt()) / (2. * a);
+        QuadraticResult::Roots(x1, x2)
+    }
+    else {
+        QuadraticResult::Error(String::from("No roots found"))
+    }
+}
+
+enum QuadraticResult {
+    Roots(f64, f64),
+    Error(String),
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de enum türlerinin yapısal (struct-like) varyantlarına ilişkin kalıplar üzerinde duralım. enum türümüz aşağıdaki
+    gibi olsun:
+
+    enum MyEnum {
+        A,
+        B(i32, i32),
+        C { x: i32, y: i32, z: i32 },
+    }
+
+    Bu enum türünden aşağıdaki gibi bir değişken oluşturalım:
+
+    let me: MyEnum = MyEnum::C { x: 10, y: 20, z: 30 };
+
+    Şimdi bu örneği kullanarak yapısal varyantlara ilişkin kalıpların nasıl oluşturulduğubu madde madde açıklayalım:
+
+    - Yapısal kalıplarda önce yapısal varyantın ismi sonra küme parantezleri içerisinde eleman isimleri ve ':' atomu ile
+    sabit kalıpları oluşturulabilir. Örneğin:
+
+    match me {
+        MyEnum::C { x: 10, y: 20, z: 30 } => println!("matched"),
+        _ => println!("cannot match!")
+    }
+
+    Burada MyEnum::C kalıbına dikkat ediniz. Varyantın her alanı için sabit kalıbı kullanılmıştır.
+
+    Tabii yapısal varyant kalıplarında alanların yapısal vatyanttaki sırayı izlemesi zorunlu değildir. Örneğin:
+
+     match me {
+        MyEnum::C { y: 20, z: 30, x: 10 } => println!("matched"),
+        _ => println!("cannot match!")
+    }
+
+    - Yapısal varyantlarda varyantın alanları için _ (wildcard pattern) atomu bulundurulursa kalıp uyuşumu o alanlar için her
+    zaman sağlanmaktadır. Örneğin:
+
+    match me {
+        MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
+        _ => println!("cannot match!")
+    }
+
+    Burada match deyiminin ilk koluna dikkat ediniz:
+
+    MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
+
+    Bu kalıp "x herhangi bir değerde olabilir, z herhangi bir değerde olursa olsun, ancak y 20 olmalı" anlamına gelmektedir.
+
+    - Yapısal varyantların alanlarında da .. kalıbı (rest pattern) kullanılabilmektedir. Ancak yapısal varyantlarda bu ..
+    kalıbı küme parantezlerinin sonunda bulunmak zorundadır. Örneğin:
+
+    match me {
+        MyEnum::C { y: 20, .. } => println!("matched"),
+        _ => println!("cannot match!")
+    }
+
+   match deyiminin birinci koluna dikkat ediniz:
+
+    MyEnum::C { y: 20, .. } => println!("matched"),
+
+    Burada .. kalıbı "geri kalan tüm alanlar herhangi bir değerde olabilir" anlamına gelmektedir. Aşağıdaki kalıp geçerli
+    değildir:
+
+    MyEnum::C { .., y: 20 } => println!("matched"),         // error!
+
+    Demetsel varyanlarda bu .. kalıbı herhangi bir yerde bulunabilmesine karşın yapısal varyanlarda sonra bulunmak zorundadır.
+
+    - Yapısal varyanların alanlarında da değişken kalıbı kullanılabilir. Bu durumda alan ismini ':' atomu ve bunu da bir
+    değişken izler. Örneğin:
+
+    match me {
+        MyEnum::C { x: a, y: b, z: 30} => println!("matched: a = {}, b = {}", a, b),
+        _ => println!("cannot match!")
+    }
+
+    Burada birinci match kolunda x ve y alanları her zaman uyuşum sağlmaktadır. Ancak bu alanların değerlerini biz a ve b
+    değişkenlerinin içerisine yerleştirdik.
+
+    - Aslında yapısal varyantların kalıplarında yalnızca alan ismi belirtilirse (yani ':' atomu ve değişken ismi belitilmezse)
+    bu durum da geçerli kabul edilmektedir. The Rust Reference dokümanlarına göre "yalnızca alan isminin belirtilmesi, alan
+    isminden sonra ':' ve alan isminin aynısının kullanılması ile aynı etkiye"  sahiptir. Örneğin:
+
+    match me {
+        MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
+        _ => println!("cannot match!")
+    }
+
+    Örneğimizdkei match deyiminin ilk koluna dikkat ediniz:
+
+    MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
+
+    Burada x ve y alan isimlerinden sonra ':' sentaksı kullanılmamıştır. Dolayısıyla bu alanların değerleri doğrudan x ve
+    y isimli değişkenler yaratılarak onların içerisine yerleştirilecektir. Yani yukarıdaki kalıp aşağıdakiyle tamamen eşdeğerdir:
+
+    MyEnum::C { x: x, y: y, z: 3 } => println!("matched: x = {}, y = {}", x, y),
+
+    - match deyiminde yapısal varyantların alanlarında yine koruma uygulanabilir. Örneğin:
+
+    MyEnum::C {x, y, z: 30} if x + y > 30 => println!("matched: x = {}, y = {}", x, y),
+
+    Burada uyuşumun sağlanması için aynı zamanda x + y > 30 koşulunun da sağlanması gerekmektedir.
+
+# 31. Ders 30/06/2025 - Pazartesi
+
+    Pekiyi enum türünden bir değişken ya da değer fonksiyonlara nasıl aktarılabilir? İşte tıpkı dizilerde olduğu gibi enum
+    türünden değişkenler ya da değerler fonksiyonlara iki biçimde aktarılabilmektedir:
+
+    1) Kopyalama (ya da taşıma yoluyla)
+    2) Adres yoluyla
+
+    Bir enum türünden değişkenin ya da değerin kopyalanarak (ya da taşınarak) fonksiyona aktarılması durumunda fonksiyonun
+    parametre değişkeni enum türünden bir değişken olur. Fonksiyon da aynı enum türünden bir değişken ya da değerle çağrılır.
+    Bu durumda argüman olarak kullanılan enum değişkeninin ya da değerinin tüm byte'ları fonksiyona kopyalanarak aktarılır.
+    Tabii bu aktarım biçiminde değişken de sahipliğini devredecektir.
+
+    Örneğin:
+
+    fn main() {
+        let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
+
+        foo(f);
+    }
+
+    fn foo(f: Fruit) {
+        match f {
+            Fruit::Apple =>println!("Apple"),
+            Fruit::Banana(items) => println!("Banana: {}", items),
+            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+        }
+    }
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Orange { origin: String, weight: f64},
+    }
+
+    Burada f değiikeninin içerisindeki değer bir bütün olarak fonksiyona aktarılmıştır. Artık bu aktarımdam sonra eğer enum
+    varyantının içerisinde Copy türünden olmayan bir alan (field) varsa enum değişkeni sahipliğini kaybedecektir. Çünkü değişken
+    fonksiyona taşınmıştır. Eğer enum türü bellekte az yer kaplıyorsa bu biçimde değişkenin ya da değerin kopyalanarak (ya da
+    taşınarak) fonksiyona aktarılması amaç bakımından da uygunsa kötü bir teknik olarak değerlendirilmez. Ancak değişkeninin
+    ya da değerin taşınması istenmiyorsa ya da enum türü büyük olduğu için değişkeninin ya da değerin kendisinin taşınması
+    maliyetli olacaksa bu durumda aktarım adres yoluyla yapılmalıdır.
+
+    Adres yoluyla aktarımda fonksiyonun parametre değişkeni enum türünden bir referans (referans mut da olabilir) olur. Fonksiyon
+    da enum türünden değişkenin ya da değerin adresiyle çağrılır. Her ne kadar biz henüz "referanslar ve göstericiler konusunu"
+    görmemiş olsak da buna bir örnek vermek istiyoruz:
+
+    fn main() {
+        let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
+
+        foo(&f);
+    }
+
+    fn foo(f: &Fruit) {
+        match f {
+            Fruit::Apple =>println!("Apple"),
+            Fruit::Banana(items) => println!("Banana: {}", *items),
+            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+        }
+    }
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Orange { origin: String, weight: f64},
+    }
+
+    match deyiminde match anahtar sözcüğünün yanındaki ifade bir referans ise kalıp uyuşumundaki alan belirten değişkenler de
+    birer referans olur. foo fonksiyonu içerisindeki match deyimine dikkat ediniz:
+
+    match f {
+        Fruit::Apple =>println!("Apple"),
+        Fruit::Banana(items) => println!("Banana: {}", *items),
+        Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+    }
+
+    Burada f değişkeni &Fruit türündendir. Yani Fruit isimli enum türünden bir referanstır. Bu durumda kalıptaki alanlarda
+    kullanılan değişkenler de birer referans olur. (Örneğin items değişkeni &i32 türünden, o değişkeni &String türünden ve w
+    değişkeni de &f64 türündendir.) Bu konu referanslarla ilgili olduğu için bu tür kalıplar üzerinde "göstericilerin ve referansların"
+    anlatıldığı bölümde daha ayrıntılı bir biçimde duracağız. Burada bir noktaya daha değinmek istiyoruz. Yukarıdaki örnekte
+    match ifadesinde f yerine *f kullanarak kalıptaki alanların referans olmaktan çıkartılabileceğini sanabilirsiniz. Örneğin:
+
+    fn foo(f: &Fruit) {
+        match *f {
+            Fruit::Apple =>println!("Apple"),
+            Fruit::Banana(items) => println!("Banana: {}", *items),
+            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+        }
+    }
+
+    Burada artık *f ifadesi &Fruit türünden değil, Fruit türündendir. Dolayısıyla items, o ve w alanlarının artık referans
+    olmaması gerekir. Ancak Rust'ta Copy türünden olmayan bir referans ile o referansın gösterdiği yerdeki değere erişilip
+    onun sahipliği devredilememektedir. (Eğer bu yapılabilseydi Rust'taki "sahiplik (ownership)" ve "ödünç alma (borrow)"
+    mekanizmalarının yürütülmesi mümkün olmazdı.) Tabii yukarıdaki enum türünün bütün alanları Copy türünden olsaydı yukarıdaki
+    işlem yapılabilirdi. Örneğin aşağıdaki durumda match deyimi geçerli olacaktır:
+
+    fn main() {
+        let f = Fruit::Orange { origin: 10, weight: 3.56};
+
+        foo(&f);
+    }
+
+    fn foo(f: &Fruit) {
+        match *f {
+            Fruit::Apple =>println!("Apple"),
+            Fruit::Banana(items) => println!("Banana: {}", items),
+            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+        }
+    }
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Orange { origin: i32, weight: f64},
+    }
+
+    Burada artık Fruit türünün varyantlarına ilişkin tüm alanların Copy türünden olduğuna dikkat ediniz. Eğer bir enum
+    türünün tüm varyantlarındaki alanlar Copy türündense enum türü de Copy türünden kabul edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta enum türleri tıpkı yapılarda olduğu gibi metotlara ve ilişkili fonksiyonlara (associated functions) sahip
+    olabilmektedir. Tabii biz kursumuzda henüz metotların ve ilişkili fonksiyonların nasıl oluşturulduğunu görmedik. Ancak
+    burada enum türlerinin yapılar gibi metotlara ve ilişkili fonksiyonlara sahip olabileceğini şimdiden belirtmek istiyoruz.
+    Bu nedenle enum türünden bir değişkenle o enum türünün bir metodunun çağrıldığını görürseniz şaşırmamalısınız. Örneğin f
+    değişkeni bir enum türünden olsun. Kodda da aşağıdaki gibi bir ifade bulunuyor olsun:
+
+    f.foo();
+
+    Burada foo söz konusu enum türünün bir metodudur.
+
+    Bu konular ileride ayrı bir başlık altında ele alınacaktır. Aşağıdaki örnekte Fruit isimli enum türü için disp isimli
+    bir metot yazılmıştır. Bu disp metodunda match deyimi kullanılarak enum değişkeninin içerisinde hangi varyantın bulunduğu
+    belirlenmiş ve onun bilgileri ekrana (stdout dosyasına) yazdırılmıştır:
+
+    fn main() {
+        let f = Fruit::Apple;
+        let k = Fruit::Banana(100);
+        let m = Fruit::Orange {amount: 10, weight: 6.32};
+
+        f.disp();
+        k.disp();
+        m.disp();
+    }
+
+    enum Fruit {
+        Apple,
+        Banana(i32),
+        Orange { amount: i32, weight: f64},
+    }
+
+    impl Fruit {
+        fn disp(&self) {
+            match self {
+                Fruit::Apple => println!("Apple"),
+                Fruit::Banana(amount) => println!("Banana({})", *amount),
+                Fruit::Orange { amount, weight } => println!("Orange({}, {})", *amount, *weight)
+            }
+        }
+    }
+
+    Metotlarım impl anahtar sözcüğüyle oluşturulmuş bir blok içerisinde yazıldığına dikkat ediniz. disp metodundaki self
+    anahtar sözcüğü disp metodunun çağrıldığı enum değişkenini ya da değerini temsil etmektedir. Parametredeki &self ifadesi
+    ise bu değişkenin ya da değerin adresinin metoda aktarıldığını belirtmektedir. Yani metot içerisinde self anahtar sözcüğü
+    &Fruit türündendir ve metodun çağrıldığı enum değişkeninin ya da değerinin adresini belirtmektedir.
+
+    enum türleri trait'leri de destekleyebilmektedir. Trait'ler konusu ileride ayrı bir bölümde ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki örnekte daha önce yapmış olduğumuz ikinci derece denklemin köklerini temsil eden QuadraticResult isimli enum
+    türüne unwrap ve expect isimli iki metot yerleştirdik. Bu enum türünü yeniden anımsatmak istiyoruz:
+
+    enum QuadraticResult {
+        Roots(f64, f64),
+        None
+    }
+
+    Bu enum türünün Roots varyantı ikinci derece denklemin köklerini, None varyantı ise köklerin olmayışını belirtmektedir.
+    Örneğimizdeki enum türünün unwrap metodu eğer kök varsa bu köklere ilişkin "(f64, f64) türünden bir demete" demete geri
+    dönmektedir. Metot eğer kök yoksa panic oluşturup programı sonlandırmaktadır. Yani bu metodu çağırdığımızda kök varsa
+    kökleri elde ederiz, kök yoksa program panic ile sonlandırılır. Metodun kullanımına dikkat ediniz:
+
+    let result = get_roots(-2., 0., -4.);
+    let (x1, x2) = result.unwrap();
+
+    expect metodunun unwrap metodundan tek farkı bir string sabitini de argüman olarak alabilmesidir. Bu metot kök yoksa
+    panic oluştururken bu panic mesajını ekrana (stderr dosyasına) bastırmaktadır. Metotlar aşağıdaki gibi yazılmıştır:
+
+    impl QuadraticResult {
+        fn unwrap(&self) -> (f64, f64) {
+            match self {
+                Self::Roots(x1, x2) => (*x1, *x2),
+                Self::None => panic!(),
+            }
+        }
+
+        fn expect(&self, msg: &str) -> (f64, f64) {
+            match self {
+                Self::Roots(x1, x2) => (*x1, *x2),
+                Self::None => panic!("{}", msg),
+            }
+        }
+    }
+
+    Metolardaki &self anahtar sözcüğü (s'nin küçük harf olduğuna dikkat ediniz) metodun çağrıldığı enum türünden değişkenin
+    ya da değerin adresini, Self anahtar sözcüğü ise (S'nin büyük harf olduğuna dikkat ediniz) impl bloüundaki enum ismini
+    temsil etmektedir. Ancak bir kez daha vurgulamak istiyoruz: Biz burada "metotların yazımı konusunu ele almıyoruz". Bu konu
+    ileride ayrıca zaten ele alınacaktır. Burada yapmak istediğimiz şey enum türlerinin metotlara sahip olabildiği fikrini
+    vermektir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result = get_roots(-2., 0., -4.);
+
+    let (x1, x2) = result.expect("No root found!");
+    println!("x1 = {}, x2 = {}", x1, x2);
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+    let delta = b * b - 4. * a * c;
+
+    if delta > 0. {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 = (-b - delta.sqrt()) / (2. * a);
+        QuadraticResult::Roots(x1, x2)
+    }
+    else {
+        QuadraticResult::None
+    }
+}
+
+enum QuadraticResult {
+    Roots(f64, f64),
+    None
+}
+
+impl QuadraticResult {
+    fn unwrap(&self) -> (f64, f64) {
+        match self {
+            Self::Roots(x1, x2) => (*x1, *x2),
+            Self::None => panic!(),
+        }
+    }
+
+    fn expect(&self, msg: &str) -> (f64, f64) {
+        match self {
+            Self::Roots(x1, x2) => (*x1, *x2),
+            Self::None => panic!("{}", msg),
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta enum türleri de generic olabilmektedir. Kursumuzda generic türler ve fonksiyonlar ileride ayrı bir bölümde
+    ele alınacaktır. Fakat biz burada generic enum türleri hakkında bazı temel bilgiler vermek istiyoruz.
+
+    Bir türün generic olması demek o türün genel bir biçimde oluşturulması demektir. Generic türler pek çok programlama
+    diline zaman içerisinde sokulmuştur. Java'da ve C#'ta da bu özellik "generic" ismiyle, C++'ta "template" ise ismiyle
+    bulunmaktadır. C'de böyle bir özellik yoktur.
+
+    Bir enum generic olarak yazılırken enum isminden sonra açısal parantezler içerisinde tür parametreleri belirtilir.
+    Örneğin:
+
+    enum MyEnum<T, K> {
+        //...
+    }
+
+    Burada T ve K türleri temsil eden tür parametreleridir. enum türü de bu bu tür parametrelerine dayalı olarak oluşturulur.
+    Tür parametreleri isimlendirme kuralın uygun herhangi biçimde isimlendirilebilmektedir. Ancak Rust programcıları generic
+    türlerin tür parametrelerini tek bir büyük harfle isimlendirmeyi tercih etmektedir. Örneğin:
+
+    enum Fruit<T> {
+        Apple,
+        Banana(T, T),
+        Orange(T)
+    }
+
+    Burada tür parametresi olan T aslında herhangi bir türü temsil etmektedir. Örneğin eğer T tür parametresi i32 olsa bu
+    enum türü aşağıdaki hale gelecektir:
+
+    enum Fruit {
+        Apple,
+        Banana(i32, i32),
+        Orange(i32)
+    }
+
+    Eğer T tür parametresi f64 olsaydı bu durumda Fruit enum türü şu hale gelecekti:
+
+    enum Fruit {
+        Apple,
+        Banana(f64, f64),
+        Orange(f64)
+    }
+
+    İşte generic türlerde derleyici bir şablon eşliğinde gerçek türleri belirleyerekgerçek türleri kendisi oluşturmaktadır.
+    Derleyicinin generic bir türe bakıp generic parametreler yerine gerçek türleri yerleştirip o generic türden gerçek bir
+    tür oluşturma sürecine Rust'ta "monomorfizasyon (monomorphization)" denilmektedir. (C++'ta ve C#'ta bu sürece "örnek
+    oluşurma (instantiation)" adı verilmektedir.) Pekiyi derleyici ne zaman ve nasıl monomorfizasyon yapmaktadır? İşte bu
+    konunun çeşitli ayrıntıları vardır. Biz zaten bu konuyu ayrı bir bölümde ayrıntılarıyla ele alacağız.
+
+    Bir generic enum türünden değişken bildirilirken yalnızca enum ismi belirtilemez, açısal parantezler içerisinde enum
+    tür parametrelerinin de belirtilmek gerekir. Örneğin:
+
+    let f: Fruit<i32>;
+
+    Burada f değişkeni Fruit türünden değildir, Fruit<i32> türündedir. Örneğin:
+
+    let k: Fruit<f64>;
+
+    Burada k değişkeni Fruit<f64> türündendir.
+
+    Rust derleyicisi generic bir türün kullanıldığını gördüğünde generic parametreleri yerlerine yerleştirerek gerçek
+    türlerle gerçek enum türünü oluşturur. Yukarıda da belirttiğimiz gibi bu sürece Rust'ta "monomorfizasyon" denilmektedir.
+
+    Pekiyi generic bir enum türünden enum varyantı nasıl oluşturulmaktadır? İşte generic enum türlerine ilişkin varyantları
+    yapıcılarla (constuctors) iki biçimde oluşturulabilmektedir:
+
+    1) Generic tür parametrelerinin açıkça (explicit) belirtilmesi yoluyla
+    2) Derleyicinin içinde bulunulan bağlamdan hareketle generic parametrelerin türlerini kendisinin tespit etmesi (implicit)
+    yoluyla
+
+    Varyant oluştururken generic parametreler açıkça aşağıdaki biçimde belirtilmektedir:
+
+    <generic_enum_ismi>::<<tür_parametre_listesi>>::<varyant_ismi>...
+
+    Örneğin:
+
+    let f: Fruit<i32>;
+
+    f = Fruit::<i32>::Banana(10, 20);
+
+    Burada varyantın belirtilme biçimi size tuhaf gelebilir. Sanki bunun aşağıdaki gibi olması gerektiğini düşünebilirsiniz:
+
+    f = Fruit<i32>::Banana(10, 20);
+
+    Özellikle C++, Java ve C# gibi dillerden geçen kişiler Rust'taki bu sentaksı yadırgamaktadır. Bu dillerden geçen programcılar
+    açıkça tür belirtirken Fruit<i32> sentaksı kullanıldığı halde varyant oluşturulurken Fruit::<i32>::Banana sentaksının
+    kullanılamsını bir çelişki olarak yorumlamaktadır. Bu düşünce kısmen doğru olsa da Rust kendine özgü bir programala dilidir.
+    Rust'ta varyant oluştururken yanlışlıkla Fruit<i32>::Banana gibi bir sentaksı kullanırsanız burada açısal parantezler
+    operatör gibi ele alınaca buu da error oluşturacaktır
+
+    Ancak Rust'ta generic varyantlar oluşturulurken çok nadir açıkça tür belirtmeye gereksinim duyulmaktadır. Genellikle
+    tür çıkarımı "bağlama (context)" dayalı bir biçimde derleyici tarafından otomatik biçimde yapılabilmektedir. Örneğin
+    derleyici eğer hedef değişkenin türü belliyse enum parametrelerinin türünü de kendisi otomatik olarak belirleyebilmektedir.
+    Örneğin:
+
+    let f: Fruit<i32>;
+
+    f = Fruit::Banana(10, 20);
+
+    Burada Rust derleyicisi hedef tür Fruit<i32> olduğu için Banana varyantının da Fruit<i32> türünün bir enum türünün varyantı
+    olduğunu anlayabilmektedir. Tabii aşağıdaki varyant oluşturma işlemi error'le sonuçlanacaktır:
+
+    let f: Fruit<f64>;
+
+    f = Fruit::Banana(10, 20);          // error!
+
+    Çünkü derleyici burada hedef türün Fruit<f64> olduğunu gördüğü için Banana varyantının da Fruit<f64> türüne ilişkin
+    olması gerektiğini düşünecektir. Ancak Fruit<f64> türünün Banana varyantının alanları f64 türündendir. Oysa 10 ve 20 i32
+    türündendir.
+# 32. Ders 02/07/2025 - Çarşamba
+    Yukarıda da belirttiğimiz gibi Rust derleyicisi eğer bağlamdan hareketle generic parametrelerin hangi gerçek türlere karşı
+    geldiğini çıkarsayabiliyorsa programcının tür parametrelerini açıkça belirtmesine gerek kalmamaktadır. Örneğin:
+
+    fn main() {
+        foo(Fruit::Banana(10, 20));
+    }
+
+    fn foo(f: Fruit<i32>) {
+        match f {
+            Fruit::Apple => println!("Apple"),
+            Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
+            Fruit::Orange(orange) => println!("Orange ({})", orange),
+        }
+    }
+
+    enum Fruit<T> {
+        Apple,
+        Banana(T, T),
+        Orange(T)
+    }
+
+    Burada foo fonksiyonun parametre değişkeni Fruit<i32> türündendir. Fonksiyonu çağırırken enum varyantında generic
+    türün belirtilmesine gerek kalmaz. Çünkü derleyici bu hedef değişkene bakarak tür tespitini kendisi yapabilecektir.
+    Fonksiyonun çağrımına dikkat ediniz:
+
+    foo(Fruit::Banana(10, 20));
+
+    Tabii biz generic türler için açıkça tür parametresini belirterek de fonksiyonu aşağıdaki gibi çağırabilirdik:
+
+    foo(Fruit::<i32>::Banana(10, 20));
+
+    Şimdi de foo içerisindeki match ifadesine dikkat ediniz:
+
+     fn foo(f: Fruit<i32>) {
+        match f {
+            Fruit::Apple => println!("Apple"),
+            Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
+            Fruit::Orange(orange) => println!("Orange ({})", orange),
+        }
+    }
+
+    Burada match ifadesi Fruit<i32> üründendir. O halde match kollarının da bu türden olması gerekir. Bu nedenle programcının
+    match kollarında açıkça tür belirtmesine gerek yoktur. Tabii programcı açıkta tür belirtirse de bir sorun oluşmayacaktır.
+    Örneğin:
+
+    fn foo(f: Fruit<i32>) {
+        match f {
+            Fruit::<i32>::Apple => println!("Apple"),
+            Fruit::<i32>::Banana(a, b) => println!("Banana ({}, {})", a, b),
+            Fruit::<i32>::Orange(orange) => println!("Orange ({})", orange),
+        }
+    }
+
+    Şimdi de aşağıdaki örneğe dikkat ediniz:
+
+    let f = Fruit::Banana(10, 20);
+
+    Burada derleyici hedef türü bilmediğine göre tür çıkarımını yapabilir mi? İşte bu tür durumlarda derleyici enum varyantı
+    için kullanılan alanların türlerinden hareketle generic parametrelerin türünü tespit edebilmektedir. Örneğimizde Banana
+    varyantı oluşturulurken yapıcı fonksiyona (constructor) girilen argümanlar i32 türünden olduğu için derleyici de buradaki
+    türü Fruit<i32> biçiminde çıkarsayacaktır. Tabii böyle bir çıkarsamanın mümkün olması için yapıcı fonksiyondaki argümanların
+    da tutarlı olması gerekir. Örneğin:
+
+    let f = Fruit::Banana(10, 3.54);        // error!
+
+    Burada Banana yapıcı fonksiyonunun argümanları farklı türlerdendir. Dolayısıyla tür çıkarımı yapılamayacaktır.
+
+    Biz yukarıda "eğer mümkünse derleyici generic parametrelerin türleri için tür çıkarımı yapabilmektedir" dedik. Tabii bu
+    sürecin biçimsel bir ifadesi vardır. Biz burada yalnızca sezgisel açıklamayla yetineceğiz. Biçimsel açıklamaları "generic"
+    konusunu elde aldığımız bölümde yapacağız.
+
+    Tabii bazen gerçekten (seyrek de olsa) programcının generic parametreleri açıkça (explicitly) belirtmesi gerekebilir.
+
+    enum Fruit<T> {
+        Apple,
+        Banana(T, T),
+        Orange(T)
+    }
+
+    let f = Fruit::Apple;      // error!
+
+    Apple varyantının birimsel (unit) bir varyant olduğuna dikkat ediniz. Bu durumda Rust derleyicisi generic tür çıkarımını
+    yapamayacaktır. Dolayısıyla bağlama işlemi error ile sonuçlanacaktır. Şimdi siz "nasıl olsa Apple varyantı T türünden bir
+    bilgi barındırmıyor, bu durumda T türünün önemi olmadığına göre bağlamanın geçirli olması gerektiğini" düşünebilirsiniz.
+    Ancak programın başka bir yerinde bu f değişkenine bir şey atanabileceği (tabii değişkenin mut olması gerekir) için derleyicinin
+    tür çıkarımını yapmış olması gerekir. İşte böylesi durumlarda enum türü açıkça belirtilmek zorundadır. Örneğin:
+
+    let f = Fruit::<i32>::Apple;
+---------------------------------------------------------------------------------------------------------------------------
+    enum türlerinin metotlara sahip olabileceğini belirtmiştik. İşte generic enum türleri de metotolara sahip olabilmektedir.
+    Generic türlere ilişkin metotolar yazılırken yazarken hem impl anahtar sözcüğünden sonra hem de enum isminden sonra generic
+    parametrelerin açısal parantezler içerisinde belirtilmesi gerekir. Örneğin:
+
+    enum Fruit<T> {
+        Apple,
+        Banana(T, T),
+        Orange(T)
+    }
+
+    impl<T> Fruit<T> {
+        fn disp(&self) {
+            match &self {
+                Fruit::Apple => println!("Apple"),
+                Fruit::Banana(a, b) => println!("Banana"),
+                Fruit::Orange(a) => println!("Orange"),
+            }
+        }
+    }
+
+    Burada disp generic enum türünün bir metodudur. Bu metot içerisinde biz T türünü kullanabiliriz. Tabii metotlar konusu,
+    generic türler konusu aslında ayrı bir bölümde ayrıntılarıyla ele alınacaktır. Biz yalnızca burada generic türlerin de
+    metotlara sahip olabileceğine dikkatinizi çekmek istiyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let f = Fruit::Banana(10, 20);
+
+    f.disp();
+}
+
+enum Fruit<T> {
+    Apple,
+    Banana(T, T),
+    Orange(T)
+}
+
+impl<T> Fruit<T> {
+    fn disp(&self) {
+        match &self {
+            Fruit::Apple => println!("Apple"),
+            Fruit::Banana(a, b) => println!("Banana"),
+            Fruit::Orange(a) => println!("Orange"),
+        }
+    }
+}
+
+# 33. Ders 09/07/2025 - Çarşamba
+    Rust'ın standart kütüphanesinde std::option modülünde bulunan Option isimli bir enum türü sıkça kullanılmaktadır. Biz de
+    bu bölümde bu Option enum türünü ele alacağız. Option enum türü generic biçimdedir. Türün bir tane generic parametresi
+    vardır. Option enum türü şöyle tanımlanmıştır:
+
+    pub enum Option<T> {
+        Some(T),
+        None
+    }
+
+    Görüldüğü gibi Option türünün Some ve None isimli iki varyantı vardır. Some varyantı demetsel bir varyanttır ve T türünden
+    bir alana (field) sahiptir. None varyantı ise birimsel bir varyanttır. Ek bilgi tutmamaktadır. Her ne kadar Option türü
+    std::option modülünde bulunuyor olsa da standart prelude içerisinde bu tür için use işlemi yapılmıştır. Bu sayede Option
+    tür ismi ve Option içerisindeki Some ve None varyantları :: operatörü ile hiç niteliklendirme yapılmadan da kullanılabilir.
+    Örneğin:
+
+    let ops = std::option::Option::<i32>::Some(123);
+
+    Burada tam niteliklendirme yapılarak Option enum'unun Some varyantına ilişkin bir değer oluşturulmuştur. Generic parametre
+    açıkça belirtilmeden de aynı işlem yapılabilirdi:
+
+    let ops = std::option::Option::Some(123);
+
+    Tabii aslında prelude sayesinde std::option niteliklendirmesini kullanmayabiliriz. Örneğin:
+
+    let ops = Option::Some(123);
+
+    Örneğin:
+
+    let t = Option::<i32>::Some(10);
+
+    Yine prelude sayesinde Option ismiyle niteliklendirmeyi de kaldırabiliriz. Örneğin:
+
+    let ops = Some(123);
+
+    Burada ops değişkeni Option<i32> türündendir.
+
+    Anımsanacağı gibi None varyantı kullanılıyor olsa bile yine generic parametrenin türü belirlenebilir olmalıdır. Örneğin
+    aşağıdaki bağlama error ile sonuçlanacaktır. Çünkü burada None varyantının hangi generic parametreye sahip Option
+    türüne ilişkin olduğu bilinmemektedir.
+
+    let ops = None;     // error!
+
+    Tabii daha önceden de belirttiğimiz gibi bağlamada kalıpta belirtilen hedef tür dikkate alınarak otomatik tür çıkarımı
+    yapılabilmektedir. Örneğin:
+
+    let ops: Option<f64> = None;
+
+    Burada None varyantının Option<f64> türünün None varyantı olduğu anlaşılmaktadır.
+
+    Tabii Option enum türünün tür parametresi bir yapı türünden de olabilir. Örneğin:
+
+    let ops: Option<String> = Some(String::from("this is a message"));
+
+    Örneğin:
+
+    let ops: Option<&str> = Some("this is a message");
+
+    Option enum'undaki tür parametresi bir demet türünden de olabilir. Örneğin:
+
+    let ops: Option<(f64, f64)> = Some((2.4, 6.5));
+
+    Burada Option tür parametresi (f64, f64) türündendir. Tabii aslında biz yularıdaki bağlamayı daha az tuşa basarak aşağıdaki
+    gibi de yapabilirdik:
+
+    let ops = Some((2.4, 6.5));
+
+    Burada özellikle Python programcıları için bir uyarıda bulunmak istiyoruz. Python'da None bir anahtar sözcüktür. Rust'ta
+    None sıradan bir isimdir. Aşağıdaki gibi bir kod gördüğünüzde None ismini bir anahtar sözcük sanmayınız:
+
+    let ops: Option<i32>;
+    //...
+    ops = None;
+---------------------------------------------------------------------------------------------------------------------------
+    Option türü önceki örneklerimizden de anlayacağınız gibi "hem bir değeri hem de başarısılık durumunu" ifade etmek için
+    kullanılmaktadır. Aşağıdaki gibi bir fonksiyon olsun:
+
+    fn foo() -> Option<i32> {
+        //...
+    }
+
+    Bu fonksiyon başarı durumunda Some(i32) varyantına ilişkin bir değer, başarısızlık durumunda None varyantına ilişkin bir
+    değer vermektedir. Yani Option türü bir birlik organizasyonu içerisinde "ya başarı durumundaki değeri ya da başarısızlık
+    bilgisini" ifade etmek için kullanılmaktadır. Örneğin C'de foo isimli bir fonksiyon başarı durumunda herhangi bir int
+    değeri bize verebiliyor olsun. Ancak fonksiyon başarısız da olabilsin. Biz bu fonksiyonu şöyle tanımlayamayız:
+
+    int foo(void)
+    {
+        //...
+    }
+
+    Burada fonksiyon başarısız olduğunda verebilecği bir int değer yoktur. Çünkü fonksiyon başarı durumunda herhangi bir
+    int değer verebilmektedir. Biz C'de bu tür durumlarda genellikle fonksiyonun geri dönüş değerini "başarı-başarısızlık"
+    için kullanırız. Fonksiyonun da geri dönüş değerini parametre yoluyla iletmesini sağlarız. Örneğin:
+
+    bool foo(int *val)
+    {
+        //...
+    }
+
+    Burada programcı önce fonksiyonun geri dönüş değerine bakar. Ancak geri dönüş değeri true ise parametre olarak verdiği
+    nesneye başvurur. İşte böylesi durumlarda Rust'ta Option enum türü kullanılmaktadır:
+
+    fn foo() -> Option<i32> {
+        //...
+    }
+
+    Burada foo başarılıysa Some(i32) varyantına işlişkin bir değere, başarısızsa None varyantına ilişkin bir değere geri
+    dönecektir. Örneğin:
+
+    fn mysqrt(x: f64) -> Option<f64> {
+        if x < 0.0 {
+            return None;
+        }
+        else {
+            Some(x.sqrt())
+        }
+    }
+
+    Burada eğer mysqrt fonksiyonun parametresi negatif ise fonksiyon başarısızlıkla yani Option::<f64>::None varyantı ile
+    geri dönmektedir. Eğer parametre negatif değilse Option::<f64>::Some varyantıyla geri dönmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi elimizde Option türünden bir değişken ya da değer olsun. Biz bu değişken ya da değerin içerisindeki varyantın
+    ne olduğunu nasıl anlayabiliriz? İşte Rust'ta bunun için iki yol vardır:
+
+    1) match ya da if let deyimi ile
+    2) Option enum türünün metotları ile
+
+    Elimizde bir Option türünden değişken ya da değer varsa biz match deyimi ile hem başarısızlığı anlayabilir hem de başarı
+    durumunda Some varyantının alan değerini elde edebiliriz. Örneğin:
+
+    val = getval();
+
+    match mysqrt(val) {
+        Some(x) => println!("{}", x),
+        None => println!("failed to get sqrt of val")
+    }
+
+    Burada mysqrt fonksiyonun geri dönüş değeri Option<f64> türündendir. natch deyimi ile varyant tespiti yapılıp Some varyantının
+    içerisindeki alan değeri elde edilmiştir. Tabii aynı işlem if let deyimiyle de yapılabilirdi:
+
+    val = getval();
+
+    if let Some(x) = mysqrt(val) {
+        println!("{}", x);
+    }
+    else {
+        println!("failed to get sqrt of val")
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let val: f64;
+
+    val = getval();
+
+    match mysqrt(val) {
+        Some(x) => println!("{}", x),
+        None => println!("failed to get sqrt of val")
+    }
+}
+
+fn mysqrt(x: f64) -> Option<f64> {
+    if x < 0.0 {
+        return None;
+    }
+    else {
+        Some(x.sqrt())
+    }
+}
+
+fn getval() -> f64 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse into number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi daha önce yapmış olduğumuz ikinci derece denklemin köklerine geri dönen fonksiyonu Option enum'unu kullanarak
+    yeniden yazalım:
+
+    fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+        let delta: f64;
+
+        delta = b * b - 4.0 * a * c;
+        if delta < 0.0 {
+            None
+        }
+        else {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 =  (-b - delta.sqrt()) / (2. * a);
+            Some((x1, x2))
+        }
+    }
+
+    Burada get_roots fonksiyonunun geri dönüş değeri Option<(f64, f64>) türündendir. Option türünün (f64, f64) monomorfizasyonu a
+    şağıdaki gibidir:
+
+    enum Option {
+        Some((f64, f64)),
+        None
+    }
+
+    İşte biz yine fonksiyonu çağırıp geri dönüş değerini match deyimi içerisine sokarak varyantın Some olup olmadığını
+    tespit edebiliriz:
+
+    result = get_roots(1., 0., -4.);
+
+    match result {
+        Some((x1, x2)) => println!("x1: {}, x2: {}", x1, x2),
+        None => println!("No result"),
+    }
+
+    Burada ilk match koluna dikkat ediniz. Some varyantının alanı da bir demet olduğu için açım (destructuring) doğrudan
+    yapılmıştır. Burada x1 ve x2'nin f64 türünden olduğuna dikkat ediniz.
+
+    Tabii Some kalıbı aşağıdaki gibi de düzenlenebilirdi:
+
+     match result {
+        Some(t) => println!("x1: {}, x2: {}", t.0, t.1),
+        None => println!("No result"),
+    }
+
+    Burada artık t değişkeni (f64, f64) türünden bir demettir. Benzer biçimde bu işlemi if let deyimiyle de yapabilirdik:
+
+    if let Some(t) = result {
+        println!("x1: {}, x2: {}", t.0, t.1)
+    }
+    else {
+        println!("No results found!")
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result;
+
+    result = get_roots(1., 0., -4.);
+    if let Some(t) = result {
+       println!("x1: {}, x2: {}", t.0, t.1)
+    }
+    else {
+       println!("No results found!")
+    }
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        None
+    }
+    else {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 =  (-b - delta.sqrt()) / (2. * a);
+        Some((x1, x2))
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Option türünden bir değişken ya da değerin varyantları hakkında bilgi edinebilmek için Option türünün metotlarından da
+    faydalanılabilmektedir. Option türünün pek çok metodu vardır. Burada Option türünün önemli metotları üzerinde duracağız.
+
+    - Option enum'unun is_some ve is_none metotları parametre almaz. İlgili enum değişkeninin ya da değerinin içerisindeki
+    varyantın Some ya da None oluğu olmadığını belirten bool türden bir değerle geri dönmektedir. Metotların parametrik
+    yapıları şöyledir:
+
+    pub const fn is_some(&self) -> bool
+    pub const fn is_none(&self) -> bool
+
+    Metotların ilk parametrelerinin &self ya da self biçiminde olduğunu belirtmiştik. Bu parametre metodun çağrıldığı değişkeni
+    ya da değeri belirtiyordu. Burada bir noktaya dikkat ediniz. is_some metodu bize Some varyantındaki alanın değerini vermemektedir.
+    Yalnızca enum'un Some varyantını içerip içermediği bilgisini vermektedir. Örneğin:
+
+    result = get_roots(1., 0., -4.);
+
+    if result.is_some() {
+        println!("roots found")
+    }
+    else {
+        println!("root not found")
+    }
+
+    Burada biz kökün olup olmadığını anlayabildik. Kök varsa bunun değerlerini elde edemedik. Tabii aynı şey aslında is_none
+    metoduyla da yapılabilirdi:
+
+    result = get_roots(1., 0., -4.);
+
+    if result.is_none() {
+        println!("root not found")
+    }
+    else {
+        println!("roots found")
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    - Option enum'unun en çok kullanılan metotlarından ikisi unwrap ve expect metotlarıdır. unwrap metodu eğer enum içerisindeki
+    varyant Some ise bize o Some içerisindeki alan değerini verir, None ise panic oluşturur. expect metodu da çok benzerdir.
+    unwrap metodundan farkı panic oluştururken panic mesajının belirlenmesine olanak sağlamasıdır. Metotların parametrik yapıları
+    şöyledir:
+
+    pub const fn unwrap(self) -> T
+    pub const fn expect(self, msg: &str) -> T
+
+    unwrap metodunun parametre almadığına expect metodunun ise string dilim referansı parametresi aldığına dikkat ediniz.
+    Her iki metot da eğer enum'da Some varyantı varsa onun alan değerine geri dönmektedir. Örneğin:
+
+    let roots: (f64, f64);
+
+    roots = get_roots(1., 0., -4.).unwrap();
+    println!("x1 = {}, x2 = {}", roots.0, roots.1);
+
+    Burada get_roots fonksiyonun geri dönüş değerinin Option<(f64, f64)> türünden olduğuna dikkat ediniz. Bu değer hemen
+    unwrap edilmiştir. Zaten kök yoksa panic ile program sonlandırılacaktır. Programın devam etmesi için kök olması gerekir.
+    unwrap metodunun başarı durumunda bize (f64, f64) türünden bir demet verdiğine dikkat ediniz. Tabii fonksiyonun geri
+    dönüş değeri (f64, f64) türünden olduğuna göre biz let deyimi ile açım (destructuring) da yapabiliriz:
+
+    let (x1, x2) =  get_roots(1., 0., -4.).unwrap();
+    println!("x1 = {}, x2 = {}", x1, x2);
+
+    let deyiminde kalıbın "irrefuable" olması gerektiğini anımsayınız. Buradaki kalıp irrefutable biçimdedir.
+
+    Yukarıda da belirttiğimiz gibi expect metodunun unwrap metodundan farkı panic durumunda panic mesajının da belirlenmesine
+    olanak sağlamasıdır. Örneğin:
+
+    let roots: (f64, f64);
+
+    roots = get_roots(1., 0., 4.).expect("root not found");
+---------------------------------------------------------------------------------------------------------------------------
+    - Option enum türünün unwrap_or metodu eğer enum içerisinde None değeri varsa panic yerine metodun bizim belirlediğimiz
+    değerle geri döndürülmesini sağlamaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn unwrap_or(self, default: T) -> T
+
+    Örneğin:
+
+    let val: f64;
+    let result: f64;
+
+    val = getval();
+    result = mysqrt(val).unwrap_or(-1.0);
+
+    Burada unwrap_or metodu "eğer enum'da Some varyantı varsa onun alan değerini, eğer None varyantı varsa -1.0 değerini
+    vermektedir. Yani hiçbir zaman panic oluşmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let val: f64;
+    let result: f64;
+
+    val = getval();
+
+    result = mysqrt(val).unwrap_or(-1.);
+    println!("{}", result);
+}
+
+fn mysqrt(x: f64) -> Option<f64> {
+    if x < 0.0 {
+        return None;
+    }
+    else {
+        Some(x.sqrt())
+    }
+}
+
+fn getval() -> f64 {
+    let mut buf: String = String::new();
+
+    std::io::stdin().read_line(&mut buf).expect("read line failed");
+    buf.trim().parse().expect("parse into number")
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    get_roots fonksiyonunun geri dönüş değerinin Option<(f64, f64)> türündne olduğunu anımsayınız. Her bu enum için unwrap_or
+    kullanacaksanız metoda argüman olarak (f64, f64) türünden bir demet vermelisiniz. Örneğin:
+
+    let result: (f64, f64);
+
+    result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
+    println!("{}, {}", result.0, result.1);
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let result: (f64, f64);
+
+    result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
+    println!("{}, {}", result.0, result.1);
+}
+
+fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+    let delta: f64;
+
+    delta = b * b - 4.0 * a * c;
+    if delta < 0.0 {
+        None
+    }
+    else {
+        let x1 = (-b + delta.sqrt()) / (2. * a);
+        let x2 =  (-b - delta.sqrt()) / (2. * a);
+        Some((x1, x2))
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    - Option enum türünün unwrap_or_default metodu ek bir argüman almaz. Enum'daki varyant Some ise Some içerisindeki alanın
+    değeri ile None ise T türünün default değeri ile geri dönmektedir. Metodun parametrik yapısı şöyledir:
+
+    pub fn unwrap_or_default(self) -> T
+
+    Nümerik türlerin default değerleri 0'dır. bool türünün ise false biçimdedir. Örneğin:
+
+    val = getval();
+    result = mysqrt(val).unwrap_or_default();
+
+    Buradan biz ya val değerinin karekökünü ya da f64 türünün default değeri olan 0'ı elde ederiz. Örneğin:
+
+    let ops = Option::<bool>::None;
+    let result: bool;
+
+    result = ops.unwrap_or_default();
+    println!("{}", result);             // false
+
+    Demetlerin default değerleri elemanların default değerlerinden oluşmaktadır. Örneğin (i32, i32) demet türünün default
+    değeri (0, 0) biçimindedir:
+
+    let ops = Option::<(i32, i32)>::None;
+    let result: (i32, i32);
+
+    result = ops.unwrap_or_default();
+    println!("{:?}", result);           // (0, 0)
+
+    Tabii her türün bir default değeri olmak zorunda değildir. Programcı kendi türleri için default değer oluşturmak istiyorsa
+    Default isimli trait'i desteklemesi gerekir. Bu konu ileride trait'lerin anlatıldığı bölümde ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    - Option enum türünün as_ref isimli metodu argümansız olarak kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub const fn as_ref(&self) -> Option<&T>
+
+    Bu metot Option<T> türünden bir değişken ya da değere uygulanırsa Option<&T> türünden bir değer elde edlmektedir. Örneğin
+    elimizde şöyle bir Option<i32> değişkeni olsun:
+
+    let ops1 = Option::<i32>::Some(123);
+    let ops2: Option<&i32>;
+
+    let ops2 = ops1.as_ref();
+
+    Pekiyi Option<T> değerinden Option<&T> değerinin oluşturulmasının ne anlamı olabilir? işte bazen Option içerisinde tutulan
+    nesnenin ekndisini değil de onun adresini elde etmek isteyebiliriz. Böylece eğeri taşımadan ödünç almış oluruz. Örneğin:
+
+    let opt = Some(String::from("ankara"));
+
+    if let Some(s) = opt {
+        println!("{}", s);
+    }
+    else {
+        println!("None")
+    }
+
+    let s = opt.unwrap();       // error!
+
+    Burada biz opt içerisindeki değer kalıp uyuşumu ile elde ettik. Ancak bu değer String türünden olduğu için ve String
+    türü de Copy türünden olmadığı için opt içerisindeki değer taşınmıştır. Dolayısıyla if let deyiminden sonra artık biz
+    opt değişkenini kullanamayız. İşte hem opt içerisindeki değeri taşımadan elde etmek için as_ref metodu kullanılmaktadır.
+    Örneğin:
+
+    let opt = Some(String::from("ankara"));
+
+    if let Some(s) = opt.as_ref() {
+        println!("{}", *s);
+    }
+    else {
+        println!("None")
+    }
+
+    let s = opt.unwrap();       // geçerli
+
+    Burada biz if let ile artık opt içerisindeki değerin adresini elde etmiş oluyourz. Çünkü as_ref metodu bize Option<&String>
+    değeri vermektedir.
+
+    Her ne kadar biz henüz görmemiş olsak da aynı işlem aslında as_ref metodu yerine "ref kalıbı" ile de yapılabilmektedir.
+    ref kalıbı enum alanının kendisini değil adresini elde etmekte kullanılmaktadır. Dolayısıyla yukarıdaki işlemin eşdeğeri
+    şöyle oluşturulabilmektedir:
+
+    let opt = Some(String::from("ankara"));
+
+    if let Some(ref s) = opt {
+        println!("{}", *s);
+    }
+    else {
+        println!("None")
+    }
+
+    let s = opt.unwrap();       // geçerli
+
+    Burada kalıp olarak Some(ref s) kullanıldığına dikkat ediniz. Bu kalıp zaten Some varyantının alanının adresini elde
+    etmekte kullanılmaktadır.
+
+# 34. Ders 14/07/2025 - Pazartesi
+
+    - Option enum türünün insert isimli metodu Option türünden mut bir değişken ya da geçici değerle (temporary value) ile
+    çağrılabilir. Bu metot Option içerisindeki Some varyantına T türünden yeni bir alan değeri yerleştirir. Tabii eğer Option
+    değişkeninin içerisinde None varyantı varsa artık bu işlemden sonra Some varyantı bulunacaktır. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn insert(&mut self, value: T) -> &mut T
+
+    Metot insert edilen değerin yerleştirildiği Some alanın mut referansıyla geri dönmektedir. Ancak metodun geri dönüş değerine
+    pek gereksinim duyulmamaktadır. Örneğin:
+
+    fn main() {
+        let mut opt = Some(123);
+        let mut result: i32;
+
+        result = opt.unwrap();
+        println!("{}", result);     // 123
+
+        opt.insert(500);
+
+        result = opt.unwrap();
+        println!("{}", result);     // 500
+    }
+
+    - Option enum türünün get_or_insert metodu insert metoduna benzerdir. Ancak bu metot eğer enum değişkeni ya da geçici
+    değeri içerisinde Some varyantı varsa onun alanın mut referansıyla ger döner. Ancak None varyantı varsa gerçekten insert
+    işlemi yapar Metodun parametrik yaısı şöyledir:
+
+    pub fn get_or_insert(&mut self, value: T) -> &mut T
+
+    Örneğin:
+
+    let mut opt = Option::<i32>::None;
+    let mut result: i32;
+
+    opt.get_or_insert(500);
+
+    result = opt.unwrap();
+    println!("{}", result);     // 500
+
+    let rval: &mut i32 = opt.get_or_insert(1000);
+    println!("{}", rval);           // 500
+
+    Burada get_or_insert metodunun ilk çağrılmasında opt içerisinde None varyantı olduğu için Some varyantı insert edilmiştir.
+    Ancak ikinci çağrıda artık opt içerisinde Some varyantı vardır. Dolayısıyla bir insert işlemi yapılamamıştır.
+
+    - Option enum türünün get_or_insert_default metodu da get_or_insert metodu gibidir. Bu metottan farkı eğer değişken
+    ya da geçici değer içerisinde None varyantı varsa default alan değerine sahip Some varyantı insert edilmektedir.
+    Metodun parametrik yapısı şöyledir:
+
+    pub fn get_or_insert_default(&mut self) -> &mut T
+
+    - Option enum türünün take metodu mut bir referansla çağrılmak zorundadır. Bu metot enum içerisindeki değeri bir Option
+    nesnesi olarak taşıma yoluyla geri döndürür. Ancak metodun çağrıldığı değişkene None varyantı yerleştirir.
+    Metodun parametrik yapısı şöyledir:
+
+    pub const fn take(&mut self) -> Option<T>
+
+    Örneğin:
+
+    let mut opt = Option::Some(123);
+    let opt2: Option<i32>;
+
+    opt2 = opt.take();
+
+    Burada artık opt içerisindeki değer Option olarak op2'ye taşınmıştır. Ancak opt değişkenin içerisinde artık None varyantı
+    vardır. Bunu şöyle test edebilirsiniz:
+
+     match opt {
+        Option::Some(val) => { println!("{}", val); },
+        Option::None => { println!("None"); }               // None
+    }
+    match opt2 {
+        Option::Some(val) => { println!("{}", val); },      // 123
+        Option::None => { println!("None"); }
+    }
+
+    - Option enum türünün replace metodu enum içerisindeki eski değeri verip ona yeni bir Some varyantı yerleştirmektedir.
+    Metodun parametrik yapısı şöyledir:
+
+    pub const fn replace(&mut self, value: T) -> Option<T>
+
+    Örneğin:
+
+    let mut opt = Some(123);
+    let old: Option<i32>;
+
+    old = opt.replace(500);
+
+    println!("{:?}", opt);      // Some(500)
+    println!("{:?}", old);      // Some(123)
+
+    Option enum türünün diğer metorları için "Rust Standard Library" dokümanlara başvurabilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıda i32 türünden bir dizinin içerisinde bir değer arayan find isimli fonksiyon örneği verilmiştir. Fonksiyonun
+    parametrik yapısı şöyledir:
+
+    fn find(a: &[i32], val: i32) -> Option<usize>
+
+    Fonksiyonun birinci parametresi dilim referansını ikinci parametresi aranacak değeri belirtmektedir. Fonksiyon başarı
+    durumunda değerin bulunduğu dizi indeksine ilişkin Some varyantı ile başarısızlık durumunda None varyantı ile geri
+    dönmektedir. Fonksiyonun çağrımı şöyle yapılabilir:
+
+    let a = [10, 4, 67, 34, 21];
+
+    if let Some(index) = find(&a, 67) {
+        println!("{}", index);      // 2
+    }
+    else {
+        println!("cannot find!");
+    }
+
+    Aslında dilimlerin de bu işi yapan metotları vardır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a = [10, 4, 67, 34, 21];
+
+    if let Some(index) = find(&a, 67) {
+        println!("{}", index);      // 2
+    }
+    else {
+        println!("cannot find!");
+    }
+}
+
+fn find(a: &[i32], val: i32) -> Option<usize> {
+    for i in 0..a.len() {
+        if a[i] == val {
+            return Some(i);
+        }
+    }
+    None
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    String dilimlerinin (yani str türünün) de find ve rfind isimli metotları benzer biçimde Option<usize> değeri ile
+    geri dönmektedir. Metotların parametrik yapıları şöyledir:
+
+    pub fn find<P>(&self, pat: P) -> Option<usize>
+    pub fn rfind<P>(&self, pat: P) -> Option<usize>
+
+    Metotlar yazı içerisinde bir kalıp aramaktadır. Kalıp bir karakter olabilir. Eğer kalıp bulunursa bulunduğu yerin
+    indeksine ilişkin Some varyantı ile bulunamazsa None varyantı ile geri dönmektedir. Örneğin:
+
+    fn main() {
+        let s: &str = "ankara";
+
+        if let Some(index) = s.find('k') {
+            println!("{}", &s[index..]);            // kara
+        }
+        else {
+            println!("cannot find!..")
+        }
+    }
+
+    Burada index değişkeninin usize türünden olduğuna dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta çok kullanılan standart kütüphanedeki diğer bir enum türü de Result isimli enum türüdür. Result enum türü std::result
+    modülünde aşağıdaki gibi tanımlanmıştır:
+
+    pub enum Result<T, E> {
+        Ok(T),
+        Err(E),
+    }
+
+    Görülğü gibi bu enum türü de generic biçimdedir. Ancak iki generic parametresi vardır. Bu enum türünde Ok ve Err isimli
+    iki demetsel varyan bulunmaktadır. Result enum türü başarı ya da başarısızlığı bilgi ile aktarmak amacıyla kullanılmaktadır.
+    Yani başarı durumunda da başarısızlık durumunda da prgramcı bir bilgi elde etmektedir. Tabii elde edeceği bilgi başarı
+    durumunda başarılı işleme ilişkin bir değer başarısızlık durumunda ise başarısızlık nedenine ilişkin bir değer olur.
+    Başarısızlık durumunda Err varyantında tipik olarak bir hata kodu ya da bir mesaj iletilmektedir. Burada bir noktaya
+    dikkat ediniz. Başarı-başarısızlık ifadesi Option türüyle de yapılabilmektedir. Ancak Result türünde başarısızlığın
+    nedenine ilişkin de bir bilginin iletildiğine dikkat ediniz. Option türünün kullanımı daha geneldir. Option türü yalnızca
+    başarısızlığı belirtmek için değil "yokluğu", "hiçliği" belirtmek için de kullanılmaktadır. Oysa Result türü tamamen
+    başarı-başarısızlık durumunun iletiminde kullanılmaktadır. O halde bir işlemin başarısz olması durumunda bir bilginin
+    iletilmediği durumlarda Option kullanımı daha uygundur. Çünkü Option kullanmak daha basittir. Ancak bir işlemin başarısızlığı
+    soncunda başarısızlığın nedeni bir biçimde iletilecekse bu durumda Result tercih edilmelidir.
+
+    Result enum türünün kendisi. ve onun Ok ve Err varyantları tıpkı Option enum türünde olduğu gibi prelude içerisinde use
+    deyimiyle dışarıya aktarılmıştır. Yani biz std::result::Result ismi yerine doğrudan Result ismini Result::Ok ya da
+    Result::Err yerine de doğrudan Ok ve Err isimlerini kullanabiliriz. Yine Result türünde de generic parametrelerin türlerinin
+    bir biçimde derleyici tarafından tespit edilmesi gerekir. Bu açıkça yapılabileceği gibi bağlamdan hareketle de yapılabilmektedir.
+    Örneğin:
+
+    let r: std::result::Result<i32, &str>;      // geçerli
+
+    Burada Result ismi açıkça modül ismi belirtilerek niteliklendirme yoluyla kullanılmıştır. Ancak niteliklendirme yapmaya
+    gerek yoktur:
+
+    let r: Result<i32, &str>;                   // geçerli
+
+    Result enum türünde iki generic parametre vardır. Dolayısıyla derleyicinin bu iki parametreyi tespit etmesi gerekir.
+    Aşağıdaki bağlamada birinci generic parametrenin türü tespit edilebildiği halde ikinci generic parametrenin türü tespit
+    edilemediğinden dolayı bağlama error ile sonuçlanacaktır:
+
+    let r = Result::Ok(123);                  // error!
+
+    Aşağıdaki bağlama geçerlidir. Çünkü her iki generic tür de açıkça belirtilmiştir:
+
+    let r = Result::<i32, &str>::Ok(123);       // geçerli
+
+    Tabii bağlam izin veriyorsa generic parametrelerin açıkça belirtilmesine gerek kalmaz. Örneğin:
+
+    let r: Result<i32, &str>;
+
+    r = Ok(123);   // geçerli
+
+    Burada r değişkeninin türü zaten derleyici tarafından bilinmektedir. Dolayısıyla Ok varyantı için generic tür belirtilmesine
+    gerek yoktur. Benzer biçimde örneğin:
+
+    let r: Result<i32, &str>;
+
+    r = Err("file not found");      // geçerli
+
+    Burada da generic türlerin belirtilmesine gerek yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+    Örneğin bir soket için accept işlemi yapan bir fonksiyon yazmak isteyelim. Bu fonksiyon başarı durumunda Socket türünden
+    bir yapı değerine, başarısızlık durumunda da hataya ilişkin bir hata yazısına geri dönecek olsun. Burada Option yerine
+    Result türünün kullanılması daha uygundur:
+
+    fn accept_socket(s: Socket) -> Result<Socket, String>
+
+    Eğer bu fonksiyon Option ile geri dönüyor olsaydı fonksiyonun parametrik yapısı şöyle olurdu:
+
+    fn accept_socket(s: Socket) -> Option<Socket>
+
+    Fakat bu durumda hatanın nedenini anlayamazdık.
+
+    Pekiyi ikinci derece denklemin köklerini bulan get_roots fonksiyonunun geri dönüş değerinin Option türünden olması mı
+    yoksa Result türünden olamsı mı daha uygundur? İkinci derece denklemin köklerinin olmamasının tek bir nedeni vardır.
+    O da delta < 0 durumudur. Bu fonksiyonun başarısızlık için ek bir bilgi iletmesine gerek yoktur. Eğer bu fonksiyon başka
+    nedenlerden dolayı da başarısz olabilseydi bu durumda Option yerine Result türünü tercih ederdik.
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında biz kursumuzun ilk kısımlarında farkında olmasak da Result enum türüyle karşılaştık. Klavyeden (stdin dosyasından)
+    bir yazı okurkan std::io::stdin() fonksiyonu bize Stdin yapısı türünden bir değer veriyordu. Biz de bu yapının read_line
+    metodunu çağırıyorduk. Stdin yapısının read_line metodunun parametrik yapısı şöyledir:
+
+    pub fn read_line(&self, buf: &mut String) -> Result<usize>
+
+    Fonksiyon stdin türünden bir değişken ya da değerin adresini ve bir de mut bir String değişkeninin adresini almaktadır.
+    Fonksiyon klavyeden okunanları bir String değişkeninin içerisine yerleştirecektir. Ancak bu fonksiyon başarısız da
+    olabilmektedir. Fonksiyonun geri dönüş değerindeki Result ismi türü aslında yukarıda açıkladığımız Result ismi değildir.
+    Geri dönüş değerinde belirtilen Result ismi takma addır (Yani bunu C'deki typedef ismi gibi düşünebilirsiniz.) Bu takma
+    ad std::io modülünde aşağıdaki gibi tanımlanmıştır:
+
+    pub type Result<T> = Result<T, Error>;
+
+    Yani aslında geri dönüş değerindeki std::io::Result<usize> türü std::result::Result<usize, std::io::Error> anlamına
+    gelmektedir. Dolayısıyla bu metot başarı durumunda Ok(usize) değeri ile başarısızlık durumunda Error isimli bir yapı
+    değeri ile geri dönmektedir. Eğer bu metodun geri dönüş değeri kullanılacak olsaydı bu şöyle yapılabilirdi:
+
+    let mut s: String = String::new();
+    let result: std::result::Result<usize, std::io::Error> = std::io::stdin().read_line(&mut s);
+
+    match result {
+        Ok(n) => {
+            println!("{} bytes read...", n);
+            println!("{}", s);
+        },
+        Err(e) => println!("Error: {}", e),
+    }
+
+    Buradaki e değişkeninin std::io::Error isimli yapı türünden olduğuna dikkat ediniz. Biz burada bu yapı üzerinde
+    durmayacağız. Ancak bu yapı Display ve Debug trait'lerini desteklediği için doğrudan hatayı yazı olarak pritnln!
+    makrosuyla yazdırabiliriz. Tabii klavyeden (yani stdin dosyasından) bir satır okurken genellikle programcı bu
+    işlemin başarısını kontrol etmez. Çünkü böyle bir işlem sırasında bir IO hatası olması normal bir durum değildir.
+    Buradan elde edilen byte sayısıyla da genellikle programcı ilgilenmez. Zaten okunan karakterler String türünden değişken
+    içerisine yerleştirilmektedir.
+
+    Pekiyi read_line metodunun geri dönüş değeri Result yerine Option türünden olamaz mıydı? İşte tasarımcı hata durumunda
+    bir hata bilgisini de dışarıya iletmek istemiştir. Bu nedenle Result türünü tercih etmiştir.
+
+# 35. Ders 16/07/2025 - Çarşamba
+
+    Nasıl Option enum türünün metotları varsa Result enum türünün de metotları vardır. Biz de burada bu enum türünün bazı
+    önemli metotları üzerinde duracağız.
+
+    - Result enum türünün is_ok ve is_err isimli metotları enum içerisinde Ok varyantının mı Err varyantının mı bulunduğunu
+    tespit etmekte kullanılmaktadır. Metotların parametrik yapıları şöyledir:
+
+    pub const fn is_ok(&self) -> bool
+    pub const fn is_err(&self) -> bool
+
+    Örneğin:
+
+    fn main() {
+        let result = foo();
+
+        if result.is_ok() {
+            println!("Ok")
+        }
+        else {
+            println!("Err")
+        }
+    }
+
+    fn foo() -> Result<i32, String> {
+        //...
+        Ok(123)
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    - Result enum türünün ok ve err metotları Result değerini Option haline getirip Option enum değeriyle geri dönmektedir.
+    Metotların parametrik yapıları şöyledir:
+
+    pub fn ok(self) -> Option<T>
+    pub fn err(self) -> Option<E>
+
+    ok metodu eğer Result içerisinde Ok varyantı varsa bu Ok varyantının tuttuğu alan bilgisini Some varyantı içeren bir Option
+    haline getirmektedir. Result içerisinde Err varyantı varsa geri döndürülen Option değeri None varyantı içerecektir.
+    Örneğin:
+
+    fn main() {
+        let result: Result<i32, String> = foo();
+        let opt: Option<i32> = result.ok();
+
+        if let Some(val) = opt {
+            println!("{}", val);                // 123
+        }
+        else {
+            println!("There is no result");
+        }
+    }
+
+    fn foo() -> Result<i32, String> {
+        //...
+        Ok(123)
+    }
+
+    Burada foo fonksiyonu Err varyantıyla geri dönseydi is_ok metodunun verdiği Option değeri None varyantına sahip olurdu.
+    err metodu da tersten benzer işlemi yapmaktadır. Yani Result içerisinde Err varyantı varsa metot Some varyantında bu Err
+    alanındaki bilgi olan bir Option değeri, Ok varyantı varsa None varyantı içeren bir Option değeri geri döndürecektir.
+
+    Aslında Option enum türünün de benzer biçimde Option değerini Result türüne dönüştüren or_ok isimli metodu da vardır.
+    Option enum türünün or_ok metodu eğer Option içerisinde Some değeri varsa bu değeri Ok değeri yaparak bir Result değeri
+    geri döndürür. Bu metot eğer Option içerisinde None varyantı varsa argüman olarak aldığı bilgiden Err varyantı içeren
+    bir Result değeri oluşturup bu result değerini geri döndürmektedir. Metodun parametrik yapısı şöyledir:
+
+    pub fn ok_or_else<E, F>(self, err: F) -> Result<T, E>
+
+    Bu metot generic bir metottur. Metodun self dışındaki parametresi Err varyantının alanını oluşturmaktadır. Örneğin:
+
+    fn main() {
+        let opt: Option<i32>;
+        let result: Result<i32, &str>;
+
+        opt = foo();
+        result = opt.ok_or("Unknown error");
+
+        match result {
+            Ok(val) => println!("{}",val),
+            Err(val) => println!("{}",val),         // Unknown error
+        }
+    }
+
+    fn foo() -> Option<i32> {
+        //...
+        None
+    }
+
+    Burada foo fonksiyonu None varyantıyla geri dönmüştür ok_or metodu "Unknown error" yazını barındıran Err varyantına
+    sahip bir Result değeri verecektir.
+---------------------------------------------------------------------------------------------------------------------------
+    - Tıpkı Option enum türünde olduğu gibi Result enum türünde de as_ref metodu vardır. Bu metot sayesinde biz Result
+    içerisindeki varyantın sahipliğini almak yerine onu ödünç alabiliriz. as_ref metodunun parametrik yapısı şöyledir:
+
+    pub const fn as_ref(&self) -> Result<&T, &E>
+
+    Örneğin:
+
+    fn main() {
+        let result = foo();
+
+        match result.as_ref() {
+            Ok(val) => println!("{}", *val),            // 123
+            Err(e) => println!("{}", *e),
+        }
+    }
+
+    fn foo() -> Result<i32, String> {
+        //...
+        Ok(123)
+    }
+
+    Burada match ifadesinin ilk kolundaki val değişkeni i32 türünden değil &i32 türündendir. Benzer biçimde match ifadesinin
+    ikinci kolundaki e de String türünden değil &String türündendir. Aslında daha önceden de belirttiğimiz gibi aynı etki
+    ref kalıbıyla da sağlanabilmektedir. Örneğin:
+
+    fn main() {
+        let result = foo();
+
+        match result {
+            Ok(ref val) => println!("{}", *val),
+            Err(ref e) => println!("{}", *e),
+        }
+    }
+
+    fn foo() -> Result<i32, String> {
+        //...
+        Ok(123)
+    }
+
+    Burada da yine val değişkeni &i32 türünden e değişkeni de &String türündendir.
+
+    - as_mut metodu da as_ref ile aynı şeyi yapmaktadır. Ancak bu metot mut bir referans ile çalışır ve mut referanslardan
+    oluşan bir Result nesnesi verir. Metodun parametrik yapısı şöyledir:
+
+    pub const fn as_mut(&mut self) -> Result<&mut T, &mut E>
+---------------------------------------------------------------------------------------------------------------------------
+    - Result enum türünün de unwrap ve expect metotları vardır. unwrap metodu eğer Result içerisinde Ok varyantı varsa
+    onun alan değerine geri döner, Err varyantı varsa panic oluşturur. expect metodu da aynı şeyi yapmaktadır ancak bu metotta
+    panic mesajı belirtilebilmektedir. expect metoduna değer panic mesajında aşağıdaki biçimde görüntülenmektedir:
+
+    mesaj: <Err varyantındaki değer>
+
+    Metotların parametrik yapıları şöykedir:
+
+    pub fn expect(self, msg: &str) -> T
+    pub fn unwrap(self) -> T
+
+    Örneğin:
+
+    fn main() {
+        let val: i32;
+
+        val = foo().expect("fail");
+        println!("{}", val);
+    }
+
+    fn foo() -> Result<i32, String> {
+        //...
+        Ok(123)
+    }
+
+    Eğer hata oluşma olasılığı çok düşükse hatayı match ile ele almak yerine doğrudan unwrap ya da expect metotlarını
+    kullanmayı tercih edebilirsiniz.
+
+    - unwrap metodunun da tıpkı Option enum türünde olduğu gibi unwrap_or ve unwrap_or_default isminde benzerleri de vardır:
+
+    pub fn unwrap_or(self, default: T) -> T
+    pub fn unwrap_or_default(self) -> T
+
+    unwrap_or metodu eğer Result içerisinde Ok varyantı varsa onun alan değeri ile Err varyantı varsa metotta belirtilen
+    değerle geri dönmektedir. unwrap_or_default metodu ise Err varyantı için T türünün default değeriyle geri dönmektedir.
+
+    Result enum türünün diğer metorları için "Rust Standard Library" dokümanlarına başvurabilirsiniz:
+
+    https://doc.rust-lang.org/std/result/enum.Result.html
+---------------------------------------------------------------------------------------------------------------------------
+    Bazen başarı durumunda bir bilginin iletilmesi gerekmez ancak başarısızlık durumunda gerekebilir. Örneğin biz bir dosyayı
+    flush edecek olalım. Bu işlemi başardığımızda bize verilecek ek bir bilgi yoktur. Ancak bu işi başaramadığımızda neden
+    başaranadığımıza ilişkin bir bilgi elde etmek isteriz. İşte bu tür durumlarda genellikle Rust programcıları Result enum
+    türünün Ok varyantına ilişkin generic parametreyi () ile birim türü biçiminde belirtmektedir. Örneğin:
+
+    fn foo() -> Result<(), String>
+
+    Burada foo başarı durumunda bize bir bilgi vermemektedir. Ancak başarısızlık durumunda bir hata mesajı vermektedir.
+    Örneğin:
+
+    use std::process::exit;
+
+    fn main() {
+        if let Err(e) = foo() {
+            println!("{}", e);
+            exit(1);
+        }
+        println!("everything is ok");
+    }
+
+    fn foo() -> Result<(), String> {
+        //...
+        Err(String::from("Unknown error"))
+    }
+
+    Örneğin daha önce de biz ekrana '\n' karakteri ile sonlanmayan bir yazı basmak için Stdout türünden bir değerle Stdout
+    yapısının flush metodunu çağırmıştık. Bu flush metodunun parametrik yapısı şöyledir:
+
+    fn flush(&mut self) -> Result<()>
+
+    Buradaki Result ismi std::result::Result ismi değil daha önceden de sözünü ettiğimiz std::io modülündeki takma isimdir:
+
+    pub type Result<T> = Result<T, Error>;
+
+    Yani aslında buradaki std::io::Rusult<()> türü tamamen std::result::Result<(), std::io::Error> türü anlamına gelmektedir.
+    O halde result başarılıysa bize bir şey vermemekte, başarısızsa başarısılığın nedenini Error türünden bir değerle vermektedir.
+    Biz flush işlemini daha önce hep aşağıdaki gibi kullanmıştık:
+
+    println!("Bir değer giriniz:");
+    std::io::stdout().flush().expect("Can't flush stdout");
+
+    Mademki flush metodunun başarısız olma olasılığı çok düşüktür o halde unwrap ya da expect metotlarıyla bu durumu
+    geçiştirebiliriz.
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'ta "yapı (structure)" denilen veri yapılarını ele alacağız. Yapılar Rust'ta en önemli veri yapılarındandır.
+    Rust'ın yapıları C'nin yapılarına benzemekle birlikte metotlara da sahip olabilmektedir ve trait'leri de destekleyebilmektedir.
+    Bu özelliklerinden dolayı Rust'ın yapıları C++, Java ve C# gibi dillerdeki sınıfları (classes) çağrıştırsa da özellik
+    bakımından  sınıflardan farklıdır.
+---------------------------------------------------------------------------------------------------------------------------
+    Programlama dillerinde "elemanları farklı türlerden olabilen ancak bellekte ardışıl bir biçimde tutulan" veri yapılarına
+    "yapı (struct) denilmektedir. Yapılar bileşik türlerdir ve elemanlardan oluşurlar. Rust'ta yapı elemanlarına "alan (field)"
+    denilmektedir. (Java ve C# gibi bazı dillerde de sınıfın veri elemanlarına da "alan (field)" denildiğini anımsayınız.)
+
+    Rust'ta yapılar gramer olarak Item grubundadır. Yani yapılar global alanda ya da bir fonksiyonun yerel bloğunda tanımlanabilir.
+    Tanımlamanın sonunda ';' atomu bulundurulmaz.
+
+    Yapı tanımlamanın temel genel biçimi şöyledir:
+
+    struct <yapı_ismi> {
+        <alan_ismi>: <tür>,
+        <alan_ismi>: <tür>,
+        <alan_ismi>: <tür>,
+        ....
+    }
+
+    Örneğin:
+
+    struct Complex {
+        real: f64,
+        imag: f64,
+    }
+
+    Burada real ve imag Complex yapısının alanlarıdır. Örneğin:
+
+    struct Person {
+        name: String,
+        no: i32
+    }
+
+    Burada name ve no Person yapısının alanlarıdır. Örneğin:
+
+    Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32
+    }
+
+    Burada day, month ve year Date yapısının alanlarıdır.
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi programlama dillerinde yapı benzeri veri yapılarına neden gereksinim duyulmaktadır? Bunun birkaç temel nedeni
+    vardır:
+
+    1) Birbirleriyle ilişkili olan birtakım olguları tekil değişkenlerle ifade etmek yerine bir yapı biçiminde ifade etmek
+    algısal karışıklığı azaltır ve kodun daha anlaşılır olmasını sağlar. Örneğin bir tarihi belirten gün, ay ve yıl değerlerini
+    bağımsız değişkenlerde tutmak yerine Date isimli bir yapının alanları biçiminde tutmak kodun daha iyi algılanmasına ve
+    kavranmasına yol açmaktadır.
+
+    2) Yapı alanları (elemanları) bellekte ardışıl tutulduğu için birbirileriyle ilişkili ancak farklı türlerden bilgilerin
+    adres yoluyla tek hamlede fonksiyonlara aktarılması mümkün hale getirilmektedir.
+
+    Rust'ta yapılara ilişkin metotlar da yazılabilmektedir. Rust'ta yapılar trait'leri de destekleyebilmektedir. Böylece nesne
+    yönelimli programlama tekniğinin bazı temel prensipleri de Rust'ta yapılar yoluyla uygulanabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı türünden değişken yine let deyimiyle bildirilebilmektedir (bağlanabilmektedir). Örneğin:
+
+    let date: Date;
+
+    Burada date değişkeni Date isimli yapı türündendir. Rust'ta bir yapı türünden değer aşağıdaki genel biçimle oluşturulmaktadır:
+
+    <yapı_ismi> {
+        <alan_ismi>: değer,
+        <alan_ismi>: değer,
+        <alan_ismi>: değer,
+        ...
+    }
+
+    Bu genel biçimde önce yapı isminin belirtildiğine sonra küme parantezleri içerisinde tek tek elemanlar için değerlerin
+    belirtildiğine dikkat ediniz. Örneğin:
+
+    let date: Date;
+
+    date = Date {
+        day: 10,
+        month: 12,
+        year: 2020,
+    };
+
+    Burada Date türünden bir yapı değeri oluşturulup date değişkenine atanmıştır. Tabii biz bu işlemi doğrudan let deyiminde
+    de yapabilirdik:
+
+    let date = Date {
+        day: 10,
+        month: 12,
+        year: 2020,
+    };
+
+    Burada date değişkeni Date türündendir. Bir yapı türünden bir değer oluştururken yapının her alanı için  değer belirtilmsi
+    gerekir. Örneğin aşağıdaki bağlama error ile sonuçlanacaktır:
+
+    let date = Date {
+        day: 10,
+        month: 12,
+    };
+
+    Burada yapının year alanı için bir değer belirtilmemiştir. (C'de yapının ilk elemanlarına değer verilip diğer elemanlarına
+    değer verilmezse diğer elemanlara 0 (ya da NULL adres) değeri verilmiş gibi işlem yapıldığınıu anımsayınız. Ancak Rust'ta
+    böyle bir durum söz konusu değildir.)
+
+    Tabii yapı türünden değer oluştururken alanların yapı tanımlamasındaki sıraya uygun olması gerekemz. Örneğin:
+
+    let date = Date {               // geçerli
+        year: 2020,
+        month: 12,
+        day: 10,
+    };
+
+    Görüldüğü gibi ypı tanımlamasında sıra day, month, year biçiminde olduğu halde değer oluştururken bu sıra izlenmek zorunda
+    değildir. Dolayısıyla yukarıdaki kod geçerlidir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı türünden değer oluştururken yalnızca yapı alanının ismi belirtilirse bu alana faaliyet alanında olan aynı isimli
+    değişkenin değerinin atandığı kabul edilmektedir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    Bu yapı türünden bir değeri aşağıdaki gibi yaratabiliriz:
+
+    let a = 10;
+    let c = 30;
+
+    let s: Sample = Sample {
+        a,
+        b: 20,
+        c
+    };
+
+    Bir yapı türünden değer oluştururken yapı alanın yalnızca isminin belirtilmesi faaliyet alanında bulunan o isimdeki
+    değişkenin o alana yerleştirileceği anlamına gelmektedir. Yani örneğin yapı alanının ismi a olmak üzere değer oluştururken
+    bu a ismini ':' olmadan kullanırsak bu sentaks tamamen a: a anlamına gelmektedir. Yukarıdaki ilkdeğer vermenin eşdeğeri
+    aşağıdaki gibidir:
+
+    let a = 10;
+    let c = 30;
+
+    let s: Sample = Sample {
+        a: a,
+        b: 20,
+        c: c
+    };
+
+    Buna Rust'ta "yapı alanlarına kısa yolla (shorthand) değer verme" denilmektedir. Bu sentaks özellikle fonksiyonlarda
+    sıkça kullanılmaktadır. Örneğin:
+
+    fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+        Sample { a, b, c }
+    }
+
+    Bu fonksiyon aldığı üç parametre ile yapı türünden değer oluşturup o değerle geri dönmektedir. Bu tanımalama aşağıdakiyle
+    eşdeğerdir:
+
+    fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+        Sample { a: a, b: a, c: c }
+    }
+
+    Bu fonksiyon sayesinde biz bu yapı türünden bir değeri daha kolay oluşturabiliriz:
+
+    let s: Sample;
+
+    s = create_sample(10, 20, 30);
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s: Sample;
+
+    s = create_sample(10, 20, 30);
+    //...
+}
+
+fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+    Sample { a: a, b: a, c: c }
+}
+
+struct Sample {
+    a: i32,
+    b: i32,
+    c: i32
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir yapı türünden değer oluştururken kullanılan diğer bir kısa yol da .. sentaksıdır. Bu sentaksta yapı türünden
+    değer oluştururken küme parantezlerinin sonuna .. atomu ve aynı yapı türünden bir ifade (tipik olarak bir değişken)
+    getirilir. Bu sentaks "geri kalan alanlar bu yapı ifadesindeki (tipik olarak değişkenindeki) alanların aynısı olacak"
+    anlamına gelmektedir. Örneğin:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+    let k: Sample;
+
+    k = Sample { b: 100, ..s };
+
+    Byrada oluşturulan yapı değerinin b alanında 100 olacaktır. Geri kalan alanlar a ve c'dir. Bunlar da s'ten alınacaktır.
+    Yani bu kodun eşdeğeri şöyledir:
+
+    k = Sample { b: 100, a: s.a, b: s.b };
+
+    Tabii sonraki paragraflarda göreceğimiz gibi burada bir sahiplik devri de söz konusudur. Yani bu örnekte eğer Sample
+    Copy türünden değilse s'nin sahipliği de devredilmektedir.
+
+    Bu kısa yol sentaksında .. atomu ile ile yapı ifdesi (tipik olarak yapı değişkeni) bitişik bulundurulmak zorunda değildir.
+    Ancak tipik yazım böyledir. Bu sentaks küme parantezlerinin sonunda ve yalnızca bir kez bulundurulmak zorundadır. Aşağıdaki
+    değer yaratımı da geçerlidir:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+    let k: Sample;
+
+    k = Sample { ..s };
+
+    Tabii bu işlem zaten aşağıdakiyle eşdeğerdir:
+
+    k = s;
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta yapı alanalarına diğer pek çok dilde olduğu gibi bir yapı türünden değişken ya da referansla nokta operatörü
+    kullanılarak erişilmektedir. Nokta operatörü iki operand'lı araek bir operatördür. Öncelik tablosunda yüksek öncelikli
+    bir biçimde bulunmaktadır:
+
+    .                                       Soldan Sağa
+    ()                                      Soldan Sağa
+    - !                                     Sağdan Sola
+    as                                      Soldan Sağa
+    * /  %                                  Soldan Sağa
+    + -                                     Soldan Sağa
+    <<  >>                                  Soldan Sağa
+    &                                       Soldan Sağa
+    ^                                       Soldan Sağa
+    |                                       Soldan Sağa
+    < > >= <= == !=                         Parantezsiz Kombine Edilemez
+    &&                                      Soldan Sağa
+    ||                                      Soldan Sağa
+    .. ..=                                  Parantezsiz Kombine Edilemez
+    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+
+    Nokta operatörünün sol tarafındaki operand bir yapı türünden değişken ya da değer, sağ tarafındaki operand ise o
+    yapının bir alanı (ya da bir metodu) olmalıdır. Örneğin:
+
+    fn main() {
+        let date = Date {
+            day: 10,
+            month: 12,
+            year: 2020,
+        };
+
+        println!("{}/{}/{}", date.day, date.month, date.year);
+    }
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32
+    }
+
+    Yine Rust'ta da yapının bir alanı başka bir yapı türünden olabilir. Bu durumda iç alanlara birden fazla nokta operatörüyle
+    erişilmektedir. Örneğin:
+
+    struct Person {
+        name: String,
+        bday: Date
+    }
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32
+    }
+
+    Burada Person yapısının bday alanı Date yapısı türündendir. Person türünden bir yapı değerini şöyle oluşturabiliriz:
+
+    let per = Person {
+        name: String::from("Ali Güneş"),
+        bday: Date {
+            day: 12,
+            month: 12,
+            year: 1995
+        }
+    };
+    println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let per = Person {
+        name: String::from("Ali Güneş"),
+        bday: Date {
+            day: 12,
+            month: 12,
+            year: 1995
+        }
+    };
+    println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
+}
+
+struct Person {
+    name: String,
+    bday: Date
+}
+
+struct Date {
+    day: u32,
+    month: u32,
+    year: u32
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta da tıpkı C'de olduğu gibi bir yapı değişkenine aynı türden bir yapı değişkeni ya da değeri atanabilir. Bu durumda
+    sonraki bölümde ele alınacağı gibi eğer yapı Copy türünden değilse hedef yapı değişkeni önce drop edilir. Sonra kaynak
+    değişkenin değeri bit düzeyinde kopyalama yoluyla hedef değişkene taşınır. Bu işlem sırasında padding byte'ları da taşınmaktadır.
+    Eğer ilgili yapı Copy türünden değilse artık kaynak yapı değişkenini kullanamayız. Rust'ta yapı türleri aksi belirtilmediği
+    sürece (default durumda) Copy türüne ilişkin değildir, yani taşınmaktadır.
+    Örneğin:
+
+    fn main() {
+        let d1 = Date {
+            day: 10,
+            month: 12,
+            year: 1995
+        };
+        let d2: Date;
+
+        d2 = d1;            // geçerli
+        println!("{}/{}/{}", d2.day, d2.month, d2.year);
+
+        println!("{}/{}/{}", d1.day, d1.month, d1.year);            // error!
+    }
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32
+    }
+
+    Bu örnekte d1 yapı değişkeni d2'ye atanmıştır. Atama deafult durumda bit dzeyinde kopyalama yoluyla (bunun tek hamlede
+    memcpy gibi bir fonksiyonla yapıldığını varsayabilirsiniz) yoluyla yapılmaktadır. Ancak C'den farklı olarak Rust'ta
+    kaynak yapı değişkeni artık sahipliği kaybetmiştir. Bu nedenle örneğimizde bu atamadan sonra artık biz d1 yapı değişkenini
+    kullanamayız. Bu tür atamalarda Rust padding byte'larının da hedefe atanmasını garanti etmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı değişkeni mut değilse onun herhangi bir alanının değerini değiştiremeyiz. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+    //...
+
+    let pt = Point { x: 10, y: 20 };
+
+    pt.x = 100;     // error
+    pt.y = 100;     // error
+
+
+    Eğer yapının alanları daha sonra değiştirilmek isteniyorsa bu durumda yapı değişkeni mut yapılmalıdır. Örneğin:
+
+    let mut pt = Point { x: 10, y: 20 };
+
+    pt.x = 100;     // geçerli
+    pt.y = 200;     // geçerli
+
+    C'de yapı nesnesi const olmadığı halde onun belli elemanları const yapılabilmektedir. Ancak Rust'ta bir yapı değişkeninin
+    belli alanları mut yapılamaz. Yapı değişkeni ya bütünsel olarak mut olur ya da bütünsel olarak mut olmaz.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı türünden değişkeninin alanlarına değer atayarak ona ilkdeğer veremeyiz. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+    //...
+
+    let pt: Point;
+
+    pt.x = 10;      // error!
+    pt.y = 20;      // error!
+
+    Yapı değişkenine ilkdeğer vermek ancak küme parantezleriyle sağlanmaktadır:
+
+    let pt = Point { x: 10, y: 20 };
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta yapı ile demet arasında kalan ismine "demetsel yapı (tuple struct)" denilen ilginç bir yapı türü de vardır.
+    Demetsel yapılar struct anahtar sözcüğü ile ancak yapı sentaksıyla değil demet sentaksıyla tanımlanmaktadır. Demetsel yapı
+    anımlamanın genel biçimi şöyledir:
+
+    struct <yapı_ismi>(<tür>, <tür>, <tür>, ...);
+
+    Örneğin:
+
+    struct Date(i32, i32, i32);
+    struct Person(String, i32);
+    struct Complex(f64, f64);
+
+    Görüldüğü gibi demetsel yapıların kendi isimleri vardır ancak alanlarının isimleri yoktur. Demetlerin birer tür ismine sahip
+    olmadığını, demet elemanlarının da isimlerinin olmadığını anımsayınız. İşte demetsel yapılar adeta bir demet gibi davranmakla
+    birlikte isme sahip oldukları için metotlara da sahip olabilmekte ve trait'leri de destekleyebilmektedir. Oysa Rust'ta
+    demetler metotlara sahip olamamaktadır. (Ancak demetler de trait'leri destekleyebilmektedir.) Demetsel yapılar tanımlanırken
+    tanımlamanın sonunda ';' atomunun bulundurulduğuna da dikkat ediniz.
+
+    Demetsel bir yapı türünden değer oluşturmanın genel biçimi şöyledir:
+
+    <demetsel_yapı_ismi>(değer, değer, ....)
+
+    Örneğin:
+
+    struct Person(String, i32);
+    //...
+
+    let per: Person = Person(String::from("Ali Kale"), 123);
+
+    Demetsel yapı oluştururken alanlar için değerlerin küme parantezleriyle değil de demet sentaksında olduğu gibi normal
+    parantezlerle verildiğine dikkat ediniz.
+
+    Demetsel yapılardaki alanların isimleri olmadığı için onlara erişim isim yoluyla değil demet sentaksında olduğu gibi
+    <değişken>.0, <değişken>.1, <değişken>.2, ... biçiminde indeks nelirtilerek yapılmaktadır. Örneğin:
+
+    struct Person(String, i32);
+    //...
+
+    let per: Person = Person(String::from("Ali Kale"), 123);
+    println!("{}, {}", per.0, per.1);
+ # 36. Ders 21/07/2025 - Pazartesi
+    Normal yapıların ve demetsel yapıların yanı sıra Rust'ta bir de "birimsel yapılar (unit like structs)" denilen yapılar
+    da vardır. Birimsel yapılar yalnızca struct anahtar sözcüğü ve yapı isminden oluşmaktadır. Yani bu yapılar tanımlanırken
+    küme parantezleri hiç kullanılmaz. Dolayısıyla bu yapılar alanlara da sahip değildir. Birimsel yapı tanımlamanın genel
+    biçimi şöyledir:
+
+    struct <yapı_ismi>;
+
+    Örneğin:
+
+    struct Sample;
+    struct Test;
+
+    Birimsel yapıları tanımlarken tanımlamanın sonunda ';' atomunun bulundurulduğuna dikkat ediniz. Birimsel yapılar alanlara
+    sahip olmadığına göre bunlar türünden değişkenler nasıl tanımlanmaktadır? İşte birimsel yapılarda yapının ismi aynı zamanda
+    o türden bir değer gibi de kullanılmaktadır. Dolayısıyla aşağıdaki gibi bir değişken tanımlaması geçerlidir:
+
+    struct Sample;
+    //...
+
+    let s: Sample = Sample;
+
+    Burada Sample hem birimsel yapının tür ismini hem de bu türden değeri belirtmektedir. Tabii biz aynı bağlamayı şöyle de
+    yapabilirdik:
+
+    let s = Sample;
+
+    Aslında birimsel yapılar türünden değerler boş küme parantezleriyle de oluşturulabilmektedir:
+
+    let s = Sample {};
+
+    Ancak küme parantezlerinin kullanılmasına gerek yoktur.
+
+    Pekiyi mademki birimsel yapılar hiç alan içermiyor bunlara neden gereksinim duyulmaktadır? İşte birimsel yapılar alan
+    içermese de metotlara sahip olabilmektedir ve trait'leri destekleyebilmektedir. (Bunu C++'taki veri elemanına sahip
+    olmayan ancak üye fonksiyonlara sahip olan sınıflara benzetebilirsiniz.) Birimsel yapılar "marker" amacıyla yani generic
+    türlerde koşul belirtmek amacıyla da kullanılabilmektedir.
+
+    Pekiyi mademki birimsel yapılar alan içermiyor bu türden değişkenler için yine de yer ayrılır mı? Örneğin:
+
+    struct Sample;
+    //...
+
+    let s = Sample;
+    let k = Sample;
+
+    Buada s ve k için yer ayrılmakta mıdır? İşte bu tür durumlarda derlyeici yine de bu değişkenler için kendi belirlediği
+    bir uzunluk kadar (örneğin 1 byte) bellekte yer ayırmaktadır. Yani burada yine s ve k'nın birer bellek adresi vardır.
+    Ancak Rust'ın std::mem::size_of ve std::mem::sizeof_of_val fonksiyonları birisimsel yapılar için 0 byte uzunluk
+    bildirmektedir.
+
+    Pekiyi aşağıdaki iki yapı tanımlası arasında bir fark var mıdır?
+
+    1) struct Sample;
+    2) strcut Sample {}
+
+    Aslında bu iki tanımasında da Sample yapısının alanı yoktur. Dolayısıyla bu iki tanımlama çok benzer etkilere yol açacaktır.
+    Ancak yine de bu iki tanımlama arasında şu farklar vardır:
+
+    - Birinci tanımalamanın ';' atomu ile sonlandırıldığına ikinci tanımalamanın ';' atomu ile sonlandırılmadığına dikkat ediniz.
+
+    - Birinci tanımalamada birimsel yapı türünden değeri yalnızca yapı ismiyle belirtebiliriz. Ancak ikinci tanımalamada
+    bunu yapamayız. Örneğin:
+
+    struct Sample;
+    //...
+
+    let s = Sample;     // geçerli
+
+    Fakat örneğin:
+
+    struct Sample {}
+    //...
+
+    let s = Sample;     // error!
+
+    İkicni biçimde bu yapı türünden değer boş küme parantezleriyle oluşturulmak zorundadır. Örneğin:
+
+    struct Sample {}
+    //...
+
+    let s = Sample {};     // geçerli
+
+    - Birimsel yapı tanımlamasında bazı öznitelikler yapıya iliştirilememektedir.
+
+    Rust'ta bu nedenden dolayı boş küme parantezlerinden oluşan yapılara "birimsel yapı (unit like structs)" denilmemektedir,
+    "alansız  yapı (field-less) struct" denilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı fonksiyonlara tıpkı enum türlerinde olduğu iki biçimde aktarılabilmektedir:
+
+    1) Atama (kopyalma ya da taşıma) yoluyla aktarım (call by value)
+    2) Adres yoluyla aktarım (call by reference)
+
+    Atama yoluyla aktarımda fonksiyonun parametre değişkeni bir yapı türünden olur. Fonksiyon da aynı yapı türünden bir
+    değişken ya da değerle çağrılır. Bu durumda yapının tüm alanları (elemanları) karşılıklı olarak parametre değişkenine
+    atanacaktır. (İki yapı değişkeni birbirine atandığında padding byte'larının da kopyalandığını belirtmiştik.) Bu atama
+    işlemi derleyici tarafından bit düzeyinde kopyalamayla sağlanmaktadır. Ancak ileride de ele alacağımız gibi yapılar
+    default durumda Copy türünden olmadığı için böylesi aktarım sonrasında artık argüman olarak kullanılan yapı değişkeni
+    taşındığı için kullanılamamaktadır. Örneğin:
+
+    fn main() {
+        let date = Date { day: 10, month: 12, year: 2020 };
+
+        disp(date);
+    }
+
+    fn disp(date: Date) {
+        println!("{}/{}/{}", date.day, date.month, date.year);
+    }
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    Tabii bu biçimdeki aktarın tıpkı C'de olduğu gibi genellikle etkin bir yöntem değildir. Programlama dillerinde bu biçimdeki
+    aktarımlara "değerle çağrım (call by value)" da dendiğini anımsayınız.
+
+    Yapı elemanları bellekte ardışıl olduğu için yapı türünden değişkenler ve değerler fonksiyonlara yalnızca başlangıç adresleri
+    yoluyla aktarılabilmektedir. Genellikle tercih edilen etkin aktarım yöntemi budur. Bu yöntemde fonksiyonun parametre değişkeni
+    yapı türünden bir referans (ya da gösterici) olur. Fonksiyon da aynı yapı türünden bir değişken ya da değerin adresiyle çağrılır.
+    Örneğin:
+
+    fn main() {
+        let date = Date { day: 10, month: 12, year: 2020 };
+
+        disp(&date);
+        println!("{}/{}/{}", date.day, date.month, date.year);      // geçerli
+    }
+
+    fn disp(date: &Date) {
+        println!("{}/{}/{}", date.day, date.month, date.year);
+    }
+
+    Bu yöntemde yapı ne kadar büyük olursa olsun fonksiyona yalnızca onun adresi aktarılmaktadır. Dolayısıyla aktarım çok
+    etkindir. Genellikle özel bir durum yoksa bu aktarım yöntemi tercih edilmektedir. Ayrıca bu aktarım yönteminde asıl
+    yapı değişkeni taşınmamakta fonksiyon tarafından ödünç alınmaktadır. Dolayısıyla değişkenin sahipliği devredilmez.
+    Fonksiyon çağrısından sonra asıl değişken kullanılmaya devam edilebilir. Bu tür aktarım biçimine programlama dillerinde
+    "adresle çağırma (call by reference)" da denildiğini anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde yapıların metotları üzerinde duracağız. Biz aslında metot kavramını daha önceki örneklerimizde yüzeysel
+    biçimde kullanmıştık. Ancak bu bölümde konuyu ayrıntılarıyla ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Metot (method) "nesne tanbanlı (object based)" ve "nesne yönelimli (object oriented)" programlama dillerinde kullanılan
+    bir kavramdır. Rust her kadar nesne tabanlı ya da nesne yönelimli bir dil değilse de bu dillerin bazı soyutlamalarını
+    bünyesinde barındırmaktadır.
+
+    Rust'ta metotlar belli bir yapı üzerinde işlem yapan fonksiyonlardır. Örneğin Point yapısının bir metodu Point türünden
+    bir değişken ya da değer üzerinde, Date yapısının bir metodu Date türünden bir değişken ya da değer üzerinde işlem yapar.
+    Fonksiyonlar herhangi bir yapı ile mantıksal bir ilişki içerisinde değildir. Ancak her metot belli bir yapı ile mantıksal
+    bir ilişki içerisindedir. (Daha önce enum türlerinin de metotlara sahip olduğunu görmüştük.)
+
+    foo bir fonksiyonsa bu fonksiyon doğrudan foo(...) semtaksıyla çağrılmaktadır. Ancak foo bir yapının bir metodu ise foo
+    metodu o yapı türünden bir değişken ya da değerle nokta operatörü kullanılarak a.foo(...) sentaksıyla çağrılmaktadır.
+    (Burada a ilgili yapı türünden değişken ya da değeri temsil etmektedir.)
+
+    Pekiyi fonksiyonların metot adı altında yapılarla ilişkilendirilmesinin anlamı ve faydası ne olabilir? İşte bu ilişkilendirme
+    sayesinde fonksiyonlar birbirlerinden kopuk bir biçimde ele alınmazlar olgulara göre mantıksal ilişki içerisinde gruplanmış
+    bir biçimde ele alınırlar. Bu da "karışıklık algısını" azaltıp algıyı güçlendirmektedir. Bu durum adeta raflarda karmakarışık
+    duran kitapların konulara göre ayrı raflara dizilmesi gibidir. Toplamda bu çabadan "algısal kolaylık sağlama" hedeflenmektedir.
+    Point ile ilgili olan fonksiyonlar Point yapısının metotları biçiminde, Date ile ilgili olan fonksiyonlar Date yapısının
+    metotları biçiminde, Complex sayılarla ilgili olan fonksiyonlar da Complex yapısının metotları biçiminde bulundurulmaktadır.
+    C Programlama Dili prosedürel bir dil olduğu için bu biçimde bir soutlama olanağına sahip değildir. (Tabii C gibi prosedürel
+    dillerle de aslında özel çabalar sarf ederek nesne yönelimli programlama tekniğinin çeşitli prensipleri uygulanabilir. Ancak
+    bir dilin nesne yönelimli olması bu bağlamda kolaylaştırıcı bir tasarıma sahip olması anlamına gelmektedir.)
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapıya ilişkin metotlar impl bloğu içerisinde tanımlanmaktadır. impl ("implementation" sözcüğünden kısaltılmıştır)
+    anahtar sözcüğünü bir sınıf ismi ve bir blok izlemektedir. Generic olmayan impl bloğunun genel biçimi şöyledir:
+
+    impl <yapı_ismi> {
+        //...
+    }
+
+    Buradaki yapı ismi metotların ilişkin olduğu yapıyı belirtmektedir. Örneğin biz Date yapısına ilişkin metotlar yazacaksak
+    buradaki yapı ismi Date, Point yapısına ilişkin metotlar yazacaksak buradaki yapı ismi Point olmalıdır.
+
+    impl bloğu içerisinde metotlar normal fonksiyonlar gibi tanımlanmaktadır. Ancak metotların ilk parametreleri şunlardan biri
+    olabilir:
+
+    self
+    &self
+    &mut self
+
+    self parametresi ilgili yapı türünden bir değişkeni, &self ve &mut self parametreleri ise ilgili yapı türünden bir referansı
+    (yani bir adres tutan değişkeni) belirtmektedir. Metodun bu birinci zorunlu parametresinden sonraki parametreleri herhangi
+    bir biçimde olabilir. Metotlar da yine herhangi türden bir geri dönüş değerine sahip olabilirler. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    impl Sample {
+        fn foo(&self) {
+            //...
+        }
+
+        fn bar(&self, x: i32) {
+            //...
+        }
+
+        fn tar(self) {
+            //...
+        }
+    }
+
+    Burada foo metodu ekstra parametreye sahip değildir. Ancak bar metodunun i32 türünden ekstra bir parametresi vardır.
+    tar metodunun birinci parametresinin &self değil self biçiminde olduğuna dikkat ediniz. Pekiyi metotların bu self
+    parametreleri ne anlama gelmektedir? Örneğimizdeki foo metodu parametre almadığına göre aşağıdaki gibi çağrılacaktır:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    s.foo();
+
+    İşte burada foo fonksiyonun birinci parametresine aslında gizlice foo fonksiyonun çağrılmasında kullanılan değişken
+    ya da değerin adresi geçirilmektedir. Yani bu fonksiyonu içerisinde self parametresi kullanıldığında aslında s değişkeni
+    kullanılıyor gibi bir etki oluşacaktır. Eğer burada foo metot değil global bir fonksiyon oslaydı eşdeğer çağrım ifadesi
+    şöyle olurdu:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    fn foo(slf: &Sample) {
+        //...
+    }
+    //...
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    foo(&s);
+
+    Biz burada parametre değişkenine self ismi yerine slf ismini verdik. Çünkü self bir anahtar sözcüktür.
+
+    Aslında Rust derleyicisi her iki durumda da aynı makine kodlarını üretecektir. Zaten makine dillerinde ve amaç dosya
+    formatlarında sınıf, metot gibi kavramlar yoktur. Makinenin çalışmasında var olan gerçek kavram fonksiyondur. Metotlar
+    derleyici tarafından fonksiyon haline getirilerek amaç dosyaya yazılmaktadır. Örneğimizdeki bar metodunu çağırırken x
+    parametresi için de bir argüman girmeliyiz. Örneğin:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    s.bar(100);
+
+    Bu durumda s'in adresi self değişkenine (self bir referanstır) 100 değeri de x değişkenine aktarılacaktır. bar metodunun
+    fonksiyon eşdeğeri şöyledir:
+
+    fn bar(slf: &Sample, x: i32) {
+        //...
+    }
+
+    Çağrım da şöyle yapılacaktır:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    bar(&s, 100);
+
+    Burada da görüldüğü gibi s değişkeninin adresi slf parametre değişkenine 100 değeri de x parametre değişkenine aktarılmaktadır.
+
+    Örneğimizdeki tar metodunun parametresinin &self biçiminde olmadığına self biçiminde olduğuna dikkat ediniz. Bu durumda
+    metodun çağrılmasında kullanılan değişken ya da değerin adresi değil kendisi parametre değişkenine atanacaktır. Ancak çağrı
+    aynı biçimde yapılmaktadır. Örneğin:
+
+    s.tar();
+
+    Burada s değişkeninin kendisi bar metodunun self değişkenine atanmaktadır. Yani bu çağrının fonksiyon eşdeğeri şöyledir:
+
+    fn tar(slf: Sample) {
+        //..
+    }
+    //...
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    tar(s);
+
+    Tabii burada s artık sahipliğini parametre değişkenine devredecektir. Genellikle metotların parametreleri self biçiminde
+    değil &self biçiminde olur.
+
+# 37. Ders 23/07/2025 - Çarşamba
+
+    Metotların birinci parametreleri aslında self, &self ya da &mut self biçiminde bildirilmek yerine türün açıkça belirtilmesiyle
+    da bildirilebilmektedir. Ancak parametre değişkeninin ismi self olmak zorundadır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    impl Sample {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    Burada fooo metodu şöyle de tanımlanabilirdi:
+
+    impl Sample {
+        fn foo(self: &Sample) {
+            //...
+        }
+    }
+
+    İzleyen paragraflarda da ele alacağımız gibi impl bloğu içerisindeki Self ('S' harfinin büyük yazıldığına dikkat ediniz)
+    anahtar sözcüğü impl bloğundaki türü temsil etmektedir. Dolayısıyla yukarıdaki foo metodu aşağıdaki gibi de tanımlanabilmektedir:
+
+    impl Sample {
+        fn foo(self: &Self) {
+            //...
+        }
+    }
+
+    Ancak eğer ilk parametre değişkeninin ismi self olmazsa bu bir metot belirtmez. İzleyen paragraflarda da ele alacağımız
+    gibi "ilişkili fonksiyon (associated function)" belirtir. Örneğin:
+
+    impl Sample {
+        fn foo(s: &Sample) {      // foo artık bir metot belirtmiyor
+            //...
+        }
+    }
+
+    Burada foo artık bir metot değil bir ilişkili fonksiyondur. O halde metotların ilk parametre değişkenleri için kısa ve
+    uzun yazımlar şöyledir:
+
+    Kısa Yazım          Uzun Yazım
+
+    &self               self: &Self
+    &mut self           self: &mut Self
+    self                Self
+---------------------------------------------------------------------------------------------------------------------------
+    Metotlar belli bir yapı üzerinde işlem yapan o yapı için anlamlı fonksiyonlardır. Rust'ta bir yapı hem birtakım alanlardan
+    hem de o alanlar üzerinde işlem yapan metotlardan oluşmaktadır. Rust'ın bu kısmı "nesne tabanlı (object based)" dillere
+    oldukça benzemektedir. Bir yapı bir kavrama ilişkin verilerden ve o veriler üzerinde işlem yapan bir grup metottan oluşmaktadır.
+    Her yapı belli bir konuya ilişkin faydalı işlemler yapan metotlara sahiptir. Örneğin Point yapısı denildiğinde ekrandaki
+    bir pixel'in koordinat bilgisini tutan ve bu koordinat bilgisi üzerinde faydalı birtakım işlemler yapan veri (data) ve
+    metotlar, Date yapısı denildiğinde bir tarih bilgisini tutan ve o tarih bilgisi üzerinde faydalı birtakım işlemler yapan
+    veri (data) ve metotlar anlaşılmaktadır. C'deki yapıların yalnızca veri (data) içerdiğine ancak Rust'taki yapıların aynı
+    zamanda bu veriler üzerinde işlem yapan metotlara da sahip olduğuna dikkat ediniz. Bu bağlamda Rust biraz "nesne tabanlı"
+    hale getirlmiştir.
+
+    Aşağıdaki örnekte ekran koordinat sisteminde bir pixel'in koordinat bilgisini tutan ve bu koordinat bilgisi üzerinde işlem
+    yapan Point isimli bir yapının gerçekleştirimi verilmektedir. Yapı aşağıdaki gibi iki alandan oluşmaktadır:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    Yapı için aşağıdaki metotlar yazılmıştır:
+
+    impl Point {
+        fn translate(&mut self, deltax: i32, deltay: i32) {
+            self.x += deltax;
+            self.y += deltay;
+        }
+
+        fn magnitude(&self) -> f64 {
+            ((self.x * self.x + self.y * self.y) as f64).sqrt()
+        }
+
+        fn add(&self, other: &Point) -> Point {
+            Point {
+                x: self.x + other.x,
+                y: self.y + other.y,
+            }
+        }
+
+        fn distance(&self, other: &Point) -> f64 {
+            let dx = (self.x - other.x);
+            let dy = (self.y - other.y);
+            ((dx * dx + dy * dy) as f64).sqrt()
+        }
+
+        fn disp(&self) {
+            println!("({},{})", self.x, self.y);
+        }
+
+    }
+
+    translate metodu bir noktayı deltax ve deltay kadar ötelemektedir. magnitude metodu noktanın orijine uzaklığını hesaplamaktadır.
+    add metodu iki noktayı toplayıp bize yeni bir nokta olarak vermektedir. distance metodu iki noktanın arasındaki Öklit
+    uzaklığını hesaplamaktadır. add metodunun geri dönüş değerini Point biçiminde belirtmek yerine Self anahtar sözcüğünü
+    de kullanabilirdik:
+
+    impl Sample {
+        //...
+        fn add(&self, other: &Point) -> Self {
+            Point {
+                x: self.x + other.x,
+                y: self.y + other.y,
+            }
+        }
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut pt = Point { x: 10, y: 12 };
+
+    pt.disp();
+    pt.translate(3, 5);
+    pt.disp();
+    println!("{}", pt.magnitude());
+
+    let pt2 = Point { x: 1, y: 2 ;
+    let result: Point;
+
+    result = pt.add(&pt2);
+    result.disp();
+
+    let dist = pt.distance(&pt2);
+    println!("{}", dist);
+}
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Point {
+    fn disp(&self) {
+        println!("({},{})", self.x, self.y);
+    }
+
+    fn translate(&mut self, deltax: i32, deltay: i32) {
+        self.x += deltax;
+        self.y += deltay;
+    }
+
+    fn magnitude(&self) -> f64 {
+        ((self.x * self.x + self.y * self.y) as f64).sqrt()
+    }
+sabitlerde
+    fn add(&self, other: &Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+
+    fn distance(&self, other: &Point) -> f64 {
+        let dx = (self.x - other.x);
+        let dy = (self.y - other.y);
+        ((dx * dx + dy * dy) as f64).sqrt()
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de ekran koordinat sistemi için bir Rectangle yapısı oluşturalım. Dikdörtgensel bir bölge sol-üst ve sağ-alt köşe
+    noktalarıyla tutulableceği gibi sol-üst köşe ve genişlik-yükseklik bilgisiyle de tutulabilir. Biz bu ikinci yöntemi tercih
+    edeceğiz:
+
+    struct Rectangle {
+        x: i32,
+        y: i32,
+        width: i32,
+        height: i32,
+    }
+
+    Dikdörtgensel bir bölge üzerinde yapılabilecek faydalı işlemler neler olabilir? Tipik olanlar şunlardır:
+
+    - Dikdörtgeni ötelemek
+    - Bir noktanın dikdörtgen içerisinde olup olmadığını anlamak (hit testing)
+    - İki dikdörtgenin kesişim dikdörtgenini bulmak
+    - Dikdörtgenin koordinat bilgilerini yazdırmak
+
+    Aşağıda bu işlemleri yapan metotların gerçekleştirimi verilmiştir. Bu örnekten de görecğiniz gibi bir yapı başka bir
+    yapıyı da kullanabilmektedir. Örneğimizde Rectangle yapısı Point yapıısını da kullanmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut rect = Rectangle { x: 10, y: 10, width: 10, height: 10};
+    let rect2 = Rectangle { x: 15, y: 10, width: 15, height: 5};
+
+    let pt = Point { x: 14, y: 15 };
+
+    if rect.is_inside(13, 13) {
+        println!("The point is inside");
+    }
+    else {
+        println!("The point is not inside");
+    }
+
+    let result_rect = rect.intersects_rect(&rect2);
+    result_rect.disp();
+
+    if rect.is_inside_pt(&pt) {
+        println!("The point is inside");
+    }
+    else {
+        println!("The point is not inside");
+    }
+
+    rect.disp();
+    rect.translate(3, 2);
+    rect.disp();
+}
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Point {
+    fn disp(&self) {
+        println!("({},{})", self.x, self.y);
+    }
+
+    fn translate(&mut self, deltax: i32, deltay: i32) {
+        self.x += deltax;
+        self.y += deltay;
+    }
+
+    fn magnitude(&self) -> f64 {
+        ((self.x * self.x + self.y * self.y) as f64).sqrt()
+    }
+
+    fn add(&self, other: &Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+
+    fn distance(&self, other: &Point) -> f64 {
+        let dx = (self.x - other.x);
+        let dy = (self.y - other.y);
+        ((dx * dx + dy * dy) as f64).sqrt()
+    }
+}
+
+struct Rectangle {
+    x: i32,
+    y: i32,
+    width: i32,
+    height: i32,
+}
+
+impl Rectangle {
+    fn disp(&self) {
+        println!("x: {}, y: {}, width: {}, height: {}", self.x, self.y, self.width, self.height);
+    }
+
+    fn translate(&mut self, deltax: i32, deltay: i32) {
+        self.x += deltax;
+        self.y += deltay;
+    }
+
+    fn is_inside_pt(&self, pt: &Point) -> bool {
+        pt.x > self.x && pt.x < self.x + self.width && pt.y > self.y && pt.y < self.y + self.height
+    }
+
+    fn is_inside(&self, x: i32, y: i32) -> bool {
+        x > self.x && x < self.x + self.width && y > self.y && y < self.y + self.height
+    }
+
+    fn intersects_rect(&self, rect: &Rectangle) -> Rectangle {
+        let x1 = self.x.max(rect.x);
+        let y1 = self.y.max(rect.y);
+        let x2 = (self.x + self.width).min(rect.x + rect.width);
+        let y2 = (self.y + self.height).min(rect.y + rect.height);
+
+        if x1 < x2 && y1 < y2 {
+            Rectangle {
+                x: x1,
+                y: y1,
+                width: x2 - x1,
+                height: y2 - y1,
+            }
+        } else {
+            Rectangle {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+            }
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapının tüm metotlarının tek bir impl bloğu içerisinde bulunması zorunlu değildir. Yani aynı yapıya ilişkin birden
+    fazla impl bloğu bulundurulabilir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    impl Sample {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    //...
+
+    impl Sample {
+        fn bar(&self) {
+            //...
+        }
+    }
+
+    Burada Smaple yapısının metotları birden fazla impl bloğu içerisinde tanımlanmıştır.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapının impl bloğundaki ilk parametresi self olmayan (yani &self, &mut self ve self biçiminde olmayan) fonksiyonlarına
+    "ilişkili fonksiyonlar (associated functions)" denilmektedir İlişkili fonksiyonlar ilgili yapı türünden değişken ya da
+    değeri kullanmamaktadır. Bu nedenle onların self parametresi yoktur. Örneğin:
+
+    impl Sample {
+        fn foo(&self) {     // metot
+            //...
+        }
+
+        fn bar(a: i32) {    // ilişkili fonksiyon
+            //...
+        }
+    }
+
+    struct  Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    Burada foo yapının bir metodudur. Çünkü foo ilgili yapı türünden bir değişken ya da değerin alanları üzerinde işlem
+    yapma niyetiyle bulundurulmuştur. Bu nedenle self parametresine sahiptir. Ancak bar bir metot değildir. İlişkili bir
+    fonksiyondur. Çünkü bar fonksiyonunun birinci parametresi self değildir. Biz metotların ilgili yapı türünden bir değişken
+    ya da değerle nokta operatörü kullanılarak çağrıldığını görmüştük. Nokta operatörünün solundaki değişken ya da değer de
+    self parametresine aktarıldığını belirtmiştik. İşte ilişkili fonksiyonlar (örneğimizde bar fonksiyonu) self parametresine
+    sahip olmadığı için yapı türünden bir değişken ya da değerler çağrılmamaktadır. İlişkili fonksiyonlar yapı ismi ile ve ::
+    operatörü kullanılarak çağrılmaktadır. Örneğin:
+
+    let s = Sample { a: 10, b: 20, c: 30 };
+
+    s.foo();
+    Sample::bar(100);
+
+    bar fonksiyonunun Sample::bar biçiminde çağrıldığına dikkat ediniz.
+
+    Pekiyi ilişkili fonksiyonlarla normal global fonksiyonlar arasında ne fark vardır? İlişkili fonksiyonlar ilgili yapı
+    türünden bir değişkenin ya da değerin alanlarını kullanmadığına göre pekala global bir fonksiyon biçiminde de bulunabilirler.
+    Örneğin:
+
+    impl Sample {
+        fn foo(&self) {     // metot
+            //...
+        }
+    }
+
+    fn bar(a: i32) {
+        //...
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32,
+        c: i32
+    }
+
+    Tabii artık biz bar fonksiyonunu Sample::bar biçiminde değil doğrudan bar ismiyle çağırırız. İşte fonksiyon ilgili yapının
+    alanlarını kullanmıyor olsa da mantıksal biçimde o yapının konusu ile ilgili bir etkinlikte bulunuyorsa fonksiyonun
+    impl bloğuna taşınarak mantıksal bakımdan yapı ile ilişkilendirilmesi iyi bir tekniktir. Rust'ta "ilişkili fonksiyon"
+    kavramı nesne yönelimli programlama dillerindeki "sınıfların static fonksiyonları ya da metotları" ile aynı kavramı
+    belirtmektedir.
+
+    C++, Java ve Python gibi bazı dillerde (ancak C#'ta böyle değil) sınıfın static metotları (fonksiyonları) o sınıf türünden
+    bir nesneyle (değişkenle) çağrılabilmektedir. Bu durumda o dillerin derleyicisi static metodun (fonksiyonun) çağrılmasında
+    kullanılan nesneyi (değişkeni) dikkate almamakta yalnızca onun türünü dikkate almaktadır. Yani bu dillerde o dillerin
+    derleyicileri static metodun (fonksiyonun) o nesneyle (değişkenle) değil o nesnin ilişkin olduğu sınıf ismiyle çağrıldığını
+    varsaymaktadır. Rust'ta böyle bir durum söz konusu değildir. Yani Rust'ta ilişkili fonksiyonlar yalnızca yapı ismiyle
+    çağrılabilmektedir. O yapı türünden bir değişken ya da değerle çağrılamamaktadır.
+
+ # 38. Ders 28/07/2025 - Pazartesi
+
+    Örneğin Date isimli bir yapının tarih bilgisi ile ilgili işlemler yapmak üzere oluşturulduğunu düşünelim:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    impl Date {
+        fn disp(&self) {
+            println!("{}/{}/{}", self.day, self.month, self.year);
+        }
+        //...
+    }
+
+    Bir yılın artık yıl olup olmadığını (İngilizce artık yıla "leap year" denilmektedir) veren bir fonksiyon da yazmak
+    isteyelim. Bu fonksiyonun aslında belli bir tarih bilgisiyle bir ilgisi yoktur. Bu fonksiyon parametre olarak bizden
+    bir yıl ister. Bu yılın artık olup olmadığına yönelik bool bir değerle geri döner. Örneğin:
+
+    fn isleap(year: u32) -> bool {
+        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+    }
+
+    Bu fonksyon görüldüğü gibi Date türünden bir değeri kullanmamaktadır. Yalnızca bir yıl bilgisini kullanmaktadır. Ancak
+    fonksiyonun yaptığı iş tarih işlemleriyle ilgilidir. Yani fonksiyon her ne kadar Date türünden bir değeri kullanmıyorsa
+    da mantıksal olarak tarihle ilgili bir işlem yapmaktadır. İşte bu tür durumlarda bu biçimde sınıfla ilişkili olan fonksiyonları
+    dışarıda global fonksiyon olarak tanımalamak yerine impl bloğu içerisine alarak yapının ilişkili fonksiyonu haline getirmek
+    iyi bir tekniktir. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    impl Date {
+        fn disp(&self) {
+            println!("{}/{}/{}", self.day, self.month, self.year);
+        }
+
+        fn isleap(year: u32) -> bool {
+            year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+        }
+        //...
+    }
+
+    Artık bu isleap fonksiyonunu biz isleap biçiminde değil Date::isleap biçiminde çağırabiliriz. Örneğin:
+
+    fn main() {
+    let d = Date { day: 10, month: 12, year: 2024 };
+
+        d.disp();
+
+        if Date::isleap(2000) {
+            println!("Artık");
+        }
+        else {
+            println!("Artık değil");
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    En çok karşılaşılan ilişkili fonksiyonlar ilgili yapı türünden değer yaratan ve genellikle new biçiminde isimlendirilen
+    fonksiyonlardır. Bir yapı türünden değeri küme parantezleriyle oluştururken çokça tuşa basılmaktadır. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+    //...
+
+    let pt = Point { x: 10, y: 20 };
+
+    Burada Point yapısının yalnızca iki elemanı vardır. Ancak yapının daha çok elemanı olsaydı bu durumda tüm elemanlara
+    ilkdeğer verebilmek için daha fazla tuşa basmak zorunda kalırdık. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    struct Person {
+        name: String,
+        bplace: String,
+        bdate: Date,
+    }
+    //...
+
+    let person = Person {
+        name: String::from("Abit süzülmüş"),
+        bplace: String::from("Eskişehir"),
+        bdate: Date {
+            day: 10,
+            month: 10,
+            year: 1969
+        }
+    };
+
+    İşte bu tür değer yaratımlarını kolaylaştırmak için Rust programcıları yapılar için genellikle new biçiminde isimlendirdikleri
+    bir ilişki fonksiyon bulundurmaktadır. Böylece o yapı türünden değerler küme parantezleriyle değil new fonksiyonun çağrılmasıyla
+    yaratılmaktadır. Tabii new ismi gelenekseldir, zorunlu bir isim değildir. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Point {
+            Point { x: x, y: y }
+        }
+        //...
+    }
+
+    //...
+
+    let pt = Point::new(10, 20);
+
+    Burada Point::new fonksiyonu bir metot değildir. Point yapısının ilişkili bir fonksiyonudur. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    impl Date {
+        fn new(day: u32, month: u32, year: u32) -> Date {
+            Date {
+                day,
+                month,
+                year
+            }
+        }
+        //...
+    }
+
+    struct Person {
+        name: String,
+        bplace: String,
+        bdate: Date,
+    }
+
+    impl Person {
+        fn new(name: String, bplace: String, bdate: Date) -> Person {
+            Person {
+                name,
+                bplace,
+                bdate
+            }
+        }
+        //..
+    }
+    //...
+
+    let person = Person::new(String::from("Abit Süzülmüş"), String::from("Eskişehir"), Date::new(10, 10, 1969));
+
+    Burada da new fonksiyonları ilgili yapıların ilişkili fonksiyonlarıdır.
+
+    Bir yapı türünden değeri eğer yapı için bir new fonksiyonu yazılmışsa new fonksiyonuyla yaratılması iyi bir tekniktir.
+    Çünkü new fonksiyonları içerisinde sınama (validation) işlemleri yapılabilmektedir. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32
+    }
+
+    impl Date {
+        fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+            //...
+        }
+        //...
+    }
+
+    Burada new fonksiyuonuna geçersiz bir tarih girilirse fonksiyon Option::None değeri ile geri döndürülebilir. Böylece
+    Date türünden değer yaratılırken sınama da yapılmış olur.
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki paragrafta genellikle yapılar için o yapı türünden değer yaratan new isimli bir ilişkili fonksiyonun bulundurulduğunu
+    belirttik. Pekiyi bu fonksiyon ile yapı türünden değer yaratılması bir zaman kaybı oluşturur mu? Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Point {
+            Point { x: x, y: y }
+        }
+        //...
+    }
+
+    let pt = Point { x: 10, y: 20 };
+
+    pt değişkeninde istenilen değerlerin oluşması normal olarak üç aşamada gerçekleşmektedir.
+
+    1) Önce new fonksiyonu içerisinde Point türünden değer yaratılır.
+    2) Yaratılan değer new fonksiyonun geri dönüş değeri için oluşturulan geçici değişkene taşınır.
+    3) Bu geçici değişkenden pt değişkenine taşıma yapılır.
+
+    Ancak derleyiciler aslında bu tür durumlarda kodu optimize ederek bu taşımaları en az düzeyde yapmaktadır. Örneğin
+    derleyici aslında önce Point türünden değeri yaratıp onu geri dönüş değeri için yaratılan geçici değişkene atamak
+    yerine doğrudan Point değerini zaten geçici değişken üzerinde oluşturabilir. Bu durumda yukarıda işlem iki aşamaya
+    indirgenecektir:
+
+    1) new fonksiyonun geri dönüş değeri için ayrılan geçici değişkende Point değeri doğrudan oluşturulur.
+    2) Bu geçici değişkenden pt değişkenine taşıma yapılır.
+
+    Hatta derleyiciler bu tür durumlarda bir kademe daha ileri giderek doğrudan fonksiyonun geri dönüş değerine ilişkin
+    geçici değişkeni sanki pt imiş gibi de yaratabilmektedir. Böylece aslında tüm bu işlemler tek bir yaratıma indirginmeiş
+    olur. Bu tür optimizasyonlara derleyiciler dünyasında "URVO (Unnamed Return Value Optimization)" ve "Named Return Value
+    Optimization (NRVO)" denilmektedir. Örneğin Rust derleyicileri aşağıdaki gibi bir ilkdeğer vermede optimizasyon uygulayarak
+    gereksiz taşıma yapmamaktadır:
+
+    let pt = Point { x: 10, y: 20 };
+
+    Burada derleyici önce geçici bir değer oluşturup onu pt değişkenine taşımamaktadır. Doğrudan değeri pt üzerinde
+    oluşturmaktadır.
+
+    Pekiyi derleyiciler bu tür durumlarda kodu optimize etmeyi garanti etmekte midir? Hayır genel olarak derleyiciler
+    böyle bir garanti vermezler. Programcının derleyiciyi tanıması ve onun hangi optimizasyonları yapabildiğini biliyor olması
+    gerekir. Tabii yukarıdaki gibi optimizasyonlar çok beklendik ve temel düzeydedir. Rust derleyicilerinin bu optimizasyonu
+    yapması beklenir. "The Rust Reference" dokümanlarında şöyle denilmektedir:
+
+    "Temporaries are typically created during the evaluation of expressions. The Rust compiler may sometimes elide or
+    combine temporaries to avoid unnecessary memory operations."
+
+    Bu cümlelerin Türkçe çevirisi şöyle yapılabilir:
+
+    "Geçici değişkenler genellikle ifadelerin değerlendirilmesi sırasında oluşturulur. Rust derleyicisi bazen gereksiz bellek
+    işlemlerinden kaçınmak için geçici değişkenleri atlayabilir ya da birleştirebilir."
+---------------------------------------------------------------------------------------------------------------------------
+    Yapıların ilişkili fonksiyonlarını daha iyi açıklayabilmek için tarih işlemleri yapan bir Date yapısı üzerinde çalışalım.
+    Date yapımız şöyle olsun:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    Date yapsının new ilişki fonksiyonu parametresiyle aldığı gün, ay, bilgilerinden bir Date değeri oluşturup bu değere
+    geri dönmektedir:
+
+    fn new(day: u32, month: u32, year: u32) -> Date {
+        Date { day, month, year }
+    }
+
+    Date yapısının ilişkili _isleap fonksiyonu belli bir yılın artık olup olmadığını belirlemekte kullanılmaktadır. Bu fonksiyon
+    belli bir tarih üzerinde işlem yapmamaktadır. Bir yılı parametre olarak alıp bool bir değere geri dönmektedir. Fonksiyonun
+    Date yapısı ile ilgisi nedeniyle global bir fonksiyon yerine Date sınıfının ilişkili fonksiyonu yapılması iyi bir tekniktir.
+    Fonksiyon şöyle yazılmıştır:
+
+    impl Date {
+        //...
+         fn _isleap(year: u32) -> bool {
+            year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+        }
+        //...
+    }
+
+    Nesne yönelimli programlama dillerinde sınıfların belli elemanlarının dışarıdan gizlenmesi için gizlenmek istenen elemanlar
+    sınıfların private bölümlerine yerleştirilmektedir. Örneğin isleap gibi bir metot içsel bir kullanıma ilişkindir. Bu metodun
+    dışarıdan kullanılması istenmeyebilir. Rust'ta modiller arasında yapı elemanları gizlenebilmektedir. Ancak aynı modülde
+    C++, Java ve C# gibi gizleme mümkün değildir. Rust programcılarının bir bölümü mantıksal olarak dışarıdan gizlemek istedikleri
+    metotları ve yapı elemanlarını başlarına '_' getirerek isimlendirmektedir.
+
+    Tarih işlemlerini kolaylaştırabilmek için pek çok kütüphane tarih bilgisini belli bir tarihten geçen gün sayısına dönüştürmektedir.
+    (Bu tür durumlarda orijin noktası olarak seçilen tarihe İngilizce "epoch" da denilmektedir.) Biz örneğimizde epoch olarak
+    01/01/1900 tarihini alacağız. 01/01/1900'den belli bir tarihe kadar geçen gün sayısı aşağıdaki gibi bir metotla hesaplanabilir:
+
+    impl Date {
+        //...
+        fn _total_days(&self) -> u32 {
+            let mut tdays: u32 = 0;
+            let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            for i in 1900..self.year {
+                tdays += if Date::isleap(i) { 366 } else { 365 }
+            }
+            montab[1] = if Date::isleap(self.year) { 29 } else { 28 };
+            for i in 0 ..self.month - 1 {
+                tdays += montab[i as usize];
+            }
+            tdays + self.day
+        }
+        //...
+    }
+
+    Bu metotta birkaç mokta üzerinde açıklama yapmak istiyoruz. Bir metot kendi yapısıyla ilişkili bir fonksiyonu doğrudan
+    isimle çağıramamaktadır. Yine sanki dışarıdan çağrılıyormuş gibi yapı ismiyle çağırabilmektedir. Örneğimizde isleap
+    fonksiy onunun isleap biçiminde değil Date::isleap biçiminde çağrıldığına dikkat ediniz. (C++, Java ve C# gibi bazı
+    dillerde "sınıf faaliyet alanı (class scope)" biçiminde bir faaliyet alanı vardır. Dolayısıyla isim araması sırasında
+    zaten sınıfın elemanlarına bakılmaktadır. Bu nedenle o dillerde statik olmayan metotlar içerisinde static metotların
+    çağrılması sırasında sınıf isminin kullanılması gerekmemektedir.) _total_days metodundaki diğer bir nokta da metodun
+    içerisindeki montab dizisinin  metot her çağrıldığında yeniden yaratılmasıdır. C'de bunu engellemek için dizi static
+    yapılmaktadır. Ancak Rust'ta C'deki gibi bir static semantiği yoktur. Global değişkenler konusu da Rust'ta diğer dillerden
+    farklı bir semantiğe sahiptir. Bu konu ileride ele alınacaktır. Metotta ayrıca dizi indekslenirken köşeli parantez
+    içerisindeki ifadenin usize türüne dönüştürüldüğüne dikkat ediniz. Çünkü daha önceden de bahsettiğimiz gibi Rust'ta
+    dizi indeksleri usize türünden olmak zorundadır.
+
+ # 39. Ders 30/07/2025 - Çarşamba
+
+    Bir tarihin hangi güne karşılık geldiğini belirlemek için epoch tarihinin hangi gün olduğunu bilmek ve o tarihten geçen
+    gün sayısının 7'ye bölümünden elde edilen kalanı kullanmak gerekir. Örneğin 01/01/1900 tarihi Pazar günüdür. Bu durumda
+    bu tarihten geçen gün sayısının 7'ye bölümnden elde edilen kalan 0 ise o tarih de Pazar'dır. Yapımızdaki bu işi yapn
+    metot şöyle yazılmıştır:
+
+    fn dayname(&self) -> &str {
+        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+        days[(self.total_days() % 7) as usize]
+    }
+
+    Örneğimizde iki tarihi karşılaştıran compare isimli bir metot da yazılmıştır. Metot Ordering isimli enum türüne geri
+    dönmektedir:
+
+    fn compare(&self, other: &Self) -> Ordering {
+        let diff = self.total_days() - other.total_days();
+
+        if diff < 0 {
+            Ordering::Less
+        }
+        else if diff > 0 {
+            Ordering::Greater
+        }
+        else  {
+            Ordering::Equal
+        }
+    }
+
+    enum Ordering {
+        Less,
+        Equal,
+        Greater,
+    }
+
+    Aslında Rust'ın standart kütüphanesinde de hazır bir Ordering enum türü vardır:
+
+    #[repr(i8)]
+    pub enum Ordering {
+        Less = -1,
+        Equal = 0,
+        Greater = 1,
+    }
+
+    Örneğimizde total_days metodunun ters işlemini yapan _from_total_days isimli bir ilişkili fonksiyon da bulundurulmuştur:
+
+    fn _from_total_days(tdays: u32) -> Date {
+        let mut total: u32 = 0;
+        let mut ydays: u32;
+        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900.. {
+            ydays = if Date::_isleap(i) { 366 } else { 365 };
+            if total + ydays >= tdays {
+                year = i;
+                break;
+            }
+            total += ydays;
+        }
+        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+        for i in 0..12 {
+            if total + montab[i as usize] >= tdays {
+                month = i + 1;
+                break;
+            }
+            total += montab[i as usize];
+        }
+        day = tdays - total;
+
+        Date { day, month, year }
+    }
+
+    Rust'ta birtakım değerleri alarak ilgili yapı türünden değer veren fonksiyonlar geleneksel olarak from_xxx biçiminde
+    isimlendirilmektedir.
+
+    Bir tarihten belli bir dün sonrasına ilişkin bir tarihin elde edilmesi çok gereksinim duyulan işlemlerdendir. Yapımıza
+    bu işlemi yapan bir metot da ekledik:
+
+    fn add_days(&self, days: u32) -> Date {
+        Date::_from_total_days(self._total_days() + days)
+    }
+
+    İki tarih arasındaki farkı gün sayısı olarak elde eden bir metota da gereksinim duyulmaktadır. Örneğimizde böyle
+    bir metot da bulundurduk:
+
+    fn diff_date(&self, other: &Date) -> u32 {
+        self._total_days() - other._total_days()
+    }
+
+    Nihayet örneğimizde tarihi ekrana (stdout dosyasına) yazdıran disp isimli bir metot da bulunmaktadır:
+
+    fn disp(&self) {
+        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+    }
+
+    Date örneğinin tamamı aşağıda verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let date = Date::new(31, 12, 2025);
+    let date2 = Date::new(1, 1, 2026);
+    let days: u32;
+
+    days = date2.diff_date(&date);
+    println!("{}", days);       // 1
+}
+
+struct Date {
+    day: u32,
+    month: u32,
+    year: u32,
+}
+
+impl Date {
+    fn new(day: u32, month: u32, year: u32) -> Date {
+        Date { day, month, year }
+    }
+
+    fn _total_days(&self) -> u32 {
+        let mut tdays: u32 = 0;
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900..self.year {
+            tdays += if Date::_isleap(i) { 366 } else { 365 }
+        }
+        montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
+        for i in 0..self.month - 1 {
+            tdays += montab[i as usize];
+        }
+        tdays + self.day
+    }
+
+    fn dayname(&self) -> &str {
+        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+        days[(self._total_days() % 7) as usize]
+    }
+
+    fn add_days(&self, days: u32) -> Date {
+        Date::_from_total_days(self._total_days() + days)
+    }
+
+    fn diff_date(&self, other: &Date) -> u32 {
+        self._total_days() - other._total_days()
+    }
+
+    fn disp(&self) {
+        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+    }
+
+    fn compare(&self, other: &Self) -> Ordering {
+        let diff = self._total_days() - other._total_days();
+
+        if diff < 0 {
+            Ordering::Less
+        }
+        else if diff > 0 {
+            Ordering::Greater
+        }
+        else  {
+            Ordering::Equal
+        }
+    }
+
+    fn _isleap(year: u32) -> bool {
+        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+    }
+
+    fn _from_total_days(tdays: u32) -> Date {
+        let mut total: u32 = 0;
+        let mut ydays: u32;
+        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900.. {
+            ydays = if Date::_isleap(i) { 366 } else { 365 };
+            if total + ydays >= tdays {
+                year = i;
+                break;
+            }
+            total += ydays;
+        }
+        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+        for i in 0..12 {
+            if total + montab[i as usize] >= tdays {
+                month = i + 1;
+                break;
+            }
+            total += montab[i as usize];
+        }
+        day = tdays - total;
+
+        Date { day, month, year }
+    }
+}
+
+enum Ordering {
+    Less,
+    Equal,
+    Greater,
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi bir yapı türünden değer yaratırken yapı alanlarına yerleştirilecek değerlerin sınanması Rust'ta nasıl yapılmaktadır.
+    Anımsanacağı gibi nesne yönelimli programlama tekdiğinde sınıfların yapıcı fonksiyonaları (constrctors) içerisinde ya da
+    sınıflar türünden nesne oluşturan fonksiyonlar içerisinde uygunsuz değerler tespit edildiğinde exception fırlatılmaktadır.
+    Rust'ta C++, Java ve C# gibi dillerdeki gibi bir exception mekanizması yoktur. Pekiyi bu durumda örneğin yukarıdaki Date
+    yapısının new ilişkili fonksiyonuna programcı yanlış değer geçerse ne olacak? Örneğin:
+
+    impl Date {
+        //...
+        fn new(day: u32, month: u32, year: u32) -> Date {
+           Date { day, month, year }
+        }
+        //...
+    }
+
+    let date = Date::new(40, 12, 2025);
+
+    Burada 40 değeri gün için geçerli bir değer değildir. Ancak new fonksiyonu bir Date değeri vermek zorundadır. İşte Rust'ta
+    bu tür durumlarda fonksiyonlar Option ya da Result türleri ile geri döndürülmektedir. Böylece fonksiyonu çağıran kişi
+    kalıp uyuşumu ile değerin geçerli olup olmadığını anlayabilmektedir. Örneğin:
+
+    impl Date {
+        //...
+        fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+            if year < 1900 || month < 1 || month > 12{
+                return None;
+            }
+
+            let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+
+            if day < 1 || day > montab[(month - 1) as usize] {
+                return None;
+            }
+
+            Some(Date { day, month, year })
+        }
+        //...
+    }
+
+    Burada tarih bilgisi üzerinde gerekli sınamanın yapıldığını görüyorsunuz. Fonksiyon sınama başarısızsa Option::None varyantı
+    ile sınama başarılı ise Option::Some varyantı ile geri döndürülmüştür. Tabii artık new donksiyonu çağrıldığında Date elde
+    edilmeyecektir, Option<Date> elde edilecektir. new fonksiyonun geri dönüş değeri unwrap ya da expect uygulanarak kullanılabilir:
+
+    let date = Date::new(29, 2, 2025).expect("invalid date");
+
+    Bu kodda eğer tarih geçersizse panik oluşacak, geçerliyse Date değeri elde edilecektir. Tabii programcı buradaki olası
+    hatayı if let ile kalıp uyuşumu kullanarak da ele alabilir. Örneğin:
+
+    if let Some(date) = Date::new(29, 2, 2025).expect("invalid date") {
+        //...
+    }
+    else {
+        //...
+    }
+
+    Burada varyantın alanınının yalnızca if let deyiminin doğruysa kısmında kullanılabileceğnine dikkat ediniz. Bu tür durumlarda
+    is_none ya da is_some metotlarından da faydalanabilirsiniz. Örneğin:
+
+    let date = Date::new(29, 2, 2025);
+
+    if date.is_none() {
+        //...
+    }
+
+    Burada artık date değişeninin Option<Date> türünden olduğuna dikkat ediniz.
+
+    Aşağıda Date örneğinin sınamalı biçimi de bir bütün olarak verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    fn main() {
+        let date = Date::new(10, 2, 2025).unwrap();
+
+        date.disp();
+    }
+}
+
+struct Date {
+    day: u32,
+    month: u32,
+    year: u32,
+}
+
+impl Date {
+    fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+        if year < 1900 || month < 1 || month > 12{
+            return None;
+        }
+
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+
+        if day < 1 || day > montab[(month - 1) as usize] {
+            return None;
+        }
+
+        Some(Date { day, month, year })
+    }
+
+    fn _total_days(&self) -> u32 {
+        let mut tdays: u32 = 0;
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900..self.year {
+            tdays += if Date::_isleap(i) { 366 } else { 365 }
+        }
+        montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
+        for i in 0..self.month - 1 {
+            tdays += montab[i as usize];
+        }
+        tdays + self.day
+    }
+
+    fn dayname(&self) -> &str {
+        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+        days[(self._total_days() % 7) as usize]
+    }
+
+    fn add_days(&self, days: u32) -> Date {
+        Date::_from_total_days(self._total_days() + days)
+    }
+
+    fn diff_date(&self, other: &Date) -> u32 {
+        self._total_days() - other._total_days()
+    }
+
+    fn disp(&self) {
+        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+    }
+
+    fn compare(&self, other: &Self) -> Ordering {
+        let diff = self._total_days() - other._total_days();
+
+        if diff < 0 {
+            Ordering::Less
+        }
+        else if diff > 0 {
+            Ordering::Greater
+        }
+        else  {
+            Ordering::Equal
+        }
+    }
+
+    fn _isleap(year: u32) -> bool {
+        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+    }
+
+    fn _from_total_days(tdays: u32) -> Date {
+        let mut total: u32 = 0;
+        let mut ydays: u32;
+        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900.. {
+            ydays = if Date::_isleap(i) { 366 } else { 365 };
+            if total + ydays >= tdays {
+                year = i;
+                break;
+            }
+            total += ydays;
+        }
+        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+        for i in 0..12 {
+            if total + montab[i as usize] >= tdays {
+                month = i + 1;
+                break;
+            }
+            total += montab[i as usize];
+        }
+        day = tdays - total;
+
+        Date { day, month, year }
+    }
+}
+
+enum Ordering {
+    Less,
+    Equal,
+    Greater,
+}
+
+# 40. Ders 04/08/2025 - Pazartesi
+
+    Daha önceden de bahsettiğimiz gibi impl bloğu içerisinde Self anahtar sözcüğü (S'nin büyük yazıldığında dikkat ediniz)
+    gerçekleştirimi yapılan türü (yani impl anahtar sözcüğünün yanındaki yapı ya da enum türünü) belirtmektedir. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Self {
+            Self { x, y }
+        }
+        //...
+    }
+
+    Burada new ilişkili fonksiyonu Self ile geri dönmektedir. Buradaki Self anahtar sözcüğü Point anlamına gelmektedir. Self
+    ile self anahtar sözcükleri arasındaki farklılığa dikkat ediniz. self anahtar sözcüğü (s'nin küçük olduğuna dikkat ediniz)
+    metot çağrılmasında kullanılan değişken ya da değeri belirtmektedir. Tabii bu self bir referans durumunda da olabilir.
+    Halbuki Self anahtar sözcüğü (S'nin büyük olduğuna dikkat ediniz) impl bloğunda gerçekleştirimi yapılan türü belirtmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let pt = Point::new(10, 20);
+    println!("{}, {}", pt.x, pt.y);
+}
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Point {
+    fn new(x: i32, y: i32) -> Self {
+        Self { x, y }
+    }
+    //...
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    enum türlerinin de metotlara ve ilişkili fonksiyonlara sahip olabileceğini belirtmiştik. enum türlerine ilişkin metotlar
+    ve ilişkili fonksiyonlar yazılırken de yine Self anahtar sözcüğü kullanılabilmektedir. Buradaki Self anahtar sözcüğü
+    ilgili enum türünü belirtir. Örneğin:
+
+    enum Fruit {
+    Apple,
+    Banana(i32),
+    Orange(String),
+    None
+}
+
+    impl Fruit {
+        fn new() -> Self {
+            Self::None
+        }
+
+        fn disp(&self) {
+            match self {
+                Self::Apple => println!("Apple"),
+                Self::Banana(disp) => println!("Banana({})", disp),
+                Self::Orange(disp) => println!("Orange({})", disp),
+                Self::None => println!("None"),
+            }
+        }
+    }
+
+    Burada impl bloğunun içerisindeki Self anahtar sözcüğü Fruit anlamına gelmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıda daha önce yazmış olduğumuz Date yapısının metotlarında ve ilişkili fonksiyonlarında Date yerine Self anahtar
+    sözcüğünü kullandık.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let date = Date::new(10, 2, 2025).unwrap();
+
+    date.disp();
+}
+
+struct Date {
+    day: u32,
+    month: u32,
+    year: u32,
+}
+
+impl Date {
+    fn new(day: u32, month: u32, year: u32) -> Option<Self> {
+        if year < 1900 || month < 1 || month > 12{
+            return None;
+        }
+
+        let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        montab[1] = if Self::_isleap(year) { 29 } else { 28 };
+
+        if day < 1 || day > montab[(month - 1) as usize] {
+            return None;
+        }
+
+        Some(Self {day, month, year})
+    }
+
+    fn _total_days(&self) -> u32 {
+        let mut tdays = 0;
+        let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900..self.year {
+            tdays += if Self::_isleap(i) { 366 } else { 365 }
+        }
+        montab[1] = if Self::_isleap(self.year) { 29 } else { 28 };
+        for i in 0..self.month - 1 {
+            tdays += montab[i as usize];
+        }
+        tdays + self.day
+    }
+
+    fn dayname(&self) -> &str {
+        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+        days[(self._total_days() % 7) as usize]
+    }
+
+    fn add_days(&self, days: u32) -> Self {
+        Self::_from_total_days(self._total_days() + days)
+    }
+
+    fn diff_date(&self, other: &Self) -> u32 {
+        self._total_days() - other._total_days()
+    }
+
+    fn disp(&self) {
+        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+    }
+
+    fn compare(&self, other: &Self) -> Ordering {
+        let diff = self._total_days() - other._total_days();
+
+        if diff < 0 {
+            Ordering::Less
+        }
+        else if diff > 0 {
+            Ordering::Greater
+        }
+        else  {
+            Ordering::Equal
+        }
+    }
+
+    fn _isleap(year: u32) -> bool {
+        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+    }
+
+    fn _from_total_days(tdays: u32) -> Self {
+        let mut total: u32 = 0;
+        let mut ydays: u32;
+        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        for i in 1900.. {
+            ydays = if Self::_isleap(i) { 366 } else { 365 };
+            if total + ydays >= tdays {
+                year = i;
+                break;
+            }
+            total += ydays;
+        }
+        montab[1] = if Self::_isleap(year) { 29 } else { 28 };
+        for i in 0..12 {
+            if total + montab[i as usize] >= tdays {
+                month = i + 1;
+                break;
+            }
+            total += montab[i as usize];
+        }
+        day = tdays - total;
+
+        Self { day, month, year}
+    }
+}
+
+enum Ordering {
+    Less,
+    Equal,
+    Greater,
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi impl bloğu içerisinde yapının ya da enum türünün doğrudan isminin kullanılması mı yoksa Self anahtar sözcüğünün
+    kullanılması mı daha uygundur? Self anahtar sözüğü dört harfli olduğu için çoğu kez yazım kolaylığı sağlamaktadır. Ancak
+    Self anahtar sözcüğü yerine doğrudan türün isminin yazılması kodu daha okunabilir yapabilmektedir. Eğer biz yapı ismi
+    ya da enum ismi yerine Self anahtar sözcüğünü kullanırsak yapının ya da enum türünün ismi değiştirildiğinde isimsel bir
+    değişiklik yapmak zorunda kalmayız. Rust programcıları genellikle yağı ya da enum ismi yerine Self kullanımını tercih
+    etmektedir. Ancak ne olursa olsun bu bir tercih meselesidir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı türünden default bir değer kolay bir biçimde  Default isimli trait'in otomatik desteklenmesi (implemente edilmesi)
+    yoluyla sağlanabilir. Rust'ta trait'lerin otomatik desteklenmesi için #[derive(<trait_listesi>)] özniteliği kullanılmaktadır.
+    derive anahtar sözcüğünden sonra parantezler içerisine virgüllerle ayrılmış tarit isimleri yazılmaktadır. Bu öznitelik
+    iliştirildiğinde trait'lerin metotları ve ilişkili fonksiyonları Rust derleyicisi tarafında otomatik biçimde oluşturulmaktadır.
+    Her trait derive özniteliği ile kullanılamaz. #[derive(<trait_listesi>)] özniteliği yalnızca önceden belirlenmiş olan bazı
+    trait'ler için kullanılabilmektedir. Bunların listesi şöyledir:
+
+    Clone
+    Copy
+    Debug
+    Default
+    Eq
+    PartialEq
+    Ord
+    PartialOrd
+    Hash
+
+    İşte eğer derive özniteliğinde Default trait'i belirtilirse sanki ilgili yapı default isimli bir ilişkili fonksiyona
+    sahipmiş gibi kullanılabilmektedir. Örneğin:
+
+    #[derive(Default)]
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Self {
+            Self { x, y }
+        }
+
+        fn disp(&self) {
+            println!("x: {}, y: {}", self.x, self.y);
+        }
+    }
+
+    fn main() {
+        let pt = Point::new(10, 20);
+        pt.disp();
+
+        let pt = Point::default();
+        pt.disp();          // x: 0, y: 0
+    }
+
+    Burada biz Point::default() ifadesiyle yapının default isimli ilişkili fonksiyonunu çağırabildik. Çünkü bu fonksiyon
+    derleyici tarafından otomatik bir biçimde yazıldı. default fonksiyonunun parametresinin olmadığına dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let pt = Point::new(10, 20);
+    pt.disp();
+
+    let pt = Point::default();
+    pt.disp();
+}
+
+#[derive(Default)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Point {
+    fn new(x: i32, y: i32) -> Self {
+        Self { x, y }
+    }
+
+    fn disp(&self) {
+        println!("x: {}, y: {}", self.x, self.y);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi biz bir yapıya #[derive(Default)] özniteliğini iliştirdiğimizde yaratılan yapı değerinin alanlarındaki değerler
+    ne olacaktır? İşte nümerik türler için default değer 0, bool türü için False biçimdedir. Yukarıdaki Point yapısının iki
+    alanı da i32 türündendir. i32 bir nümerik tür olduğu için bu iki alanın default değerleri 0'dır. String türü için default
+    değer boş String'tir. Pekiyi ya ilgili yapı "default değeri belli olmayan" bir türe ilişkin alan barındırıyorsa ne olur?
+
+    Bir #[derive(Default)] default özniteliğinin iliştirilebilmesi için o yapının bütün alanlarının Default trait'ini destekliyor
+    olması (implemente ediyor olması) gerekmektedir. Temel türlerin bu trait'i desteklediği kabul edilmektedir. String türü de
+    örneğin bu trait'i desteklemektedir. Aşağıdaki örneğe dikkat ediniz:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    #[derive(Default)]          // error! yapının bdate alanı Default trait'ini desteklemiyor
+    struct Person {
+        name: String,
+        age: u32,
+        bdate: Date
+    }
+
+    Bu kod error oluşturacaktır. Çünkü Person yapısının name ve age alanlarına ilişkin türler Default trait'ini desteklemektedir
+    ancak bdate alanının ilişkin olduğu Date türü bu trait'i desteklememektedir. (Bu anlamda bir özyinelemenin işletilmediğine
+    dikkat ediniz.) Tabii biz Date yapısının da Default trait'ini desteklemesini sağlayabiliriz. Bu durumda error ortadan
+    kalkacaktır. Örneğin:
+
+    #[derive(Default)]
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    #[derive(Default)]          // geçerli, yapının tüm alanları Default trait'in destekliyor
+    struct Person {
+        name: String,
+        age: u32,
+        bdate: Date
+    }
+
+    Bu kod artık derlenecektir. Tabii Date için default değerin 0/0/0 olması aslında pek uygun değildir. Kendi yapınıza
+    için #[derive(Default)]  özniteliğini iliştirmeden önce yapınızın alanlarının default değer almasının anlamlı olup
+    olmadığını gözden geçirmelisiniz. Yukarıdaki kod geçerli olsa da 0/0/0 tarihinin bir default tarih olarak kullanılması
+    pek anlamlı değildir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+   let per = Person::default();
+
+    per.disp();
+}
+
+#[derive(Default)]
+struct Date {
+    day: u32,
+    month: u32,
+    year: u32,
+}
+
+impl Date {
+    fn new(day: u32, month: u32, year: u32) -> Self {
+        Self { day, month, year }
+    }
+
+    fn disp(&self) {
+        println!("{}/{}/{}", self.day, self.month, self.year);
+    }
+}
+
+#[derive(Default)]
+struct Person {
+    name: String,
+    age: u32,
+    bdate: Date
+}
+
+impl Person {
+    fn new(name: String, age: u32, bdate: Date) -> Self {
+        Self { name, age, bdate }
+    }
+
+    fn disp(&self) {
+        println!("{} is {} years old and was born in {}", self.name, self.age, self.bdate.year);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii aslında Default trait'ini otomatik değil açıkça da destekleyebiliriz (implemente edebiliriz). Her ne kadar biz
+    henüz trait'ler konusunu görmediysek de burada bir örnek vermek istiyoruz:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    impl Date {
+        fn new(day: u32, month: u32, year: u32) -> Self {
+            Self { day, month, year }
+        }
+
+        fn disp(&self) {
+            println!("{}/{}/{}", self.day, self.month, self.year);
+        }
+    }
+
+    impl Default for Date {
+        fn default() -> Self {
+            Self {
+                day: 1,
+                month: 1,
+                year: 1900
+            }
+        }
+    }
+
+    Ancak yapıya derive(Default) özniteliğini iliştirilmişse artık açıkça destekleme yapılamaz. Yani destekleme ya otomatik
+    yapılabilir ya da açıkça yapılabilir.
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi enum türlerine #[derive(Defult)] özniteliği iliştirilebilir mi? Yani örneğin aşağıdaki gibi bir enum tanımalaması
+    geçerli midir?
+
+    #[derive(Default)]              // error!
+    enum Direction {
+        Left(String),
+        Up(String),
+        Right(String),
+        Down(String),
+        None
+    }
+
+    Burada sorun Direction::default() fonksiyonu çağrıldığında elde edilecek enum değerinin hangi varyanta ilişkin olacağıdır.
+    Değerin llk varyanta ilişkin olabileceğini düşünebilirsiniz. Ancak bu pek anlamlı değildir. İşte #[derive(Default)] özniteliği
+    için enum türünün hangi varyantının default değer olarak kullanılcağı #[default] özniteliği ile belirlenmektedir. Bu öznitelik
+    hangi varyantın önüne yazılırsa o varyant default değer olarak kullanılır. Örneğin:
+
+    #[derive(Default)]
+    enum Direction {
+        Left(String),
+        Up(String),
+        Right(String),
+        Down(String),
+        #[default]
+        None
+    }
+
+    Burada None varyantı default değer olarak kullanılacaktır. Ancak #[default] özniteliği enum'un yalnızca birimsel varyantlarına
+    uygulanabilmektedir. Örneğin aşağıdaki tanımlama error oluşturacaktır:
+
+    #[derive(Default)]
+    enum Direction {
+        #[default]          // error! buözniteli yalnızca birimsel varyantlara uygulanabilir
+        Left(String),
+        Up(String),
+        Right(String),
+        Down(String),
+        None
+    }
+
+    Tabii enum için de aslında Default trait'i açıkça desteklenebilir. Örneğin:
+
+    enum Direction {
+        Left(String),
+        Up(String),
+        Right(String),
+        Down(String),
+        #[default]
+        None
+    }
+
+    impl Default for Direction {
+        fn default() -> Self {
+            Direction::Left(String::from("Sol"))
+        }
+    }
+
+    fn main() {
+        let d = Direction::default();
+
+        d.disp();           // Left(Sol)
+    }
+
+    Trait'ler konusu ileride ayrı bir başlık altında ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let d = Direction::default();
+
+    d.disp();
+}
+
+enum Direction {
+    Left(String),
+    Up(String),
+    Right(String),
+    Down(String),
+    None
+}
+
+impl Direction {
+    fn disp(&self) {
+        match self {
+            Direction::Left(x) => {
+                println!("Left({})", x);
+            },
+            Direction::Up(x) => {
+                println!("Up({})", x);
+            },
+            Direction::Right(x) => {
+                println!("Right({})", x);
+            },
+            Direction::Down(x) => {
+                println!("Down({})", x);
+            },
+            Direction::None => println!("None"),
+        }
+    }
+}
+
+impl Default for Direction {
+    fn default() -> Self {
+        Direction::Left(String::from("Sol"))
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki yapılar nesne yönelimli dillerdeki sınıflara biraz benzemektedir. Ancak Rust'taki yapılar o dillerdeki
+    sınıflar gibi ayrıntılı özelliklere ve işlevselliklere sahip değildir. Örneğin Rust'ta bir yapı bir yapıdan türetilemez.
+    Ancak yapılar trait'leri destekleyebilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'ta referanlar ve göstericiler konusu üzerinde duracağız. Referanslar ve göstericiler sistem programalama
+    etkinliklerinde sıkça kullanılan "olmazsa olmaz" dil özelliklerindendir. Rust C'nin göstericilerini "referans" adı altında
+    daha güvenli hale getirmeye çalışmıştır. Aslında referanslar C++, Java ve C# dillerde de bulunmaktadır. Rust'ta C'deki
+    gibi göstericiler de kullanılabnilmektedir. Ancak Rust'ta C'deki gbi göstericiler yalnızca unsafe bloklarda kullanılabilir.
+    Biz bu bölümde önce referansları sonra da göstericileri ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta referanslar aslında güvenli biçime getirilmiş göstericilerden başka bir şey değildir. Bir referansın içerisinde
+    bir adres bulunur. Asıl değer o referansın içerisindeki adrestedir. Yani referanslar tıpkı C'deki göstericiler gibi değerin
+    bulunduğu yerin bellek adresini tutmaktadır. (Daha önceden de belirttiğimiz gibi Rust'ın resmi dokümanlarında "nesne
+    (object)" terimi kullanılmamaktadır. Oysa C ve C++'te bellekte yer kaplayan ve erişilebilen bölgelere genel olarak "nesne"
+    denilmektedir.)
+
+    Rust'taki referanslar her zaman bir bellekte zaten var olan bir değişkeni ya da değeri göstermektedir. Bu nedenle Rust'taki
+    referanslar "dangling" olamazlar. Yani Rust'taki referansların bellekte herhangi bir yeri göstermesi mümkün değildir.
+    Başka bir deyişle referanslar Rust'ta her zaman "zaten tahsis edilmiş" nesneleri göstermektedir.
+
+    Rust'ta tür sisteminin nasıl sınıflandırıldığını yeniden anımsatmak istiyoruz:
+
+    Primitive types:
+        Boolean — bool
+        Numeric — integer and float
+        Textual — char and str
+        Never — ! — a type with no values
+    Sequence types:
+        Tuple
+        Array
+        Slice
+    User-defined types:
+        Struct
+        Enum
+        Union
+    Function types:
+        Functions
+        Closures
+    Pointer types:
+        References
+        Raw pointers
+        Function pointers
+    Trait types:
+        Trait objects
+        Impl trait
+
+    Görüldüğü gibi "The Rust Reference" dokümanlarında referanslar "Pointer Types" grubunda yer almaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta her T türüne ilişkin &T ve &mut T biçiminde iki referans türü de vardır. T bir tür belirtmek üzere T türünden
+    &T biçimindeki referanslara "değiştirilmez (immutable) referanslar" ya da "paylaşılan (shared)" referanslar, &mut T
+    biçimindeki referanslara ise "değiştirtilebilir (mutable) referanslar" denilmektedir. Örneğin &i32, &f64, &String biçimindeki
+    referanslar "değiştirilemez (immutable)", &mut i32, &mut f64 ve &mut String biçimindeki referanslar ise "değiştirilebilir
+    (mutable)" referanslardır. Değiştirilemez ve değiştirilebilir referanslar arasındaki farklılıkları izleyen paragraflarda
+    ele alacağız.
+
+    Örneğin:
+
+    let r: &i32;
+
+    Burada r değişkeni &i32 türündendir. Yani i32 türünden bir değişken ya da değerin adresini tutmaktadır.
+
+    Rust'ta değiştirilebilir referanslarda & ile mut anahtar sözcükleri bitişik yazılmak zorunda değildir. Ancak Rust
+    programcıları & ile mut anahtar sözcüğünü bitişik yazmayı tercih etmektedir. Örneğin:
+
+    let r: &mut i32;
+---------------------------------------------------------------------------------------------------------------------------
+    Donanımsal düzeyde bellekteki her byte'ın bir doğrusal adresi vardır. Bir byte'ın doğrusal ilk byte 0 olmak üzere o byte'ın
+    belleğin kaçıncı byte'ı olduğunu belirtmektedir. Doğrual adresler genellikle 16'lık sistemde gösterilirler. Örneğin bir
+    byte'ın doğrusal adreesi 0x12FC10 ise bu byte belleğin tepesinden itibaren 0x0012FC10'ıncı byte'ıdır. İşlemciler erişecekleri
+    yerin doğrusal adresini vererek bellekte belli bir bölgeye erişirler.
+
+                    ─────────┐
+    0x00000000      │  ??
+    0x000001        │  ??
+    0x000002        │  ??
+    ...             │  ...
+    0x0012FC0E      │  ??
+    0x0012FC0F      │  ??
+    0x0012FC10      │  ??  ← hedef bayt
+    0x0012FC11      │  ??
+    0x0012FC12      │  ??
+    ...             │  ...
+    0xFFFFFFFF      │  ??
+                    └─────────┘
+
+    Ancak yazılımsal adres bilgisi iki bileşenli bir bilgidir: Sayısal Bileşen"  ve "Tür Bileşeni".  Yazılımsal adres bilgisinin
+    "sayısal bileşeni" bellekte bir doğrusal adres, "tür" bileşeni ise o doğrusal adresteki değişken ya da değerin türünü
+    belirtmektedir
+
+                ┌──────────────────────────┐
+                │ Yazılımsal Adres Bilgisi │
+                └────────────┬─────────────┘
+                             │
+               ┌─────────────┴─────────────┐
+               │                           │
+    ┌──────────────────┐        ┌──────────────────┐
+    │  Doğrusal Adres  │        │        Tür       │
+    └──────────────────┘        └──────────────────┘
+
+    Programlama söz konusu olduğunda yalnızca bellekteki doğrusal adres yetersiz kalmaktadır. O adreste hangi türden bir bilginin
+    bulunduğunun da bir biçimde belirlenmiş olması gerekmektedir. Biz kursumuzda "adres" dendiğinde "yazılımsal adres" kavramını
+    kastetmiş olacağız.
+
+    Bir byte'tan uzun olan değişkenlerin ve değerlerin yazılımsal adresleri belirtilirken onların her byte'ının doğursal adresi
+    ayrı ayrı belirtilmez. Yalnızca onlara ilişkin en düşük doğrusal adreslerin belirtilmesi yeterlidir. Çünkü zaten değişken
+    ya da değerin byte'ları bellekte ardışıl bir biçimde bulunmaktadır. Örneğin 0012FC10 adresinde i32 türünden bir değişken
+    ya da değer bulunuyor olsun. Bu değişken ya da değerin her byte'ının ayrı bir doğrusal adresi vardır. Ancak biz yalnızca
+    onun ilk byte'ının (en düşük adresli byte'ının) adresini belirtiriz. Aşağıdaki gösterimde B0, B1, B2 ve B3 byte'ları i32
+    türünden bir değişkenin ya da değerin bellekteki byte adreslerini belirtiyor olsun.
+
+    ┌──────────┬──────┐
+    │Adres     │Bayt  │
+    ├──────────┼──────┤
+    │   ...    │  ..  │
+    │0x0012FC10│  B0  │
+    │0x0012FC11│  B1  │
+    │0x0012FC12│  B2  │
+    │0x0012FC13│  B3  │
+    │   ...    │  ..  │
+    └──────────┴──────┘
+
+    Burada bu i32 türünden değişken ya da değerini yazılımsal adresinin sayısal bileşeni için için yalnızca 0x0012FC10 doğrusal
+    adresi kullanılmaktadır.  İşlemciler de belli bir adresten başlayan belli büyüklükteki bilgiler üzerinde işlem yapabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir değişkenin ya da değerin adresi & operatörüyle elde edilmektedir. a değişkeni T türündense &a ifadesi &T türündendir
+    ve a değişkenin adresini belirtmektedir. Rust'ta & operatörü ile değişkeninin ya da değerin adresi alınırken adresin
+    değiştirilebilirliğinin de ayrıca belirtilmesi gerekmektedir. Örnğin a bir değişken olmak üzere a değişkeninin değiştirilemez
+    biçimde adresi &a biçiminde, değiştirilebilir biçimde adresi ise &mut a biçiminde alınmaktadır.
+
+    Bir değişkenin ya da değerin adresi alındığında adresin sayısal bileşeni o değişken ya da değerin bellekteki doğrusal
+    başlangıç adresinden, tür bileşeni ise o değişken ya da değerin türünden oluşmaktadır. Örneğin:
+
+    let a: i32 = 0;
+
+    Burada & operatörü ile a'nın adresi alındığında adresin sayısal bileşeni olarak değişkenin bellekteki doğrusal adresi,
+    tür bileşeni olarak da i32 türü elde edilecektir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir referansın içerisinde bir adres bulunur. Bu duruma "referansın o adresi göstermesi (ya da refere etmesi)" de denilmektedir.
+    Referansın gösterdiği yerdeki değişken ya da değere erişmek için tıpkı C'de olduğu gibi * operatörü kullanılmaktadır.
+    Buradaki * operatörü tek operand'lı önek bir operatördür. * operatörüne Rust'ta "dereference ("di:refrıns" biçiminde
+    okunuyor)" operatörü denilmektedir. (Anımsanacağı gibi bu operatöre C'de ve C++'ta "indirection" operatörü denilmektedir.)
+    Eğer r referansı &T türündense *r ifadesi de T türündendir. Örneğin:
+
+    let a:i32 = 10;
+    let r: &i32 = &a;
+
+    Burada  referansının tür bileşeni i32 türünden olduğu için *r ifadesi de i32 türündendir. *r ifadesi ile aslında a
+    değişkenşne erişilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir referansa aynı türden bir değişkenin ya da değerin adresi yerleştirilebilir. Örneğin:
+
+    let a: i32 = 10;
+    let r: &i32;
+
+    r = &a;             // geçerli
+
+    Burada r değişkeni &i32 türündendir. &a ifadesi de &i32 türündendir. Bu atama sonucunda r'nin içerisine a'nın adresi
+    yerleştirilmektedir. Bir referansa farklı türden bir değişkenin ya da değerin adresi atanamaz. Örneğin:
+
+    let a: i64 = 10;
+    let r: &i32;
+
+    r = &a;     // error!
+
+    Burada r değişkeni &i32 türündendir. Ancak bu değişkene &i64 türünden bir değer atanmak istenmiştir. i64 türünden bir
+    değişkenin adresini biz ancak &i64 türünden bir referansa atayabiliriz.
+
+    Bir referansa bir adres yerleştirildiğinde artık referans o adresteki değeri gösteriyor durumdadır. Biz de referansın
+    gösterdiği yerdeki değere * operatörüyle erişebiliriz. Örneğin:
+
+    let a: i32 = 10;
+    let r: &i32;
+
+    r = &a;
+    println!("{}", *r);     // 10
+
+    Burada r referansı a değişkeninin adresini tutmaktadır. *r ile aslında a değişkenine erişilmektedir:
+
+    r ----> a (10)
+
+    Burada a ile *r bellekte aynı değeri belirtmektedir.
+# 41. Ders 06/08/2025 - Çarşamba
+    Anımsayacağınız gibi C'de const göstericiler üç kısma ayrılmaktadır:
+
+    1) Kendisi değil gösterdiği yer const olan const göstericiler. Örneğin:
+
+    const int *pi;
+
+    2) Gösterdiği yer değil kendisi const olan const göstericiler. Örneğin:
+
+    int * const pi = adres;
+
+    3) Hem kendisi hem de gösterdiği yer const olan const göstericiler. Örneğin:
+
+    const int * const pi = adres;
+
+    Tabii C'de en çok kullanılan const göstericiler kendisi değil gösterdiği yer const olan const göstericilerdir. Zaten C'de
+    "const gösterici" denildiğinde default olarak kendisi değil gösterdiği yer const olan const göstericiler anlaşılmaktadır.
+
+    Rust'ta zaten default durumun C'deki const gibi olduğunu anımsayınız. Bu durumda Rust'ta gösterdiği yerin ve kendisinin
+    mut olup olmamasına göre referanslar şu biçimlerde bildirilmektedir. T'nin bir tür belirttiğini kabul ediyoruz:
+
+    1) Kendisi değiştirilemez (immutable) ve gösterdiği yer de değiştirilemez (immutable) olan referanslar: Bu tür referanslar
+    şöyle bildirilmektedir:
+
+    let r: &T;
+
+    Burada r'ye bir kez adres ataması yapılabilir. Ancak daha sonra ne r ne de *r değiştirilebilir. Bunun eşdeğer C karşılığını
+    şöyle ifade edebiliriz:
+
+    const T * const *r = adres;
+
+    2) Kendisi değiştirilebilir, gösterdiği yer değiştirilemez referanslar: Bu tür referanslar şöyle bildirilmektedir:
+
+    let mut r: &T;
+
+    Burada r'ye istediğimiz kadar adres ataması yapabiliriz. Ancak *r'yi değiştiremeyiz. Bunun eşdeğer C karşılığını şöyle
+    oluşturabiliriz:
+
+    const T *r;
+
+    3) Kendisi değiştirilemez, gösterdiği yer değiştirilebilir referanslar: Bu tür referanslar şöyle bildirilmektedir:
+
+    let r: &mut T;
+
+    Burada r'ye yalnızca bir kez adres ataması yapılabilir. Ancak *r istenildiği zaman değiştirilebilir. Bunun da eşdeğer
+    C karşılığı şöyle oluşturulabilir:
+
+    T * const r = adres;
+
+    4) Kendisi de gösterdiği yer de değiştirilebilir referanslar: Bu tür referanslar da şöyle bildirilmektedir:
+
+    let mut r: &mut T;
+
+    Burada hem r'ye istediğimiz kadar adres ataması hem de *r'ye istediğimiz değer ataması yapabiliriz. Bunun da eşdeğer
+    C karşılığı şöyle oluşturulabilir:
+
+    T *r;
+
+    Rust'ta let deyiminde değişkenin önündeki mut belirleyicisinin referansın kendi değiştirilebilirliğini & atomunun sağındaki
+    mut belirleyicisinin ise referansın gösterdiği yerin değiştirilebilirliğini belirttiğine dikkat ediniz. Örneğin:
+
+    let r: &mut i32;
+
+    Burada r değiştirilebilir değildir, onun gösterdiği yer değiştirilebilirdir. Örneğin:
+
+    let mut r: &i32;
+
+    Burada r değiştirilebilirdir ancak r'nin gösterdiği yer değiştirilebilir değildir.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz kursumuzda değiştirilebilir (mutable) referanslara kısaca "mut referanslar" diyeceğiz. "mut referans" terimi kursumuzda
+    referansın gösterdiği yerin mut olması durumunu belirtecektir. Benzer biçimde biz "değiştirilemez (immutable) referans"
+    terimini referansın gösterdiği yerin değiştirilemez olduğunu belirtmekte kullanacağız. Referanslaın kendilerin mut olmasını
+    biz "kendisi mut olan referans" biçiminde belirteceğiz. Örneğin
+
+    let r1: &i32;
+    let r2: &mut i32;
+    let mut r3: &i32;
+    let mut r4: &mut i32;
+
+    Kullanacağımız terminolojiye şöyledir:
+
+    - r1 kendisi de mut olmayan mut olmayan referanstır.
+    - r2 kendisi mut olmayan mut bir referanstır.
+    - r3 kendisi mut olan mut olmayan bir referanstır
+    - r4 kendisi de mut olan bir referanstı.
+
+    Kurusumuzda "mut referans" ya da "mut olmayan referans" referansın türünün mut olup olmadığını belirtecektir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir değişkenin adresi & operatörüyle alınırken değiştirilebilirliğin (mutability) açıkça belirtilmesi zorunludur.
+    Bu durum C'den geçenleri biraz yadırgatmaktadır. C'de a bir nesne belirtmek üzere &a ifadesi nesne const ise gösterdiği
+    yer const olan bir adres, nesne const değilse gösterdiği yer const olmayan bir adres belirtir. Halbuki Rust'ta değişken
+    mut bile olsa onun değiştirilebilir biçimde adresini almak için &mut operatörü kullanılmaktadır. (& ile mut bitişik yazılmak
+    zorunda değildir ancak geleneksel yazım bunların bitişik yazılması biçimindedir.) Örneğin:
+
+    let mut a: i32 = 10;
+
+    Burada a değiştirilebilir bir değişkendir. Biz bu değişkenin adresini &a biçiminde alırsak bu adres &i32 türünden olur,
+    &mut i32 türünden olmaz. Yani değişken mut olduğunda & operatörü bize değiştirilemez bir adres vermektedir. Örneğin:
+
+    let mut a: i32 = 10;
+    let r: &i32;
+
+    r =  &a;        // geçerli
+    *r = 20;        // error!
+
+    Yukarıdaki işlemin eşdeğer C karşılığı şöyledir:
+
+    int a = 10;
+    const int * const r = &a;       // geçerli
+    *r = 20;                        // geçersiz!
+
+    Burada a mut bir değişken olduğu halde adresi değiştirilemez biçimde alınmıştır. Halbuki C'de const olmayan nesnenin
+    adresi alındığında bu adres gösterdiği yer const olmayan bir adrestir. Yukarıdaki örnekte değiştirilebilir bir değişkenin
+    adresi değiştirilemez bir referansa atanmıştır. Referans değiştirilemez olduğu için *r = 20 ataması error oluşturacaktır.
+
+    Rust'ta değiştirilebilir bir değişkenin adresi & operatörüyle değiştirilebilir bir referansa atanamaz. Yani Rust'ta &T
+    türünden &mut T türüne otomatik dönüştürme (type coercion) yoktur. Örneğin:
+
+    let mut a: i32 = 10;
+    let r: &mut i32;
+
+    r =  &a         // error!
+
+    Burada &a ifadesi &i32 türündendir. Biz bu adresi &mur i32 türünden bir referansa atayamayız. Bu işlemin eşdeğer C
+    karşılığı şöyledir:
+
+    int a = 10;
+    int * const r = (const int *) &a;       // geçersiz!
+
+    Yukarıdaki örnekte bizim "değiştirilebilir bir değişkenin adresini değiştirilebilir biçimde &mut operatöryle" almamız
+    gerekirdi:
+
+    let mut a: i32 = 10;
+    let r: &mut i32;
+
+    r =  &mut a         // geçerli
+    *r = 20;            // geçerli
+
+    Bu işlemin eşdeğer C karşılığı da şöyle ifade edilebilir:
+
+    int a = 10;
+    int * const r = &a;     // geçerli
+
+    *r = 20;                // geçerli
+
+    Tabii Rust'ra mut olmayan bir değişkenin değiştirilebilir biçimde yani &mut operatöryle adresi alınamamaktadır. Örneğin:
+
+    let a = 10;
+    let r: &mut i32;
+
+    r = &mut a;         // error!
+
+    Burada a mut bir dğeişken değildir, bu nedenle adresi &mut operatörüyle alınamaz.
+
+    Rust'ta mut bir değişkenin adresi & operatörü ile ya da &mut operatörü ile mut olmayan bir referansa atanabilir. Yani
+    Rust'ta &mut T türünden &T türüne otomatik dönüştürme (type coercion)" vardır. Örneğin:
+
+    let mut a: i32 = 10;
+    let r: &i32;
+
+    r = &a;     // geçerli
+
+    Burada mut bir değişkenin adresi & operatöryle alındığı için &i32 türünden bir referans elde edilmiştir. Örneğin:
+
+    let mut a: i32 = 10;
+    let r: &i32;
+
+    r = &mut a;     // geçerli
+
+    Burada &mut i32 türünden bir refernas &i32 türünden referansa atanmıştır. Bu durum geçerlidir. mut bir referansın
+    adresinin mut olmayan bir göstericiye atanmasını C'deki const olmayan bir nesnenin adresinin gösterdiği yer const olan
+    bir göstericiye atanmasına benzetebilirsiniz. Yukarıdaki örneğin eşdeğer C karşılığı şöyledir:
+
+    int a = 10;
+    const int * const pi = &a;      // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki anlatımları aşağıdaki gibi özetleyebiliriz:
+
+    1) Rust'ta değişken mut olsun ya da olmasın değişkenin adresini & operatörüyle aldığımızda değiştirilemez bir referans
+    elde ederiz. Bolayısıyla mut bir değişkenin adresini biz & operatörüyle aldığımızda onu ancak değiştirilemez bir referansa
+    atayabiliriz.
+
+    2) mut olmayan bir değişkenin adresi &mut operatörüyle alınamaz ancak mut bir değişkenin adresi &mut operatörüyle alınabilir.
+
+    3) Rust'ta &mut T türünden bir referans otomatik olarak &T türünden referanslara dönüştürülebilmektedir.
+
+    Aslında Rust'taki referanslar C'deki göstericilere oldukça benzemektedir. Burada önemli farklılık Rust'ta değiştirilebilir
+    değişkenlerin adreslerlerinin değiştirilebilir olmayan bir biçimde alınabilmesidir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir değişkenin adresi alınacaksa değişken içerisine daha önce bir değerin atanmış olması gerekir. Örneğin:
+
+    let a: i32;
+    let r: &i32;
+
+    r = &a;                 // error!
+
+    Burada a değişkenine henüz bir değer atanmadığı için onun adresi alınamamaktadır. Halbuki bunun eşdeğer C karşılığının
+    geçerli olduğuna dikkat ediniz:
+
+    int a;
+    int * const r = &a;     // geçerli
+
+    Rust'ta içerisinde çöp değer olan bir değişkenin kullanılması yasaklanmıştır. Halbuki C'de bu durum geçerlidir ancak
+    tanımsız davranışa (undefined behavior) yol açmaktadır. Aynı durum değiştirilebilir değişkenler ve referanslar için de
+    benzerdir. Örneğin:
+
+    let mut a;
+    let r: &mut i32;
+
+    r = &mut a;     // error! a'ya henüz değer atanmamış
+---------------------------------------------------------------------------------------------------------------------------
+    Örneğin bir fonksiyon i32 türünden bir değişkenin adresini alarak onu değiştirecek olsun. Bu durumda fonksiyonun parametre
+    değişkeninin &mut i32 türünden olması gerekir. Değişkenin adresini de fonksiyona gönderirken &mut operatörüyle almalıyız.
+    Örneğin:
+
+    fn foo(a: &mut i32) {
+        *a = 20;
+    }
+
+    fn main() {
+        let mut a: i32 = 10;
+
+        println!("{}", a);      // 10
+
+        foo(&mut a);            // geçerli
+
+        println!("{}", a);      // 20
+    }
+
+    Yukarıdaki örnekte biz a'ya değer atamadan onun adresini fonksiyona geçemezdik:
+
+    let mut a: i32;
+
+    foo(&mut a);            // error!
+
+    Yukarıda da belirttiğimiz gibi Rust'ta bir değişkenin adresinin alınabilmesi için ona değer atanmış olması gerekir.
+---------------------------------------------------------------------------------------------------------------------------
+    Bir referansı * operatörü olmadan kullandığımızda biz referansın içerisindeki adresi kullanmış oluruz. Örneğin:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+
+    Burada r değişkenini kullandığımızda aslıda r'nin içerisindeki adresi kullanmış oluruz. Ancak *r bu adresin gösterdiği
+    yerdeki değerdir. Yani *r ifadesini kullanmakla a'yı kullanmak arasında işlevsel bir farklılık yoktur. Biz r'yi aşağıdaki
+    gibi bir k değişkenine atamış olalım:
+
+    k = r;
+
+    Burada k'nın türü &i32 olmalıdır:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+    let k: &i32;
+
+    k = r;
+
+    Bu bakımdan sematik C'deki gibidir. C'de de biz bir göstericiyi * operatörü olmadan kullandığımızda içerisindeki adresi
+    kullanmış oluruz.
+---------------------------------------------------------------------------------------------------------------------------
+    C'de sağ taraf değeri belirten ifadelerin adresleri alınamaz. C'deki bir ifadenin adresinin alınabilmesi için o ifadenin
+    nesne belirtmesi yani sol taraf değeri olması gerekir. Ancak Rust'ta sabitlerin ve yer belirtmeyen ifadelerin de (Rust'ta
+    bu tür ifadelere "değer ifadeleri (value expressions)" dendiğini anımsayınız) adresleri alınabilmektedir. Rust bu bakımdan
+    C'ye benzememektedir. Örneğin:
+
+    let r: &i32;
+
+    r = &10;        // Rust'ta geçerli, ancak C karşılığı geçersiz!
+
+    Pekiyi 10 sabitinin bir adresi olmadığına göre r'ye hangi adres yerleştirilmektedir? İşte Rust'ta bu durumda derleyici
+    tarafından önce aynı türden geçici bir değişken yaratılır, ifadenin değeri bu geçici değişkene atanır sonra da geçici
+    değişkenin adresi referansa yerleştirilir. Yani yukarıdaki işlemin eşdeğeri şöyledir:
+
+    let r: &i32;
+
+    let temp: i32 = 10;
+    r = &temp;
+
+    Aşağıdaki gibi bir ifade de Rust'ta geçerlidir:
+
+    let r: &i32;
+
+    r = &(10 + 20);        // geçerli
+
+    Yine 10 + 20 değeri bir geçici değişkene atanıp o geçici değişkenin adresi referansa yerleştirilmektedir.
+
+    Değer ifadelerinin adresi alındığında oluşturulan geçici değişkenin ömrü referansın ömrü kadar olur. (Aslında Rust'taki
+    bu durum C++'taki const referanslara ya da sağ taraf değeri referanslarına (rvalue references) sağ taraf değerleriyle
+    ilkdeğer verilmesindeki semantiğe çok benzemektedir.)
+
+    Rust'ta değer ifadesinin mut olarak adresi alınamamaktadır. Örneğin:
+
+    let r: &mut i32;
+
+    r = &mut 10;        // error!
+
+    Yani bu tür durumlarda yaratılan geçici değişken değiştirilebilir değildir.
+
+    Ancak bu işlem let ile bağlama sırasında sırasında yapılırsa kalıp uyuşumu kuralları işletildiği için geçerli olmaktadır:
+
+    let r: &mut i32 = &mut 10;
+
+    Tabii fonksiyon çağrısı bir bağlama kabul edildiği için (yani kalıp uyuşumu söz konusu olduğu için) bir değer ifadesinin
+    adresi &mut olarak alınıp fonksiyonu gönderilebilmektedir. Örneğin:
+
+    fn foo(r: &mut i32) {
+        //...
+    }
+    //...
+
+    foo(&mut 10);       // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+    İki değişkenin içerisindeki değeri yer değiştiren swap isimli fonksiyon şöyle yazılabilir:
+
+    fn main() {
+        let mut x = 10;
+        let mut y = 20;
+
+        println!("x = {}, y = {}", x, y);
+        swap(&mut x, &mut y);
+        println!("x = {}, y = {}", x, y);
+    }
+
+    fn swap(a: &mut i32, b: &mut i32) {
+        let temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Biz enum'lar ve yapılar konusunda o zamanlar henüz görmemiş olsak da referansları kullanmıştık. Burada yeniden enum'lar
+    ve yapılar türünden referansların üzerinde daha ayrıntılı duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Yapılar bileşik nesneler belirtmektedir. Bir yapı değişkeninin adresi alındığında o yapı değişkeninin bütünsel olarak
+    bellekteki başlangıç adresi elde edilmektedir. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    Date türünden bir değişken bildirelim:
+
+    let date = Date { day: 10, month: 12, year: 1998 };
+
+    Burada derleyicici Date yapısınn alanlarını bellekte ardışıl bir biçimde yerleştirecektir. Dolayısıyla &date ifadesi ile
+    biz bu ardışıl alanların başlangıç adresini elde ederiz:
+
+    let rdate: &Date;
+
+    rdate = &date;
+
+    Derleyici bu adresten itibaren yapı alanlarının nerelerde olduğunu tespit edebilmektedir. Anımsanacağı gibi C'de bir yapı
+    nesnesinin kendisi ile o nesnenin elemanlarına erişilirken nokta operatörü, yapı nesnesinin adresi ile yepı elemanlarına
+    erişilirken ok operatörü kullanılmaktadır. C'de ps->a ifadesinin (*ps).a ifadesi ile eşdeğer olduğunu anımsayınız. Ancak
+    Rust'ta C'deki gibi bir ok operatörü yoktur. Yapı türünden değişken ya da değerin kendisiyle de adresiyle de yapının
+    alanlarına nokta oeratörü ile erişilmektedir. Başka bir deyişle Rust derleyicisi nokta operatörünün sol tarafındaki operand'a
+    bakmakta, bu operand yapı türünden bir değişkenin ya da değerin adresi ise o adresteki yapı değerinin alanına erişmektedir.
+    (Tabii aslında aynı emantik C'de uygulanabilirdi. Ancak C bunu tercih etmemiştir.) Örneğin:
+
+    let date = Date { day: 10, month: 12, year: 1998 };
+    let rdate: &Date = &date;
+
+    println!("{}/{}/{}", rdate.day, rdate.month, rdate.year);
+
+    Bu kod parçasının eşdeğer C karşılığı şöyle oluşturulabilir:
+
+    struct Date date = {10, 12, 1998};
+    const struct Date * const r = &date;
+
+    printf("%d/%d/%d\n", r->day, r->month, r->year);
+
+    Burada rdate değişkeni &Date türünden olduğu halde (yani bir yapı adresi belirttiği halde) elemanlara yine nokta operatörüyle
+    erişilmektedir. Tabii Rust'ta da eğer istersek tıpkı C'de olduğu gibi önce * operatörü ile yapı değişkenine bütünsel
+    olarak erişip yine nokta operatörü ile onun elemanlarına erişebiliriz:
+
+    println!("{}/{}/{}", (*rdate).day, (*rdate).month, (*rdate).year);      // geçerli
+
+    Ancak Rust'ta böyle bir erişime hiç gerek yoktur. r bir yapı türünden referans a da bu yapının bir alanını belirtmek
+    üzere Rust'ta r.a ifadesi ile (*r).a ifadesi tamamen eşdeğerdir.
+---------------------------------------------------------------------------------------------------------------------------
+    Yapılar konusunda da bahsetmiştik. Bir yapı değişkeni ya da değeri fonksiyonlara tipik olarak adres yoluyla aktarılmaktadır.
+    Fonksiyonun paramatresi yapı türünden bir referans ya da mut referans olur. Fonksiyon da yapı değişkenin ya da değerinin
+    adresiyle çağrılır. Örneğin:
+
+    fn main() {
+        let pt: Point = Point { x: 10, y: 20 };
+
+        disp(&pt);
+    }
+
+    fn disp(pt: &Point) {
+        println!("{}, {}", pt.x, pt.y)
+    }
+
+    struct Point  {
+        x: i32,
+        y: i32
+    }
+
+    Fonksiyon içerisinde referans yoluyla yapının alanlarına nokta operatörüyle erişildiğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir yapı türünden değer ifadesi oluşturulup onun adresi de alınabilir. Örneğin:
+
+    let r: &Point = &Point{ x: 10, y: 20 };       // geçerli
+
+    println!("{}, {}", r.x, r.y);
+
+    Burada yine geçici bir Point değişkeni yaratılıp onun adresi referansa atanmaktadır. Bu geçici Point değişkeni referans
+    faaliyet alanını bitirdiğinde yok edilecektir. Tabii aynı şey fonksiyon çağrılarında da yapılabilir:
+
+    fn main() {
+        disp(&Point { x: 10, y: 20 });
+        //...
+    }
+
+    fn disp(pt: &Point) {
+        println!("{}, {}", pt.x, pt.y)
+    }
+
+    struct Point  {
+        x: i32,
+        y: i32
+    }
+
+    Burada yaratılan geçici değişken fonksiyonun çağrısının sonunda (yani r referansı faaliyet alanını bitirdiğinde) yok
+    edilecektir. Yukarıda da sözünü ettiğimiz gibi eğer değer ifadesinin adresi &mut ile alınıyorsa ancak bağlama yapılırken
+    atama mümkün olmaktadır. Örneğin:
+
+    let r: &mut Point;
+
+    r = &mut Point{ x: 10, y: 20 };       // error!
+
+    Ancak örneğin:
+
+    let r: &mut Point = &mut Point{ x: 10, y: 20 };       // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+    Yapıların metotları çağrılırken eğer self parametresi referans ise (genellikle böyle olur) nokta operatöryle metot
+    çağrılırken zaten yapı değişkenin ya da değerinin adresi otomatik olarak alınmaktadır. Programcının ayrıca & ya da &mut
+    operatörünü kullanmasına gerek yoktur. Örneğin:
+
+    struct Date {
+        day: u32,
+        month: u32,
+        year: u32,
+    }
+
+    impl Date {
+        fn disp(&self) {
+            println!("{}/{}/{}", self.day, self.month, self.year);
+        }
+    }
+
+    Biz burada Date türünden bir değişkenle disp metodunu aşağıdaki gibi çağırmış olalım:
+
+    let date = Date { day: 10, month: 12, year: 1998 };
+
+    date.disp();
+
+    Derleyici burada date değişkeninin adresini alarak disp metodunun self referans parametresine yerleştirmektdir.
+    Metot içerisinde self.day, self.month ve self.year ifadeleri ile referansın gösterdiği yer olan date değişkenin
+    alanlarına erişilmektedir.
+
+    Bir yapı türünden referansla yapının metodu da yine nokta operatörüyle çağrılmaktadır. Rust derleyicisi metot çağrımında
+    nokta operatörünün solunda yapı türünden referans varsa artık onun adresini almaz, onun içerisindeki adres değerini
+    doğrudan self referansına yerleştirir. Örneğin:
+
+    let date = Date { day: 10, month: 12, year: 1998 };
+    let rdate: &Date = &date;
+
+    rdate.disp();
+
+    Burada disp metodu Date türünden değişkenle değil referansla çağrılmıştır. Derleyici artık rdate değişkenin adresini
+    almayacaktır. Çünkü rdate zaten adres belirtmektedir. Doğrudan rdate referansının içerisindeki adresi disp metodunun self
+    referansına yerleştirecektir. Tabii çağrım yine C'deki gibi önce * operatörüyle değişkenin bütününe erişip sonra nokta
+    operatörü kullanılarak da yapılabilirdi. Ancak Rust'ta buna hiçgerek yoktur:
+
+    (*rdate).disp();        // geçerli fakat gereksiz
+---------------------------------------------------------------------------------------------------------------------------
+    Biz metotların birinci parametrelerinin &mut self biçiminde de olabileceğini belirtmiştik. Bir metot onun çağrıldığı yapı
+    değişkeni ya da değeri üzerinde değişiklik yapacaksa metodun birinci parametresi &mut self biçiminde olmalıdır. s bir yapı
+    türünden değişken ya da değeri foo da bu yapının bir metodunu belirtiyor olsun. s.foo() biçiminde bir çağrımda eğer foo
+    metodunun birinci parametresi &self biçimindeyse derleyici s'in adresini & operatörü ile eğer foo metodunun birinci
+    parametresi &mut self biçimindeyse derleyici s'in adresini &mut operatörü ile alıp self parametresine atamaktadır.
+
+# 42. Ders 11/08/2025 - Pazartesi
+
+    Örneğin aşağıdaki gibi bir Point yapısı olsun:
+
+    struct Point  {
+        x: i32,
+        y: i32
+    }
+
+    Bu Point yapısı için aşağıdaki gibi impl bloğu oluşturmuş olalım:
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Point {
+            Point { x, y }
+        }
+
+        fn set(&mut self, x: i32, y: i32) {
+            self.x = x;
+            self.y = y;
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Byrada disp metodunun ilk parametresinin &self biçiminde, set metodunun ilk parametresinin de &mut self biçimine olduğuna
+    dikkat ediniz. Şimdi bu metotları çağıralım:
+
+    let mut pt = Point::new(10, 20);
+
+    pt.disp();      // 10, 20
+
+    Burada disp metodunun birinci parametresi &self olfuğu için derleyici pt'nin & operatörüyle adresini alarak self değişkenine
+    yerleştirecektir. Ancak örneğin:
+
+    pt.set(30, 40);
+
+    Burada set metodunun birinci parametresi &mut self olduğu için derleyici pt değişkeninin adresini &mut operatöryle alarak
+    self parametresine yerleştirecektir. Tabii burada bu çağrının mümkün olması için pt değişkeninin de mut olması gerekir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut pt = Point::new(10, 20);
+
+    pt.disp();      // 10, 20
+
+    pt.set(30, 40);
+
+    pt.disp();      // 30, 40
+}
+
+struct Point  {
+    x: i32,
+    y: i32
+}
+
+impl Point {
+    fn new(x: i32, y: i32) -> Point {
+        Point { x: x, y: y }
+    }
+
+    fn set(&mut self, x: i32, y: i32) {
+        self.x = x;
+        self.y = y;
+    }
+
+    fn disp(&self) {
+        println!("{}, {}", self.x, self.y);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    &, &mut ve * operatörleri öncelik tablosunda artimetik operatörlerin ve as operatörünün yukarısında sağdan sola grupta
+    bulunmaktadır:
+
+    ()                                      Soldan Sağa
+    - ! * & &mut                            Sağdan Sola
+    as                                      Soldan Sağa
+    * /  %                                  Soldan Sağa
+    + -                                     Soldan Sağa
+    <<  >>                                  Soldan Sağa
+    &                                       Soldan Sağa
+    ^                                       Soldan Sağa
+    |                                       Soldan Sağa
+    < > >= <= == !=                         Parantezsiz Kombine Edilemez
+    &&                                      Soldan Sağa
+    ||                                      Soldan Sağa
+    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+
+    Bu durumda örneğin &10 + 20 ifadesi error oluşturacaktır. Çünkü & operatörü + operatöründen daha yüksek önceliklidir.
+    Ancak &(10 + 20) ifadesi geçerlidir. Benzer biçimde örneğin r referansı &i32 türünden olsun *r + 10 gbi bir ifade geçerlidir.
+    Burada r referansının gösterdiği yerdeki i32 değeriyle 10 toplanmıştır. Benzer biçimde &*r ifadesi de geçerlidir. Bu
+    ifadedeki her iki operand da sağdan sola öncelikli gruptadır. Dolayısıyla önce r referansının gösterdiği yerdeği değere
+    erişilir sonra onun adresi alınır. Tabii &*r ifadesi ile r tamamen eşdeğerdir. Örneğin a bir değişken ya da değer belirtmek
+    üzere *&a ifadesi de geçerlidir. Burada önce a'nın adresi alınıp sonra o adresteki değere erişilmektedir. Tabii bu ifade
+    a ile eşdeğerdir.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta kalıp uyuşumunda "referans kalıbı (reference pattern)" denilen bir kalıp da vardır. Biz de bu noktada referans
+    kalıbı üzerinde durmak istiyoruz.
+
+    Eğer let deyimindeki kalıpta türü belirtilmeyen bir değişken varsa ve bağlama ifadesi bir adres belirtiyorsa kalıptaki
+    değişken o adres türünden olur. Örneğin:
+
+    let a: i32 = 10;
+    let r = &a;
+
+    Burada r değişkeni &i32 türündendir. Yani bu bağlama aşağıdakiyle eşdeğerdir:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+
+    Eğer adres mut ise bu durumda referans da mut olacaktır. Örneğin:
+
+    let mut a: i32 = 10;
+    let r = &mut a;
+
+    Burada r değişkeni &mut i32 türündendir. Yani yukarıdaki bağlama aşağıdakiyle eşdeğerdir:
+
+    let mut a: i32 = 10;
+    let r: &mut i32 = &mut a;
+---------------------------------------------------------------------------------------------------------------------------
+    Eğer kalıp &değişken biçimindeyse kalıp ifadesinin bir adres belirtmesi gerekir. Bu durumda değişken bir referans olmaz
+    kalıp ifadesindeki referansın tür bileşeni türünden olur. Örneğin:
+
+    let a: i32 = 10;
+    let &b = &a;
+
+    Burada b değişkeni &i32 türünden değildir i32 türündendir. Yani aslında bu bağlama aşağıdakiyle eşdeğerdir:
+
+    let b: i32 = a;
+
+    Burada siz kalıptaki ve kalıp ifadesindeki & operatörlerlerinin birbirini götürdüğünü düşünebilirsiniz. Tabii yukarıda
+    da belirttiğimiz gibi eğer kalıptaki değişkenin önünde & varsa bu durumda kalıp ifadesinin de adres belirtmesi gerekir.
+    Örneğin:
+
+    let a: i32 = 10;
+    let &b = a;         // error!
+
+    Bu biçimdei kalıp uyuşumu match ve if let deyimlerinde de aynı biçimde geçerlidir. Örneğin:
+
+    let a: i32 = 10;
+
+    match &a {
+        &b => println!("b = {}", b)     // b burada i32 türünden
+    }
+
+    Tabii kalıpta & ile bir değişken kullanıldığında match ifadesinin (yani kalıp ifadesinin) de yine adres belirtmesi gerekmektedir.
+
+    Fonksiyon çağrılarında türün belirtilmesi zorunlu olduğu için türün de referans olması gerekmektedir. Örneğin:
+
+    fn foo(&a: &i32) {           // geçerli, a i32 türündendir
+        //...
+    }
+
+    Fonksiyon içerisinde a i32 türündendir. Tabii burada foo fonksiyonu i32 türünden bir değişkenin ya da değerin adresi ile
+    çağrılmalıdır.
+---------------------------------------------------------------------------------------------------------------------------
+    Referans kalıpları yapılarda ve enum türlerinde de benzer biçimlerde kullanılabilmektedir. Eğer kalıp ifadesi bir adres
+    belirtiyorsa ancak kalıptaki yapı isminin solunda & operatörü yoksa bu durumda yapı alanlarına ilişkin değişkenler referans
+    belirtirler. Örneğin:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match &pt {
+        Point { x, y } => { println!("{}, {}", *x, *y)}
+    }
+
+    Burada x ve y değişkenleri &i32 türündendir. Eğer kalıptaki yapı isminin solunda & operatörü varsa bu durumda yapı alanlarına
+    ilişkin değişkenler referans belirtmezler. Örneğin:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match &pt {
+        &Point { x, y } => { println!("{}, {}", x, y)}
+    }
+
+    Burada x ve y i32 türündendir. Tabii bu kalıbı benzer biçimde let deyiminde de kullanabilirdik:
+
+    let pt = Point { x: 10, y: 20 };
+    let &Point {x, y} = &pt;
+
+    Tabii yukarıda da belirttiğimiz gibi eğer kalıpta & varsa kalıp ifadesinin de adres belirtmesi gerekir. Örneğin:
+
+    let pt = Point { x: 10, y: 20 };
+    let &Point {x, y} = pt;         // error
+
+    Burada kalıp ifadesi adres belirtmediği için error oluşacaktır. Halbuki bunun tersinin geçerli olduğuna dikkat ediniz.
+    Yani kalıpta & olmadığı halde kalıp ifadesi adres olabilmektedir:
+
+    let pt = Point { x: 10, y: 20 };
+    let Point { x, y } = &pt;         // geçerli
+
+    Burada x ve y &i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Kalıpta yapı alanlarında & kullanılabilir. Ancak bu durumda alanların da referans türünden olması gerekir. Örneğin
+    Point { x: &a, y: &b } gibi bir kalıbın uygulanabilmesi için Point yapısının x ve y alanlarının &i32 türünden olması
+    gerekir. Aşağıdaki kalıp bağlaması geçerli değildir. Örneğin:
+
+    let pt = Point { x: 10, y: 20 };
+    let Point { x: &a, y: &b } = &pt;         // error!
+
+    Yukarıda da belirttiğimiz gibi eğer yapı alanlarında & kullanılıyorsa kalıp ifadesinin değil alanların adres belirtmesi
+    gerekir. Ancak yapı alanların referans  olması durumunda yapı alanlarına bir ömür bilgisi de iliştirilmelidir. Biz henüz
+    bu konuyu görmedik. Ancak burada bir örnek vermek isttiyoruz. Aşağıdaki gibi yapı tanımlaması Rust'ta geçerli değildir:
+
+    struct Point {
+        x: &i32,
+        y: &i32,
+    }
+
+    Burada yapı alanları için bir ömür belirlemesinin yapılması gerekir. Örneğin:
+
+    struct Point<'a> {
+        x: &'a i32,
+        y: &'a i32,
+    }
+
+    Şimdi artık yapının alanları adres belirtmektedir. Aşağıdaki kalıp geçerlidir:
+
+    let pt = Point { x: &10, y: &20 };
+    let Point { x: &a, y: &b } = pt;
+
+    Buradaki a ve b değişkenleri i32 türündendir. Rust'a alanlarda & atomu ile kalıp oluşturulmuşsa alan isminin belirtilmesi
+    gerekmektedir. Yani alanlarda & atomu varsa alanlar için kısa yol sentaksı kullanılamamaktadır. Aşağıdaki kalıp geçerli
+    değildir:
+
+    let pt = Point { x: &10, y: &20 };
+    let Point { &x, &y } = pt;                    // error
+
+    Bunun yerine aşağıdaki kalıp kullanılmalıdır:
+
+    let pt = Point { x: &10, y: &20 };
+    let Point { x: &x, y: &y } = pt;              // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+    Referans kalıplarında ref anahtar sözcüğü de kullanılabilmektedir. Bu ref anahtar sözcüğünün işlevi Rust'ı yeni öğrenelerde
+    biraz kafa karıştırıcı olabilmektedir. Aşağıdaki gibi bir kalıbın geçerli olmadığını belirtmiştik:
+
+    let a: i32 = 10;
+    let &r = a;         // error!
+
+    Kalıpta & varsa kalıp ifadesinin de adres belirtmesi gerekir. Oysa biz bazen kalıp ifadesi adres belirtmediği halde
+    kalıptaki değişkenin referans olmasını isteyebiliriz. Bunu yukarıdaki biçimde yapamadığımızı görüyorsunuz. İşte bu işlem
+    ancak değişkenin önüne ref anahtar sözcüğü getirilerek yapılabilmektedir. Örneğin:
+
+    let a: i32 = 10;
+    let ref r = a;         // gçerli
+
+    Artık burada a'nın adresi r referansına yerleştirilecektir. Burada artık r değişkeni &i32 türündendir. Yapılarda da bu ref
+    anahtar sözcüğü özellikle yapı alanlarında benzer biçimde kullanılmaktadır. Örneğin:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match pt {
+        Point { ref x, ref y } => println!("x: {}, y: {}", *x, *y),
+    }
+
+    Burada match ifadesinin (yani kalıp ifadesinin) adres belirtmediğine dikkat ediniz. Ancak x ve y alanları artık referans
+    belirtmektedir. Yani örneğimizde x ve y değişkenleri &i32 türündendir. Aşağıdaki kalıbın geçerli olmadığını belirtmiştik:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match pt {
+        Point { x: &x, y: &y } => println!("x: {}, y: {}", *x, *y),       // error!
+    }
+
+    Yukarıda da belirttiğimiz gibi bu kalıbın geçerli olabilmesi için Point yapısının x ve y alanlarının adres belirtmesi
+    gerekir.
+
+    Tabii yapının bazı alanları için ref kullanılıp bazıları için kullanılmayabilir. Öneğin:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match pt {
+        Point { ref x, y } => println!("x: {}, y: {}", *x, y),
+    }
+
+    Burada x değişkeni &i32 türünden, y değişkeni ise i32 türündendir. Aşağıdaki kalıp geçerlidir:
+
+    let pt = Point { x: 10, y: 20 };
+
+    match &pt {
+        &Point { ref x, y } => println!("x: {}, y: {}", *x, y),
+    }
+
+    Burada kalıpta & olduğu için match ifadesinin adres belirtmesi zorundadır. Bu iki & operatörünün birbirini götüreceğini
+    düşünebilirsiniz. Bu durumda bu kalıp öncekiyle tamamen aynı olacaktır. Yani bu kalıptda da x değişkeni &i32 türünden,
+    y değişkeni ise i32 türündendir.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz diziler konusunda dilim referanslarını görmüştük. Dilim referansları T bir tür belirtmek üzere &[T] biçiminde belirtiliyordu.
+    Anımsanacağı gibi dilim referanslarına Rust'ta "şişman göstericiler (fat pointers)" de deniliyordu. Dilim referansları
+    aslında bir adres ve bir uzunluk belirtiyordu. Dilim referanslarına dilimlerin adreslerinin atandığını anımsayınız. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let r = &a[3..7];
+
+    Burada r değişkeni &[i32] tründendir. Bu değişken aslında iki parçadan oluşmaktadır: Dilimin başlangıç adresi ve uzunluğu.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta for döngülerinin de kalıp uyuşumu ile çalıştığını anımsayınız. Örneğin:
+
+    fn main() {
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        let r = &a[3..7];
+
+        for val in r {
+            print!("{} ", val);
+        }
+    }
+
+    Burada val değişkeni &i32 türündendir. Yani döngü her yinelendiğinde aslında dilimin bir elemanının adresi elde edilmektedir.
+    O halde biz for döngüsündeki kalıpta da & atomunu kullanabiliriz. Örneğin:
+
+    for &val in r {
+        print!("{} ", val);
+    }
+
+    Burada artık val &i32 türünden değil i32 türündendir. Yani iteratör her dolaşımda bize bir deilimin adresini verecek ancak
+    derleyici bu adresin gösterdiği yeri val değişkenine atayacaktır.
+
+    Tabii biz for döngüsündeki kalıpta ref anahtar sözcüğünü de kullanabiliriz. Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    for val in a {
+        print!("{} ", val);
+    }
+
+    Anımsanacağı gibi burada val değişkeni i32 türündendir. Ancak siz dizi elemanın adresini elde etmek istiyorsanız ref
+    kalıbını kullanabilirsiniz:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let r = &a[3..7];
+
+    for ref val in a {
+        print!("{} ", val);
+    }
+
+    Artık buradaki val değişkeni i32 türündendir. Döngünün her inelenmesinde dizi elemanın adresi elde edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+
+
