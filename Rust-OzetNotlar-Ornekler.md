@@ -18,15 +18,15 @@
 
     Rust çeşitli programlama dillerinden ilham alınarak tasarlanmıştır. Rust'ı etkileyen programlama dilleri şunlardır:
 
-    - C/C++
-    - ML / OCaml
-    - Erlang
-    - Scheme
-    - Haskell
-    - Go
-    - Swift
-    - Kotlin
-    - Python
+        - C/C++
+        - ML / OCaml
+        - Erlang
+        - Scheme
+        - Haskell
+        - Go
+        - Swift
+        - Kotlin
+        - Python
 
     Rust'ın temel bir kütüphanesi vardır. Ayrıca zamanla kendine özgü bir ekosistem de oluşmuştur. Bu ekosistemde Rust
     programcıları kendi çalışmalarını başkalarıyla paylaşmaktadır. Dolayısıyla daha spesifik gereksinimler için "crates.io"
@@ -61,19 +61,19 @@
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ın versiyonlarının tarihsel gelişimi şöyledir:
 
-    2006: Rust geliştirilmesine başlandı.
-    2009: Mozilla, Rust projesini desteklemeye başladı.
-    2010: İlk bootstrap (ön-yükleme) derleyicisi yayımlandı.
-    2012: Rust’un kendini derleyen (self-hosted) derleyicisinin alfa sürümleri (örneğin, 0.3 alfa) yayımlandı.
-    Mayıs 2015: Rust 1.0 stabil sürümü piyasaya sürüldü; dil, artık üretim ortamında kullanılmaya hazır hale geldi.
-    Temmuz 2016: 1.10 sürümü piyasaya sürüldü.
-    Ağusatos 2017: 1.20 sürümü piyasaya sürüldü
-    Ekim 2018: 1.30 sürümü piyasaya sürüldü.
-    Aralık 2019: 1.40 sürümü piyasaya sürüldü.
-    Şubat 2021: 1.50 sürümü piyasaya sürüldü.
-    Nisan 2022: 1.60 sürümü piyasaya sürüldü.
-    Temmuz 2023: 1.70 sürümü piyasaya sürüldü.
-    Temmuz 2024: 1.80 sürümü piyasaya sürüldü.
+        2006: Rust geliştirilmesine başlandı.
+        2009: Mozilla, Rust projesini desteklemeye başladı.
+        2010: İlk bootstrap (ön-yükleme) derleyicisi yayımlandı.
+        2012: Rust’un kendini derleyen (self-hosted) derleyicisinin alfa sürümleri (örneğin, 0.3 alfa) yayımlandı.
+        Mayıs 2015: Rust 1.0 stabil sürümü piyasaya sürüldü; dil, artık üretim ortamında kullanılmaya hazır hale geldi.
+        Temmuz 2016: 1.10 sürümü piyasaya sürüldü.
+        Ağusatos 2017: 1.20 sürümü piyasaya sürüldü
+        Ekim 2018: 1.30 sürümü piyasaya sürüldü.
+        Aralık 2019: 1.40 sürümü piyasaya sürüldü.
+        Şubat 2021: 1.50 sürümü piyasaya sürüldü.
+        Nisan 2022: 1.60 sürümü piyasaya sürüldü.
+        Temmuz 2023: 1.70 sürümü piyasaya sürüldü.
+        Temmuz 2024: 1.80 sürümü piyasaya sürüldü.
 
     Kursun başladığı sırada en son stabil versiyonu 1.85'tir ve Ocak 2025'te piyasaya sürülmüştür.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -84,14 +84,14 @@
 
     Rust'ın üç önemli resmi (formal) dokümanı vardır.
 
-    1) The Rust Reference (https://doc.rust-lang.org/reference/index.html)
-    2) The Rust Standard Library (https://doc.rust-lang.org/std/index.html)
-    3) The Rustonomicon (https://doc.rust-lang.org/nomicon/index.html)
+        1) The Rust Reference (https://doc.rust-lang.org/reference/index.html)
+        2) The Rust Standard Library (https://doc.rust-lang.org/std/index.html)
+        3) The Rustonomicon (https://doc.rust-lang.org/nomicon/index.html)
 
     "The Rust Reference" dokümanı programlama dilinin resmi (formal) açıklamasını içermektedir. Yani bu doküman adeta Rust
     Programalama Dilinin standart dokümanı gibi düşünülmelidir. Ancak bu tür referans dokümanlarını oluşturmak kolay değildir.
     Dolayısıyla kursun yapıldığı tarihlerde bu dokümanda boşluklar da vardır. "The Rust Standard Library" dokümanları Rust'ın
-    standart  kütüphanesini açıklamaktadır. "The Rustonomicon" dokğmanları ise Rust'ta unsafe özellikler ve unsafe kodların
+    standart  kütüphanesini açıklamaktadır. "The Rustonomicon" dokümanları ise Rust'ta unsafe özellikler ve unsafe kodların
     oluşturulmasına ilişkin bilgiler içermektedir. Ayrıca Rust'ın resmi sitesinde "tutorial" biçiminde "The Rust Programming
     Language" isimli bir kitap da bulunmaktadır. Bu kitap aynı zamanda basılı biçimde de kitapçılarda satılmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -102,13 +102,13 @@
     sistemlerinde ve macOS sistemlerinde kurulum işlemi "sh.rustup.rs" bir shell script tarafından yapılmaktadır. Bu sistemlerde
     tek yapılacak şey aşağıdaki komutu komut satırına yazıp ENTER tuşuna basmaktır:
 
-    $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
     rustup bir konsol programı gibi çalışmaktadır. Program çalıştırıldığında bir seçenek menüsü çıkartır. Kurulumu kendisi
     yapar. Bu kurulum yapıldığında PATH çevre değişkeni otomatik olarak güncellenmektedir. Dolayısıyla bir terminal açıldığında
     rust derleyicisi ve cargo gibi araçlar çalıştırılabilmektedir. Kurulum için aşağıdaki bağlantıyı kullanabilirsiniz:
 
-    https://www.rust-lang.org/tools/install
+        https://www.rust-lang.org/tools/install
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi de "Hello world" programının nasıl derlenerek çalıştırılacağını görelim. Rust'ın derleyicisi diğer derleyicilerde
     olduğu gibi bir konsol uygulaması biçiminde yazılmıştır. Derleyici programın ismi "rustc" biçimindedir. Bunun için önce
@@ -116,22 +116,22 @@
     dosyalarının doğal uzantıları ".rs" biçimindedir. Aşağıdaki programı herhangi bir text editörde yazarak "sample.rs"
     biçiminde save edelim:
 
-    fn main() {
-        println!("Hello world");
-    }
+        fn main() {
+            println!("Hello world");
+        }
 
     Rust kaynak dosyalarının UNICODE UTF-8 kodlamasıyla oluşturulmuş olması gerekmektedir. Yani Rust derleyicisi kaynak kodun
     bu kodlama biçimine sahip olduğunu varsaymaktadır.
 
     Derleme oldukça basittir. Derlenecek program dosyası rustc derleyicisine komut satırı argümanı olarak verilir:
 
-    rustc sample.rs
+        rustc sample.rs
 
     Bu işlemle önce kaynak dosya derlenecek sonra link edilerek çalıştırılabilen dosya oluşturulacaktır. Windows sistemlerinde
     komut satırında doprundan dosya ismini yazarak programı çalıştırabilirsiniz. UNIX/linux ve macOS sistemlerinde çalıştırma
     aşağıdaki gibi yapılmalıdır:
 
-    $ ./sample
+        $ ./sample
 
     Rust'ı Windows'a yüklediğimizde rustc default durumda link işlemi için Microsoft'un "link.exe" programını kullanmaktadır.
     Dolayısıyla Windows sistemlerinde MSVC araçlarının yüklü olması gerekir. Kurulum sırasında "rustup" programı bu
@@ -143,19 +143,19 @@
 
     Link işlemini yapmadan yalnızca amaç dosya oluşturmak için "--emit=obj" seçeneği kullanılmaktadır. Örneğin:
 
-    rustc --emit=obj sample.rs
+        rustc --emit=obj sample.rs
 
     Bu işlemle "sample.o" isminde bir amaç dosya oluşturulacaktır. Ancak link işlemi yapılmayacaktır.
 
-    Tıpkı gcc ve clang derleyeicilerinde olduğu gibi "-o <hedef_dosya_ismi>" seçeneği ile hedef dosyaya istenilen bir isim
+    Tıpkı gcc ve clang derleyicilerinde olduğu gibi "-o <hedef_dosya_ismi>" seçeneği ile hedef dosyaya istenilen bir isim
     verilebilmektedir. Örneğin:
 
-    rustc -o project.exe sample.rs
+        rustc -o project.exe sample.rs
 
     Burada artık Winodws'ta çalıştırılabilen dosya "sample.exe" isminde değil "project.exe" isminde olacaktır. Tabii UNIX/Linux
     ve macOS sistemlerinde çalıştırılabilen dosyaların belli bir uzantısı yoktur. Aynı işlem bu sistemlerde şöyle yapılabilir:
 
-    rustc -o project sample.rs
+        rustc -o project sample.rs
 
 
 # 3. Ders 03/03/2025 - Pazartesi
@@ -169,7 +169,7 @@
 
     Rust dünyasında çalıştırılabilir bir dosya ya da bir kütüphane dosyası elde etmek için oluşturulmuş olan bir ya da birden
     fazla Rust kaynak dosyasına "crate" denilmektedir. Crate "derlendiğinde çalıştırılabilir dosya elde edilecek olan bir ya da
-    birden Rust kaynak dosyasını" belirtebileceği gibi "derlendiğinde bir kütüphane oluşturan bir ya da birden fazla Rust kaynak
+    birden fazla Rust kaynak dosyasını" belirtebileceği gibi "derlendiğinde bir kütüphane oluşturan bir ya da birden fazla Rust kaynak
     dosyasını" da belirtebilmektedir. Crate kavramı diğer programlama ortamlarındaki "proje" kavramına benzemektedr. Örneğin
     biz C++'ta çalışırken bir proje yaratıp o projenin içerisine birden fazla kaynak dosya yerleştirip projeyi build edebiliriz.
     İşte aynı biçimde Rust dünyasında da bir crate'in içerisinde birden fazla kaynak dosya bulunabilmektedir. Rust dünyasında
@@ -182,33 +182,33 @@
     cargo ile yeni bir paket (proje de diyebiliriz) oluşturmak için "cargo new" komutu kullanılmaktadır. Komutun genel
     biçimi şöyledir:
 
-    cargo new <paket_ismi>
+        cargo new <paket_ismi>
 
     Bu işlemden sonra ismi paket_ismi olan bir dizin yaratılır. Yaratılan dizinin içeriği şöyle olacaktır:
 
-    23.11.2022  13:50    <DIR>          .
-    23.11.2022  13:50    <DIR>          ..
-    23.11.2022  13:50                 8 .gitignore
-    23.11.2022  13:50               175 Cargo.toml
-    23.11.2022  13:50    <DIR>          src
-                2 File(s)            183 bytes
-                3 Dir(s)  679.902.699.520 bytes free
+        23.11.2022  13:50    <DIR>          .
+        23.11.2022  13:50    <DIR>          ..
+        23.11.2022  13:50                 8 .gitignore
+        23.11.2022  13:50               175 Cargo.toml
+        23.11.2022  13:50    <DIR>          src
+                    2 File(s)            183 bytes
+                    3 Dir(s)  679.902.699.520 bytes free
 
     Buradaki "Cargo.toml" dosyası paketin ana yönetim dosyasıdır. Pakete ilişkin öğelerle ilgili bilgiler bu dosyada tutulmaktadır.
     Yeni yaratılmış olan minimal bir projede bu dosyanın içeriği aşağıdaki gibi çok küçüktür:
 
-    [package]
-    name = "myproject"
-    version = "0.1.0"
-    edition = "2021"
+        [package]
+        name = "myproject"
+        version = "0.1.0"
+        edition = "2021"
 
-    [dependencies]
+        [dependencies]
 
     "src" dizininin altında "main.rs" isminde aşağıdaki gibi bir "Hello World" programı oluşturulmaktadır:
 
-    fn main() {
-        println!("Hello, world!");
-    }
+        fn main() {
+            println!("Hello, world!");
+        }
 
     Burada paketin ana crate'i bu "main.rs" dosyasındna oluşan binary bir crate'tir. Aslında paket yaratımı sırasında "--bin"
     ya da "--lib" seçenekleri de kullanılabilmektedir. Bu durumda çalıştırılabilir ya da kütüphane projeleri oluşturulmaktadır.
@@ -216,7 +216,7 @@
 
     Projeyi built etmek için proje dizinine geçilip "cargo build" komutu uygulanır. Örneğin:
 
-    cargo build
+        cargo build
 
     Build işleminden sonra "target" isimli bir dizin ve onun içerisinde de "debug" isimli bir dizin oluşturulacaktır.
     "cargo build" komutu proje dizininde ya da onun alt dizinlerinde uygulanabilir. Ancak proje dizini dışından uygulanamaz.
@@ -226,7 +226,7 @@
     Build işleminden sonra oluşturulan çalıştırılabilir dosyayı çalıştırmak için doğrudan "cargo run" komutu kullanılabilir.
     Örneğin:
 
-    cargo run
+        cargo run
 
     Bu komut da proje dizinin de ya da projenin bir alt dizininde uygulanabilmektedir. Tabii pek çok benzer build sisteminde
     de olduğu gibi sonraki aşama önceki aşamaların yapılmasına da yol açmaktadır. Yani biz "cargo build" komutundan önce
@@ -234,7 +234,7 @@
 
     "cargo build" komutuyla yapılan işlemlerin ortadan kaldırılması için "cargo clean" komutu kullanılmaktadır. Örneğin:
 
-    cargo clean
+        cargo clean
 ---------------------------------------------------------------------------------------------------------------------------
 
     Yazılım geliştirmekte kullanılan çeşitli araçların bir araya getirilmesiyle oluşturulmuş araçlara IDE (Integrated Development
@@ -251,10 +251,10 @@
     Rust nispeten yeni bir programlama dili olduğu için Rust IDE'leri ve plugin'leri de yeni yeni geliştirilmeye başlanmıştır.
     Rust için çok kullanılan IDE'ler ve IDE benzeri editörler şunlardır:
 
-    - VSCode (Cross Platform)
-    - RustRover (Cross Platform)
-    - Eclipse (Cross Platform)
-    - Sublime Text (Linux/macOS)
+       - VSCode (Cross Platform)
+       - RustRover (Cross Platform)
+       - Eclipse (Cross Platform)
+       - Sublime Text (Linux/macOS)
 
     Biz kurusumuzda Microsoft'un cross platform editör ile IDE arasındaki VSCode'unu ve JetBrains firmasının nispeten yeni
     olan RustRover IDE'sini kullanacağız. VSCode bedava bir araçtır. RustRover da şimdilik bedavadır. İleride paralı versiyonu
@@ -264,11 +264,11 @@
 
     VSCode editöründe Rust ile çalışmak için pek çok plugin bulunmaktadır. Önemli Rust plugin'leri şunlardır:
 
-    - Rust Analyzer
-    - crates
-    - Better ToML
-    - CodeLLDB
-    - cargo
+       - Rust Analyzer
+       - crates
+       - Better ToML
+       - CodeLLDB
+       - cargo
 
     "Rust Extension Pack" isimli plugin'ler zaten yukarıdaki plugin'lerin çoğunu yüklemektedir.
 
@@ -281,38 +281,38 @@
     ile yapılmamaktadır. Eğer derleme ve çalıştırmada cargo'yu kullanmak istiyorsanız bunun için "settings.json" dosyasını
     uygun biçimde güncellemeniz gerekir. VSCode'ta üç önemli JSON dosyası vardır:
 
-    Default Settings JSON dosyası
-    User Settings JSON dosyası
-    Workspace Settings JSON dosyası
+        Default Settings JSON dosyası
+        User Settings JSON dosyası
+        Workspace Settings JSON dosyası
 
     Belirlemeyi hangi JSON dosyasında yaparsanız yukarıdakileri geçersiz hale getirecektir. Burada "User Settings JSON"
     dosyasını kullanabilirsiniz. Bu dosyayı edit ederek dosyada "code-runner.executorMap" kısmına gelip "rust" satırında
     şu değişikliği yapabilrisiniz:
 
-     "code-runner.executorMap": {
-        ...
-        "rust": "cd $dir && cargo run"
-        ...
-    }
+        "code-runner.executorMap": {
+            ...
+            "rust": "cd $dir && cargo run"
+            ...
+        }
 
     Code Runner plugin'inin default "rust" satırı aşağıdaki gibidir:
 
-    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
+        "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
 
     Tabii eski duruma dönmek için bu satırı değiştirmek yerine orijinal ismi de değiştirebilirsiniz. İsmini nasıl değiştirdiğinizin
     bir önemi yoktur. Örneğin:
 
-      "code-runner.executorMap": {
-        ...
-        "rust_old": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
-        "rust": "cd $dir && cargo run"
-        ...
-    }
+        "code-runner.executorMap": {
+            ...
+            "rust_old": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt"
+            "rust": "cd $dir && cargo run"
+            ...
+        }
 
     Şimdi artık "Ctrl+Alt+N" tuşlarına bastığınızda "cargo run" komutu çalıştırılacak dolayısıyla derleme ve çalıştırma
     cargo tarafından yapılacaktır. Tabii cargo bir paket (proje de diyebiliriz) dizinini kullandığı için sizin daha önce
     "cargo new" ile yeni bir paket dizini oluşturmuş olmanız gerekir. Bunu oluşturduktan sonra editöre "src" dizini içerisindeki
-    "main.rs" dosyasını çekip Ctrl+Alt+N tuşlarına basarsanız programınız cargo ile program sorunsuz derlenip çalıştırılacaktır.
+    "main.rs" dosyasını çekip Ctrl+Alt+N tuşlarına basarsanız programınız cargo ile sorunsuz derlenip çalıştırılacaktır.
     Aslında VSCode bir klasörü de "File/Open Folder" menüsü ile açabilmektedir. Dolayısıyla editöre tek bir dosyayı çekmek
     yerine dizini açıp dosyayı oradan seçmek daha kolay bir kullanım sunacaktır.
 
@@ -336,35 +336,35 @@
     tekil nesnelerin türlerini belirtmektedir. Bileşik türler ise birden fazla nesnenin bir araya gelmesiyle oluşturulan
     türleri belirtmektedir. Birden fazla nesnenin bir araya gelmesiyle oluşturulan topluluğa "veri yapısı (data structure)"
     da denilmektedir. Fakat "temel tür" ve "bileşik tür" kavramları değişik programlama dillerinde değişik biçimde isimlendirilmiştir.
-    Örneğin bazı programlama dillerinde"temel türlere için İngilizce "primitive types" denilmektedir. Temel türler de genellikle
+    Örneğin bazı programlama dillerinde "temel türler" için İngilizce "primitive types" denilmektedir. Temel türler de genellikle
     programlama dillerinde kendi içerisinde birkaç grubu ayrılmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
     "The Rust Reference" dokümanlarına göre Rust'taki türler şu kategorilerden oluşmaktadır:
 
-    Primitive types:
-        Boolean
-        Numeric
-        Textual
-        Never
-    Sequence types:
-        Tuple
-        Array
-        Slice
-    User-defined types:
-        Struct
-        Enum
-        Union
-    Function types:
-        Functions
-        Closures
-    Pointer types:
-        References
-        Raw pointers
-        Function pointers
-    Trait types:
-        Trait objects
-        Impl trait
+        Primitive types:
+            Boolean
+            Numeric
+            Textual
+            Never
+        Sequence types:
+            Tuple
+            Array
+            Slice
+        User-defined types:
+            Struct
+            Enum
+            Union
+        Function types:
+            Functions
+            Closures
+        Pointer types:
+            References
+            Raw pointers
+            Function pointers
+        Trait types:
+            Trait objects
+            Impl trait
 
     Biz burada önce temel türleri (primitive types) sonra ilerleyen bölümlerde de demet (tuple), dizi (array) ve dilim (slice)
     gibi dizilim türlerini (sequence types) ve kullanıcı tanımlı türleri göreceğiz.
@@ -378,26 +378,26 @@
     kısa bir biçimde oluşturulmuştur. N bit sayısını belirtmek üzere işaretli tamsayı türlerinin isimleri iN biçiminde, işaretsiz
     tamsayı türlerinin isimleri de uN biçimindedir. Rust'ın tüm tamsayı türlerinin isimleri aşağıda verilmiştir:
 
-    İşaretli Tamsayı Türleri
-    ------------------------
-    i8
-    i16
-    i32
-    i64
-    i128
+        İşaretli Tamsayı Türleri
+        ------------------------
+        i8
+        i16
+        i32
+        i64
+        i128
 
-    İşaretsiz Tamsayı Türleri
-    -------------------------
-    u8
-    u16
-    u32
-    u64
-    u128
+        İşaretsiz Tamsayı Türleri
+        -------------------------
+        u8
+        u16
+        u32
+        u64
+        u128
 
-    Makine Bağımlı Tamsayı Türleri
-    ------------------------------
-    isize
-    usize
+        Makine Bağımlı Tamsayı Türleri
+        ------------------------------
+        isize
+        usize
 
     Anımsanacağı gibi 2'ye tümleyen artimetiğinde N bitlik bir işaretli tamsayının sınır değerleri [-2^N, +2^N - 1] aralığındadır.
     Rust'ta 128 bitlik tamsayı türünün de olduğuna dikkat ediniz. Henüz 128 bitlik işlemciler kullanılmıyor olsa da bazı durumlarda
@@ -405,12 +405,12 @@
 
     Rust'ta ayrıca çalışılan sisteme bağlı uzunlukta olan isize ve usize isimli iki tamsayı türü de vardır. Bu tamsayı türleri
     çalışılan sistemdeki teorik bellek büyüklüğüne hizalanmış olan bir uzunluğa sahiptir. Dolayısıyla bu türler 32 bit sistemlerde
-    32 bit (4 byte), 64 bit sistemlerde 64 bit (8 byte) uzuznluğundadır. Bugün artık 16 bit işlemcilerin kullanımı oldukça
+    32 bit (4 byte), 64 bit sistemlerde 64 bit (8 byte) uzunluğundadır. Bugün artık 16 bit işlemcilerin kullanımı oldukça
     azalmıştır. Ancak 16 bit işlemcilerin kullanıldığı sistemlerde bu türler 16 bit uzunluğunda olacaktır. "The Rust Reference"
     dokümanlarına göre bu tür ilgili sistemdeki göstericilerin bit uzunuğu kadar olmak zorundadır. usize türünü C'deki size_t
     türüne benzetebilirsiniz. C'de de size_t türünün ilgili sistemdeki teorik bellek büyüklüğüne göre typedef edildiğini anımsayınız.
     Böylece sistem programcısı farklı işlemcilerin kullanıldığı sistemlerde daha taşınabilir kodlar yazabilmektedir. İki adres
-    bilgisini çıkardığımızda sonuç negatif de olabilir pozitif de olabilir İşte isize türü iki adres farkını tutabilen usize
+    bilgisini çıkardığımızda sonuç negatif de olabilir pozitif de olabilir. İşte isize türü iki adres farkını tutabilen usize
     türünün işaretli biçimidir. Pek çok işletim sisteminde proseslerin sanal bellek alanları isize büyüklüğündedir. usize ve
     isize türleri aynı bit uzunluğuna sahiptir. Ayrıca "The Rust Reference" dokümanları bir yapı değişkeninin ya da dizinin
     bellekte kapladığı alanın en fazla isize kadar olabileceğini söylemektedir. Yukarıda da belirttiğimiz gibi bugün yaygın
@@ -424,7 +424,7 @@
     kullanmaktadır. C Pprogramlama Dilinin standartlarında açıkça bu formatın kullanılacağı söylenmemiştir. Oysa Rust'ta bu
     durum garanti edilmektedir. Rust'ın f32 türü C'nin float türüyle, Rust'ın f64 türü C'nin double türüyle örtüşmektedir.
     C'de long double isminde bir gerçek sayı türünün daha olduğunu anımsayınız. C'nin long double pek çok derleyicide double
-    türüyle aynı uzunluktadır. (Tabii aslında C'de float türünün 4 byte double türünün 8 olacağının da bir garantisi de
+    türüyle aynı uzunluktadır. (Tabii aslında C'de float türünün 4 byte double türünün 8 olacağının da bir garantisi
     yoktur. Ancak yaygn derleyicilerin hepsinde durum böyledir.)
 ---------------------------------------------------------------------------------------------------------------------------
 
@@ -437,12 +437,12 @@
 
     Rust'ta iki yazısal tür (textual type) vardır:
 
-    char
-    str
+        char
+        str
 
     char türü bir karakterin Unicode UTF-32 kod numarasını (code point) tutmaktadır. Dolayısıyla char türü 4 byte uzunluğundadır.
     Biz char türden bir değişkene tek tırnak içerisine aldığımız bir Unicode karakteri atayabiliriz. Buradaki "Unicode UTF-32"
-    teriminin anlaşılmasını sağlamak için karakter tablolama sistemleri hakkında bazı temel bilgiler üzerinde rumak itiyoruz.
+    teriminin anlaşılmasını sağlamak için karakter tablolama sistemleri hakkında bazı temel bilgiler üzerinde durmak itiyoruz.
 
     Karakterlerin bilgisayardaki temsili için oluşturulan tablolara "karakter tabloları (character sets)" denilmektedir. Dünyanın
     bilgisayar alanında kullanılan ilk karakter tablosu ASCII (American Standard Code Information Interchange) denilen tablodur.
@@ -526,66 +526,66 @@
     Rust'ta bir değişkenin faaliyet alanına sokulması (yani bağlanması) let deyimiyle yapılmaktadır. let deyiminin genel biçimi
     kabaca şöyledir:
 
-    let <kalıp> = ifade [else {...}]
+        let <kalıp> = ifade [else {...}]
 
     let deyimi kalıp uyuşumu ile çalışmaktadır. Ancak biz kalıp uyuşumlarını ileride başka bölümlerde ele alacağız. Bu bölümde
-    let deyiminin temel kullanım üzerinde duracağız. let deyiminin yalın kullanımının genel biçimi şöyledir:
+    let deyiminin temel kullanımı üzerinde duracağız. let deyiminin yalın kullanımının genel biçimi şöyledir:
 
-    let <değişken_ismi> [: <tür>] [= <ilkdeğer>];
+        let <değişken_ismi> [: <tür>] [= <ilkdeğer>];
 
     Bu yalın genel biçime göre let deyiminin üç temel kullanım biçimi vardır:
 
-    1) let <değişken_ismi>: <tür>;
-    2) let <değişken_ismi> = <ilkdeğer>;
-    3) let <değişken_ismi>: <tür> = ilkdeğer;
+        1) let <değişken_ismi>: <tür>;
+        2) let <değişken_ismi> = <ilkdeğer>;
+        3) let <değişken_ismi>: <tür> = ilkdeğer;
 
-    let deyimi ile bir değişken bağlanırken değişken isminden sonra ':' atomu ve sonra değişkin türü belirtilebilir. Örneğin:
+    let deyimi ile bir değişken bağlanırken değişken isminden sonra ':' atomu ve sonra değişkenin türü belirtilebilir. Örneğin:
 
-    let a: i32;
-    let b: f64;
-    let c: bool;
+        let a: i32;
+        let b: f64;
+        let c: bool;
 
     Eğer bağlanan değişkene ilkdeğer veriliyorsa tür belirtilmeyebilir. Örneğin:
 
-    let a = 10;
-    let b = 3.14;
-    let c = true;
+        let a = 10;
+        let b = 3.14;
+        let c = true;
 
     Bu durumda değişkenin türü ona verilen ilkdeğerden hareketle tespit edilmektedir. let deyiminde hem tür belirtilebilir
     hem de değişkene ilkdeğer verilebilir. Örneğin:
 
-    let a: i32 = 10;
-    let b: f64 = 3.14;
-    let c: bool = true;
+        let a: i32 = 10;
+        let b: f64 = 3.14;
+        let c: bool = true;
 
     Aşağıdaki bağlama geçersizdir:
 
-    let a;          // geçersiz!
+        let a;          // geçersiz!
 
     Çünkü burada a'nın türü belirtilmemiştir ve ilkdeğer de verilmediği için otomatik tespit de yapılamamaktadır.
 
     Aslında verilen ilkdeğerden hareketle otomatik tür tespiti pek çok programlama diline sokulmuştur. C'de böyle bir özellik
     yoktur ancak C++11 ile birlikte C++'a auto anahtar sözcüğü ile bu özellik eklenmiştir. Örneğin:
 
-    auto a = 123;       // 123 int türden olduğu için a da int türden
+        auto a = 123;       // 123 int türden olduğu için a da int türden
 
     Java ve C#'ta da aynı özellik var anahtar sözcüğü ile sağlanmaktadır. Örneğin:
 
-    var a = 10;
+        var a = 10;
 
     Pek çok programlama dilinde aynı türden birden fazla değişkenin bildirimi tek hamlede yapılabilmektedir. Örneğin C'de
     aşağıdaki gibi bir bildirim geçerlidir:
 
-    int a = 10, b, c = 20;
+        int a = 10, b, c = 20;
 
     Ancak Rust'taki let deyimi "kalıp uyuşumu (pattern matching)" ile çalışmaktadır. Rust'ta bu biçimde tek hamlede bağlama
     yapılamamaktadır. Örneğin:
 
-    let a = 10, b = 20;         // error!
+        let a = 10, b = 20;         // error!
 
     Rust'ta bu işlem tipik olarak "demet (tuple) kalıbı" ile yapılmaktadır. Örneğin:
 
-    let (a, b) = (10, 20);      // geçerli
+        let (a, b) = (10, 20);      // geçerli
 
 # 6. Ders 17/03/2025 - Pazartesi
 
@@ -607,26 +607,26 @@
     "Ben bu değişkeni kullanmayabilirim. Belki de daha sonra kullanacağım. Bunun için bana uyarı verme" demek istemektedir.
     Örneğin:
 
-    let _number = 123;
+        let _number = 123;
 
     Biz burada artık bu number değişkenini kullanmasak bile derleyici bunun için bize uyarı vermeyecektir.
 
     Rust'ta tek bir _ karakterinden oluşan değişkenler bir yer tutucu olarak görev yapmaktadır. Örneğin:
 
-    let _ = foo();
+        let _ = foo();
 
     Burada programcı foo fonksiyonunun geri dönüş değerinden faydalanmak istemediğini dolaylı bir biçimde derleyiciye
     söylemektedir. Tabii aslında Rust derleyicisi bu _ değişkeni için bellekte bir yer ayırmaz. Zaten programcı da bu _
     ismini programının içerisinde bir değişken ismi gibi kullanamaz. Örneğin:
 
-    let _ = 123;
+        let _ = 123;
 
-    println!("{}", _);      // error!
+        println!("{}", _);      // error!
 
     Belli bir versiyondan sonra Rust'ta _ isimli değişken hiç bağlama yapmadan atama işleminde de kullanılabilir hale gelmiştir.
     Örneğin:
 
-    _ = foo();
+        _ = foo();
 
     Burada bizim _ isminde bir değişkeni daha önce tanımlamış olmamız gerekmez. Değişken isimleri yerine _ kullanımı ile özellikle
     demet açımlarında sıkça karşılaşılmaktadır. Demetler ileride ele alınacaktır.
@@ -638,81 +638,81 @@
     Rust'ta bir değişken bağlandığında (tanımlandığında) o değişken default olarak "değiştirilemez (immutable)" durumdadır.
     Yani o değişken C'deki const nesne gibidir. Örneğin:
 
-    let a = 10;
+        let a = 10;
 
     Burada a değişkeni default olarak değiştirilemez (immutable) durumdadır. Ancak değiştirilemez bir değişkene ilkdeğer
     verilmesi zorunlu da değildir. Bu değişkene bağlamadan sonra da değer atanabilir. Ancak ne olursa olsun değiştirilemez
     değişkenlere toplamda yalnızca bir kez değer atanabilmektedir. Örneğin:
 
-    let a: i32;
+        let a: i32;
 
-    a = 10;         // geçerli
-    a = 20;         // error!
+        a = 10;         // geçerli
+        a = 20;         // error!
 
     Değişkenlerin default durumda değiştirilemez olması Rust'a özgü bir özellik değildir. Swift gibi Kotlin gibi yeni programlama
     dillerinde de Erlang ve Haskell gibi fonksiyonel dillerde de değişkenler default durumda değiştirilemez biçimdedir. Değişkenin
     değiştirilebilir (mutable) olmasını sağlamak için değişken isminin soluna mut anahtar sözcüğü getirilir. Örneğin:
 
-    let mut a: i32 = 10;
+        let mut a: i32 = 10;
 
-    a = 20;         // geçerli
-    //...
-    a = 30;         // geçerli
+        a = 20;         // geçerli
+        //...
+        a = 30;         // geçerli
 
     Örneğin:
 
-    let mut a: i32;
+        let mut a: i32;
 
-    a = 10;
-    println!("{}", a);              // 10
-    a = 20;                         // geçerli
-    println!("{}", a);              // 20
+        a = 10;
+        println!("{}", a);              // 10
+        a = 20;                         // geçerli
+        println!("{}", a);              // 20
 ---------------------------------------------------------------------------------------------------------------------------
 
     Java, C# ve yeni tasarlanmış olan bazı dillerde olduğu gibi Rust'ta da henüz değer atanmamış bir değişkenin kullanılması
     (içerisindeki değerin elde edileceği bir ifadede kullanılması) derleme aşamasında error oluşturmaktadır. Örneğin:
 
-    let a: i32;
+        let a: i32;
 
-    prinln!("{}", a);       // derleme aşamasında error oluşur!
+        prinln!("{}", a);       // derleme aşamasında error oluşur!
 
-    C'de değer henüz içerisine değer atanmamış nesnelerin kullanılabildiğini ancak bu durumun "tanımsız davranışa (undefined
+    C'de henüz içerisine değer atanmamış nesnelerin kullanılabildiğini ancak bu durumun "tanımsız davranışa (undefined
     behavior)" yol açtığını anımsayınız.
 ---------------------------------------------------------------------------------------------------------------------------
 
-    Rust'ta C, C++, Java, C# gibi dillerde bulunmayan ismine "gölgeleme (shaowing)" denilen bir faaliyet alanı (scope) özelliği
+    Rust'ta C, C++, Java, C# gibi dillerde bulunmayan ismine "gölgeleme (shadowing)" denilen bir faaliyet alanı (scope) özelliği
     vardır. Rust'ta aynı faaliyet alanında aynı isimli değişkenler bağlanabilir (tanımlanabilir). Bu durumda ikinci bağlamaya
     kadar ilk değişken faaliyet göstermeye devam eder. Ancak ikinci bağlamadan sonra artık ilk değişken kullanılamaz, ancak
     ikinci değişken kullanılabilir. Örneğin:
 
-    let a: i32 = 10;
+        let a: i32 = 10;
 
-    println!("{}", a);      // 10
+        println!("{}", a);      // 10
 
-    let a: f64 = 3.14;      // geçerli, gölgeleme (shadowing) deniyor
+        let a: f64 = 3.14;      // geçerli, gölgeleme (shadowing) deniyor
 
-    println!("{}", a);      // 3.14
+        println!("{}", a);      // 3.14
 
     Burada aynı fonksiyon içerisinde aynı isimli değişken let deyimi ile birden fazla kez bağlanmıştır. Bu tür bildirimlerin
     C, C++, Java ve C# gibi pek çok dilde geçerli olmadığını anımsayınız.
 
     "The Rust Reference" dokümanlarına göre gölgeleme sırasında türler aynı olsa bile farklı bir değişken yaratılır. Örneğin:
 
-    let a: i32 = 10;
-    //...
-    let a: i32 = 20;
+        let a: i32 = 10;
+        //...
+        let a: i32 = 20;
 
     Burada iki a'nın adresi alındığında farklı adresler görülecektir. Tabii kodun gözlemlenebilen davranışı değişmedikten sonra
     derleyiciler kodu daha hızlı çalışacak ya da daha az yer kaplayacak biçimde düzenleyebilirler. Buna derleyicilerin "kod
     optimizasyonu" denilmektedir. Aşağıdaki kodu inceleyiniz:
 
-    let a: i32 = 10;
+        let a: i32 = 10;
 
-    println!("{}", a);      // 10
+        println!("{}", a);      // 10
 
-    let a: i32 = 20;
+        let a: i32 = 20;
 
-    println!("{}", a);      // 20
+        println!("{}", a);      // 20
 
     Bu kodda biz a için ikinci kez farklı bir yer ayrılıp ayrılmadığını anlayamayız. Çünkü kodumuzda bu gözlemi yapabilecek
     bir durum oluşmamıştır. Dolayısıyla derleyici burada tek bir a oluşturup kodu optimize etmeye çalışabilir.
@@ -727,7 +727,7 @@
 
     Program içerisinde doğrudan yazılmış olan değerlere "sabit (literal)" denilmektedir. Örneğin:
 
-    a = b + 10;
+        a = b + 10;
 
     Burada a ve b birer değişken 10 ise bir sabittir. Biz burada b'nin içerisindeki değerle doğrudan 10'u topluyoruz.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -735,10 +735,10 @@
     Rust katı tür kontrolüne (strict type checking) sahip bir programlama dilidir. Atama sırasında kaynak değerin türüyle
     hedef değerin türünün aynı olması gerekir. Örneğin:
 
-    let a: i8 = 10;
-    let b: i32;
+        let a: i8 = 10;
+        let b: i32;
 
-    b = a;      // error!
+        b = a;      // error!
 
     Burada her ne kadar i8 türündeki her değer i32 türüyle ifade edilebiliyorsa da başka bir deyişle atamada bilgi kaybının
     oluşması söz konusu değilse de bu atama error ile sonuçlanacaktır. Çünkü kaynak türle hedef tür birbirinden farklıdır.
@@ -746,45 +746,45 @@
 
     Rust'ta iki operand'lı operatörlerde operand'ların türleri de aynı olmak zorundadır. Örneğin:
 
-    let a: i8 = 10;
-    let b: i32 = 20;
-    let c: i32;
+        let a: i8 = 10;
+        let b: i32 = 20;
+        let c: i32;
 
-    c = a + b;      // error!
+        c = a + b;      // error!
 
 # 7. Ders 19/03/2025 - Çarşamba
 
     Rust'ta nokta içermeyen ve sonunda tür eki bulunmayan sabitler onların kullanıldığı bağlama göre gereksinim duyulan türün
     sınırları içerisinde kalıyorsa o türden kabul edilmektedir. Örneğin:
 
-    let a: i8 = 127;        // geçerli
+        let a: i8 = 127;        // geçerli
 
     Burada 127 sabitinin sonunda bir tür eki yoktur. i8 türünün sınır değerlerinin [-128, +127] olduğuna dikkat ediniz. İşte
     burada 127 değeri bu sınırlar içerisinde olduğu için sanki i8 türündenmiş gibi işlem görmektedir. Örneğin:
 
-    let a: u16 = 50000;
+        let a: u16 = 50000;
 
     Burada 50000 değeri içinde bulunulan bağlamda u16 türüne atanmak amacıyla kullanılmıştır. 50000 değeri u16 sınırları
     içerisinde kaldığı için sanki u16 türünden bir sabitmiş gibi ele alınmaktadır. Örneğin:
 
-    let a: i8 = 10;
-    let b: i8;
+        let a: i8 = 10;
+        let b: i8;
 
-    b = a + 10;
+        b = a + 10;
 
     İki operand'lı operatörlerin operand'larının aynı türden olması gerektiğini belirtmiştik. Buradaki a + 10 işleminde 10
     sanki i8 sabit gibi ele alınacaktır. Çünkü 10 sayısı i8 türünün sınırları içerisinde kalmaktadır. Örneğin:
 
-    let a: u16;
+        let a: u16;
 
-    a = 70000;      // error!
+        a = 70000;      // error!
 
     Burada 70000 değeri u16 sınırlarının içerisinde kalmadığı için u16 türünden bir sabit gibi ele alınmayacaktır.
 
     Ancak let ile bağlama yapılırken verilen ilkdeğer tür eki içermeyen bir tamsayı ise bu durumda sabit her zaman i32 türünden
     kabul edilmektedir. Örneğin:
 
-    let a = 3000000000;         // error!
+        let a = 3000000000;         // error!
 
     Burada 3 milyar değeri i32 türünün sınırları dışındadır. Dolayısıyla error oluşacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -792,68 +792,68 @@
     Rust'ta tıpkı Python'da olduğu gibi sayıların daha kolay algılanabilmesi için basamaklar '_' karakteriyle ayrıştırılabilmektedir.
     Örneğin:
 
-    let a: u64 = 3_000_000_000;     // geçerli
+        let a: u64 = 3_000_000_000;     // geçerli
 
     Burada basamakları ayıran '_' karakterinin sayı üzerinde bir etkisi yoktur. Tabii '_' karakteri ile üçerli ayrıştırma
     yapmak zorunlu değildir. Ayrıştırma herhangi bir basamakta bir ya da birden fazla '_' karakteri kullanılarak yapılabilir.
     Örneğin:
 
-    a = 3_0_0_0_0_0_0_0_0_0;        // geçerli
+        a = 3_0_0_0_0_0_0_0_0_0;        // geçerli
 
     Sayının sonunda da '_' karakteri bulunabilir, ancak başında bulunamaz. Yukarıda da belirttiğimiz gibi birden fazla '_'
     karakterinin peşi sıra kullanılmasına da izin verilmiştir. Örneğin:
 
-    a = 3___0_0_0_0_0_0_0_0_0__;        // geçerli
+        a = 3___0_0_0_0_0_0_0_0_0__;        // geçerli
 
     Tabii bu '_' karakterlerinin amacı okunabilirliği artırmak olduğu için bunlar 10'luk sistemde tipik olarak binli basamakları
     ayrıştırmak için kullanılmaktadır.
 
-    Basamak ayırçaları eski dillerin yeni sürümlerine de zamanla eklenmiştir. Örneğin C++'a C++14 ile C'ye de C23 ile bu
+    Basamak ayıraçları eski dillerin yeni sürümlerine de zamanla eklenmiştir. Örneğin C++'a C++14 ile C'ye de C23 ile bu
     özellik eklenmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
     Tamsayı sabitlerinin sonlarına onların türlerini belirten ekler getirilebilmektedir. Bu sonekler tamsayı türlerinin
     isimlerinden oluşmaktadır:
 
-    i8
-    u8
-    i16
-    u16
-    i32
-    u32
-    i64
-    u64
-    i128
-    u128
+        i8
+        u8
+        i16
+        u16
+        i32
+        u32
+        i64
+        u64
+        i128
+        u128
 
     Biz tamsayı sabitlerinin sonuna yapışık bir biçimde bu sonekleri getirirsek artık sabitler kesinlikle bu türlerden olur.
     Örneğin:
 
-    123i32
-    3000000000u32
-    10i8
-    20u64
+        123i32
+        3000000000u32
+        10i8
+        20u64
 
     Örneğin:
 
-    let a: u64;
+        let a: u64;
 
-    a = 10u64;
+        a = 10u64;
 
     Burada 10 sabitinin açıkça u64 türünden olduğu belirtilmiştir. Örneğin:
 
-    let a = 10;
+        let a = 10;
 
     Burada a değişkeni i32 türündendir. Fakat örneğin:
 
-    let a = 10u32;
+        let a = 10u32;
 
     Burada ise a değişkeni u32 türündendir.
 
     Basamakları ayrıştırmak için kullanılan '_' karakterlerinin sayının sonunda da bulunabileceğini belirtmiştik. Tür soneklerinin
     okunabilirliği bozmasını engellemek amacıyla soneklerden önce '_' karakteri de kullanılabilir. Örneğin:
 
-    let a = 10_u32;
+        let a = 10_u32;
 
     Bazı Rust programcıları soneklerden önce '_' karakterini kullanmaktadır. Bazı programcılar ise yalnızca büyük sabitlerde
     kullanmayı tercih etmektedir.
@@ -863,11 +863,11 @@
     Bunun için sabitin önüne 2'lik sistem için 0b, 8'lik sistem için 0o ve 16'lık sistem için 0x önekleri getirilmektedir.
     (Bu öneklerin 0B, 0O ve 0X biçiminde büyük harfli biçimleri yoktur.) Örneğin aşağıdaki sabitler geçerlidir:
 
-    0b1010
-    0b_1_0_1_0_
-    0b1010_1010
-    0o712_564
-    0xFC_16_FD_32
+        0b1010
+        0b_1_0_1_0_
+        0b1010_1010
+        0o712_564
+        0xFC_16_FD_32
 
     C'de 0o biçiminde bir önek bulunmadığını sayının başındaki 0'ın 8'lik sistem anlamına geldiğini anımsayınız. Oysa Rust'ta
     sayının başındaki 0 rakamı 8'lik sistem anlamına gelmemektedir. 8'lik sistem için zaten 0o kullanılmaktadır. C'de 2'lik
@@ -875,30 +875,30 @@
 
     Sabitin kaçlık sistemde yazıldığı ile tür arasında bir ilişki yoktur. Örneğin:
 
-    let a = 0x1234;
+        let a = 0x1234;
 
-    Buradaki 0x1234 değeri i32 türünün sınırlrı içerisindedir. Bu nedenle a da i32 türündendir. Örneğin:
+    Buradaki 0x1234 değeri i32 türünün sınırları içerisindedir. Bu nedenle a da i32 türündendir. Örneğin:
 
-    let a = 0x123456789;        // error!
+        let a = 0x123456789;        // error!
 
     Buradaki sayı i32 türünün sınırları dışındadır. Dolayısıyla bu bağlama error oluşturacaktır. Örneğin:
 
-    let a: i8 = 100;
-    let b: i8;
+        let a: i8 = 100;
+        let b: i8;
 
-    b = a + 0x10;           // geçerli
+        b = a + 0x10;           // geçerli
 
     Buradaki 0x10 aslında 10'luk sistemdeki 16 sayısıdır. Dolayısıyla bu bağlamda bu sayı i8 türünün sınırları içerisinde
     olduğu için i8 sabit olarak ele alınacaktır.
 
     Tabii biz 2'lik, 8'lik ve 16'lık sistemlerde yazdığımız sabitlerin sonuna da yine tür ekleri getirebiliriz. Örneğin:
 
-    let a = 0x123456789u64;
+        let a = 0x123456789u64;
 
     Burada artık sabit u64 türündendir. Tabii basamak ayıraçları yine bu sistemlerde yazılan sayılarda da kullanılabilir.
     Örneğin 2'lik sistemdeki sayıların dörderli biçimde gruplanması bir gelenektir:
 
-    let a = 0b_1010_0101;
+        let a = 0b_1010_0101;
 
     Burada a i32 türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -906,26 +906,26 @@
     Rust'ta sayı nokta içeriyorsa ve sabitin sonunda bir tür eki yoksa ve bu biçimde yazılan sabitler onların kullanıldığı
     bağlama göre gereksinim duyulan türün sınırları içerisinde kalıyorsa o türden kabul edilmektedir. Örneğin:
 
-    let f: 32 = 3.14;       // geçerli
+        let f: 32 = 3.14;       // geçerli
 
     Burada 3.14 sabiti f32 türü ile ifade edilebilmektedir. Bu nedenle sanki f32 türünden bir sabitmiş gibi kullanılabilmiştir.
     Örneğin:
 
-    let a: f32 = 12.3;
-    let b: f32;
+        let a: f32 = 12.3;
+        let b: f32;
 
-    b = a + 1.2;            // geçerli
+        b = a + 1.2;            // geçerli
 
     Burada 1.2 bağlam içerisinde f32 türünden bir sabit olarak ele alınacaktır. Çünkü 1.2 sayısı f32 türü ile ifade edilebilmektedir.
     Ancak bu durum tamsayılar için geçerli değildir. Örneğin:
 
-    let a: f32 = 10;        // error
+        let a: f32 = 10;        // error
 
     Burada her ne kadar 10 sabiti f32 türü ile ifade edilebiliyorsa da tamsayı sabiti olduğu için bağlama geçersizdir. Noktalı
     bir sayı eğer f32 türünün basamaksal olarak (duyarlılık olarak değil) sınıfları dışında kalırsa bu durum derleme aşamasında
     error oluşturmaktadır. Örneğin:
 
-    let a: f32 = 1e50;      // error!
+        let a: f32 = 1e50;      // error!
 
     Burada 1e50 sabiti basamaksal olarak f32 türünün sınırları içerisinde kalmamaktadır. Bu nedenle bu sabit ataması error
     ile sonuçlanacaktır. Eğer noktalı sayı basamaksal değil de mantis bakımından f32 türü ile ifade edilemiyorsa bu durum error
@@ -933,24 +933,24 @@
     Bu dönüştürme kuralını tür dönüştürme operatörünü anlatırken ele alacağız.) Diğer pek çok dilde olduğu gibi '.' karakterinin
     sağına bir şey yazılmazsa sabit sanki .0 gibi ele alınmaktadır. Örneğin:
 
-    let a: f64 = 1.;        // geçerli
+        let a: f64 = 1.;        // geçerli
 
     Ancak gerçek sayı sabitlerinde noktanın solu boş bırakılamaz. Örneğin:
 
-    let a: f64 = .10;       // error!
+        let a: f64 = .10;       // error!
 
     Tabii noktanın solundaki ve sağındaki sayılarda istenildiği kadar '_' ile ayrıştırma yapılabilir. Örneğin:
 
-    let a: f64 = 123_456.789_012;       // geçerli
+        let a: f64 = 123_456.789_012;       // geçerli
 
     Ancak noktadan hemen sonra '_' ayrıştırma karakteri kullanılamamaktadır. Örneğin:
 
-    let a: f64 = 1._234;       // error!
+        let a: f64 = 1._234;       // error!
 
     let deyiminde değişkenin türü belirtilmezse ve verilen ilkdeğer sonek içermeyen bir noktalı sayı ise bu durumda sabit
     f64 türünden kabul edilir, değişken de o türden olur. Örneğin:
 
-    let a = 3.14;
+        let a = 3.14;
 ---------------------------------------------------------------------------------------------------------------------------
 
     Burada a değişkeni f64 türündendir.
@@ -958,91 +958,91 @@
     Gerçek sayı sabitlerinin sonuna da onların türünü belirten tür soneki getirilebilmektedir. Bunun için aşağıdaki iki tür
     soneki kullanılmaktadır:
 
-    f32
-    f64
+        f32
+        f64
 
     Örneğin:
 
-    let a = 3.14f32;
+        let a = 3.14f32;
 
     Burada a değişkeni artık f32 türünden olacaktır. Halbuki örneğin:
 
-    let a = 3.14;
+        let a = 3.14;
 
     Burada a değişkeni f64 türünden olur. Tabii yine tür sonekinden önce okunabilirliği artırmak için '_' ile ayrıştırma
     tercih edilebilir. Örneğin:
 
-    let a = 3.14_f32;
+        let a = 3.14_f32;
 
     Gerçek sayı sabitlerinde tür soneki noktadan hemen sonra başlatılamaz. Örneğin:
 
-    let a: f64 = 1.f64;         // error!
-    let b: f64 = 1._f64;        // error!
+        let a: f64 = 1.f64;         // error!
+        let b: f64 = 1._f64;        // error!
 
     Gerçek sayı sabitlerinde açıkça tür belirtmek iyi bir tekniktir. Gerçek sayı sabitibe f32 ve f64 soneki getirmiş olsak
     bile eğer sabit basamaksal olarak soneke ilişkin türün sınırları dışında kalıyorsa sabit geçersiz olmaktadır. Örneğin:
 
-    let a: f32 = 1e50;      // error! sabit f32 sınırlarını basamaksal olarak aşıyor
+        let a: f32 = 1e50;      // error! sabit f32 sınırlarını basamaksal olarak aşıyor
 
     C'de gerçek sayı soneklerini (f ve lf) kullanabilmek için sabitin nokta içermesi gerekmektedir. Rust'ta sabit nokta içermese
     de sabitin sonuna f32 ve f64 sonekleri getirilebilmektedir. Örneğin:
 
-    let f: 64 = 1f64;       // geçerli
+        let f: 64 = 1f64;       // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
 
     Pek çok programlama dilinde olduğu gibi Rust'ta da gerçek sayı sabitleri (f32 ve f64 türünden sabitler) üstel biçimde
-    belirtilebilmektedir. Gerçek sayı sabitleri üstel biçimde belirtilirken e ya da E harfi 10'un kuvveri anlamına gelmektedir.
+    belirtilebilmektedir. Gerçek sayı sabitleri üstel biçimde belirtilirken e ya da E harfi 10'un kuvveti anlamına gelmektedir.
     Örneğin:
 
-    let f = 1.23e12;
+        let f = 1.23e12;
 
     Bu sabit 1.23 * 10^12 anlamına gelmektedir. Örneğin:
 
-    let f = 1.23e-12;
+        let f = 1.23e-12;
 
     Bu sabit 1.23 * 10^-12 anlamına gelmektedir. Gerçek sayı sabitleri üstel biçimde belirtilirken yine basamak ayıracı olarak
     _ karakteri kullanılabilmektedir. Aşağıdaki sabitte her ne kadar basamak ayıraçlarının kullanılması gereksizse de sabit
     geçerlidir:
 
-    let f = 1_.2_3E_10;
+        let f = 1_.2_3E_10;
 
     Diğer pek çok dilde olduğu gibi gerçek sayı sabitleri üstel formatta yazılırken nokta içermese bile gerçek sayı sabiti
     olarak ele alınmaktadır. Örneğin:
 
-    let f: f64 = 1e5;       // geçerli
-    let f: i64 = 1e5;       // error!
+        let f: f64 = 1e5;       // geçerli
+        let f: i64 = 1e5;       // error!
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta bool türden iki sabit vardır. Bunlar true ve false anahtar sözcükleridir. Örneğin:
 
-    let b = true;
+        let b = true;
 
     Burada b değişkeni bool türdendir
 ---------------------------------------------------------------------------------------------------------------------------
 
     Bir Unicode karakter tek tırnak içerisine alınırsa char türden sabit belirtir. Örneğin:
 
-    let c = 'x';
+        let c = 'x';
 
     Burada c değişkeni char türdendir. Rust'ta da diğer bazı dillerde olduğu gibi tek tırnağın içerisinde ters bölü karakter
     sabitleri kullanılabilmektedir. Ancak Rust'ta biz C'deki tüm ters bölü karakterlerini kullanamamaktayız. Rust'ta kullanabileceğimiz
     ters bölü karakterleri şunlardır:
 
-    \n
-    \r
-    \t
-    \\
-    \'
-    \"
-    \0
+        \n
+        \r
+        \t
+        \\
+        \'
+        \"
+        \0
 
     Diğer dillerde olduğu gibi tek tırnak içerisinde Unicode kod numarası belirtilerek de herhangi bir Unicode karakterden
     karakter sabiti oluşturulabilmektedir. Bunun için tek tırnak içerisinde önce \u sonra da küme parantezleri içerisinde
     Unicode kod numarası girilmelidir. Örneğin:
 
-    let c = '\u{6728}'
+        let c = '\u{6728}'
 
-    println!("{}", c);      // 木
+        println!("{}", c);      // 木
 
 # 8. Ders 24/03/2025 - Pazartesi
 
