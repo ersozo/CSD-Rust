@@ -1040,7 +1040,7 @@
     karakter sabiti oluşturulabilmektedir. Bunun için tek tırnak içerisinde önce \u sonra da küme parantezleri içerisinde
     Unicode kod numarası girilmelidir. Örneğin:
 
-        let c = '\u{6728}'
+        let c = '\u{6728}';
 
         println!("{}", c);      // 木
 
@@ -13820,6 +13820,3 @@ impl Point {
 
     Artık buradaki val değişkeni i32 türündendir. Döngünün her inelenmesinde dizi elemanın adresi elde edilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
-
-
-
