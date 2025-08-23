@@ -1050,40 +1050,40 @@
     sabitlere Rust'ta "byte sabitleri (byte literals)" denilmektedir. Byte sabitleri u8 türündendir. Byte sabitleri tek
     tırnak içerisindeki ASCII karakterinin kod numarasına ilişkin bir sayı belirtirler. Örneğin:
 
-    let b: u8;
+        let b: u8;
 
-    b = b'a';       // geçerli, b'a' u8 türünen
+        b = b'a';       // geçerli, b'a' u8 türünen
 
     Burada b'a' sabiti bir byte sabitidir. Byte sabitler u8 türünden kabul edikleri için biz onları ancak u8 türünden bir değişkene
     atayabiliriz. Byte sabitlerinde tek tırnak içerisine yalnızca standart ASCII karalterlerinden biri yerleştirilebilir. Yani
     tek tırnak içine yerleştirilecek karakterin Unicode kod numarasının [0, 127] aralığında olması gerekir. Örneğin:
 
-    let b: u8 = b'ş';                // error!
+        let b: u8 = b'ş';                // error!
 
     Burada 'ş' karakteri bir ASCII karakter olmadığı için byte sabit geçersiz bir biçimde oluşturulmuştur. Tabii Rust'ın
     yukarıda belirtmiş olduğumuz ters bölü karakter sabitleri aynı zamanda ASCII karakterleri olduğu için byte sabit olarak
     kullanılabilir. Örneğin:
 
-    let b: u8 = b'\n';               // geçerli
+        let b: u8 = b'\n';               // geçerli
 
     Byte sabitleri oluştururken tek tırnak içerisine \u {...} biçiminde Unicode kod numarası belirtilerek karakterler yerleştirilemez.
     Örneğin:
 
-    let b: u8 = b'\u{61}';           // error!
+        let b: u8 = b'\u{61}';           // error!
 
     'a' gibi bir sabitin char türden olduğuna ama b'a' biçiminde bir sabitin u8 türünden olduğuna dikkat ediniz.
 
     Aşağıdaki bağlamaya dikkat ediniz:
 
-    let b: u8 = b'a';
+        let b: u8 = b'a';
 
     Burada aslında b'nin içerisinde 97 sayısı vardır. Biz b'yi yazdırırsak 97 görürürüz. Örneğin:
 
-    println!("{}", b);      // 97
+        println!("{}", b);      // 97
 
     Pekiyi o halde yukarıdaki bağlamanın aşağıdakinden ne farkı vardır?
 
-    let b: u8 = 97;
+        let b: u8 = 97;
 
     Aslında bu iki bağlama arasında işlevsel bir farklılık yoktur. Ancak byte sabitler özellikle standart ASCII karakterlerin
     kod numaralarının oluşturulması için tercih edilmektedir. Yani bağlamına göre b'a' gibi bir sabit amaçlanan şeyi daha
@@ -1093,7 +1093,7 @@
     eğer istenirse [128, 255] arasındaki kod numaraları '\xHH' (Burada HH iki hex digit belirtmektedir) biçiminde de belirtilebilir.
     Örneğin:
 
-    let b: u8 = b'\xFC';        // geçerli
+        let b: u8 = b'\xFC';        // geçerli
 
     Byte sabitleri Python'da uzun süredir bulunmaktadır. Tabii Python'da bir byte'lık başka bir tür olmadığı için oradaki
     byte türü ve byte sabitlerinin yeri başka biçimde doldurulamamaktadır. Python'da byte sabitlerin öneki 'b' ya da 'B'
@@ -1106,8 +1106,8 @@
     biçiminde Unicode kod numarasıyla belirttiğimiz karakterleri kullanabiliriz. Rust'ın stringlerinin sonuna null karakter
     yerleştirilmediğini de daha önce belirtmiştik. C'den geçen kişiler özellikle şu iki noktaya dikkat etmelidirler:
 
-    1) Rust'taki string'lerin içerisindeki karakterler Unicode UTF-8 kodlamasıyla tutulmaktadır.
-    2) Rust'ta string'lerin sonunda null karakter yoktur.
+        1) Rust'taki string'lerin içerisindeki karakterler Unicode UTF-8 kodlamasıyla tutulmaktadır.
+        2) Rust'ta string'lerin sonunda null karakter yoktur.
 
     C'de string'ler ifade içerisinde kullanıldığında char * türünden, C++'te const char * türünden kabul edilmektedir.
     Java, C# ve Python gibi dillerde string'ler o dillerin String sınıfı türünden (Python'da str sınıfı türünden) değişken
@@ -1118,9 +1118,9 @@
     Rust'ta biz bir string'i &str türünden bir değişkene atayabiliriz. &str türüne "string dilim referansı" denilmektedir.
     Referanslar ve dilimler ilerideki bölümlerde ele alınacaktır. Örneğin:
 
-    let s: &str;
+        let s: &str;
 
-    s = "ağrı dağı";            // geçerli
+        s = "ağrı dağı";            // geçerli
 
     Unicode UTF-8 kodlamasıyla oluşturulan bir yazının n'inci karakterine tek hamlede (tek makine komutuyla) erişilememektedir.
     Çünkü bu kodlamada daha önce belirttiğimiz gibi her karakter farklı byte uzunluklarında olabilmektedir. Dolayısıyla biz
@@ -1128,8 +1128,8 @@
     operatörü ratgele erişimlerde (O(1) erişim de denilmektedir) kullanılmaktadır. Bu nedenle Rust'ın string'lerinin karakterlerine
     bu operatörle erişilemez. Örneğin:
 
-    let s: &str = "ağrı dağı";
-    let c = s[4];               // error!
+        let s: &str = "ağrı dağı";
+        let c = s[4];               // error!
 
     Rust string'lerinde s[4] biçiminde bir erişim yoktur.
 
@@ -1137,15 +1137,15 @@
     \ karakteri ve hemen ardından \n karakteri lle (yani editörde \ karakterine bastıktan sonra ENTER tuşuna basıp) "aşağı
     satırdan devam et" diyerek de aynı şeyi yapabiliriz. Örneğin:
 
-    let s: &str;
+        let s: &str;
 
-    s = "Ankara Türkiye'nin         // geçerli
-    başkentidir";
+        s = "Ankara Türkiye'nin         // geçerli
+        başkentidir";
 
     Ancak örneğin:
 
-    s = "Ankara Türkiye'nin \       // geçerli
-    başkentidir";
+        s = "Ankara Türkiye'nin \       // geçerli
+        başkentidir";
 
     \ karakteri ile farklı satırların sanki tek bir satırmış gibi birleştirilmesi özelliği C'de ve diğer bazı dillerde de
     bulunmaktadır.
@@ -1160,7 +1160,7 @@
     anlamına gelmektedir. Yani bu string'ler içerisindeki ters bölü karakterleri ters bölü karakter sabiti oluşturma anlamında
     ele alınmamaktadır. Örneğin:
 
-    let s: &str = "ali\nveli";
+        let s: &str = "ali\nveli";
 
     Buradaki string'te \n tek bir karakterdir. Bu yazı ekrana yazdırıldığında bu \n karakteri imlecin aşağı satırın başına
     geçirilmesine yol açacaktır. Eğer buradaki string saf string olsaydı bu \n karakterleri "new line" karakteri yerine
@@ -1168,25 +1168,25 @@
 
     Rust'ta saf string'ler iki tırnağın başına onunla yapışık r öneki getirilerek oluşturulmaktadır. Örneğin:
 
-    let s: &str = r"ali\veli";
+        let s: &str = r"ali\veli";
 
-    println!("{}", s);          // ali\nveli
+        println!("{}", s);          // ali\nveli
 
     Saf string sabitleri ters bölü karakteri içeren yazıların daha kolay ve okunabilir bir biçimde oluşturulmasına olanak
     sağlamaktadır. Örneğin:
 
-    let path: &str = r"c:\temp\test.txt";
+        let path: &str = r"c:\temp\test.txt";
 
     Eğer saf string sabitleri olmasaydı biz bu yazıyı şöye oluşturmak zorunda kalırdık:
 
-    let path: &str = "c:\\temp\\test.txt";
+        let path: &str = "c:\\temp\\test.txt";
 
     Pekiyi biz iki tırnak içerisinde iki tırnak karakteri içeren bir yazıyı nasıl oluşturabiliriz? Bu Rust'ta diğer dillerde
     olduğu gibi \" kullanılarak yapılabilmektedir. Örneğin:
 
-    let s = "\"ankara\"";
+        let s = "\"ankara\"";
 
-    println!("{}",s);       "ankara"
+        println!("{}",s);       "ankara"
 
     Tabii iki tırnak içerisinde tek tırnak karakteri kullanmanın, tek tırnak içerisinde de iki tırnak karakteri kullanmanın
     bir sakıncası olmadığını biliyorsunuz.
@@ -1195,14 +1195,14 @@
     kapanış iki tırnak karakterinden sonra açılış iki tırnak karakterinin önündeki sayıda # karakterinin bulundurulması
     gerekmektedir. Örneğin:
 
-    let s: &str = r#"ankara"#;
-    println!("{}", s);          // ankara
+        let s: &str = r#"ankara"#;
+        println!("{}", s);          // ankara
 
     Burada r önekinden sonra iki tırnağın başına ve sonuna # karakterinin getirildiğine dikkat ediniz. #'lerin sayısı birden
     fazla olabilir ancak kapanışta da aynı sayıda # karakterinin bulundurulması gerekir. Örneğin:
 
-    let s: &str = r###"ankara"###;
-    println!("{}", s);      // ankara
+        let s: &str = r###"ankara"###;
+        println!("{}", s);      // ankara
 
     Burada açılış iki tırnak karakterinin solunda üç tane # karakteri olduğu için sağında da üç tane # karakteri bulunmak zorundadır.
     Pekiyi saf string'lerde # karakterlerini bulundurmanın anlamı nedir? İşte bunun amacı iki tırnak içerisindeki iki tırnak
@@ -1210,31 +1210,31 @@
     biçiminde oluşturmak isteyelim. Ancak anahtarların da iki tırnaklı yazılardan oluştuğunu varsayalım. Bu durumda aşağıdaki gibi
     bir string geçersiz olacaktır:
 
-    let s: &str = "{"ali": 123, "veli": 234}";      // error!
+        let s: &str = "{"ali": 123, "veli": 234}";      // error!
 
     Çünkü burada iki tırnak içerisindeki iki tırnak karakteri iki tırnağı kapatmak anlamına gelmektedir. Bu string'in başına r
     öneki getirerek de bunu geçerli yapamayız:
 
-    let s: &str = r"{"ali": 123, "veli": 234}";         // error!
+        let s: &str = r"{"ali": 123, "veli": 234}";         // error!
 
     Tabii bu string'i geçerli bir biçimde şöyle belirtebilirdik:
 
-    let s: &str = "{\"ali\": 123, \"veli\": 234}";      // geçerli
+        let s: &str = "{\"ali\": 123, \"veli\": 234}";      // geçerli
 
     Fakat bu durumda da yazı okunabilir olmaktan çıkmaktadır. İşte #'li saf string'ler bu kolaylığı sağlamaktadır:
 
-    let s: &str = r#"{"ali": 123, "veli": 234}"#;      // geçerli
+        let s: &str = r#"{"ali": 123, "veli": 234}"#;      // geçerli
 
     Pekiyi neden artık bu string geçerli olmuştur? Çünkü string #" ile başlatıldığı ve bitimi de "# biçiminde olacağı için
     bunun içerisindeki çift tırnak karakteri artık string'i bitirmek anlamına gelmemektedir. Şimdi de aşağıdaki string'e
     dikkat ediniz:
 
-    let s: &str = r#"ben "#" karakterini çok seviyorum"#;      // error!
+        let s: &str = r#"ben "#" karakterini çok seviyorum"#;      // error!
 
     Bu string geçersizdir. Çünkü burada yazı içerisinde tesadüfen bulunan "# karakterleri saf string'i bitiren karakterler
     olarak ele alınacaktır. İşte bu tür durumlarda #'lerin sayısını artırabiliriz:
 
-    let s: &str = r##"ben "#" karakterini çok seviyorum"##;     // geçerli
+        let s: &str = r##"ben "#" karakterini çok seviyorum"##;     // geçerli
 
     Burada artık string ##" ile başlatıldığı için bitimi de "## ile yapılmaktadır.
 
@@ -1247,19 +1247,19 @@
     byte string'ler u8 türünden bir dizi dilimi (ya da kısaca dilim de diyebiliriz) belirtmektedir. Dolayısıyla &[u8] türünden
     bir değişkene atanabilirler. Örneğin:
 
-    let bs: &[u8] = b"ankara";
+        let bs: &[u8] = b"ankara";
 
-    println!("{:?}",bs);        // [97, 110, 107, 97, 114, 97]
+        println!("{:?}",bs);        // [97, 110, 107, 97, 114, 97]
 
     Tabii byte string'lerin içerisindeki karakterlerin de yine byte sabitlerde olduğu gibi yalnızca ASCII karakterlerinden
     oluşturulması gerekir. Örneğin:
 
-    let bs: &[u8] = b"ağrı dağı";       // error!
+        let bs: &[u8] = b"ağrı dağı";       // error!
 
     Burada byte string'in içerisinde Türkçe karakterler bulundurulmuştur. Ancak byte sabitlerinde olduğu gibi byte string
     sabitlerinde de [128, 255] arasındaki karakterler \xHH (Burada HH iki hex digit belirtmektedir) ifade edilebilir. Örneğin:
 
-    let bs: &[u8] = b"abc\xFF\xFCdef";       // geçerli
+        let bs: &[u8] = b"abc\xFF\xFCdef";       // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
 
     Byte string sabitleri de "saf (raw)" biçimde oluşturulabilmektedir. Bunlara "saf byte string sabitleri (raw byte string
@@ -1267,7 +1267,7 @@
     sabitlerinde olduğu gibidir. Yani iki tırnağın içerisindeki ters bölü karakterleri ters bölü karakter sabitleri olarak değil
     gerçekten ters bölü karakterleri olarak ele alınmaktadır. Örneğin:
 
-    let bs: &[u8] = br"a\nb";
+        let bs: &[u8] = br"a\nb";
 
     Burada \n "new line" karakterini değil \ ve n karalterlerini belirtmektedir. Dolayısıyla burada byte string'i 3 uzunlukta
     değil 4 uzunluktadır.
@@ -1276,8 +1276,8 @@
     Saf string sabitlerinde olduğu gibi bu da iki tırnak içerisinde iki tırnak karakterinin daha kolay kullanılmasını sağlamaktadır.
     Örneğin:
 
-    let bs: &[u8] = br#"ankara""#;
-    let bs: &[u8] = br##""#"##;
+        let bs: &[u8] = br#"ankara""#;
+        let bs: &[u8] = br##""#"##;
 
 # 9. Ders 26/03/2025 - Çarşamba
 
@@ -1285,7 +1285,7 @@
     (C string lietarls)" denilmektedir. C string sabitleri iki tırnağın soluna onunla yapışık c harfi getirilerek oluşturulmaktadır.
     Örneğin:
 
-    let cs = c"ankara";
+        let cs = c"ankara";
 
     C String sabitleri &CStr türündendir. Yani CStr türünden bir dilim referansı belirtmektedir. Ancak CStr türü ffi isimli
     modülün içerisindedir ve otomatik olarak derleyici tarafından tanınmamaktadır. (Bu durum "prelude" denilen bir konu içerisinde
@@ -1293,7 +1293,7 @@
     biçiminde niteliklendirme yapılarak kullanılabilir ya da ileride de göreceğimiz gibi niteliklendirmeyi ortadan kaldırıp
     kolay bir kullanım oluşturmak için aşağıdaki gibi use bildirimi de yapılabilir:
 
-    use std::ffi::CStr;
+        use std::ffi::CStr;
 
     ffi sözcüğü "foreign function interface" sözcüklerinden kısaltılmıştır. Aslında C string sabitlerinin normal string
     sabitlerinden en önemli farklılığı C string sabitlerinin sonunda '\0' (null karakter) bulunmasıdır. Yani bu sabitlerde
@@ -1306,14 +1306,14 @@
     C String sabitleri de "saf (raw)" biçimde kullanılabilmektedir. Bunun için iki tırnağa yapışık onun önünce cr öneki
     getirilmektedir. Semantik tamamen diğer saf string'lerde olduğu gibidir. Örneğin:
 
-    let cs: &std::ffi::CStr = cr"a\nb";
+        let cs: &std::ffi::CStr = cr"a\nb";
 
     Burada \n karakterleri "new line" karakterini değil ayrı ayrı \ ve n karakterlerini belirtmektedir. Yine aynı biçimde C
     string sabitlerinde de yazının içerisinde iki tırnak karakterinin kolay kullanılması için iki tırnakların başına ve sonuna
     aynı sayıda  # karakteri getirilebilmektedir. Örneğin:
 
-    let cs: &std::ffi::CStr = cr#""ankara""#;       // geçerli
-    let cs: &std::ffi::CStr = cr##""#"##;           // geçerli
+        let cs: &std::ffi::CStr = cr#""ankara""#;       // geçerli
+        let cs: &std::ffi::CStr = cr##""#"##;           // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta never türünden (! türünden) bir sabit ya da da değer yoktur. Yani Rust'ta ! bir değer değil tür belirtmektedir.
@@ -1326,12 +1326,12 @@
     kastetmek isiyorsanız "ifade (expression)" terimini kullanabilirsiniz. Aşağıda C'deki terimlerin Rust karşılıklarını
     veriyoruz:
 
-    C                       Rust
-    ---------------------------------
-    Nesne                   Değişken
-    Geçici nesne            Değer
-    Sabit                   Sabit/Değer
-    İfade                   İfade
+        C                       Rust
+        ---------------------------------
+        Nesne                   Değişken
+        Geçici nesne            Değer
+        Sabit                   Sabit/Değer
+        İfade                   İfade
 
     Örneğin biz C'de "bir yapı nesnesi" derken Rust'ta "bir yapı değişkeni" deriz. C'de "fonksiyon bir yapı nesnesine geri
     döner" derken Rust'ta "fonksiyon bir yapı değerine geri döner" deriz.
@@ -1343,9 +1343,9 @@
 
     Rust'ta bir fonksiyon tanımlamanın temel genel biçimi şöyledir:
 
-    fn <fonksiyon_ismi>([parametre_tanımlamaları]) [ -> <geri_dönüş_değerinin_türü>] {
-        //...
-    }
+        fn <fonksiyon_ismi>([parametre_tanımlamaları]) [ -> <geri_dönüş_değerinin_türü>] {
+            //...
+        }
 
     Bu temel bir genel biçimdir. Fonksiyon tanımlamanın genel biçiminde henüz üzerinde durmayacağımız bazı ayrıntılar da vardır.
     Şimdi bu temel genel biçim üzerinde duralım. Bir fonksiyon tanımlarken tanımlamanın başında fn anahtar sözcüğü bulundurulmaktadır.
@@ -1355,40 +1355,40 @@
     geri dönüş değerlerinin türleri Rust'ta fonksiyonun parametre parantezinden sonra -> atomu ve sonra tür yazılarak belirtilmektedir.
     Örneğin:
 
-    fn foo() -> i32 {
-        //...
-    }
+        fn foo() -> i32 {
+            //...
+        }
 
     Burada foo fonksiyonu parametreye sahip değildir ve geri dönüş değeri i32 türündendir. Tabii fonksiyonların geri dönüş değerleri
     olmak zorunda değildir. Bu durumda parametre parantezinden sonra geri dönüş değeri belirtilmez. Örneğin:
 
-    fn bar() {
-        //...
-    }
+        fn bar() {
+            //...
+        }
 
     Burada fonksiyonun geri dönüş değeri yoktur. C'de fonksiyonun geri dönüş değerinin olmadığını belirtmek için void  anahtar
     sözcüğünün kullanıldığını anımsayınız. Örneğin:
 
-    void bar(void)
-    {
-        //...
-    }
+        void bar(void)
+        {
+            //...
+        }
 
     Rust'ta böyle bir void anahtar sözcüğü yoktur. Ancak onun yerine () ile temsil edilen ve ismine "birim (unit)" ya da "birim
     türü (unit type)" denilen bir sentaks kullanılmaktadır. Örneğin:
 
-    fn bar() -> () {
-        //...
-    }
+        fn bar() -> () {
+            //...
+        }
 
     Fonksiyonun geri dönüş değerinin türünün belirtilmemesiyle -> () biçiminde belirtilmesi tamamen aynı anlama gelmektedir.
     Aslında Rust'ta bu birim türü boş bir "demet (tuple)" belirtmektedir. Örneğin:
 
-    let s: (i32, i32) = (10, 20);
+        let s: (i32, i32) = (10, 20);
 
     Burada s iki elemanlı bir demettir. s'in türü de (i32, i32) biçiminde ifade edilmektedir. Örneğin:
 
-    let s: () = ();
+        let s: () = ();
 
     Burada s elemanı olmayan (yani sıfır elemanlı) bir demettir. Bunun türü de () biçiminde ifade edilmektedir. Yani aslında
     "birim (unit)" ya da "birim türü (unit type)" sıfır elemanlı bir demet belirtmektedir.
@@ -1397,74 +1397,74 @@
     C'de ve C++ programcılarının büyük çoğunluğu (fakat hepsi değil) fonksiyonların ana bloklarındaki küme parantezlerini
     genellikle aşağı satırın başında açarlar. Örneğin:
 
-    void foo(void)
-    {
-        //...
-    }
+        void foo(void)
+        {
+            //...
+        }
 
     Fakat Rust'ta ana blok küme parantezinin aynı satırda açılması bir gelenek biçiminde yerleşmiştir. Örneğin:
 
-    fn foo() {
-        //...
-    }
+        fn foo() {
+            //...
+        }
 
     Biz Derneğimizde hangi programlama dilinde çalışıyorsa o dilin geleneklerine uygun bir kod yerleşimi kullanıyoruz.
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta fonksiyonlar diğer pek çok dildeki gibi çağrılmaktadır.
 
-    fonksiyon_ismi([argüman_listesi])
+        fonksiyon_ismi([argüman_listesi])
 
     Örneğin:
 
-    foo();
+        foo();
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta fonksiyonların geri dönüş değerleri diğer pek çok dilde olduğu gibi return deyimiyle oluşturulabilmektedir.
     return deyiminin genel biçimi şöyledir:
 
-    return [ifade];
+        return [ifade];
 
     return deyimi hem fonksiyonu sonlandırır hem de geri dönüş değerini oluşturur. Eğer fonksiyonun geri dönüş değeri yoksa
     (yani geri dönüş değeri "birim (unit)" türündense) return anahtar sözcüğünün yanına bir ifade yazılmayabilir. Bu durumda
     örneğin:
 
-    return;
+        return;
 
     kullanımı ile aşağıdaki kullanım tamamen eşdeğerdir:
 
-    return ();
+        return ();
 
     Rust "katı bir tür kontrolüne sahip (strict type checking)" programlama dili olduğu için bir fonksiyonun geri dönüş
     değeri hangi türdense onu aynı türden bir değişkene atamak gerekir. Örneğin:
 
-    fn main() {
-        let result: i32;
+        fn main() {
+            let result: i32;
 
-        result = foo();
-        println!("{}", result);     // 100
-    }
+            result = foo();
+            println!("{}", result);     // 100
+        }
 
-    fn foo() -> i32 {
-        println!("foo");
-        return 100;
-    }
+        fn foo() -> i32 {
+            println!("foo");
+            return 100;
+        }
 
     Tabii Rust'ta da fonksiyonun geri dönüş değerinin olması onu kullanmayı zorunlu hale getirmemektedir. Örneğin:
 
-    fn main() {
-        foo();          // geçerli, fonksiyonun geri dönüş değerini kullanmak zorunda değiliz
-    }
+        fn main() {
+            foo();          // geçerli, fonksiyonun geri dönüş değerini kullanmak zorunda değiliz
+        }
 
-    fn foo() -> i32 {
-        println!("foo");
-        return 100;
-    }
+        fn foo() -> i32 {
+            println!("foo");
+            return 100;
+        }
 
     Bazı "statik analiz araçları" bu tür durumlarda uyarı üretebilmektedir. Bundan kaçınmak için _ ile temsil edilen ve yer
     tutucu olarak kullanılan isme bağlama yapabilrisiniz. Örneğin:
 
-    let _ = foo();
+        let _ = foo();
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta Fonksiyonlar "Öğe (Item)" denilen bir sentaks grubuna ilişkindir. Genel olarak öğelerde tanımlama sırasının bir
@@ -1476,37 +1476,37 @@
 
     Örneğin aşağıdaki gibi bir tanımalama ve çağırma C'de ve C++'ta geçerli değildir:
 
-    int main(void)
-    {
-        foo();          // geçersiz!
-    }
+        int main(void)
+        {
+            foo();          // geçersiz!
+        }
 
-    void foo(void)
-    {
-        //...
-    }
+        void foo(void)
+        {
+            //...
+        }
 
     Çünkü derleyici yukarıdan aşağıya doğru kodu derlerken foo çağrısına geldiğinde henüz foo hakkında bir bilgi edinememiştir.
     (C90'da bu kuralda bazı ayrıntıların olduğunu anımsayınız.) Halbuki bunun eşdeğeri Rust'ta geçerlidir:
 
-    fn main() {
-        foo();          // geçerli
-    }
+        fn main() {
+            foo();          // geçerli
+        }
 
-    fn foo() {
-        //...
-    }
+        fn foo() {
+            //...
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta fonksiyonların parametre değişkenleri parametre parantezinin içerisinde bir argüman listesi biçiminde tanımlanmaktadır:
 
-    <değişken_ismi>: <tür>, <değişken_ismi>: <tür>, ....
+        <değişken_ismi>: <tür>, <değişken_ismi>: <tür>, ....
 
-    Örneğin:
+        Örneğin:
 
-    fn add(a: i32, b: i32) -> i32 {
-        return a + b;
-    }
+        fn add(a: i32, b: i32) -> i32 {
+            return a + b;
+        }
 
     Burada add fonksiyonunun iki parametre değişkeni vardır. Fonksiyon da iki parametresinin toplamını geri döndürmektedir.
 
@@ -1516,45 +1516,45 @@
 
     Rust'ta fonksiyonların parametre değişkenleri yine default durumda "değiştirilemez (immutable) biçimdedir. Örneğin:
 
-    fn foo(a: i32) {
-        //...
-        a = 10;         // error!
-        //...
-    }
+        fn foo(a: i32) {
+            //...
+            a = 10;         // error!
+            //...
+        }
 
     Burada a parametre değişkeni değiştirilemez durumda olduğu için error oluşacaktır. Eğer parametre değişkeninin değiştirilmesi
     isteniyorsa mut yapılmalıdır. Örneğin:
 
-    fn foo(mut a: i32) {
-        //...
-        a = 10;         // geçerli
-        //...
-    }
+        fn foo(mut a: i32) {
+            //...
+            a = 10;         // geçerli
+            //...
+        }
 
     Ancak Rust'ta parametre değişkeninin mut yapılması genel olarak iyi bir teknik kabul edilmemektedir. Bu durum fonksiyonun
     imzasını değiştirmekte ve yeni başlayanları tereddüt içerisinde bırakabilmektedir. Rust'ta parametre değişkenini mut yapma
     yerine "gölgeleme (shadwing)" ile aynı isimli yeni bir mut yerel değişken oluşturma tercih edişmektedir. Örneğin:
 
-    fn foo(a: i32) {
-        let mut a = a;          // doğru teknik
-        //...
+        fn foo(a: i32) {
+            let mut a = a;          // doğru teknik
+            //...
 
-        a = 10;
-        //...
-    }
+            a = 10;
+            //...
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
     if gibi, switch gibi deyimlerin de birer ifade gibi kullanılabildiği programlama dillerine "ifadesel diller (expression
-    languages)" denilmektedir. C ve C++, Java ve C# gibi diller bu bağlamda ifadesel bir diller değildir. İfadesel dillerde
+    languages)" denilmektedir. C ve C++, Java ve C# gibi diller bu bağlamda ifadesel diller değildir. İfadesel dillerde
     deyimler birer değer de üretmektedir. Dolayıyla bu dillerde deyimlerin ürettikleri değerler başka ifadelerde kullanılabilmekte
     ve değişkenlere atanabilmektedir. Örneğin:
 
-    x = if (koşul) {
-        //...
-    }
-    else {
-        //..
-    }
+        x = if (koşul) {
+            //...
+        }
+        else {
+            //..
+        }
 
     Böyle bir kullanım C'de ve C++'ta geçerli değildir ancak ifadesel dillerde geçerlidir. Yeni ve modern dillerin çoğu ifadesel
     özelliklere sahip olarak tasarlanmaktadır. Örneğin Swift, Kotlin gibi yeni diller, Ruby, Haskell, Scheme gibi eski diller
@@ -1566,24 +1566,24 @@
     sırasıyla tek tek çalıştırılır, blok deyimi de bloğun sonundaki ifadenin (expression) değerini üretir. İfade (expression)
     kavramı izleyen bölümlerde ele alınacağı gibi ';' içermemektedir. Örneğin:
 
-    let x: i32;
+        let x: i32;
 
-    x = {
-        prinln!("one");
-        prinln!("two");
-        prinln!("three");
-        100
-    };
+        x = {
+            prinln!("one");
+            prinln!("two");
+            prinln!("three");
+            100
+        };
 
     Burada x'e 100 değeri atanacaktır. Blok içerisindeki deyimlerin ';' ile sonlandırıldığına ancak bloğun sonundaki ifadenin
     ';' ile sonlandırılmadığına dikkat ediniz. Rust'ta eğer bloğun sonunda bir ifade yoksa o blok "birim türünü" üreti.
     Örneğin:
 
-    let x = {
-        prinln!("one");
-        prinln!("two");
-        prinln!("three");
-    };
+        let x = {
+            prinln!("one");
+            prinln!("two");
+            prinln!("three");
+        };
 
     Burada bloğun sonunda bir ifade yoktur, dolayısıyla x değişkeni () türündendir. Anımsanacağı gibi Rust'ta birim türü
     "olmamayı, boş olmayı" temsil etmektedir.
@@ -1595,18 +1595,18 @@
     anlamına gelmektedir. Bu nedenle Rust'ta (ve diğer pek çok ifadesel dilde) aslında fonksiyonun ana bloğunun sonundaki
     ifade aynı zamanda fonksiyonun geri dönüş değerini oluşturmaktadır. Örneğin:
 
-    fn foo() -> i32 {
-        println!("foo");
-        100
-    }
+        fn foo() -> i32 {
+            println!("foo");
+            100
+        }
 
     Burada fonksiyonun geri dönüş değerini oluşturmak için return deyimi yerine doğrudan blok deyiminin ürettiği değer olan
     100 ifadesi yerleştirilmiştir. Tabii aslında yukarıdaki ile aşağıdaki arasında işlevsel bir farklılık yoktur:
 
-    fn foo() -> i32 {
-        println!("foo");
-        return 100;
-    }
+        fn foo() -> i32 {
+            println!("foo");
+            return 100;
+        }
 
     Şimdi size sanki Rust'ta return deyimi gereksizmiş gibi gelebilir. Ancak fonksiyonun ortasında yani bir bloğun içerisinde
     fonksiyonu sonlandırmak istediğimizde mecburen yine return deyimini kullanmak zorunda kalırız.

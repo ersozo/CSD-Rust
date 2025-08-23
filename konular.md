@@ -174,7 +174,7 @@
     - Arc<T> Kullanımı
     - Cell<T> Kullanımı
     - RefCell<T> Kullanımı
-    - Weak<<T> Kullanımı
+    - Weak<T> Kullanımı
 ## Rust’ta Çok Kullanılan Nesne Tutan Yapılar
     - String Yapısı
     - Vec<T>Yapısı ve Kullanımı
