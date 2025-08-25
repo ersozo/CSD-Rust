@@ -1618,32 +1618,32 @@
     Swift, Kotlin gibi programlama dillerinde de bu özellik bulunmaktadır. C# gibi bazı dillere ise bu özellik sonradan eklenmiştir.
     Örneğin:
 
-    fn foo() {
-        //...
-        fn bar() {
+        fn foo() {
+            //...
+            fn bar() {
+                //...
+            }
             //...
         }
-        //...
-    }
 
     Burada bar fonksiyonu foo fonksiyonun içerisinde tanımlanmıştır. Bir fonksiyon başka bir fonksiyonun içerisinde tanımlanmışsa
     o fonksiyon ancak tanımlandığı fonksiyonun içerisinden çağrılabilir. Yani dışarıdan iç bir fonksiyon çağrılamamaktadır.
     Örneğin:
 
-    fn main() {
-        foo();
-        bar();      // error!
-    }
-
-    fn foo() {
-        println!("foo");
-
-        fn bar() {
-            println!("bar");
+        fn main() {
+            foo();
+            bar();      // error!
         }
 
-        bar();      // geçerli
-    }
+        fn foo() {
+            println!("foo");
+
+            fn bar() {
+                println!("bar");
+            }
+
+            bar();      // geçerli
+        }
 
     Bu örnekte br fonksiyonunun main fonksiyonu içerisinden çağrılamadığına foo fonksiyonun içerisinden çağrılabildiğine dikkat
     ediniz.
@@ -1652,39 +1652,39 @@
     Rust'ta aşağıda tanımlanan bir fonksiyon daha yukarıda çağrılabilmektedir. Dolayısıyla iç bir fonksiyonu aşağıda tanımlayıp
     daha yukarıda çağırabiliriz. Örneğin:
 
-    fn foo() {
-        println!("foo");
-        bar();      // geçerli
+        fn foo() {
+            println!("foo");
+            bar();      // geçerli
 
-        fn bar() {
-            println!("bar");
+            fn bar() {
+                println!("bar");
+            }
         }
-    }
 
     Tabii iç fonksiyonun da geri dönüş değeri söz konusu olabilir. Örneğin:
 
-    fn foo() {
-        let val: i32;
+        fn foo() {
+            let val: i32;
 
-        val = bar(10);
-        println!("{}", val);
+            val = bar(10);
+            println!("{}", val);
 
-        fn bar(a: i32) -> i32 {
-            a * a
+            fn bar(a: i32) -> i32 {
+                a * a
+            }
         }
-    }
 
     İç içe fonksiyon tanımlamalarının yapıldığı pek çok dilde iç fonksiyonlar dış fonksiyonların yerel değişkenlerini doğrudan
     kullanabilmektedir. Ancak Rust'ta bu mümkün değildir. Örneğin:
 
-    fn foo() {
-        let val = 123;
+        fn foo() {
+            let val = 123;
 
-        fn bar() {
-            println!("{}", val);        // error!
+            fn bar() {
+                println!("{}", val);        // error!
+            }
+            //...
         }
-        //...
-    }
 
     Burada bar içerisinden foo fonksiyonun yerel değişkenlerini kullanamayız.
 
@@ -1699,27 +1699,27 @@
     tanımlanmıştır. O halde bizim bu foo, bar ve tar fonksiyonlarını do_something fonksiyonun içerisinde tanımlamamız daha uygun
     olur. Örneğin:
 
-    fn do_something() {
-        fn foo() {
+        fn do_something() {
+            fn foo() {
+                //...
+            }
+
+            fn bar() {
+                //...
+            }
+
+            fn tar() {
+                //...
+            }
+
+            //...
+            foo();
+            //...
+            bar();
+            //...
+            tar();
             //...
         }
-
-        fn bar() {
-            //...
-        }
-
-        fn tar() {
-            //...
-        }
-
-        //...
-        foo();
-        //...
-        bar();
-        //...
-        tar();
-        //...
-    }
 
     Pekiyi okunabilirlik sağlamak için iç fonksiyonu dış fonksiyonun neresinde tanımlamak uygun olur? Genellikle Rust programcıları
     iç fonksiyonu dış fonksiyonun hemen başında tanımlarlar. Ancak bazı programcılar bunun tam tersini de yapmaktadır. Yani
@@ -1733,11 +1733,11 @@
     Programlama dillerinde "değişkenlerin, sabitlerin ve operatörlerin her bir bileşimine ifade (expression)" denilmektedir.
     Örneğin:
 
-    a
-    10
-    a + 10
-    a[i] + b + 10
-    10 + 20
+        a
+        10
+        a + 10
+        a[i] + b + 10
+        10 + 20
 
     birer ifadedir. Tek başına bir sabitin ifade belirttiğine, tek başına bir değişkenin ifade belirttiğine ancak tek başına
     bir operatörün ifade belirtmediğine dikkat ediniz. Bir ifade alt ifadelerden oluşuabilir. Yani bir ifade başka ifadelerin
@@ -1747,19 +1747,19 @@
 
     Rust'ta ifadeler iki sınıfa ayrılmaktadır:
 
-    1) Yer belirten ifadeler (place expression)
-    2) Değer belirten ifadeler (value expression)
+        1) Yer belirten ifadeler (place expression)
+        2) Değer belirten ifadeler (value expression)
 
     Yer belirten ifadeler C'deki "sol taraf değeri (lvalue)", yer belirtmeyen ifadeler ise C'deki "sağ taraf değeri (rvalue)"
     ile aynı anlamdadır. "The Rust Reference" dokümanları bu konuda şöyle demektedir:
 
-    "Note: Historically, place expressions were called lvalues and value expressions were called rvalues."
+        "Note: Historically, place expressions were called lvalues and value expressions were called rvalues."
 
     Yer belirten ifadeler (place expressions) ismi üzerinde bellekte bir yer belirtmektedir. Dolayısıyla bu ifadelere atama
     yapılabilir ve bu ifadelerin adresleri alınabilir. Değer ifadeleri ise bellekte bir yer belirtmeyen ifadelerdir. Bir operatörün
     operand'ı kullanıldığı bağlamda ya yer ifadesi ya da değer ifadesi durumundadır. Örneğin:
 
-    a = b + 10;
+        a = b + 10;
 
     Burada a ifadesi bir yer ifadesi, b ve 10 birer değer ifadesi belirtmektedir. "The Rust Reference" dokümanlarında hangi
     operatörlerin hangi operand'larının yer belirten ifade olarak ele alınacağı belitrilmiştir. Geri kalan durumlarda operatörlerin
@@ -1769,23 +1769,23 @@
     Programlama dillerindeki çalıştırma birimlerine "deyim (statement)" denilmektedir. Bir program deyimlerin çalıştırışmasıyla
     çalışmaktadır. Örneğin aşağıda C'de yazılmış olan kod parçasına bakınız:
 
-    ...
-    max = a[0];
-    for (int i = 1; i < size; ++i)
-        if (a[i] > max)
-            max = a[i];
-    printf("%d\n", max);
-    ...
+        ...
+        max = a[0];
+        for (int i = 1; i < size; ++i)
+            if (a[i] > max)
+                max = a[i];
+        printf("%d\n", max);
+        ...
 
-    Bu kod parçasında üç deyim vardır. Bunları birer satır boşluk vererek belirtmek istiyoruz:
+        Bu kod parçasında üç deyim vardır. Bunları birer satır boşluk vererek belirtmek istiyoruz:
 
-    max = a[0];
+        max = a[0];
 
-    for (int i = 1; i < size; ++i)
-        if (a[i] > max)
-            max = a[i];
+        for (int i = 1; i < size; ++i)
+            if (a[i] > max)
+                max = a[i];
 
-    printf("%d\n", max);
+        printf("%d\n", max);
 
     Burada for döngüsünün tamamının tek bir deyim olduğuna dikkat ediniz. Genel olarak programlama dillerinde for gibi, if
     gibi programın akışı üzerinde etkili olan deyimlere "kontrol deyimleri (control statements)", Rust Programlama Dilinde
@@ -1796,36 +1796,36 @@
     bu ifade deyim haline gelmektedir. Bu tür deyimlere pek çok programlama dilinde "basit deyim (simple statement)" ya da
     "ifadesel deyim (expression statement)" denilmektedir. Örneğin:
 
-    max = a[0]
+        max = a[0]
 
     biçimindeki atom yığını C'de bir ifade belirtmektedir, deyim belirtmemektedir. Ancak örneğin:
 
-    max = a[0];
+        max = a[0];
 
     artık burada ifadenin sonuna ';' yerleştirildiği için bu atom yığını bir deyim belirtmektedir. Benzer biçimde örneğin:
 
-    printf("%d\n", max)
+        printf("%d\n", max)
 
     biçimindeki atom yığını bir ifade belirtirken bunun sonuna ';' yerleştirirsek artık bu bir deyim belirtir hale gelmektedir:
 
-    printf("%d\n", max);
+        printf("%d\n", max);
 ---------------------------------------------------------------------------------------------------------------------------
 
     Bir öğenin kendisi gibi başka öğeleri içermesi durumuna "özyineleme (recursion)" denilmektedir. Doğada ve bilgisayar
     bilimlerinde özyinelemeyle sıkça karşılaşılmaktadır. Örneğin bir dizin (directory) kendisi gibi dizinleri içerebilmektedir.
     İşte bir deyim de başka deyimleri içerebilir. Örneğin:
 
-    if koşul {
-        ifade1;
-        ifade2;
-        loop {
-            //...
+        if koşul {
+            ifade1;
+            ifade2;
+            loop {
+                //...
+            }
         }
-    }
-    else {
-        ifade3;
-        ifade4;
-    }
+        else {
+            ifade3;
+            ifade4;
+        }
 
     Burada bloklar da bir deyimdir. Ancak bu bloklar bağımsız birer deyim değil if deyiminin içerisindeki deyimlerdir. Blok
     deyimlerinin içerisinde de başka deyimler vardır. Bu durumu bir kutunun içerisinde başka kutuların olduğu duruma benzetebiliriz.
@@ -1838,21 +1838,21 @@
     Rust'ın bir "ifadesel dil (expression language)" olduğunu belirtmiştik. Rust'ta for gibi if gibi bloklu yapılar bir ifade
     belirtmektedir. "The Rust Reference" dokümanlarında "deyim (statement)" için BNF grameri şöyle verilmiştir:
 
-        Statement :
-        ;
-    | Item
-    | LetStatement
-    | ExpressionStatement
-    | MacroInvocationSemi
+            Statement :
+            ;
+        | Item
+        | LetStatement
+        | ExpressionStatement
+        | MacroInvocationSemi
 
     Burada bir deyimin yalnızca bir ';' atomundan (C, Java ve C# gibi  dillerdeki boş deyim), bir program öğesinden (Item),
     bir ifadeden (ExpressionStatement) ve bir makro çağrımından (MacroInvocationSemi) oluşturulabileceği belirtilmektedir.
     Biz bu gramerdeki ExpressionStatement ara sembolüne "ifadesel deyim" diyeceğiz. Gramerdeki ExpressionStatement ise şöyle
     açılmaktadır:
 
-    ExpressionStatement :
-        ExpressionWithoutBlock ;
-    | ExpressionWithBlock ;?
+        ExpressionStatement :
+            ExpressionWithoutBlock ;
+        | ExpressionWithBlock ;?
 
     Buradaki "ExpressionWithoutBlock ;" bir ifadenin sonuna ';' getirilerek deyim oluşturulabileceğini belirtmektedir.
     ExpressionWithBlock ise küme parantezlerine sahip olan sentaktik yapıları (yani diğer dillerdeki bileşik deyimleri, if gibi,
@@ -1861,34 +1861,34 @@
     ya da yerleştirilmeyebilir. Bu gramerden çıkan sonuçları birkaç örnekle açıklamak istiyoruz. Aşağıdaki ifadesel deyime dikkat
     ediniz:
 
-    x = if (koşul) {
-        //...
-    }
-    else {
-        //...
-    };
+        x = if (koşul) {
+            //...
+        }
+        else {
+            //...
+        };
 
     Burada aslında bir atama işlemi söz konusudur. Dolayısıyla bu kod parçası gramerde "ExpressionWithoutBlock ;" biçiminde
     açılmaktadır. Burada ';' atomunun deyim oluşturmak için ifadenin sonuna yerleştirilmesi zorunludur. Aşağıdaki kod parçasına
     dikkat ediniz:
 
-    if (koşul) {
-        //...
-    }
-    else {
-        //...
-    }
+        if (koşul) {
+            //...
+        }
+        else {
+            //...
+        }
 
     Burada bloklu sentaks yapısı kendi başına kullanılmıştır. Dolayısıyla bu sentaks gramerde "ExpressionWithBlock ;?" ile
     açılır. Bu durumda ';' atomunun kullanılıp kullanılmayacağı isteğe bağlıdır. Yani bu gramere göre yukarıdaki if deyimi
     şöyle de yazılabilirdi:
 
-    if (koşul) {
-        //...
-    }
-    else {
-        //...
-    };
+        if (koşul) {
+            //...
+        }
+        else {
+            //...
+        };
 
     Ancak izleyen paragraflarda ele alınacağı gibi eğer bloklu deyimler değer üretiyorsa ("birim (unit)" dışında bir değer
     üretiyorsa) onların ';' ile sonlandırılması zorunludur.
@@ -1896,10 +1896,10 @@
 
     Rust'ta tıpkı C'de olduğu gibi etkisiz kodlar geçersiz kabul edilmemektedir. Örneğin:
 
-    a + b;
-    10 + 20;
-    30;
-    a[i];
+        a + b;
+        10 + 20;
+        30;
+        a[i];
 
     gibi deyimler pogramda bir durum değişikliği yaratmadığı halde Rust'ta geçerlidir. Tabii etkisiz deyimlerin geçerli olduğu
     programlama dillerinde derleyiciler uyarı mesajı (warning) verebilmektedir. Java ve C# gibi bazı dillerde ise etkisiz
@@ -1910,49 +1910,49 @@
     deyimler bir değer üretmiyorsa (yani () dışında bir değer üretmiyorsa) onların sonuna ';' getirmeye gerek yoktur. Ancak
     bunlar bir değer üretiyorsa onların sonuna ';' getirilmesi zorunludur. Örneğin:
 
-    if koşul {
-        println!("doğru");
-    }
-    else {
-        println!("yanlış");
-    }
+        if koşul {
+            println!("doğru");
+        }
+        else {
+            println!("yanlış");
+        }
 
     Burada if ifadesi bir değer üretmemektedir. (Yani () değeri üretmektedir). Bu durumda bu ifadeyi deyim haline getirmek için
     ifadenin sonuna ';' getirilmeyebilir. Ancak örneğin:
 
-    if koşul {
-        println!("doğru");
-        10
-    }
-    else {
-        println!("yanlış");
-        20
-    };
+        if koşul {
+            println!("doğru");
+            10
+        }
+        else {
+            println!("yanlış");
+            20
+        };
 
     Burada if ifadesi bir değer üretmektedir. Artık bunun deyim haline getirilmesi için bunun sonuna ';' getirilmesi gerekir.
     Tabii yine de yukarıdaki kodda mantıksal bir sorun vardır. Bu kodda if ifadesi değer ürettiği halde bu değer kullanılmamıştır.
     Bu durumda if ifadesinin bir değer üretmesinin anlamı da kalmamıştır. Örneğin:
 
-    x = if koşul {
-        println!("doğru");
-        10
-    }
-    else {
-        println!("yanlış");
-        20
-    };
+        x = if koşul {
+            println!("doğru");
+            10
+        }
+        else {
+            println!("yanlış");
+            20
+        };
 
     Burada artık gramere göre bloklu bir ifade söz konusu değildir. Bu bir atama deyimidir. Atama deyimin solundaki ifade
     bloklu bir ifadedir. Dolayısıyla buradaki son ';' atama deyiminin sonundaki olması gereken ';' atomudur.
 
     Aşağıdaki gibi bir deyim söz konusu olsun:
 
-    if koşul {
-        //...
-    }
-    else {
-        //...
-    } [2];
+        if koşul {
+            //...
+        }
+        else {
+            //...
+        } [2];
 
     Burada iki deyim mi vardır yoksa tek deyim mi vardır? İşte Rust derleyicisi burada if ifadesinin bir değer üretip
     üretmediğine (yani () değerini üretip üretmediğine) bakmaktadır. Eğer if ifadesi bir değer üretmiyorsa bu if ifadesinin
@@ -1978,46 +1978,46 @@
     Operatörler konusunun iyi anlaşılması için öncelikle operatörlerin sınıflandırılması üzerinde durmak gerekir. Operatörler
     üç biçimde sınıflandırımaktadır:
 
-    1) Operatörün İşlevine Göre
-    2) Operand Sayılarına Göre
-    3) Operatör Konumuna Göre
+        1) Operatörün İşlevine Göre
+        2) Operand Sayılarına Göre
+        3) Operatör Konumuna Göre
 
     İşlevlerine göre operatörler çeşitli biçimlerde sınıflandırılabilmektedir. Örneğin:
 
-    - Artimetik Operatörler (Arithmetic Operators): +, -, *, / gibi artimetik işlemler yapan operatörlere "aritmetik operatörler"
-    denilmektedir.
+        - Artimetik Operatörler (Arithmetic Operators): +, -, *, / gibi artimetik işlemler yapan operatörlere "aritmetik operatörler"
+        denilmektedir.
 
-    - Karşılaştırma Operatörleri (Comparision Operators/Relational Operatos): >, <, >=, <= gibi iki değeri karşılaştıran operatörlere
-    karşılaştırma operatörleri denilmektedir.
+        - Karşılaştırma Operatörleri (Comparision Operators/Relational Operatos): >, <, >=, <= gibi iki değeri karşılaştıran operatörlere
+        karşılaştırma operatörleri denilmektedir.
 
-    - Mantıksal Operatörler (Logical Operators): Programlama dillerinde AND, OR, NOT gibi mantıksal işlemler yapan operatörlere
-    mantıksal operatörler denilmektedir.
+        - Mantıksal Operatörler (Logical Operators): Programlama dillerinde AND, OR, NOT gibi mantıksal işlemler yapan operatörlere
+        mantıksal operatörler denilmektedir.
 
-    - Bit Operatörleri (Bitwise Opeators): Değeri bir bütün olarak değil de bit bit ele alıp bitsel düzeyde işlemleri yapan
-    operatörlerdir.
+        - Bit Operatörleri (Bitwise Opeators): Değeri bir bütün olarak değil de bit bit ele alıp bitsel düzeyde işlemleri yapan
+        operatörlerdir.
 
-    - Adres Operatörleri (Pointer Operators): Adres bilgileri üzerinde işlem yapan yapan operatörlerdir.
+        - Adres Operatörleri (Pointer Operators): Adres bilgileri üzerinde işlem yapan yapan operatörlerdir.
 
-    - Özel Amaçlı Operatörler (Special Purpose Operators): Yukarıdaki amaçların dışında kullanılan operatörlerdir.
+        - Özel Amaçlı Operatörler (Special Purpose Operators): Yukarıdaki amaçların dışında kullanılan operatörlerdir.
 
 # 11. Ders 09/04/2025 - Çarşamba
 
     Bir operatörün işleme soktuğu ifadelere "operand" denilmektedir. Örneğin:
 
-    a + b
+        a + b
 
     ifadesinde + operatör a ve b bu operatörün operand'larıdır. Örneğin:
 
-    a + b * c
+        a + b * c
 
     Bu ifadede önce * operatörü yapılacaktır. * operatörünün operand'ları b ve c'dir. + operatörünün operand'ları ise a ve
     b * c'dir.
 
     Operand sayılarına göre operatörler üç gruba ayrılmaktadır:
 
-    1) İki Operand'lı operatörler (Binary Operators)
-    2) Tek Operand'lı Operatörler (Unary Operators)
-    3) Üç operand'lı Operatörler (Ternary Operators)
+        1) İki Operand'lı operatörler (Binary Operators)
+        2) Tek Operand'lı Operatörler (Unary Operators)
+        3) Üç operand'lı Operatörler (Ternary Operators)
 
     Operatörlerin büyük bölümü iki operand'lıdır. Örneğin biz * operatörünü kullanırken onun soluna ve sağına iki operand
     yerleştiririz. ! operatörü gibi, işaret - operatörü gibi operatörlerin ise tek operand'ı vardır. Örneğin biz iki değeri
@@ -2028,9 +2028,9 @@
 
     Operatörler konumlarına göre de üçe ayrılmaktadır:
 
-    1) Araek Oeratörler (Infix Operatos)
-    2) Önek Operatörler (Prefix Operators)
-    3) Sonek Operatörler (Postfix Operators)
+        1) Araek Oeratörler (Infix Operatos)
+        2) Önek Operatörler (Prefix Operators)
+        3) Sonek Operatörler (Postfix Operators)
 
     Araek operatörler operand'larının arasına getirilerek kullanılır. Örneğin / operatörü araek bir operatördür. Biz bu
     operatörü a / b biçiminde kullanırız. Operand'ının önüne getirilerek kullanılan operatörlere önek operatörler denir.
@@ -2048,34 +2048,34 @@
     Aynı ifade içerisinde birden fazla operatör kullanıldığında bunlar birbirilerine göre belli sırada işleme sokulurlar.
     Buna "operatörler arasındaki öncelik ilişkisi (operator precedency)" denilmektedir. Örneğin:
 
-    a = b + c * d
+        a = b + c * d
 
     ifadesinde önce * işlemi sonra toplama işlemi sonra atama işlemi yapılır:
 
-    İ1: c * d
-    İ2: b + İ1
-    İ3: a = İ2
+        İ1: c * d
+        İ2: b + İ1
+        İ3: a = İ2
 
     Aynı öncelikli operatörler kendi aralarında soldan sağa ya da sağdan sola öncelikli yapılmaktadır. Örneğin + ve - operatörleri
     soldan sağa önceliklidir:
 
-    a = b - c + d - e
+        a = b - c + d - e
 
     Burada işlemler şu sırada yapılır:
 
-    İ1: b - c
-    İ2: İ1 + d
-    İ3: İ2 - e
-    İ4: a = İ4
+        İ1: b - c
+        İ2: İ1 + d
+        İ3: İ2 - e
+        İ4: a = İ4
 
     Ancak örneğin işaret - operatörü sağdan sola önceliklidir:
 
-    a = ---b;
+        a = ---b;
 
-    İ1: -b
-    İ2: -İ1
-    İ3: -İ2
-    İ4: a = İ3
+        İ1: -b
+        İ2: -İ1
+        İ3: -İ2
+        İ4: a = İ3
 
     Operatörler arasındaki öncelik ilişkisi "operatörlerin öncelik tablosu" denilen bir tabloyla betimlenmektedir. Bu tablo
     satırlardan oluşur. Üst satırdaki operatörler alt satırdaki operatörlerden daha yüksek önceliklidir. Aynı satırdaki
@@ -2087,18 +2087,18 @@
 
     Bir operatörü diğer operatörden daha önce işleme sokmak istiyorsanız parantezlerek ona öncelik kazandırmalısınız. Örneğin:
 
-    a = (b + c) * d;
+        a = (b + c) * d;
 
-    İ1: b + c
-    İ2: İ1 * d
-    İ3: a = İ2
+        İ1: b + c
+        İ2: İ1 * d
+        İ3: a = İ2
 
     Operatörlerin öncelik tablosunun en yalın hali şöyle oluşturulabilir:
 
-    ()      Soldan Sağa
-    * /     Soldan Sağa
-    + -     Soldan Sağa
-    =       Sağdan Sola
+        ()      Soldan Sağa
+        * /     Soldan Sağa
+        + -     Soldan Sağa
+        =       Sağdan Sola
 
     Burada en tepedeki () hem fonksiyon çağırma operatörünü hem de öncelik parantezini temsil etmektedir. Biz bu yalın tabloyu
     temel alacağız. Operatörleri gördükçe bu tabloya ekleyeceğiz.
@@ -2123,7 +2123,7 @@
     bilmektedir. Çünkü operatörlerin öncelik tablosu pratik bir anlatım sağlamak için oluşturulmuştur; durumu kesin betimlemek
     için yetersiz kalmaktadır. Örneğin:
 
-    result = foo() + bar();
+        result = foo() + bar();
 
     Pek çok C programcısı burada önce foo fonksiyonun çağrılacağını samnmaktadır. Derleyicilerin hemen hepsi böyle yapsa da
     aslında C standartlarına göre önce bar fonksiyonu da çağrılabilir. Çünkü +, -, * / gibi operatörlerin soldaki operand'ının
@@ -2131,7 +2131,7 @@
     Tabii öncelik tablosuna bakanlar () operatörünün yanında "Soldan Sağa" ibaresini görünce önce foo fonksiyonun çağrılacağını
     sanmaktadır. Zaten bu nedenden dolayı C'de aşağıdaki gibi bir ifade tanımsız davranış oluşturmaktadır:
 
-    result = a + ++a;
+        result = a + ++a;
 
     Çünkü burada + operatörünün sol tarafı önce yapılırsa farklı bir sonuç sağ tarafı önce yapılırsa farklı bir sonuç elde
     edilir. Tabii kural "önce soldaki operand ele alınır, sonda sağdaki operand ele alınır" biçiminde olsaydı hiçbir karışıklık
@@ -2147,10 +2147,10 @@
     *, /, + ve - operatörleri iki operand'lı araek aritmetik operatörlerdir. Klasik dört işlemi yaparlar. Öncelik tablosunda
     * ve / operatörleri, + ve - operatörlerinden daha yüksek öncelikli grupta bulunmaktadır:
 
-    ()      Soldan Sağa
-    * /     Soldan Sağa
-    + -     Soldan Sağa
-    =       Sağdan Sola
+        ()      Soldan Sağa
+        * /     Soldan Sağa
+        + -     Soldan Sağa
+        =       Sağdan Sola
 
     Aritmetik operatörlerde operand'lar aynı türden olmak zorunda olduğuna göre ya sonuç bu türün sınırlarının dışına çıkarsa
     ne olacaktır? Bu duruma programlama dillerinde "taşma (overflow)" denilmektedir. C ve C++'ta işaretli tamsayı türlerinde
@@ -2167,27 +2167,27 @@
 
     Örneğin:
 
-    fn foo(a: i8, b: i8) {
-        let c: i8;
+        fn foo(a: i8, b: i8) {
+            let c: i8;
 
-        c = a + b;
-        println!("{}", c);
-    }
+            c = a + b;
+            println!("{}", c);
+        }
 
     Biz bu fonksiyonu aşağıdaki çağırmış olalım:
 
-    let a: i8 = 127;
-    let b: i8 = 1;
+        let a: i8 = 127;
+        let b: i8 = 1;
 
-    foo(a, b);
+        foo(a, b);
 
     Bu çağrıda panic oluşacaktır. Örneğin:
 
-    let a:u8 = 255;
-    let b: u8 = 1;
-    let c: u8;
+        let a:u8 = 255;
+        let b: u8 = 1;
+        let c: u8;
 
-    c = a + b;      // bu satırda error oluşabilir
+        c = a + b;      // bu satırda error oluşabilir
 
     Burada a + b işlemindeki taşmanın derleme aşamsında kontrol edilip edilmeyeceği derleyicileri yazanların isteğine
     bırakılmıştır. Kursun yapıldığı zamanda kullanılan Rust derleyicisi bu satırda error oluşturmaktadır.
@@ -2196,19 +2196,19 @@
     da sahiptir. Eğer taşma durumunda "sarma (wrapping)" yapılması istiyorsa bu türlerin wrapping_ttt isimli metotları
     kullanılabilir. Burada ttt işlemin türünü belirtmektedir. Örneğin:
 
-    fn foo(a: i8, b: i8) {
-        let c: i8;
+        fn foo(a: i8, b: i8) {
+            let c: i8;
 
-        c = a.wrapping_add(b);
-        println!("{}", c);
-    }
+            c = a.wrapping_add(b);
+            println!("{}", c);
+        }
 
     Şimdi fonksiyonu şöyle çağırmış olalım:
 
-    let a: i8 = 127;
-    let b: i8 = 1;
+        let a: i8 = 127;
+        let b: i8 = 1;
 
-    foo(a, b);
+        foo(a, b);
 
     Artık sarma yapılacağı için +127'den sonraki işaretli sayı -128 olduğu için -128 elde edilecektir. Temel türlerin taşma
     için yalnızca wrapping_xxx metotları yoktur, başka metotları da vardır. Ancak biz bu bağlamda diğer metotlar üszerinde
@@ -2217,43 +2217,43 @@
     Rust'ta gerçek sayı türlerindeki taşmalarda +inf ya da -inf değerleri üretilmektedir. Geçersiz bir değere sahip işlemlerden
     de ise NaN değeri elde edilmektedir. "The Rust Reference" dokümanları bu konuda şöyle demektedir:
 
-    "Overflow in floating-point operations does not cause a panic. Instead, the result is ±∞ or NaN, following IEEE 754 rules."
+        "Overflow in floating-point operations does not cause a panic. Instead, the result is ±∞ or NaN, following IEEE 754 rules."
 ---------------------------------------------------------------------------------------------------------------------------
 
     % operatörü iki operand'lı araek aritmetik operatördür. Tıpkı C'deki gibi soldaki operandın sağdaki operand'a bölümünden
     elde edilen kalan değerini üretir. Öncelik tablosunda * ve / ile aynı öncelik grubunda bulunmaktadır:
 
-    ()          Soldan Sağa
-    * /  %      Soldan Sağa
-    + -         Soldan Sağa
-    =           Sağdan Sola
+        ()          Soldan Sağa
+        * /  %      Soldan Sağa
+        + -         Soldan Sağa
+        =           Sağdan Sola
 
     Aslında programlama dillerinde a % b gibi bir işlemin sonucu şöyle oluşturulmaktadır:
 
-    a - a / b * b
+        a - a / b * b
 
     Bu durumda örneğin C, Java, C# ve Rust'ta -10 % 4 işleminin sonucu -2'dir:
 
-    -10 - -10 / 4 * 4 = -2
+        -10 - -10 / 4 * 4 = -2
 
     Ancak bu dillerde 10 % -4 işleminin sonucu 2'dir:
 
-    10 - 10 / -4 * -4 = 2
+        10 - 10 / -4 * -4 = 2
 
     Python'da tamsayılı bölmenin // operatörüyle yapıldığını ve bu operatöre "floordiv" dendiğini anımsayınız. floor işlemi
     kendisinden "küçük ilk tamsayı anlamına" gelmektedir. Örneğin -2.5 değerinin floor sonucu -3'tür. Bu durumda Python'da
     -10 % 4 işleminin sonucu 2 olur:
 
-    -10 - -10 // 4 * 4 = 2
+        -10 - -10 // 4 * 4 = 2
 
     C ce C++ dillerinde % operatörünün iki operandının da tamsayı türlerine ilişkin olması zorunludur. Ancak Rust'ta tıpkı
     C#, Java ve Python'da olduğu gibi bu operatörün operand'ları gerçek sayı türlerine ilişkin de olabilir. Örneğin:
 
-    let a: f64 = 10.5;
-    let result: f64;
+        let a: f64 = 10.5;
+        let result: f64;
 
-    result = a % 2.0;
-    println!("{}", result);     // 0.5
+        result = a % 2.0;
+        println!("{}", result);     // 0.5
 ---------------------------------------------------------------------------------------------------------------------------
 
 # 12.  Ders 14/04/2025 - Pazartesi
@@ -2266,22 +2266,22 @@
 
     İşaret - operatörü öncelik tablosunda *, / ve % operatörlerinin yukarısında sağdan sola grupta bulunmaktadır:
 
-    ()          Soldan Sağa
-    -           Sağdan Sola
-    * /  %      Soldan Sağa
-    + -         Soldan Sağa
-    =           Sağdan Sola
+        ()          Soldan Sağa
+        -           Sağdan Sola
+        * /  %      Soldan Sağa
+        + -         Soldan Sağa
+        =           Sağdan Sola
 
     Örneğin:
 
-    a = ---3;
+        a = ---3;
 
     Burada işlemler şu sırada yapılacaktır:
 
-    İ1: -3 => -3
-    İ2: -İ1 => 3
-    İ3: -İ2 => -3
-    İ4: a = İ3 => ()
+        İ1: -3 => -3
+        İ2: -İ1 => 3
+        İ3: -İ2 => -3
+        İ4: a = İ3 => ()
 ---------------------------------------------------------------------------------------------------------------------------
 
     C'de, Java'da ve C#'ta bulunan ++ ve -- operatörleri Rust'ta yoktur. Aslında fonksiyonel programlama modelini (functional
@@ -2295,16 +2295,16 @@
     C'de karşılaştırma operatörlerinin int türden değer ürettiğini anımsayınız. C++ gibi, Java, C# ve Python gibi bool türünün
     olduğu programlama dillerinde de karşılaştırma operatörleri bool değer üretmektedir. Örneğin:
 
-    let a:i32 = 10;
-    let b:i32 = 20;
-    let result: bool;
+        let a:i32 = 10;
+        let b:i32 = 20;
+        let result: bool;
 
-    result = a < b;
-    println!("{}", result);     // true
+        result = a < b;
+        println!("{}", result);     // true
 
     C'de ve C++'ta karşılaştırma operatörleri de kombine edilerek kullanılabilmektedir. Örneğin:
 
-    result = a == b > c;
+        result = a == b > c;
 
     Böyle bir ifade C'de geçerlidir. Burada önce b > c işlemi yapılır. Buradan int türden 1 ya da 0 değeri elde edilir. Bu int
     değer a ile karşılaştırılır. Ancak Rust'ta bu operatörler parantezsiz biçimde birbirleriyle kombine edilerek kullanılamamaktadır.
@@ -2312,75 +2312,75 @@
     Rust'ta zaten bunlar parantezsiz biçimde kombine edilemediği için bunların aralarında da bir öncelik ilişkisi de yoktur.
     Python gibi bazı dillerde karşılaştırma operatörlerinin kombine edilmesi ise tamamen başka bir anlama gelmektedir. Örneğin:
 
-    result = a == b > c
+        result = a == b > c
 
     Bu ifade Python'da aşağıdaki ile eşdeğerdir:
 
-    result = a == b and b > c
+        result = a == b and b > c
 
     Programlama dillerinin büyük çoğunluğunda karşılaştırma operatörleri artimetik operatörlerden düşük önceliktedir. Rust'ta
     da durum böyledir. Örneğin:
 
-    result = a + b > c + d;
+        result = a + b > c + d;
 
     Burada a + b ile c + d karşılaştırılmaktadır.
 
-    ()                      Soldan Sağa
-    -                       Sağdan Sola
-    * /  %                  Soldan Sağa
-    + -                     Soldan Sağa
-    < > >= <= == !=         Parantezsiz Kombine Edilemez
-    =                       Sağdan Sola
+        ()                      Soldan Sağa
+        -                       Sağdan Sola
+        * /  %                  Soldan Sağa
+        + -                     Soldan Sağa
+        < > >= <= == !=         Parantezsiz Kombine Edilemez
+        =                       Sağdan Sola
 
     Tüm iki operand'lı aritmetik operatörlerde olduğu gibi karşılaştırma operatörlerinin de operand'larının aynı türden olması
     gerekir. Aksi takdirde error oluşur. Örneğin.
 
-    let a: i32 = 10;
-    let b: i16 = 20;
-    let result: bool;
+        let a: i32 = 10;
+        let b: i16 = 20;
+        let result: bool;
 
-    result = a > b;     // error! operand'lar farklı türlerden
+        result = a > b;     // error! operand'lar farklı türlerden
 
     Rust'ta karşılaştırma operatörlerinin operand'ları bool türden de olabilmektedir. Karşılaştırma true değerinin false
     değerinden büyük olduğu kabulü ile yapılmaktadır. Örneğin:
 
-    let mut result: bool;
+        let mut result: bool;
 
-    result = true > false;
-    println!("{}", result);     // true
+        result = true > false;
+        println!("{}", result);     // true
 
-    result = true == true;
-    println!("{}", result);     // true
+        result = true == true;
+        println!("{}", result);     // true
 
     Karşılaştırma operatörlerinin parantezsiz kombine edilemediğini belirtmiştik. Ancak parantezler kullanılarak bir karşılaştırma
     operatörünün ürettiği bool değer diğer bir karşılaştırma operatörüne operand yapılabilmektedir. Örneğin:
 
-    let result: bool;
+        let result: bool;
 
-    result = (true > false) == true;
-    println!("{}", result);     // true
+        result = (true > false) == true;
+        println!("{}", result);     // true
 
     Ancak böylesi kullanımlara çok seyrek gereksinim duyulmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta da tıpkı C, Java ve C#'ta olduğu gibi üç mantıksal operatör vardır:
 
-    !       Mantıksal NOT operatörü
-    &&      Mantıksal AND operatörü
-    ||      Mantıksal OR operatörü
+        !       Mantıksal NOT operatörü
+        &&      Mantıksal AND operatörü
+        ||      Mantıksal OR operatörü
 
     && ve || operatörleri iki operand'lı araek (binary infix), ! operatörü ise tek operand'lı önek (unary prefix) operatörlerdir.
     && ve || operatörleri öncelik tablosunda karşılaştırma operatörlerinden daha düşük öncelikli, ! operatörü ise arirmetik
      operatörlerden daha yüksek önceliklidir:
 
-    ()                      Soldan Sağa
-    - !                     Sağdan Sola
-    * /  %                  Soldan Sağa
-    + -                     Soldan Sağa
-    < > >= <= == !=         Parantezsiz Kombine Edilemez
-    &&                      Soldan Sağa
-    ||                      Soldan Sağa
-    =                       Sağdan Sola
+        ()                      Soldan Sağa
+        - !                     Sağdan Sola
+        * /  %                  Soldan Sağa
+        + -                     Soldan Sağa
+        < > >= <= == !=         Parantezsiz Kombine Edilemez
+        &&                      Soldan Sağa
+        ||                      Soldan Sağa
+        =                       Sağdan Sola
 
     Bu operatörlerin operand'ları bool türden olmak zorundadır. Bu operatörler bool türden değer üretirler.
 
@@ -2389,7 +2389,7 @@
     true ise bunların sağ tarafındaki ifade hiç yapılmaz, sonuç hemen belirlenir. Tabii && operatörünün solundaki ifade true
     ise || operatörünün sol tarafındaki ifade false ise gerçekten bu operatörlerin sağ tarafındaki ifadeler de yapılır. Örneğin:
 
-    result = foo() || bar();
+        result = foo() || bar();
 
     Burada foo ve bar fonksiyonlarının geri dönüş değerlerinin bool türden olması zorunludur. Önce foo fonksiyonu çağrılır.
     Eğer bu fonksiyondan true değeri elde edilirse bar fonksiyonu hiç çağrılmaz.
@@ -2397,7 +2397,7 @@
     && ve || operatörleri kombine edildiğinde soldaki operatörün sol tarafı önce yapılmaktadır. Bu durum kişilere tuhaf gelebilmektedir.
     Örneğin:
 
-    result = foo() || bar() && tar();
+        result = foo() || bar() && tar();
 
     Her ne kadar && operatörü || operatöründen daha yüksek öncelkliyse de burada önce foo fonksiyonu çağrılır. Eğer foo
     true değere geri dönerse diğer fonksiyonlar hiç çağrılmaz. Eğer foo false değerine geri dönerse bu durumda bar fonksiyonu
@@ -2407,14 +2407,14 @@
     farklılık yoktur. Önce foo fonksiyonun çağrılması bu sonucun daha hızlı elde edilemsine yol açmaktadır. Biz önce && sonra
     || operatörünün işletildiğini varsayalım:
 
-    İ1: bar() && tar()
-    İ2: foo() || İ1
-    İ3: result = İ2
+        İ1: bar() && tar()
+        İ2: foo() || İ1
+        İ3: result = İ2
 
     && operatörünün ve || operatörünün önce sol tarafı yapılmak zorundadır. Bunun da tek yolu aslında önce foo fonksiyonun
     çağrılmasıdır. Örneğin:
 
-    result = foo() && bar() || tar();
+        result = foo() && bar() || tar();
 
     Burada da önce foo fonksiyonu çağrılır. Eğer foo false değerine geri dönerse bar fonksiyonu çağrılmaz ama tar fonksiyonu
     çağrılır. Eğer foo true değerine geri dönerse bar fonksiyonu çağrılır. bar da true değerine geri dönerse tar fonksiyonu
@@ -2426,7 +2426,7 @@
     özelliğine sahip olmazlar. Dolayısıyla Rust'ta & operatörü && operatörünün kısa devre özelliği olmayan biçimi gibi, | operatörü
     de || operatörünün kısa devre özelliği olmayan biçimi gibi kullanılabilmektedir. Örneğin:
 
-    result = foo() | bar() & tar();
+        result = foo() | bar() & tar();
 
     Burada kısa devre özelliği olmadığı için foo, bar ve tar fonksiyonları önce çağrılır. Sonra & işlemi ve | işlemi yapılır.
     Dolayısıyla mantıksal işlemler kısa devre özelliksiz yapılmış olur.
@@ -2435,46 +2435,46 @@
     bool türdense operatör true için false, false için true değerini üretir. ! operatörünün sağdan sola öncelik grubunda
     olduğuna dikkat ediniz. Örneğin:
 
-    result = !!!true
+        result = !!!true
 
-    İ1: !true => false
-    İ2: !İ1 => true
-    İ3: !İ2 => false
-    İ4: result = İ3
+        İ1: !true => false
+        İ2: !İ1 => true
+        İ3: !İ2 => false
+        İ4: result = İ3
 
     Aşağıdaki örneği tamel alarak yukarıda anlattıklarımız üzerinde denemeler yapabilirsiniz.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result: bool;
+    fn main() {
+        let result: bool;
 
-    result = foo() || bar() && tar();
-    println!("{}", result);
-}
+        result = foo() || bar() && tar();
+        println!("{}", result);
+    }
 
-fn foo() -> bool {
-    println!("foo");
-    false
-}
+    fn foo() -> bool {
+        println!("foo");
+        false
+    }
 
-fn bar() -> bool {
-    println!("bar");
-    false
-}
+    fn bar() -> bool {
+        println!("bar");
+        false
+    }
 
-fn tar() -> bool {
-    println!("tar");
-    false
-}
+    fn tar() -> bool {
+        println!("tar");
+        false
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta bit düzeyinde işlem yapan (bitwise) altı operatör vardır:
 
-    !           Bit NOT operatörü
-    << >>       Sola öteleme ve sağa öteleme operatörleri
-    &           Bit AND operatörü
-    ^           Bit EXOR operatörü
-    |           Bir OR operatörü
+        !           Bit NOT operatörü
+        << >>       Sola öteleme ve sağa öteleme operatörleri
+        &           Bit AND operatörü
+        ^           Bit EXOR operatörü
+        |           Bir OR operatörü
 
     Bu operatörlerin C'de, Java ve C#'ta da bulunduğuna dikkat ediniz. Ancak yukarıda da belirttiğimiz gibi bit düzeyinde NOT
     işlemi için C'deki ~ operatörü yerine yine ! operatörü kullanılmıştır. Bit operatörleri sayıları bir bütün olarak değil
@@ -2484,24 +2484,24 @@ fn tar() -> bool {
     C'de (ve tabii C++'ta) &, ^ ve | operatörleri karşılaştırma operatörlerinden daha düşük önceliklidir. Bu durum C'de uzun
     süredir eleştirilmektedir. Aşağıdaki C koduna dikkat ediniz:
 
-    if (val & 1 == 0) {
-        //...
-    }
-    else {
-        //...
-    }
+        if (val & 1 == 0) {
+            //...
+        }
+        else {
+            //...
+        }
 
     Burada programcı muhtemelen val değişkeninin en düşük anlamlı bitinin 0 olup olmadığını kontrol etmek istemiştir. Ancak
     C'de == operatörü & operatöründen daha yüksek öncelikli olduğu için burada önce 1 == 0 karşılaştırması yapılıp buradan
     0 değeri elde edilir. val & 0 işleminden de 0 elde edileceği için niyet edilen işlemler gerçekleşmez. C'de bu karşılaştırmanın
     paranteze alınarak yapılması gerekmektedir:
 
-    if ((val & 1) == 0) {
-        //...
-    }
-    else {
-        //...
-    }
+        if ((val & 1) == 0) {
+            //...
+        }
+        else {
+            //...
+        }
 
     Halbuki Rust'ta bu üç operatör karşılaştırma operatörlerinden daha yüksek önceliğe sahiptir. Dolayısıyla Rust'ta bu biçimde
     paranteze almaya gerek kalmamaktadır.
@@ -2513,21 +2513,21 @@ fn tar() -> bool {
     & operatörü iki tamsayının karşılıklı bitlerini AND işlemine, | operatörü ise tamsayının karşılıklı bitlerini OR işlemine
     sokmaktadır. Bu operatörlerin operand'larının yine aynı türden olması gerekir. Örneğin:
 
-    let a: u8 = 0xC5;       // 1100 0101
-    let b: u8 = 0x3C;       // 0011 1100
-    let mut result: u8;
+        let a: u8 = 0xC5;       // 1100 0101
+        let b: u8 = 0x3C;       // 0011 1100
+        let mut result: u8;
 
-    result = a & b;
-    println!("{:x}", result);     // 4
+        result = a & b;
+        println!("{:x}", result);     // 4
 
-    result = a | b;
-    println!("{:X}", result);     // FD
+        result = a | b;
+        println!("{:X}", result);     // FD
 
     Genellikle programcılar bit düzeyinde AND ve OR işlemlerini işaretsiz tamsayı türler üzerinde yaparlar. Ancak işaretli
     sayılar üzerinde de bu işlemler uygulanabilmektedir. Burada işaretli bir tamsayı türünden değişkene değer atarken bir
     noktaya dikkatinizi çekmek istiyoruz. Aşağıdaki bağlamaya dikkat ediniz:
 
-    let a: i8 = 0xC3;       // error
+        let a: i8 = 0xC3;       // error
 
     Bu bağlama error ile sonuçlanacaktır. Çünkü sayının kaçlık sistemde yazıldığının sayının türü üzerinde bir etkisi yoktur.
     Buradaki 0xC3 yazmakla 195 yazmak arasında hiçbir farklılık yoktur. 195 de hedef türün sınırları içerisinde kalmadığı
@@ -2551,42 +2551,42 @@ fn tar() -> bool {
     1 ile yapmaktadır. En soldan besleme 1 ile yapıldığında sayı negatifliği korunarak 2'ye bölünmüş olur. Örneğin bir byte
     içerisinde (yani i8 olarak) -10 değerini yazalım. bunu önce +10 yazıp 2'ye tümleyenini alarak yapabiliriz:
 
-    0000 1010       +10
-    1111 0110       -10
+        0000 1010       +10
+        1111 0110       -10
 
     Şimdi bu -10 değerini işaret bitini koruyarak 1 kez sağa öteleyelim:
 
-    1111  1011
+        1111  1011
 
     Bu sayı -5'tir. Sayının -5 olduğunu 2'ye tümleyenini alarak anlayabilirsiniz:
 
-    0000 0101       +5
+        0000 0101       +5
 
     Ancak işaretli negatif tamsayı eğer tek ise kişileri tereddüte sevkeden bir durum oluşmaktadır. -5 sayısının aritmetik
     biçimde sağa ötelenmesi sonucunda -2 değil -3 değeri elde edilmektedir. Örneğin:
 
-    1111  1011      -5
+        1111  1011      -5
 
     Bu sayıyı sağa ötelediğimizde şu bitleri elde ederiz:
 
-    1111 1101       -3
+        1111 1101       -3
 
     Bu değerin -3 olduğunu sayının 2'ye tümleyenini alarak anlayabiliriz:
 
-    0000 0011       +3
+        0000 0011       +3
 
     Her ne kadar C'de işaretli negatif tamsayıların sağa ötelenmesi derleyiciye bağlı olarak değişebiliyorsa da Rust'ta
     işaretli negatif tamsayılar sağa ötelendiğinde her zaman en soldan besleme işaret biti korunacak biçimde 1 ile yapılmaktadır.
     Örneğin:
 
-    let a: i8 = -10;            // 1100 0101
-    let mut result: i8;
+        let a: i8 = -10;            // 1100 0101
+        let mut result: i8;
 
-    result = a >> 1;
-    println!("{}", result);     // -5
+        result = a >> 1;
+        println!("{}", result);     // -5
 
-    result = a >> 2;
-    println!("{}", result);     // -3
+        result = a >> 2;
+        println!("{}", result);     // -3
 
     Bir tamsayı sola bir kez ötelendiğinde tüm bitler bir sola kaydırılır, sayı en sağdan 0 ile beslenir. Bu da sayıyı 2
     ile çarpmak anlamına gelmektedir. Rust'ta sayı ister işaretli olsun isterse işaretsiz olsun sola öteleme aynı biçimde
@@ -2594,37 +2594,37 @@ fn tar() -> bool {
     "tanımsız davranışa (undefined behavior)" yol açtığını anımsayınız. C'de de işaretsiz tamsayılarda her zaman bitler bir
     sola ötelenmektedir. Örneğin:
 
-    let a: u8 = 0x78;            // 120
-    let result: u8;
+        let a: u8 = 0x78;            // 120
+        let result: u8;
 
-    result = a << 1;
-    println!("{}", result);     // 240 = F0
+        result = a << 1;
+        println!("{}", result);     // 240 = F0
 
     Tabii işaretli bir tamsayı sola ötelenirken taşma nedeniyle işaretini de deiiştirebilir. Örneğin:
 
-    let a = 120;                // hex 78
-    let result: i8;
+        let a = 120;                // hex 78
+        let result: i8;
 
-    result = a << 1;
-    println!("{}", result);     // -16 hex F0
+        result = a << 1;
+        println!("{}", result);     // -16 hex F0
 
     Rust'ta genel olarak iki operand'lı operatörlerin operand'larının aynı türden olması gerektiğini belirtmiştik. Ancak
     öteleme operatörleri buna bir istisna oluşturmaktadır. Öteleme operatörlerinde ötelenecek miktar (yani sağ taraftaki
     operand) herhangi bir tamsayı türünden olabilir. Ancak öteleme miktarı (yani sağdaki operand'ın değeri) negatifse ya da
     ötelenecek türün bit uzunluğunu aşarsa panic oluşmaktadır. Örneğin:
 
-    fn main() {
-        foo(-5);     // panic oluşur!
-        foo(10);     // sorun yok
-    }
+        fn main() {
+            foo(-5);     // panic oluşur!
+            foo(10);     // sorun yok
+        }
 
-    fn foo(n: i32) {
-        let a: u8 = 1;
-        let result: u8;
+        fn foo(n: i32) {
+            let a: u8 = 1;
+            let result: u8;
 
-        result = a << n;
-        println!("{}", result);
-    }
+            result = a << n;
+            println!("{}", result);
+        }
 
     "The Rust Reference" dokümanlarına göre ötelenecek değerde (yani sağ taraftaki operand'da) yukarıda bahsettiğimiz anomali
     eğer derleme aşamasında tespit edilebiliyorsa derleyicileri yazanların isteğine bağlı olarak derleyici error de
@@ -2633,56 +2633,56 @@ fn tar() -> bool {
     Mantıksal operatörleri ele aldığımız paragrafta da belirttiğimiz gibi Rust'ta ! operatörü hem mantıksal NOT hem de bit
     düzeyinde NOT işlemi yapmaktadır. Yani Rust'ta C'deki bit NOT işlemi için bir ~ operatörü bulunmamaktadır. Örneğin:
 
-    let a: u8 = 0xC5;               // 1100 0101
-    let result: u8;
+        let a: u8 = 0xC5;               // 1100 0101
+        let result: u8;
 
-    result = !a;
-    println!("{:X}", result);         // 0011 1010 = 3A
+        result = !a;
+        println!("{:X}", result);         // 0011 1010 = 3A
 
     Rust'ta işaretli tamsyılar üzerinde de ! operatörü uygulanabilmektedir. Örneğin:
 
-    let a: i8 = 0x1A;               // 0001 1010
-    let result: i8;
+        let a: i8 = 0x1A;               // 0001 1010
+        let result: i8;
 
-    result = !a;
-    println!("{:X}", result);         // 1110 1010 = EA
-    println!("{}", result);           // -27
+        result = !a;
+        println!("{:X}", result);         // 1110 1010 = EA
+        println!("{}", result);           // -27
 ---------------------------------------------------------------------------------------------------------------------------
     &, | ve ^ operatörleri kendi aralarında öncelik tablosunda pek çok programlama dilinde şu sırada bulunmaktadır:
 
-    &       Soldan Sağa
-    ^       Soldan Sağa
-    |       Soldan Sağa
+        &       Soldan Sağa
+        ^       Soldan Sağa
+        |       Soldan Sağa
 
     ! operatörünün tek operand'lı operatörlerin grubunda solduğunu görmüştük. << ve >> operatörleri pek çok programlama dilinde
     hemen aritmetik operatörlerden sonraki satırdadır. Rust'ta (tıpkı Java ve C#'ta olduğu) &, | ve ^ operatörleri karşılaştırma
     operatörlerinden daha yüksek önceliğe konumlandırılmıştır. Konuya girişte de belirttiğimiz gibi C'de durum böyle değildir.
     Örneğin:
 
-    if x & 1 == 0 {
-        //...
-    }
-    else {
-        //...
-    }
+        if x & 1 == 0 {
+            //...
+        }
+        else {
+            //...
+        }
 
     Burada önce x & 1 işlemi yapılıp daha sonra karşılaştırma yapılmaktadır. Halbuki C'de önce 1 == 0 işlemi yapılıp bunun
     sonucu & işlemine sokulmaktadır.
 
     Bu operatörleri de yerleştirdiğimizde Rust'ta görmüş olduğumuz operatör için öncelik tablosu şöyle olaacaktır:
 
-    ()                      Soldan Sağa
-    - !                     Sağdan Sola
-    * /  %                  Soldan Sağa
-    + -                     Soldan Sağa
-    <<  >>                  Soldan Sağa
-    &                       Soldan Sağa
-    ^                       Soldan Sağa
-    |                       Soldan Sağa
-    < > >= <= == !=         Parantezsiz Kombine Edilemez
-    &&                      Soldan Sağa
-    ||                      Soldan Sağa
-    =                       Sağdan Sola
+        ()                      Soldan Sağa
+        - !                     Sağdan Sola
+        * /  %                  Soldan Sağa
+        + -                     Soldan Sağa
+        <<  >>                  Soldan Sağa
+        &                       Soldan Sağa
+        ^                       Soldan Sağa
+        |                       Soldan Sağa
+        < > >= <= == !=         Parantezsiz Kombine Edilemez
+        &&                      Soldan Sağa
+        ||                      Soldan Sağa
+        =                       Sağdan Sola
 ---------------------------------------------------------------------------------------------------------------------------
     Atama operatörü iki operand'lı araek bir operatördür. Ancak Rust'ta atama işlemi "taşıma" ya da "sahipliği devretme"
     işlemlerini de yapmaktadır. Bu nedenle Rust'taki atama operatörü diğer dillerdeki atama operatöründen daha farklı bir
@@ -2694,7 +2694,7 @@ fn tar() -> bool {
     f64 gibi temel türler atama sırasında tıpkı C'de olduğu gibi kopyalanmaktadır. Temel türlerin Copy trait'ini desteklediği
     varsayılmaktadır. Örneğin:
 
-    a = b;
+        a = b;
 
     Burada örneğin eğer a ve b birer yapı türünden değişken ise atama işlemi sırasında önce a bırakılır (drop edilir) sonra
     b'nin sahipliği a'ya devredilir. Yani b'nin içerisindeki bilgiler a'ya taşınır. Bu konu ileride ayrıntılarıyla zaten
@@ -2702,24 +2702,24 @@ fn tar() -> bool {
 
     Rust'ta atama operatörü kombine edilemez. Örneğin aşağıdaki gibi zincirli atama geçerli değildir:
 
-    let a: i32;
-    let b: i32;
-    let c: i32 = 10;
+        let a: i32;
+        let b: i32;
+        let c: i32 = 10;
 
-    a = b = c;          // error!
+        a = b = c;          // error!
 
     Bu durum geçerli olsaydı c'nin sahipliği b'ye, b'nin sahipliği de a'ya aktarılırdı. Bu durumda bu işlemin a = c;
     işleminden bir farkı kalmazdı. Dolayısıyla a = b = c; gibi bir işlem anlamsız olduğu gerekçesiyle yasaklanmıştır.
     Aslında teknik olarak Rust'ta atama operatör birim (unit) değerini (yani () değerini) üretmektedir. Biz birim değerini
     de ancak birim türünden bir değeişkene atayabiliriz. Aşağıdaki atama geçerli fakat anlamlı değildir:
 
-    let a: ();
-    let b: i32;
-    let c: i32 = 20;
+        let a: ();
+        let b: i32;
+        let c: i32 = 20;
 
-    a = b = c;          // b = c işleminden () elde edilir
+        a = b = c;          // b = c işleminden () elde edilir
 
-    println!("{:?}, {}, {}", a, b, c);          // (), 20, 20
+        println!("{:?}, {}, {}", a, b, c);          // (), 20, 20
 
     Burada b = c işlemindne birim değeri elde edildiği için a da birim türünden olduğu için b = c işleminin sonucu a'ya
     atanabilmiştir. Ancak işleme bir bütün olarak baktığımızda anlamlı gözükmemektedir.
@@ -2730,23 +2730,23 @@ fn tar() -> bool {
     Rust'ta da tıpkı C, Java ve C#'ta olduğu gibi "bileşik atama operatörleri de (compund assignment operators)" bulunmaktadır.
     Bunların listesi şöyledir:
 
-    += -= *= /= %= &= |= ^= <<= >>=
+        += -= *= /= %= &= |= ^= <<= >>=
 
     op bir operatör olmak üzere a op= b tamamen a = a op b ile eşdeğerdir. Bileşik atama operatörleri öncelik tablosunda atama
     operatöryle sağdan sola aynı gruptadır:
 
-    ()                                      Soldan Sağa
-    - !                                     Sağdan Sola
-    * /  %                                  Soldan Sağa
-    + -                                     Soldan Sağa
-    <<  >>                                  Soldan Sağa
-    &                                       Soldan Sağa
-    ^                                       Soldan Sağa
-    |                                       Soldan Sağa
-    < > >= <= == !=                         Parantezsiz Kombine Edilemez
-    &&                                      Soldan Sağa
-    ||                                      Soldan Sağa
-    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+        ()                                      Soldan Sağa
+        - !                                     Sağdan Sola
+        * /  %                                  Soldan Sağa
+        + -                                     Soldan Sağa
+        <<  >>                                  Soldan Sağa
+        &                                       Soldan Sağa
+        ^                                       Soldan Sağa
+        |                                       Soldan Sağa
+        < > >= <= == !=                         Parantezsiz Kombine Edilemez
+        &&                                      Soldan Sağa
+        ||                                      Soldan Sağa
+        = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
 
     Bileşik atama operatörlerinden de yine birim (unit) değeri (yani () değeri) elde edilmektedir. Yabi bu operatörler de
     kombine edilememektedir.
