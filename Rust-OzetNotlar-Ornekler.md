@@ -2,7 +2,7 @@
                                             Son Güncelleme: 14/08/2025 - Perşembe
 # 1. Ders 24/02/2025 - Pazartesi
 
-    Kursumuzda önce Rust'ın nasıl bir programlama dili olduğunu açıklyacağız.
+    Kursumuzda önce Rust'ın nasıl bir programlama dili olduğunu açıklayacağız.
 
     Rust genel amaçlı, yapısal, prosedürel ve fonksiyonel programlama modellerini destekleyen çok modelli (multi-paradigm),
     statik tür sistemine sahip modern bir programlama dilidir. Tasarımında özellikle eşzamanlı (concurrent) programlama
