@@ -2764,17 +2764,17 @@
     ile açıkça tür dönüştürmesi yapması gerekmektedir. as operatörü iki operand'lı araek (binary infix) bir operatördür. Operatörün
     sol tarafındaki operand dönüştürülecek ifadeyi sağ tarafındaki operand dönüştürülecek türü belirtmektedir. Örneğin:
 
-    let a: i32 = 10;
-    let b: i16;
+        let a: i32 = 10;
+        let b: i16;
 
-    b = a as i16;
+        b = a as i16;
 
     Burada a değişkeni açıkça (explicitly) i16 türüne dönüştürülmüştür. Tabii programlama dillerinde genel olarak tür dönüştürmesi
     hep geçici nesne yoluyla yapılmaktadır. Yani biz bir ifadeyi bir türe dönüştürürken önce derleyici hedef tür türünden
     geçici bir nesne oluşturur, kaynak değeri bu geçici nesneye atar, işlemde bu geçici nesneyi kullanır, işlem bitince de
     geçici nesneyi yok eder. Örneğin:
 
-    b = a as i16;
+        b = a as i16;
 
     Burada a'nın türü i16 olarak değiştirilmemektedir. i16 türünden geçici bir değişken yaratılıp a'nın içerisindeki değer o
     değişkene atanıp işlemde o değişken kullanılmaktadır. Tabii derleyiciler buradaki geçici değişkeni olanak elveriyorsa CPU'nun
@@ -2783,50 +2783,50 @@
     Rust'ta iki operand'lı operatörlerin operand'larının da aynı türden olması gerektiğini anımsayınız. Aşağıdaki toplama
     işlemi operand'lar farklı türlerden olduğu için error ile sonuçlanacaktır:
 
-    let a: i32 = 10;
-    let b: i16 = 20;
-    let result: i32;
+        let a: i32 = 10;
+        let b: i16 = 20;
+        let result: i32;
 
-    result = a + b;       // error!
+        result = a + b;       // error!
 
     Bu tür durumlarda da bir operand'ın açıkça diğerinin türüne as operatöryle dönüştürülmesi gerekmektedir. Örneğin:
 
-    let a: i32 = 10;
-    let b: i16 = 20;
-    let result: i32;
+        let a: i32 = 10;
+        let b: i16 = 20;
+        let result: i32;
 
-    result = a + b as i32;          // geçerli
-    print!("{} ", result);          // 30
+        result = a + b as i32;          // geçerli
+        print!("{} ", result);          // 30
 
     as operatörü öncelik tablosunda artimetik operatörlerden daha yüksek öncelikli grupta bulunmaktadır.
 
-    ()                                      Soldan Sağa
-    - !                                     Sağdan Sola
-    as                                      Soldan Sağa
-    * /  %                                  Soldan Sağa
-    + -                                     Soldan Sağa
-    <<  >>                                  Soldan Sağa
-    &                                       Soldan Sağa
-    ^                                       Soldan Sağa
-    |                                       Soldan Sağa
-    < > >= <= == !=                         Parantezsiz Kombine Edilemez
-    &&                                      Soldan Sağa
-    ||                                      Soldan Sağa
-    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+        ()                                      Soldan Sağa
+        - !                                     Sağdan Sola
+        as                                      Soldan Sağa
+        * /  %                                  Soldan Sağa
+        + -                                     Soldan Sağa
+        <<  >>                                  Soldan Sağa
+        &                                       Soldan Sağa
+        ^                                       Soldan Sağa
+        |                                       Soldan Sağa
+        < > >= <= == !=                         Parantezsiz Kombine Edilemez
+        &&                                      Soldan Sağa
+        ||                                      Soldan Sağa
+        = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
 
     Örneğin:
 
-    result = a + b as i16;
+        result = a + b as i16;
 
     işleminde operatörler şu sırada işleme sokulacaktır:
 
-    İ1: b as i16
-    İ2: a + İ1
-    İ3: result = İ2
+        İ1: b as i16
+        İ2: a + İ1
+        İ3: result = İ2
 
     Eğer bir işlem sonucunu bir türe dönüştürmek istiyorsanız parantez kullanmalısınız:
 
-    c = (a + b) as i32;
+        c = (a + b) as i32;
 ---------------------------------------------------------------------------------------------------------------------------
     Bazı dönüştürmeler bilgi kaybına yol açmazlar. Örneğin i16 türünden bir ifadenin i32 türüne dönüştürülmesi sırasında
     bir bilgi kaybı oluşmaz. Genel olarak küçük türden büyük türe yapılan dönüştürmeler bilgi kaybına neden olmamaktadır.
@@ -2843,20 +2843,20 @@
     - Aynı tamsayı türünün işaretli ve işaretsiz biçimler arasında yapılan dönüştürmelerde sayının bitleri değişmez, yalnızca
     işaret bitinin anlamı değişir. Örneğin:
 
-    let a: i32 = -1;            // 0xFFFFFFFF
-    let b: u32;
+        let a: i32 = -1;            // 0xFFFFFFFF
+        let b: u32;
 
-    b = a as u32;
-    println!("{}", b);      // 4394967395
+        b = a as u32;
+        println!("{}", b);      // 4394967395
 
     i32 içerisindeki -1 değeri tüm bitler 1 olan bir değerdir. Tüm bitleri 1 olan bir sayı u32 türünden bir değişkenin içerisine
     yerleştirilirse bu değer en büyük pozitif sayı haine gelir. Örneğin:
 
-    let a: u32 = 4294967294;            // 0xFFFFFFFE
-    let b: i32;
+        let a: u32 = 4294967294;            // 0xFFFFFFFE
+        let b: i32;
 
-    b = a as i32;
-    println!("{}", b);                  // -2
+        b = a as i32;
+        println!("{}", b);                  // -2
 
     - Büyük tamsayı türünden (işaretli ya da işaretsiz) küçük tamsayı türüne (işaretli ya da işaretsiz) dönüştürmelerde
     sayının yüksek anlamlı bitleri atılır, düşük anlamlı bitleri atanır. Ancak eğer kaynak türe ilişkin değer hedef türün
@@ -2864,21 +2864,21 @@
 
     Örneğin:
 
-    let a: i32 = -2;            // 0xFFFFFFFE
-    let b: i16;
+        let a: i32 = -2;            // 0xFFFFFFFE
+        let b: i16;
 
-    b = a as i16;
-    println!("{}", b);          // -2
+        b = a as i16;
+        println!("{}", b);          // -2
 
     Burada i32 içerisindeki -2 değeri 0xFFFFFFFE bitlerine sahip olacaktır. Biz yüksek anlamlı 2 byte'ı atıp düşük anlamlı
     2 byte'ı elde edersek 0xFFFE bitleri oluşur. Bu da zaten i16 türü için -2'dir. Görüldüğü gibi i32 içerisindeki -2 değeri
     i16 ile temsil edilebildiğinden dolayı bilgi kaybı söz konusu olmamıştır. Örneğin:
 
-    let a: i32 = -2;            // 0xFFFFFFFE
-    let b: u8;
+        let a: i32 = -2;            // 0xFFFFFFFE
+        let b: u8;
 
-    b = a as u8;
-    println!("{}", b);          // 254
+        b = a as u8;
+        println!("{}", b);          // 254
 
     Burada yine i32 içerisindeki değerin yüksek anlamlı byte'ları atılıp düşük anlamlı byte'ları elde edilmiştir. Bu da
     0xFE bitleridir. Tabii bu bitler işaretsiz 1 byte'lık bir değişkenin içerisine yerleştirildiği için 254 olarak ele alınacaktır.
@@ -2887,11 +2887,11 @@
     türdeki bitlerin hepsi büyük tamsayı türünün düşük anlamlı bitlerine yerleştirilir. Sonra geri kalan bitler kaynak türe
     ilişkin değer negatif ise 1'lerle pozitif ise 0'larla doldurulur. Örneğin:
 
-    let a: i8 = -1;             // 0XFF
-    let b: u32;
+        let a: i8 = -1;             // 0XFF
+        let b: u32;
 
-    b = a as u32;
-    println!("{}", b);          // 4294967295 = 0xFFFFFFFF
+        b = a as u32;
+        println!("{}", b);          // 4294967295 = 0xFFFFFFFF
 
     Burada kaynak türdeki değer işaretli ve negatiftir. 1 byte içerisinde -1 değeri 0xFF bitlerinden oluşmaktadır. Buradaki
     sayı negatif olduğu için u32'ye dönüştürme yapılırken geri kalan 3 byte 1'lerle doldurulacaktır. Dolayısıyla sayı çok
@@ -2899,11 +2899,11 @@
     dikkat ediniz. Tabii yukarıdaki örnekte küçük türle belirtilen değer pozitf olsaydı doldurma 0 bitleriyle yapılacak ve
     aslında yine aynı pozitif sayı elde edilecektir. Örneğin:
 
-    let a: i8 = 1;              // 0X01
-    let b: u32;
+        let a: i8 = 1;              // 0X01
+        let b: u32;
 
-    b = a as u32;
-    println!("{}", b);          // 0x00000001 = 1
+        b = a as u32;
+        println!("{}", b);          // 0x00000001 = 1
 
     Aslında C'de de aynı durum söz konusudur. Yalnızca C standartlarında anlatım değişik yapılmıştır. C standartlarında küçük
     işaretli tamsayı türünden büyük işaretsiz tamsayı türüne dönüştürmeninm iki aşamada yapılacağı söylenmiştir: Önce kaynak
@@ -2915,20 +2915,20 @@
     ne olacaktır? İşte Rust'ta bu durumda eğer gerçek sayı poiztifse hedef türle ifade edilebilen en büyük pozitif tamsayı,
     gerçek sayı negatif ise hedef türle ifade edilebilen en küçük negatif sayı elde edilmektedir. Örneğin:
 
-    let f: f64 = 1000.12;
-    let b: u8;
+        let f: f64 = 1000.12;
+        let b: u8;
 
-    b = f as u8;
-    println!("{}", b);      // 255
+        b = f as u8;
+        println!("{}", b);      // 255
 
     Burada 1000.12 sayısının noktadan sonraki kısmı atıldıktan sonra 1000 değeri elde edilir. Ancak bu 1000 değeri hedef tür
     olan u8'in sınırları dışında kalmaktadır. u8 ile ifade edilecek en büyük pozitif sayı 255'tir. Örneğin:
 
-    let f: f64 = -1000.12;
-    let b: i8;
+        let f: f64 = -1000.12;
+        let b: i8;
 
-    b = f as i8;
-    println!("{}", b);      // -128
+        b = f as i8;
+        println!("{}", b);      // -128
 
     C'de gerçek sayı türlerine ilişkin bir değerin noktadan sonraki kısmı atılıp tam kısmı elde edildiğine bu değer hala
     hedef türün sınırları içerisinde kalmıyorsa "tanımsız davranış (undefined behavior)" oluşmaktadır. (Ancak C derleyicilerinin
@@ -2943,11 +2943,11 @@
     (Bazen dönüştürülecek tamsayı değere en yakın ondan büyük ve ondan küçük iki gerçek sayı birlikte bulunuyor olabilir.
     Bu durumda çift olan sayı tercih edilmektedir.) Örneğin:
 
-    let a: i32 = 1234567890;
-    let b: f32;
+        let a: i32 = 1234567890;
+        let b: f32;
 
-    b = a as f32;
-    println!("{}", b);      // 1234568000
+        b = a as f32;
+        println!("{}", b);      // 1234568000
 
     Burada 1234567890 sayısı f32 türü ile tam olarak ifade edilememiştir. Ancak mantis kaybıyla ona en yakın bir sayı elde
     edilmiştir.
@@ -2971,83 +2971,83 @@
     Rust'ta char türü Unicode UTF-32 kod numaralarını tutabilen 4 byte genişlikte olduğu için char türünün dönüştürüleceği
     en uygun tamsayı türü de u32 türüdür. Örneğin:
 
-    let c: char = 'a';
-    let a: u32;
+        let c: char = 'a';
+        let a: u32;
 
-    a = c as u32;
-    println!("a: {}", a);           // 97
+        a = c as u32;
+        println!("a: {}", a);           // 97
 
     char türü u32 türünden daha küçük türlere dönüştürüldüğünde yüksek anlamlı byte'lar kırpılmaktadır. Örneğin:
 
-    let c: char = 'ş';
-    let a: i8;
+        let c: char = 'ş';
+        let a: i8;
 
-    a = c as i8;            // kırpılma olacak
-    println!("a: {}", a);
+        a = c as i8;            // kırpılma olacak
+        println!("a: {}", a);
 
     Rust'ta yalnızca u8 türü as operatörüyle char türüne dönüştürülebilmektedir. Diğer türlerinden char türüne dönüştürme
     yoktur. Örneğin:
 
-    let c: char;
-    let a: u8 = 97;
+        let c: char;
+        let a: u8 = 97;
 
-    c = a as char;
-    println!("a: {}", c);       // a
+        c = a as char;
+        println!("a: {}", c);       // a
 ---------------------------------------------------------------------------------------------------------------------------
    bool türü as operatörüyle tamsayı türlerine dönüştürülebilir. Bu durumda true için 1, false için 0 elde edilmektedir.
    Ancak bool türü gerçek sayı türlerine (f32 ve f64 türlerine) dönüştürülemez. Tamsayı ya da gerçek sayı türlerinden bool
    türüne de as operatörüle dönüştürme yapılamamakatdır. Örneğin:
 
-    let b: bool = true;
-    let a: i32;
+        let b: bool = true;
+        let a: i32;
 
-    a = b as i32 + 10;
-    println!("{}", a);      // 11
+        a = b as i32 + 10;
+        println!("{}", a);      // 11
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi de hangi temel türlerden hangi temel türlere as operatörüyle dönüştürme yapılacağını özet bir tabloyla belirtelim:
 
-    Kaynak Tür                  Hedef Tür                   Dönüştürme Durumu
-    -------------------         -------------------         -----------------
-    Tamsayı Türleri             Gerçek Sayı Türleri         VAR
-    Gerçek Sayı Türleri         Tamsayı Türleri             VAR
-    bool Türü                   Tamsayı Türleri             VAR
-    bool Türü                   Gerçek Sayı Türleri         YOK
-    Herhangi Bir Tür            bool Türü                   YOK
-    char Türü                   Tamsayı Türleri             VAR
-    char Türü                   Gerçek Sayı Türleri         YOK
-    u8 Türü                     char Türü                   VAR
-    u8 Dışındaki Türler         char Türü                   YOK
+        Kaynak Tür                  Hedef Tür                   Dönüştürme Durumu
+        -------------------         -------------------         -----------------
+        Tamsayı Türleri             Gerçek Sayı Türleri         VAR
+        Gerçek Sayı Türleri         Tamsayı Türleri             VAR
+        bool Türü                   Tamsayı Türleri             VAR
+        bool Türü                   Gerçek Sayı Türleri         YOK
+        Herhangi Bir Tür            bool Türü                   YOK
+        char Türü                   Tamsayı Türleri             VAR
+        char Türü                   Gerçek Sayı Türleri         YOK
+        u8 Türü                     char Türü                   VAR
+        u8 Dışındaki Türler         char Türü                   YOK
 ---------------------------------------------------------------------------------------------------------------------------
     Temel türleri görürken ! ile temsil edilen "never" isimli bir tür de görmüştük. Bu tür fonksiyonların geri dönüş değerlerinde
     kullanıldığında fonksiyonların geri dönmeyeceği anlamına geliyordu. Örneğin:
 
-    fn foo() -> ! {
-        //...
-    }
+        fn foo() -> ! {
+            //...
+        }
 
     Burada foo fonksiyonu çağrıldığında akış bu fonksiyondan geri dönmeyecektir. Yani fonksiyonu yazan kişi derleyiciye fonksiyonun
     geri dönmeyeceği sözünü vermektedir. Ancak programcı bu sözünde durmazsa derleme aşamasında error oluşur. Örneğin:
 
-    fn foo() -> ! {
-        println!("foo");
-    }
+        fn foo() -> ! {
+            println!("foo");
+        }
 
     Burada programcı foo fonksiyonu çağrıldığında fonksiyonun geri dönmeyeceği sözünü vermiştir. Ancak bu sözü yerine getirmemiştir.
     Buradaki foo fonksiyonu çağrıldığında fonkiyon geri dönecektir. Bu nedenle bu fonksiyonda derleme sırasında error oluşacaktır.
     Örneğin:
 
-    fn foo() -> ! {
-        loop {
+        fn foo() -> ! {
+            loop {
+            }
         }
-    }
 
     loop deyimi izleyen paragraflarda görecek olduğumuz sonsuz döngü oluşturan bir deyimdir. Dolayısıyla burada foo fonksiyonu
     geri dönmeyecektir. Programcı verdiği sözü tutumuştur. Örneğin:
 
-    fn foo() -> ! {
-        println!("foo");
-        std::process::exit(0);
-    }
+        fn foo() -> ! {
+            println!("foo");
+            std::process::exit(0);
+        }
 
     Burada foo içerisinde exit fonksiyonu ile program sonlandırılmıştır. exit fonksiyonu da ! geri dönüş değerine sahiptir.
     Dolayısıyla derleyici exit fonksiyonu geri dönmediği için foo fonksiyonun da geri dönmeyeceğini anlar. Kod geçerli olarak
@@ -3056,12 +3056,12 @@
     Bir fonksiyonun geri dönmeyeceği bilgisi derleyicinin o fonksiyon için daha kısa bir kod üretmesini sağlamaktadır. C++'a
     bu özellik resmi olarak C++11 ile eklenen [[noreturn]] özniteliği ile gelmiştir. Örneğin:
 
-    [[noreturn]] void foo()
-    {
-        //...
+        [[noreturn]] void foo()
+        {
+            //...
 
-        exit(0);
-    }
+            exit(0);
+        }
 
     C11 ile C'ye _Noreturn anahtar sözcüğü eklenmiştir. Ancak C23 ile birlikte C'ye de C++'taki gibi öznitelikler (attributes)
     eklenince bu işlem artık C'de de C++'ta olduğu gibi [[noreturn]] ile yapılabilmektedir.
@@ -3069,17 +3069,17 @@
     Rust'ta never türü "akış geriye gelmeyecek" anlamına geldiği için never türünden herhangi bir türe otomatik dönüştürme
     vardır. Örneğin:
 
-    fn main() {
-        let a: i32;
+        fn main() {
+            let a: i32;
 
-        a = foo();      // geçerli
-        //...
-    }
+            a = foo();      // geçerli
+            //...
+        }
 
-    fn foo() -> ! {
-        println!("foo");
-        std::process::exit(0);
-    }
+        fn foo() -> ! {
+            println!("foo");
+            std::process::exit(0);
+        }
 
     Burada foo fonksiyonun geri dönüş değeri never türündendir. Never türü de "fonksiyon geriye dönmeyecek" anlamına gelir.
     Akış zaten geriye dönmeyeceğine göre foo() çağrım ifadesinin herhangi bir türe atanmasında sakınca görülmemiştir.
@@ -3095,10 +3095,10 @@
     görünmesi için ya yazının sonuna \n karakterinin iliştirilmesi ya da stdout dosyasının flush edilmesi gerekmektedir. stdout
     dosyasının flush edilmesi şöyle yapılmaktadır:
 
-    use std::io::Write;
+        use std::io::Write;
 
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush().expect("cannot flush stdout!..");
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush().expect("cannot flush stdout!..");
 
     Burada std::io::stdout() çağrısı stdout dosya değişkenine erişmeyi sağlamaktadır. Bu değişkenle yapının flush metodu çağrılmıştır.
     Ancak flush metodu başarısız da olabilmektedir. Burada expect çağrısının agrümanı flush başarısız olursa stderr dosyasına
@@ -3106,31 +3106,31 @@
     sonlanacaktır. Tabii stdout dosyasının flush edilmesinde bir sorun ortaya çıkması normal koşullarda mümkün değildir. Aslında
     biz flush metodunun geri dönüş değerini hiç dikkate almayabilirdik:
 
-    use std::io::Write;
+        use std::io::Write;
 
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush();
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush();
 
     Ancak bu durumda Rust derleyicisi bir uyarı verecektir.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta klavyeden (stdin dosyasından) i32 gibi bir türden okuma yapmak için önce bir satır String olarak okunur, sonra
     bu satır parse edilerek hedef türe (örneğin i32 türüne) dönüştürülür. Bu işlem şöyle yapılmaktadır:
 
-    let val: i32;
-    let mut s: String = String::new();
+        let val: i32;
+        let mut s: String = String::new();
 
-    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
-    val = s.trim().parse().expect("cannot parse!..");
+        std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+        val = s.trim().parse().expect("cannot parse!..");
 
     Bu kodu satır satır ele alıp açıklayalım:
 
-    let mut s: String = String::new();
+        let mut s: String = String::new();
 
     Burada String isimli bir yapı değişkeni içi boş olarak yaratılmaktadır. String yapısı Rust'ın standart kütüpahensinde
     bulunan string işlemleri yapan bir yapıdır. Bu yapıyı nesne yönelimli programlama dillerindeki string sınıflarına
     benzetebilirsiniz. Şimdi aşağıdaki satırı açıklayalım:
 
-    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+        std::io::stdin().read_line(&mut s).expect("cannot read line!..");
 
     Burada önce std::io::stdint() çağrısı ile stdin dosyasına ilişkin bir yapı türünden değer elde edilmiştir. Bu yapı türünde
     ilişkin değerler yapının read_line metodu çağrılmıştır. Bu metot klavyeden (stdin dosyasından) bir satır okuyarak okunanları
@@ -3139,7 +3139,7 @@
     olursa (gerçi başarısız olması  pek de mümkün değildir) stderr dosyasına bir mesaj bastırılarak panic oluşturulmuştur. Şimdi
     de aşağıdaki satırı açıklayalım:
 
-    val = s.trim().parse().expect("cannot parse!..");
+        val = s.trim().parse().expect("cannot parse!..");
 
     read_line metodu klavyeden (stdin dosyasından) bir satır okuduğunda satırın sonundaki '\n' karakterini de String değişkenine
     yerleştirmektedir. Dolayısıyla bu yazıyı parse etmeden önce bu '\n' karakterinden kurtulmak gerekir. String yapısının trim
@@ -3152,35 +3152,62 @@
     ifade i32 türüne atandığı için i32'ye dönüştürme yapan parse metodunu çağırmaktadır. Örneğin biz yukarıdaki kodda f64 türünden
     okuma yapmak isteseydik yalnızca val değişkenin türünü değiştirmemiz yeterli olacaktı:
 
-    let val: f64;
-    let mut s: String = String::new();
+        let val: f64;
+        let mut s: String = String::new();
 
-    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
-    val = s.trim().parse().expect("cannot parse!..");
+        std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+        val = s.trim().parse().expect("cannot parse!..");
 
     Yukarıdaki işlemleri nit fonksiyona da yaptırabiliriz. Örneğin:
 
-    fn getval() -> i32 {
-        let mut buf: String = String::new();
+        fn getval() -> i32 {
+            let mut buf: String = String::new();
 
-        std::io::stdin().read_line(&mut buf).expect("read line failed");
-        buf.trim().parse().expect("parse into number")
-    }
+            std::io::stdin().read_line(&mut buf).expect("read line failed");
+            buf.trim().parse().expect("parse into number")
+        }
 
     Burada getval fonksiyonu klavyeden okunan i32 türünden bir değerle geri dönmektedir. Bu fonksiyonu farklı bütü okuyacak
     hale getirmek için tek yapılacak şey geri dönüş değerinin türünü değiştirmektir:
 
-    fn getval() -> f64 {
-        let mut buf: String = String::new();
+        fn getval() -> f64 {
+            let mut buf: String = String::new();
 
-        std::io::stdin().read_line(&mut buf).expect("read line failed");
-        buf.trim().parse().expect("parse into number")
-    }
+            std::io::stdin().read_line(&mut buf).expect("read line failed");
+            buf.trim().parse().expect("parse into number")
+        }
 
     Artık fonksiyon f64 türünden (C'deki double türünden) değerle geri dönmektedir.
 
     Aslında yukarıdaki fonksiyonu "genel (generic)" biçimde de yazabiliriz. Biz "genel fonksiyonlar (generic functions)"
     konusunu ileride göreceğiz. Ancak burada açıklama fonksiyonun genelleştirilmiş halini aşağıda veriyoruz.
+
+        fn getval<T>() -> T
+        where
+            T: std::str::FromStr,
+            <T as std::str::FromStr>::Err: std::fmt::Debug,
+        {
+            let mut buf = String::new();
+            std::io::stdin()
+                .read_line(&mut buf)
+                .expect("cannot read line!..");
+            buf.trim()
+                .parse::<T>()
+                .expect("cannot parse!..")
+        }
+---------------------------------------------------------------------------------------------------------------------------
+
+    use std::io::Write;
+
+    fn main() {
+        let val: i32;
+
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush().expect("cannot flush stdout!");
+
+        val = getval();
+        print!("{}\n", val * val);
+    }
 
     fn getval<T>() -> T
     where
@@ -3195,33 +3222,6 @@
             .parse::<T>()
             .expect("cannot parse!..")
     }
----------------------------------------------------------------------------------------------------------------------------
-
-use std::io::Write;
-
-fn main() {
-    let val: i32;
-
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush().expect("cannot flush stdout!");
-
-    val = getval();
-    print!("{}\n", val * val);
-}
-
-fn getval<T>() -> T
-where
-    T: std::str::FromStr,
-    <T as std::str::FromStr>::Err: std::fmt::Debug,
-{
-    let mut buf = String::new();
-    std::io::stdin()
-        .read_line(&mut buf)
-        .expect("cannot read line!..");
-    buf.trim()
-        .parse::<T>()
-        .expect("cannot parse!..")
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bu bölümde Rust'taki if gibi, for gibi temel kontrol deyimlerini ele alacağız. Bazı kontrol deyimleri "kalıp uyuşumu
@@ -3232,23 +3232,23 @@ where
 ---------------------------------------------------------------------------------------------------------------------------
     "The Rust Reference" dokümanlarında "deyimler (statements)" için oluşturulan BFN grameri şöyledir:
 
-    Statement :
-      ;
-      | Item
-      | LetStatement
-      | ExpressionStatement
-      | MacroInvocationSemi
+        Statement :
+        ;
+        | Item
+        | LetStatement
+        | ExpressionStatement
+        | MacroInvocationSemi
 
     Burada ExpressionStatement ara sembolü şöyle açılmaktadır:
 
-    ExpressionStatement :
-      ExpressionWithoutBlock ;
-      | ExpressionWithBlock ;?
+        ExpressionStatement :
+        ExpressionWithoutBlock ;
+        | ExpressionWithBlock ;?
 
     Bu BNF grameri ifadesel deyimlerin iki biçimde oluşturulabileceği belirtilmektedir:
 
-    1) Bir ifadenin sonuna ';' getirilerek o ifade deyim yapılabilir.
-    2) Blok içeren sentaktik yapılar sonunda ';' olmasa da deyim belirtmektedir.
+      1) Bir ifadenin sonuna ';' getirilerek o ifade deyim yapılabilir.
+      2) Blok içeren sentaktik yapılar sonunda ';' olmasa da deyim belirtmektedir.
 
     Biz daha önceki konularda bloklu yapıların sonunda ifade varsa bloklarının sonuna ';' atomunun getirilmesi gerektiğini
     görmüştük. Anımsayacağınız gibi blokların sonunda ifade yoksa ya da () ifadesi varsa bloklardan sonra ';' atomunun
@@ -3256,64 +3256,64 @@ where
 
     Gramerdeki ExpressionWithBlock ara sembolü de şöyle açılmıştır:
 
-    ExpressionWithBlock :
-      OuterAttribute*†
-      (
-      BlockExpression
-      | ConstBlockExpression
-      | UnsafeBlockExpression
-      | LoopExpression
-      | IfExpression
-      | IfLetExpression
-      | MatchExpression
-      )
+        ExpressionWithBlock :
+        OuterAttribute*†
+        (
+        BlockExpression
+        | ConstBlockExpression
+        | UnsafeBlockExpression
+        | LoopExpression
+        | IfExpression
+        | IfLetExpression
+        | MatchExpression
+        )
 ---------------------------------------------------------------------------------------------------------------------------
     Daha önceden de belirttiğimiz gibi Rust'ta küme parantezi içerisindeki kod parçası da bir deyim dolayısıyla bir ifade
     belirtmektedir. Blok deyimi de bir değer üretmektedir. Blok deyiminin ürettiği değer bloğun sonundaki ifadedir. Örneğin:
 
-    let result: i32;
+        let result: i32;
 
-    result = {
-        println!("this is a block");
-        100
-    };
+        result = {
+            println!("this is a block");
+            100
+        };
 
     Burada result değişkenşne blok ifadesinin ürettiği değer atanmıştır. Rust gramerinde blok ifadelerinin ExpressionWithBlock
     ara sembolü içerisinde bulunduğuna dikkat ediniz. Daha önceden de belirttiğimiz gibi blok ifadeleri eğer birim dışında
     (yani () dışında) bir değer üretiyorsa tek başlarına kullanıldığında bloğun sonunda bir ';' gerekmektedir. Örneğin:
 
-    {
-        println!("this is a block");
-        100
-    }               // error!
+        {
+            println!("this is a block");
+            100
+        }               // error!
 
     Burada blok ifadesi birim değerini üretmediği için bloğun sonunda sonunda ';' bulunmak zorundadır:
 
-    {
-        println!("this is a block");
-        100
-    };               // geçerli
+        {
+            println!("this is a block");
+            100
+        };               // geçerli
 
     Tabii yukarıdaki kod geçeli olsa da mantıksal bakımdan anlamsızdır. Blok ifadesinin değeri kullanılmadıktan sonra ondan
     bir değerin elde edilmesinin anlamı yoktur. Örneğin:
 
-    result = {
-        println!("this is a block");
-        100
-    };
+        result = {
+            println!("this is a block");
+            100
+        };
 
     Buradaki ';' her durumda bulundurulmak zorundadır. Çünkü bu ';' artık atama operatörünün sonundaki ';' durumundadır.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta if ifadesinin genel biçimi şöyledir:
 
-    if <ifade> {
-        //...
-    }
-    [
-    else {
-        //...
-    }
-    ]
+        if <ifade> {
+            //...
+        }
+        [
+        else {
+            //...
+        }
+        ]
 
     if anahtar sözcüğünü bool türden bir kontrol ifadesi izlemek zorundadır. Bu kontrol ifadesinin paranteze alınmadığına dikkat
     ediniz. (C, C++, Java ve C# gibi dillerde if deyimindeki kontrol ifadesinin paranteze alınmasının zorunlu olduğunu anımsayınız.)
@@ -3322,9 +3322,9 @@ where
     gibi if ifadesinin else kısmı da bulunmayabilir. "The Rust Reference" dokümanlarında if ifadesinin  BNF grameri ise şöyle
     verilmiştir:
 
-    IfExpression :
-      if Expression BlockExpression
-      (else ( BlockExpression | IfExpression | IfLetExpression ) )?
+        IfExpression :
+        if Expression BlockExpression
+        (else ( BlockExpression | IfExpression | IfLetExpression ) )?
 
     if ifadesi şöyle çalışmaktadır: Derleyici if anahtar sözcüğünün yanındaki kontrol ifadesinin değerini hesaplar. Eğer bu
     değer true ise yalnızca doğruysa kısmındaki blok deyimini, false ise yalnızca yanlışsa kısmındaki blok deyimini çalıştırır.
@@ -3334,12 +3334,12 @@ where
     gerek kalmamıştır. Halbuki C, C++, Java ve C# gibi dillerde tek deyim için bloklama zorunlu olmadığından kontrol ifadesiyle
     if deyiminin doğruysa kısmınadaki ifadenin ayrıştırılabilemsi için parantezler gerekmektedir. Örneğin:
 
-    if (a > 0) x = 10; else  y = 20;
+        if (a > 0) x = 10; else  y = 20;
 
     Burada parantezler olmasaydı kontrol ifadesiyle doğruysa kısmındaki ifade ayrıştırılamazdı. Parantezleri kaldırarak aynı
     ifadeyi yeniden veriyoruz:
 
-    if a > 0  x = 10; else y = 20;
+        if a > 0  x = 10; else y = 20;
 
     Bloklu deyimlerde parantezin bulunmaması Rust'a özgü değildir. Swift, Kotlin, Go, Python gibi dillerde de benzer
     nedenlerden dolayı kontrol ifadesinin paranteze alınmasına gerek duyulmamaktadır.
@@ -3347,6 +3347,7 @@ where
     Tabii biz yine de if ifadesindeki kontrol ifadesini paranteze alabiliriz. Fakat buradaki parantezler artık öncelik
     parantezi olur. Zaten biz her ifadeyi paranteze alabiliriz. Tabii parantezleri kullanmak iyi bir teknik değildir. Rust
     derleyicisi bu tür gereksiz parantezlere uyarı da vermektedir.
+
 # 16. Ders 30/04/2025 - Çarşamba
     Aşağıdaki örnekte klavyeden (stdin dosyasından) okunan i32 türünden bir değerin pozitif olup olmadığı ekrana (stdout
     dosyasına) yazdırılmıştır. if ifadesi şöyle kullanılmıştır:
