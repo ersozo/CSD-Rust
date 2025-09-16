@@ -3352,67 +3352,67 @@
     Aşağıdaki örnekte klavyeden (stdin dosyasından) okunan i32 türünden bir değerin pozitif olup olmadığı ekrana (stdout
     dosyasına) yazdırılmıştır. if ifadesi şöyle kullanılmıştır:
 
-    if val > 0 {
-        println!("pozitif");
-    }
-    else {
-        println!("negatif ya da sıfır");
-    }
+        if val > 0 {
+            println!("pozitif");
+        }
+        else {
+            println!("negatif ya da sıfır");
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::Write;
+    use std::io::Write;
 
-fn main() {
-    let val: i32;
+    fn main() {
+        let val: i32;
 
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush().expect("cannot flush stdout!");
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush().expect("cannot flush stdout!");
 
-    val = getval();
+        val = getval();
 
-    if val > 0 {
-        println!("pozitif");
+        if val > 0 {
+            println!("pozitif");
+        }
+        else {
+            println!("negatif ya da sıfır");
+        }
     }
-    else {
-        println!("negatif ya da sıfır");
+
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
+
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number")
     }
-}
-
-fn getval() -> i32 {
-    let mut buf: String = String::new();
-
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse into number")
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     if ifadesinin else kısmında başka bir if ifadesi varsa yazım biraz karnaşık hale gelmektedir. Örneğin:
 
-    if val > 0 {
-        println!("pozitif");
-    }
-    else {
-        if val < 0 {
-            println!("negatif");
+        if val > 0 {
+            println!("pozitif");
         }
         else {
-            println!("sıfır");
+            if val < 0 {
+                println!("negatif");
+            }
+            else {
+                println!("sıfır");
+            }
         }
-    }
 
     İşte bu karmaşıklığı azaltmak için if gramerine şu özellik eklenmştir: "Eğer else anahtar sözcüğünden sonra hemen başka bir
     if ifadesi geliyorsa bloklama yapmaya gerek yoktur." Bu kural sayesinde else-if merdivenleri daha kolay yazılabilmektedir.
     Örneğin:
 
-    if val > 0 {
-        println!("pozitif");
-    }
-    else if val < 0 {
-        println!("negatif");
-    }
-    else {
-        println!("sıfır");
-    }
+        if val > 0 {
+            println!("pozitif");
+        }
+        else if val < 0 {
+            println!("negatif");
+        }
+        else {
+            println!("sıfır");
+        }
 
     Tabii if ifadesinin doğruysa kısmına başka bir if ifadesi yerleştirilecekse içteki if ifadesini blok açmadan yazmanın
     bir yolu yoktur.
@@ -3420,34 +3420,34 @@ fn getval() -> i32 {
     if bir ifade olduğu için bir değer de üretmektedir. Biz if ifadesinden elde edilen değeri doğrudan kullanabiliriz. Örneğin
     onu bir değişkene atayabiliriz:
 
-    result = if val > 0 {
-        //...
-        100
-    }
-    else {
-        //...
-        200
-    };
+        result = if val > 0 {
+            //...
+            100
+        }
+        else {
+            //...
+            200
+        };
 
     if ifadesinin doğruysa ve yanlışsa kısmında aynı türden değerlerin oluşturulması zorunludur. Örneğin:
 
-    result = if val > 0 {
-        //...
-        10
-    }
-    else {
-        //...
-        20.5
-    };
+        result = if val > 0 {
+            //...
+            10
+        }
+        else {
+            //...
+            20.5
+        };
 
     Yukarıdaki kod error oluşturacaktır. Çünkü if ifadesinin kolları aynı türden değer oluşturmamaktadır.
 
     if ifadesinin else kısmının olmayabileceğini belirtmiştik. Pekiyi durumda aşağıdaki gibi bir atama işleminde ne olacaktır:
 
-    result = if val > 0 {
-        //...
-        100
-    };
+        result = if val > 0 {
+            //...
+            100
+        };
 
     Burada koşul sağlanıyorsa result değişkenine 100 değeri atanır. Pekiyi ya koşul sağlanmıyorsa? İşte "The Rust Reference"
     dokümanlarında "eğer if ifadesinin else kısmı yoksa sanki boş bir else kısmı varmış ve oradan "birim (unit) değeri elde
@@ -3455,31 +3455,31 @@ fn getval() -> i32 {
     ve yanlışsa kısımları farklı türlerden ifade oluşturduğu için error oluşacaktır. Tabii aşağıdaki gibi bir atama error
     ile sonuçlanmaz:
 
-    result = if val > 0 {
-        //...
-        ()
-    };
+        result = if val > 0 {
+            //...
+            ()
+        };
 
     Burada result değişkeninin birim türünden olması gerekir. Fakat böyle bir atamanın da mantıksal bir anlamı yoktur.
     O halde Rust'ta else kısmı olmayan if ifadesinden bir değer oluşturmaya çalışmak anlamlı değildir.
 
     else-if merdivenlerinde yine her bloğun oluşturduğu değerin aynı türden olması gerekmektedir. Örneğin:
 
-    result = if val == 1 {
-        //...
-        10
-    }
-    else if val == 2 {
-        //...
-        20
-    }
-    else if val == 3 {
-        //...
-        30
-    }
-    else {
-        0
-    };
+        result = if val == 1 {
+            //...
+            10
+        }
+        else if val == 2 {
+            //...
+            20
+        }
+        else if val == 3 {
+            //...
+            30
+        }
+        else {
+            0
+        };
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta if ifadesinin yanı sıra if let biçiminde if ifadesine benzeyen başka bir ifade daha vardır. Ancak if let ifadesi
     "kalıp uyuşumu (pattern matching)" özelliği ile çalışmaktadır. Biz kalıp uyuşumunu başka bir başlık altında ve çeşitli
@@ -3493,21 +3493,21 @@ fn getval() -> i32 {
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'taki döngü ifadeleri şunlardır:
 
-    - loop döngüleri
-    - while döngüleri
-    - while let döngüleri
-    - for döngüleri
+      - loop döngüleri
+      - while döngüleri
+      - while let döngüleri
+      - for döngüleri
 
     "The Rust Reference" dokümanlarında döngü ifadeleri için BNF grameri şöyle verilmiştir:
 
-    LoopExpression :
-      LoopLabel? (
-        InfiniteLoopExpression
-        | PredicateLoopExpression
-        | PredicatePatternLoopExpression
-        | IteratorLoopExpression
-        | LabelBlockExpression
-   )
+        LoopExpression :
+        LoopLabel? (
+            InfiniteLoopExpression
+            | PredicateLoopExpression
+            | PredicatePatternLoopExpression
+            | IteratorLoopExpression
+            | LabelBlockExpression
+    )
 
     Burada InfiniteLoopExpression ara sembolü loop döngülerini, PredicateLoopExpression ara sembolü while döngülerini,
     PredicatePatternLoopExpression ara sembolü while let döngülerini, IteratorLoopExpression ara sembolü de for döngülerini
@@ -3515,21 +3515,21 @@ fn getval() -> i32 {
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta loop ifadesi sonsuz döngü oluşturmak için kullanılmaktadır. Genel biçimi şöyledir:
 
-    loop {
-        //...
-    }
-
-    loop anahtar sözcüğünden sonra bir blok ifadesi bulunmak zorundadır. Döngü sürekli olarak buradaki deyimleri çalıştırır.
-    Örneğin:
-
-    fn main() {
-        let mut i = 0;
-
         loop {
-            println!("{}", i);
-            i += 1;
+            //...
         }
-    }
+
+        loop anahtar sözcüğünden sonra bir blok ifadesi bulunmak zorundadır. Döngü sürekli olarak buradaki deyimleri çalıştırır.
+        Örneğin:
+
+        fn main() {
+            let mut i = 0;
+
+            loop {
+                println!("{}", i);
+                i += 1;
+            }
+        }
 
     Burada bir sonsuz döngü içerisinde i değişkeni sürekli artırılıp değeri yazdırılmıştır. Tabii ileride göreceğimiz gibi
     sonsuz döngülerden break ifadesi ile çıkabiliriz.
@@ -3538,103 +3538,103 @@ fn getval() -> i32 {
     türünün herhangi bir türe doğrudan dönüştürülebildiğini anımsayınız. Bu durumda biz loop ile oluşturduğumuz sonsuz döngüyü
     herhangi bir türe atayabiliriz. Ancak bunun bir anlamı olmaz. Örneğin:
 
-    let result: f64;
+        let result: f64;
 
-    result = loop {
-        //...
-    }
+        result = loop {
+            //...
+        }
 
     Bu kod parçası geçerli olsa da anlamsızdır. Zaten loop döngüsünden çıkılamadığına göre onun sonucunu değişkene atamanın
     da bir anlamı yoktur. Rust terminolojisinde bir akışın bir biçimde geri dönmemesi durumuna "divergent" ya da "diverging"
     denilmektedir. Eğer loop döngüsünden break ile çıkılırsa (yani loop döngüsü "divergent" değilse) bu durumda loop ifadesi
     break anahtar sözcüğünün yanındaki ifadenin değerini oluşturur. Örneğin:
 
-    fn main() {
-        let mut i = 0;
-        let result: i32;
+        fn main() {
+            let mut i = 0;
+            let result: i32;
 
-        result = loop {
-            println!("{}", i);
-            i += 1;
-            if i == 10 {
-                break 100;
-            }
-        };
+            result = loop {
+                println!("{}", i);
+                i += 1;
+                if i == 10 {
+                    break 100;
+                }
+            };
 
-        println!("{}", result);       // 100
-    }
+            println!("{}", result);       // 100
+        }
 
     Burada loop içerisinden break ifadesi ile çıkılmıştır. Artık loop never değil 100 değerini oluşturmaktadır. Eğer break
     anahtar sözcüğünün yanında bir ifade kullanılmazsa bu durumda sanki birim (unit) ifadesi kullanılmış gibi işlem yapılır.
     Örneğin:
 
-    result = loop {
-        println!("{}", i);
-        i += 1;
-        if i == 10 {
-            break;
-        }
-    };
+        result = loop {
+            println!("{}", i);
+            i += 1;
+            if i == 10 {
+                break;
+            }
+        };
 
     Burada result birim (unit) türünden olmak zorundadır. Tabii bu durumda loop ifadesinin bir değişkene atanmasının da anlamı
     kalmamaktadır. loop ifadesinde birden fazla ifadeli break kullanılıyorsa bütün break ifadelerinin de aynı türden olması
     gerekir. Örneğin:
 
-    result = loop {
-        //...
-        if ifade1 {
-            break 10;
+        result = loop {
+            //...
+            if ifade1 {
+                break 10;
+            }
+            //...
+            if ifade2 {
+                break 3.14;
+            }
         }
-        //...
-        if ifade2 {
-            break 3.14;
-        }
-    }
 
     Burada eğer result değişkeni tamsayı türlerine ilişkinse error ikinci break ifadesinde rapor edilecektir.
 
     loop ifadesinin bir blok ifadesi içerdiğini belirttik. Ancak loop ifadesindeki bloğun sonuna bir ifade yerleştirilemez.
     (Halbuki genel olarak blok ifadelerinin sonuna bir ifade yerleştirilebilmektedir.) Örneğin:
 
-    result = loop {
-        //...
-        100             // anlamsız, error oluşacaktır!
-    };
+        result = loop {
+            //...
+            100             // anlamsız, error oluşacaktır!
+        };
 
     Burada loop bloğunun sonuna yerleştirilen ifade error oluşturacaktır. Ancak burada ilginç bir durumdan bahsetmek istiyoruz.
     Aşağıdaki gibi bir döngüde Rust derleyicisi error oluşturmamaktadır:
 
-    result = loop {
-        //...
-        ()
-    };
+        result = loop {
+            //...
+            ()
+        };
 
     Aslında Rust'ta () atomları hem bir ifade hem de bir tür belirtmektedir. Zaten bunun için () atomlarına "birim (unit)"
     de denilmektedir, "birim türü (unit type)" da denilmektedir. Örneğin aşağıdaki gibi bir bağlama geçerlidir:
 
-    let a: () = ();
+        let a: () = ();
 
     İşte Rust'ta () atomlarının bir tür mü yoksa bir değer mi (yani ifade mi) belirttiğine içinde bulunulan bağlama göre karar
     verilmektedir. Yukarıdaki loop ifadesinin sonundaki () ifade olamayacağı için Rust derleyicisi tarafından bir tür tanımlaması
     olarak ele alınmaktadır. Bu da Rust'ta geçerlidir. Yani aşağıdaki gibi bir loop deyimi nasıl geçerliyse yukarıdaki de aynı
     biçimde geçerlidir:
 
-    result = loop {
-        //...
-        struct Point {
-            x: i32,
-            y: i32
-        }
-    };
+        result = loop {
+            //...
+            struct Point {
+                x: i32,
+                y: i32
+            }
+        };
 
     Dolayısıyla sonu () ile biten loop ifadesi divergent biçimdedir ve yine never türüne ilişkindir.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta diğer pek çok programlama dilinde oluduğu gibi while döngüleri de bulunmaktadır. while döngülerinin genel biçimi
     şöyledir:
 
-    while <ifade> {
-        //...
-    }
+        while <ifade> {
+            //...
+        }
 
     while anahtar sözcüğünden sonra yine parantez kullanmaya gerek yoktur. Ancak yinelenen deyimler blok içerisinde bulunmak
     zorundadır. while döngülerinde kontol ifadesinin bool türden olması zorunludur.
@@ -3648,80 +3648,81 @@ fn getval() -> i32 {
 
     Aşağıda while döngüsünün örnek bir kullanımını görüyorsunuz:
 
-    fn main() {
-        let mut i = 0;
+        fn main() {
+            let mut i = 0;
 
-        while i < 10 {
-            println!("{}", i);
-            i += 1;
+            while i < 10 {
+                println!("{}", i);
+                i += 1;
+            }
         }
-    }
 
     Rust'ta atama operatörü birim değerini (yani () değerini) ürettiği için C gibi dillerde çokça yaptığımız "önce ata, sonra
     atanmış değeri karşılaştır" işlemini yapamamaktayız. Örneğin:
 
-    while (val = getval()) != 0 {           // Rust'ta error oluşturur!
-        //...
-    }
+        while (val = getval()) != 0 {           // Rust'ta error oluşturur!
+            //...
+        }
 
     Bu durumu sağlamanın bir yolu döngüyü sonsuz döngü biçimine dönüştürmektir:
 
-    loop {
-        val = getval();
-        if val == 0 {
-            break;
+        loop {
+            val = getval();
+            if val == 0 {
+                break;
+            }
+            //...
         }
-        //...
-    }
 
     Ya da aynı şey koşul parantez içerisindeki ifadenin iki kez yazılmasıyla da yapılabilirdi:
 
-    val = getval();
-    while val != 0 {
-        //...
         val = getval();
-    }
+        while val != 0 {
+            //...
+            val = getval();
+        }
+
 # 17. Ders 05/05/2025 - Pazartesi
     Rust'ta while ifadesi her zaman birim değerini (yani () değerini) üretmektedir. Bu nedenle biz while ifadesinde bloğun
     sonuna bir ifade yerleştiremeyiz. (Bloğun sonuna () ifadesi yerleştirilirse bu bir tür tanımlaması (item) olarak ele
     alınmaktadır.) Bu durumda Rust'ta while ifadesini bir değişkene atamanın da pratik bir faydası yoktur. Örneğin:
 
-    result = while i < 10 {
-        println!("{}", i);
-        i += 1;
-    };
-    println!("{:?}", result);           // ()
+        result = while i < 10 {
+            println!("{}", i);
+            i += 1;
+        };
+        println!("{:?}", result);           // ()
 
     Örneğin:
 
-    result = while i < 10 {
-        println!("{}", i);
-        i += 1;
-        100             // error!
-    };
+        result = while i < 10 {
+            println!("{}", i);
+            i += 1;
+            100             // error!
+        };
 
     while bloğunun sonuna bir ifade yerleştirmenin bir anlamı olmadığı için bu sentaks yasaklanmıştır.
 
     while döngülerinde de break ifadesi kullanılabilir. Yani while döngüleri de break ile sonlandırılabilir. Örneğin:
 
-    while true {
-        println!("{}", i);
-        i += 1;
-        if i == 10 {
-            break;
-        }
-    };
+        while true {
+            println!("{}", i);
+            i += 1;
+            if i == 10 {
+                break;
+            }
+        };
 
     Fakat while içerisinde kullanılan break ifadesinin yanına bir ifade yerleştirilemez. ifadeli break yalnızca loop döngüsünde
     kullanılabilmektedir. Örneğin:
 
-    result = while true {
-        println!("{}", i);
-        i += 1;
-        if i == 10 {
-            break 100;      // error!
-        }
-    };
+        result = while true {
+            println!("{}", i);
+            i += 1;
+            if i == 10 {
+                break 100;      // error!
+            }
+        };
 
     while ifadesi her zaman birim değerini (yani () değerini) üretmektedir. Dolayısıyla while içerisinde ifadeli break
     kullanmak geçerli değildir.
@@ -3730,43 +3731,43 @@ fn getval() -> i32 {
     yazdırmak isteyelim. Ancak 0 girildiğinde döngüyü sonlandırılacak olsun. Yukarıda da belirttiğimiz gibi bu işlem C, C++,
     Java ve C# gibi dillerde pratik bir biçimde aşağıdaki gibi yapılabilmektedir:
 
-    while ((val = getval()) != 0)
-        printf("%d\n", val * val);
+        while ((val = getval()) != 0)
+            printf("%d\n", val * val);
 
     Ancak Rust'ta atama operatörü birim değerini (yani () değerini) ürettiği için bu işlem yukarıdaki gibi yapılamamaktadır.
     Bu tür durumalarda loop döngüsünü tercih edebilirsiniz:
 
-    loop {
-        val = getval();
-        if val == 0 {
-            break;
-        }
-        println!("{}", val * val);
-    };
+        loop {
+            val = getval();
+            if val == 0 {
+                break;
+            }
+            println!("{}", val * val);
+        };
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::Write;
+    use std::io::Write;
 
-fn main() {
-    let mut val;
+    fn main() {
+        let mut val;
 
-    loop {
-        print!("Bir sayı giriniz:");
-        std::io::stdout().flush();
-        val = getval();
-        if val == 0 {
-            break;
-        }
-        println!("{}", val * val);
-    };
-}
+        loop {
+            print!("Bir sayı giriniz:");
+            std::io::stdout().flush();
+            val = getval();
+            if val == 0 {
+                break;
+            }
+            println!("{}", val * val);
+        };
+    }
 
-fn getval() -> i32 {
-    let mut buf: String = String::new();
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
 
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse into number")
-}
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number")
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta nasıl if ifadesinin kalıp uyuşumuyla çalışan if let isminde bir biçimi varsa while ifadesinin de while let isminde
@@ -3785,9 +3786,9 @@ fn getval() -> i32 {
 
     Rust'ta dolaşım mekanizmasıyla çalışan for döngülerinin genel biçimi şöyledir:
 
-    for <kalıp> in <dolaşım_ifadesi> {
-        //...
-    }
+        for <kalıp> in <dolaşım_ifadesi> {
+            //...
+        }
 
     for anahtar sözcüğünden sonra bir kalıp ifadesi gelmektedir. Burada tipik olarak bir değişken ismi (variable pattern)
     kullanılabilir. Daha sonra bu kalıbı in anahtar sözcüğü ve bir dolaşım ifadesi (iterator expression) izler. Dolaşım
@@ -3805,8 +3806,8 @@ fn getval() -> i32 {
     Rust'ın for döngülerinin bazı dillerdeki for (i = 0; i < 10; ++i) biçimindeki for döngüleri gibi çalılmadığına dikkat ediniz.
     Rust'ın for döngülerinin iyi anlaşılabilmesi için iki konusunun bilinmesi geremektedir:
 
-    1) Kalıp uyuşumu (pattern matching) konusu.
-    2) Dolaşım ifadelerinin (dolaşım türünden değişkenlerin ve değerlerin) nasıl oluşturulduğu konusu.
+      1) Kalıp uyuşumu (pattern matching) konusu.
+      2) Dolaşım ifadelerinin (dolaşım türünden değişkenlerin ve değerlerin) nasıl oluşturulduğu konusu.
 
     Biz bu konuları ilerde ayrı bir bölümde ele alacağız. Ancak burada Rust'ın for döngülerinin temel kullanımı üzerinde
     duracağız.
@@ -3815,21 +3816,21 @@ fn getval() -> i32 {
     olanak sağlamasıdır. Biz bu tür for döngüleriyle her türden dolaşım (iterator) ifadelerini aynı biçimde dolaşabilmekteyiz.
     Örneğin:
 
-    fn main() {
-        let a: [i32;5] = [1, 2, 3, 4, 5];
+        fn main() {
+            let a: [i32;5] = [1, 2, 3, 4, 5];
 
-        for val in a {
-            print!("{} ", val);
+            for val in a {
+                print!("{} ", val);
+            }
+            println!("");
+
+            let v: Vec<i32> = vec![1, 2, 3, 4, 5];
+
+            for val in v {
+                print!("{} ", val);
+            }
+            println!("");
         }
-        println!("");
-
-        let v: Vec<i32> = vec![1, 2, 3, 4, 5];
-
-        for val in v {
-            print!("{} ", val);
-        }
-        println!("");
-    }
 
     Burada bir dizi ve bir Vec türünden aynı biçimde dolaşılmıştır. Tabii biz henüz dizileri ve vektörleri görmedik. Yalnızca
     bu örneği aynı biçimde dolaşıma bir örnek olarak verdik.
@@ -3844,54 +3845,54 @@ fn getval() -> i32 {
     itibaren end değerine kadar (end değeri dahil değil) tamsayı değerleri vermektedir. Böylece klasik for döngüleri bu Range
     yapısı yoluyla oluşturulabilmektedir. Örneğin:
 
-    let r: std::ops::Range<i32> = std::ops::Range {start: 0, end: 10};
+        let r: std::ops::Range<i32> = std::ops::Range {start: 0, end: 10};
 
-    for i in r {
-        //...
-    }
+        for i in r {
+            //...
+        }
 
     Burada r değişkenş Range<i32> türündendir. Dolaşım sırasında bu değişken 0'tan itibaren 10'a kadar (10 dahil değil) i32
     tamsayı değerlerini verecektir. Dolayısıyla bu döngü C, C++, Java ve C#'taki aşağıdaki döngüyle işlevsel olarak eşdeğer hale
     gelmektedir:
 
-    for (int i = 0; i < 10; ++i) {
-        //...
-    }
+        for (int i = 0; i < 10; ++i) {
+            //...
+        }
 
     Range yapısının std::ops modülünde bulunduğuna dikkat ediniz. Yazımı kolaylaştırmak için use deyimini kullanabilirsiniz:
 
-    use std::ops::Range;
+        use std::ops::Range;
 
-    let r: Range<i32> = Range {start: 0, end: 10};
+        let r: Range<i32> = Range {start: 0, end: 10};
 
-    for i in r {
-        print!("{} ", i);
-    }
+        for i in r {
+            print!("{} ", i);
+        }
 
     Tabii let deyiminde bağlama yapılırken değişken için tür de belirtilmeyebilir. Örneğin:
 
-    let r = Range {start: 0, end: 10};
+        let r = Range {start: 0, end: 10};
 
     Range değişkeninin yaratılması for döngüsünün içerisinde de yapılabilmektedir. Ancak bu durumda ifadenin paranteze
     alınması gerekir. Örneğin:
 
-    for i in (Range {start: 0, end: 10}) {
-        print!("{} ", i);
-    }
+        for i in (Range {start: 0, end: 10}) {
+            print!("{} ", i);
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Klasik for döngülerine benzer döngüler çok sık oluşturulduğu için Rust'ta Range değerlerin .. operatörü ile daha kolay
     bir biçimde oluşturulmasına olanak sağlanmıştır. .. opertatörüne İngilizce "exlusive range" operatörü denilmektedir.
     Örneğin:
 
-    for i in 1..10 {
-        //...
-    }
+        for i in 1..10 {
+            //...
+        }
 
     biçimindeki for döngüsü tamamen aşağıdakiyle eşdeğerdir:
 
-    for i in (Range {start: 0, end: 10}) {
-        //...
-    }
+        for i in (Range {start: 0, end: 10}) {
+            //...
+        }
 
     Range değişkenlerinde start değerinin aralığa dahil olduğunu ancak end değerinin aralığa dahil olmadığını bir kez daha
     vurgulamak istiyoruz.
@@ -3899,26 +3900,26 @@ fn getval() -> i32 {
     Range değişkeni yaratılıken tür parametresi herhangi bir tamsayı türü olarak belirlenebilir. Ancak tür parametresi f32
     ya da f64 olursa Range değişkeni dolaşım ifadesi olmaktan çıkmaktadır. Örneğin:
 
-    let r: Range<u8> = Range {start: 0, end: 10};
+        let r: Range<u8> = Range {start: 0, end: 10};
 
-    for i in  r {
-        //...
-    }
+        for i in  r {
+            //...
+        }
 
     Yukarıdaki işlemi .. operatörüyle aşağıdaki gibi de yapabilirdik:
 
-    for i in  0u8..10u8 {
-        //...
-    }
+        for i in  0u8..10u8 {
+            //...
+        }
 
     Fakat biz Range yapısını f32 ya da f64 türüyle "monomorfize" edersek artık onu for döngüsüyle dolaşamayız. Çünkü değişken
     dolaşım ifadesi olmaktan çıkar. Örneğin:
 
-    let r: Range<f64> = Range {start: 0., end: 10.};
+        let r: Range<f64> = Range {start: 0., end: 10.};
 
-    for i in  r {           // error! Range<f64> dolaşım ifadesi olmaktan çıktı
-        //...
-    }
+        for i in  r {           // error! Range<f64> dolaşım ifadesi olmaktan çıktı
+            //...
+        }
 
     Tabii biz f64 türünden Range değerini .. operatörü ile örneğin 0.0..10.0 biçiminde ya da 0f64..10f64 biçiminde de
     oluşturabilirdik.
@@ -3927,11 +3928,11 @@ fn getval() -> i32 {
     metodu parametre olarak atlama miktarını (step miktarını) bizden alır, bize başka bir dolaşım değeri verir. Bu dolaşım
     değerini dolaştığımızda artık değerleri atlamalı biçimde elde ederiz. Örneğin:
 
-    let r: Range<i32> = Range {start: 0, end: 10};
+        let r: Range<i32> = Range {start: 0, end: 10};
 
-    for i in  r.step_by(2) {
-        //...
-    }
+        for i in  r.step_by(2) {
+            //...
+        }
 
     Burada döngünün her yinelenmesinde sırasıyl 0, 2, 4, 6, 8 değerleri elde ediliecektir. step_by metodunun parametresi
     usize türündendir. Dolayısıyla biz Range sınıfı ile noktalı artırımlar (örneğin her defasında 0.5 artırım) yapamayız.
@@ -3940,27 +3941,27 @@ fn getval() -> i32 {
     dolaşım için Rust'ta .. operatörüyle ilgili başka pratik bir sentaks bulunmamaktadır. Bunun en pratik yolu aşağıdaki
     gibidir:
 
-    for i in (0..10).step_by(2) {
-        //...
-    }
+        for i in (0..10).step_by(2) {
+            //...
+        }
 
     Burada .. operatörünün önceliği nedeniyle paranteze alındığına dikkat ediniz. Öncelik tablosunda .. operatörü düşük
     bir önceliktedir:
 
-    ()                                      Soldan Sağa
-    - !                                     Sağdan Sola
-    as                                      Soldan Sağa
-    * /  %                                  Soldan Sağa
-    + -                                     Soldan Sağa
-    <<  >>                                  Soldan Sağa
-    &                                       Soldan Sağa
-    ^                                       Soldan Sağa
-    |                                       Soldan Sağa
-    < > >= <= == !=                         Parantezsiz Kombine Edilemez
-    &&                                      Soldan Sağa
-    ||                                      Soldan Sağa
-    .. ..=                                  Parantezsiz Kombine Edilemez
-    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+        ()                                      Soldan Sağa
+        - !                                     Sağdan Sola
+        as                                      Soldan Sağa
+        * /  %                                  Soldan Sağa
+        + -                                     Soldan Sağa
+        <<  >>                                  Soldan Sağa
+        &                                       Soldan Sağa
+        ^                                       Soldan Sağa
+        |                                       Soldan Sağa
+        < > >= <= == !=                         Parantezsiz Kombine Edilemez
+        &&                                      Soldan Sağa
+        ||                                      Soldan Sağa
+        .. ..=                                  Parantezsiz Kombine Edilemez
+        = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
 
     Pekiyi elimizde bir dolaşım ifadesi varsa biz onu tersten dolaşabilir miyiz? İşte bir dolaşım ifadesinin tersten dolaşılabilirliği
     o dolaşım ifadesine ilişkin yapıyı yazanlar tarafından belirlenmektedir. Başka bir deyişle eğer dolaşım ifadesine ilişkin
@@ -3968,40 +3969,40 @@ fn getval() -> i32 {
     rev metodu kullanılmaktadır. rev metodu parametresizdir. rev metodu bize tersten dolaşım yapılabilecek yeni bir dolaşım
     nesnnesi vermektedir. Örneğin:
 
-    let r: Range<i32> = Range {start: 0, end: 10};
+        let r: Range<i32> = Range {start: 0, end: 10};
 
-    for i in  r.rev() {
-        //...
-    }
+        for i in  r.rev() {
+            //...
+        }
 
     Burada yine start değeri aralığa dahildir ancak end değeri aralığa dahil değildir. Yani burada i değişkenine sırasıyla
     9, 8, 7, 6, 5, 4, 3, 2, 1, 0 değerleri yerleştirilecektir. Tabii biz rev metodunun verdiği dolaşım türünden değerin üzerinde
     de yeniden step_by metodunu çağırabiliriz. Örneğin:
 
-    let r: Range<i32> = Range {start: 0, end: 10};
+        let r: Range<i32> = Range {start: 0, end: 10};
 
-    for i in r.rev().step_by(2) {
-       //...
-    }
+        for i in r.rev().step_by(2) {
+        //...
+        }
 
     Burada i değişkeni sırasıyla 9, 7, 5, 3, 1 değerlerini alacaktır. Tabii biz rev metodunu .. operatörü üzerinde de
     uygulayabilirdik. Örneğin:
 
-    for i in (0..10).rev() {
-        //...
-    }
+        for i in (0..10).rev() {
+            //...
+        }
 
     Benzer biçimde rev netodunun verdiği dolaşım türünden değer üzerinde yine step_by metodunu uygulayabiliriz:
 
-    for i in (0..10).rev().step_by(2) {
-        //...
-    }
+        for i in (0..10).rev().step_by(2) {
+            //...
+        }
 
     Pekiyi burada rev ve step_by çağrılarının sırasını değiştirirsek ne olur?
 
-    for i in  (0..10).step_by(2).rev() {
-        //...
-    }
+        for i in  (0..10).step_by(2).rev() {
+            //...
+        }
 
     Burada önce step_by ile verilen dolaşım türünden değer dolaşıldığında 0, 2, 4, 6, 8 değerleri elde edileceğine göre bu
     değerler de tersten dolaşıldığında i değişkeni sırasıyla 8, 6, 4, 2, 0 değerlerini alacaktır.
@@ -4009,30 +4010,30 @@ fn getval() -> i32 {
     Bazen dolaşıma end değerinin de dahil edilmesini isteyebiliriz. Örneğin şağıdaki C döngüsünün Rust eşdeğerini yazmak
     isteyelim:
 
-    for (int i = 0; i <= 10; ++i) {
-        //...
-    }
+        for (int i = 0; i <= 10; ++i) {
+            //...
+        }
 
     Burada i değişkeni 10 değrini de almaktadır. İşte bunu sağlamak için Rust'ın strandart kütüphanesinde std::ops modülünde
     RangeInclusive isimli bir yapı bulundurulmuştur. Ancak RangeInclusive yapısının start ve end elemanları private durumdadır.
     Bu nedenle RangeInclusive türünden bir değerin yaratılması yapının new isimli "ilişkili fonksiyonuyla (associated function)"
     yapılmaktadır. Tabii RangeInclusive yapısı da "genel (generic)" bir yapıdır. Örneğin:
 
-    use std::ops::RangeInclusive;
+        use std::ops::RangeInclusive;
 
-    let ri: RangeInclusive<i32> = RangeInclusive::new(0, 10);
+        let ri: RangeInclusive<i32> = RangeInclusive::new(0, 10);
 
-    for i in  ri {
-        //...
-    }
+        for i in  ri {
+            //...
+        }
 
     Burada artık dolaşıma 10 değeri de dahil edilecektir. RangeInclusive türünden bir değeri kolay oluşturabilmek için ..=
     operatörü de bulundurulmuştur. ..= operatörüne İngilizce "inclusive range" operatörü denilmektedir. Bu durumda yukarıdaki
     işlemin işlevsel eşdeğeri basit bir biçimde aşağıdaki gibi oluşturulabilmektedir. Örneğin:
 
-    for i in  0..=10 {
-        //...
-    }
+        for i in  0..=10 {
+            //...
+        }
 
     Burada dolaşıma 10 da dahil edilmiştir.
 # 18. Ders 07/05/2025 - Çarşamba
@@ -13821,3 +13822,1362 @@ impl Point {
 
     Artık buradaki val değişkeni i32 türündendir. Döngünün her inelenmesinde dizi elemanın adresi elde edilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
+# 43. Ders 25/08/2025 - Pazartesi
+
+    T bir tür belirtmek üzere aslında &T türünün de metotları vardır. Yani biz T türünden bir referansla yalnızca T türünün
+    değil &T türünün de bazı metotlarını çağırabilmekteyiz. "The Rust Standard Library" dokümanlarında &T türünün bazı trait'leri
+    desteklediği belirtilmiştir. Dolayısıyla T türünden referanslarla biz bu trait'lerin metotlarını çağırabiliriz. Bu trait'lerin
+    bazı metotları operatör sentaksıyla da kullanılabilmektedir. Metotların operatör senkasıyla çağrılması "operatör metotları"
+    konusu ile ilgilidir. Kurusumuzda başka bir bölümde ele alınacaktır.
+
+    &T türü PartialEq trait'ini desteklediği (implemente ettiği) için bu türün eq ve ne isimli iki metodu da vardır. Böylece
+    biz aynı türden iki referansı "onların gösterdikleri yerdeki değerler eşit mi" diye karşılaştırabiliriz. Örneğin:
+
+    let a: i32 = 10;
+    let b: i32 = 10;
+    let result: bool;
+
+    let ra: &i32 = &a;
+    let rb: &i32 = &b;
+
+    result = ra.eq(rb);         // true
+
+    Burada ra.eq(rb) çağrısı ile ra ve rb referanslarının içerisindeki adresler karşılaştırılmamaktadır, onların gösterdiği
+    yerdeki değerler karşılaştırılmaktadır. Yani burada yapılan işlemin eşdeğeri *ra == *rb biçimindedir. Operatör metotları
+    konusunda da göreceğimiz gibi PartialEq trait'ini destekleyen türler türünden değişkenler ya da değerler doğrudan == ve
+    != operatörleriyle karşılaştırma işlemine sokulabilmektedir. Yani ra.eq(rb) çağrısı tamamen ra == rb ile ve dolayısıyşa
+    da *ra == *rb ile eşdeğerdir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a: i32 = 10;
+    let b: i32 = 10;
+    let result: bool;
+
+    let ra: &i32 = &a;
+    let rb: &i32 = &b;
+
+    result = ra == rb;
+    println!("{}", result);     // true
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    &T türleri PartialOrd isimli trait'i de desteklemektedir. Bu trait'in lt, le, gt, ge isimli metotları vardır. Dolayısıyla
+    &T türünden bir ifade ile bu metotlar da çağrılabilir. Bu metotlar "referansların gösterdiği yerdeki değerleri" karşılaştırmaktadır.
+    Örneğin ra ve rb T türünden iki referans olsun. ra.gt(rb) çağrısı ra ve rb referanslarının gösterdiği yerdeki değerleri
+    karşılaştırmaktadır. PartialOrd trait'i operatör metotlarında kullanıldığı için metot çağırma sentaksı yerine doğrudan
+    >, >=, < ve <= operatörleri de kullanılabilir. Yani gt yerine > operatörü, ge yerine >= operatörü, lt yerine < operatörü
+    ve le yerine de <= operatörü kullanılabilir. Örneğin:
+
+    let a: i32 = 10;
+    let b: i32 = 12;
+    let result: bool;
+
+    let ra: &i32 = &a;
+    let rb: &i32 = &b;
+
+    if ra > rb {
+        println!("*ra > *rb");
+    }
+    else if ra < rb {
+        println!("*ra < *rb");
+    }
+    else {
+        println!("*ra == *rb");
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yukarıdaki açıklamaların özeti şudur: "Biz aynı türden iki referansı karşılaştırdığımızda aslında onların gösterdiği
+    yerdeki değerleri" karşılaştırmış oluruz. Karşılaştırma işlemlerinde ayrıca * operatörünün kullanılmasına gerek yoktur.
+
+    İki referansın karşılaştırma işlemine sokulabilmesi için onların aynı türden olması ve onların ilişkin olduğu türlerin
+    yukarıda belirttiğimiz PartialEq ve PartialOrd trait'lerini destekliyor olması gerekir. Örneğin biz aşağıdkai gibi iki
+    Sample refransını karşılaştıramayız. Çünkü iki Sample değeri karşılaştırılamamaktadır.
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Self {
+            Self { a, b }
+        }
+
+        fn foo(&self, msg: &str) {
+            println!("{}: {}, {}", msg, self.a, self.b);
+        }
+        //...
+    }
+    //...
+
+    let a = Sample::new(10, 20);
+    let b = Sample::new(10, 20);
+    let result: bool;
+
+    let ra = &a;
+    let rb = &b;
+
+    result = ra == rb;      // error!
+
+---------------------------------------------------------------------------------------------------------------------------
+    r ifadesi T türünden bir referans belirtiyor olsun (yani &T türünden olsun) bu r referansı ile bir T türünün metotlarını
+    ve &T türünün metotlarını çağırabildiğimizi gördük. Bu konunun bazı ayrıntıları vardır. Bu ayrıntılar "The Rust Language
+    Reference dokümanlarında "8.2.10 Method-call expressions" başlığı altında açıklanmıştır. Biz bu ayrıntıları ileride ele
+    alacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aynı türden iki referans karşılaştırıldığında aslında o referansların gösterdiği yerdeki değerlerin karşılaştırıldığını
+    gördük. Ancak bazen gerçekten "iki referansın içerisinde aynı adresin bulunup bulunmadığını" da öğrenmek isteyebiliriz.
+    Örneğin yukarıda da belirttiğimiz gibi ra ve rb iki referans olsun. ra == rb işlemi referansın gösterdiği yerdeki değerleri
+    karşılaştırır. Bu iki referansın aynı değişkeni ya da değeri gösterip göstermediğini (yani bu iki referansın içerisinde
+    aynı adresin olup  olmadığını) karşılaştırmaz. İşte adres karşılaştırması için std::ptr modülündeki eq fonksiyonu
+    kullanılmaktadır. Örneğin:
+
+    let a = 10;
+    let b = 10;
+
+    let ra = &a;
+    let rb = &b;
+
+    let mut result: bool;
+
+    result = ra == rb;
+    println!("{}", result);         // true
+
+    result = std::ptr::eq(ra, rb);
+    println!("{}", result);         // false
+
+    Biz daha önce değer ifadelerinin de (yani C'deki "sağ taraf değerlerinin" de) adresinin alınabildiğini belirtmiştik.
+    O halde sizce aşağıdaki iki referansın içerisindeki adresler aynı olur mu?
+
+    let ra = &10;
+    let rb = &10;
+
+    let result == std::ptr::eq(ra, rb);     // true ama zorunlu değil
+
+    Bu sorunun yanıtı aslında 10 değerinin yerleştirileceği iki farklı geçici değişkenin yaratılıp yaratılmayacağı ile
+    ilgilidir. Örneğimizdeki referanslar mut olmadığına göre bu iki 10 değeri için derleyiciler tek bir değişken oluşturabilirler.
+    Ancak bu zorunlu değildir. Yani bu durum derleyici optimizasyonuna bağlıdır. Tabii aşağıdaki durumda mecburen derleyici
+    iki geçici değişken için farklı yerler ayıracaktır:
+
+    let ra = &mut 10;
+    let rb = &10;
+
+    let result == std::ptr::eq(ra, rb);     // kesinlikle false
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let ra = &mut 10;
+    let rb = &10;
+
+    let result = std::ptr::eq(ra, rb);
+    print!("{}", result);      // false
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında pek çok durumda bizim bir referansın gösterdiği yerdeki değişkene ya da değere erişmek için * operatörünü kullanmamıza
+    gerek yoktur. Çünkü temel türler zaten operatör metotlarına ilişkin trait'leri destekliyor durumdadır. (Bunlar std::ops modülünde
+    bulunmaktadır.) Ancak bu konunun ileride ele alacağımız bazı ayrıntıları vardır. Siz bu konunun ayrıntıları açıklanana kadar
+    Rust'ta "artimetik operatörler ve diğer bazı operatörler için otomatik dereferans işleminin yapıldığını" varsayabilirsiniz.
+    Örneğin:
+
+    let a: i32 = 10;
+    let b: i32 = 20;
+    let ra: &i32 = &a;
+    let rb: &i32 = &b;
+    let mut result: i32;
+
+    result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
+    println!("result: {}", result);         // 11
+
+    result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
+    println!("result: {}", result);         // 30
+
+    Görüldüğü gibi biz &T türü ile doğrudan T türünü işlemlere sokabiliyoruz. Bu davranış C++'taki referans davranışına
+    oldukça benzemektedir. Ancak atama işlemi sırasında böyle otomatik bir dereferans işlemi yapılmamaktadır. Örneğin:
+
+    let a: i32 = 10;
+    let ra: &i32 = &a;
+    let result: i32;
+
+    result = ra;        // error!
+
+    Rust'ta temel türlerle otomatik dereferans yapılmasını sağlayan operatör işlemleri (dolayısıyla desteklenen operatör
+    trait'leri) şunlardır:
+
+    - Artimetik operatörler
+    - Bit operatörleri
+    - Karşılaştırma operatörleri (&T türlerinin trait desteklerinden geliyor)
+    - Bleşik atama operatörleri
+    - ! ve işaret - operatörleri
+
+    Konun ayrıntıları trait'leri bölümünde ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a: i32 = 10;
+    let b: i32 = 20;
+    let ra: &i32 = &a;
+    let rb: &i32 = &b;
+    let mut result: i32;
+
+    result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
+    println!("result: {}", result);         // 11
+
+    result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
+    println!("result: {}", result);         // 30
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+    Referanslar adreslerle aktarımın (call by reference) güvenli bir biçimde yapılmasını sağlamaktadır. Çünkü bir referans
+    hiçbir zaman rastgele bir yeri gösteremez. Referanslar her zaman ilkdeğer verilmiş güvenli değişkenleri ya da değerleri
+    göstermektedir. Biz Rust'ta "yalnızca referanslar konusunun sınırları içerisinde kalarak"  bir refans içerisindeki adresi
+    alıp, onu artırıp eksiltemeyiz. Bu işlemleri yapabilmek için göstericilerden (pointers) faydalanılmaktadır. Rust'ta da
+    tıpkı C'de olduğu gibi göstericiler vardır. Göstericiler olmadan zaten sistem programlama yapılamaz. Bu bölümde Rust'ta
+    göstericiler konusunu ele alacağız.
+
+    "The Rust Reference" dokümanlarında referanslar ve göstericiler "gösterici türleri (pointer types)" olarak sınıflandırılmıştır.
+    Rust'ta izleyen paragraflarda ele alacağımız C'deki gibi göstericilere "ham göstericiler (raw pointers)" denilmektedir.
+    Ancak biz kurusumuzda "ham gösterici (raw pointer)" terimi yerine yalnızca "gösterici (pointer)" terimini kullanacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta göstericiler (ham göstericiler) *const T ya da *mut T türleriyle temsil edilmektedir. Örneğin:
+
+    let p: *const i32;
+
+    Burada p değişkeni *const i32 türündendir. Örneğin:
+
+    let p: *mut i64;
+
+    Burada p değişkeni *mut i64 türündendir. Görüldüğü gibi Rust'ta gösterici bildirirken const ya da mut belirleyicilerinden
+    birinin mutlaka belirtilmesi gerekmektedir. Örneğin aşağıdaki bildirim geçersizdir:
+
+    let p: *i32;       // error! *'dan sonra const ya da mut belirleyicileri gerekir.
+
+    Biz yukarıdaki bildirimlerle C'deki gibi göstericiler oluşturduk. Rust'taki göstericiler tıpkı C'dekiler gibi bellekte
+    herhangi bir yeri gösterebilirler, artırılıp eksiltilebilirler.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bağlama (yani bildirim) ve atama dışındaki tüm gösterici işlemlerinin unsafe bağlamda yapılması zorunlu tutulmuştur.
+    unsafe bağlam oluşturmanın tipik yolu unsafe blok kullanmaktır.
+
+    unsafe {
+        //...
+    }
+
+    unsafe bağlam unsafe fonksiyonlarla ve trait'lerle de oluşturulabilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir göstericiye aynı türden bir adresin yerleştirilmesi gerekir. Değişkenlerin ve değerlerin adresleri referanslar konusunda
+    gördüğümüz & ve &mut operatörleriyle alınmaktadır. Tıpkı referanslarda olduğu gibi mut olmayan bir değişkenin adresi &
+    operatörüyle alınıp aynı türden const bir göstericiye atanabilmektedir. Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &a;      // geçerli
+
+    Burada &a ifadesinde a değişkeni mut olmayan bir değişken olduğu için const bir adres belirtmektedir. Yine tıpkı referanslarda
+    ve C'deki göstericilerde olduğu gibi mut bir değişkenin adresi aynı türden const bir göstericiye atanabilmektedir. Örneğin:
+
+    let mut a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &a;      // geçerli, mut bir değişkenin adresi const bir göstericiye atanabilir
+
+    Tabii bunun tersi yapılamamaktadır. Yani mut olmayan bir değişkenin adresi mut bir göstericiye atanamamaktadır. Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &a;      // error, mut olmayan bir değişkenin adresi mut bir göstericiye atanamaz
+
+    mut bir değişkenin adresini mut bir göstericiye atamak için yine adres alırken &mut operatörünü kullanmak gerekir.
+    Örneğin:
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &mut a;
+
+
+    Aslında & ve &mut operatörleri Rust'ta referans türünden değerler vermektedir. Ancak Rust'ta &T türünden *const T türüne,
+    &mut T türünden de *mut T ve *const T türlerine otomatik dönüştürme olduğu için biz bir değişkenin adresini & ve &mut ile
+    alıp onu doğrudan göstericilere atayabilmekteyiz. Bu konu üzerinde izleyen paragraflarda yeniden duracağızç
+
+---------------------------------------------------------------------------------------------------------------------------
+    let deyiminde kalıp bir değişkense ve tür belirtilmediyse kalıp ifadesi de &ifade ya da &mut ifade biçimindeyse kalıptaki
+    değişken gösterici değil referans olarak belirlenir. Yani Rust default durumda hep referans kullanımını ön planda tutmuştur.
+    Örneğin:
+
+    let a: i32 = 10;
+    let b = &a;
+
+    Burada b değişkeni &i32 türündendir, *const i32 türünden değildir. Tabii izleyen paragraflarda da göreceğimiz gibi açıkça
+    tür dönüştürmesi yapılırsa bu durumda derleyici kalıptaki değişkenin gösterici olduğunu anlayabilecektir:
+
+    let a: i32;
+    let b = &a as *const i32;
+
+    Burada artık b bir referans değil göstericidir.
+
+---------------------------------------------------------------------------------------------------------------------------
+# 44.  Ders 27/08/2025 - Çarşamba
+
+    Göstericinin gösterdiği yerdeki değişkene ya da değere yine tek operand'lı * operatörüyle (defreference operator) erişilmektedir.
+    Tabii erişimlerin unsafe bağlam içerisinde yapılması gerekir. Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &a;
+
+    unsafe {
+        println!("{}", *pi32);      // 10
+    }
+
+    unsafe blok da bir blok deyimidir. Dolayısıyla bir değer üretmektedir. Yani aşağıdaki gibi bir atama geçerlidir:
+
+     b = unsafe {
+        *pi32
+    };
+
+    Burada *pi32 ifadesinin unsafe blok içerisinde bulunması gerekir. Ancak atanacak olan değişkenin unsafe blok içerisinde
+    bulunmasına gerek yoktur.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Eğer bir gösterici yoluyla o göstericinin gösterdiği yeri değiştirmek istiyorsak göstericimizin mut olması gerekir. Tabii
+    mut bir göstericiye yukarıda da belirttiğimiz gibi yalnızca aynı türden mut bir değişkenin ya da değerin adresini atayabiliriz.
+    Referanslar konusundan da anımsayacağınız gibi mut bir değişkenin ya da değerin adresi & operatöryle de &mut operatörüyle
+    alınabilmektedir. Bizim ilgili değişkenin ya da değerin adresini mut bir göstericiye yerleştirebilmemiz için onun adresini
+    &mut opeatörüyle almamız gerekir. Örneğin:
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &mut a;
+
+    unsafe {
+        *pi32 = 20;
+    }
+
+    println!("{}", a);          // 20
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &mut a;
+
+    unsafe {
+        *pi32 = 20;
+    }
+
+    println!("{}", a);          // 20
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz daha önce iki değişkenin içerisindeki değerleri yer değiştiren swap isimli fonksiyonunu referansları kullanarak
+    yazmıştık. Şimdi de aynı fonksiyonu göstericileri kullanarak yazalım:
+
+    fn swap(a: *mut i32, b: *mut i32) {
+        unsafe {
+            let temp = *a;
+            *a = *b;
+            *b = temp;
+        }
+    }
+
+    Bu fonksiyonu çağırırken bizim i32 türünden iki mut değişkenin adresini &mut operatörüyle alıp fonksiyona göndermemiz gerekir.
+    Örneğin:
+
+    let mut a: i32 = 10;
+    let mut b: i32 = 20;
+
+    swap(&mut a, &mut b);
+
+    Fonksiyondan çıkıldığında değişkenlerin içerisindeki değerler yer değiştirmiş olacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a: i32 = 10;
+    let mut b: i32 = 20;
+
+    swap(&mut a, &mut b);
+    println!("a = {}, b = {}", a, b);        // a = 20, b = 10
+}
+
+fn swap(a: *mut i32, b: *mut i32) {
+    unsafe {
+        let temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi Rust'ta bir göstericinin içerisindeki adresi nasıl artırıp eksiltiriz? Anımsanacağı gibi C'de biz adres bilgilerini
+    tamsayı türünden (integer types) değerlerle artırıp azaltabiliyorduk. Elde eidlen ürün de yine aynı türden bir adres bilgisi
+    oluyordu. Ancak Rust'ta göstericiler C'deki gibi + ve - operatörleriyle artırılıp eksiltilememektedir.
+
+    Rust'ta gösterici türlerinin de (tıpkı referans türlerinde olduğu gibi) metotları vardır. İşte adres artırımları ya da
+    eksiltimleri gösterici türlerinin offset, add ve sub metotlarıyla yapılmaktadır. offset metodunun parametrik yapısı şöyledir:
+
+    pub const unsafe fn offset(self, count: isize) -> *const T
+    pub const unsafe fn offset(self, count: isize) -> *mut T
+
+    Metotların birinci parametresi alıcıyı (receiver), ikinci parametresi artırım ya da ekslitim değerini belirtmektedir.
+    Metotlar bize artırılmış ya da eksiltilmiş yeni adresi vermektedir. offset metotlarını biz const ya da mut göstericilerle
+    kullanabiliriz. Yine tıpkı C'de olduğu gibi bir göstericinin içindeki adres 1 artırıldığında ya da 1 eksiltildiğinde adresin
+    sayısal bileşeni adresin türünin uzunluğu kadar artırılıp eksiltilmektedir. Örneğin:
+
+    let pi: *const i32;
+    ...
+
+    pi = p.offset(1);
+
+    Burada pi göstericisinin içerisindeki adresin sayısal bileşeni 1 değil i32 türü 4 byte olduğu için 4 artırılmaktadır.
+    Örneğin:
+
+    let a: i32 = 10;
+    let b: i32 = 20;
+    let mut pi: *const i32;
+
+    pi = &a;
+    unsafe {
+        println!("{:p}", pi);
+        pi = pi.offset(1);
+        println!("{:p}", pi);
+    }
+
+    Burada ekrana bastırılan iki adres değeri arasında 4 fark olması gerekir.
+
+    Tabii tıpkı C'de olduğu gibi göstericinin gösterdiği yer bizim için ayrılan bir yer değilse oraya * operatörüyle erişmememiz
+    gerekir. Böyle erişimler Rust'ta da C'de oldupu gibi "tanımsız davranış (undefined behavior)" oluşturmaktadır. Rust'ta
+    aşağıdaki gibi işlemlerin error oluşturacağını bir kez daha vurgulamak istiyoruz:
+
+    unsafe {
+        pi += 1;            // error
+        pi = pi + 1;        // error
+    }
+
+    offset metotlarının wrapping_offset isminde benzerleri de vardır:
+
+    pub const fn wrapping_offset(self, count: isize) -> *const T
+    pub const fn wrapping_offset(self, count: isize) -> *mut T
+
+    Bu metotlar adreste taşma olduğunda yeniden belleğin başına geçilmesini (yani "wrapping" yapılmasını) sağlamaktadır.
+
+    offset metotlarının artırım değerlerini isize türüyle aldığını anımsayınız. Yani biz bu metotlarla hep artırım hem de
+    eksiltim yapabilmekteyiz. Rust'ta ayrıca aylnızca artırım yapabilmek için add metodu ve yalnızca eksiltim yapabilmek
+    için sub metodu da bulundurulmuştur:
+
+    pub const unsafe fn add(self, count: usize) -> *const T
+    pub const unsafe fn add(self, count: usize) -> *mut T
+    pub const unsafe fn sub(self, count: usize) -> *const T
+    pub const unsafe fn sub(self, count: usize) -> *mut T
+
+    Bu metotların artırım ve eksiltim değerlerini usize türüyle aldıklarına dikkat ediniz. Yani add yalnızca artırım için,
+    sub ise yalnızca eksiltim için kullanılmaktadır. Bu metotların wrapping_ önekli sarma yapan biçimleri de vardır:
+
+    pub const unsafe fn wrapping_add(self, count: usize) -> *const T
+    pub const unsafe fn wrapping_add(self, count: usize) -> *mut T
+    pub const unsafe fn wrapping_sub(self, count: usize) -> *const T
+    pub const unsafe fn wrapping_sub(self, count: usize) -> *mut T
+
+    Anımsanacağı gibi C'de aynı türden iki adres bilgisi çıkartılabilmektedir. Elde edilen ürün ptrdiff_t türünden olmaktadır.
+    ptrdiff_t türü derleyicileri yazanlar tarafından işaretli bir tamsayı türü biçiminde typedef edilmektedir. C'de aynı türden
+    iki adresi çıkarttığımız zaman elde edilen değer iki adresin sayısal bileşenlerinin farkının adresin türünün uzunluğa
+    bölümü biçiminde elde edilmektedir. (Yani örneğin örneğin C'de a bir dizi olmak üzere &a[1] - a[0] işleminden elde edilecek
+    değer her zaman 1'dir. Rust'ta da biz aynı türden iki adres bilgisini çıkartabiliriz. Bunun için offset_from metodu kullanılmaktadır:
+
+    pub const unsafe fn offset_from(self, origin: *const T) -> isize
+
+    Metodun geri dönüş değerinin isize türünden olduğuna dikkat ediniz. Burada elde edilen değer yine C'de olduğu gibi adreslerin
+    sayısal bileşenleri arasındaki farkın adresin tür uzunluğuna bölünmesiyle elde edilmektedir. (Yani "iki adres arasında
+    ilgili türden kaç değer var" hesabı yapılmaktadır.) Biz bu metot ile aynı türden biri mut olan diğeri olmayan, ya da
+    ikisi de mut olan ya da ikisi de mut olmayan iki adresi çıkartabiliriz. Örneğin:
+
+    let a: i32 = 10;
+    let p1: *const i32 = &a;
+    let p2: *const i32;
+    let result: isize;
+
+    unsafe {
+        p2 = p1.add(5);
+        result = p2.offset_from(p1);
+        println!("{}", result);         // 5
+    }
+
+    Gösterici türlerinin başka faydalı metotları da vardır. Ancak diğer metotları biz kullanacağımız zaman açıklayacağız.
+    Siz de dokümanlardan diğer metotlar gözden geçirebilirsiniz:
+
+    https://doc.rust-lang.org/std/primitive.pointer.html#method.offset_from_unsigned
+
+---------------------------------------------------------------------------------------------------------------------------
+
+    Pekiyi bir dizi gösterici yoluyla nasıl fonksiyonlara aktarılabilir? Biz daha önce dizileri referans yoluyla fonksiyonlara
+    aktarmıştık. Bu aktarımda tipik olarak fonksiyonun parametre değişkeni bir dilim referansı oluyordu. Fonksiyon da
+    dizinin adresiyle çağrılıyordu. Rust'ta ileride ayrı bir başlık halinde yeniden ele alacağımız üzere [T; N] türünden, [T]
+    türünden ve &[T; N] türünden &[T] türüne otomatik tür dönüşümü (type coercion) vardır. Örneğin:
+
+    fn main() {
+        let a:[i32;5] = [10, 20, 30, 40, 50];
+
+        disp(&a);       // disp(&a[..]);
+    }
+
+    fn disp(sr: &[i32]) {
+        for i in 0..sr.len() {
+            print!("{} ", sr[i]);
+        }
+        println!("");
+    }
+
+    Ancak Rust'ta biz bir dizinin adresini aldığımızda onu bir göstericiye atayamayız. Örneğin:
+
+    let a:[i32;5] = [10, 20, 30, 40, 50];
+    let pi32: *const i32;
+
+    pi32 = &a;      // error
+
+    Biz mut olmayan bir dizinin başlangıç adresini as_ptr metodu ile mut bir dizinin başlangıç adresini ise as_ptr ya da
+    as_mut_ptr metodu ile elde edebiliriz. (Bu metotlar aslında dizilerin değil dilimlerin metotlarıdır.) Anımsanacağı gibi
+    dizinin uzunluğunu da len metoduyla elde edebiliyorduk. Örneğin:
+
+    let a:[i32; 5] = [10, 20, 30, 40, 50];
+    let pi32: *const i32;
+
+    pi32 = a.as_ptr();      // geçerli
+
+    Tabii biz C'de de yaptığımız gibi bu göstericinin içerisindeki adresi artıra artıra dizinin tüm elemanlarına erişebiliriz.
+    Çünkü dizi elemanlarının bellekte ardışıl bir biçimde dizildiği garanti edilmektedir. Örneğin:
+
+    unsafe {
+        for i in 0..a.len() {
+            print!("{} ", *pi32.add(i));
+        }
+        println!();
+    }
+
+    Burada erişimin *pi32.add(i) biçiminde yapıldığına dikkat ediniz. (Bu ifade adeta C'deki *(p + i) ya da p[i] ifadesine
+    benzemektedir.) Metot çağrım operatörü * operatöründen daha önceliklidir. Bu ifadedeki diğer bir nokta da adres artırımının
+    offset metoduyla değil add metoduyla yapılmasıdır. Çünkü for dönügüsündeki kalıpta i değişkeni a.len() ifadesinden dolayı
+    usize türündendir. Halbuki offset metodunun parametresi isize türünden olmak zorundadır. İşte Rust'ta dizileri fonksiyonlara
+    burada uyguladığımız teknikle aktarabiliriz. Örneğin:
+
+    fn disp(pi32: *const i32, size: usize) {
+        for i in 0..size {
+            unsafe {
+                print!("{} ", *pi32.add(i));
+            }
+        }
+    }
+
+    Fonksiyonu şöyle çağırabiliriz:
+
+    let a:[i32;5] = [10, 20, 30, 40, 50];
+
+    disp(a.as_ptr(), a.len());
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a:[i32;5] = [10, 20, 30, 40, 50];
+
+    disp(a.as_ptr(), a.len());
+}
+
+fn disp(pi32: *const i32, size: usize) {
+    for i in 0..size {
+        unsafe {
+            print!("{} ", *pi32.add(i));
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında dizilerde kullandığımız as_ptr, as_mut_ptr ve len gibi metotlar dizi türünün metotları değildir. Dilimlerin
+    metotlarıdır. Bir dizi ile bu metotlar çağrıldığında aslında derleyici dizi türünü otomatik olarak dilim türüne dönüştürmektedir.
+    Dolayısıyla aslında çağrılan metotlar dizinin metotları değil dilimin metotlarıdır. İleride "otomatik tür dönüştürmesi
+    (type coercion)" konuu içerisinde bu mekanizamayı daha ayrıntılı açık ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Şimdi de göstericilerle dizi elemanları üzerinde değişiklik yapan bir örnek verelim. Örneğimizdeki bsort fonksiyonu boubble
+    sort algoritmasını kullanarak dizi elemanlarını sıraya dizmektedir.
+
+    fn bsort(pi32: *mut i32, size: usize) {
+        for i in 0..size - 1 {
+            for k in 0..size - 1 - i {
+                unsafe {
+                    if *pi32.add(k) > *pi32.add(k + 1) {
+                        let temp = *pi32.add(k);
+                        *pi32.add(k) = *pi32.add(k + 1);
+                        *pi32.add(k + 1) = temp;
+                    }
+                }
+            }
+        }
+    }
+
+    Burada pi32 göstericisinin mut olduğuna dikkat ediniz. Fonksiyon mut dizinin adresiyle ve uzunluğuyla çağrılmalıdır:
+
+    let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
+
+    bsort(a.as_mut_ptr(), a.len());
+
+    mut dizinin adresinin as_mut_ptr metoduyla alındığına dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
+
+    bsort(a.as_mut_ptr(), a.len());
+
+    for val in a.into_iter() {
+        print!("{} ", val);
+    }
+    println!("");
+}
+
+fn bsort(pi32: *mut i32, size: usize) {
+    for i in 0..size - 1 {
+        for k in 0..size - 1 - i {
+            unsafe {
+                if *pi32.add(k) > *pi32.add(k + 1) {
+                    let temp = *pi32.add(k);
+                    *pi32.add(k) = *pi32.add(k + 1);
+                    *pi32.add(k + 1) = temp;
+                }
+            }
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii Rust'ta aslında dizilerin yukarıdaki gibi gösterici kullanılarak fonksiyonlara aktarılması iyi bir teknik değildir.
+    Bu işlem daha önce görmüş olduğumuz gibi dilim referanlarıyla (yani şişman göstericilerle) yapılmalıdır. Aslında Rust'ta
+    zorunlu olmadıkça göstericileri kullanmamalısınız. Bu tür aktarımlarda her zaman referansları tercih etmelisiniz.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi C'de hiçbir yeri göstermeyen, adeta boş adres belirten ismine NULL adres denilen özel bir adres vardı.
+    NULL adresin özellikle adrese geri dönüne fonksiyonlarda başarısızlık durumunu anlatmakta kullanıldığını anımsayınız.
+    İşte Rust'ta aşağı seviyeli işlemler yaparken NULL adrese de gereksinim duyulabilmektedir. NULL adres Rust'ta std::ptr::null()
+    ya da std::ptr::mut_null() fonksiyonları ile oluşturulmaktadır. Örneğin:
+
+    let pi32: *const i32;
+
+    pi32 = std::ptr::null();        // geçerli
+
+    Artık burada göstericinin içerisinde NULL adres vardır. NULL adres C ile Rust arasındaki uyumu korumak için de kullanılmaktadır.
+    Bir göstericinin içerisinde NULL adres olup olmadığı göstericinin is_null metodu ile kontrol edilmektedir. Örneğin:
+
+    if pi32.is_null() {
+       //...
+    }
+    else {
+        //...
+    }
+
+    Eğer mut bir göstericiye NULL adres atanacaksa std::ptr::mut_null fonksiyonu kullanılmalıdır. Örneğin:
+
+    let pi32: *mut i32 = std::ptr::mut_null();
+
+    is_null metodunun mut'lu ayrı bir biçiminin olmadığına dikkat ediniz.
+
+---------------------------------------------------------------------------------------------------------------------------
+# 45. Ders 01/09/2025 - Pazartesi
+
+    Fonksiyonların tüm gövdesi unsafe yapılabilmektedir. Bunun için fonksiyon tanımlanırken fn anahtar sözcüğünün soluna
+    unsafe niteleyicisi (function qualifier) getirilmektedir. Örneğin:
+
+    unsafe fn foo() {
+        //...
+    }
+
+    unsafe bir fonksiyonun içerisinde biz gösterici işlemlerini doğrudan yapabiliriz. Ancak unsafe fonksiyonlar yalnızca
+    unsafe bağlamdan çağrılabilmektedir. Yani unsafe bir fonksiyonu tipik olarak biz bir unsafe blok içerisinden çağırabiliriz.
+    Örneğin:
+
+    fn main() {
+        let mut a: i32 = 3;
+
+        unsafe {
+            foo(&mut a);
+        }
+        println!("{}", a);
+    }
+
+    unsafe fn foo(pi32: *mut i32) {
+        *pi32 *= *pi32
+    }
+
+    Burada foo içerisinde gösterici işlemlerinin doğrudan yapılabildiğine dikkat ediniz. Çağrım unsafe bağlamda yapılmıştır:
+
+    unsafe {
+        foo(&mut a);
+    }
+
+    main fonksiyonu unsafe yapılamamaktadır. Ayrıca Rust'ta safe isminde de bir fonksiyon niteleyicisi vardır. Ancak bu
+    niteleyici extern bloklarda kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a: i32 = 3;
+
+    unsafe {
+        foo(&mut a);
+    }
+    println!("{}", a);
+}
+
+unsafe fn foo(pi32: *mut i32) {
+    *pi32 *= *pi32
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir unsafe fonksiyon başka bir unsafe fonksiyonu doğrudan çağırabilir. Örneğin:
+
+    fn main() {
+        let mut a: i32 = 3;
+
+        unsafe {
+                foo(&mut a);
+            }
+            println!("{}", a);
+    }
+
+    unsafe fn foo(pi32: *mut i32) {
+        *pi32 *= *pi32;
+        bar(pi32);
+    }
+
+    unsafe fn bar(pi32: *mut i32) {
+        *pi32 += 2;
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yapılar ve enum türlerine ilişkin göstericiler de bildirilebrilir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+    }
+    //...
+
+    let s = Sample::new(10, 20);
+    let ps: *const Sample = &s;
+
+    Burada ps göstericisi Sample türünden mut olmayan bir göstericidir. Pekiyi ps göstericisi ile bu yapının a ve b elemanlarına
+    nasıl erişebiliriz? Referanslarda doğrudan nokta operatörüyle erişim yapabiliyorduk. Ancak göstericilerde doğrudan nokta
+    operatörü ile erişim yapılamamaktadır. Rust'ta C'deki gibi -> operatörünün de olmadığını belirtmiştik. O halde elemana
+    erişimenin tek yolu önce * operatörü ile nesneye bir bütün olarak erişmek sonra nokta operatörünü kullanmaktır. Örneğin
+    ps bir yapı türünden gösterici a da bu yapının elemanı olmak üzere erişim (*ps).a biçiminde yapılmaktadır. Rust'ta bunun
+    daha pratik bir yolu yoktur. Örneğin:
+
+    println!("{}, {}", (*ps).a, (*ps).b);
+
+    nokta operatörünün * operatörnden daha yüksek öncelikli olduğunu anımsayınız. Bu nedenle *ps ifadesi paranteze alınmak
+    zorundadır. Yapı türünden gösterici ile yapının metotları da aynı biçimde çağrılmaktadır. Örneğin ps bir yapı türünden
+    gösterici, foo da yapının bir metodu olmak üzere çağrım (*ps).foo() biçiminde yapılmalıdır. Örneğin:
+
+    unsafe {
+        (*ps).disp();
+    }
+---------------------------------------------------------------------------------------------------------------------------
+    Gösterici türlerinin as_ref isminde ve as_mut isminde metotları da vardır. Bu metotlar göstericiyi referans haline getirmektedir.
+    Ancak göstericinin içerisinde null adres olabileceği için bu dönüştürme başarısız da olabilmektedir. Bu nedenle as_ref ve
+    as_mut metotları bize Option<&T> ve Option<&mut T> türünden değer vemektedir. Yani bu metotlar eğer göstericinin içerisinde
+    null adres varsa None varyantına, yoksa Some(r) varyantına geri dönmektedir. Tabii as_ref ve as_mut metotları yine unsafe
+    bağlamdan yani blok ya da fonksiyon içerisinden çağrılabilmektedir. Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *const i32 = &a;
+
+    unsafe {
+        if let Some(r) = pi32.as_ref() {
+            println!("{}", *r);
+        }
+        else {
+            println!("null pointer!..");
+        }
+    }
+
+    Burada Some(r) kalıbındaki r değişkeni &i32 türündendir. Tabii bu işlemi match ifadesiyle de yapabilirdik:
+
+    let a: i32 = 10;
+    let pi32: *const i32 = &a;
+
+    unsafe {
+        match pi32.as_ref() {
+            Some(rc) => println!("rc: {}", rc),
+            None => println!("null pointer!.."),
+        }
+    }
+
+    Eğer göstericimiz mut ise bu durumda as_mut bize Option<&mut T> türünden değer verecektir. Yani Some(r) işleminden
+    biz artık &mut T türünden değer elde ederiz. Örneğin:
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32 = &mut a;
+
+    unsafe {
+        if let Some(r) = pi32.as_mut() {
+            *r = 20;
+        }
+        else {
+            println!("null pointer!..");
+        }
+        println!("{}", *pi32);
+    }
+
+    unsafe bloğun da bir deyim belirttiğini anımsayınız. Dolayısıyla biz referansı unsafe blok dışına aşağıdaki gibi çıkartabiliriz.
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32 = &mut a;
+
+    let r = unsafe {
+        if let Some(r) = pi32.as_mut() {
+            r
+        }
+        else {
+            panic!("null pointer!..");
+        }
+    };
+
+    Burada if let ifadesinin else kısmının "divergent" olmak zorunda olduğuna dikkat ediniz. Tabii bu örnekte else kısımda
+    panic uyguladığımız için aslında if let yerine doğrudan Option<T> enum türünün unwrap ve expect metotlarını da kullanabilirdik:
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32 = &mut a;
+
+    let r = pi32.as_mut().expect("null pointer!..");
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yapı türünden göstericilere as_ref ya da as_mut metodu uygulayarak yapı elemanlarına referans sentaksıyla da erişebiliriz.
+    Örneğin:
+
+    let s = Sample::new(10, 20);
+    let ps: *const Sample = &s;
+
+    unsafe {
+        if let Some(r) = ps.as_ref() {
+            r.disp();
+        }
+        else {
+            println!("null pointer!..");
+        }
+    }
+
+    Tabii aslında daha kompakt bir biçimde de yapı türünden türünden göstericiyi referansa dönüştürüp metot çağrımını nokta
+    operatörü ilede  uygulayabiliriz. Örneğin:
+
+    let s = Sample::new(10, 20);
+    let ps: *const Sample = &s;
+
+   unsafe {
+       ps.as_ref().expect("null pointer!..").disp();
+   }
+
+   Burada ps.as_ref().expect("null pointer!..") ifadesi ile Sample türünden bir referans elde edildiğine dikkat ediniz.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki referansları C++'taki referanslarla karıştırmayınız. Rust'taki referanslar C++'taki biraz göstericilere biraz
+    da referanslara benzemektedir. Aşağıdaki C++ koduna dikkat ediniz:
+
+    int a = 10;
+    int &r = a;
+    int *pi;
+
+    pi = &r;        // geçerli
+
+    C++'ta referanslar adres tutarlar ama referansları kullandığımızda biz her zaman o referansın içerisindeki adreste bulunan
+    nesneye erişmiş oluruz. Ayrıca C++'ta referanslar asıl nesnenin bir takma adını (alias) belirtmektedir. Yani C++ standartlarına
+    göre aslında mümkünse derleyici referans için hiç yer de ayırmayabilir. Referans kullanıldığında doğrudan ana nesneyi de
+    kullanabilir. Tabii pek çok durumda bu mümkün değildir. Bu nedenle referanslar tipik olarak adres tutarlar. C++'ta
+    aşağıdaki ifade geçerlidir:
+
+    pi = &r;        // geçerli
+
+    Burada r ifadesi aslında r referansının gösterdiği yerdeki nesneyi yani a'yı belirtmektedir. Dolayısıyla burada aslında
+    a'nın adresi alınmaktadır. Bu adres de aynı türden bir göstericiye yerleştirilmiştir. Ancak Rust'ta referanslarla göstericiler
+    farklı türlerdir. Rust'ta &T türünden bir deü,ikenin adresini aldığımızda &&T türünden bir değer elde ederiz. Yani
+    Rust'ta referansın referansı söz konusu olabilmektedir. Bu C'deki "göstericiyi gösteren göstericilere" benzemektedir. Bu
+    nedenle yukarıdaki kodun eşdeğer Rust karşılığı geçersizdir:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+    let pi32: *const i32;
+
+    pi32 = &r;      // error!
+
+    Burada &r ifadesi &&i32 türündendir, pi32 ifadesi ise *const i32 türündendir. Yani türlerin birbirleriyle bir ilgisi yoktur.
+    Pekiyi gerçekten biz Rust'ta referansın refere ettiği değişkenin ya da değerin adresini almak istesek bunu nasıl yapabiliriz?
+    İşte bunun bir yolu C programcılarına biraz tuhaf gelebilecek olan &*r ifadesini kullanmaktır:
+
+    pi32 = &*r;      // geçerli
+
+    Burada önce *r işlemi yapılıp i32 türünden bir değişkene ya da değere erişilecek sonra onun adresi alınacaktır.
+
+    Aslında zaten referansın içerisinde adres oludğuna göre bir referans aynı türden bir göstericiye de doğrudan atanabilir.
+    Örneğin:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+    let pi32: *const i32;
+
+    pi32 = r;      // geçerli
+
+    Referansın bu biçimde otomatik gösterici türüne dönüştürülmesi ilk zamanlarda Rust'ta mümkün değildi. Eskiden Rust'ta bu işlem
+    yukarıdaki gibi &*r ifadesiyle ya da aşağıdaki gibi tür dönüştümesiyle yapılabiliyordu:
+
+    pi32 = r as *const i32;
+
+    Sonraları "otomatik dönüştürme (type coersion)" kuralları revize edildi ve bu dönüştürme doğrudan yapılabilir hale geldi.
+    Mevcut kurallarda artık &T türünden *const T türüne ve &mut T türünden *mut T ya da *const T türüne otomatik dönüştürme
+    vardır. Dolayısıyla biz bir referansı doğrudan aynı türden bir  göstericiye atayabilmekteyiz.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aslında Rust'ta adres almakta kullanılan & va &mut operatörleri bir referans türünden değer üretmektedir. Yani örneğin
+    a ifadesi T türündense &a ifadesi &T türünden &mut a ifadesi de &mut T türündendir. İlk zamanlar Rust'ta yukarıda
+    belirttiğimiz referans türlerinden gösterici türlerine otomatik dönüştürme yokken aşağıdaki gibi bir işlem tür dönüştürmesi
+    olmadan yapılamıyordu:
+
+    let a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &a;      // eskiden bu durum error oluşturuyordu
+
+    O ilk zamanlarda &T türünden *const T türüne otoşmatik dönüştürme olmadığı için yukarıdaki atama işlemi error oluşturuyordu.
+    Bu işlem ancak tür dönüştürmesi ile yapılabiliyordu:
+
+    pi32 = &a as *const i32;        // eskiden böyle yapılıyordu
+
+    Sonraları Rust'a &T türünden *const T türüne, &mut T türünden de *mut T türüne ve *const T türlerine otomatik dönüştürme eklendiği
+    için artık bu atama doğrudan aşağıdaki gibi yapılabilmektedir:
+
+    pi32 = &a;
+
+    Bu açıklamar eşliğinde artık bir referasnın doğrudan aynı türdne bir göstericiye nasıl atanabildiği daha iyi anlaşılmaktadır:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+    let pi32: *const i32;
+
+    pi32 = r;       //  &i32 türünden *const i32 türüne otomatik dönüştürme vardır
+
+    Burada &i32 türünden *const i32 türüne otomatik dönüştürme uygulanmaktadır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta tıpkı C'de olduğu gibi tür dönüştürme operatörüyle (as operatörüyle) bir adres türü başka türden bir adres türüne
+    dönüştürülebilmektedir. Bu dönüştürme için unsafe bağlamda olunmasına gerek yoktur. Örneğin elimizde *const i32 türünden
+    bir gösterici olsun. Biz de bu göstericinin gösterdiği yerdeki byte'ları tek tek hex sistemde yazdırmak isteyelim. Bu
+    durumda bu göstericiyi *const u8 türüne dönüştürmemiz gerekir. İşte böylesi dönüştürmeleri as operatörüyle yapabiliriz.
+    Örneğin:
+
+    let a: i32 = 0x12345678;
+    let pi32: *const i32 = &a;
+    let pu8: *const u8;
+
+    pu8 = pi32 as *const u8;
+
+    for i in 0..4 {
+        unsafe {
+            print!("{:02X} ", *pu8.offset(i));
+        }
+    }
+    println!();
+
+    Burada *const i32 türünden *const u8 türüne dönüştürmenin as operatörüyle aşağıdaki gibi yapıldığına dikkat ediniz:
+
+    pu8 = pi32 as *const u8;
+
+    Ancak Rust'ta doğrudan &T türünden *const K türüne as operatörüyle de dönüştürme yapılamamaktadır. Örneğin:
+
+    let a: i32 = 0x12345678;
+    let pu8: *const u8;
+
+    pu8 = &a as *const u8;      // error!
+
+    Burada &a ifadesi &i32 türündendir bu tür de as operatöryle *const u8 türüne dönüştürülememektedir. Bu dönüştürme ancak
+    iki kere as operatörü kullanılarak yapılabilmektedir. Önce &a ifadesi as operatörüyle *const i32 dönüştürülmeli sonra
+    *const i32 türünden *const u8 türüne dönüştürme yapılmalıdır:
+
+    let a: i32 = 0x12345678;
+    let pu8: *const u8;
+
+    pu8 = &a as *const i32 as *const u8;        // iki kez as operatörü kullanılmalı
+
+    Ayrıca Rust'ta as operatörüyle bile &T türünden &mut T türüne, *const T türünden de *mut T türüne dönüştürme yapılamamaktadır.
+    (Halbuki örneğin C'de const bir nesnenin adresi const olmayan adres dönüştürmesi eşliğinde (const away cast) const olmayan
+    bir göstericiye atanabilmektedir.) Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &a as *mut i32;      // error!
+
+    Ancak &mut T türünden &T türüne, *mut T türünden *const T türüne dönüştürmenin zaten otomatik biçimde yapıldığını
+    anımsayınız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Sistem programlamada belli bir adres değerinin bir göstericiye yerleştirilmesi gerekebilmektedir. Yani tamsayı türlerinden
+    adres türlerine tür dönüştürme operatörüyle dönüştürmenin olması beklenmektedir. İşte Rust'ta da C'de olduğu gibi herhangi
+    bir tamsayı türünden gösterici türlerine as operatöryle dönüştürme yapılabilmektedir. Örneğin biz 0x12345678 adresini u8
+    türünden bir göstericiye aşağıdaki gibi tür dönüştürmesi yaparak atayabiliriz:
+
+    let pu8: *const u8;
+    pu8 = 0x12345678 as *const u8;      // geçerli
+
+    Tabii burada sayının sabit biçiminde olması gerekmez. a herhangi bir tamsayı türünden olmak üzere aşağıdaki dönüştürme
+    de geçerlidir:
+
+    pu8 = a as *const u8;      // geçerli
+
+    Yukarıdaki işlemin tersi de as operatörüyle yapılabilmektedir. Yani bir göstericinin içerisindeki adres bilgisi herhangi
+    bir tamsayı türüne as operatörüyle dönüştürülebilmektedir. Tabii bu dönüştürme için ideal tür usize türüdür. Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *const i32 = &a;
+    let b: usize;
+
+    b = pi32 as usize;      // geçerli
+
+    Rust'ta farklı türden göstericiler as operatörüyle birbirlerine dönüştürülebilmektedir. Gösterici türlerinden tamsayı
+    türlerine, tamsayı türlerinden gösterici türlerine yine as operatöryle dönüştürme syapılabilmektedir. Ancak bunlara
+    benzer referans dönüştürmeleri as operatörüyle yapılamamaktadır. Yani Rust'ta &T türünden &K türüne (mut'lu ya da mut'suz)
+    dönüştürme mümkün değildir. Benzer biçimde &T türünden (mut'lu ya da mut'suz) tamsayı türlerine, tamsayı türlerinden de
+    &T türüne (mut'lu ya da mut'suz) as operatörüyle dönüştürme mümkün değildir. Rust'ta referansların her zaman güvenli
+    kullanımı ön planda tutulmuştur. Böylesi dönüştürmeler zaten bu güvenlik ana fikrine terstir.
+
+---------------------------------------------------------------------------------------------------------------------------
+# 46. Ders 03/09/2025 - Çarşamba
+
+    Biz önceki paragraflarda & ve &mut operatörlerinin referans türünden değerler ürettiğini ancak referanslardan aynı türden
+    göstericilere otomatik dönüştürmenin olduğunu belirtmiştik. Ancak bu & ve &mut operatörleri referans ürettiği için ve
+    referanslar da sahiplik (ownership) kurallarına tabi olduğu için bu durum bazı semantik ve gerçekleştirim (derleyici yazımını
+    kastediyoruz) sorunlarının oluşmasına yol açmıştır. İşte Rust'ın 1.65.0 versiyonu (Kasım 2022) ile birlikte bu sorunu çözmek
+    için Rust'a &raw operatörü de eklenmiştir. Bu operatör hiç referans üretmeden doğrudan C'deki & operatörü gibi değişkenin
+    ya da değerin adresini elde etmektedir. Dolayısıyla "önce referans elde edip sonra otomatik dfönüştürme yapan & ve &mut
+    operatörlerine doğrudan adres almak için bir seçenek" oluşturmaktadır. Eğer biz bir değişkenin ya da değerin adresini
+    &raw operatörüyle alırsak referans semantiğini hiç devreye sokmamış oluruz. Bu da bazı durumlarda avantajlar sağlayabilmektedir.
+
+    &raw operatörü (tabii & ile raw anahtar sözcüğü arasında boşluk karakterleri bulunabilir) yine const ve mut belirleyicileri
+    ile kullanılmak zorundadır. Yani &raw atomlarını yine const ya da mut anahtar sözcüklerinden biri izlemek zorundadır.
+    Örneğin:
+
+    let a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &raw const a;
+
+    Biz burada a değişkeninin adresini pi32 göstericisine atadık. Bunu aşağıdaki gibi de yapanbilirdik:
+
+    pi32 = &a;
+
+    Ancak &raw operatörü hiç referans semantiğini devreye sokmadan doğrudan adres alma işlemini yapmaktadır. Pek çok durumda
+    &a ile adres almakla &raw const ile adres almak arasında ya da &mut ile adres almakla &raw mut ile adres almak arasısında
+    kodumuz bakımından bir farklılık olmamaktadır. Ancak bazı seyrek durumlarda farklılık ortaya çıkabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let a: i32 = 10;
+    let pi32: *const i32;
+
+    pi32 = &raw const a;        // geçerli
+
+    unsafe {
+        println!("{}", *pi32);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Tabii bu biçimde mut bir değişkenin adresini *mut T türünden bir göstericiye atayacaksak operatörü &raw mut biçiminde
+    kullanmalıyız. Örneğin:
+
+    let mut a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &raw mut a;
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a: i32 = 10;
+    let pi32: *mut i32;
+
+    pi32 = &raw mut a;
+
+    unsafe {
+        *pi32 = 20;
+        println!("{}", a);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz Rust'ta bir değer ifadesinin (yani C'de bir sağ taraf değerinin) adresini alabiliyorduk. Bu durum derleyici o sabiti
+    önce aynı türden bir geçici değişkenin içine yerleştirip o geçici değişkenin adresni alıyordu. Bu biçimde biz ham göstericilere
+    de sabitlerinm adresini atayabiliriz. Örneğin:
+
+    let pi32: *const i32;
+
+    pi32 = &10;         // geçerli
+    unsafe {
+        println!("{}", *pi32);
+    }
+
+    Ancak değer ifadelerinin adresleri &raw operatörü ile alınamamaktadır. Yani &raw operatörü bu bağlamda C'deki & operatörü
+    gibi işlev görmektedir:
+
+    let pi32: *const i32;
+
+    pi32 = &raw const 10;       // error!
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'taki "sahiplik (ownership)" ve "ödünç alma (borrow)" mekanizması üzerinde duracağız. Sahiplik ve ödünç
+    alma mekanizmaları başka programlama dillerinde tema olarak başka biçimlerde bulunmaktadır. Ancak Rust bu kavramları
+    dilin semantiğine açık bir biçimde dahil etmiştir. Bu bakımdan bu mekanizma Rust'ı diğer programlama dillerinden ayıran
+    ve Rust'a özgünlük sağlayan bir özelliktir. Aslında biz kursumuzda çeşitli örneklerde bu kavramlardan bahsetmiştik.
+    Muhtemelen sizlerin kafasında da bu mekanizma hakkında ipuçları oluşmutur. Ancak bu bölümde bu mekanizmayı daha teknik
+    bir biçimde ele alacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pek çok dilde aynı türden iki nesnesinin (ya da yapı benzeri başka bir veri yapısının) birbirine atanması durumunda yapı
+    nesnelerinin karşılıklı elemanları birbirine atanmaktadır. Bu durum çoğu kez bir soruna yol açmamaktadır. Öneğin C'de
+    aşağıdaki gibi bir yapı olsun:
+
+    struct complex {
+        double real;
+        double imag;
+    };
+
+    Bu türden iki yapı nesnesinin birbirine atanması sırasında hiçbir soruna yol açmayacaktır. Örneğin:
+
+    struct complex z1 = {3, 4};
+    struct complex z2 = {5, 3};
+    ...
+
+    z2 = z1;
+
+    Aslında bu atamada derleyci tarafından şu işlem uygulanmaktadır:
+
+    z2.real = z1.real;
+    z2.imag = z1.imag;
+
+    Böyle bir atamanın bir soruna yol açmayacağı açıktır. Ancak eğer yapının bir elemanı tahsis edilmiş olan bir kaynağa referans
+    ediyorsa bu türden iki yapı nesnesinin birbirine atanması sonucunda kaynak ve hedef yapı nesnelerinin elemanları aynı nesneye
+    referans eder duruma gelmektedir. Bu durum da potansiyel bazı sorunlara yol açmaktadır. Bu sorunu göstericiler üzerinde örnekle
+    açıklayalım. C'de aşağıdaki gibi bir yapı söz konusu olsun:
+
+    struct sample {
+        int a;
+        size_t len;
+        char *ptr;
+    };
+
+    Burada sample yapısının ptr elemanı dinamik olarak tahsis edilmiş bir alanı, len ise bu alanın uzunluğunu göstermektedir.
+    a elemanı ise konumuzla ilgili olmayan herhangi bir elemanı belirtmektedir. Şimdi bu yapı türünden iki nesne yaratalım.
+    Burada ve aşağıdaki örneklerde malloc fonksiyonunun başarı kontrolünü kodu kısaltmak için bilerek yapmayacağız:
+
+    struct sample s = {10, 100, (char *) malloc(100)};
+    struct sample k = {20, 200, (char *) malloc(200)};
+
+    Şimdi bu yapı nesnelerini birbirine atayalım:
+
+    k = s;
+
+    Burada çözülmesi gereken iki potansiyel sorun vardır:
+
+    1) k nesnesinin ptr elemanı free hale getirilmeden s nesnesinin ptr elemanı ona atanmış olacaktır. Bu atamada bellek
+    sızıntısı oluşacaktır.
+
+    2) Atamadan sonra hem s'nin hem de k'nın ptr elemanları aynı dinamik alanı gösteriyor olacaktır. Bu durumda o alanın
+    free hale getirilmesi bu iki nesnenin ikisi de yok yok olduğunda yapılmalıdır. Bunu ayarlamak da bir çaba gerektirmektedir.
+
+    Birinci problemi şöyle çözebiliriz:
+
+    free(k.ptr);
+    k = s;
+
+    Ancak ikinci problemin çözümü daha zordur. Programcının bu nesnenin ömürlerini kontrol etmesi ve uygun bir noktada dinamik
+    alanı free hale getirmesi gerekir. Bu ikinci sorunu çözmenin klasik yollarından biri göstericinin gösterdiği yerdeki dinamik
+    alanda bir "referans sayacı (reference counter)"  tutmaktır. Nesnenin kullanımı bittiğinde programcının bir fonksiyonu
+    çağırması (örneğin deallocate isminde bir fonksiyon olabilir) istenir. Bu fonksiyon da referans sayacını bir eksiltir,
+    referans sayacı 0'a düştüğünde free işlemini yapar. Örneğin:
+
+    struct buf {
+        size_t refcount;
+        size_t len;
+        char str[];
+    }
+
+    struct sample {
+        int a;
+        struct buf *ptr;
+    };
+
+    Artık nesneyi yaratan bir fonksiyon yazabiliriz:
+
+    void create_sample(struct sample *s, int a, size_t len)
+    {
+        s->a = a;
+        s->ptr = (struct buf *) malloc(sizeof(size_t) + sizeof(size_t) + len);
+        s->ptr.refcount = 1;
+    }
+
+    Referans sayacının başlangıç değerinin 1 olduğuna dikkat ediniz. deallocate fonksiyonu şöyle yazılabilir:
+
+    void deallocate(struct sample *ps)
+    {
+        if (--ps->ptr->refcount == 0)
+            free(ps->ptr);
+    }
+
+    Tabii C'de bu referans sayacının artırılmasını programcı kendisi sağlamalıdır. Bunu kolaylaştırmak için bir atama fonksiyonu
+    yazabilir:
+
+    void assign(struct sample *left, const struct sample *right)
+    {
+        deallocate(left);
+        left->a = right->a;
+        left->len = g->len;
+        left->ptr = right->ptr;
+        ++right->ptr->refcount;     /* left->ptr ve right->ptr zaten aynı yapıyu gösteriyor */
+    }
+
+    Yazdığımız sistemin kullanımı da şöyle olabilir:
+
+    struct sample s;
+    struct sample k;
+
+    create_sample(&s, 10, 100);
+    create_sample(&k, 20, 100);
+    ...
+
+    assign(&k, &s);
+    ...
+    deallocate(&k);
+    deallocate(&r);
+
+
+    Böyle bir referans sayacı sistemi manuel bir biçimde yukarıdaki gibi oluşturulabilir. Ancak bunun genelleştirilmesi
+    o kadar kolay değildir. İşte C++, Java ve C# gibi dillerde bu genelleştirmenin yapılabilmesi için nesneler yaratıldığında
+    ve yok edildiğinde derleyici tarafından otomatik bazı fonksiyonlar çağrılmaktadır (bunlara tipik olarak "constructor" ve
+    "destructor" denilmektedir.) Programcı da bu tür işlemleri daha lolay gerçekleştirebilmektedir. C++'ta ismine "kopya yapıcı
+    fonksiyonu (copy constructor)" ve "kopya atama operatör fonksiyonu (copy assignement operator)" denilen özel fonksiyonlar
+    da yazılabilmektedir. Derleyici iki sınıf nesnesi birbirine atandığında otomatik olarak sınıfın kopya atama operatör
+    fonksiyonunu çağırmaktadır. Ayrıca bu dillerde genelleştirme için ismine "template" ya da "generic" fonksiyonlar ve sınıflardan
+    da faydalanılabilmektedir. Böylece bu dillerde referans sayaçlı nesneler daha kolay ve genel biçimde oluşturulabilmektedir.
+
+    Yukarıdaki sorunu çözmenin ikinci klasik yolu da "derin kopyalama (deep copy)" uygulamaktır. Derin kopyalama ile yapı
+    nesnelerinin içerisindeki göstericilerin gösterdiği dinamik alanların atama sırasında kopyaları çıkartılır. Böylece
+    nesnelerin aynı yeri göstermesi engellenir. Örneğin:
+
+    struct sample {
+        int a;
+        size_t len;
+        char *ptr;
+    };
+
+    void assign(struct sample *left, struct sample *right)
+    {
+        if (left == right)
+            return;
+        free(left->ptr);
+        left->a = right->a;
+        left->len = right->len;
+        left->ptr = (char *)malloc(right->len);
+        memcpy(left->ptr, right->ptr, right->len);
+    }
+
+    Artık nesnelerin kullanımı bitince doğrudan ptr göstericisi free hale getirilebilir:
+
+    void deallocate(struct sample *ps)
+    {
+        free(ps->ptr);
+    }
+
+    Kullanım şöyle olabilir:
+
+    struct sample s = {10, (char *) malloc(10), 100};
+    struct sample k = {20, (char *) malloc(10), 200};
+    ...
+
+    assign(&s, &k);
+    ...
+
+    deallocate(&k);
+    dealloace(&s);
+
+    Yukarıda da belirttiğimiz gibi C++'ta iki sınıf nesnesi biribirine atandaığında ismine "kopya atama operatör fonksiyonu
+    (copy assignment operator)" denilen özel bir fonksiyon çağrılmaktadır. Sınıfı yazanlar da bu fonksiyonun içini yazarak
+    derin kopyalamanın otomatik yapılmasını sağlayabilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de yukarıdaki sorunun Rust'ta nasıl çözüldüğü üzerinde duralım. Yukarıdaki problemin Rust'taki çözümü oldukça basit
+    bir temele dayandırılmıştır. Aynı türden iki yapı ya da enum değişkeni birbirine atandığında artık değişkenin içeriği
+    "taşınmış ("move" edilmiş)" olur ve kaynak değişken artık kullanılamaz. Derleyici bu durumu derleme aşamasında denetlemektedir.
+    Böylece Rust'ta zaten hiçbir zaman yukarıdaki sorun ortaya çıkmayacaktır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        ptr: *const u8;
+    }
+
+    Burada Sample yapısının new metodunda bu ptr elemanı için bir alanın tahsis edildiğini varsayalım. Yani yapının ptr elemanı
+    tıpkı yukarıdaki C örneklerindeki gibi tahsis edilmiş olan dinamik alanın başlangıç adresini tutuyor olsun:
+
+    let s: Sample = Sample::new(10, 100);
+    let k: Sample;
+
+    Biz burada aşağıdaki gibi bir atama yapmış olalım:
+
+    k = s;
+
+    Rust böyle bir atamada tıpkı C'de olduğu gibi yapının karşılıklı elemanlarını birbirine atamaktadır. Ancak atamadan sonra
+    artık s'in kullanılmasına izin vermemektedir. Dolayısıyla yukarıdaki sorun Rust'ta zaten hiç oluşmayacaktır.Çünkü biz bu
+    atamadan sonra eğer s'i kullanmaya çalışırsak zaten derleme zamanında error oluşacaktır. Ancak burada yine de çözülmesi
+     gereken bir sorun daha vardır. Sorunu açıklayalım:
+
+    let s: Sample = Sample::new(10, 100);
+    let k: Sample = Sample::new(20, 200);
+
+    k = s;
+
+    Burada derleyici s'in tüm elemanlarını k'ya atadığında k'daki ptr göstericisinin gösterdiği yer free hale getirilemeyecektir.
+    Bu durumda bellek sızıntısı (memory leak) oluşacaktır. İşte Rust'ta bu sorun Drop isimli trait ile çözülmştür. Rust
+    derleyicisi bu durumda eğer yapı için Drop trait'inin drop metodu yazılmışsa ("implemente" edilmişse) atamadan önce soldaki
+    değişken için bu drop metodunu çağırmaktadır. Bu tür durumlarda yapıyı yazanın bu drop metodunu yazması ve tahsis edilmiş
+    olan alanı serbest bırakması beklenmektedir. Tabii drop metodu yalnızca atama sırasında değil bir yapı ya da enum türünden
+    değişken faaliyet alanını bitirip yaşamını kaybederken de çağrılmaktadır. Bu drop metodunun bir çeşit C++, Java ve C# gibi
+    dillerdeki "yıkıcı fonksiyon (destructor)" etkisi yarattığına dikkat ediniz.
+
+    Buradan şöyle bir özet yapabiliriz:
+
+    1) Aynı türden iki yapı ya da enum değişkeni birbirine atandığında aslında sağdaki yapı değişkeninin içeriği soldaki
+    yapı değişkenine taşınmaktadır ("move" edilmektedir.) Atama işleminden sonra artık sağdaki değişken herhangi bir biçimde
+    kullanılamaz.
+
+    2) Atama sırasında eğer soldaki yapı ya da enum türü için drop metodu yazılmışsa derleyici atamadan önce bu drop metodunu
+    çağırır. Boşaltımlar tipik olarak programcı tarafından bu drop metotlarında yapılmalıdır.
+
+    3) Yapı ya da enum değişkeninin faaliyet alanı bittiğinde tıpkı diğer bazı dillerdeki "destructor" mekanizmasında olduğu
+    gibi eğer değişkenin içerisindeki değer taşınmamışsa ve ilgili yapı ya da enum türü için drop metodu yazılmışsa drop
+    metodu derleyici tarafından çağrılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
