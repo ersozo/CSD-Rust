@@ -4043,12 +4043,12 @@
     başlanarak artan sırada tamsayılar elde edilir. Ancak end değeri olmadığı için ifade bize sürekli olarak değer verecektir.
     Böylece bir sonsuz döngü oluşacaktır. Örneğin:
 
-    use std::ops::RangeFrom;
+        use std::ops::RangeFrom;
 
-    let rf: RangeFrom<i32> = RangeFrom{start: 5};
-    for i in rf {
-        //...
-    }
+        let rf: RangeFrom<i32> = RangeFrom{start: 5};
+        for i in rf {
+            //...
+        }
 
     Burada 5'ten başlanarak sürekli artan tamsayılar elde edilecektir.
 
@@ -4058,36 +4058,36 @@
     .. operatöründe sol taraftaki operand belirtilir ancak sağ taraftaki operand belirtilmezse bu durum RangeFrom yapısı
     türünden bir değerin yaratılacağı anlamına gelmektedir. Örneğin:
 
-    for i in 5.. {
-        //...
-    }
+        for i in 5.. {
+            //...
+        }
 
     Burada 5.. ifadesi RangeFrom türünden bir değerin yaratılıp kullanılması anlamına gelmektedir. Yani yukarıdaki for ifadesi
     aşağıdakiyle eşdeğerdir:
 
-    for i in (RangeFrom {start: 5}) {
-        //...
-    }
+        for i in (RangeFrom {start: 5}) {
+            //...
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     std::ops modülünde dolaşım sağlayamayan RangeTo, RangeToInclusive ve RangeFull isimli üç yapı daha vardır. RangeTo yapısı
     start değeri olmayan ancak end değeri olan bir range değişkeni oluşturmaktadır. Ancak RangeTo yapısı yukarıda da belirttiğimiz
     gibi bir dolaşım türü (iterator type) değildir. Yani biz bir RangeTo türünden bir ifadeyi for döngüsünde kullanamayız. Bu
     nedenle aşağıdaki kod error oluşacaktır. Örneğin:
 
-    use std::ops::RangeTo;
+        use std::ops::RangeTo;
 
-    let rt: RangeTo<i32> = RangeTo {end: 10};
-    for i in rt  {          // error! RangeTo değişkeni bir dolaşım ifadesi değildir
-        //...
-    }
+        let rt: RangeTo<i32> = RangeTo {end: 10};
+        for i in rt  {          // error! RangeTo değişkeni bir dolaşım ifadesi değildir
+            //...
+        }
 
     Yukarıda for döngüsünde RangeTo değişkeni bir dolaşım ifadesi olmadığı için error oluşacaktır. RangeTo yapısı türünden
     değerler de .. operatörüyle oluşturulabilmektedir. Bunun için operatörün sol tarafındaki operand'ı boş bırakılır, yalnızca
     sağ tarafındaki operand'ı belirtilir. Örneğin:
 
-    use std::ops::RangeTo;
+        use std::ops::RangeTo;
 
-    let rt: RangeTo<i32> = ..10;
+        let rt: RangeTo<i32> = ..10;
 
     RangeTo türünden değişkenlerde end değeri aralığa dahil değildir. RangeTo konusunda iki soru akla gelmektedir: Birincisi
     "start değerinin kaç olduğu" sorusudur. İkincisi de "bu türden bir ifade for döngüsüyle dolaşılmadığına göre ne işe yarıyor"
@@ -4102,92 +4102,92 @@
     RangeTo yapısının semantiğinde end değeri aralığa dahil değildir. Eğer end değerinin de aralığa dahil olması isteniyorsa
     RangeToInclusive yapısı kullanılmalıdır. RangeToInclusive türünden bir değiiken benzer biçimde yaratılmaktadır:
 
-    let rti: RangeToInclusive<i32> = RangeToInclusive { end: 10 };
+        let rti: RangeToInclusive<i32> = RangeToInclusive { end: 10 };
 
     Tabii RangeToInclusive yapısı da bir dolaşım türü belirtmemektedir. Yani bu yapı türünden değişken de for döngüsüyle
     dolaşılamamaktadır. RangeToInclusive türünden değerler ..= operatörü ile "sol taraftaki operand boş bırakılıp sağ taraftaki
     operand belirtilerek" de yaratılabilmektedir. Örneğin:
 
-    let rti: RangeToInclusive<i32> = ..=10;
+        let rti: RangeToInclusive<i32> = ..=10;
 
     Son range yapsı da RangeFull isimli yapıdır. RangeFull yapısı genel (generic) bir yapı değildir. Bu yapı da semantik bakımdan
     start ve end değeri olmayan bir aralık oluşturmak için kullanılmaktadır. Örneğin:
 
-    let rf: RangeFull = RangeFull {};
+        let rf: RangeFull = RangeFull {};
 
     RangeFull yapısı da bir dolaşım türü belirtmez. Yani biz bu yapı türünden ifadeleri de for döngüsünde kullanamayız. Bu yapı
     çeşitli bağlamlarda "bütünü temsil etmek için" kullanılmaktadır. RangeFull türünden değer .. operatörü ile "operatörün sol
     tarafındaki ve sağ tarafındaki operand boş bırakılarak" oluşturulabilmektedir. Örneğin:
 
-    let rf: RangeFull = ..;
+        let rf: RangeFull = ..;
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi de yukarıda tek tek gördüğümüz range yapılarını bir tablo biçiminde özetleyelim:
 
-    Yapı İsmi               Range Operatör İle Yaratım                  Dolaşılabilirlik
-    ------------            --------------------------                  -----------------
-    Range                   a..b                                        Dolaşılabilir
-    RangeInclusive          a..=b                                       Dolaşılabilir
-    RangeFrom               a..                                         Dolaşılabilir
-    RangeTo                 ..b                                         Dolaşılamaz
-    RangeToInclusive        ..=b                                        Dolaşılamaz
-    RangeFull               ..                                          Dolaşılamaz
+        Yapı İsmi               Range Operatör İle Yaratım                  Dolaşılabilirlik
+        ------------            --------------------------                  -----------------
+        Range                   a..b                                        Dolaşılabilir
+        RangeInclusive          a..=b                                       Dolaşılabilir
+        RangeFrom               a..                                         Dolaşılabilir
+        RangeTo                 ..b                                         Dolaşılamaz
+        RangeToInclusive        ..=b                                        Dolaşılamaz
+        RangeFull               ..                                          Dolaşılamaz
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta sonek almayan tamsayı sabitlerinin bağlama göre değerlendirildiğini yani ilgili türün sınırları içerisinde
     kalıyorsa o türden kabul edildiğini belirtmiştik. Bu durum range operatörlerinde de geçerlidir. Örneğin:
 
-    let r: Range<i8> =1..10;
+        let r: Range<i8> =1..10;
 
     Burada 1..10 range ifadesindeki 1 ve 10 zaten i8 türünden kabul edilecektir. Yani türlerin aşağıdaki gibi açıkça
     yazılmasına gerek yoktur:
 
-    let r: Range<i8> =1i8..10i8;
+        let r: Range<i8> =1i8..10i8;
 
     Tabii bağlam belli değilse sabitlerin i32 türündne olduğu varsayılır. Örneğin:
 
-    let r = 1..10;
+        let r = 1..10;
 
     Bu bağlamanın eşdeğeri şöyledir:
 
-    let r = 1i32..10i32;
+        let r = 1i32..10i32;
 ---------------------------------------------------------------------------------------------------------------------------
     Aşağıda 1'den n'e kadar sayıların toplamını döngü yoluyla hesaplayan bir fonksiyon örneği verilmiştir. (Tabii aslında
     1'den n'e kadar sayıların toplamını döngüyle hesaplamaya gerek yoktur.)
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result: i32;
+    fn main() {
+        let result: i32;
 
-    result = get_total(100);
-    println!("{}", result);
-}
-
-fn get_total(n: i32) -> i32 {
-    let mut total = 0;
-
-    for i in 1..=n {
-        total += i;
+        result = get_total(100);
+        println!("{}", result);
     }
-    total
-}
+
+    fn get_total(n: i32) -> i32 {
+        let mut total = 0;
+
+        for i in 1..=n {
+            total += i;
+        }
+        total
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Aşağıda bir sayının asal olup olmadığını belirleyen isprime isimli bir fonksiyon yazılmıştır. Fonsiyon i32 türünden
     bir parametreye sahiptir. Eğer girilen argüman asalsa fonksiyonu true değerine asal değilse false değeerine geri dönmektedir.
     Fonksiyon şöyle yazılmıştır:
 
-    fn isprime(val: i32) -> bool {
-        let end = (val as f64).sqrt() as i32;
+        fn isprime(val: i32) -> bool {
+            let end = (val as f64).sqrt() as i32;
 
-        if val % 2 == 0 {
-            return val == 2;
-        }
-        for i in (3..=end).step_by(2) {
-            if val % i == 0 {
-                return false;
+            if val % 2 == 0 {
+                return val == 2;
             }
+            for i in (3..=end).step_by(2) {
+                if val % i == 0 {
+                    return false;
+                }
+            }
+            true
         }
-        true
-    }
 
     Öklit teoremine göre asal olmayan her sayının en az iki asal çarpanı vardır. Bu iki asal çarpanın ikisi de sayının
     karekökünden büyük olmaz. O halde sayı asal değilse sayının kareköküne kadar (karekökü de dahil) en bir asal çarpanı
@@ -4199,66 +4199,66 @@ fn get_total(n: i32) -> i32 {
     sayılar yazdırılmıştır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::{stdin, Write};
+    use std::io::{stdin, Write};
 
-fn main() {
-    let val: i32;
+    fn main() {
+        let val: i32;
 
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush().expect("Can't flush stdout");
-    val = getval();
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush().expect("Can't flush stdout");
+        val = getval();
 
-    for i in 2..=val {
-        if isprime(i) {
-            print!("{} ", i);
+        for i in 2..=val {
+            if isprime(i) {
+                print!("{} ", i);
+            }
         }
     }
-}
 
-fn isprime(val: i32) -> bool {
-    let end = (val as f64).sqrt() as i32;
+    fn isprime(val: i32) -> bool {
+        let end = (val as f64).sqrt() as i32;
 
-    if val % 2 == 0 {
-        return val == 2
-    }
-    for i in (3..=end).step_by(2) {
-        if val % i == 0 {
-            return false;
+        if val % 2 == 0 {
+            return val == 2
         }
+        for i in (3..=end).step_by(2) {
+            if val % i == 0 {
+                return false;
+            }
+        }
+        true
     }
-    true
-}
 
-fn getval() -> i32 {
-    let mut buf: String = String::new();
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
 
-    stdin().read_line(&mut buf).expect("cannot read line..");
-    buf.trim().parse().expect("not a number")
-}
+        stdin().read_line(&mut buf).expect("cannot read line..");
+        buf.trim().parse().expect("not a number")
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     for döngülerinde döngü değişkeni (aslında kalıp) mut da olabilir. Örneğin:
 
-    for i in 0..10 {
+        for i in 0..10 {
+            //...
+        i += 1;                  // error!
         //...
-       i += 1;                  // error!
-       //...
-    }
+        }
 
     Burada döngü değişkeni mut olmadığı için içerisindeki değer döngü içerisinde değiştirilememektedir. Eğer bu değerin
     döngü içerisinde değiştirilesini istiyorsanız. Döngü değişkenini mut yapabilirsiniz:
 
-    for mut i in 0..10 {
-        //...
-        i += 1;                  // error!
-        //...
-    }
+        for mut i in 0..10 {
+            //...
+            i += 1;                  // error!
+            //...
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
     Rust'ta diğer pek çok dilde de olduğı gibi break ifadesi bulunmaktadır. Biz de zaten break ifadesini bazı örneklerimizde
     kullanmıştık. break ifadesinin genel biçimi şöyledir:
 
-    break [etiket] [ifade];
+        break [etiket] [ifade];
 
     "The Rust Reference" dokümanlarında "break ifadesi" yerine "break ifadesi" terimi kullanılmıştır. Tabii break anahtar
     sözcüğünün yanına ';' konulduğunda zaten bu ifade de bir deyim olmaktadır. Biz kursumuzda "break ifadesi" demeyi tercih
@@ -4268,60 +4268,60 @@ fn getval() -> i32 {
     (label) bulunabileceği anlaşılmaktadır. Pekiyi bu etiket ne anlama gelmektedir? İşte eğer break ifadesi etiketsiz kullanılırsa
     yalnızca içinde bulunduğu döngü deyimini sonlandırmaktadır. Örneğin:
 
-    for i in 0..10 {
-        for k in 0..10 {
-            println!("({}, {})", i, k);
-            if i == 5 && k == 5 {
-                break;
+        for i in 0..10 {
+            for k in 0..10 {
+                println!("({}, {})", i, k);
+                if i == 5 && k == 5 {
+                    break;
+                }
             }
         }
-    }
 
     Burada i == 5 ve k == 5 durumunda programın akışı break ifadesini görecektir. Ancak yalnızca içteki döngü sonlanacaktır.
     Anımsanacağı gibi C, C++, C# gibi dillerde iç bir döngüde tek hamlede tüm döngülerden çıkmak için goto deyimi kullanılıyordu.
     Ancak Java gibi Rust gibi bazı dillerde goto deyimi bulunmamaktadır. İşte bu dillerde iç döngüden tek hamlede çıkışı sağlamak
     için etiketler kullanılmaktadır. Döngü deyimlerinin BNF gramerini hatırlayalım, şöyleydi:
 
-    LoopExpression :
-      LoopLabel? (
-        InfiniteLoopExpression
-        | PredicateLoopExpression
-        | PredicatePatternLoopExpression
-        | IteratorLoopExpression
-        | LabelBlockExpression
-      )
+        LoopExpression :
+        LoopLabel? (
+            InfiniteLoopExpression
+            | PredicateLoopExpression
+            | PredicatePatternLoopExpression
+            | IteratorLoopExpression
+            | LabelBlockExpression
+        )
 
     Bu gramerde tüm döngü deyimlerinin başında isteğe bağlı olarak bir etiketin (label) bulunabileceği anlaşılmaktadır. Rust'ta
     etiketler tek tırnak karakterine yapışık bir değişken isminden oluşmaktadır. Döngü etiketlerinde yine etiket isminden
     sonra ':' atomu da kullanılmak zorundadır. Örneğin:
 
-    'lbl: loop {
-        //...
-    }
+        'lbl: loop {
+            //...
+        }
 
     Burada 'lbl etiketi belirtmektedir. İşte break işlemi yapılırken break anahtar sözcüğünün yanına "hangi döngünün kırılacağını
     belirten" bir etiket getirilebilmektedir. Örneğin:
 
-    'lbl: loop {
-        i += 1;
-        if i == 10 {
-            break 'lbl;
+        'lbl: loop {
+            i += 1;
+            if i == 10 {
+                break 'lbl;
+            }
+            println!("{}", i);
         }
-        println!("{}", i);
-    }
 
     Tabii iç içe döngü söz konusu olmadıktan sonra döngüye etiket iliştirmenin ve etiketli break kullanmanın anlamı yoktur.
     Fakat iç içe döngülerden tek hamlede çıkmak için etiketli break kullanmak gerekir. Örneğin:
 
-    'lbl:
-    for i in 0..10 {
-        for k in 0..10 {
-            println!("({}, {})", i, k);
-            if i == 5 && k == 5 {
-                break 'lbl;
+        'lbl:
+        for i in 0..10 {
+            for k in 0..10 {
+                println!("({}, {})", i, k);
+                if i == 5 && k == 5 {
+                    break 'lbl;
+                }
             }
         }
-    }
 
     Burada break ile tek hamlede iki döngüden de çıkılmıştır. Döngü bir etikete sahipse ancak break ifadesinde etiket
     kullanılmamışsa Rust derleyicisi uyarı vermektedir.
@@ -4329,43 +4329,43 @@ fn getval() -> i32 {
     Biz daha önce break ifadesinin yanında bir ifade de kullanmıştık. Rust'ta ifadeli break yalnızca loop döngüsü içerisinde
     kullanılabilmektedir. Bu durumda loop döngüsü "divergent" olmaktan çıkıp break ifadesindeki değeri üretiyordu. Örneğin:
 
-    let mut i = 0;
-    let result: i32;
+        let mut i = 0;
+        let result: i32;
 
-    result = loop {
-        println!("{}", i);
-        i += 1;
-        if i == 10 {
-            break 1000;
-        }
-    };
-    println!("{}", result);
+        result = loop {
+            println!("{}", i);
+            i += 1;
+            if i == 10 {
+                break 1000;
+            }
+        };
+        println!("{}", result);
 
     Burada ifadeli break ifadesi nedeniyle loop döngüsünden i32 türünden değer elde edilmiştir. Tabii loop döngüsü içerisinde
     hem etiket hem de ifade birlikte kullanılabilir. Örneğin:
 
-    let mut i = 0;
-    let result: i32;
+        let mut i = 0;
+        let result: i32;
 
-    result = 'lbl: loop {
-        //...
-        i += 1;
-        if i == 10 {
-            break 'lbl 1000;
-        }
-    };
-    println!("{}", result);
+        result = 'lbl: loop {
+            //...
+            i += 1;
+            if i == 10 {
+                break 'lbl 1000;
+            }
+        };
+        println!("{}", result);
 
     Burada break anahtar sözcüğünde önce etiket sonra ifade bulundurulmuştur. Bunları ters sırada yerleştiremeyiz. Burada
     bir kez daha anımsatmak istiyoruz: ifadeli break ifadesi yalnızca loop döngüsü içerisinde kullanılabilmektedir. while
     ve for döngülerinde kullanılamamaktadır. Örneğin:
 
-    let result = for i in 0.100 {
-        //...
-        if i == 5 {
-            break 1000;         // error
+        let result = for i in 0.100 {
+            //...
+            if i == 5 {
+                break 1000;         // error
+            }
         }
-    }
 
     C, C++, Java ve C# gibi dillerde break ifadesi o dillerin switch deyimleri içerisinde de kullanılabilmektedir. Rust'taki
     switch benzeri deyime match deyimi denilmektedir. match deyimi içerisinde break kullanımı yoktur.
@@ -4374,31 +4374,31 @@ fn getval() -> i32 {
     ifadesi divergent biçimdedir. ! türünün herhangi bir türe otomatik dönüştürüldüğünü anımsayınız. Bu durumda örneğin anlamlı
     olmasa da biz break ifadesini herhangi bir değişkene atayabiliriz:
 
-    loop {
-        //...
-        if ifade {
-            x = break;      // x hangi türden olursa olsun geçerli!
+        loop {
+            //...
+            if ifade {
+                x = break;      // x hangi türden olursa olsun geçerli!
+            }
         }
-    }
 # 19. Ders 12/05/2025 - Pazartesi
     Burada konuya devam etmeden önce sınıfta sorulan bir sorunun yanıtı hakkkında bir açıklamada bulunmak istiyoruz. Soru
     şöyle: "Neden aşağıdaki kodda break ifadesinden sonra ';' konulmadığında error ortaya çıkmıyor?". Yani aşağıdaki kodda
     neden ';' bulunmaması soruna yol açmıyor?
 
-    fn main() {
-        let mut i = 0;
-        let result: i32;
+        fn main() {
+            let mut i = 0;
+            let result: i32;
 
-        result = loop {
-            if i == 10 {
-                break 1000
-            }
-            println!("{}", i);
-            i += 1;
-        };
+            result = loop {
+                if i == 10 {
+                    break 1000
+                }
+                println!("{}", i);
+                i += 1;
+            };
 
-        println!("\n{}", result);
-    }
+            println!("\n{}", result);
+        }
 
     Burada break ifadesi if ifadesinin doğruysa bloğunun son ifadesi durumunda olduğu için, blokların da değer üretmesinden
     dolayı ';' kullanılmasa da ifade geçerli olmaktadır. break ifadesinin ! türünden değer ürettiğini anımsayınız. Bu durumda
@@ -4407,24 +4407,24 @@ fn getval() -> i32 {
     ve else kısmından başka türdne bir değer elde edilseydi kod anlamsız fakat yine geçerli olurdu. Örneğin:
     Örneğin:
 
-    fn main() {
-        let mut i = 0;
-        let result: i32;
+        fn main() {
+            let mut i = 0;
+            let result: i32;
 
-        result = loop {
-            if i == 10 {
-                break 1000
-            }
-            else {
-                //...
-                100         // anlamsız ama geçerli
+            result = loop {
+                if i == 10 {
+                    break 1000
+                }
+                else {
+                    //...
+                    100         // anlamsız ama geçerli
+                };
+                println!("{}", i);
+                i += 1;
             };
-            println!("{}", i);
-            i += 1;
-        };
 
-        println!("\n{}", result);
-    }
+            println!("\n{}", result);
+        }
 
     Burada if ifadesinden i32 türünden değer elde edilecektir. Ancak bu değer kullanılmadığı için else kısmın bir değer
     üretmesi anlamsızdır.
@@ -4432,18 +4432,18 @@ fn getval() -> i32 {
     Tabii if ifadesinin hem doğruysa hem de yanlışsa kısmında break ifadesi varsa bu durumda if ifadesi de ! türünden değer
     üretir. Örneğin:
 
-    loop {
-        //...
-        if koşul {
+        loop {
             //...
-            break
-        }
+            if koşul {
+                //...
+                break
+            }
 
-        else {
-            //...
-            break
+            else {
+                //...
+                break
+            }
         }
-    }
 
     Burada if deyimi ! türünden değer vermektedir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -4451,66 +4451,66 @@ fn getval() -> i32 {
     "etiketli block ifadesi (labeled block expression)" denilen bir deyim daha vardır. LoopExpression ara sembolünün açılımını
     aşağıda yeniden veriyoruz:
 
-    LoopExpression :
-    LoopLabel? (
-      InfiniteLoopExpression
-      | PredicateLoopExpression
-      | PredicatePatternLoopExpression
-      | IteratorLoopExpression
-      | LabelBlockExpression
-   )
+        LoopExpression :
+        LoopLabel? (
+        InfiniteLoopExpression
+        | PredicateLoopExpression
+        | PredicatePatternLoopExpression
+        | IteratorLoopExpression
+        | LabelBlockExpression
+    )
 
    Bir blok ifadesi içerisinde break ifadesi kullanılabilir. Ancak bu durumda break ifadesinde bir etiketin olması ve bloğun
    başında da bir etiketin bulunması gerekir. Örneğin:
 
-    val = getval();
-    'a: {
-        println!("block begins");
-        if val > 0 {
-            break 'a;
-        }
-        println!("block ends");
-    };
+        val = getval();
+        'a: {
+            println!("block begins");
+            if val > 0 {
+                break 'a;
+            }
+            println!("block ends");
+        };
 
     Bu blok ifadesi geçerlidir. İşte bu blok ifadesine "etiketli blok ifadesi" denilmektedir. Yukarıda da belirttiğimiz
     gibi bir bloğun içerisinde break ifadesinin kullanılabilmesi için break ifadesinin etiketli olması zorunludur. Örneğin:
 
-    val = getval();
-    {
-        println!("block begins");
-        if val > 0 {
-            break;          // error!
-        }
-        println!("block ends");
-    };
+        val = getval();
+        {
+            println!("block begins");
+            if val > 0 {
+                break;          // error!
+            }
+            println!("block ends");
+        };
 
     Bu blok ifadesinde break etiketsiz kullanıldığı için error oluşacaktır. Etiketli blok ifadelerinde hiç break kullanılmaması
     error oluşturmasa da anlamsız olduğu gerekçesiyle uyarı mesajı oluşturmaktadır. Örneğin:
 
-    'a: {
-        println!("block begins");
-        //...
-        println!("block ends");
-    };
+        'a: {
+            println!("block begins");
+            //...
+            println!("block ends");
+        };
 
     Yukarıdaki kod geçerlidir fakat bloğa etiket iliştirilmesi anlamsız olduğu için uyarı oluşturacaktır. Tabii etiketli blok
     ifadelerindeki break ifadesinde break anahtar sözcüğünün yanında hem etiket hem de ifade bulunabilir. Bu durumda önce etiketin
     sonra ifadenin bulundurulması zorunludur. Örneğin:
 
-    val = getval();
-    result = 'a: {
-        println!("block begins");
-        if a > 0 {
-            break 'a 100;
-        }
-        println!("block ends");
-        200
-    };
-    println!("{}", result);
+        val = getval();
+        result = 'a: {
+            println!("block begins");
+            if a > 0 {
+                break 'a 100;
+            }
+            println!("block ends");
+            200
+        };
+        println!("{}", result);
 ---------------------------------------------------------------------------------------------------------------------------
     Pek çok programlama dilinde bulunan continue ifadesi Rust'ta da bulunmaktadır. continue ifadesinin genel biçimi şöyledir:
 
-    continue [etiket];
+        continue [etiket];
 
     continue anahtar sözcüğü de sonunda ';' olmazsa bir ifade gibi kullanılabildiği için biz "break ifadesi" yerine "continue
     ifadesi" demeyi tercih edeceğiz.
@@ -4521,12 +4521,12 @@ fn getval() -> i32 {
     ise döngünün içerisindeki blok ifadesini sonlandırdığına dikkat ediniz. Döngü içerisindeki blok ifadesi bittiğinde ne oluyorsa
     progamın akışı continue ifadesini gördüğünde aynısı olmaktadır. Örneğin:
 
-     for i in 0..10 {
-        if i % 2 == 0 {
-            continue;
+        for i in 0..10 {
+            if i % 2 == 0 {
+                continue;
+            }
+            println!("{}", i);
         }
-        println!("{}", i);
-    }
 
     Burada ekrana tek sayılar basılacaktır. Programın akışı continue ifadesini gördüğünde sanki döngü içerisindeki blok sonlanmış
     gibi bir etki oluşacağı için Range iteratörü de yeni bir değer verecektir.
@@ -4535,15 +4535,15 @@ fn getval() -> i32 {
     continue yalnızca kullanıldığı döngünün deyimini sonlandırmaktadır. Ancak Rust'taki bu etiket sayesinde iç içe döngülerde
     dıştaki döngü üzerinde de continue yapılabilmektedir. Örneğin:
 
-    'a: for k in 0..10 {
-        for i in 0..10 {
-            //...
-            if ifade {
-                continue 'a;
+        'a: for k in 0..10 {
+            for i in 0..10 {
+                //...
+                if ifade {
+                    continue 'a;
+                }
             }
+            //...
         }
-        //...
-    }
 
     Burada artık continue ifadesi içteki döngünün blok ifadesini değil dıştaki döngünün blok ifadesini sonlandırmaktadır.
 
@@ -4552,38 +4552,38 @@ fn getval() -> i32 {
     (özellikle switch içeren kodlarda) continue ifadesinin kullanılması kodu kısaltabilmektedir. Ancak continue ifadesi çoğu
     kez döngü içerisinde büyük if bloklarını elimine etmek için kullanılmaktadır. Aşağıdaki gibi kod parçası olsun:
 
-    loop {
-        val = getval();
-        if val > 0 {
-            //...
+        loop {
+            val = getval();
+            if val > 0 {
+                //...
+            }
         }
-    }
 
     Burada döngü içerisindeki if ifadesinin çok uzun olduğunu varsayalım. BU if ifadesinin içerisinde de pek çok kontrol
     deyimi kullanılmış olsun. Biz yukarıdaki döngüde bu geniş if bloğunu continue sayesinde elimine edebiliriz.
 
-    loop {
-        val = getval();
-        if val <= 0 {
-            continue;
+        loop {
+            val = getval();
+            if val <= 0 {
+                continue;
+            }
+            //...
         }
-        //...
-    }
 
     continue ifadesi de tıpkı break ifadesi gibi ! değerini üretmektedir. Yani continue ifadesi de "divergent" durumdadır.
     continue ifadesini biz herhangi türden bir değişkene atayabiliriz. Örneğin yukarıdaki if ifadesinde else kısım herhangi
     bir türden olabilirdi:
 
-    loop {
-        val = getval();
-        if val <= 0 {
-            continue;
+        loop {
+            val = getval();
+            if val <= 0 {
+                continue;
+            }
+            else {
+                100         // geçerli ama anlamsız!
+            };
+            //...
         }
-        else {
-            100         // geçerli ama anlamsız!
-        };
-        //...
-    }
 ---------------------------------------------------------------------------------------------------------------------------
     Bu bölümde göreceğimiz son kontrol deyimi match deyimidir. Rust'taki match deyimi C, C++, Java ve C# gibi dillerdeki
     switch deyimine benzemektedir. Ancak Rust'taki match deyimi bu dillerdeki switch deyiminden çok daha fazla olanaklara sahip
@@ -4599,12 +4599,12 @@ fn getval() -> i32 {
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta match ifadesinin genel biçimi şöyledir:
 
-    match <ifade> {
-        <kalıp1> => ifade1,
-        <kalıp2> => ifade2,
-        <kalıp3> => ifade3,
-        ....
-    }
+        match <ifade> {
+            <kalıp1> => ifade1,
+            <kalıp2> => ifade2,
+            <kalıp3> => ifade3,
+            ....
+        }
 
     match anahtar sözcüğünü bir ifade izlemek zorundadır. Buradaki ifade herhangi bir türe ilişkin olabilir. match ifadesinin
     aslında çalışması oldukça basittir. Derleyici match anahtar sözcüğünün yanındaki ifadeyi inceler. Sonra match kalıplarını
@@ -4622,35 +4622,35 @@ fn getval() -> i32 {
 ---------------------------------------------------------------------------------------------------------------------------
     "The Rust Reference" dokümanlarında kalıpların (patterns) BNF grameri şöyle verilmiştir:
 
-    Pattern :
-      |? PatternNoTopAlt ( | PatternNoTopAlt )*
+        Pattern :
+        |? PatternNoTopAlt ( | PatternNoTopAlt )*
 
-    PatternNoTopAlt :
-        PatternWithoutRange
-    | RangePattern
+        PatternNoTopAlt :
+            PatternWithoutRange
+        | RangePattern
 
-    PatternWithoutRange :
-        LiteralPattern
-      | IdentifierPattern
-      | WildcardPattern
-      | RestPattern
-      | ReferencePattern
-      | StructPattern
-      | TupleStructPattern
-      | TuplePattern
-      | GroupedPattern
-      | SlicePattern
-      | PathPattern
-      | MacroInvocation
+        PatternWithoutRange :
+            LiteralPattern
+        | IdentifierPattern
+        | WildcardPattern
+        | RestPattern
+        | ReferencePattern
+        | StructPattern
+        | TupleStructPattern
+        | TuplePattern
+        | GroupedPattern
+        | SlicePattern
+        | PathPattern
+        | MacroInvocation
 
     Görüldüğü gibi her kalıp bir isimle belirtilmektedir.
 
     Rust'ta kalıp uyuşumu ile ilgili olan tek deyim match deyimi değildir. Aşağıdaki deyimlerde de kalıp uyuşumu etkili olmaktadır:
 
-    - let deyimi
-    - if let deyimi
-    - while let deyimi
-    - for deyimi
+      - let deyimi
+      - if let deyimi
+      - while let deyimi
+      - for deyimi
 
     Ayrıca fonksiyonların parametrelerinde de genel olarak kalıplar kullanılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -4661,12 +4661,12 @@ fn getval() -> i32 {
     Bu nedenle wilkcard kalıbı genellikle match ifadesini "exhaustive" hale getirmek için match ifadesinin son kolunda bulundurulur.
     Örneğin:
 
-    match val {
-        1 => println!("bir"),
-        2 => println!("iki"),
-        3 => println!("üç"),
-        _ => println!("hiçbiri"),
-    }
+        match val {
+            1 => println!("bir"),
+            2 => println!("iki"),
+            3 => println!("üç"),
+            _ => println!("hiçbiri"),
+        }
 
     Burada val ifadesinin çeşitli değerleri için farklı ifadeler yapılmaktadır. Tabii bu örnekte println! makrosu birim değeri
     ürettiği için math ifadesi de birim değerini üretmektedir.
@@ -4674,75 +4674,76 @@ fn getval() -> i32 {
     match ifadesinin son kolunun ',' atomu ile bitirilmesi zorunlu değildir. Ancak Rust programcılarının çoğu son kola da ','
     atomunu yerleştirmektedir. Örneğin yukarıdaki match ifadesi aşağıdaki gibi de olabilirdi:
 
-     match val {
-        1 => println!("bir"),
-        2 => println!("iki"),
-        3 => println!("üç"),
-        _ => println!("hiçbiri")
-    }
+        match val {
+            1 => println!("bir"),
+            2 => println!("iki"),
+            3 => println!("üç"),
+            _ => println!("hiçbiri")
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::Write;
+    use std::io::Write;
 
-fn main() {
-    let val: i32;
+    fn main() {
+        let val: i32;
 
-    print!("Bir sayı giriniz:");
-    std::io::stdout().flush().expect("cannot flush stdout!..");
-    val = getval();
-    match val {
-        1 => println!("bir"),
-        2 => println!("iki"),
-        3 => println!("üç"),
-        _ => println!("hiçbiri"),
+        print!("Bir sayı giriniz:");
+        std::io::stdout().flush().expect("cannot flush stdout!..");
+        val = getval();
+        match val {
+            1 => println!("bir"),
+            2 => println!("iki"),
+            3 => println!("üç"),
+            _ => println!("hiçbiri"),
+        }
     }
-}
 
-fn getval() -> i32 {
-    let mut buf: String = String::new();
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
 
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse into number")
-}
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number")
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Sabit kalıbında (literal pattern) kullanılacak sabit herhangi bir türe ilişkin olabilir. Örneğin:
 
-     match val {
-        'a' => println!("a"),
-        'b' => println!("b"),
-        'c' => println!("c"),
-        _ => println!("hiçbiri"),
-    }
+        match val {
+            'a' => println!("a"),
+            'b' => println!("b"),
+            'c' => println!("c"),
+            _ => println!("hiçbiri"),
+        }
 
     C, C++, Java ve C# gibi dillerde switch anahtar sözcüğünün yanındaki kontrol ifadesinin tamsayı türlerine ilişkin olması
     gerekmektedir. Ancak Rust'ta böyle bir zorunluluk yoktur. Ancak ne olursa olsun yuvarlama hatalarından dolayı sabit
     kalıplarında gerçek sayı sabitlerini kullanmak kötü bir tekniktir. Örneğin:
 
-    match val {
-        1.0 => println!("bir"),
-        2.0 => println!("iki"),
-        3.0 => println!("üç"),
-        _ => println!("hiçbiri"),
-    }
+        match val {
+            1.0 => println!("bir"),
+            2.0 => println!("iki"),
+            3.0 => println!("üç"),
+            _ => println!("hiçbiri"),
+        }
 
     Sabit kalıbında sabitlerin match anahtar sözcüğünün yanındaki kontrol kalıbındaki tür türünden olması gerekmektedir.
 
     Sabit kalıbında eğer match anahtar sözcüğünün yanındaki ifade &str türündense sabitler string de olabilmektedir. Örneğin:
 
-    let city: &str = "eskişehir";
-    //...
+        let city: &str = "eskişehir";
+        //...
 
-    match city {
-        "ankara" => println!("6"),
-        "izmir" => println!("35"),
-        "adana" => println!("1"),
-        "eskişehir" => println!("26"),
-        _ => println!("hiçbiri"),
-    }
+        match city {
+            "ankara" => println!("6"),
+            "izmir" => println!("35"),
+            "adana" => println!("1"),
+            "eskişehir" => println!("26"),
+            _ => println!("hiçbiri"),
+        }
 
     Burada da görüldüğü gibi eğer match kollarında sabit kalıbı olarak string sabiti kullanılacaksa match anahtar sözcüğünün
     yanındaki ifadenin de &str türünden olması gerekir.
+
 # 20. Ders 14/05/2025 - Çarşamba
     Aşağıda basit bir komut satırı örneği verilmiştir. Bu örnekte bir döngü içerisinde stdin dosyasından komutlar alınmış
     ve match ifadesi ile bu komutlar işlenmiştir. Programdaki match deyiminin nasıl oluşturulduğuna dikkat ediniz:
@@ -15178,6 +15179,943 @@ fn main() {
 
     3) Yapı ya da enum değişkeninin faaliyet alanı bittiğinde tıpkı diğer bazı dillerdeki "destructor" mekanizmasında olduğu
     gibi eğer değişkenin içerisindeki değer taşınmamışsa ve ilgili yapı ya da enum türü için drop metodu yazılmışsa drop
-    metodu derleyici tarafından çağrılmaktadır.
+    metodu derleyici tarafından çağrılmaktadır. Böylece faaliyet alanını bitiren yapı ya da enum değişkenlerinin tahsis
+    etmiş olduğu kaynaklar otomatik olarak boşaltılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
+# 47. Ders 08/09/2025 - Pazartesi
+
+    Önceki paragraflarda yapı ya da enum türlerine ilişkin değişkenlere yeni bir atama yapıldığında ya da programın akışı bu
+    değişkenlerin faaliyet alanını bitirdiğinde söz konusu değişkenler için eğer bu değişkenlerin ilişkin olduğu türde
+    Drop trait'i desteklenmiş (yani drop metodu yazılmışsa) otomatik olarak derleyici tarafından bu drop metodunun çağrıldığını
+    belirtmiştik. Bu Drop mekanizması üzerinde biraz daha duracağız. Aslında drop mekanizması bir bakıma trait'ler konusuyla
+    da ilgilidir. Biz henüz kursumuzda trait'ler konusunu görmedik. Ancak burada yine de bu bu drop metodunun semantiği hakkında
+    bazı bilgiler vereceğiz.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz kursumuzsa sıkça bir değişken ya da değer için "drop edilir" biçiminde bir ifade kullanıyoruz ve izleyen paragraflarda
+    da kullanmaya devam edeceğiz. Bir değişkenin (bu geçici değişken de olabilir) "drop edilmesi" onun tuttuğu kaynakların
+    boşaltılması anlamına gelmektedir. Drop etme işlemi tipik olarak değişkenin faaliyet alanı sonlandığında otomatik biçimde
+    yapılmaktadır. Drop etme sırasında eğer ilgili değişkene ilişkin türün drop metodu yazılmışsa değişken yok edilmeden önce
+    bu drop metodu çağrılır. Copy türleri için zaten drop metotları yazılamamaktadır. Biz "drop edilme" terimini yalnızca drop
+    metodu yazılmış türler için değil tüm türler için kullanacağız. Eğer ilgili tür bir Copy türüyse ya da ilgili türün drop
+    metodu yazılmamışsa bu türden değişkenler için yine "drop edilme" ifadesi kullanılabilmektedir. Ancak burada drop edilme
+    sırasında herhangi bir eylem gerçekleşmeyecektir. Özetle bir değişklenin ya da değerin "drop edilmesi" denildiğinde
+    o değişkenin ya da değerin ilişkin olduğu tür için dro metodu yazılmışsa o metodun çağrılacağı yazılmamışsa bir şey
+    yapılmayacağı anlaşılmalıdır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    drop metodu aslında Drop trait'inden gelen bir metodudur. Drop trait'i std::ops modülünde tanımlanmıştır. Ancak standart
+    prelude içerisinde std::ops::Drop trait'i use edildiği için bu trait'in ismi std::ops::Drop yerine doğrudan Drop biçiminde
+    de kullanılabilmektedir. Biz de kursumuzda bu trait'i std::ops::Drop yerine yalnızca Drop biçiminde kullanacağız. Drop
+    trait'i şöyle tanımlanmıştır:
+
+    pub trait Drop {
+        fn drop(&mut self);
+    }
+
+    Bir trait'in desteklenmesi ("implemente" edilmesi) demek o trait içerisindeki metotların ilgili yapı ya da enum türünde
+    trait'te belirtilen parametrik yaıyla tanımlanması demektir. O halde biz yapımız ya da enum türümüz için bu drop metodunu
+    tanımlarken onun parametresini &mut self biçiminde bildirmeliyiz. trait'ler konusunda göreceğimiz gibi bir trait'in
+    desteklenmesi (yani trait'teki metotların yazılması) aşağıdaki sentaksla yapılmaktadır:
+
+    impl <trait_ismi> for <yapı_ya_da_enum_ismi> {
+        //...
+    }
+
+    Örneğin:
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            //...
+        }
+    }
+
+    Şimdi drop mekanizmasının çalışmasını açıklamada yardımcı olacak bir örnek verelim:
+
+    fn main() {
+        let s: Sample = Sample::new(10, 20);
+        let mut k: Sample = Sample::new(30, 40);
+
+        println!("one");
+        k = s;
+        println!("two");
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            println!("Sample created: {}, {}", a, b);
+            Sample { a, b }
+        }
+
+         fn disp(&self) {
+            println!("{}: {}", self.a, self.b);
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("drop called: {}, {}", self.a, self.b  );
+        }
+    }
+
+    Programın çalıştırılmasıyla ekranda şunları göreceksiniz:
+
+    Sample created: 10, 20
+    Sample created: 30, 40
+    one
+    drop called: 30, 40
+    two
+    drop called: 10, 20
+
+    Burada sırasıyla neler olmaktadır? Açıklayalım. Programın akışı s'in bağlandığı noktaya geldiğinde Sample::new çağrılacak
+    ve ekrana ilk satır basılacaktır:
+
+    Sample created: 10, 20
+
+    Sonra programın akışı k'nın bağlandığı satıra geldiğinde yine Saple::new çarılacak ve ekrana ikinci satır basılacaktır:
+
+    Sample created: 30, 40
+
+    Sonra programın akışı println!("one") çağrısına gelecek ve üçüncü satır basılacaktır:
+
+    one
+
+    Daha sonra programın akışı k = s atamasının yapıldığı satıra gelecektir. Burada Sample yapısı için Drop trait'i desteklendiğinden
+    ve k'ya değer atanmış olduğundan k için drop metodu derleyici tarafından çağrılacaktır. Böylece ekrana dördüncü satır
+    basılacaktır:
+
+    drop called: 30, 40
+
+    k için drop çağrıldıktan sonra s'in karşılıklı elemanları k'ya atanacaktır. Bundan sonra s kullanılamayacağı için biz buna
+    s'in k'ya taşınması da demekteyiz. Daha sonra programın akışı println!("two") çağrısına gelecektir. Böylece ekrana beşinci
+    satır da basılacaktır:
+
+    two
+
+    Artık programın akışı k'nın bildirildiği bloğu bitirdiği için k'nın faaliyet alanı sona erecektir. Bu noktada derleyici
+    tarafından k için drop metodu çağrılacaktır. Böylece ekrana son satır da basılacaktır:
+
+    drop called: 10, 20
+
+    Şimdi de main fonksiyonunun aşağıdaki gibi olduğunu varsayalım:
+
+    fn main() {
+        let s: Sample = Sample::new(10, 20);
+        let k: Sample;
+
+        println!("one");
+        k = s;
+        println!("two");
+    }
+
+    Burada k'ya henüz değer atanmadığına dikkat ediniz. O halde k = s atamasında k için drop metodu çağrılmayacaktır. Ancak
+    tabii blok bittiğinde k için drop metodu çağrılacaktır. Program çalıştırıldığında ekranda şunlar görülecektir:
+
+    Sample created: 10, 20
+    one
+    two
+    drop called: 10, 20
+---------------------------------------------------------------------------------------------------------------------------
+
+    drop metodu programcı tarafından açıkça çağrılamamaktadır. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        s.drop();       // error: explicit use of destructor method
+    }
+
+    Burada drop metodu programcı tarafından açıkça çağrılmak istenmiştir. Bu durum error oluşturacaktır. Mevcut Rust derleyicimiz
+    bu durum için aşağıdaki gibi bir hata mesajını basmaktadır:
+
+    "explicit use of destructor method"
+
+    Eğer ilgili değişken istenildiği zaman drop edilmek isteniyorsa std::mem::drop fonksiyonu kullanılmalıdır. Bu fonksiyon
+    için standart prelude içerisinde use işlemi yapıldığı için drop ismini doğrudan da kullanabiliriz. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        println!("one");
+        drop(s);
+        println!("two");
+    }
+
+    Burada s için drop metodu dolaylı olarak drop fonksiyonu yoluyla çağrılmıştır. Program çalıştırıldığında ekrana şunlar
+    çıkacaktır:
+
+    Sample created: 10, 20
+    one
+    drop called: 10, 20
+    two
+
+    Bu sayede dolaylı da olsa drop metodunun istediğiniz yerde çağrılmasını sağlayabilirsiniz. std::mem::drop fonksiyonunun
+    parametrik yapısı şöyledir:
+
+    pub fn drop<T>(_x: T)
+
+    drop generic bir fonksiyondur ve görüldüğü gibi parametresi de referans değildir. Yani drop fonksiyonuna argüman olarak
+    geçirdiğimiz değişken aslında fonksiyonun parametre değişkenine taşınmaktadır. Biz drop fonksiyonundan sonra artık bu
+    değişkeni kullanamayız. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        drop(s);
+
+        s.disp();       // error!
+    }
+
+    Burada s değişkeni drop fonksiyonunun parametre değişkenine taşındığı için drop çağrısından sonra artık s kullanılamamaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Anımsanacağı gibi mut olmayan bir değişkenin adresi mut bir referansa ya da göstericiye atanamıyordu. Örneğin:
+
+    fn foo(r: &mut Sample) {
+        //...
+    }
+    //...
+
+    let s = Sample::new(10, 20);
+    foo(&mut s);            // error!
+
+    s mut olmadığı için biz onun adresini &mut operatörüyle alamayız. Dolayısıyla onun adresini mut bir referansa atayamayız.
+    Ancak tabii istersek ilgili değişkeni mut bir değişkene atayıp (ya da taşıyıp) onun adresini &mut operatöryle alabiliriz.
+
+    fn foo(r: &mut Sample) {
+        //...
+    }
+    //...
+
+    let s = Sample::new(10, 20);
+    let mut k = s;
+
+    foo(&mut k);            // geçerli
+
+    Burada s değişkeni mut değildir ancak mut bir değişkene taşınmıştır. Sonra da o mut değişkenin adresi &mut operatörüyle
+    alınmıştır.
+
+    Yukarıdaki açıklamalar eşliğinde artık std::mem::drop fonksiyonunun mut olmayan bir değişken için nasıl mut olan drop
+    metodunu çağırabildiği daha iyi anlaşılabilir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    std::ops::Drop trait'inin drop metodunun &mut self parametresine sahip olduğunu anımsayınız. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            println!("Sample created: {}, {}", a, b);
+            Sample { a, b }
+        }
+
+         fn disp(&self) {
+            println!("{}: {}", self.a, self.b);
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("drop called: {}, {}", self.a, self.b  );
+        }
+    }
+
+    Normal olarak &mut self parametresine sahip olan metotlar mut değişkenlerle çağrılmak zorundadır. Pekiyi drop metodu da
+    &mut self parametresine sahip olduğuna göre yalnızca mut değişkenler mi ro edilebilmektedir? İşte hayır, drop metodu manuel
+    olarak değil derleyici tarafından çağrılmaktadır. Bu nedenle mut olmayan değişkenlerle de derleyici drop metodunu çağrılabilmektedir.
+    Yani biz mut olmayan değişkenler için de drop metodunda boşaltım işlemleri yapabiliriz.
+
+    Pekiyi mut olmayan bir değişken için derleyici nasıl &mut self parametresine sahip drop metodunu çağırabilmektedir? drop
+    metodu içerisinde değişkenlerin değerleri değiştirilebileceğine göre bu durum mut'luk durumuyla çelişmez mi? İşte "The Rust
+    Reference" dokümanlarına göre drop işlemi derleyici tarafından std::ptr::drop_in_place fonksiyonunu çağrılarak yapılmaktadır.
+    Bu fonksiyon da drop edilecek değişkenle drop metodunun çağrılmasına yol açmaktadır. drop_in_place fonksiyonunun parametrik
+    yapısı şöyledir:
+
+    pub unsafe fn drop_in_place<T: PointeeSized>(to_drop: *mut T)
+
+    Fonksiyonun generic biçimde tanımlandığına dikkat ediniz. Fonksiyonun parametresi *mut T türündendir. Yani fonksiyon mut
+    bir değişkenin adresini istemektedir. Tabii fonksiyon unsafe olduğu için çağırmanın da unsafe bağlamda yapılması gerekir.
+    Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        // blok sonunda s için drop_in_place çağrısının yapıldığını varsayabilirsiniz
+    }
+
+    Burada blok sonunda s için derleyici tarafından drop_in_place çağrısının yapıldığını varsayabilirsiniz. Ancak burada mut
+    olmayan bir değişkenle *mut parametreli bir fonksiyon çağrılmış olacaktır. Rust derleyicisi bu durumu kendi içerisinde
+    halledebilmektedir. Ancak biz de gerekli tür dönüştürmesini uygulayıp bu fonksiyonu kendimiz çağırabiliriz. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        unsafe {
+            std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
+        }
+        //...
+    }
+
+    Burada unsafe blok içerisinde drop_in_place fonksiyonu açıkça çağrılmıştır. Tabii bu fonksiyon da eğer ilgili tür tarafından
+    Drop trait'i desteklenmişse drop metodunun çağrılmasına yol açacaktır.
+
+    dro_in_place fonksiyonunun açıkça çağrılmasında küçük bir sorun vardır. Bu biçimdeki açıkça çağırma değişkenin faaliyet
+    alanı biterken derleyicinin kendisinin de bu fonksiyonu çağırmasını engellememektedir. Dolayısıyla drop metodu toplamda
+    iki kere çağrılmış olacaktır. Çünkü drop_in_place fonksiyonu değişkenin sahipliğini almamaktadır. Bu tür durumlarda
+    drop_in_place fonksiyonundan sonra ayrıca değişkenin faaliyet alanı bittiğinde drop metodunun çağrılması istenmiyorsa
+    std::mem::forget fonksiyonu kullanılmalıdır. forget fonksiyonunun parametrik yapısı şöyledir:
+
+    pub const fn forget<T>(t: T)
+
+    Fonksiyon değişkenin sahipliğini almakta ve drop metodunun çağrılmasını kendi içerisinde engellemektedir. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        unsafe {
+            std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
+            std::mem::forget(s);
+        }
+        //...
+    }
+
+    drop_in_place fonksiyonu standart prelude içerisinde use edilmemiştir. Dolayısıyla bu isim niteliklendirme yapılmadan
+    tek başına kullanılamaz.
+
+    Biz yukarıda derleyicinin kendisinin drop işlemi sırasında drop_in_place fonksiyonunu çağırdığını söyledik. Sonra da
+    bu çağrının mauel biçimde nasıl yapılabileceğini açıkladık. Aslında programcının bu drop_in_place fonksiyonunu doğrudan
+    kullanması genellikle tavsiye edilmemektedir. Eğer drop metodunun istediğiniz noktada çağrılmasını istiyorsanın std::mem::drop
+    fonksiyonunu kullanmalısınız.
+
+    Aslında benzer semantik C++'ın "yapıcı (constructor)" ve "yıkıcı (destructor)" üye fonksiyonlarında da bulunmaktadır.
+    C++'ta nesne const olsa bile bu fonksiyonlarda const semantiği ortadan kalkmaktdır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Pekiyi aynı blok içerisinde birden fazla değişken bildirildiğinde akış blok sonuna geldiği zaman bu değişkenler için
+    drop metotları hangi sıraya göre çağrılacaktır? İşte genel olarak programlamada en güvenli ve en işlevsel durum tahsisat
+    ile boşaltımın ters sırada yapılmasıdır. Örneğin C++'ta her zaman yapıcı fonksiyonlarla yıkıcı fonksiyonlar ters sırada
+    çağrılmaktadır. Rust'ta da aynı semantik uygulanmıştır. Rust'ta drop metotları blok içerisindeki bildirim sırasının ters
+    sırasında çağrılmaktadır. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+        let k = Sample::new(30, 40);
+
+        //...
+    }
+
+    Burada önce s sonra k bildirilmiştir, o halde akış blok sonuna geldiğinde önce k için sonra s için drop metodu çağrılacaktır.
+    Örneğin:
+
+    fn main() {
+        let s: Sample;
+        let k: Sample;
+
+        k = Sample::new(10, 20);
+        s = Sample::new(30, 40);
+
+        //...
+    }
+
+    Değişkene atama sırasının önemli olmadığına bildirim sırasının önemli olduğunu vurgulamak istiyoruz. Burada blok
+    içerisinde önce s sonra k bildirilmiştir, akış blok sonuna geldiğinde önce k için sonra s için drop metotları çağrılacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Biz yukarıda bir yapı ya da enum türünden değişken blok içerisinde bildirilmişse onlar için drop metotlarının programın
+    akışı bloktan çıkarken bildirime göre ters sırada çağrıldığını söylemiştik. Bu kuralın bazı ayrıntıları da vardır. Bu konu
+    "The Rust Reference" dokümanlarında "10.8 Destructors" bölümünde "Drop scopes" başlığı altında ele alınmıştır.
+
+    Biz deyimler kısmında deyimlerin blok içerebildiğini görmüştük. İşte tüm bloklu deyimlerdeki bloklar ayrı bir faaliyet
+    alanı da belirtmektedir. Böylece bir fonksiyonun içerisinde iç içe bloklar söz konusu olabilir. Bu durumda drop metotları
+    değişken hangi blokta bildirilmişse o bloğun sonunda çağrılacaktır. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        {
+            let k = Sample::new(30, 40);
+            //...
+        }
+
+        //...
+    }
+
+    Burada k değişkeni için drop metodu programın akışı iç bloktan çıkarken çağrılacaktır. s değişkeni için ise drop metodu
+    programın akışı main fonksiyonun ana bloğu biterken çağrılacaktır. drop metotlarının her zaman bildirime göre ters sırada
+    çağrıldığına dikkat ediniz.
+
+    Diğer deyimlerin blokları da bu bağlamda bir faaliyet alanı belirtmektedir. Örneğin:
+
+    if a > 0 {
+        let s = Sample::new(10, 20);
+        //...
+    }
+    else {
+        //...
+    }
+
+    Burada a > 0 ise s için drop metodu if deyiminin doğruysa kısmındaki bloğun sonunda çağrılacaktır.
+
+    Programın akışı iç içe bloklara gridiğinde return, break ya da continue deyimleriyle karşılaşıldığı zaman bazen birden
+    fazla iç içe bloktan tek hamlede çıkılabilmektedir. Bu tür durumlarda drop metotları iç bloktan dış bloğa doğru o bloklarda
+    ters sırada olacak çağrılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+# 48.  Ders 10/09/2025 - Çarşamba
+
+    Bir yapı başka bir yapı ya da enum türünden alanlara sahip olabilir. Örneğin:
+
+    struct A {
+        a: i32
+    }
+
+    struct B {
+        x: A,
+        y: A,
+    }
+
+    Burada B yapısının x ve y alanları A yapısı türündendir. Yapıların impl blokları şöyle olsun:
+
+    impl A {
+        fn new(a: i32) -> A {
+            A {a}
+        }
+
+        fn disp(&self) {
+            println!("{}", self.a);
+        }
+    }
+
+    impl B {
+        fn new(x: i32, y: i32) -> B {
+            B {x: A::new(x), y: A::new(y)}
+        }
+
+        fn disp(&self) {
+            self.x.disp();;
+            self.y.disp();
+        }
+    }
+
+    Bu yapılar için Drop trait'inin desteklendiğini düşünelim. drop metotları da şöyle tanımlanmış olsun:
+
+    impl Drop for A {
+        fn drop(&mut self) {
+            println!("A dropped: {}", self.a);
+        }
+    }
+
+    impl Drop for B {
+        fn drop(&mut self) {
+            println!("B dropped");
+        }
+    }
+
+    Burada B türünden bir değişken oluşturmuş olalım:
+
+    let b = B::new(10, 20);
+
+    Bu değişkenle disp metodunu çağıralım:
+
+    b.disp();
+
+     B'nin disp metodu x ve y için A yapısının disp metodunu çağırmaktadır. Ekranda şunlar görülecektir:
+
+    10
+    20
+
+    Pekiyi bu b değişkeni drop edilirken (örneğin programın akışı bloğun sonuna geldiğinde) ne olacaktır? İşte bu durumda
+    "önce içeren yapı değişkeni için (örneğimizde b) drop metodu çağrılır sona alanlar için (örneğimizde x ve y) bildirim
+    sırasına göre drop metotları çağrılır. Yani derleyici bu tür durumlarda yalnızca içeren yapı değişkeni için drop metodunu
+    çağırmakla yetinmez, aynı zamanda alanlardaki değişkenler için de (içerilen değişkenler için de) drop metotlarını çağırır.
+    Örneğimizde b değişkeni drop edildiğinde önce B yapısının drop metodu çalıştırılacak sonra x ve y alanları için A yapısının
+    drop metodu çalıştırılacaktır. Alanlar için drop metotlarının çağrılma sırası içeren yapıdaki bildirim sırasına göredir
+    (yani yukardan aşağıya doğrudur). Yukarıdaki örnekte programın akışı blok sonuna geldiğinde ekrana şunlar basılacaktır:
+
+    B dropped
+    A dropped: 10
+    A dropped: 20
+
+    Tabii yapılar bu biçimde iç içe kullanılmış olabilir. Bu işlemler burada açıkladığımız gibi özyinelemeli biçimde
+    yürütülmektedir.
+
+    C++'ta içeren sınıfın yıkıcı (destructor) fonksiyonunun sonunda içerilen sınıf nesneleri için içerilen sınıfların yıkıcı
+    fonksiyonlarının ters sırada çağrıldığını anımsayınız. Burada C++'tan farklı olarak drop metotları ters sırada değil
+    düz sırada yani bildirim sırasına göre çağrılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let b = B::new(10, 20);
+
+    b.disp();
+    //...
+}
+
+struct A {
+    a: i32
+}
+
+impl A {
+    fn new(a: i32) -> A {
+        A {a}
+    }
+
+    fn disp(&self) {
+        println!("{}", self.a);
+    }
+}
+
+impl Drop for A {
+    fn drop(&mut self) {
+        println!("A dropped: {}", self.a);
+    }
+}
+
+struct B {
+    x: A,
+    y: A,
+}
+
+impl B {
+    fn new(x: i32, y: i32) -> B {
+        B {x: A::new(x), y: A::new(y)}
+    }
+
+    fn disp(&self) {
+        self.x.disp();;
+        self.y.disp();
+    }
+}
+
+impl Drop for B {
+    fn drop(&mut self) {
+        println!("B drop");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Demetler drop edilirken demet elemanları yine düz sırada drop edilmektedir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            println!("Sample created: {}, {}", a, b);
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}: {}", self.a, self.b);
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Sample dropped: {}, {}", self.a, self.b  );
+        }
+    }
+
+    Aşağıdaki gibi bir demet bildirilmiş olsun:
+
+    fn main() {
+        let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+
+        //...
+    }
+
+    Blok bittiğinde demet drop edilirken demet elemanları için düz sırada drop metotları çağrılacaktır. Program çalıştırıldığında
+    ekrana şunlar basılacaktır:
+
+    Sample created: 10, 20
+    Sample created: 30, 40
+    Sample created: 50, 60
+    Sample dropped: 10, 20
+    Sample dropped: 30, 40
+    Sample dropped: 50, 60
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+    //...
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+impl Sample {
+    fn new(a: i32, b: i32) -> Sample {
+        println!("Sample created: {}, {}", a, b);
+        Sample { a, b }
+    }
+
+    fn disp(&self) {
+        println!("{}: {}", self.a, self.b);
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Sample dropped: {}, {}", self.a, self.b  );
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yapılar ya da enum türleri türünden diziler drop edildiğinde dizi elemanları için ilk elemandan son elemana doğru düz
+    sırada drop metotları çalıştırılmaktadır. Örneğin:
+
+    fn main() {
+        let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
+        //...
+    }
+
+    Burada akış blok sonuna geldiğinde dizi drop edilirken dizi elemanları ilk elemandan itibaren düz sırada drop edilecektir.
+    Program çalıştırıldığında ekrana şunlar basılacaktır:
+
+    Sample created: 10, 20
+    Sample created: 30, 40
+    Sample created: 50, 50
+    Sample dropped: 10, 20
+    Sample dropped: 30, 40
+    Sample dropped: 50, 50
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
+    //...
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+impl Sample {
+    fn new(a: i32, b: i32) -> Sample {
+        println!("Sample created: {}, {}", a, b);
+        Sample { a, b }
+    }
+
+    fn disp(&self) {
+        println!("{} {}", self.a, self.b);
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Sample dropped: {}, {}", self.a, self.b  );
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz bir ifade içerisinde o anda bir yapı ya da enum türünden değer oluşturabiliyorduk. Bunlara geçici değişken demiştik.
+    ("The Rust Reference" dokümanlarına göre bir ifadenin değişken belirtmesi için onun isminin olması gerekmektedir. Halbuki
+    geçici değişkenlerin aslında isimleri yoktur. "The Rust Reference" dokümanları bu nedenle "temporary variables" terimi
+    yerine "temporaries" terimini tercih etmektedir.) Geçici değişkenler de drop edilmektedir. Geçici değişkenler her zaman
+    onların yaratımlarına göre ters sırada drop edilirler. Bu davranış C++'taki geçici sınıf nesneleri için yıkıcı fonksiyonların
+    çağrılmasındaki sıraya oldukça benzemektedir. Örneğin:
+
+    s.foo().bar().tar();
+
+    Böyle bir ifadede foo fonksiyonu bir geçici yapı değişkeni geri döndürmüş olsun, bununla bar metodu çağrılmış olsun, bar
+    metodunun da yine geçici bir yapı değişkeni ile geri döndüğünü varsayalım. Onunla da tar metodu çağrılmış olsun. tar
+    metodunun geri dönüş değerinin olmadığını varsayalım. Burada önce foo çağrısında sonra bar çağrısında geçici değişkenler
+    oluşturulmaktadır. İşte ifade bittiğinde bunlar ters sırada drop edilecektir. Yani önce bar metodunun geri döndürdüğü geçici
+    değişken sonra foo metodunun geri döndürdüğü geçici değişken drop edilecektir. Örneğin:
+
+    foo(&Sample::new(), &Sample::new(), &Sample::new());
+
+    Burada fonksiyon çağrılırken geçici değişkenler soldan sağa yaratılacak ifade bittiğinde de (yani fonksiyon geri döndükten
+    sonra) boşaltım sağdan sola yapılacaktır.
+
+    Aynı ifadede birden fazla geçici değişkenin yaratılması operatör işlemleri ile de karşımıza çıkabilmektedir. Örneğin:
+
+    result = Complex::new(10, 2) + Complex::new(3, 3) + Complex::new(4, 1);
+
+    Burada yapı türünden geçici değişkenler + operatörüyle işlemine sokulmuştur. Toplama işlemi sonucunda da geçici değişkenler
+    oluşmaktadır. Son oluşan geçici değişken result değişkenine taşınmaktadır. Burada da boşaltımlar ters sırada yaılacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta parametre değişkenleri bir yapı ya da enum türündense ve değişkenin ya da değerin sahipliğini alıyorsa bu parametre
+    değişkenleri parametre listesine göre ters sırada drop edilmektedir. Bu bağlamda fonksiyonların parametre değişkenleri ana
+    bloğun başında sırasıyla bildirilmiş yerel değişken gibi ele alınmaktadır. Örneğin:
+
+    fn main() {
+        foo(Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+        //...
+
+    }
+
+    fn foo(a: Sample, b: Sample, c: Sample) {
+        //...
+    }
+
+    Burada yaratılan geçici değişkenlerin sahipliği foo fonksiyonunun parametre değişkenlerine devredilmiştir. Bunların
+    drop edilmesi ters sırada (yani örneğimizde c, b, a sırasına göre) yapılacaktır.
+
+    Rust'ta argümanlardan parametre değişkenlerine atamaların soldan-sağa yapılacağı garanti edilmiştir. Halbuki C'de
+    bu durumun "belirsiz (unspecified)" bırakıldığını anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------
+# 49. Ders 15/09/2025 - Pazartesi
+
+    Rust'ta bir değişkenin adresi alınarak bir referansa atandığında bu durum bir taşıma anlamına gelmemektedir. Bu duruma
+    Rust'ta "ödünç alma (borrowing)" denilmektedir. (Ödünç alma günlük hayatta "bir şeyi birisinden geçici olarak alma" anlamına
+    geldiğine dikkat ediniz.) Bir değişkenin adresi bir referansa atandığında o değişkenin sahipliği devredilmez yani değişken
+    taşınmaz, dolayısıyla değişken bu işlemden sonra kullanılabilir. Örneğin:
+
+    let s = Sample::new(10, 20);
+    let r: &Sample;
+
+    r = &s;
+
+    r.disp();
+    s.disp();
+
+    Burada biz r = &s atamasıyla s'in sahipliğini devretmedik. Yalnızca r onus ödünç aldı. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        foo(s);
+
+        s.disp();       // error! s taşındı
+    }
+
+    fn foo(k: Sample) {
+        k.disp();
+    }
+
+    Burada s değişkeni foo fonksiyonunun k parametre değişkenine taşınmıştır. Artık akış foo fonksiyonun ana bloğunun sonuna
+    geldiğinde k drop edilecektir ve s de çağrı sonrasında artık kullanılamayacaktır. Ancak örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        foo(&s);
+
+        s.disp();       // geçerli
+    }
+
+    fn foo(k: &Sample) {
+        k.disp();
+    }
+
+    Burada s taşınmamıştır, foo fonksiyonu s'yi ödünç almıştır. Akış foo fonksiyonun ana bloğunu bitirdiğinde bir drop
+    işlemi yapılmayacaktır. Çünkü referanslar drop edilmemektedir, değişkenler ve değerler drop edilmektedir. Örneğimizde
+    çağrı bittikten sonra s değişkeni kullanılabilir. Zaten "The Rust Reference" dokümanlarında &, &mut operatörlerine
+    "ödünç alma operatörleri (borrow operators)" denilmektedir.
+
+    Yapıların ve enum türlerinin metotlarında da aynı durum söz konusudur. Eğer bir metodun parametresi self ise bu metot
+    çaprıldığında bir taşıma işlemi gerçekleşir. Artık böyle bir metodu çağırdıktan sonra ilgili değişkeni kullanamayız.
+    Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+             Sample { a, b }
+        }
+
+        fn foo(self) {
+            println!("Sample::foo");
+        }
+
+        fn disp(&self) {
+            println!("{} {}", self.a, self.b);
+        }
+    }
+    //...
+
+    let s = Sample::new(10, 20);
+
+    s.foo();
+    s.disp();           // error!
+
+    Burada s.foo() çağrısı ile s değişkeni self parametre değişkenine taşınmıştır. Akış foo metodunun ana bloğunun sonuna
+    geldiğinde değişken drop edilecektir. s değişkeni taşındığı için artık foo çağrısından sonra kullanılamayacaktır.
+
+    Görüldüğü gibi metotların ilk parametrelerinin self olması taşımaya yol açmaktadır. Bu nedenle metotların birinci
+    parametreleri özel durumlar dışında hep &self ya da &mut self biçiminde olur. Böyle metotları çağırdığımızda sahip
+    devredilmeyecek metot değişkeni ödünç alacaktır. Metot bittiğinde biz de değişkeni kullanmaya devam edebiliriz.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın en önemli özelliklerinden birinin birden fazla akışa sahip (concuurent) programlarda güvenli bir ortam sunması
+    olduğunu belirtmiştik. Birden fazla akış ile programalamada (tipik olarak çok thread'li programlamayı kastediyourz)
+    akışların aynı nesneye erişmesi durumunda senkronizasyon sorunları ortaya çıkabilmektedir. Bu tür durumlarda eğer ilgili
+    veri yapısı senkronizasyon nesneleriyle korunmazsa veri yapısının tutarlılığı bozulabilir, bunun sonucu olarak da programlar
+    yanlış çalışabilir ya da çökebilir. Örneğin bir bağlı liste iki farklı thread tarafından kullanılıyor olsun. Bu iki thread
+    bağlı liste üzerinde arama yapıyorda herhangi bir sorun ortaya çıkmaz. Ancak thread'lerden biri bu bağlı listeye eleman
+    insert ederken diğer thread'in bu bağlı liste üzerinde arama yapması bozulmaya yol açabilir. Thread'lerden birinin eleman
+    insert ettiği sırada diğer thread'in de eleman insert etmesi ya da eleman silmesi de bozulmaya yol açabilecektir. Burada
+    ortak erişilen veri yapısı üzerinde değişiklik yapan işlemlere "yazma işlemi", onun üzerinde değişiklik yapmayan işlemlere
+    de "okuma işlemi" denilmektedir. O halde birden fazla thread'in aynı veri yapısı üzerinde okuma yapmasında bir sakınca
+    yoktur. Ancak Bir thread yazma yaparken herhangi bir thread'in okuma ya da yazma yapması bozucu etkiye yol açabilmektedir.
+    Senkronizasyon dünyasında bu sorunu çözmek için kullanılan senkronizasyon nesnelerine "okuma yazma kilitleri (reader-writers
+    locks)" denilmektedir.
+
+    Rust'ın sahiplik kavramı zaten aynı nesneye birden fazla yerden erişilmesine izin vermemektedir. Dolayısıyla Rust'ta
+    programcı istemeden bu tür hataları zaten yapamamaktadır. Ancak önceki paragrafta değişkenlerin ve değerlerin ödünç
+    alınabileceğini de görmüştük. Eğer ödünç alma mut bir referansla yapılırsa bu durum aynı değişkene ya da değere birden
+    fazla yerden yazma yapılabileceği anlamına gelmektedir. İşte Rust'ta izleyen paragarflarda açıklayacağımız bazı kurallarla
+    bu durumun da önüne geçilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta Copy türünden olmayan değişkenlerin adresleri mut olmayan birden fazla referansa atanabilir. Bu referanslar
+    nesneler üzerinde değişiklik yapamadığı için bir soruna yol açma potansiyeli de oluşturmamaktadır. Örneğin:
+
+    let mut s = Sample::new(10, 20);
+    let r1: &Sample;
+    let r2: &Sample;
+
+    r1 = &s;
+    r2 = &s;
+
+    Burada s değişkenin adresi hem r1 referansına hem de r2 referansına atanmıştır. Bu durum bir sakıncaya yol açmayacaktır.
+    Çünkü bu referanslarla ancak nesne üzerinde okuma işlemleri yapılabilir. Fakat bir değişkenin adresi mut bir referansa
+    atanmışsa artık o değişkenin başka bir yerden değiştirilbesi mümkün hale gelecektir. Bu da potansiyel senkronşzasyon
+    sorunlarının oluşmasına yol açabilecektir. Örneğin:
+
+    let mut s = Sample::new(10, 20);
+    let r1: &mut Sample;
+    let r2: &Sample;
+
+    r1 = &s;
+    r2 = &s;
+
+    println!("{} {}", r1.a, r2.a)
+
+    Burada aynı değişkeni gösteren mut bir referans ile mut olmayan bir referans birlikte kullanılmaya çalışılmıştır.
+
+    Rust'ta bir referans bir blok içerisinde bildirilmişse (fonksiyonun parametre değişkenlerinin de blok içerisinde bildirildiği
+    kabul ediliyor) onun faaliyet alanı o referansa atama yapıldığı yerde başlamakta ve o blokta son kez kullanıldığı yerde
+    bitmektedir. Başka bir deyişle yerel referansların faaliyet alanları onların son kullanıldıkları yerde sona ermektedir.
+
+    İşte Rust'ta bu tür sorunları derleme aşamasında engellemek için iki kural oluşturulmuştur:
+
+    1) Bir değişkenin adresi mut bir referansa atandığı zaman artık o mut referansın faaliyet alanı boyunca o değişkene
+    erişilemez ve o değişkenin adresi mut olan ya da mut olmayan başka bir referansa atanamaz.
+
+    2) Bir değişkenin adresi mut olmayan bir referansa atandığı zaman artık o mut olmayan referansın faaliyet alanı boyunca
+    o değişkenin adresi mut bir referansa atanamaz ve değişken üzerinde değişiklik yapılamaz. Ancak o değişken üzerinde okuma
+    işlemleri yaılabilir.
+
+    Bazı örneklerle bu kuralı açıklayalım. Aşağıdaki kod bir derleme hatasına yol açmayacaktır:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let r1: &Sample;
+        let r2: &mut Sample;
+
+        r1 = &s;                            // r1 referansının faaliyet alanı burada bitiyor
+        r2 = &mut s;
+
+        println!("{} {}", r2.a, r2.b);      // geçerli
+    }
+
+    Burada r1 referansının faaliyet alanı henüz r2'ye atama yapılmadan zaten bitmiştir. Dolayısıyla r2'nin faaliyet boyunca
+    s değişkenin adresi başka bir referansa atanmış değildir. Burada r1 ile r2'nin faaliyet alanlarının çakışmadığına dikkat
+    ediniz. Bu durum yukarıda belirttiğimiz iki kurala da aykırı değildir. Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let r1: &Sample;
+        let r2: &mut Sample;
+
+        r1 = &s;
+        r2 = &mut s;
+
+        println!("{} {}", r1.a, r1.b);      // error!
+    }
+
+    Burada r1 refeansının faaliyet alanı println! çağrısının yapıldığı yerde bitmektedir. r2 referansının faaliyet alanı ise
+    atamadan sonra bitmektedir. Burada r1 ve r2'nin faaliyet alanları çakışmaktadır. Bu durum ikinci maddeye aykırıdır.
+    Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let r1: &mut Sample;
+        let r2: &Sample;
+
+        r1 = &mut s;                            // r1'in faaliyet alanı burada bitiyor
+        r2 = &mut s;
+
+        println!("{} {}", r2.a, r2.b);        // geçerli
+    }
+
+    Bu örnekte de yukarıdaki iki maddeye aykırı bir durum yoktur. r1 ve r2 referansları çakışık faaliyet alanında kullanılmamıştır.
+    Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+
+        {
+            let r = &mut s;
+            println!("{} {}", r.a, r.b);        // geçerli
+        }
+
+        println!("{} {}", s.a, s.b);            // geçerli
+    }
+
+    Buradaki kodda da yukarıdaki iki kurala aykırılık yoktur. Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let r = &mut s;
+
+        println!("{} {}", r.a, r.b);            // r'nin faaliyet alanı burada bitiyor
+        println!("{} {}", s.a, s.b);            // geçerli
+    }
+
+    Buradaki kod da geçerlidir. Çünkü referans son kullanıldığı yerde faaliyet alanını bitirmektedir. Dolayısıyla biz
+    değişkenin adresini mut bir referansa atadığımızda o mut referansın faaliyet alanı boyunca o değişkene erişmemiz
+    durumdayız. Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let r: &Sample;
+
+        r = &s;
+        s.a = 10;               // error
+
+        println!("{}", r.a);
+    }
+
+    Bu kod ikinci kuralı ihlal etmektedir. Bir değişkenin adresi mut olmayan bir referansa atandıktan sonra o referansın
+    faaliye alanı boyunca artık o değişken üzerinde değişiklik yapılamaz. Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+
+        foo(&s);
+        bar(&mut s);
+
+        s.a = 100;
+        s.b = 200;
+    }
+
+    fn foo(s: &Sample) {
+        //...
+    }
+
+    fn bar(s: &mut Sample) {
+        //...
+    }
+
+    Bu örnekte de yukarıdaki iki kurala aykrı bir durum yoktur. Fonksiyonun parametre değişkenleri o fonksiyon içerisinde
+    faaliyet göstermektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
 
