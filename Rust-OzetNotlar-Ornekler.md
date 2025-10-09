@@ -4748,100 +4748,100 @@
     Aşağıda basit bir komut satırı örneği verilmiştir. Bu örnekte bir döngü içerisinde stdin dosyasından komutlar alınmış
     ve match ifadesi ile bu komutlar işlenmiştir. Programdaki match deyiminin nasıl oluşturulduğuna dikkat ediniz:
 
-    match getstr().as_str() {
-        "" => continue,
-        "dir" => println!("dir command"),
-        "copy" => println!("copy command"),
-        "rename" => println!("rename command"),
-        "quit" => break,
-        _ => println!("unknown command"),
-    }
+        match getstr().as_str() {
+            "" => continue,
+            "dir" => println!("dir command"),
+            "copy" => println!("copy command"),
+            "rename" => println!("rename command"),
+            "quit" => break,
+            _ => println!("unknown command"),
+        }
 
     Tabii burada komutların işlenmesi için fonksiyonlar oluşturulup her match kolunda da ilgili fonksiyon çağrılabilirdi.
     Örneğin:
 
-    match getstr().as_str() {
-        "" => continue,
-        "dir" => dir_proc(),
-        "copy" => copy_proc(),
-        "rename" => rename_proc(),
-        "quit" => break,
-        _ => println!("unknown command"),
-    }
+        match getstr().as_str() {
+            "" => continue,
+            "dir" => dir_proc(),
+            "copy" => copy_proc(),
+            "rename" => rename_proc(),
+            "quit" => break,
+            _ => println!("unknown command"),
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::{self, Write};
+        use std::io::{self, Write};
 
-fn main() {
-   loop {
-      print!("CSD>");
-      io::stdout().flush().expect("cannot flush stdout!");
+        fn main() {
+        loop {
+            print!("CSD>");
+            io::stdout().flush().expect("cannot flush stdout!");
 
-      match getstr().as_str() {
-         "" => continue,
-         "dir" => println!("dir command"),
-         "copy" => println!("copy command"),
-         "rename" => println!("rename command"),
-         "quit" => break,
-         _ => println!("unknown command"),
-      }
-   }
-}
+            match getstr().as_str() {
+                "" => continue,
+                "dir" => println!("dir command"),
+                "copy" => println!("copy command"),
+                "rename" => println!("rename command"),
+                "quit" => break,
+                _ => println!("unknown command"),
+            }
+        }
+        }
 
-fn getstr() -> String {
-   let mut buf: String = String::new();
+        fn getstr() -> String {
+        let mut buf: String = String::new();
 
-   std::io::stdin().read_line(&mut buf).expect("read line failed");
-   buf.trim().to_string()
-}
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().to_string()
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir match kolunda birden fazla deyim bulundurulmak isteniyorsa blok ifadesi oluşturulmalıdır. Örneğin:
 
-    match val {
-        1 => {
-            //...
-        },
-        2 => {
-            //...
-        },
-        3 => {
-            //...
-        },
-        _ => ()
-    }
+        match val {
+            1 => {
+                //...
+            },
+            2 => {
+                //...
+            },
+            3 => {
+                //...
+            },
+            _ => ()
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii match ifadesi de diğer deyimlerde olduğu gibi bir değer de üretmektedir. match ifadesinden elde edilen değer çalıştırılan
     match kolundaki ifadenin değeridir. Tabii bu durumda match ifadesinin bütün kollarından elde edilen değerlerin aynı türden
     olması gerekir. Örneğin:
 
-    loop {
-        print!("CSD>");
-        io::stdout().flush().expect("cannot flush stdout!");
-        let result: i32;
+        loop {
+            print!("CSD>");
+            io::stdout().flush().expect("cannot flush stdout!");
+            let result: i32;
 
-        result = match getstr().as_str() {
-            "" => continue,
-            "quit" => break,
-            "dir" => {
-                println!("dir command");
-                1
-            },
-            "copy" => {
-                println!("copy command");
-                2
-            },
-            "rename" => {
-                println!("rename command");
-                3
-            },
-            _ => {
-                println ! ("unknown command");
-                0
-            }
-        };
-        println!("result: {}", result);
-   }
+            result = match getstr().as_str() {
+                "" => continue,
+                "quit" => break,
+                "dir" => {
+                    println!("dir command");
+                    1
+                },
+                "copy" => {
+                    println!("copy command");
+                    2
+                },
+                "rename" => {
+                    println!("rename command");
+                    3
+                },
+                _ => {
+                    println ! ("unknown command");
+                    0
+                }
+            };
+            println!("result: {}", result);
+    }
 
     Burada match ifadesinin her kolu i32 türünden değer üretmektedir. break ve continue ifadelerinin never türünden (! türünden)
     değer ürettiğini anımsayınız. Never türü diğer her türe otomatik dönüştürülebildiği için diğer her türle bu bağlamda bir
@@ -4849,54 +4849,54 @@ fn getstr() -> String {
 
     Pekiyi aşağıdaki gibi bir match ifadesindeki result değişkeninin match kolundaki kullanımı geçerli midir?
 
-    let result: i32;
+        let result: i32;
 
-    result = match val {
-        1 => {
-            println!("{}", result),         // error!
-            10
-        }
-        //...
-        _ => 0
-    };
+        result = match val {
+            1 => {
+                println!("{}", result),         // error!
+                10
+            }
+            //...
+            _ => 0
+        };
 
     Bu örnekte result değişkeni match ifadesi bittiğinde değer alacaktır. Dolayısıyla bu kullanım "içerisinde henüz değer
     atanmamış değişkenin içerisindeki değerin" kullanılması nedeniyle error oluşturacaktır. Tabii biz baştan result değişkenine
     değer atamış olsaydık bu durum soruna yol açmayacaktı:
 
-    let mut result: i32 = 0;
+        let mut result: i32 = 0;
 
-    result = match val {
-        1 => {
-            println!("{}", result),         // geçerli
-            10
-        }
-        //...
-        _ => 0
-    };
+        result = match val {
+            1 => {
+                println!("{}", result),         // geçerli
+                10
+            }
+            //...
+            _ => 0
+        };
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi match ifadesinin son koluna wildcard kalıbı getirildiğinde bu wildcard kalıbındaki ifade ne olmalıdır? match ifadesinin
     wildcard kolu diğer kollarla aynı değeri üretmelidir. Eğer diğer kollar unit değeri üretiyorsa bu durumda wildcard ifadesinde
     de bir şey yapmak istemiyorsanız oaradaki oradaki () biçiminde ya da eşdeğer olarak {} biçiminde oluşturabilirsiniz.
     Örneğin:
 
-    match val {
-        1 => println!("bir"),
-        2 => println!("iki"),
-        3 => println!("üç"),
-        _ => (),
-    }
+        match val {
+            1 => println!("bir"),
+            2 => println!("iki"),
+            3 => println!("üç"),
+            _ => (),
+        }
 
     Daha önceden de belirttiğimiz gibi match ifadesinde match kollarına yukarıdan aşağıya doğru sırasıyla bakılmaktadır.
     Rust'ta birden fazla match kolunda kalıp uyuşumu sağlanabilir. Bu durum error oluşturmamaktadır. Bu durumda yukarıdan
     aşağıya doğru ilk uyuşan kalıbım match ifadesi işletilmektedir. Tabii bazen derleyici sabit kalıplarında ya da diğer bazı
     kalıplarda bir durum tespiti yapıp uyarı mesajı verebilmektedir. Örneğin:
 
-    match val {
-        1 => println!("bir"),
-        1 => println!("yine bir"),
-        _ => (),
-    }
+        match val {
+            1 => println!("bir"),
+            1 => println!("yine bir"),
+            _ => (),
+        }
 
     Burada val değeri 1 ise ilk koldaki ifade çalıştırılacaktır. Bu durumda açıkça diğer ikinci kol "erişilemeyen (unreachable)
     durumda olur. Rust derleyicisi bunu tespit edip bir uyarı mesajı oluşturacaktır.
@@ -4904,31 +4904,31 @@ fn getstr() -> String {
    Bazen farklı değerler için aynı şeylerin yapılması istenebilir. Bunun için match ifadesinde "veya kalıbı (or pattern)
    kullanılmaktadır. Veya kalıbı | atomuyla oluşturulmaktadır. Örneğin.
 
-   match val {
-      1 | 2 | 3 => println!("bir ya da iki ya da üç"),
-      4 => println!("dört"),
-      5 => println!("beş"),
-      _ => println!("diğer bir sayı")
-   }
+        match val {
+            1 | 2 | 3 => println!("bir ya da iki ya da üç"),
+            4 => println!("dört"),
+            5 => println!("beş"),
+            _ => println!("diğer bir sayı")
+        }
 
    Burada birinci match kolu aşağıdaki gibidir:
 
-    1 | 2 | 3 => println!("bir ya da iki ya da üç"),
+        1 | 2 | 3 => println!("bir ya da iki ya da üç"),
 
     Bu kalıp 1 ya da 2 ya da 3 anlamına gelmektedir. Örneğin daha önce yazmış olduğumuz komut satırı uygulamasında biz
     döngüden "quit" ya da "exit" komutu girildiğinde çıkmak isteyebiliriz:
 
-      loop {
-        //...
-        match getstr().as_str() {
-            "" => continue,
-            "dir" => println!("dir command"),
-            "copy" => println!("copy command"),
-            "rename" => println!("rename command"),
-            "quit" | "exit" => break,
-            _ => println!("unknown command"),
+        loop {
+            //...
+            match getstr().as_str() {
+                "" => continue,
+                "dir" => println!("dir command"),
+                "copy" => println!("copy command"),
+                "rename" => println!("rename command"),
+                "quit" | "exit" => break,
+                _ => println!("unknown command"),
+            }
         }
-    }
 
     Tabii veya kalıbındaki kalıplar sabit kalıplarıysa bunların aynı türden olması gerekir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -4936,105 +4936,105 @@ fn getstr() -> String {
     olmadığını belirlemekte kullanılmaktadır. Range kalıbını oluşturabilmek için yine daha önce görmüş olduğumuz .. ve ..=
     operatörleri kullanılmaktadır. Range kalıbında kullanılabilecek range ifadeleri şunlardır:
 
-    a..b
-    a..=b
-    ..b
-    ..=b
-    a..
+        a..b
+        a..=b
+        ..b
+        ..=b
+        a..
 
     Bu range ifadelerinin ne anlama geldiğini daha önce görmüştük. Bir kalıp olarak kullanıldığında bu range kalıpları şu
     anlamlara gelmektedir (a ve b'nin aynı tamsayı türlerine ilişkin değerler olduğunuvarsayıyoruz):
 
-    a..b        a'dan b'ye b dahil olmamak üzere (exclusive range) tamsayıların herhangi biri
-    a..=b       a'dan b'ye b dahil olmak üzere (inclusive range) tamsayıların herhangi biri
-    ..b         b'ye kadar olan fakat b dahil değil (range to) tamsayıların herhangi biri (negatif değerler de dahil)
-    ..=b        b'ye kadar olan fakat b de dahil (range to inclusive) tamsayıların herhangi biri (negatif değerler de dahil)
-    a..         a'dan başlayan tamsayıların herhangi biri (range from)
+        a..b        a'dan b'ye b dahil olmamak üzere (exclusive range) tamsayıların herhangi biri
+        a..=b       a'dan b'ye b dahil olmak üzere (inclusive range) tamsayıların herhangi biri
+        ..b         b'ye kadar olan fakat b dahil değil (range to) tamsayıların herhangi biri (negatif değerler de dahil)
+        ..=b        b'ye kadar olan fakat b de dahil (range to inclusive) tamsayıların herhangi biri (negatif değerler de dahil)
+        a..         a'dan başlayan tamsayıların herhangi biri (range from)
 
    Örneğin:
 
-    let val = getval()
+        let val = getval()
 
-    match val {
-        0 => break,
-        1 => println!("1"),
-        2..5 => println!("2..5"),
-        5 => println!("5"),
-        6..=8 => println!("6..=8"),
-        ..10 => println!("..10"),
-        ..=20 => println!("..=20"),
-        21.. => println!("30.."),
-    }
+        match val {
+            0 => break,
+            1 => println!("1"),
+            2..5 => println!("2..5"),
+            5 => println!("5"),
+            6..=8 => println!("6..=8"),
+            ..10 => println!("..10"),
+            ..=20 => println!("..=20"),
+            21.. => println!("30.."),
+        }
 
     Burada çeşitli kalıplar birlikte kullanılmıştır. Bu örnekte ilginç olan bir durum hiç wildcard kalıbının kullanılmamış
     olmasıdır. Çünkü bu örnekte zaten match "exhaustive" durumdadır. Yani i32 türünün her değeri için çalıştırılacak bir
     match kolu bulunmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::{self, Write};
+        use std::io::{self, Write};
 
-fn main() {
-   loop {
-      let val: i32;
+        fn main() {
+        loop {
+            let val: i32;
 
-      print!("Bir değer giriniz:");
-      io::stdout().flush().expect("cannot flush stdout!");
+            print!("Bir değer giriniz:");
+            io::stdout().flush().expect("cannot flush stdout!");
 
-      val = getval();
-      match val {
-         0 => break,
-         1 => println!("1"),
-         2..5 => println!("2..5"),
-         5 => println!("5"),
-         6..=8 => println!("6..=8"),
-         ..10 => println!("..10"),
-         ..=20 => println!("..=20"),
-         21.. => println!("30.."),
-      }
-   }
-}
+            val = getval();
+            match val {
+                0 => break,
+                1 => println!("1"),
+                2..5 => println!("2..5"),
+                5 => println!("5"),
+                6..=8 => println!("6..=8"),
+                ..10 => println!("..10"),
+                ..=20 => println!("..=20"),
+                21.. => println!("30.."),
+            }
+        }
+        }
 
-fn getval() -> i32 {
-   let mut buf: String = String::new();
+        fn getval() -> i32 {
+        let mut buf: String = String::new();
 
-   std::io::stdin().read_line(&mut buf).expect("read line failed");
-   buf.trim().parse().expect("parse into number failed")
-}
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse into number failed")
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Range kalıplarında match anahtar sözcüğünün yanındaki ifadenin türü ile range ifadesindeki türlerin aynı olması gerekmektedir.
     Örneğin:
 
-    let val: i8;
+        let val: i8;
 
-    val = getval();
-    match val {
-        1..10 => println!("1..10"),
-        _ => (),
-    }
+        val = getval();
+        match val {
+            1..10 => println!("1..10"),
+            _ => (),
+        }
 
     Burada val ifadesi i8 türündendir. 1..10 range kalıbı bağlama göre 1i8..10i8 gibi ele alınmaktadır. Dolayısıyla buradaki
     range kalıbı geçerlidir. Örneğin:
 
-    let val: i32;
+        let val: i32;
 
-    val = getval();
-    match val {
-        1i8..10i8 => println!("1i8..10i8"),            // error!
-        _ => (),
-    }
+        val = getval();
+        match val {
+            1i8..10i8 => println!("1i8..10i8"),            // error!
+            _ => (),
+        }
 
     Bu örnekte val değişkeni i32 türündendir. Ancak range kalıbı i8 türüne ilişkindir. Bu nedenle error oluşacaktır.
 
     Tabii range kalıbında çok seyrek olsa da f32 ve f64 türleri kullanılabilmektedir. Örneğin:
 
-    let val: f64;
+        let val: f64;
 
-    val = getval();
-    match val {
-        1.0..3.0 => println!("1.0..3.0"),
-        _ => ()
-    }
+        val = getval();
+        match val {
+            1.0..3.0 => println!("1.0..3.0"),
+            _ => ()
+        }
 
     Burada val f64 türündendir. Range kalıbı da f64 türüne ilişkindir. Yani örneğimizde val değeri 1 ile 3 arasında herhangi
     bir gerçek sayı değeri ise uyuşum sağlanacaktır.
@@ -5042,13 +5042,13 @@ fn getval() -> i32 {
     Range kalıbında kalıp range operatörleriyle oluşturulmalıdır. Eğer biz bir match koluna Range türünden bir değişken
     yerleştirirsek bu bir range kalıbı olmaz. Sonraki paragrafta göreceğimiz gibi bir değişken kalıbı olur. Örneğin.
 
-    let a = 10;
-    let r = 1..100;
+        let a = 10;
+        let r = 1..100;
 
-    match a {
-        r => println!("{}", r),     // dikkat! bu bir range kalıbı değil
-        //...
-    }
+        match a {
+            r => println!("{}", r),     // dikkat! bu bir range kalıbı değil
+            //...
+        }
 
     match kolundaki r yeni bir değişkendir ve bu değişken izleyen paragrafta da görüleceği üzere a'nın türünden, yani örneğimizde
     i32 türünden olacaktır.
@@ -5057,10 +5057,10 @@ fn getval() -> i32 {
     olur. Bu durumda uyuşum her zaman sağlanır. Değişken kalıbında kalıpla uyuşan değer kalıpta belirtilen değişkene yerleştirilir.
     Örneğin:
 
-    val = getval();
-    match val {
-        a => println!("a = {}", a),
-    }
+        val = getval();
+        match val {
+            a => println!("a = {}", a),
+        }
 
     Burada bu değişken kalıbı tüm val değerleriyle uyuşum sağlayacaktır. Uyuşum sağlandığında val değişkeninin içerisindeki
     değer a değişkenine atanacaktır. a değişkeninin yukarıda let ile bağlanmış olması gerekmez. Çünkü zaten match kolunda
@@ -16117,5 +16117,1650 @@ impl Drop for Sample {
     Bu örnekte de yukarıdaki iki kurala aykrı bir durum yoktur. Fonksiyonun parametre değişkenleri o fonksiyon içerisinde
     faaliyet göstermektedir.
 ---------------------------------------------------------------------------------------------------------------------------
+# 50.  Ders 17/09/2025 - Çarşamba
+
+    Referanslarla ilgili bu ödünç alma kurallarının referansların Copy türünden olup olmaması ile bir ilgisi yoktur. Yani
+    referanslar Copy türünden olsa da yukarıdaki kurallar geçerlidir. Örneğin:
+
+    fn main() {
+        let mut a = 10;
+        let r = &a;
+
+        a = 20;
+        println!("{}", *r);         // error!
+    }
+
+    Burada değişkenin adresi mut olmayan bir referansa atandıktan sonra referansın faaliyet alanı boyunca değişkenin
+    değiştirilmemesi gerekirdi. Bu durum ikinci kuralı ihlal etmiştir. Bu kuralların Copy türleri için de geçerli olduğuna
+    dikkat ediniz
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'taki göstericiler (raw pointers) unsafe bir bağlamda kullanıldığı için yukarıda açıkladığımız referansların ödünç
+    alınması kurallarına tabi değildir. Biz bir değişkenin adresini istediğimiz kadar mut olan ya da const olan göstericiye
+    atayıp unsafe bağlamda o göstericilerin gösterdiği değişkenlere ya da değerlere okuma ya da yazma amaçlı erişebiliriz.
+    Yani Rust'ta göstericiler üzerinde bu bağlamda bir "ödünç alma kontrolü (borrow checking)" uygulanmamaktadır. Tabii daha
+    önceden de belirttiğimiz gibi Rust'ta zorunlu olmadıkça göstericiler yerine hep referanslar tercih edilmelidir. Örneğin:
+
+    fn main() {
+        let mut s = Sample::new(10, 20);
+        let ps1: *const Sample;
+        let ps2: *mut Sample;
+
+        ps1 = &s;
+        ps2 = &mut s;
+
+        unsafe {
+            println!("{}, {}", (*ps1).a, (*ps1).b);     // geçerli
+            println!("{}, {}", (*ps2).a, (*ps2).b);     // geçerli
+            (*ps2).a = 30;                              // geçerli
+            (*ps2).b = 40;                              // geçerli
+            s.disp();                                   // geçerli
+        }
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            println!("Sample created: {}, {}", a, b);
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{} {}", self.a, self.b);
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Sample dropped: {}, {}", self.a, self.b );
+        }
+    }
+
+    Görüldüğü gibi göstericiler söz konsuu olduğunda yukarıda belrttiğimiz referanslara ilişkin iki kurala uygunluk derleyici
+    tarafından denetlenmemektedir. Bu örnekteki göstericiler yerine referanslar kullanılmış olsaydı derleme sırasında error
+    oluşurdu.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yapı ve enum türlerinin default olarak taşınan türler olduğunu belirtmiştik. Aslında bu default durum değiştirilebilmektedir.
+    Yani biz istersek bir yapıyı Copy türü haline getirebiliriz. Böylece o türden bir yapı değişkenini aynı türden bir yapı
+    değişkenine atadıktan sonra kaynak değişkeni kullanmaya devam edebiliriz. Yani taşıma semantiğini devre dışı bırakabiliriz.
+    Bu işlem açıkça yapıya da enum türüne #[derive(Clone, Copy)] özniteliğinin iliştirilmesiyle sağlanmaktadır. Bu öznitelik
+    ilgili tür için Copy ve Clone trait desteğinin derleyici tarafından otomatik olarak verileceğini belirtmektedir. Copy trait'i
+    aslında Clone trait'inden türetilmiştir. (Rust'ta yapılar ve enum türleri için türetme kavramı yoktur. Ancak trait'ler
+    birbirinden türetilebilmektedir.) Örneğin:
+
+    #[derive(Clone, Copy)]
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    fn main() {
+        let s = Sample {a: 10, b: 20};
+        let k: Sample;
+
+        k = s;                               // bu bir taşıma değil kopyalama
+
+        println!("{}, {}", s.a, s.b);       // geçerli
+        println!("{}, {}", k.a, k.b);       // geçerli
+    }
+
+    Burada Sample yapısına #[derive(Clone, Copy)] özniteliği iliştirilerek yapının taşınabilirliği devre dışı bırakılıp
+    onun Copy türünden olması sağlanmıştır. Artık bir Sample değişkenini başka bir Sample değişkenine atadığımızda her iki
+    değişkeni de kullanmaya devam edebiliriz. Örneğimizdeki atamaya dikkat ediniz:
+
+    k = s;
+
+    println!("{}, {}", s.a, s.b);       // geçerli
+    println!("{}, {}", k.a, k.b);       // geçerli
+
+    Artık Sample yapısı Copy türünden olduğu için atamadan sonra s de kullanılabilmektedir. Eğer yapı tanımlamasının başındaki
+    özniteliği kaldırsaydık bu atamadan sonra s'yi kullanamazdık.
+
+    Java ve C# gibi dillerde türemiş arayüz zaten taban arayüzün metotlarına da sahip olmaktadır. Bu dillerde bir sınıf
+    türemiş arayüzü desteklediğinde zaten o sınıf örtük olarak (implicitly) taban arayüzü de desteklemiş gibi olmaktadır.
+    Bu dillerinden geçen kişiler buradaki özniteliklendirmede Clone trait'inin belirtilmesinin gereksiz olduğunu düşünebilmektedir.
+    Ancak Rust tasarımında her zaman bir şeyin açıkça (explicitly) belirtilmesi tercih edilmiştir. Bu prensip Rust'ta İngilizce
+    "explicit is better than implicit" deyişiyle ifade edilmektedir. Ancak Rust'ta taban ve türemiş trait'ler derive özniteliğinde
+    herhangi bir sırada belirtilebilirler. Yani #[derive(Clone, Copy)] özniteliği ile #[derive(Copy, Clone)] özniteliği tamamen
+    eşdeğerdir.
+
+    Copy trait'i std::marker modülünde, Clone trait'i ise std::clone modülündedir. Ancak standart prelude içerisinde bu
+    isimler use edildiği için biz niteliklendirme yapmadan da Copy ve Clone isimlerini doğrudan kullanabilmekteyiz.
+
+    Daha önceden de belirttiğimiz gibi derive özniteliğinde belirtilen trait'lerin metotları derleyici tarafından ilgili tür
+    için otomatik olarak yazılmaktadır. Copy trait'i Clone trait'inden türetildiği için bütün Copy türleri aynı zamanda
+    klonlanabilmektedir. Bu konu ileride trait'ler konusunda ayrıca ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample {a: 10, b: 20};
+    let k: Sample;
+
+    k = s;
+
+    println!("{}, {}", s.a, s.b);       // geçerli
+    println!("{}, {}", k.a, k.b);       // geçerli
+}
+
+#[derive(Clone, Copy)]
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı ya da enum türüne #[derive(Clone, Copy)] özniteliğinin iliştirilmesi için o yapı ya da enum türünün tüm alanlarının
+    ya da varyantlarının bu trait'leri destekliyor olması gerekir. Başka bir deyişle ancak alanları ya da varyantları Copy
+    türünden olan yapılara ve enum türlerine #[derive(Clone, Copy)] özniteliği iliştirilebilmektedir. Örneğin:
+
+    #[derive(Clone, Copy)]
+    struct Person {
+        name: String,           // error!
+        no: i32
+    }
+
+    Buradaki Person yapısına biz #[derive(Clone, Copy)] özniteliğini iliştiremeyiz. Çünkü yapının name alanı Copy türünden
+    değildir. Tabii bir yapının bir alanı başka bir yapı türünden olabilir. Bu durumda #[derive(Clone, Copy)] özniteliğinin
+    iliştirilmesi için özyinelemeli olarak yapının bütün alanlarının Copy trait'ini destekliyor olması (yani Copy türünden
+    olması) gerekmektedir. i32, i64, f64, bool gibi bütün temel (primitive) türler default olarak Copy türündendir. Yani
+    bu temel türlerin Copy ve dolayısıyla da Clone trait'ini desteklediğini varsayabilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Aslında biz bir yapı için yalnızca #[derive(Copy)] özniteliğini iliştirip Clone trait'ini açıkça da destekleyebiliriz.
+    Örneğin aşağıdaki gibi bir tanımlama geçerlidir:
+
+    #[derive(Copy)]
+    struct Sample {
+        a: i32, b: i32
+    }
+
+    impl Clone for Sample {
+        fn clone(&self) -> Sample {
+            Sample { a: self.a, b: self.b }
+        }
+    }
+
+    Trait'ler ilerleyen bölümlerde ayrıntılarıyla ele alınacaktır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir fonksiyonun ya da metodun isminden, parametrik yapısından, geri dönüş değerinin türünden, ömür parametrelerinden
+    (lifetime parameters) ve görünürlüğünden (visibility) boluşan bilgi topluluğuna "fonksiyonun imzası (function signature)"
+    denilmektedir. İmza (signature) terimi Rust'a özgü değildir. C++, Java ve C# gibi dillerde de bu terim benzer anlamda
+    kullanılmaktadır. Ancak C'de imza diye bir terim yoktur. Örneğin:
+
+    fn foo(a: i32, b: i32) -> i32 {
+        //...
+    }
+
+    Burada foo fonksiyonunun imzası fonksiyonun isminden, parametre türlerinden (isimlerinden değil), geri dönüş değerinin
+    türünden oluşmaktadır. Ancak yukarıda da belirttiğimiz gibi henüz görmediğimiz "ömür parametreleri (lifetime parameters)"
+    ve "görünürlük (visibility)" gibi fonksiyonun diğer özellikleri de imzaya dahildir. Siz bir fonksiyonun ana gövdesinin
+    dışındaki kısmını onun imzası gibi düşünebilirsiniz. Örneğin yukarıdaki fonksiyonun imzası şöyledir:
+
+    fn foo(a: i32, b: i32) -> i32
+
+    Rust'ta C'deki gibi bir prototip kavramı yoktur. Rust'taki fonksiyon imzasını C'deki prototip gibi düşünebilirsiniz.
+    (C'de (C99 ve sonrasında) çağrılma noktasına kadar tanımlaması yapılmamış olan fonksiyonlar için prototip bildiriminin
+    zorunlu olduğunu anımsayınız.) Pekiyi Rust derleyicileri çağrılan fonksiyonun imzasını nasıl elde etmektedir? İşte eğer
+    derleme birden fazla kaynak dosyayala tek aşamada yapılıyorsa zaten derleyici bütün fonksiyonların ve metotların imzalarını
+    onların tanımlamalarını gördüğü için biliyor durumda olur. Pekiyi ya statik ya da dinamik kütüphane içerisinden bir
+    fonksiyon çağrılıyorsa? Bilindiği gibi kütüphaneler derlenmiş fonksiyonları barındırmaktadır. Biz bir kütüphanedne bir
+    fonksiyon çağırdığımızda derleyici fonksiyonun içini göremez. Ancak imzasını görebilmektedir. Fonksiyonların ve metotların
+    imzaları kütüphane dosyalarının özel bölümlerinde (sections) saklanmaktadır. Rust derleyicileri de kütüphane dosyalarının
+    bu özel bölümlerine bakarak bu imzaları elde edebilmektedir. Duurmu şöyle özetleyebiliriz:
+
+    1) Eğer derleme tek aşamada (birden fazla kaynak dosya da söz konusu olabilir) gerçekleştiriliyorsa zaten derleyici
+    bütün fonksiyonların ve metotların imzalarını ve içlerini görmektedir.
+
+    2) Eğer kütüphaneden bir fonksiyon ya da metot çağrılıyorsa derleyici bu fonksiyon ya da metodun içini göremez ama
+    imzasını görebilmektedir.
+
+    İşte yukarıda açıkladığımız gerekçelerden dolayı Rust'ta prototip kavramı yoktur. Adeta derleyici bu prototip bilgisini
+    otomatik elde etmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de taşıma ve ödünç alma mekanizmasıyla ilgili olan ve ismine "ömür (lifetime)" denilen konu üzeründe duracağız.
+    Bu konunun benzeri diğer programlama dillerinde bulunmadığı için Rust'a geçiş yapanlar bu konuyu anlamakta biraz
+    zorlanabilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir referansa bir değişkeninin adresinin yerleştirildiğini düşünelim. Eğer referans adresini tuttuğu değişkenden daha
+    uzun yaşarsa başka bir deyişle referansın gösterdiği yerdeki değişken referanstan daha önce yok edilirse bu durum referansın
+    gösterdiği yere erişildiğinde programın çökmesine yol açabilir. C'de bu tür durumlarla çok sık karşılaşılmaktadır. Ancak
+    iyi bir C programcısı zaten bu tür hataları yapmayacak biçimde eğitilmektedir. C'de yazılmış aşağıdaki fonksiyona
+    dikkat ediniz:
+
+    int *foo(void)
+    {
+        int a = 10;
+
+        return &a;
+    }
+
+    Bu kod C'de derlenir. Ancak bu fonksiyonun geri döndürdüğü adresin kullanılması tanımsız davranışa (undefined behavior)
+    yol açacaktır. Örneğin:
+
+    int *pi;
+
+    pi = foo();
+
+    Burada pi göstericisi bellekten yok edilmiş yani artık yaşamayan bir nesnenin eski yerini gösteriyor durumdadır. Tabii bu
+    kod bu haliyle bir tanımsız davranış oluştırmaz. Ancak pi gösterdiği yere erişilemesi tanımsız davranışa yol açacaktır. Bu
+    durum programın çökmesiyle sonuçlanabilecektir:
+
+    printf("%d\n", *pi);        // tanımsız davranış
+
+    Şimdi de aşağıdaki C koduna dikkat ediniz:
+
+    char s[] = "ankara";
+    char *str;
+
+    str = strchr(s, 'k');
+
+    Burada her şey düzgündür. Çünkü strchr fonksiyonunun geri döndürdüğü adres zaten s dizisizinin bir elemanının adresidir.
+    Dolayısıyla fonksiyon sonlandığında hala s dizisi yaşamaktadır.
+
+    İşte Rust'ta bir referansın tahsis edilmemiş bir yeri göstermesi durumu zaten derleme aşamasında derleyici tarafından
+    engellenmektedir. Yani Rust programcıları isteseler bile bu tür hataları yapamamaktadır. Rust'ta derleyicinin bu tür
+    kopuk (dangling) referansları tespit edebilmesi için "ömür (lifetime)" denilen bir özellik dile eklenmiştir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust derleyicileri bir referansın gösterdiği yerdeki değişken ya da değer yok olduğu halde (yani ömrünü bitirdiği halde)
+    referansın yaşamaya devam etmesi durumunu derleme aşamasında tespit etmeye çalışmaktadır. Bazen bu tespit derleme aşamasında
+    basit bir biçimde yapılabilmektedir. Ancak bazı durumlarda bu tespitin derleme aşamasında yapılabilmesi mümkün olamamaktadır.
+    İşte bu tür durumlarda Rust derleyicileri referansın gösterdiği yerdeki değişken ya da değerin ömrü hakkında programcının
+    bilgilendirme yapmaısını istemektedir. Yani iki durum söz konusudur:
+
+    1) Derleyici referansın ömrünün onun gösterdiği yerdeki değişken ya da değerin ömründen daha uzun olup olmadığını derleme
+    aşamasında akıl yürütmeyle tespit edebilir ve duruma göre error mesajı verebilir.
+
+    2) Derleyici referansın ömrünün onun gösterdiği yerdeki değişken ya da değerin ömründen daha uzun olup olmadığını derleme
+    aşamasında tespit edemeyebilir. Bu durumda programcı ömür konusunda derleyiciyi bilgilendirmek zorundadır.
+
+    Örneğin:
+
+    fn main() {
+        let r: &i32;
+
+        {
+            let a: i32 = 10;
+            r = &a;
+        }
+        println!("{}", *r);         // error!
+    }
+
+    Burada a değişkeni programın akışı iç bloktan çıktığında yok edilecektir. Görüldüğü gibi referans onun gösterdiği değişkenden
+    daha uzun süre yaşamaktadır. Bu durumu Rust derleyicisi kolaylıkla tespit eder ve error oluşturur. Programcı da çökebilecek
+    bir programı derleyememiş olur. Örneğin:
+
+    fn main() {
+        let r: &i32;
+
+        r = foo();
+        println!("{}", *r);
+    }
+
+    fn foo() -> &i32
+    {
+        let a: i32 = 10;
+
+        &a              // error!
+    }
+
+    Burada da a değişkeni fonksiyon bittiğinde yok edildiği halde geri döndürülen referans yaşamaya devam edecektir. Bu
+    tespit de derleme aşamasında derleyici tarafndan kolaylıkla yapılabilmektedir. Dolayısıyla Rust derleyicisi bu durumda
+    da error oluşturacak ve program derlenmeyecektir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Ancak Rust derleyicisi bazı durumlarda referansın yaşam süresinin onun gösterdiği yerdeki değişkenden daha uzun olup
+    olmadığı tespitini yapamamaktadır. Örneğin:
+
+    fn foo(s1: &Sample, s2: &Sample) -> &Sample {           // error!
+        if s1.a + s1.b > s2.a + s2.b {
+            s1
+        }
+        else {
+            s2
+        }
+    }
+
+    #[derive(Debug)]
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    Buradaki foo fonksiyonu Sample türünden iki referansı parametre olarak alıp o referanslardan biriyle geri dönmektedir.
+    İlk bakışta siz bu kodda "adresi aktarılan değişkenlerin fonksiyon sonlandığında da yaşamaya devem ettiğinden dolayı"
+    bir sorun olmadığını düşünebilirsiniz. Ancak eğer derleyici bu fonksiyonu derlerse ve makine diline dönüştrürse derleme
+    aşamasında kopuk referans kontrolünü gerektiği gibi yapamaybilir. Önce buradaki fonksiyonun aşağıdaki gibi çağrıldığını
+    varsayalım:
+
+    fn main() {
+
+        let s = Sample {a: 10, b: 20};
+        let k = Sample { a: 30, b: 40 };
+        let result: &Sample;
+
+        result = foo(&s, &k);
+
+        println!("{:?}", result);
+    }
+
+    Burada referanslarla ilgili kopuk (dangling) bir durum ortaya çıkmayacaktır. Şimdi de fonksiyonun aşağıdaki gibi
+    çağrıldığını varsayalım:
+
+    fn main() {
+        let s = Sample {a: 10, b: 20};
+        let result: &Sample;
+
+        {
+            let k = Sample { a: 30, b: 40 };
+            result = foo(&s, &k);
+        }
+
+        println!("{:?}", result);
+    }
+
+    Burada artık kopuk bir referans (dangling reference) sorunu vardır. Şimdi siz "derleyici fonksiyonu derlesin ama kopuk
+    referans sorununu da öncekiler gibi derleme aşamasında tespit etsin" diyebilirsiniz. Ancak derleyiciler bu programı
+    derlenirken foo fonksiyonun içini göremeyebilirler. Örneğin fonksiyon kütüphanenin içerisinde olabilir. Bu durumda derleyici
+    fonksiyonun imzasını görür ancak içini göremez. Derleyici bakış açısıyla yukarıdaki koda bakıldığında foo fonksiyonun içi
+    görülmeyebileceği için foo fonksiyonunun s ya da k referanslarından biriyle geri dönmesi de zorunda değildir. Pekala foo
+    yaşamakta olan bir değişkenin referansıyla da geri dönüyor olabilir. Görüldüğü gibi derleyici foo fonksiyonun içini
+    görmedikten sonra (genel olarak göremeyebilir) fonksiyonunun geri dönüş değerinin kopuk bir referans oluşturup oluşturmayacağını
+    anlayamaz. Başka bir deyişle Rust derleyicisi eğer foo fonksiyonu kütüphane içerisindeyse onun içini göremez, yalnızca
+    onun imzasını görebilir. Derleyicinin yalnızca bu fonksiyonun ilk satırını gördüğünü varsayabilirsiniz:
+
+    fn foo(s1: &Sample, s2: &Sample) -> &Sample
+
+    Bu imzayı gören derleyici foo fonksiyonun Sample türünden bir referansa geri döndüğünü anlar ancak s1 ya da s2'ye geri
+    döndüğünü anlayamaz.
+
+# 51.  Ders 22/09/2025 - Pazartesi
+
+    İşte derleyicilerin yukarıdaki foo fonksiyonu örneğinde olduğu gibi özellikle geri dönüş değeri referans olan fonksiyonlarda
+    geri döndürülen referansın gösterdiği yerdeki değişkenin ya da değerin ömrü konusunda bilgilendirilmesi gerekmektedir.
+    Bu bilgilendirme işlemi "ömür bilgileri (lifetime annotations)" denlien özel bir sentaksla yapılmaktadır. ömür bilgileri
+    tek tırnak karakteri ve ona yapışık bir isimden oluşmaktadır. Örneğin:
+
+    'a
+    'b
+    'life
+    'test
+
+    Genellikle Rust programcıları bu ömür bilgilerini 'a, 'b, 'c gibi alfabenin ilk harfleriyle isimlendirmektedir. Ömür
+    ifadelerinin (lifetime annotations) fonksiyonda kullanılmadan önce açısal parantezler içerisinde belirtilmesi gerekmektedir.
+    Fonksiyonun açısal parantezleri içerisinde bildirilen ömür bilgilerine fonksiyonun "ömür paramatreleri (lifetime parameters)"
+    denillmektedir. Örneğin:
+
+    fn foo<'a, 'b>(...) -> ... {
+        //...
+    }
+
+    Burada foo fonksiyonun 'a ve 'b biçiminde iki ömür parametresi vardır.
+
+    Ömür bilgileri yalnızca referanslarda kullanılabilmektedir. Referanslar için ömür bilgisi & atomundan sonra ancak tür
+    belirten atomdan önce iliştirilmektedir. Geleneksel olarak & ile ömür bilgisi bitişik olarak yazılmaktadır. Örneğin:
+
+    fn foo<'a>(a: &'a i32, b: &'a i32) -> &'a i32 {
+        if *a > *b {
+            a
+        }
+        else {
+            b
+        }
+    }
+
+    Burada geri dönüş değerine ilişkin refransta ömür bilgisi &'a biçiminde kullanılmıştır. Yukarıda da belirttiğimiz gibi
+    burada & atomu ile ömür bilgisi olan 'a bitişik yazılmak zorunda değildir. Ancak bitişik yazmak bir Rust geleneğidir.
+    Fonksiyon imzalarına ömür bilgisinin de dahil olduğuna dikkat ediniz. Yukarıdaki fonksiyonun imzası şöyledir:
+
+    fn foo<'a>(a: &'a i32, b: &'a i32) -> &'a i32
+
+    Eğer buradaki foo fonksiyonu kütüphanede olsaydı derleyici fonksiyonun içini göremeyecekti ancak imzasını görebilecekti.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonun parametrelerindeki ömür bilgilerine "girdi ömür bilgileri (input lifetimes)", geri dönüş değerindeki ömür
+    bilgilerine ise "çıktı ömür bilgileri (output lifetimes)" denilmektedir. Programcı derleyiciye "girdi ömür bilgileri ile
+    çıktı ömür bilgileri arasındaki ilişkiyi" açıklamaktadır. Örneğin derleyicinin aşağıdaki gibi bir fonksiyonun imzasını
+    gördüğünü düşünelim:
+
+    fn foo<'a>(a: &'a i32, b: &'a i32) -> &'a i32
+
+    Buradaki girdi ve çıktı ömür bilgileri adeta derleyiciye şunları söylemektedir: "Bu fonksiyona adresi geçirilen değişkenlerin
+    her ikisinin de ömrü en az geri dönüş değerinin atandığı referansın ömrü kadar olmak zorundadır. Eğer bu durum ihlal ediliyorsa
+    derleme aşamasında error oluştur".
+
+    Örneğin fonksiyon şöyle çağrılmış olsun:
+
+    fn main() {
+        let a = 10;
+        let b = 20;
+        let r: &i32;
+
+        r = foo(&a, &b);
+
+        println!("{}", *r);
+    }
+
+    Burada derleyiciye vermiş olduğumuz sözü tutmuş olduk. a ve b değişkenleri en az r referansı kadar yaşamaktadır. Burada
+    a, b ve r'nin aynı ömüre sahip olduğuna dikkat ediniz. Şimdi de fonksiyonu şöyle çağırmış olalım:
+
+    fn main() {
+        let r: &i32;
+
+        {
+            let a = 10;
+            let b = 20;
+
+            r = foo(&a, &b);            // error!
+        }
+
+        println!("{}", *r);
+    }
+
+    Burada a ve b değişkenleri fonksiyonun geri dönüş değerinin atandığı referanstan daha kısa ömürlüdür. Bu da yukarıda
+    verilen sözün tutulmadığı anlamına gelmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonun geri dönüş değerinin referans olduğu durumda fonksiyonun tek bir referans parametresi varsa bu durumda derleyici
+    otomatik olarak geri dönüş değerine ilişkin refernasın ömrünü parametre değişkenine geçirilen değişkenin ya da değerin ömrü
+    ile ilişkilendirmektedir. Yani bu özel durumda programcının bir ömür parametresi kullanmasına gerek kalmamaktadır. Bu tür
+    durumlarda ömür belirtme zorunluluğunun olmamasına "The Rust Reference" dokümanlarında "lifetime elision" denilmektedir.
+    Örneğin:
+
+    fn foo(r: &i32) -> &i32 {           // geçerli
+        //...
+    }
+
+    Burada bir ömür parametresinin kullanılmasına gerek yoktur. Bu tanımlama aşağıdakiyle tamamen eşdeğer kabul edilmektedir:
+
+    fn foo<'a>(a: &'a i32) -> &'a i32 {
+        //...
+    }
+
+    Bu özel durumda parametre değişkenindeki referans ile geri dönüş değerinde belirtilen referansın aynı türden olması
+    zorunlu değildir. Ancak parametrenin referans olamsı zorunludur. Örneğin:
+
+    fn foo(a: i32) -> &i32 {        // error!
+        //...
+    }
+
+    Burada geri dönüş değeri için ömür belirlemesinin yapılması zorunludur. Bu özel durum kuralında fonksiyonun birden fazla
+    parametresi olabilir. Ancak parametrelerin "yalnızca herhangi birinin" referans belirtmesi gerekir. Örneğin:
+
+    fn foo(a: i32, b: &i32) -> &i32 {
+        //...
+    }
+
+    Burada da geri dönüş değerine ömür bilgisinin iliştirilmesi gerekmez. Bu tanımlama aşağıdakiyle eşdeğer kabul edilmektedir:
+
+    fn foo<'a>(a: i32, b: &'a i32) -> &'a i32 {
+        //...
+    }
+
+    Fonksiyonun geri dönüş değerine bir ömür bilgisi iliştirilmiş olsun. Fonksiyonun bütün referans parametrelerine ömür
+    bilgisinin iliştirilmiş olması gerekmez. Ancak fonksiyon ömür bilgisi iliştirilmemiş referansla geri döndürülemez.
+    Örneğin:
+
+    fn foo<'a>(a: &'a i32, b: &i32) -> &'a i32 {
+        a           // geçerli
+    }
+
+    Burada fonksiyon ömür bilgisi iliştirilmiş referans parametresiyle geri döndürülmüştür. Ancak örneğin:
+
+    fn foo<'a>(a: &'a i32, b: &i32) -> &'a i32 {
+        b           // error!
+    }
+
+    Burada fonksiyon ömür bilgisi iliştirilmemiş referans parametresiyle geri döndürülmüştür. Özetle biz eğer fonksiyonumuzu
+    bir referansla geri döndürüyorsak o referansa ömür bilgisinin iliştirilmiş olması gerekmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir referansa geçici bir değişkenin adresi atandığında geçici değişkenin tıpkı C++'ta olduğu gibi referansın ömrü kadar
+    yaşadığını, referans ömrünü bitirdiğinde yok edildiğini belirtmiştik. Örneğin:
+
+    {
+        let r: &Sample = &Sample{a: 10, b: 20};
+        //...
+    }
+
+    Burada yaratılan geçici değişken referansın ömrü boyunca yaşamaya devam etmektedir. Tabii referans daha sonra daha uzun
+    ömürlü bir referansa atanırsa uzun ömürlü referans bloğun dışında kullanılamaz. Bu tür durumlarda ömür kontrolleri ömür
+    bilgisine gereksinim duyulmadan derleyici tarafından yapılmaktadırç Örneğin:
+
+    let k: &Sample;
+    {
+        let r = &Sample { a: 10, b: 20 };
+        println!("{}, {}", r.a, r.b);
+        k = r;
+    }
+    println!("{}, {}", k.a, k.b);       // error!
+
+    Geçici değişken bir fonksiyonun içerisinde oluşturuluyorsa tıpkı C++'ta olduğu gibi onun adresi ile geri dönülememektedir.
+    Bu tür durumlarda da ömür kontrolü derleyici tarafından ömür bilgisine gereksinim duyulmadan yapılabilmektedir. Örneğin:
+
+    fn foo<'a>() -> &'a Sample {
+        &Sample{a: 10, b: 20}           // error!
+    }
+
+    Burada geçici değişkenin adresi fonksiyonun geri dönüş değeri için yaratılan referansa aatanmaktadır. Fonksiyon çağrısından
+    sonra bu değişken yok edileceği için bu durum error'e yol açmaktadır.
+
+    Ancak Rust'ta sabit ifadeleri için özel bir durum söz konusudur.  Bir blok içerisinde bir sabit ifadesinin adresi bir
+    referansa yerleştirilirse bloktan çıkılsa bile o referans kullanılabilmektedir. Rust derleyicileri bu durumda sabit
+    ifadelerini static ömürlü bir geçici değişkene yerleştirip onun adresini referansa yerleştirmektedir. Örneğin:
+
+    fn foo<'a>() -> &'a i32 {
+        &10             // geçerli
+    }
+
+    Burada adresi alınan ifade bir sabit ifadesi olduğu için bu sabit ifadesi statik ömürlü bir değişkene yerleştirilmektedir.
+    Dolayısıyla artık bu özel durum geçerlidir. Biz geri döndürülen referansı kullanabiliriz:
+
+    fn main() {
+        let r: &i32;
+
+        r = foo();
+        println!("{}", *r);
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonun parametre değişkeninin olmadığını ancak geri dönüş değerinin bir referans olduğunu düşünelim. Bu durumda derleyici
+    fonksiyonun imzasına bakarak onun geri döndürdüğü referansın hangi ömürdeki bir değişkenin adresi olduğunu anlayamaz.
+    Örneğin:
+
+    fn foo() -> &i32 {           // error!
+        //...
+    }
+
+    Burada da yine geri dönüş değeri olan referansa bir ömür bilgisinin iliştirilemesi gerekmektedir. Örneğin:
+
+    fn foo<'a>() -> &'a i32 {           // geçerli
+        //...
+    }
+
+    onun girdi ömür bilgilerinin olmadığına yalnızca çıktı ömür bilgsinin olduğuna dikkat ediniz. Burada tabii fonksiyonu
+    yazan kişi zaten yerel bir değişkenin adresiyle geri dönemez. Olsa olsa statik ömürlü bir değişkenin ya da değerin
+    adresiyle geri dönebilir. Bu örnekte fonksiyona iliştirilen ömür parametresinin bir anlamının olmadığını düşünebilirsiniz.
+    Çünkü burada önceki örneklerde olduğu gibi ömrün kıyaslanabileceği bir parametre değişkeni yoktur. Ancak bu tür durumlarda
+    ömür parametresi henüz görmediğimiz bir konu nedeniyle uç bir noktada gerekebilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonların ve metotların geri dönüş değerleri referans olmadıktan sonra parametre değişkenleri olan referanslara ömür
+    ifadesi iliştirmenin bir faydası yoktur. Ancak bu durumda derleyici bir error vermemektedir. Örneğin:
+
+    fn foo<'a>(a: &'a i32, b: &'a i32) {
+        //...
+    }
+
+    Böyle bir fonksiyonun ömür parametresine sahip olmasının bir anlamı yoktur. Yani fonksiyon aşağıdaki gibi tanımlansaydı
+    da değişen bir şey olmayacaktı:
+
+    fn foo(a: &i32, b: &i32) {
+        //...
+    }
+
+    Ömür parametresine sahip fonksiyonlarda ve metotlarda bu ömür parametresi fonksiyonun yerel değişkeni olan referanslarda
+    kullanılabilir. Ancak yerel referanslarda bu biçimde ömür belirtmenin önemli bir faydası yoktur. Örneğin:
+
+    fn foo<'a>(a: &'a i32, b: &'a i32) -> &'a i32 {
+        let x = 10;
+        let r: &'a i32 = &x;        // error!
+        //...
+    }
+
+    Burada yerel r referansına 'a ömür bilgisi iliştirilmiştir. Bu referansa adresi atanacak olan değişkenin en az a ve b
+    parametre değişkenlerine adresi atanacak değişkenler kadar uzun yaşaması gerekir. Örneğimizde bu koşul sağlanmamaktadır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Metotların geri dönüş değerlerinin referans olması durumunda özel bir kural da vardır. Eğer metotların geri dönüş değeri
+    referans ise ve metodun birinci parametresi &self ya da &mut self biçimindeyse metoda ömür parametresi iliştirilmediği
+    durumda metodun geri dönüş değeri self referansının gösterdiği değişkenin ya da değerin ömrüyle ilişkilendirilmektedir.
+    Burada metodun birden fazla referans parametresi olsa da ilişkilendirme otomatik olarak her zaman self referansıyla
+    yapılmaktadır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn foo(&self) -> &i32 {             // geçerli
+            &self.a
+        }
+    }
+
+    Burada foo metodunun geri dönüş değeri için bir ömür parametresinin iliştirilmesine gerek yoktur. Zaten bu ömür otomatik
+    olarak self ile ilişkilendirilmektedir. Yani bu metot aşağıdakiyle tamamen eşdeğerdir:
+
+    impl Sample {
+        fn foo<'a>(&'a self) -> &'a i32 {         // geçerli
+            &self.a
+        }
+    }
+
+    Biz burada derleyiciye şunu söylemekteyiz: "Derleyici self referansının gösterdiği yerdeki değişkenin ya da değeri ömrü
+    en az geri dönüş değerinin atandığı referansın ömrü kadar olmalıdır". Örneğin:
+
+    fn main() {
+        let s = Sample {a: 10, b: 20};
+        let r: &i32;
+
+        r = s.foo();                // geçerli
+        println!("{}", *r);
+    }
+
+    Burada verilen söz yerine getirilmiştir. Ancak örneğin:
+
+    fn main() {
+        let r: &i32;
+
+        {
+            let s = Sample { a: 10, b: 20 };
+            r = s.foo();            // error!
+        }
+        println!("{}", *r);
+    }
+
+    Burada verilen söz yerine getirilmemiştir. foo metodunun geri döndürdüğü adresin yerleştirildiğ referansın ömrü self
+    referansının gösterdiği s değişkenin ömründen daha fazladır.
+
+    Metotlar söz konusu olduğunda eğer metoda ömür parametresi iliştirilmemişse metot birden fazla referans parametresine
+    sahip olsa bile ilişkilendirme self parametresine göre yapılmaktadır. Örneğin:
+
+    impl Sample {
+        fn foo(&self, r: &i32) -> &i32 {        // geçerli
+            &self.a
+        }
+    }
+
+    Burada ömür ilişkilendirmesi self referansına göre yapılmaktadır. Tabii biz artık r referansıyla geri dönemeyiz:
+
+     impl Sample {
+        fn foo(&self, r: &i32) -> &i32 {        // error!
+            r
+        }
+    }
+
+    Bir fonksiyonun ya da metodun bir referans parametresi içerisindeki adresle geri dönebilmesi için o parametreye ömür
+    bilgisinin iliştirilmiş olması gerekmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda açıkladığımız geri dönüş değeri referans olan fonksiyonlarda ve metotlarda ömür parametresinin elimine edildiği
+    (lifetime elision) durumlar hakkında özet bir kural da vermek istiyoruz. Eğer fonksiyonun hiçbir parametre değişkeninde
+    ve geri dönüş değerinin türünde bir ömür bilgisi kullanılmamışsa aşağıdaki üç kuralın uygulandığını varsayayabilirsiniz:
+
+    1) Önce referans olan her parametre değişkenine farklı bir bir ömür parametresi iliştirilir.
+
+    2) Eğer söz konusu olan bir fonksiyonsa ve fonksiyonun tek bir referans parametresi varsa geri dönüş değerindeki referansa
+    bu parametreye ilişkin ömür bilgisi iliştirilir.
+
+    3) Eğer söz konusu olan bir metotsa ve metodun birinci parametresi &self ya da &mut self ise metotun başka ne kadar çok
+    referans parametresi olursa olsun geri dönüş değerindeki referansa &self ya da &mut self parametresine iliştirilen
+    ömür bilgisiyle aynı ömür bilgisi iliştirilir.
+
+    Bu kurallara ilişkin birkaç örnek verelim:
+
+    fn foo(a: &i32) -> &i32 {       // geçerli
+        //...
+    }
+
+    Yukarıdaki birinci ve ikinci kurala göre bu fonksiyon aşağıdakiyle eşdeğerdir:
+
+    fn foo<'a>(a: &'a i32) -> &'a i32 {
+        //...
+    }
+
+    Örneğin:
+
+    impl Sample {
+        fn foo(&self, r: &i32) -> &i32 {        // geçerli
+            //...
+        }
+        //...
+    }
+
+    Buradaki metoda birinci ve üçüncü kurallar uygulandığında aşağıdakiyle eşdeğerdir:
+
+    impl Sample {
+        fn foo<'a>(&'a self, r: &i32) -> &'a i32 {
+            //...
+        }
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi bir fonksiyonun referans parametrelerinde birden fazla farlı ömür bilgisinin iliştirilmesinin bir anlamı olabilir
+    mi? Örneğin:
+
+    fn foo<'a, 'b>(x: &'a i32, y: &'b i32) -> &'a i32 {
+        //...
+    }
+
+    Biz ömür parametrelerini fonksiyonlarda ve metotlarda eğer fonksiyonların ya da metotların geri dönüş değerleri referansa
+    kullanmak zorundayız. Yukarıdaki örnekte geri dönüş değerinde yalnızca bir ömür kullanılacağına göre bu durum size anlamlı
+    gelmeyebilir. Ancak izleyen paragraflarda göreceğimiz gibi fonksiyonun geri dönüş değeri birden fazla ömür parametresi
+    içeren bir yapı ya da enum türünden olduğu durumlarda ya da fonksiyonun where koşullarının bulunduğu durumlarda fonksiyonun
+    birden fazla ömür parametresine sahip olması gerekebilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz generic fonksiyonlarda ve metotlarda trait sınırlaması (trait bound) trait'ler konusunda göreceğiz. Ancak bu
+    noktada özel bir ömür sınırlama sentaksı üzerinde durmak istiyoruz. Sınırlama (bounding) ileride de göreceğimiz gibi fonksiyonun
+    imzasından sonra (yani geri dönüş değerinin türünden sonra) where anahtar sözcüğü ile yapılmaktadır. Burada açıklayacağımız
+    özel ömür sınırlamasının sentaksı şu biçimdedir:
+
+    where  'a : 'b
+
+    Burada 'a ve 'b fonksiyonun ömür parametreleridir. Bu sentaks "'a ömrü en az 'b kadardır" anlamına geşmektedir. Bu sınırlama
+    belirtildikten sonra derleyici buradaki koşulun sağlanıp sağlanmadığını kontrol etmektedir. Örneğin:
+
+    fn foo<'a, 'b>(x: &'a i32, y: &'b i32) -> &'b i32
+    where
+        'a : 'b
+    {
+        if x > y {
+            x
+        }
+        else {
+            y
+        }
+    }
+
+    Burada biz derleyiciye 'a ömrünün en az 'b ömrü kadar olduğunu söyledik. Fonksiyonun geri dönüş değerinde 'b ömrünün
+    kullanıldığına dikkat ediniz. Bu fonksiyonun x ile gerş dönmesinde bir sakınca yoktur. Çünkü x'in gösterdiği yerdeki
+    değişken ya da değerin ömrü y'nin gösterdiği yerdeki değişken ya da değerin ömründen fazladır.
+---------------------------------------------------------------------------------------------------------------------------
+fn main() {
+    let a = 10;
+    let b = 20;
+    let r: &i32;
+
+    r = foo(&a, &b);
+    println!("{}", r);
+}
+
+fn foo<'a, 'b>(x: &'a i32, y: &'b i32) -> &'b i32
+where
+    'a : 'b
+{
+    if x > y {
+        x
+    }
+    else {
+        y
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki örneklerimizde ömür bilgilerini hep mut olmayan referanslarla kullandık. mut referanslarla da ömür bilgileri
+    aynı biçimde kullanılabilmektedir. mut referanlarda mut anahtar sözcüğü ömür bilgisinden sonra getirilmelidir. Örneğin:
+
+    fn foo<'a>(x: &'a mut i32, y: &'a mut i32) -> &'a mut i32
+    {
+        if x > y {
+            x
+        }
+        else {
+            y
+        }
+    }
+
+    Buradaki yazım stiline dikkat ediniz. & ile ömür parametresi bitişik yazılmış, sonra bir boşluk bırakılmış sonra mut
+    anahtar sözcüğü yazılmıştır.
+--------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut a = 10;
+    let mut b = 20;
+    let r: &mut i32;
+
+    r = foo(&mut a, &mut b);
+    println!("{}", *r);
+}
+
+fn foo<'a>(x: &'a mut i32, y: &'a mut i32) -> &'a mut i32
+{
+    if x > y {
+        x
+    }
+    else {
+        y
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Ömür bilgileri dilimlerde de aynı biçimde kullanılmaktadır. Örneğin:
+
+    fn foo<'a>(rt1: &'a(i32, i32), rt2: &'a (i32, i32)) -> &'a(i32, i32)
+    {
+        if rt1.0 + rt1.1 > rt2.0 + rt2.1 {
+            rt1
+        }
+        else {
+            rt2
+        }
+    }
+
+    Burada fonksiyon iki demet referansını parametre olarak almış ve nunlardan birinin adresini referans olarak geri döndürmüştür.
+    Tabii deemetlerin de elemanları referans olabilirdi. Örneğin:
+
+    fn foo<'a>(x: &'a i32, y: &'a i32) -> (&'a i32, &'a i32)
+    {
+        (x, y)
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let t1 = (10, 20);
+    let t2 = (30, 40);
+    let r: &(i32, i32);
+
+    r = foo(&t1, &t2);
+
+    println!("{}, {}", r.0, r.1);
+}
+
+fn foo<'a>(rt1: &'a(i32, i32), rt2: &'a (i32, i32)) -> &'a(i32, i32)
+{
+    if rt1.0 + rt1.1 > rt2.0 + rt2.1 {
+        rt1
+    }
+    else {
+        rt2
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonlardaki ve metotlaardaki ömür parametreleri açısal parantezler içerisinde belirtiliyordu. Ancak Rust'ta generic
+    fonksiyonlar ve metotlarda da generic parametreler aynı biçimde açısal parantezler içerisinde belirtilmektedir. Pekiyi
+    generic bir fonksiyon ya da metot aynı zamanda ömür parametresine de sahipse bunlar açısal parantezler içerisinde nasıl
+    belirtilecektir? İşte generic fonksiyonlar ve metotlar ömür parametrelerine de sahipse açısal parantezler içerisinde
+    "önce ömür parametrelerinin sonra generic parametrelerin belirtilmesi" gerekir. Aksi taktirde error oluşacaktır. Örneğin:
+
+    fn foo<'a, T>(x: &'a T, y: &'a T) -> &'a T {
+        //...
+    }
+
+    Burada önce ömür parametresi sonra generic parametre belirtilmiştir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de ömür bilgilerinin yapılardaki ve referanslardaki kullanımları üzerinde duralım. Yapı alanlarında ve enum
+    varyantlarında referanslarlar bulunuyorsa bu referanslar için ömür belirtilmesi zorunludur. Örneğin:
+
+    struct Sample {
+        x: &i32,            // error!
+        y: &i32             // error!
+    }
+
+    Burada Sample yapısının alanlarında referans kulanıldığı halde bu referanslara bir ömür bilgisi iliştirilmemiştir.
+    Yapıların tüm referans alanlarına ömür bilgisinin iliştirilmesi gerekmektedir. Aynı durum enum türlerindeki varyantlar
+    için de söz konusudur. Örneğin:
+
+    enum Color {
+        Red(&i32),          // error!
+        Green(&i32),        // error!
+        Blue(&i32),         // error!
+    }
+
+    Yapı alanlarına ve enum varyantlarına ömür parametreleri yapı ismi ya da enum isminden sonra açısal parantezlerle iliştirilmektedir.
+    Örneğin:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    Burada ömür parametresinin tıpkı fonksiyonlarda ve metotlarda olduğu gibi isimden sonra açısal parantezler içerisinde
+    belirtildiğine dikkat ediniz. Aynı durum enum türleri için de geçerlidir:
+
+    enum Color<'a> {
+        Red(&'a i32),
+        Green(&'a i32),
+        Blue(&'a i32),
+    }
+
+    Pekiyi aşağıdaki gibi bir yapı tanımlamasındaki ömür ne anlama gelmektedir?
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    İşte burada biz derleyiciye şunları söylemekteyiz: "Bu yapı türünden değişken ya da değer oluştururken x ve y alanlarına
+    yerleştireceğimiz adreslerdeki değişkenlerin ömürleri en az bu alanların ömürleri kadar olmalıdır." Eğer bu ömür koşulu
+    ihlal edilirse error oluşacaktır. Örneğin:
+
+    fn main() {
+        let a = 10;
+        let b = 20;
+
+        let s = Sample { x: &a, y: &b };        // geçerli
+        println!("{}, {}", s.x, s.y);
+    }
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    Buradaki örnekte herhangi bir sorun yoktur. Yapının alanlarına adresini yerleştirdiğimiz değişkenler em az yapı alanları
+    kadar yaşamaktadır. Ancak örneğin:
+
+    fn main() {
+        let s: Sample;
+
+        {
+            let a = 10;
+            let b = 20;
+            s = Sample { x: &a, y: &b };        // error!
+        }
+        println!("{}, {}", s.x, s.y);
+    }
+
+    Burada verilen söz tutulmamıştır. Yapının alanlarına adresini yerleştirdiğimiz a ve b değişkenlerinin en az yapı alanları
+    kadar yaşaması gerekmektedir. Halbuki örneğimizde bu söz tutulmamıştır..
+---------------------------------------------------------------------------------------------------------------------------
+
+    Ömür parametresine sahip yapı ve enum türleri için metotlar yazılırken kesinlikle ömür parametresinin hem impl anahtar
+    sözcüğünden sonra hem de yapı ya da enum isminden sonra açısal parantezler içerisinde belirtilmesi gerekmektedir.
+    Örneğin:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    impl Sample {           // error!
+        //...
+    }
+
+    Burada Sample için impl bloğu düzgün oluşturulmamıştır. Bu bloğun şöyle oluşturulması gerekirdi:
+
+    impl<'a> Sample<'a> {           // geçerli
+        //...
+    }
+
+    Aslında impl bloğundaki ömür parametreleri yapıdaki ömür parametreleriyle aynı isimde olmak zorunda değildir. Bunlar
+    pozisyonel olarak ilişkilendirilmektedir. Örneğin:
+
+    struct Sample<'a, 'b> {
+        x: &'a i32,
+        y: &'b i32
+    }
+
+    impl<'x, 'y> Sample<'x, 'y> {           // geçerli
+        //...
+    }
+
+    impl bloğundaki 'x aslında yapıdaki 'a anlamına, 'y ise yapıdaki 'b anlamına gelmektedir. Tabii yapıda ve impl bloğunda
+    farklı ömür isimlerinin verilmesine hiç gerek yoktur.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Referans alanlarına sahip olan yapı ve enum türlerinin ömür parametresine sahip olması gerektiğini belirttik. İşte ömür
+    parametresine sahip olan yapılar ve enum türleriyle geri dönen fonksiyonlarda yapı ya da enum türü ömür parametresiyle
+    belirtilmelidir. Yani siz referans alanlarına sahip bir yapıyı ya da referans varyantlarına sahip bir enum türünü
+    bir referans gibi düşünmelisiniz. Çünkü bu türden değişkenler ya da değerler aslında bir referans içermektedir. Örneğin:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    fn foo(x: &i32, y: &i32) -> Sample {            // error!
+        Sample { x, y }
+    }
+
+    Burada fonksiyonun geri dönüş değeri ömür parametresine sahip bir yapı türündendir. Geri dönüş değerinde ömür parametresinin
+    belirtilmesi gerekmektedir. Örneğin:
+
+    fn foo<'a>(x: &'a i32, y: &'a i32) -> Sample<'a> {
+        Sample { x, y }
+    }
+
+    Görüldüğü gibi nasıl fonksiyonun geri dönüş değeri referans iken ömür bilgisi gerekiyorsa burada da ömür bilgisi gerekmektedir.
+    Başka bir deyişle eğer fonksiyon bir ömür parametresine sahip yapı ya da enum türü ile geri dönüyorsa geri dönüş değerinde
+    ömür bilgisinin de belirtilmesi gerekmektedir. Pekiyi bu kuralın anlamı nedir? Yani yukarıdaki fonksiyonun geri dönüş değeri
+    neden Sample biçiminde değil de Sample<'a> biçiminde olmak zorundadır? İşte aslında programcının derleyiciye geri döndürdüğü
+    yapı değerinin alanlarındaki referansların ömürleri konsuunda da bildirimde bulunması gerekmektedir. Çünkü her ne kadar fonksiyonun
+    geri dönüş değeri bir referans değilse de aslında gizli bir biçimde bu fonksiyon referans geri döndürmektedir. Pekiyi biz
+    aşağıdaki imza ile derleyiciye ne söylemiş olmaktayız?
+
+    fn foo<'a>(x: &'a i32, y: &'a i32) -> Sample<'a>
+
+    Burada biz derleyiciye aslında şunları söylemekteyiz: "Bu fonksiyonun x ve y referans parametrelerinin gösterdiği yerdeki
+    değişkenler en az fonksiyonun geri döndürdüğü yapının x ve y referansları kadar yaşayacaktır.".
+
+    Tabii aynı gerekçe yapının bir elemanının ömür parametresi içeren yapı ya da enum türünden olması durumunda da söz konusudur.
+    Örneğin:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    struct Mample {
+        s: Sample       // error!
+    }
+
+    Bu konuyu kolay anlayabilmek için önerimiz şudur: Siz ömür parametresine sahip olan yapı ve enum türlerini ömür bakımından
+    sanki bir referans gibi düşünmelisiniz. Böyle düşündüğünüzde yukarıdaki Mample yapı tanımlamasının neden error oluşturduğunu
+    hemen anlaybilirsiniz. Anımsanacağı gibi "bir yapının elemanı bir referanssa yapıya ömür parametresi iliştirmek gerekiyordu."
+    O halde Mample yapısı şöyle tanımlanmalıydı:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    struct Mample<'a> {
+        s: Sample<'a>       // geçerli
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Ömür parametresine bir yapı ya enum türünde bu ömür parametresi yapı alanlarında kullanılmamışsa bu durum da error
+    oluşturmaktadır.
+    Örneğin:
+
+    struct Sample<'a> {         // error!
+        x: i32,
+        y: i32
+    }
+
+    Burada ömür parametresi gereksiz biçimde kullanılmıştır. Bu durum error oluşturacaktır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de ömür parametresine sahip olan yapı ve enum türlerinin metotlarının nasıl yazılacağı üzerinde duralım. Yine aşağıdaki
+    gibi bir yapımız olsun:
+
+    struct Sample<'a> {
+        x: &'a i32,
+        y: &'a i32
+    }
+
+    Bunun için impl bloğunun aşağıdaki gibi oluşturulması gerektiğini belirtmiştik:
+
+    impl<'a> Sample<'a> {
+        //...
+    }
+
+    İşte yapının metotları ve ilişkili fonksiyonları yazılırken impl bloğunda belirtilen ömür parametrelerinden faydalanılabilmektedir.
+    Örneğin bu yapıya new isimli bir ilişki fonksiyonu yerleştirelim:
+
+    impl<'a> Sample<'a> {
+        fn new(x: &'a i32, y: &'a i32) -> Sample<'a> {      // geçerli
+            Sample { x, y }
+        }
+    }
+
+    Burada new ilişkili fonksiyonunun geri dönüş değerinde ömür bilgisinin kullanıldığına dikkat ediniz. Biz burada derleyiciye
+    şu sözü vermekteyiz: "new fonksiyonuna adresi geçirilen değişkenler en az bu fonksiyonun geri döndürdüğü yapı değerinin
+    x ve y referansları kadar yaşayacaktır." Aşağıdaki örnekte sözümüzü tutuyoruz:
+
+    fn main() {
+        let a = 10;
+        let b = 20;
+
+        let s = Sample::new(&a, &b);
+        println!("{}, {}", *s.x, *s.y);
+    }
+
+    Aşağıdaki örnekte ise sözümüzü tutmadığımız için error oluşacaktır:
+
+    fn main() {
+        let s: Sample;
+
+        {
+            let a = 10;
+            let b = 20;
+            s = Sample::new(&a, &b);    // error!
+        }
+
+        println!("{}, {}", *s.x, *s.y);
+    }
+
+    Şimdi de yapımıza bir disp metodu da ekleyelim:
+
+    impl<'a> Sample<'a> {
+        fn new(x: &'a i32, y: &'a i32) -> Sample<'a> {
+            Sample { x, y }
+        }
+
+        fn disp(&self) {
+            println!("x: {}, y: {}", self.x, self.y);
+        }
+    }
+
+    disp metodunda bizim ömür parametresini kullanmamız gerekmemiştir. Ömür parametreleri ancak "geri dönüş değeri referans
+    olan fonksiyonlar ve metotlarda, referans parametresine sahip olan yapılarda ve enum türlerinde gerekmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+# 53.  Ders 29/09/2025 - Pazartesi
+
+    Rust'ta 'static biçiminde belirtilen özel bir ömür bilgisi de vardır. Bu ömür bilgisinin kullanılması için buna ilişkin
+    bir ömür parametresinin belirtilmesine gerek yoktur. Örneğin:
+
+    let r: &'static str;
+
+    &'static ömür bilgisi şu anlama gelmektedir: "Bu referansın gösterdiği yerdeki değişken ya da değer program çalıştığı
+    sürece bellekte kalacaktır." Tabii eğer bu sözde durulmazsa derleme aşamasında error oluşacaktır.
+
+    Rust'ta tüm string sabitleri (yani iki tırnak içerisindeki yazılar) tıpkı C'de olduğu gibi program çalıştırığı sürece
+    bellekte kalmaktadır. Yani Rust'ta string sabitlerini biz string dilim referansına atarken istersek 'static ömür bilgisini
+    de kullanabiliriz. Ancak bu kullanmamıza gerek yoktur. Örneğin:
+
+    let sr: &'static str;
+
+    sr = "ankara";     // geçerli
+
+    Ancak örneğin:
+
+    let s = String::from("ankara");
+    let sr: &'static str;
+
+    sr = s.as_str();        // error!
+
+    Burada verilen söz tutulmamıştır. Çünkü String türünden yapı değişkenin içerisindeki dizide bulunan yazıdan elde edilen string
+    diliminin ömrü 'static değildir.
+
+    Tabii yukarıdaki gibi yerel referanslarda 'static ömür bilgisinin kullanılması aslında gerekli değildir. Biz burada
+    yalnızca komuyu açıklamak için bu örneği verdik. Aşağıdaki gibi bir fonksiyon imzası söz konusu olsun:
+
+    fn foo() -> &'static str
+
+    Burada foo fonksiyonu çağrıldığında elde edilen string dilim referansının gösterdiği yerdeki dilim programın çalışma
+    zamanı boyunca bellekte kalmak zorundadır. Tabii muhtemelen bu fonksiyon tipik olarak bir string sabiti ile geri
+    döndürülecektir. Örneğin:
+
+    fn foo() -> &'static str {
+        "ankara"
+    }
+
+    Böyle bir fonksiyonda geri dönüş değerine bir ömür parametresinin iliştirilmesi gerektiğini belirtmiştik:
+
+    fn foo() -> &str {          // error!
+        "ankara"
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Konuyu kapatmadan ömür parametresinin ve ömür bilgisinin iliştirilmesinin zorunlu olduğu durumları yeniden özetliyoruz:
+
+    1) Fonksiyonun geri dönüş değerinin referans olması durumunda geri dönüş değerine ömür bilgisi iliştirilmelidir. Ancak
+    eğer fonksiyonun tek bir referans parametresi varsa ve metotlarda self ile ilgili bir referansa geri dönülmüşse bu durumda
+    ömür belirtilemeyebilir. Buna "lifetime elision" denildiğini anımsayınız. Tabii metotlardaki geri dönüş değeri başka bir
+    metot parametresi ile ilgiyise ömür bilgisinin iliştirilmesi gerekir.
+
+    2) Yapı alanlarının ve enum varyantlarının referans olması durumunda bu elemanlara ömür bilgisinin iliştirilmesi ve
+    impl bloklarında da bu ömür bilgisinin bulundurulması zorunludur. Bu tür durumlarda yapı ve enum türleri tanımlanırken
+    yapı ve enum isminden sonra açısal parantezler içerisinde ömür parametrelerinin belirtilmesi gerekri.
+
+    3) Fonksiyon bir referans içeren yapı ya da enum türü ile geri dönüyorsa başka bir deyişle ömür parametresi içeren bir
+    yapı ya da enum türüyle geri dönüyorsa (bu durum özyinelemeli olarak ele alınmaktadır) geri dönüş değerinde ömür bilgisinin
+    bulunması gerekir.
+
+    4) Bir yapının bir alanı ya da bir enum türünün bir varyantı ömür parametresine sahip bir yapı ya da enum türündense
+    bu yapı ya da enum türünde ömür parametreleri belirtilmeli ve alanlarına da ömür bilgisi iliştirilmelidir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta const öğeler (constant items) bildirilebilmektedir. const öğelerin bildirilmesinin genel biçimi şöyledir:
+
+    const <değişken_ismi>: <tür> = <sabit_ifadesi>;
+
+    Görüldüğü gibi bilirim const anahtar sözcüğü ile başlatılmıştır. Onu bir isim, tür bilgisi ve ilkdeğer kısmı izlemektedir.
+    Örneğin:
+
+    const SIZE: i32 = 10;       // geçerli
+
+    const bir öğeye verilen ilkdeğerin sabit ifadesi olması zorunludur. Örneğin:
+
+    const SIZE: i32 = foo();        // error!
+
+    Burada const öğeye verilen ilkdeğer bir sabit ifadesi değildir. Ancak örneğin:
+
+    const SIZE: i32 = 10 + 20;      // geçerli
+
+    Buradaki 10 + 20 bir sabit ifadesi belirtmektedir.
+
+    const bir öğeye ilkdeğer verilmesi zorunludur. Özel bir durum olarak trait'lerdeki const öğelere ilkdeğer verilmeyebilir.
+    Örneğin:
+
+    const SIZE: i32;            // error!
+
+    Rust derleyicileri bu biçimde bildirilmiş olan const öğeler için yer ayırmamaktadır. Bunlar C'deki #define ile oluşturulmuş
+    sembolik sabitlere benzetilebilir.
+
+    const bir öğede mutlaka türün açıkça belirtilemsi gerekmektedir. Yani const öğeye verilen ilkdeğerden tür çıkarımı yapılmamaktadır.
+    Örneğin:
+
+    const SIZE = 10i32;     // error!
+
+    let deyimi bir kalıp uyuşumu semantiği ile çalışır. Halbuki const öğeler farklı crate'lerden kullanılabilmektedir. Nasıl
+    fonskiyonların dış kullanım için imzaları varsa const öğelerin de açıkça bir türünün olması istenmiştir.
+
+    Global const öğeleri biz bütün fonksiyonalardan sanki sembolik sabitlermiş gibi kullanabiliriz. Örneğin:
+
+    fn main() {
+        println!("{}", SIZE);       // geçerli
+    }
+
+    const SIZE: i32 = 10;
+
+    fn foo() {
+        println!("{}", SIZE);       // geçerli
+    }
+
+    fn bar() {
+        println!("{}", SIZE);       // geçerli
+    }
+
+    const öğenin bildirim yerinden daha yukarıda da kullanılabildiğine dikkat ediniz. "The Rust Reference" dokümanlarındaki
+    gramerde "const öğeler (constant item)" tıpkı fonksiyon tanımlamaları gibi, yapı ve enum tanımlamaları gibi "öğe (item)"
+    grubunun içerisinde bulundurulmuştur. Global ve hatta yerel öeğelerde sıranın bir öneminin olmadığını anımsayınız.
+
+    const bir öğeye isim verilmeyebilir. İsimsiz const öğeler oluşturmak için isim yerine _ karakteri kullanılmaktadır.
+    Örneğin:
+
+    const _: i32 = 10;      // geçerli ama anlamsız!
+
+    Yukarıdaki const öğe bildirimi geçerlidir. Ancak bu haliyle anlamsızdır. Pekiyi o zaman isimsiz const öğe oluşturmanın
+    ne anlamı olabilir? const öğelerin her zaman derleme zamanında ele alındığını belirtmiştik. İşte kodumuzda derleme
+    zamanında yapılmasını istediğimiz çeşitli kontrolleri bu sayede yapabiliriz. Örneğin:
+
+    const _: () = assert!(std::mem::size_of::<usize>() == 8);
+
+    Burada aslında bir çeşit "static assert mekanizması" oluşturulmuştur. Rust'ta global bölgede yalnızca öğeleri (items)
+    bulundurabiliriz. Orada bir fonksiyon ya da makro çağırması yapamayız. İşte bu alana bazı kontrolleri isimsiz const
+    öğelerle yukarıdaki gibi dolaylı bir biçimde yerleştirebilmekteyiz.
+
+    "The Rust Reference" dokümanlarında const öğeye verilen ilkdeğerin bir "ifade (expression)" olableceği belirtilmiştir.
+    Ancak bu ifadenin sabit ifadesi belirtmesi gerekir. Blokların da bir ifade belirttiğini anımsayınız. Yani gramer olarak
+    aşağıdaki const öğe bildirimi de geçerlidir:
+
+    const SIZE: i32 = {     // geçerli
+        10
+    };
+
+    Tabii bu ifadedeki her ifadenin de sabit ifadesi belirtmesi gerekir. Örneğin:
+
+    const SIZE: i32 = {             // error!
+        println!("ankara");
+        10
+    };
+
+    Örneğin:
+
+    const SIZE: i32 = {             // geçerli
+        assert!(1 == 1);
+        10
+    };
+
+    assert! makrosunun bir ifadesi oluşturduğunu belirtmiştik.
+
+    const öğelere const fonksiyonlarla da ilkdeğer verilebilmektedir. const fonksiyonları izleyen paragraflarda ele alacağız.
+
+    const öğeler fonksiyonların yerel bloklarında da bildirilebilir. Örneğin:
+
+    fn hello() {
+        const SIZE: i32 = 100;
+
+        println!("{}", SIZE);
+    }
+
+    Tabii bu biçimdeki const öğeler yalnızca bildirildikleri blokta kullanılabilmektedir. Böyle bir kullanımla oldukça
+    seyrek karşılaşılmaktadır. Öğeler için öncelik sonralık ilişkisi olmadığı için aşağıdaki kullanım tuhaf olmakla birlite
+    geçerlidir:
+
+    fn foo() {
+        println!("{}", SIZE);
+
+        const SIZE: i32 = 100;
+    }
+
+    "The Rust Reference" dokümanlarında bir türle ilişkili olmayan const öğelere "serbest const öğeler (free constant)" de
+    denilmektedir. Dokümanlar herhangi bir türe ilişkin olmayan serbest const öğelerin her zaman derleme aşamsında ele alındığını
+    belirtmektedir. Dolayısıyla aşağıdaki static assert etkisi oluşturan const öğe bir fonksiyonda yazılmış olsa da derleme
+    aşamasında etki göstermektedir:
+
+    fn hello() {
+        const _: () = assert!(std::mem::size_of::<usize>() == 8);
+        //...
+    }
+
+    Ancak impl bloğu içerisindeki const öğeler "serbest const" öğe kabul edilmemektedir.
+
+    Rust'ta const öğelere büyük harflerden oluşan isimler vermek bir yazım geleneğidir. (C'de #define sembolik sabitlerinin
+    de genellikle büyük harflerle isimlendirildiğini anımsayınız.)
+
+# 54. Ders 01/10/2025 - Çarşamba
+
+    Rust'ta const öğe bir referans olabilir. Ancak o referansın gösterdiği yerin 'static ömre sahip olması gerekir. Örneğin:
+
+    const MSG: &str = "ankara";     // geçerli
+
+    Biz MSG öğesini kullandığımızda aslında "ankara" yazısının adresine ilişkin dilim referansını kullanmış oluruz.
+
+    const bir öğe mut bir referans olamaz. Örneğin:
+
+    const REF: &mut i32 = &mut 10;      // error!
+
+    const öğeler sabit ifadesi belirtmektedir. Yani siz const bir öğenin kullanılması durumunda aslında derleyicinin kullanılan
+    yere const öğeye verilen ilkdeğerin yerleştirdiğini varsayabilirsiniz. Dolayısıyla const bir öğe için bellekte bir yer
+    ayrılmamaktadır. Bu durum "The Rust Reference" dokümanlarında const öğelerin "inline" etki yarattığı biçiminde açıklanmıştır.
+    "The Rust Reference" dokümanları şöyle demektedir:
+
+    "Constants are essentially inlined wherever they are used, meaning that they are copied directly into the relevant context
+    when used. This includes usage of constants from external crates, and non-Copy types."
+
+    Burada denmek istenen şey şudur: Bir const öğe kullanıldığında adeta C'deki #define gibi ona verilen ilkdeğer kullanım
+    yerine yerleştirilmektedir.
+
+    const öğeler için bellekte bir yer ayrılmadığından onların mut olması zaten anlamsızdır:
+
+    const mut SIZE: i32 = 10;       // error! const öğe için yer ayrılmıyor ki mut olsun
+
+    Örneğin:
+
+    const SIZE: usize = 5;
+    //...
+
+    let a: [i32; SIZE];     // geçerli
+
+    Dizi uzunluklarının usize türünden sabit ifadesi olması gerektiğini belirtmiştik. Burada derleyici yukarıdaki bildirimin
+    şöyle yapılmış olduğunu varsaymaktadır:
+
+    let a: [i32; 5usize];
+
+    Örneğin:
+
+    const MIN: i32 = 5;
+    const MAX: i32 = MIN + 10;          // geçerli
+
+    Burada MIN bir sabit ifadesi belirttiği için derleyici MAX bildirimini aşağıdakiyle eşdeğer kabul etmektedir:
+
+    const MAX: i32 = 5i32 + 10;
+
+    const bir öğe bir yapı türünden ya da enum türünden olabilir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    const CS: Sample = Sample { a: 10, b: 20 };
+
+    Burada CS const öğesi Sample yapısı türündendir. const öğelere sabit ifadeleriyle ilkdeğer verilmesinin zorunlu olduğunu
+    belirtmiştik. Burada ilkdeğer olarak verilen Sample yapı değerinin her alanının sabit ifadesiyle değer aldığına dikkat
+    ediniz. Örneğin:
+
+    let x = 10;
+    let y = 20;
+
+    const S: Sample = Sample { a: x, b: y };          // error!
+
+    Burada muhtemelen yerel bir const öğe tanımlanmak istenmiştir. Ancak yapı alanlarına sabit ifadesiyle ilkdeğer verilmediği
+    için const öğe bildirimi geçerli değildir.
+
+    Yukarıdaki gibi yapı türünden const öğe program içerisinde kullanıldığında sanki ona verilen ilkdeğerdeki geçici yapı
+    değişkeni kullanılıyormuş gibi olur. Sonuçta yine bu const öğe için de belllekte bir yer ayrılmayacaktır. Ancak bu
+    const öğe kullanıldığında geçici değişken oluşturulacaktır. Örneğin:
+
+    fn main() {
+        let x: i32;
+        let y: i32;
+
+        x = CS.a;       // x = Sample { a: 10, b: 20 }.a
+        y = CS.b;       // y = Sample { a: 10, b: 20 }.b
+    }
+
+    const CS: Sample = Sample { a: 10, b: 20 };
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping a sample");
+        }
+    }
+
+    Burada main fonksiyonu içerisinde yapı türünden const öğe CS.a ve CS.b biçiminde kullanılmıştır. Yukarıda da belirttiğimiz
+    gibi aslında bir const öğe kullanıldığında o const öğeye verilen ilkdeğer kullanılmış gibi olmaktadır. Bu C'deki #define
+    oluşturulmuş makrolara semantik olarak oldukça benzemektedir. main içerisindeki CS.a ifadesi tamamen derleyici tarafından
+    Sample {a: 10, b: 20}.a biçiminde, CS.b ifadesi ise Sample {a: 10, b: 20}.b biçiminde ele alınacaktır. Görüldüğü gibi burada
+    geçici bir yapı değişkeni yaratılmaktadır. Bu örneğimizde eğer Sample türü için drop metodu yazılmışsa bu drop metotlarının
+    çağrıldığını göreceksiniz. Pekiyi ne olursa olsun CS.a ve CS.b ifadeleri yine de sabit ifadesi belirtmekte midir? İşte eğer
+    ilgili yapı için Drop trait'i desteklenmemişse (yani yapı için drop metodu yazılmamışsa) Sample {a: 10, b: 20}.a ve
+    Sample {a: 10, b: 20}.b ifadeleri sabit ifadesi olarak ele alınmaktadır. Başka bir deyişle bu durumda derleyici aslında bir
+    geçici değişken yaratmayacaktır. Ancak ilgili tür (örneğimizde Sample) Drop trait'ini destekliyorsa bu durumda CS.a ve CS.b
+    ifadeleri sabit ifadesi belirtmemektedir. Tabii biz yapı türünden const bir öğeyi bir bütün olarak kullandığımızda bu ifade
+    söz konusu yapı Drop trait'ini desteklese de desteklemese de sabit ifadesi belirtmektedir. Örneğin:
+
+    const CS: Sample = Sample {a: 10, b: 20};
+    const XS: Sample = CS;             // Sample drop trait'ini desteklese de geçerli
+
+    Bir dizi türünden const bir öğe de söz konusu olabilir. Tabii bu durumda dizi elemanlarına verilen ilkdeğerlerin sabit
+    ifadesi olması gerekir. Örneğin:
+
+    const SIZES: [i32; 5] = [1, 2, 3, 4, 5];
+
+    const bir dizi öğesi ile ilgili dizinin herhangi bir elemanına erişildiğinde artık o eleman da sabit ifadesi belirtecektir.
+    Örneğin:
+
+    const SIZES: [i32; 5] = [1, 2, 3, 4, 5];
+    const VAL: i32 = SIZES[2];      // geçerli
+
+    Burada SIZES[2] sabit ifadesi belirtmektedir. Yani ifade adeta [1, 2, 3, 4, 5][2] ifadesi ile eşdğerdir. Bu ifadeden
+    derleme aşamasında sabit bir değer elde edilebilmektedir. Tabii dizi elemanına erişmekte kullandılan köşeli parantez
+    içerisindeki ifadenin de sabit ifadesi olması gerekir. Yani örneğin SIZES[2] bir sabit ifadesi belirtir, ancak SIZES[i]
+    bir sabit ifadesi belirtmez.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Pekiyi const bir öğenin adresi alınabilir mi? İlk bakışta const öğeler bellekte bir yer belirtmedikleri için onların
+    adreslerinin alınmasının da geçerli olmadığını düşünebilirsiniz. Ancak anımsayacağınız gibi Rust'ta sabitlerin de adresleri
+    alınabilmektedir. O halde const öğelerin de adreslerini alabiliriz. Bu durumda aslında o const öğenin temsil ettiği sabitin
+    adresi alınmış olur. Bir sabitin adresi alındığında da önce o sabitin geçici bir değişkene yerleştirildiğini ve aslında o
+    geçici değişkenin adresinin alındığını anımsayınız. O halde sonuçta Rust'ta const öğelerin adresleri alınabilmektedir.
+    Örneğin:
+
+    fn main() {
+        let r: &i32 = &SIZE;
+
+        println!("{}", *r);         // 10
+        //...
+    }
+
+    const SIZE: i32 = 10;
+
+    Burada main fonksiyonunda yapılanların eşdeğeri şöyledir:
+
+    fn main() {
+        let r: &i32 = &10;
+
+        println!("{}", *r);         // 10
+        //...
+    }
+
+    Aynı sabitin adresi mut olmayan bir biçimde alındığında derleyicilerin her defasında ayrı bir yer ayırmayabileceğini
+    belirtmiştik. Aşağıdaki örnekte ekrana aynı adresler basılabilecektir:
+
+    fn main() {
+        let r: &i32 = &SIZE;
+        let k: &i32 = &SIZE;
+
+        println!("{:p}", r);
+        println!("{:p}", k);
+    }
+
+    const SIZE: i32 = 10;
+
+    Tabii yukarıdaki örnekte referansların biri mut olsaydı derleyici mecburen her iki sabit için farklı geçici değişkenler
+    oluşturacaktı. Burada önemli bir noktayı vurgulamak istiyoruz. const bir öğe bir değişken belirtmemektedir. Yani const
+    öğeler için bellekte bir yer ayrılmamaktadır. Dolayısıyla const bir öğenin adresini aldığnızda siz aslında bir sabitin
+    adresini almış gibi olmaktasınız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Rust'ta static öğeleri görelim. static öğelerin bildiriminin genel biçimi şöyledir:
+
+    static <değişken_ismi>: <tür> = <sabit_ifadesi>;
+
+    Bu genel biçimden de görüldüğü gibi static öğeler de const öğeler gibi bildirilmektedir. Ancak bildirimde const anahtar
+    sözcüğü yerine static anahtar sözcüğü kullanılmaktadır. Örneğin:
+
+    static COUNT: i32 = 10;
+
+    static öğelere de sabit ifadeleriyle ilkdeğer verilmesi zorunludur. static öğeler bildirilirken yine türün açıkça belirtilmesi
+    gerekir.
+
+    Pekiyi static ile const öğe arasında ne farklılık vardır? const öğeler için bellekte bir yer ayrılmamaktadır. const öğe
+    kullanıldığonda ona verilmiş ilkdeğer kullanılıyor gbi olmaktadır. static öğeler ise bir değişken belirtmektedir. Yani
+    static öğeler için bellekte yer ayrılmaktadır. Biz static öğeleri kullandığımızda bir değişkeni kullanmış oluruz.
+
+    static öğeler yine global ve yerel düzeyde bildirilebilmektedir. static global bir öğeyi biz programın her yerinde
+    kullanabiliriz. Örneğin:
+
+    fn main() {
+        println!("{}", COUNT);
+
+        foo();
+        bar();
+    }
+
+    fn foo() {
+        println!("{}", COUNT);
+    }
+
+    fn bar() {
+        println!("{}", COUNT);
+    }
+
+    static COUNT: i32 = 10;
+
+    Global static bir öğenin programın farklı yerlerinde adresi alındığında hep aynı adres elde edilmektedir. Çünkü global
+    static bir öğe için toplamda tek bir yer ayrılmaktadır. Dolayısıyla her zaman o yerin adresi elde edilir. mut olmayan
+    static öğeleri biz C'deki global const değişkenlere benzetebiliriz.
+
+    Rust'ta static öğeler yerel de olabilmektedir. Bu durum tamamen C'deki static yerel değişkenlere benzemektedir. static
+    yerel öğeler ancak bildirildikleri blokta kullanılabilirler. Programın akışı bloktan çıksa bile bellekte kalmaya devam
+    ederler. static yerel öğeler static ömre sahiptir. Örneğin aşağıdaki programda ekrana hep aynı adres basılacaktır:
+
+    fn main() {
+        let mut r: &i32;
+
+        r = foo();
+        println!("{:p}", r);
+
+        r = foo();
+        println!("{:p}", r);
+
+        r = foo();
+        println!("{:p}", r);
+    }
+
+    fn foo() -> &'static i32 {
+        static COUNT: i32 = 0;
+
+        &COUNT
+    }
+
+    static öğelere sabit ifadesi ile ilkdeğer veriliyor olsa da static öğeler sabit ifadesi belirtmezler. Örneğin:
+
+    static COUNT: i32 = 10;
+    const SIZE: i32 = COUNT;            // error!
+
+    Burada COUNT değişkeni bir sabit ifadesi belirtmediği için error oluşacaktır.
+
+    Rust'ta static ömürlü değişkenlerin değiştirilmesi Rust'ın temel tasarım özelliklerine aykırı bir durumdur. Pekiyi o zaman
+    static bir öğe mut olabilir mi? Evet static bir öğe mut olabilir. Fakat o öğenin değeri ancak unsafe bir blok içerisinde
+    değiştirilebilmektedir. Örneğin:
+
+    fn main() {
+        println!("{}", COUNTER);            // error!
+        COUNTER += 1;
+        println!("{}", COUNTER);            // error!
+    }
+
+    static mut COUNTER: u32 = 0;
+
+    Yularıdaki örnekte mut bir static öğe unsafe blok olmadan değiştirilmek istenmiştir. Bu nedenle error oluşacaktır. Ancak
+    mut bir static öğeyi biz unsafe blok içerisinde değiştirebiliriz:
+
+    fn main() {
+        unsafe {
+            println!("{}", COUNTER);            // geçerli
+            COUNTER += 1;
+            println!("{}", COUNTER);            // geçerli
+        }
+    }
+
+    static mut COUNTER: u32 = 0;
+
+    static yerel bir öğe static ömürlü olduğu için program çalışmaya başladığında yaratılır, akış fonksiyondan çıksa bile
+    yaşamaya devam eder. Aşağıdaki örnekte foo fonksiyonunun içerisinde COUNTER isimli mut bir static öğe kullanılmıştır.
+    Fonksiyon her çağrıldığında bu öğenin değeri 1 artırılmıştır.
+
+    fn main() {
+        for i in 0..10 {
+            println!("{}", foo());
+        }
+    }
+
+    fn foo() -> i32 {
+        static mut COUNTER: i32 = 0;
+
+        unsafe {
+            COUNTER += 1;
+        }
+        COUNTER
+    }
+
+    Burada static yerel öğeye ilkdeğerin derleme aşamasında yerleştirildiğine ve bu ilkdeğer verme işleminin fonksiyon
+    çağrıldığında tekrar tekrar yapılmadığına dikkat ediniz.
+
+    Görüldüğü gibi Rust'taki global static öğeler C'deki global değişkenlere, yerel static öğeler ise C'deki static yerel
+    değişkenlere benzemektedir.
+
+    Rust'ta tıpkı const öğeler gibi static öğeler de geleneksel olarak büyük harflerle isimlendirilmektedir.
+
+    static bir öğe bir referans türünden olabilir. Fakat referansların gösterdiği yerdeki değişkenlerin en az referanslar
+    kadar yaşaması gerektiği için referans türünden static öğelere ancak static öğelerin adresleri atanabilmektedir. Örneğin:
+
+    fn foo() {
+        let x = 10;
+        static RX: &i32 = &x;       // error!
+        //...
+    }
+
+    Burada referans türünden static öğeye daha kısa ömürlü bir yerel değişkenin adresi atanmıştır. Bu durum error oluşturacaktır.
+    Örneğin:
+
+    static X: i32 = 10;
+
+    fn foo() {
+        let x = 10;
+        static RX: &i32 = &X;       // geçerli
+        //...
+    }
+
+    Burada ise referans türünden yerel static öğeye static ömürlü bir öğenin adresi atanmıştır. Tabii biz istersek referans
+    türünden static öğelere 'static ömür bilgisisini iliştirebiliriz:
+
+    static X: i32 = 10;
+
+    fn foo() {
+        let x = 10;
+        static RX: &'static i32 = &X;       // geçerli
+        //...
+    }
+
+    Tabii buna gerek yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+
 
 
