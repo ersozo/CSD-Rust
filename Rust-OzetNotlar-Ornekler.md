@@ -5075,50 +5075,50 @@
     match kollarına yukarıdan aşağıya doğru bakıldığını anımsayınız. Bu durumda biz değişken kalıbını örneğin sabit kalıplarından
     sonraya yerleştirebiliriz:
 
-    val = getval();
-    match val {
-        10 => println!("this is literal pattern 10"),
-        x => println!("{}", x),
-    }
+        val = getval();
+        match val {
+            10 => println!("this is literal pattern 10"),
+            x => println!("{}", x),
+        }
 
     Burada eğer val 10 ise birinci kol, val 10 dğeilse ikinci kol işletilecektir.
 
     Değişken kalıbı size biraz anlamsız gelebilir. Ne de olsa match edilen değer zaten match anahtar sözcüğünün yanındaki
     değerdir. Yani örneğin yukarıdaki örnek işlevsel olarak aşağıdakiyle eşdeğerdir:
 
-    val = getval();
-    match val {
-        10 => println!("this is literal pattern 10"),
-        _ => println!("{}", val),
-    }
+        val = getval();
+        match val {
+            10 => println!("this is literal pattern 10"),
+            _ => println!("{}", val),
+        }
 
     Pekiyi o zaman gerçekten değişken kalıbı gereksiz midir? Yanıt hayır. Biz henüz pek çok kalıbı görmedik. Başka kalıplarda
     uyuşum sağlayan değerlerin değişkenlere atanmasının önemi ortaya çıkmaktadır.
 
     Değişken kalıbında ayrıca değişkenin önüne mut anahtar sözcüğü de getirilebilir. Bu durumda değişken "mutable" olur. Örneğin:
 
-    val = getval();
-    match val {
-        mut x => {
-            println!("{}", x);
-            x = 20;
-            println!("{}", x);
+        val = getval();
+        match val {
+            mut x => {
+                println!("{}", x);
+                x = 20;
+                println!("{}", x);
+            }
         }
-    }
 
     Eğer burada x'i mut yapmasaydık blok içerisinde x'in değerini değiştiremezdik.
 ---------------------------------------------------------------------------------------------------------------------------
     if anahtar sözcüğü ile kalıplara bir koşul da eklenebilir. Bu durumda kalıp şu hale gelmektedir:
 
-    <kalıp> if <koşul>
+        <kalıp> if <koşul>
 
-    Burada uyuşum ancak ilgili koşul sağlandığında sağlanmaktadır. Örneğin:
+        Burada uyuşum ancak ilgili koşul sağlandığında sağlanmaktadır. Örneğin:
 
-    val = getval();
-    match val {
-        x if x > 0 => println!("positive: {}", x),
-        _ => println!("zero or negative"),
-    }
+        val = getval();
+        match val {
+            x if x > 0 => println!("positive: {}", x),
+            _ => println!("zero or negative"),
+        }
 
     Buradaki if anahtar sözcüğünün else kısmı yoktur. if anahtar sözcüğünü bir koşul izlemek zorundadır. Tabii yukarıdaki
     örnekte böyle bir koşul eklendiğinde artık match ifadesi "exhaustive" olmaktan çıkmaktadır. Değişken kalıbına if kullanma
@@ -5129,15 +5129,15 @@
     bir değişken sağına ise bir kalıp getirilir. Bağlama yapılmış kalıplara "at kalıpları (at patterns) " da denilmektedir.
     Eğer @ atomunun sağındaki kalıp uyuşum sağlarsa uyuşan değer soldaki değişkene yerleştirilmektedir. Örneğin:
 
-    val = getval();
-    match val {
-        x @ 1..20 => println!("{}", x),
-        _ => println!("zero or negative"),
-    }
+        val = getval();
+        match val {
+            x @ 1..20 => println!("{}", x),
+            _ => println!("zero or negative"),
+        }
 
     Burada at kalıbının kullanıldığı kola dikkat ediniz:
 
-    x @ 1..20 => println!("{}", x),
+        x @ 1..20 => println!("{}", x),
 
     Eğer match anahtar sözcüğünün yanındaki ifadenin değeri 1..20 aralığındaysa uyuşum sağlanacak ve bu değer x'e atanacaktır.
     Bağlama işleminde @ atomunun sağındaki kalıbın uyuşumu dikkate alınmaktadır. Uyuşum sağlanırsa ilgili değer x değişkenine
@@ -5149,34 +5149,34 @@
     Biz bu bölümde match kalıplarının şimdilik bu kadarını gördük. Başka konular işlendikçe o konulara ilişkin kalıplar ayrıca
     ele alınacaktır. Henüz ele almadığımız tipik kalıplar şunlardır:
 
-    - enum kalıpları
-    - Yapı kalıpları
-    - Demet kalıpları
-    - Dizi kalıpları
-    - ref ve ref mut kalıpları
+        - enum kalıpları
+        - Yapı kalıpları
+        - Demet kalıpları
+        - Dizi kalıpları
+        - ref ve ref mut kalıpları
 ---------------------------------------------------------------------------------------------------------------------------
     match deyimi aynı zamanda bir ifade belirttiğine göre bir match kolunda başka bir match ifadesi bulunabilir. Örneğin:
 
-    match val1 {
-        1..20 => match val2 {
-            //...
-        },
-        _ => (),
-    }
+        match val1 {
+            1..20 => match val2 {
+                //...
+            },
+            _ => (),
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Aslında Rust'ta let deyimi de match gibi kalıp uyuşumu ile bağlama yapmaktadır. Yani match ifadesindeki kalıpların hepsi
     olmasa da birçoğu aslında let deyiminde de kullanılabilmektedir. Örneğin:
 
-    let a = 10;
+        let a = 10;
 
     Bu let deyimini biz match ifadesinde gördüğümüz "değişken kalıbı (identifier pattern)" biçiminde ele alabiliriz. Örneğin:
 
-    let (a, b) = (10, 20);
+        let (a, b) = (10, 20);
 
     Burada aslında kaynak değer bir demettir. let deyiminde de "demet kalıbı (tuple pattern)" kullanılmıştır. Örneğin:
 
-    let a = [10, 20, 30];
-    let [x, y, z] = a;
+        let a = [10, 20, 30];
+        let [x, y, z] = a;
 
     Burada biz aslında x, y, ve  değişkenlerini oluşturmuş olmaktayız. x'in içerisine 10, y'nin içerisine 20 ve z'nin
     içerisine 30 yerleştirilecektir. Bu kalıba "dilim kalıbı (slice pattern)" denilmektedir. Bu kalıpları ileride ilgili
@@ -5191,124 +5191,124 @@
     if let ifadesi "kalıp uyuşuyorsa doğruysa kısmın, kalıp uyuşmuyorsa yanlışsa kısmın çalıştırıldığı" ilginç bir if deyimdir.
     if let ifadesinin genel biçimi şöyledir:
 
-    if let <kalıp> = <ifade> {
-        //...
-    }
-    [ else {
-        //...
-    }
-    ]
+        if let <kalıp> = <ifade> {
+            //...
+        }
+        [ else {
+            //...
+        }
+        ]
 
     if let anahtar sözcüklerinin yanında bir kalıp bulunur, bu kalıbı '=' atamu ile bir ifade izler. Eğer kalıp uyuşumu sağlanırsa
     if let ifadesinin doğruysa kısmındaki blok deyimi, kalıp uyuşumu sağlanmazsa yanlışsa kısmındaki blok deyimi çalıştırılır.
     if let ifadesi de if ifadesi gibi bir değer üretmektedir. Örneğin:
 
-    val = getval();
-    if let 1..10 = val {
-        //...
-    }
-    else {
-        //...
-    }
+        val = getval();
+        if let 1..10 = val {
+            //...
+        }
+        else {
+            //...
+        }
 
     Bu örnekte kalıp 1..10 biiminde belirtilmiş olan range kalıbıdır. Eğer val değeri bu aralıktaysa bu kalıp uyuşumu sağlanacak
     dolayısıyla if deyiminin doğruysa kısmı çalıştırılacaktır. Eğer val bu aralıkta değilse if deyiminin yanlışsa kısmı
     çalıştırılacaktır. Tabii biz match deyiminde gördüğümüz ve henüz görmediğimiz kalıpları if let ifadesinde de kullanabiliriz.
     Örneğin:
 
-    val = getval();
-    if let x @ 1..10 = val {
-        println!("matched 1..10, x = {}", x);
-    }
-    else {
-        println!("pattern cannot match!");
-    }
+        val = getval();
+        if let x @ 1..10 = val {
+            println!("matched 1..10, x = {}", x);
+        }
+        else {
+            println!("pattern cannot match!");
+        }
 
     Burada at kalıbı (@ kalıbı) uygulanmıştır. Bağlanan x değeri yalnızca if ifadesinin doğruysa kısmında kullanılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-use std::io::Write;
+    use std::io::Write;
 
-fn main() {
-    let val: i32;
-    print!("Bir değer giriniz:");
-    std::io::stdout().flush().expect("Can't flush stdout");
+    fn main() {
+        let val: i32;
+        print!("Bir değer giriniz:");
+        std::io::stdout().flush().expect("Can't flush stdout");
 
-    val = getval();
-    if let Some(x) = val {
-        println!("matched 1..10, x = {}", x);
+        val = getval();
+        if let Some(x) = val {
+            println!("matched 1..10, x = {}", x);
+        }
+        else {
+            println!("pattern cannot match!");
+        }
     }
-    else {
-        println!("pattern cannot match!");
+
+    fn getval() -> i32 {
+        let mut buf: String = String::new();
+
+        std::io::stdin().read_line(&mut buf).expect("read line failed");
+        buf.trim().parse().expect("parse")
     }
-}
-
-fn getval() -> i32 {
-    let mut buf: String = String::new();
-
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse")
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     if let ifadesinde de else if kısmı ya da else if let kısmı kullanılabilir. Benzer biçimde if ifadesinde de else if kısmının
     yanı sıra else if let kısmı da bulundurulabilmektedir. Örneğin:
 
-    val = getval();
-    if let 0..10 = val {
-        println!("matched");
-    }
-    else if val % 2 == 0 {
-        println!("val is even");
-    }
-    else {
-        println!("other...");
-    }
+        val = getval();
+        if let 0..10 = val {
+            println!("matched");
+        }
+        else if val % 2 == 0 {
+            println!("val is even");
+        }
+        else {
+            println!("other...");
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Aslında if let ifadesi tamamen iki kollu match ifadesi ile karşılanabilir. Örneğin:
 
-    if let pattern = expression {
-        //...
-    }
-    else {
-        //...
-    }
+        if let pattern = expression {
+            //...
+        }
+        else {
+            //...
+        }
 
     ifadesinin match eşdeğeri şöyledir.
 
-    match expression {
-        pattern => {
-            //...
+        match expression {
+            pattern => {
+                //...
+            }
+            _ => {
+                //...
+            }
         }
-        _ => {
-            //...
-        }
-    }
 
     Tabii bu tür durumalarda if let ifadesini okunabilirlik bakımından tercih edebilirsiniz. match ifadesi çok kollu durumlar
     için tercih edilmelidir.
 ---------------------------------------------------------------------------------------------------------------------------
     while let döngüsü de "kalıp uyuştuğu sürece yinelenen" bir döngüdür. while let ifadesinin genel biçimi şöyledir:
 
-    while let <pattern> = <ifade> {
-        //...
-    }
+        while let <pattern> = <ifade> {
+            //...
+        }
 
     Burada da match deyiminde görmüş olduğumuz ve henüz görmemiş olduğumuz kalıplar kullanılabilmektedir. Döngü kalıp
     uyuştuğu sürece yinelenmektedir. Örneğin:
 
-    i = 0;
-    while let 0..10 = i {
-        print!("{} ", i);
-        i += 1;
-    }
+        i = 0;
+        while let 0..10 = i {
+            print!("{} ", i);
+            i += 1;
+        }
 
     Burada bir range kalıbı kullanılmıştır. Bu kalıp uyuşumu i'nin 0 ile 9 arasındaki değerleri için sağlanacaktır. Ancak
     i = 10 olduğu zaman kalıp uyuşumu artık sağlanmayacak ve döngüden çıkılacaktır. Örneğin:
 
-    while let x @ 1..=10 = getval() {
-        //...
-    }
+        while let x @ 1..=10 = getval() {
+            //...
+        }
 
     Burada klavyeden (stdin dosyasından) girilen değer 1 ile 10 arasında olduğu sürece x'e yerleştirilip blok deyimi çalıştırılacaktır.
     Eğer girilen değer bu aralıkta değilse kalıp uyuşmayacağı için döngü sonlanacaktır.
@@ -5323,138 +5323,140 @@ fn getval() -> i32 {
     Yukarıda belirttiğimiz gibi diziler aynı türden elemanlara sahiptir ve dizi elemanları bellekte fiziksel bakımdan ardışıl
     bir biçimde tutulmaktadır. Dizi elemanlarının ardışıl biçimde tutulması iki bakımdan önemlidir:
 
-    1) Bu sayede dizinin bir elemanına çok hızlı (buna "rastege erişim (random access)" ya da "O(1) karmaşıklıkta erişim" de
-    denilmektedir) bir biçimde erişilir. İşlemciler bir adresten belli bir uzaklıktaki nesnelere tek bir makine komutuyla
-    erişebilmektedir.
+        1) Bu sayede dizinin bir elemanına çok hızlı (buna "rastege erişim (random access)" ya da "O(1) karmaşıklıkta erişim" de
+        denilmektedir) bir biçimde erişilir. İşlemciler bir adresten belli bir uzaklıktaki nesnelere tek bir makine komutuyla
+        erişebilmektedir.
 
-    2) Dizi elemanlarının ardışıl olması nedeniyle diziler fonksiyonlara başlangıç adresleriyle aktarılabilmektedir.
+        2) Dizi elemanlarının ardışıl olması nedeniyle diziler fonksiyonlara başlangıç adresleriyle aktarılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta dizi türleri [tür; uzunluk] biçiminde ifade edilmektedir. Örneğin:
 
-    let a: [i32; 5];
+        let a: [i32; 5];
 
     Yazım biçimi olarak noktalı virgülden sonra boşluk bırakmaka daha yaygındır. Ancak boşluk bırakmayan Rust programcıları
     da vardır. Biz kurusumuzda buradaki nokralı virgülden sonra boşuk bırakacağız. Dizi bildirirken uzunluğun sabit ifadesi
     biçiminde belirtilmesi zorunludur. Örneğin:
 
-    let n = 5;
-    let a: [i32; n];        // error! uzunluk sabit ifadesi biçiminde belirtilmemiş
+        let n = 5;
+        let a: [i32; n];        // error! uzunluk sabit ifadesi biçiminde belirtilmemiş
 
     Yukrıdaki dizi bildirimi error oluşturacaktır. Çünkü dizi uzunluğu sabit ifadsi ile belirtilmemiştir.
 
     Rust'ta bir dizi oluşturulurken tipik olarak dizi elemanlarına ilkdeğerleri verilmektedir. Bu işlem köşeli parantezlerlerle
     yapılmaktadır. (Dizi elamanlarına C'de küme ğarantezleri içerisinde ilkdeğer verildiğini anımsayınız.) Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
     Tabii verilen her ilkdeğerin dizi türünden olması gerekir. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50.5];       // error!
+        let a: [i32; 5] = [10, 20, 30, 40, 50.5];       // error!
 
     Rust'ta dizi elemanlarına ilkdeğer verilirken verilen ilkdeğerlerin tam olarak dizi uzunluğu kadar olması zorunludur.
     Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40];      // error!
+        let a: [i32; 5] = [10, 20, 30, 40];      // error!
 
     Burada a dizisi 5 elemanlı olduğu halde biz bu diziye 4 tane ilkdeğer verdik. Bu durum error oluşturacaktır. Halbuki
     örneğin C ve C++'ta dizinin az sayıda elemanına ilkdeğer verilebilmektedir. Bu durumda diğer elemanlara 0 yerleştirilmektedir.
     Rust'ta böyle bir durum söz konusu değildir. Rust'ta da dizi elemanlarına verilen ilkdeğerlerin sabit ifadesi olması
     zorunlu değildir. Örneğin:
 
-    let (x, y, z) = (10, 20, 30);
-    let a: [i32; 3] = [x, y, z];      // geçerli
+        let (x, y, z) = (10, 20, 30);
+        let a: [i32; 3] = [x, y, z];      // geçerli
 
     Rust'ta dizi elemanlarına ilkdeğer verirken köşeli parantez içerisindeki değerlerin hepsinin aynı türden olması gerekir.
+
 # 22. Ders 26/05/2025 - Pazartesi
+
     Dizilere ilkdeğer verilirken let deyiminde tür belirtilmezse derleyici tür çıkarımını aşağıda belirtildiği gibi yapmaktadır:
 
-    - Dizi uzunluğu köşeli parantez içerisindeki eleman sayısı kadardır.
-    - Dizinin türü verilen ilkdeğerlerin türünden olur.
-    - Verilen ilkdeğerler sonek içermeyen tamsayı sabitlerinden oluşuyorsa dizi i32 türünden kabul edilir.
-    - Verilen ilkdeğerler sonek içermeyen gerçek sayı sabitlerden oluşuyorsa dizi f64 türünden kabul edilir.
-    - Verilen ilkdeğerlerin sonek içermeyen sabitlerden oluşması durumunda ya bu sabitlerin hepsinin tamsayı sabiti olması ya da
-    gerçek sayı sabiti olması gerekir.
-    - Verilen ilkdeğerlerden en az biri sonek içeren bir sabit ise diğerlerinin de ya bu soneki içermesi ya da bu sonekin
-    ilişkin olduğu türün sınırları içerisinde olması gerekir.
+        - Dizi uzunluğu köşeli parantez içerisindeki eleman sayısı kadardır.
+        - Dizinin türü verilen ilkdeğerlerin türünden olur.
+        - Verilen ilkdeğerler sonek içermeyen tamsayı sabitlerinden oluşuyorsa dizi i32 türünden kabul edilir.
+        - Verilen ilkdeğerler sonek içermeyen gerçek sayı sabitlerden oluşuyorsa dizi f64 türünden kabul edilir.
+        - Verilen ilkdeğerlerin sonek içermeyen sabitlerden oluşması durumunda ya bu sabitlerin hepsinin tamsayı sabiti olması ya da
+        gerçek sayı sabiti olması gerekir.
+        - Verilen ilkdeğerlerden en az biri sonek içeren bir sabit ise diğerlerinin de ya bu soneki içermesi ya da bu sonekin
+        ilişkin olduğu türün sınırları içerisinde olması gerekir.
 
     Örneğin:
 
-   let a = [10i16, 20i16, 30i16];
+        let a = [10i16, 20i16, 30i16];
 
    Bu ilkdeğer verme geçerlidir. Dizi [i16; 3] türündendir. Örneğin:
 
-   let a = [10i16, 20, 30, 40, 50];
+        let a = [10i16, 20, 30, 40, 50];
 
    Bu ilkdeğer verme de geçerlidir. Sonek almayan tamsayı sabitleri i16 türünün sınırları içerisinde kaldığı için i16 türünden
    kabul edilir. Örneğin:
 
-    let a = [10, 20.2, 30];          // error!
+        let a = [10, 20.2, 30];          // error!
 
    Bu ilkdeğer verme error ile sonuçlanır. Çünkü verilen ilkdeğerlerden bir kısmı tamsayı sabitlerindne bir kısmı gerçek sayı
    sabitlerinden oluşmaktadır. Örneğin:
 
-   let a = [10, 20.2f64, 30];       // error
+        let a = [10, 20.2f64, 30];       // error
 
     Bu ilkdeğer verme de aynı gerekçelerle error oluşturacaktır. Örneğin:
 
-    let a = [10.2, 20.3, 30.4];
+        let a = [10.2, 20.3, 30.4];
 
     Bu ilkdeğer verme geçerlidir. Dizi [f64; 3] türündendir. Örneğin:
 
-    let a = [10.2, 20.3f32, 30.4];
+        let a = [10.2, 20.3f32, 30.4];
 
     Bu ilkdeğer verme de geçerlidir. Çünkü 10.2 ve 30.4 f32 türüyle temsil edilebilmektedir.
 
     Dizi bağlanırken tür belirtildiğinde tüm ildeğerlerin aynı türden olması gerekir. Örneğin:
 
-    let a: [i8; 3] = [10i8, 20, 30];
+        let a: [i8; 3] = [10i8, 20, 30];
 
     Bu bağlama geçerlidir. Çünkü tüm sonek almayan ilkdeğerler i8 türü ile temsil edilebilmektedir. Örneğin:
 
-    let a: [f64; 3] = [3.14, 10, 20];       // error!
+        let a: [f64; 3] = [3.14, 10, 20];       // error!
 
     Burada ilkdeğer olarak verilen sabitlerin tamsayı sabiti bir kısmı da geröek sayı sabitidir.Dolayısıyla bu ilkdeğer verme
     geçersizdir. Ancak aşağıdaki ilkdeğer verme geçerlidir:
 
-    let a: [f64; 3] = [3.14, 10f64, 20f64];
 ---------------------------------------------------------------------------------------------------------------------------
+
     Aslında Rust'ta köşeli parantezler içerisinde ifade listesi yazıldığında bu sentaks "dizi yarat" anlamına gelmektedir.
     Bu biçimde yaratılan dizilerin türünin tespiti "tür belirtilmeyen let deyimindeki dizi türünün belirlenmesi" kurallarıyla
     yapılmaktadır. Yani örneğin [10, 20, 30] biçiminde yaratılan dizinin türü daha önce görmüş olduğumuz "let deyimiyle tür
     belirtilmeden yapılan bağlamadaki tür tespiti" kurallarına göre yapılmaktadır. Örneğin:
 
-    let a = [10, 20, 30]
+        let a = [10, 20, 30]
 
     Biz daha önce bu dizinin türünün [i32; 3] biçiminde belirlendiğini görmiştük. İşte [10, 20, 30] ifadesi de [i32; 3]
     biçiminde bir dizinin yaratılmasına yol açmaktadır. Rust'ta tamsayı ve gerçek sayı sabitlerinin türlerinin bağlama
     göre değerlendirildiğini de anımsayınız. Örneğin:
 
-    let a: [i8; 3];
+        let a: [i8; 3];
 
-    a = [10, 20, 30];       // geçerli
+        a = [10, 20, 30];       // geçerli
 
     Burada artık [10, 20, 30] dizisi hedef tür dikkate alınacağı için [i8; 3] türündenmiş gibi ele alıanacaktır.
 
     Mademki Rust'ta etkisiz kodlar error oluşmasına yol açmamaktadır o halde aşağıdaki gibi anlamsız bir kod parçası da
     geçerlidir:
 
-    [10, 20, 30];
+        [10, 20, 30];
 
     Burada [i32; 3] türünden bir dizi oluşturulmuş ancak hiçbir değişkene atanmamıştır. Tabii Rust derleyicisi bu durumda
     bir uyarı verecek ve optmizasyon sürecinde tamamen koddan atılacaktır.
 
     Yukarıdaki örnekten de gördüğünüz gibi Rust'ta bir dizi türünden değişkene istenildiği zaman aynı dizi türünden bir başka
-     değişken atanabilir. Bu bakımdan Rust C'ye benzememektedir. Örneğin:
+    değişken atanabilir. Bu bakımdan Rust C'ye benzememektedir. Örneğin:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
-    //...
-    a = [100, 200, 300, 400, 500];      // geçerli
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        //...
+        a = [100, 200, 300, 400, 500];      // geçerli
 
     Halbuki bunun C karşılığı C'de geçersizdir:
 
-    int a[5] = {10, 20, 30, 40, 50};
-    //...
-    a = {100, 200, 300, 400, 500};      // geçersiz!
+        int a[5] = {10, 20, 30, 40, 50};
+        //...
+        a = {100, 200, 300, 400, 500};      // geçersiz!
 
     C'de dizi isimleri ifade içerisinde kullanıldığında dizinin başlangıç adresine dönüştürülmektedir. Zaten küme parantezleri
     C'de yalnızca ilkdeğer vermede ve C99'da bileşik sabit oluşturmakta kullanılmaktadır.
@@ -5462,20 +5464,20 @@ fn getval() -> i32 {
     Rust'ta bu durumun nasıl geçerli olduğunu merak edebilirsiniz. C'de aynı türden iki yapı nesnesinin atanabildiğini, bu
     durumda yapının karşılıklı elemanlarının atandığını anımsayınız. Örneğin:
 
-    struct SAMPLE {
-        int a[5];
-    };
+        struct SAMPLE {
+            int a[5];
+        };
 
-    struct SAMPLE s = {{1, 2, 3, 4, 5}};
-    struct SAMPLE k;
+        struct SAMPLE s = {{1, 2, 3, 4, 5}};
+        struct SAMPLE k;
 
-    k = s;            // geçerli!
+        k = s;            // geçerli!
 
     Rust'ta bir dizi türünden değişkene daha sonra aynı dizi türünden değişken atandığında yine C'deki yapılarda olduğu
     gibi dizinin karşılıklı elemanları birbirine atanmaktadır. Ancak Rust'ta bir diziye aynı türden bir dizi atanırken aslında
     Rust'a özgü başka bir süreç daha devreye girmektedir. a ve b'nin dizi türünden olduğunu varsayalım:
 
-    a = b;
+        a = b;
 
     Rust'ta burada eğer bu dizilerin eleman türleri Copy ise (yani Copy trait'ini destekliyorsa, temel türler Copy trait'ini
     desteklemektedir) atama işleminde bir sahiplik devredilmesi ve bir drop işlemi söz kousu olmaz. Ancak dizinin eleman
@@ -5488,59 +5490,59 @@ fn getval() -> i32 {
     bir dizi yaratmak için pratik bir sentaks bulundurulmuştur. Rust'ta [değer; uzunluk] biçiminde bir sentaks "bu uzunlukta
     dizi yarat ve dizinin her elemanına buradaki değeri yerleştir" anlamına gelmektedir. Örneğin:
 
-    let a: [i32; 100] = [0; 100];
+        let a: [i32; 100] = [0; 100];
 
     Burada 100 elemanlı bir dizi oluşturulmuş ve dizinin her elemanına 0 yerleştirilmiştir. (Bu sentakta ';' atomunun solundaki
     ve sağındaki öğeleri yanlış yerleştirebilirsiniz. Doğru biçimin ne olduğunu hatırlamanın basit bir yolu şudur: "Dizi türlerinde
     uzunluk her zaman ';' atomunun sağında belirtilmektedir. O halde bu sentaksta ';' atomunun solunda doldurulacak değer
     olmalıdır.) Tabii önceki paragrafta da belirttiğimiz gibi bir diziye bildirildikten sonra da aynı türden bir diziyi atabiliriz:
 
-    let a: [i32; 100];
+        let a: [i32; 100];
 
-    a = [0; 100];
+        a = [0; 100];
 
     Pekiyi [değer; uzunluk] sentaksıyla yaratılan dizinin türü ne olacaktır? Burada dizinin uzunluğunu zaten biz vermek
     zorundayız. Doldurulacak değerin türü de dizinin türünü belirtmektedir. Örneğin [0; 100] dizisi [i32; 100] türündendir.
     Örneğin [1u8; 10] dizisi [u8; 10] türündedir. Aşağıdaki atama işlemi türler farklı olduğu için geçersizdir:
 
-    let a: [i32; 100]= [3.14; 100];     // error!
+        let a: [i32; 100]= [3.14; 100];     // error!
 
     Burada 3.14 sabiti f64 türünden olduğu için burada yaratılan dizinin türü de [f64; 100] biçiminde olacaktır.
 
     [değer; uzunluk] sentaksında yine uzunluğun sabit ifadesi biçiminde belirtilmesi zorunludur. Ancak değer sabit sabit
     ifadesi olmak zorunda değildir. Örneğin:
 
-    let val: u8 = 1;
-    let a: [u8; 1000]= [val; 1000];     // geçerli
+        let val: u8 = 1;
+        let a: [u8; 1000]= [val; 1000];     // geçerli
 
     Fakat "The Rust Reference" dokümanlarına göre  [değer; uzunluk] sentaksındaki değerin bir Copy türünden olması (yani
     Copy trait'ini destekliyor olması) ya da sabit olması zorunludur. Örneğin Rust'ın standart kütüphanesindeki String yapısı
     Copy türündne olmadıüı için bu sentaksla kullanılamaz. Örneğin:
 
-    let x = ["ankara".to_string(); 5];      // error!
+        let x = ["ankara".to_string(); 5];      // error!
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta dizi elemanlarına erişmek için yine [] operatörü kullanılmaktadır. Köşeli parantezlerin içerisinde usize türünden
     indeks belirten bir ifade bulunmak zorundadır. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
-    let i: i32 = 2;
-    let val: i32;
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let i: i32 = 2;
+        let val: i32;
 
-    val = a[i];             // error!
-    println!("{}", val);
+        val = a[i];             // error!
+        println!("{}", val);
 
     Burada i değişkeni i32 türünden olduğu için error oluşacaktır. Örneğin:
 
-    val = a[2];     // geçerli
+        val = a[2];     // geçerli
 
     2 sabiti usize türünün sınırları içerisinde kaldığı için usize olarak da ele alınmaktadır. Bu nedenle a[2] gibi bir indekslemeyle
     geçerlidir. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for i in 0..5 {
-        println!("a[{}] = {}", i, a[i]);
-    }
+        for i in 0..5 {
+            println!("a[{}] = {}", i, a[i]);
+        }
 
     Burada her ne kadar 0..5 ifadesi Range<i32> türündense de döngü içerisinde i değişkeni dizi indeksi olarak kullanıldığı için
     derleyici tarafından usize olarak ele alınmaktadır. Bu Rust'ın tür çıkarımı (type inference) konusunun ayrıntılarıyla
@@ -5555,11 +5557,11 @@ fn getval() -> i32 {
     Rust derleyicileri kod optimizasyonu sırasında eğer bir sınır ihlali tehlikesi yoksa sınır kontrolünü aslında hiç yapmamaktadır.
     Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for i in 0..5 {
-        println!("a[{}] = {}", i, a[i]);
-    }
+        for i in 0..5 {
+            println!("a[{}] = {}", i, a[i]);
+        }
 
     Buradaki kodda dizinin sınırları dışına erişim mümkün değildir. O halde Rust derleyicisi burada aslında herhangi bir sınır
     kontrolü yapmayabilir. Başka bir deyişle Rust derleyicisi yalnızca aslında potansiyel bir tehlike varsa sınır kontrolü
@@ -5570,34 +5572,34 @@ fn getval() -> i32 {
     değiştirilemez (immutable) bir referans, get_unchecked_mut metodu ise değiştirilebilir (mutable) bir referns vermektedir.
     Biz henüz Rust'ta referanslar ve göstericiler konusunu görmedik. Ancak yine de aşağıdaki örneği vermek istiyoruz:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
-    let mut val: &i32;
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut val: &i32;
 
-    for i in 0..5 {
-        unsafe {
-            val = a.get_unchecked(i);
-            println!("a[{}] = {}", i, *val);
+        for i in 0..5 {
+            unsafe {
+                val = a.get_unchecked(i);
+                println!("a[{}] = {}", i, *val);
+            }
         }
-    }
 
     Dizi elemanları üzerinde değişiklik yapmak istersek bu durumda get_unchecked_mut metodunu kullanmalıyız:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
-    let mut val: &i32;
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut val: &i32;
 
-    for i in 0..5 {
-        unsafe {
-            val = a.get_unchecked_mut(i);
-            println!("a[{}] = {}", i, *val);
+        for i in 0..5 {
+            unsafe {
+                val = a.get_unchecked_mut(i);
+                println!("a[{}] = {}", i, *val);
+            }
         }
-    }
 
     "The Rust Reference" dokümanlarında dizi erişimlerinde sınır ihlali eğer derleme zamanında tespit edilebiliyorsa derleyicilerin
     error mesajını derleme zamanında verebileceği (optional özellik) belirtilmiştir. örneğin:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    a[100] = 100;           // error!
+        a[100] = 100;           // error!
 
     Burada sınrı ihlali açık bir biçimde yapılmıştır. Derleyici bu erişimi derleme zamanında tespit edebildiği için derleme
     zamanında error oluşturabilmektedir.
@@ -5605,24 +5607,24 @@ fn getval() -> i32 {
     Diziler de normal diğer türden değişkenler gibi default olarak değiştirilemez (immutable) durumdadır. Dizi elemanları
     üzerinde değişiklik yapılmak isteniyorsa dizinin mut olması gerekir. Örneğin:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for i in 0..5 {
-        a[i] = a[i] * a[i];
-    }
-    println!("a = {:?}", a);
+        for i in 0..5 {
+            a[i] = a[i] * a[i];
+        }
+        println!("a = {:?}", a);
 ---------------------------------------------------------------------------------------------------------------------------
     Bir dizinin uzunluğu len isimli metotla elde edilebilmektedir. (Tabii dizi yaratılırken dizi uzunluğu sabit ifadesi
     biçiminde verildiğine göre dizi uzunluğunu zaten programcı bilmektedir.) len metodu bize dizi uzunluğunu usize türünden
     vermektedir. usize türünün çalışılan sisteme göre o sistemin teorik bellek büyüklüğü ile ilgili olduğunu anımsayınız.
     Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for i in 0..a.len() {
-        print!("{} ",a[i]);
-    }
-    println!("");
+        for i in 0..a.len() {
+            print!("{} ",a[i]);
+        }
+        println!("");
 
     len metodu aslında dizilerin değil dilimlerin (slices) metodudur. Rust'ta dizi üzerinde bir metot çağrıldığında eğer
     metot diziye ilişkin değilse dizi referansı otomatik olarak dilim referansına dönüştürülüp dilimin len metodu çağrılmaktadır.
@@ -5631,81 +5633,81 @@ fn getval() -> i32 {
     Aşağıdaki örnekte bir dizinin en büyük elemanı bulunmuştur.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
-    let mut max: i32;
+        fn main() {
+            let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+            let mut max: i32;
 
-    max = a[0];
-    for i in 1..a.len() {
-        if a[i] > max {
-            max = a[i];
+            max = a[0];
+            for i in 1..a.len() {
+                if a[i] > max {
+                    max = a[i];
+                }
+            }
+            println!("{}", max);
         }
-    }
-    println!("{}", max);
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Aşağıdaki örnekte "kabarcık sıralamsı (boubble sort)" algoritması ile bir dizi sıraya dizilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
-    let mut temp: i32;
+        fn main() {
+            let mut a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+            let mut temp: i32;
 
-    for i in 0..a.len() - 1 {
-        for k in 0..a.len() - 1 - i {
-            if a[k] > a[k + 1] {
-                temp = a[k];
-                a[k] = a[k + 1];
-                a[k + 1] = temp;
+            for i in 0..a.len() - 1 {
+                for k in 0..a.len() - 1 - i {
+                    if a[k] > a[k + 1] {
+                        temp = a[k];
+                        a[k] = a[k + 1];
+                        a[k + 1] = temp;
+                    }
+                }
             }
+            for i in 0..a.len() {
+                print!("{} ", a[i]);
+            }
+            println!("");
         }
-    }
-    for i in 0..a.len() {
-        print!("{} ", a[i]);
-    }
-    println!("");
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir dizi for döngüsüyle dolaşılabilir. Rust'ta dolaşım işlemi için dizilerin iteratör veren metotları kullanılmaktadır.
     Diziyi dolaşmak için bize iteratör veren metotlardan biri into_iter isimli metottur. Örneğin:
 
-    let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
+        let a: [i32; 10] = [5, 67, 23, 45, 11, 9, 56, 34, 22, 27];
 
-    for x in a.into_iter() {
-        //...
-    }
+        for x in a.into_iter() {
+            //...
+        }
 
     Bu döngü her yinelendikçe dizinin bir elemanı x'e yerleştirilmektedir. Dizi elemanları bitince döngü de sonlanmaktadır.
     Aslında Rust'ta dizilerin kendisi doğrudan iterator değildir. Ancak diziler IntoIterator trait'ini desteklediği için bu
     doğrudan for döngülerinde de kullanılabilmektedir. Yukarıdaki dolaşım tamamen eşdeğer biçimde aşağıdaki gibi de yapılabilir:
 
-    for x in a {
-        //...
-    }
+        for x in a {
+            //...
+        }
 
     Dizileri bu biçimde dolaşırken dizi elemanları döngü değişkenine atandığı için eğer dizi türü Copy değilse dizinin
     sahipliği de kaybedilmektedir. (Buna İngilizce "dizinin consume edilmesi" de denilmektedir.) Örneğin:
 
-    let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+        let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
 
-    for name in names {
-        println!("{}", name);
-    }
-    println!("{:?}", names);        // error!
+        for name in names {
+            println!("{}", name);
+        }
+        println!("{:?}", names);        // error!
 
     Bu örnekte dizi elemanları Copy türünden olmayan String değerlerinden oluşmaktadır. İşte biz bu diziyi bu biçimde for
     döngüsüyle döndüğümüzde artık dizi elemanları taşınmış olur ve asıl dizi (örneğimizdeki names) sahipliğini kaybeder.
     Dolayısıyla bu for döngüsünden sonra biz bu diziyi artık kullanamayız. Tabii eğer dizi i32 gibi bir Copy türünden olsaydı
     böyle bir error oluşmayacaktı. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    for x in a {
-        println!("{}", x);
-    }
-    println!("{:?}", a);            // geçerli
+        for x in a {
+            println!("{}", x);
+        }
+        println!("{:?}", a);            // geçerli
 
     i32 türü taşınmamakta kopyalanmaktadır. Halbuki String türü taşınmaktadır. Bu konu ileride ayrı bir bölümde ele alınacaktır.
 
@@ -5716,12 +5718,12 @@ fn main() {
     için dolaşım sonrasında dizi tüketilmemiş (consume edilmemiş) olur. Dolayısıyla dizi eleman türü Copy trait'ini desteklemiyor
     olsa bile biz diziyi dolaşımdan sonra da kullanabiliriz. Örneğin:
 
-    let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+        let names: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
 
-    for name in names.iter() {
-        println!("{}", *name);
-    }
-    println!("{:?}", names);            // geçerli
+        for name in names.iter() {
+            println!("{}", *name);
+        }
+        println!("{:?}", names);            // geçerli
 
     Buradaki for döngüsünde name değişkeni String türünden değil &String türündendir. Dolayısıyla döngü her yinelendiğinde
     String değerlerinin kendisi değil adresleri name değişkenine atanmaktadır. Döngü bittikten sonra biz names dizisini
@@ -5729,12 +5731,12 @@ fn main() {
     bir durum söz konusu olmamaktadır. Tabii Copy trait'ini destekleyen türlere ilişkin dizileri de biz yine iter metodu
     ile dolaşabiliriz. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for x in a.iter() {
-        println!("{}", *x);
-    }
-    println!("{:?}", a);            // geçerli
+        for x in a.iter() {
+            println!("{}", *x);
+        }
+        println!("{:?}", a);            // geçerli
 
     Burada x değerişkeni i32 türünden değil &i32 türündedir. Yani içerisinde i32 türünden değer bulunan dizi elemanının
     adresini tutmaktadır. Biz de örneğimizde ilgili dizi elemanına * operatörü ile eriştik.
@@ -17760,7 +17762,1526 @@ fn foo<'a>(rt1: &'a(i32, i32), rt2: &'a (i32, i32)) -> &'a(i32, i32)
     }
 
     Tabii buna gerek yoktur.
+
+# 55. Ders 08/10/2025 - Çarşamba
+
+    Bu bölümde Rust'ta "trait'ler" konusunu ele alacağız. Trait sözcüğü İngilizce "karakteristik özellikler", "bir şeyi
+    diğerinden ayırt eden özellikler", "bir şeyin özünde var olan özellikler" anlamına gelmektedir. Örneğin psikolojide
+    "kişilk özellikleri" anlmaında "personality traits" terimi kullanılmaktadır.
+
+    Rust'taki trait'ler nesne yönelimli programlama dillerinin çoğunda var olan "arayüzlere (interfaces)" oldukça benzemektedir.
+    Bu bakımdan trait'ler Rust'ı biraz "nesne yönelimli hale getiren" özelliklerdendir. C++'ta böyle bir kavram yoktur.
+    Çünkü C++'ta zaten "çoklu türetme (multiple inheritance)" bütün arayüz işlevselliğini sağlayabilmektedir. Rust'ta
+    "trait'ler" oldukça sık kullanılan ve her konuda karşımıza çıkabilen bir dil özelliğidir.
+
 ---------------------------------------------------------------------------------------------------------------------------
+    Bir trait yapı ve enun türleri için bir kontrat niteliği taşımaktadır. Bir yapı ya da enum türü bir trait'i destekleyebilir.
+    Bu durumda bu yapı ya da enum türü o trait'te belirtilen metotlara ve ilişkili türlere sahip olmak zorundadır. Bir yapı
+    ya da enum türünün bir trait'i desteklemesine İngilizce o yapı ya da enum türünün o trait'i "implemente" etmesi de denilmektedir.
+    İngilizce "implement" sözcüğü "bir şeyi tasarım boyutundan çıkartarak yapıp, gerçekleştirmek" anlamına gelmektedir. Örneğin
+    "Operating Systems and Implementation" gibi bir kitap ismi "işletim sistemlerinin tasarımı ve yazımını" konu almaktadır.
+    Bir programlama dilinin "implemente edilmesi" onun için derleyici ya da yorumlayıcının yazılması anlamına gelmektedir.
+    C ve C++ standartlarında "implementation" sözcüğü mantıksal dilin somut gerçekleştirimi olan "derleyici" anlamına
+    gelmektedir. "Implementation" sözcüğü Türkçeye "gerçekleştirim" biçiminde çevrilebilmektedir. Biz kursumuzda "gerçekleştirim"
+    sözcüğü yerine "destekleme" sözcüğünü kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Trait'lerin Java ve C# gibi programlama dillerinde "arayüzlere (interfaces)" oldukça benzediğini belirtmiştik. Arayüzler
+    o programlama dillerinde "çokbiçimli (polymorhhic)" davranışların oluşturulması için kullanılmaktadır. Bu bağlamda
+    çokbiçimli davranış trait'lerle Rust'ta oluşturulabilmektedir. Bize bir yapı ya da enum türünün bir trait'i desteklediği
+    ("implemente" ettiği) söylendiğinde biz o yapı ya da enum türünün o trait'te belirtilen davranışları gösterebildiğini
+    anlarız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir trait tanımlamaın yalın genel biçimi şöyledir:
+
+    trait <isim> {
+        <ilişkili_öğeler (associated_items)>
+    }
+
+    Görüldüğü gibi bir tarit tanımlaması trait anahtar anahtar sözcüğüyle başlatılır. trait anahtar sözcüğünü bir trait
+    ismi izler. Trait tanımlamalarının blok içerdiğine dikkat ediniz. Bu bloğun içerisinde trait'e ilişkin öğeler (items)
+    bulunmaktadır. Bu öğelere "The Rust Reference" dokümanlarında "ilişkili öeğeler (associated items)" denilmektedir. İlişkili
+    öğeler şunlardan oluşmaktadır:
+
+    - Metotlar ve İlişkili Fonksiyonlar
+    - İlişkili Türler
+    - Sabitler
+
+    Biz trait'in içerisindeki öğeler için bazen "trait öğeleri" terimini bazen de öğenin türüne göre "trait metodu", "trait
+    sabiti", trait'in ilişkili türü" gibi terimleri kullanacağız.
+
+    Trait'ler "The Rust Reference" dokümanlarında gramer olarak "öğe (items)" grubunun içerisinde yer almaktadır. "The Rust
+    Reference" dokümanlarındaki "Item" ara sembolününün açılımına ilişkin listeyi aşağıda yeniden veriyoruz:
+
+    Item:
+        modules
+        extern crate declarations
+        use declarations
+        function definitions
+        type definitions
+        struct definitions
+        enumeration definitions
+        union definitions
+        constant items
+        static items
+        trait definitions
+        implementations
+        extern blocks
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir trait'in içerisindeki metotların ya da ilişkili fonksiyonların yalnızca imzaları (yani tanımlamadaki ilk satırları)
+    trait içerisinde bulundurulabilmektedir. Yani trait'in içerisindeki metotlar ve ilişkili fonksiyonlar gövde içermeyebilirler.
+    Örneğin:
+
+    trait Test {
+        fn foo(&self);
+        fn bar(&self);
+        fn tar(a: i32);
+    }
+
+    Burada foo ve bar Test trait'inin metotlarıdır, tar ise ilişkili fonksiyonudur. Buradaki metotların ve ilişki fonksiyonun
+    gövde içermediğine dikkat ediniz. Metot ve fonksiyon imzaları ';' atomuyla bitirilmiştir.
+
+    Bu örnekte Test trait'i bir arayüz oluşturmaktadır. Arayüz demekle bir şeyin kavramsal hali kastedilmektedir. Test trait'indeki
+    foo ve bar metotları ve tar ilişki fonksiyonu bu trait'i destekleyecek olan yapı ya da enum türleri tarafından tanımlanmak
+    zorundadır. Yani bir trait'i destekleyen bir yapı ya da enum türü eğer o trait'teki metotlar ya da ilişkili fonksiyonlar
+    gövde içermiyorsa onları tanımlamak zorundadır.
+
+    Bir yapı ya da enum türünün bir trait'i desteklemesi sentaktik olarak şu genel biçimle sağlanmaktadır:
+
+    impl <trait_ismi> for <yapı_ya_da_enum_ismi> {
+        //...
+    }
+
+    Görüldüğü gibi destekleme (implemente etme) yine bir impl bloğu oluşturularak yapılmaktadır.
+
+    Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+
+        fn bar(&self) {
+            println!("Sample bar");
+        }
+
+        fn tar(a: i32) {
+            println!("Sample tar");
+        }
+    }
+
+    Buradaki destekleme için oluşturulan impl bloğunun sentaksına dikkat ediniz:
+
+    impl Test for Sample {
+        //...
+    }
+
+    Sentaksta impl anahtar sözcüğünden sonra trait ismi sonra for anahtar sözcüğü ve sonra da yapı ya da enum ismi
+    bulundurulmaktadır. Burada adeta derleyiciye şunlar söylenmektedir: "Ben Test trait'ini Sample türü için destekliyorum".
+
+    Biz bir trait'in gövdesi olmayan bazı metotlarını tanımlayıp bazılarını tanımlamdan bırakamayız. Bir trait'teki tüm
+    gövdesi olmayan tüm metotların ve ilişkili fonksiyonların destekleme sırasında ilgili tür için tanımlanması gerekmektedir.
+    Örneğin:
+
+    impl Test for Sample {          // error!
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+    }
+
+    Burada yalnızca Test trait'inin foo metodu tanımlanmıştır. Halbuki bar metodunun ve ilişkili tar fonksiyonun da tanımlanması
+    gerekirdi. Tabii impl bloğu içerisinde metotların tanımlama sırasının bir önemi yoktur.
+
+    Bir yapı ya da enum türünün hem kendi metotları ve ilişkili fonksiyonları olabilir hem de bu türler trait'leri destekleyebilir.
+    Bu durumda iki farklı impl blok sentaksı bulundurulacaktır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+
+        fn bar(&self) {
+            println!("Sample bar");
+        }
+
+        fn tar(a: i32, b: i32) {
+            println!("Sample tar");
+        }
+    }
+
+    Burada birinci impl bloğunda yapının kendi metotları ve ilişkili fonksiyonları ikincisinde ise trait'lerden gelen metotlar
+    ve ilişkili fonksiyonlar tanımlanmıştır.
+
+    Yapı ya da enum türlerinin metotlarının ve ilişki fonksiyonlarının birden fazla impl bloğu içeisinde tanımlanabileceğini
+    belirtmiştik. Ancak aynı durum trait'ler için geçerli değildir. Trait'ler desteklenirken tüm trait metotları ve ilişkili
+    fonksiyonlar tek bir impl bloğu içerisinde tanımlanmalıdır. Aşağıdaki tanımlama error oluşturacaktır:
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+    }
+
+    impl Test for Sample {              // error! trait desteği için tek bir impl bloğu bulundurulabilir.
+        fn bar(&self) {
+            println!("Sample bar");
+        }
+
+        fn tar(a: i32) {
+            println!("Sample tar");
+        }
+    }
+
+    Bir yapı ya da enum türünün bir trait'i desteklediğinde o trait'in öğelerini içermek zorunda olduğunu belirtmiştik.
+    Her ne kadar bu destekleme ayrı bir impl bloğu ile yapılıyorsa da metotlar ve ilişki fonksiyonlar yine o yapı ya da
+    enum türünün elemanları durumundadır. Örneğin:
+
+    fn main() {
+        let s = Sample::new( 10, 20 );      // geçerli
+
+        s.disp();                           // geçerli
+
+        s.foo();                            // geçerli
+        s.bar();                            // geçerli
+        Sample::tar(10);                    // geçerli
+    }
+
+    Burada new, disp, foo, bar ve tar yapının metoları ve ilişkili fonksiyonlarıdır. Ancak yapının kendi metotları ve
+    ilişkili fonksiyonları o yapının elemanları kabul edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir trait'in metotları ve ilişkili fonksiyonları gövde de içerebilir. Yani bunların tanımlaması trait bloğu içerisinde
+    de yapılabilir. Gövde içermeyen yalnızca imza içeren metotlara ve ilişkili fonksiyonlara "zorunlu (required)" metotlar
+    ve ilişkili fonksiyonlar, gövde içerenlere ise "isteğe bağlı (optional) metotlar ve ilişkili fonksiyonlar" denilmektedir.
+    "İsteğe bağlı metotlar ya da ilişkili fonksiyonlar" terimi yerine "default metotlar ya da ilişkili fonksiyonlar" terimi
+    de kullanılmaktadır. Bir trait desteklenirken yalnızca "zorunlu (required)" (yani gövde içermeyen) metotların ve ilişkili
+    fonksiyonların tanımlanması zorunludur. İsteğe bağlı (yani gövde içeren) ilişkili metotlar ya da fonksiyonlar için trait
+    desteklenirken tanımlama yapılması zorunlu değildir. Örneğin:
+
+    trait Test {
+        fn foo(&self);                  // required method
+        fn bar(&self) {                 // optional method
+            println!("Test bar");
+        }
+    }
+
+    Burada görüldüğü gibi trait'in foo metodu için gövde bulundurulmamış ancak bar metodu için gövde bulundurulmuştur. Bu
+    durumda Test trait'i desteklenirken destekleyen yapı ya da enum türü için bar metodu yazılmayabilir. Ancak foo metodunun
+    yazılması zorunludur. İşte bu yüzden gövde içermeyen trait metotlarına ya da ilişkili fonksiyonlarına "zorunlu (required)"
+    içerenlere ise "isteğe bağlı (optional)" denilmektedir. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+    }
+
+    Burda biz Sample yapısı türünden bir değişken bildirip bar metodunu çağırsak trait içerisinde tanımladığımız bar metodu
+    çağrılacaktır. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        s.disp();
+        s.foo();
+        s.bar();            // geçerli, trait içerisinde tanımlanan bar metodu çağrılır
+    }
+
+    İsteğe bağlı (yani gövde içeren) trait metotlarının ve ilişkili fonksiyonlarının destekleme sırasında tanımlanmayabileceğini
+    belirtmiştik. Ancak isterse programcı bunları tanımlayabilir. Bu durumda bu metotlar çağrıldığında destekleme sentaksında
+    tanımlanmış olan metot ya da ilişkili fonksiyon çağrılır. Örneğin:
+
+    trait Test {
+        fn foo(&self);                  // required method
+        fn bar(&self) {                 // optional method
+            println!("Test bar");
+        }
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample foo");
+        }
+
+        fn bar(&self) {
+            println!("Sample bar");
+        }
+    }
+
+    Burada Sample yapısı Test trait'ini desteklerken bar matodunu tanımlamayabilirdi. Ancak isteğe bağlı trait metotlarının
+    destekleme sırasında tanımlaması da yapılabilmektedir. Zaten bu nedenle "isteğe bağlı (optional)" terimi kullanılmıştır.
+    (Yani buradaki isteğe bağlı "ister tanımlarım, ister tanımlamam" anlamına gelmektedir.) İsteğe bağlı trait metotları
+    ya da ilişkili fonksiyonları destekleme sırasında tanımlanmışsa Rust'ta artık trait'teki aynı imzaya sahip metotların
+    çağrılmasının bir yolu yoktur. (Halbuki C++'ta, Java ve C#'ta sınıf ismi belirtilerek ya da base anahtar sözcüğüyle
+    taban sınıftaki aynı isimli metotlar çağrılabilmektedir.) Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+
+        s.disp();
+        s.foo();
+        s.bar();        // destekeleme sırasında tanımlanan bar metodu çağrılır
+    }
+
+    Burada s.bar() çağrısı ile artık trait içerisinde tanımlanan değil destekleme sırasında tanımlanan bar metodu çağrılmaktadır.
+    Rust'ta Trait içerisinde tanımlanan bar metodunun çağrılmasının bir yolu yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Pekiyi trait'ler birer kontrat oluşturuyorsa yani belirli metotların ve ilişki fonksiyonların bulunmasını garanti ediyorsa
+    isteğe bağlı metotların ve ilişkili fonksiyonların anlamı nedir? İşte bazen bazı olgularda bazı işlemler yapılabildikten
+    sonra ona dayalı olarak başka işlemler de yapılabilmektedir. Bu tür durumlarda zorunlu olan minimal işlemler trait'teki
+    zorunlu metotlarla ve ilişkili fonksiyonlarla diğerleri ise isteğe bağlı metotlarla ve ilişkili fonksiyonlarla
+    gerçekleştirilebilmektedir. İsteğe bağlı metotlar ve ilişkili fonksiyonlar sayesinde ilgili trait'i  destekleyenlerin daha
+    az sayıda metot ve ilişkli fonksiyonu yazması sağlanabilmektedir. Örneğin:
+
+    trait Distance {
+        fn start(&self) -> i32;
+        fn end(&self) -> i32;
+        fn length(&self) -> i32 {
+            self.end() - self.start()
+        }
+    }
+
+    Burada Distance isimli trait'i destekleyen bir yapı start ve end metotlarını tanımlamak zorundadır ancak length metodunu
+    tanımlamak zorunda değildir. Çünkü length metodu start ve end metotları kullanılarak yazılabilmektedir. Burada start ve
+    end metotlarının "zorunlu (required)" metotlar olduğunda length metodunun ise "isteğe bağlı (optional)" bir metot olduğuna
+    dikkat ediniz. Tabii eğer length bilgisini elde etmenin daha hızlı bir yolu varsa trait'i destekleyen yapı bu metodu da
+    tanımlayabilir. Görüldüğü gibi isteğe bağlı metotlar zorunlu metotlar kullanılarak yazılabilen metotlardır. Bizi çok sayıda
+    metodu yazma zorunluluğundan kurtarmaktadır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Sample {
+        fn new(a: i32, b: i32) -> Sample {
+            Sample { a, b }
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+    }
+
+    impl Distance for Sample {
+        fn start(&self) ->i32 {
+            self.a
+        }
+        fn end(&self) -> i32 {
+            self.b
+        }
+    }
+
+    Sample yapısı Distance trait'ini desteklerken yalnızca start ve end metotlarını tanımlamıştır. Ancak biz length metodunu
+    da kullanabiliriz. Örneğin:
+
+    fn main() {
+        let s = Sample::new(10, 20);
+        let len;
+
+        len = s.length();
+        println!("{}", len);
+    }
+
+    Örneğin Source isimli bir trait olsun. Bu trait belli bir kaynaktaki sıradaki karakteri elde etmek için kullanılan
+    getchar isimli zorunlu (required) metoda sahip olsun. Bir kaynaktaki karakterler tek tek okunarak o kaynaktaki tüm bilgi
+    yazdırılabilir. Bu durumda örneğin disp isimli metot zorunlu olmayabilir:
+
+    trait Source {
+        fn getchar(&mut self) -> Option<char>;
+        fn disp(&mut self) {
+            while let Some(ch) = self.getchar() {
+                print!("{}", ch);
+            }
+            println!();
+        }
+    }
+
+    Burada getchar metodunun Option<char> türüne geri döndüğüne dikkat ediniz. disp metodu içerisinde getchar metodu
+    Option<char>::None değer verene kadar tüm karakterler yazdırılmıştır. Trait'i string için aşağıdaki gibi destekleyebiliriz:
+
+    struct StringSource {
+        text: String,
+        index: usize,
+    }
+
+    impl StringSource {
+        fn new(s: &str) -> Self {
+            StringSource {
+                text: s.to_string(),
+                index: 0,
+            }
+        }
+    }
+
+    impl Source for StringSource {
+        fn getchar(&mut self) -> Option<char> {
+            self.index += 1;
+            self.text.chars().nth(self.index - 1)
+        }
+    }
+
+    Biz henüz String yapısını incelemedik. Aslında string içerisindeki karakterlerin sırasıyla elde edilmesi için yukarıda
+    uyguladığımız yöntem iyi bir yöntem değildir. Biz burada örneği basit tutmak istedik. Örnek kullanım şöyle olabilir:
+
+    fn main() {
+        let mut ss = StringSource::new("ankara");
+
+        ss.disp();
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let mut ss = StringSource::new("ankara");
+
+    ss.disp();
+}
+
+trait Source {
+    fn getchar(&mut self) -> Option<char>;
+    fn disp(&mut self) {
+        while let Some(ch) = self.getchar() {
+            print!("{}", ch);
+        }
+        println!();
+    }
+}
+
+struct StringSource {
+    text: String,
+    index: usize,
+}
+
+impl StringSource {
+    fn new(s: &str) -> Self {
+        StringSource {
+            text: s.to_string(),
+            index: 0,
+        }
+    }
+}
+
+impl Source for StringSource {
+    fn getchar(&mut self) -> Option<char> {
+        self.index += 1;
+        self.text.chars().nth(self.index - 1)
+    }
+}
+
+# 56.Ders 13/10/2025 - Pazartesi
+
+    Bir yapı ya da enum türü birden fazla trait'i de destekleyebilir. Örneğin:
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B {
+        fn bar(&self);
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("foo");
+        }
+    }
+
+    impl B for Sample {
+        fn bar(&self) {
+            println!("bar");
+        }
+    }
+
+    Burada Sample yapısı hem A trait'ini hem de B trait'ini desteklemektedir. Tabii foo ve bar metotları yine Sample yapısının
+    metotları gibi Sample türünden değişkenlerle ya da değerlerle çağrılabilmektedir:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        s.foo();
+        s.bar();
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample { val: 12 };
+
+    s.foo();
+    s.bar();
+}
+
+trait A {
+    fn foo(&self);
+}
+
+trait B {
+    fn bar(&self);
+}
+
+struct Sample {
+    val: i32
+}
+
+impl A for Sample {
+    fn foo(&self) {
+        println!("foo");
+    }
+}
+
+impl B for Sample {
+    fn bar(&self) {
+        println!("bar");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Farklı trait'lerde aynı isimli metotlar bulunabilir. Bir yapı ya da enum türü bu trait'leri destekleyebilir. Bu durumda
+    farklı impl bloklarında aynı isimli metotlar bulunuyor olacaktır. Örneğin:
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B {
+        fn foo(&self);
+    }
+
+    Burada A ve B trait'lerinin her ikisinde de foo metodu vardır. Biz yapımızda bu iki trait'i de aynı anda destekleyebiliriz.
+    Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("A::foo");
+        }
+    }
+
+    impl B for Sample {
+        fn foo(&self) {
+            println!("B::foo");
+        }
+    }
+
+    Bu haliyle kod derlendiğinde bir sorun oluşmaz. Ancak Sample türünden bir değişken ya da değerle foo metodu çağrılırsa
+    derleyici hangi trait için tanımlanmış olan foo metodunun çağrıldığını anlayamayacak ve çağırma sırasında error oluşacaktır.
+    Örneğin:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        s.foo();        // error!
+    }
+
+    Rust'ta nesne yönelimli dillerde olduğu gibi "farklı parametrik yapılara ilişkin metotlar ve fonksiyonlar (fucion overloading)"
+    özelliği bulunmamaktadır. Dolayısıyla yukarıdaki örneğimizde A ve B trait'lerindeki foo fonksiyonunun imzaları farklı
+    olsaydı da iki anlamlılık hatası yine oluşurdu. Örneğin:
+
+    trait A {
+        fn foo(&self, a: i32);
+    }
+
+    trait B {
+        fn foo(&self);
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Sample {
+        fn disp(&self) {
+            println!("{}", self.val);
+        }
+    }
+
+    impl A for Sample {
+        fn foo(&self, a: i32) {
+            println!("A::foo");
+        }
+    }
+
+    impl B for Sample {
+        fn foo(&self) {
+            println!("B::foo");
+        }
+    }
+
+    Burada A ve B trait'lerindeki foo metotları farklı parametrik yapıya sahiptir. Ancak bu durumun Rust'ta iki anlamlılığı
+    çözmeye bir katkısı yoktur. Örneğin:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        s.foo(100);         // error!
+    }
+
+    Burada siz şöyle bir beklenti içerisinde olabilirsiniz: "Nasıl olsa B trait'indeki foo parametresiz, dolayısıyla bu çağrıda
+    bir argüman girildiği için bu olsa olsa A trait'indeki foo olabilir. Bu durumda derleyici iki anlamlılık hatasını oluşturmayabilir".
+    Ancak Rust'ta "method overloading" ve "function overloading" kavramları yoktur. Dolayısıyla yukarıdaki çağrı yine error
+    oluşturacaktır.
+
+    Yukarıda açıkladığımız "iki anlamlılık (amiguity)" hatası açıkça trait ismi verilerek çağırma yapıldığında ortadan kaldırılabilmektedir.
+    Anımsanacağı gibi Sample türünden bir s değişkeni ile Sample türünün foo metodu s.foo(...) biçiminde de Sample::foo(&s)
+    biçiminde de çağrılabiliyordu. (Buna UFCS ("Uniform Function Call Syntax") da dendiğini anımsayınız.) İşte çağrım bu sentakstaki
+    gibi trait ismi belirtilerek de yapılabilmektedir:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        A::foo(&s);         // impl A bloğundaki foo çağrılır
+        B::foo(&s);         // impl B bloğundaki foo çağrılır
+    }
+
+    Burada açıkça trait ismi belirtildiği için hangi foo metodunun çağrıldığı da artık belli olmaktadır.
+
+    Pekiyi bir yapı ya da enum türü birtakım trait'leri desteklerken aynı zamanda o trait'lerdeki metotlarla ya da ilişkili
+    fonksiyonlarla aynı isimli metotlara ya da ilişkili fonksiyonlra sahip olabilir mi? Evet olabilir. Örneğin:
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B {
+        fn foo(&self);
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Sample {
+        fn disp(&self) {
+            println!("{}", self.val);
+        }
+
+        fn foo(&self) {
+            println!("Sample::foo");
+        }
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("A::foo");
+        }
+    }
+
+    impl B for Sample {
+        fn foo(&self) {
+            println!("B::foo");
+        }
+    }
+
+    Burada Sample yapısı hem A trait'ini hem de B trait'ini desteklemektedir. Üstelik bu traitler'deki foo metoduyla aynı
+    isimli bir metoda da sahiptir. Derleme işleminde herhangi bir sorun oluşmayacaktır. İlgili tür türünden değişken ya da
+    değerle bir metot çağrıldığında Rust'taki isim araması kurallarına göre önce türün kendi metotlarına bakılmaktadır. Eğer
+    ilgili türde o isimli bir metot varsa iki anlamlılık hatası oluşmaz ve ilgili türdeki o metot çağrılır. Örneğin:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        s.foo();        // geçerli, Sample::foo çağrılır
+    }
+
+    Buradaki s.foo() çağrısı herhangi bir soruna yol açmayacaktır. Çünkü zaten Sample yapısının foo isimli  kendi metodu
+    vardır. Tabii yine bu durumda da UFCS sentaksı ile istenilen metot trait ismi belirtilerek çağrılabilir. Örneğin:
+
+    fn main() {
+        let s = Sample { val: 12 };
+
+        Sample::foo(&s);        // Sample::foo çağrılır
+        A::foo(&s);             // A::foo çağrılır
+        B::foo(&s);             // B::foo çağrılır
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta yapılar ve enum türleri başka türlerden türetilemez. Yani Rust'ta "türetme (inheretance)" özelliği yoktur.
+    Ancak istisna olarak bir trait başka bir trait'ten türetilebilmektedir. Trait'lerdeki türetme sentaksının yalın genel
+    biçimi şöyledir:
+
+    trait <türemiş_trait_ismi> : <taban_trait_ismi> {
+        //...
+    }
+
+    Buradaki ':' sentaksı C++'ta da kullanılan bir sentakstır. C# da bu sentaksı kullanmaktadır. Örneğin
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B : A {
+        fn foo(&self);
+    }
+
+    Burada B trait'i A trait'inden türetilmiştir. B trait'ine "türemiş trait", A trait'ine "taban trait" denilmektedir.
+    Pekiyi türetme yapmanın anlamı nedir? İşte bir yapı ya da enum türü türemiş trait'i destekleyecekse kesinlikle taban
+    trait'i de desteklemek zorundadır. Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl B for Sample {
+        fn foo(&self) {
+            println!("B::foo");
+        }
+    }
+
+    Burada yukarıda belirttiğimiz kurala uyulmamıştır. Dolayısıyla kod derlenirken error oluşacaktır. Sample yapısının
+    aynı zamanda A trait'ini de desteklemesi gerekirdi:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("A::foo");
+        }
+    }
+
+    impl B for Sample {
+        fn foo(&self) {
+            println!("B::foo");
+        }
+    }
+
+    Tabii türemiş trait'ten de başka trait'ler türetilebilir. Bu destekleme zorunluluğu yukarıya doğru tüm taban trait'ler
+    için söz konusu olmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir trait içerisinde kullanılan Self anahtar sözcüğü ('S' hrfinin büyük yazıldığına dikkat ediniz) trait'in türünü değil
+    trait'i destekleyen türü belirtmektedir. Örneğin:
+
+    trait Test {
+        fn foo(&self, item: Self);
+    }
+
+    Buradaki Self anahtar sözcüğü Test anlamına gelmemektedir. Trait'i destekleyen türü belirtmektedir. Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self, val: Sample) {     // geçerli
+            //...
+        }
+    }
+
+    Buradaki destekleme geçerlidir. Burada foo fonksiyonun ikinci parametresi Sample türünü belirtmektedir. Tabii Rust
+    programcıları destekleme sırasında da Self anahtar sözcüğünü kullanmayı tercih etmektedir:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self, val: Self) {     // geçerli
+            //...
+        }
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Trait'ler "ilişkili türlere (associated types)" sahip olabilirler. Trait'lerin ilişkili türleri Rust'a yeni başlayanlarda
+    haklı olarak "generic" çağrışımı yaratmaktadır. Gerçekten de "generic" konusu ile "ilişkili türler" konusu mantıksal bir
+    çağrışım bağına sahiptir. Biz "generic" konusunu daha ileride ayrı bir bölümde ele alacağız.
+
+    Bir trait'teki ilişkili tür type anahtar sözcüğü ile bildirilmektedir. İlişkili tür bildiriminin genel biçimleri şöyledir:
+
+    1) type <tür_ismi>;
+    2) type <tür_ismi> = <default_tür>;
+    3) type <tür_ismi>: <tür_kısıtı>;
+    4) type <tür_ismi>: <tür_kısıtı> = <default_tür>;
+
+    İlişkili tür bildirimi tipik olarak type anahtar sözcüğünden sonra tür ismi belirtilerek yapılmaktadır. Örneğin:
+
+    trait Test {
+        type Item;
+
+        fn foo(&self);
+    }
+
+    Burada Item Test isimli trait'in ilişkili türüdür. İlişkili tür -ismi üzerinde- bir tür belirtmektedir. Bu tür trait'in
+    içerisinde olduğu için doğrudan değil ancak Self anahtar sözcüğü ve :: operatörü ile kullanılabilmektedir. Örneğin:
+
+    trait Test {
+        type Item;
+
+        fn foo(&self, item: Item);      // error!
+    }
+
+    Burada foo metodundaki Item ilişkili türünün doğrudan değil Self ile birlikte Self::Item biçiminde kullanılması gerekirdi:
+
+    trait Test {
+        type Item;
+
+        fn foo(&self, item: Self::Item);     // geçerli
+    }
+
+    Trait'ler içerisindeki Self anahtar sözcüğü trait türünü değil trait'i destekleyen yapı ya da enum türünü belirttiğini
+    söylemiştik. Dolayısıyla buradaki Self::Item ifadesi "bu trait'i dstekleyen yapı ya da enum türünde belirtilen Item türü"
+    anlamına gelmektedir. Trait içerisindeki ilişkili türlerin trait ismi ile belirtilmesi anlamsızdır ve error oluşturmaktadır.
+    Örneğin:
+
+    trait Test {
+        type Item;
+
+        fn foo(&self, item: Test::Item);     // error
+    }
+
+    İlişkili türe sahip bir trait desteklenirken bu ilişkili türün gerçekte hangi tür olduğu destekleme yapılırken impl
+    bloğu içerisinde açıkça belirtilmek zorundadır. (İlişkili türe sahip trait içerisinde ilişkili tür kullanılmamış olsa
+    bile bu trait desteklenirken yine ilişkili türün gerçekte hangi tür olduğu belirtilmek zorundadır.) Bu belirtme desteklemenin
+    yapıldığı impl bloğunun içerisinde aşağıdaki sentaksa uygun olarak yapılır:
+
+    type <tür_ismi> = <gerçek_tür>;
+
+    Örneğin yukarıdaki Test trait'ini Sample yapısında destekleyecek olalım:
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Test for Sample {
+        type Item = i32;
+
+        fn foo(&self, val: Self::Item) {
+            println!("{}", self.val);
+        }
+    }
+
+    Görüldüğü gibi trait'teki Item türünün ne olduğu impl bloğu içerisinde açıkça belirtilmiştir. Dolayısıyla foo metodunun
+    ikinci parametresi aslında i32 türündendir. Biz parametre bildiriminde Self::Item yerine açıkça i32 de yazabilirdik.
+    Ancak bu türün Self::Item biçiminde belirtilmesi tercih edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Trait bildiriminde ilişkili türe default bir tür de iliştirilebilmektedir. Bu durumda ilişkili türün gerçekte hangi tür
+    olduğu onu destekleyen türde belirtilmeyebilir. Örneğin:
+
+    trait Test {
+        type Item = i32;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    Burada Item tür ismi default olarak i32 türünü temsil etmektedir. Yani destekleme yapılırken bu türün gerçek türü
+    belirtilmemişse i32 olduğu varsayılacaktır. Örneğin:
+
+    trait Test {
+        type Item = i32;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Test for Sample {
+        fn foo(&self, val: Self::Item) {
+            println!("{}", self.val);
+        }
+    }
+
+    Ancak ilişkili türlere default tür iliştirilmesi henüz Rust'a "stable" olarak eklenmemiştir. Yani şimdilik "deneysel
+    (nightly)" bir özellik niteliğindedir. Bu nedenle yukarıdaki kodu "stable" sürümlerde (yani bizim kullandığımız normal
+    sürümlerde) derlemeye çalışırsanız error oluşacaktır. Biz "deneysel süürümlerin" nasıl yükleneceğini ileride açıklayacağız.
+
+    Tabii bir trait birden fazla ilişkili türe de sahip olabilir. Örneğin:
+
+    trait Test {
+        type Item;
+        type Target;
+
+        fn foo(&self, item: Self::Item) -> Self::Target;
+    }
+
+    Burada Test trait'inde Item ve Target isimli iki ilişkili tür bulunmaktadır. O halde biz bu trait'i desteklerken bu
+    iki ilişkili tür için de gerçek türü belirtmek zorundayız. Örneğin:
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Test for Sample {
+        type Item = i32;
+        type Target = i32;
+
+        fn foo(&self, val: Self::Item) -> Self::Target {
+            println!("{}", self.val);
+            10
+        }
+    }
+
+    Tabii ilişkili türler trait'in içerisinde ve desteklemenin yapıldığı impl bloğunun içerisinde herhangi bir yerde
+    belirtilebilir. Ancak bildirimin trait'lerin ve desteklenen impl bloklarının hemen başıda yapılması uygundur.
+
+    Burada bir nokta üzerinde de durmak istiyoruz. Trait'lerdeki Self anahtar sözcüğünün ('S' harfinin büyk harf olduğuna
+    dikkat eeiniz) ilgili trait'i destekleyen türü belirttiğini söylemiştik. Ancak ilişkili tür belirtilirken destekleyen
+    tür ile değil Self anahtar sözcüğü ile belirtmenin yapılması gerekmektedir. Örneğin:
+
+    trait Test {
+        type Item;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Test for Sample {
+        type Item = i32;
+
+        fn foo(&self, item: Sample::Item) {     // error!
+            println!("{}", self.val);
+        }
+    }
+
+    Burada foo metodunun ikinci parametresinin türü Sample::Item biçiminde değil Self::Item biçiminde belirtilmek zorundadır.
+    Ancak Item türü i32 anlamına geldiğinde göre Self::Item yerine i32
+
+
+    impl Test for Sample {
+        type Item = i32;
+
+        fn foo(&self, item: i32) {     // geçerli
+            println!("{}", self.val);
+        }
+    }
+
+----------------------------------------------------------------------------------------------------------------------------
+
+    Trait'lerin ilişkili türlerinde "kısıt (bound)" belirtilebilmektedir. Aslında Rust'ta "kısıt oluşturma (bounding)"
+    generic'ler konusuyla da ilgili olan genel bir konudur. Biz bu konuyu ayrıntılı olarak generic'leri anlattığımız bölümde
+    ele alacağız.
+
+    Generic tür parametrelerinde ve ilişkili türlerde "tür kısıtları (type bounds)" gerçek türler belirtilirken onların
+    sağlaması gereken koşulları belirtmektedir. Tür kısıtları tipik olarak "belli bir trait'i destekleme" biçiminde oluşturulmaktadır.
+    Ancak yukarıda da belirttiğimiz gibi konunun ayrıntıları da vardır. İlişkili türlerde tür kısıtları ':' sentaksıyla
+    belirtilmektedir:
+
+    type <tür_ismi>: <tür_kısıtı>;
+
+    Tür kısıtı trait içerisinde oluşturulmaktadır. Eğer ilişkili türde tür kısıt olarak bir trait belirtilirse "bu
+    ilişkili türün gerçekte hangi tür olduğu belirtilirken o gerçek türün sentaksta belirtilen trait'i desteklemesi
+    gerekmektedir. Örneğin:
+
+    trait A {
+        type Item: B;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        fn bar(&self);
+    }
+
+    Burada A trait'indeki Item isimli ilişkili tür mutlaka B trait'ini destekleyen bir tür olmak zorundadır. Örneğin aşağıdaki
+    destekleme bu kısıtı sağlamadığı için error oluşturacaktır:
+
+    struct Sample {
+        value: i32,
+    }
+
+    impl A for Sample {
+        type Item = i32;                        // error!
+        fn foo(&self, item: Self::Item) {
+            println!("A::foo");
+        }
+    }
+
+    Biz burada Item türünün gerçekte i32 olduğunu belirttik. Ancak kısıta uymadık. Burada belirteceğimiz türün B trait'ini
+    destekliyor olması gerekirdi. Şimdi trait'te belirtilen kısıta uyalım:
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl A for Sample {
+        type Item = Mample;             // geçerli, Mample B trait'ini destekliyor
+
+        fn foo(&self, item: Self::Item) {
+            println!("A::foo");
+        }
+    }
+
+    struct Mample {
+        m: i32
+    }
+
+    impl B for Mample {
+        fn bar(&self) {
+            println!("Mample::bar");
+        }
+    }
+
+    Burada Item türü Mample olarak belirtilmiştir. Mample yapısı da B trait'ini desteklemektedir. O halde kısıta uyulmuştur.
+
+    İlişkili türün birden fazla trait'i desteklemesine ilişkin kısıt da oluşturabilmektedir. Çoklu trait kısıtları trait'lerin
+    '+' atomuyla listelenmesiyle oluşturulmaktadır. Örneğin:
+
+    trait A {
+        type Item: B + C;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        fn bar(&self);
+    }
+
+    trait C {
+        fn tar(&self);
+    }
+
+    Burada Item ilişkili türü yalnızca B trait'ini değil aynı zamanda C trait'ini de destekleyen bir tür türünden olamlıdır.
+    Örneğin:
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl A for Sample {
+        type Item = Mample;                 // geçerli
+        fn foo(&self, item: Self::Item) {
+            println!("Sample::foo");
+        }
+    }
+
+    struct Mample {
+        m: i32
+    }
+
+    impl B for Mample {
+        fn bar(&self) {
+            println!("B::bar");
+        }
+    }
+
+    impl C for Mample {
+        fn tar(&self) {
+            println!("C::tar");
+        }
+    }
+
+    Burada Mample yapısının hem B trait'ini hem de C trait'ini dsteklediğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------
+
+    A trait'inin Item isimli ilişkili türünde B trait'ine ilişkin bir kısıt oluşturduğumuzu düşenelim. Örneğin:
+
+    trait A {
+        type Item: B;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        type Target;
+
+        fn bar(&self) -> Self::Target;
+    }
+
+    Buradaki B trait'inin de ilişkili türleri olabilir. Ancak yukarıdaki kısıt B'deki ilişkili türlerin ne olması gerektiği
+    konusunda bir kısıt içermemektedir. Yukarıdaki kısıtta "A trait'indeki Item ilişkli türü" B trait'ini destekleyen bir tür
+    türünden olmalıdır. Ancak bu destekleme yapılırken "B türündeki Target" herhangi bir tür olarak belirlenebilir. İşte biz
+    istersek tür kısıtı oluştururken aynı zamanda desteklenmesi istenen trait'teki ilişkili türler için de kısıtlar belirtebiliriz.
+    Bu belirleme aşağıdaki sentaksla yapılmaktadır:
+
+    type tür_ismi = trait_ismi<traitteki_tür_ismi = gerçek_tür>;
+
+    Örneğin:
+
+   trait A {
+        type Item: B<Target=f64>;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        type Target;
+
+        fn bar(&self,  item: Self::Target);
+    }
+
+    A'tratindeki Item isimli ilişkili türdeki kısıta dikkat ediniz. Bu kısıt şunu söylemektedir: "Bu trait'i destekleyen türde
+    Item ilişkili türünün belirttiği gerçek tür B trait'ini, B trait'indeki Target ilişkli türü f64 olacak biçimde desteklemelidir."
+    Yani buradaki kısıt "hem Item türünün B trait'ini desteklemesi hem de desteklerken de B trait'indeki ilişki türün f64 olması
+    gerektiği" anlamına gelmektedir.
+
+# 57. Ders 15/10/2025 - Çarşamba
+
+    Yukarıda açıkladığımız karmaşık ilişkili tür kısıtını maddeler halinde açıklayalım. Trait'ler aşağıdaki gibi olsun:
+
+    trait A {
+        type Item: B<Target=f64>;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        type Target;
+
+        fn bar(&self,  item: Self::Target);
+    }
+
+    Burada A trait'indeki ilişkili tür kısıtına dikkat ediniz:
+
+    type Item: B<Target=f64>
+
+    Bu tür kısıtı şu anlamlara gelmektedir:
+
+    1) A trait'ini destekleyecek yapı ya da enum türünde Item türü B trait'ini destekleyen bir tür olmak zorundadır.
+    2) B trait'ini destekleyen türdeki Target ilişkili türü f64 olmak zorundadır.
+
+    Şimdi bu kısıtların sağlanıp sağlanmadığına yönelik örnekler verelim. Aşağıdaki örneğe dikkat ediniz:
+
+    trait A {
+        type Item: B<Target=f64>;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        type Target;
+
+        fn bar(&self,  item: Self::Target);
+    }
+
+    struct Sample;
+
+    impl A for Sample {
+        type Item = Mample;         // error!
+
+        fn foo(&self, item: Self::Item) {
+            println!("A::foo");
+        }
+    }
+
+    struct Mample;
+
+    impl B for Mample {
+        type Target = i32;
+
+        fn bar(&self, target: Self::Target) {
+            println!("B::bar");
+        }
+    }
+
+    Burada A'daki Item kısıtı Sample yapısında karşılanmamıştır. Evet Item türü B trait'ini destekleyen Mample türündendir.
+    Ancak Mample türünde B desteklenirken Target ilişkili türünün f64 olarak belirtilmesi gerekir. Halbuki örneğimizde Target
+    türü i32 olacak biçimde destekleme yapılmıştır. Örneğimizde yapı elemanlarının bir önemi olmadığı için birimsel yapı
+    kullandığımıza da dikkat ediniz.
+
+    Şimdi örneğimizi düzeltelim:
+
+    trait A {
+        type Item: B<Target=f64>;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    trait B {
+        type Target;
+
+        fn bar(&self,  item: Self::Target);
+    }
+
+    struct Sample;
+
+    impl A for Sample {
+        type Item = Mample;         // error!
+
+        fn foo(&self, item: Self::Item) {
+            println!("A::foo");
+        }
+    }
+
+    struct Mample;
+
+    impl B for Mample {
+        type Target = i32;
+
+        fn bar(&self, target: Self::Target) {
+            println!("B::bar");
+        }
+    }
+
+    Artık A trait'indeki Item kısıtına uyulmuştur. Tabii eğer A trait'indeki tür kısıtı aşağıdaki gibi olsaydı bu durumda
+    Target için bir kısıt aranmayacaktır:
+
+     trait A {
+        type Item: B;
+
+        fn foo(&self, item: Self::Item);
+    }
+
+    Artık A trait'ini destekleyen yapıdaki Item ilişki türünün B trait'ini desteklemesi yeterlidir. B türündeki Target türü
+    destekleme yapılırken herhangi bir tür olabilir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yukarıdaki gibi tür kısıtlarına Rust'ın standart kütüphanesinde oldukça sık rastlanmaktadır. Örneğin:
+
+    pub trait IntoIterator {
+        type Item;
+        type IntoIter: Iterator<Item = Self::Item>;
+
+        // Required method
+        fn into_iter(self) -> Self::IntoIter;
+    }
+
+    Şimdi bu trait tanımlamasında ne denmek istendiğini madde madde açıklayalım:
+
+    1) IntoIterator türünü destekleyen yapı ya da enum türü mutlaka impl bloğu içerisinde Item ve IntoIter türlerininin
+    gerçekte hangi türler olduğunu belirtmek zorundadır.
+
+    2) IntoIterator türünü destekleyen yapı ya da enum türünde IntoIter türü herhangi bir tür olarak belirlenemez. Mutlaka
+    bu türün Iterator trait'ini destekliyor olması gerekir. Ancak bu da yetmemektedir. Bu türün Iterator trait'ini desteklerken
+    aynı zamanda Iterator trait'indeki Item türünü de kendi belirlediği Item türünden olacak biçimde belirlemesi gerekir.
+
+    Iterator trait'i şöyle tanımlanmıştır:
+
+    pub trait Iterator {
+        type Item;
+
+        // Required method
+        fn next(&mut self) -> Option<Self::Item>;
+        //...
+    }
+
+    Görüldüğü gibi Iterator trait'inde de Item isimli bir ilişki tür vardır. Şimdi IntoIterator trait'ini destekleyen bir yapı
+    oluşturup söz konusu kısıtları sağlamaya çalışalım:
+
+    struct Sample {
+        text: String
+    }
+
+    impl IntoIterator for Sample {
+        type Item = char;
+        type IntoIter = SampleIterator;
+
+        fn into_iter(self) -> Self::IntoIter {
+            SampleIterator {
+                //...
+            }
+        }
+    }
+
+    Görüldüğü gibi Sample yapısında Item ve IntoIter türleri belirlenmiştir. IntoIter türünün SampleIterator türü olarak
+    belirtildiğine dikkat ediniz. SampleIterator yapısı da şöyle tanımlanabilir:
+
+    struct SampleIterator {
+        //...
+    }
+
+    impl Iterator for SampleIterator {
+        type Item = char;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            None
+        }
+    }
+
+    Artık IntoIterator trait'indeki kısıtların sağlandığını görüyorsunuz.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    //...
+}
+
+struct Sample {
+    text: String
+}
+
+impl IntoIterator for Sample {
+    type Item = char;
+    type IntoIter = SampleIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        SampleIterator {
+            //...
+        }
+    }
+}
+
+struct SampleIterator {
+    //...
+}
+
+impl Iterator for SampleIterator {
+    type Item = char;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        None
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki örneklerimizde genellikte trait'lerin içerisine metotlar yerleştirdik. Halbuki trait'lerde ilişki fonksyonlar
+    da bulundurulabilmektedir. Yani trait'teki fonksiyonların ilk parametreleri self, &self ve &mut self olmak zorunda değildir.
+    Örneğin Rust'ın standart kütüphanesinde std::convert modülünde bulunan From isimli generic trait'e dikkat ediniz:
+
+    pub trait From<T>: Sized {
+       // Required method
+        fn from(value: T) -> Self;
+    }
+
+    Biz bu trait'ten ne anlıyoruz? Trait'teki foo bir metot değildir, ilişkili fonksiyondur. Bu fonksiyonun geri dönüş değeri
+    bu trait hangi tür tarafından destekleniyorsa o tür türünden olmak zorundadır. Parametresi ise T türünden yani generic
+    parametre türünden olmak zorundadır. From trait'inin Sized isimli bir trait'ten türedildiğine de dikkat ediniz. Bir trait'i
+    desteklerken onun taban trait'lerinin de desteklenmesi gerektiğini anımsayınız. Ancak buradaki Sized trait'inin içi boştur.
+    Bu tür içi boş derleyici tarafından özel anlamları olan trait'leri "marker trait'ler" denilmektedir.
+
+    Şimdi kendi yapımız için bu trait'in desteklenmesine bir örnek verelim:
+
+    struct Sample {
+        value: f64
+    }
+
+    impl Sample {
+        fn disp(&self) {
+            println!("{}",self.value);
+        }
+    }
+
+    impl From<f64> for Sample {
+        fn from(item: f64) -> Sample {
+            Sample {value: item}
+        }
+    }
+
+    impl From<i32> for Sample {
+        fn from(item: i32) -> Sample {
+            Sample {value: item as f64}
+        }
+    }
+
+    Generic türün her farklı türden açılımın farklı bir tür belirttiğine dikkat ediniz. From<f64> ile From<i32> farklı yapı
+    türleridir. From trait'indeki from bir ilişkili fonksiyon olduğu için yapı türünden bir değişkenle değil yapı ismiyle
+    çağrılmalıdır:
+
+    fn main() {
+        let s = Sample::from(3.14);
+        s.disp();
+
+        let k = Sample::from(20);
+        k.disp();
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ın standart kütüphanesinde std::convert modülünde TryFrom isimli bir trait daha vardır. Bu trait de aşağıdaki gibi
+    tanımlanmıştır:
+
+    pub trait TryFrom<T>: Sized {
+        type Error;
+
+        // Required method
+        fn try_from(value: T) -> Result<Self, Self::Error>;
+    }
+
+    TryFrom trait'ini destekleyecek olan yapı ya da enum türü Error ilişkili türünü açıkça belirlemek zorudadır. Trait'in
+    try_from isimli ilişkili fonksiyonuna dikkat ediniz. Bu fonksiyonun parametresi T türünden, geri dönüş değeri
+    Result<Self, Self::Error> türündendir. Biz Result türünün bir enum türü olduğunu ve Ok ile Err isimli iki varyantının
+    bulunduğunu görmüştük. Burada Ok varyantı Self türünden, Err varyantı ise bizim belirlediğimiz Error türündendir.
+
+    TryFrom trait'i bir yapı ya da enum türüne dönüştürme yapılırken dönüştürmenin kayıplı ya da başarısız olabileceği
+    durumlarda kullanılmaktadır. Örneğin aşağıdaki gibi bir Smaple yapımız için From<String> trait'ini destekleyecek
+    olalım:
+
+    struct Sample {
+        val: i32
+    }
+
+    trait From<String> for Sample {
+        fn from(item: i32) -> Sample {
+            //
+        }
+    }
+
+    Burada ya String içerisindeki yazı i32 ile ifade edilebilecek bir değer içermiyorsa ne olacaktır? C'deki atoi semantiğini
+    uygulamak isteyebilirsiniz. Yani geçersiz yazılar için 0 değerini verebilirsiniz. Ancak Rust için (aslında C için de) bu
+    semantik uygun değildir. İşte bu tür durumlarda From trait'i yerine TryFrom trait'i tercih edilmektedir. Çünkü yapı türüne
+    yapılacak dönüşüm başarısız olabilmektedir. O halde Sample yapımız için From trait'ini değil TryFrom trait'ini destekleyebiliriz:
+
+    impl TryFrom<String> for Sample {
+        type Error = String;
+
+        fn try_from(value: String) -> Result<Self, Self::Error> {
+            if let Ok(val) = value.parse::<i32>() {
+                Ok(Sample {  value: val })
+            }
+            else {
+                Err("Invalid Value".to_string())
+            }
+        }
+    }
+
+    Burada Error ilişkili türünün String olarak belirlendiğine dikkat ediniz. Biz burada yazının geçerliliğini String yapısının
+    generic parse metodu ile tespit ettik. String yapısının generic parse metodu da aslında Result türüne geri dönmektedir.
+    Ancak bizim geri dönmemiz gereken Result türü ile parse metodunun geri döndüğü Result türü farklıdır. Bu nedenle biz parse
+    metodunun geri dönüş değerinin önce Ok olup olmadığına baktık. Tabii buradaki try_from ilişkili fonksiyonunda biz match
+    deyimini de kullanabilirdik:
+
+    impl TryFrom<String> for Sample {
+        type Error = String;
+
+        fn try_from(value: String) -> Result<Self, Self::Error> {
+            match value.parse::<i32>() {
+                Ok(val) => Ok(Sample { value: val }),
+                Err(_) => Err("Invalid value".to_string()),
+            }
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s: Sample;
+
+    match Sample::try_from("ankara".to_string()) {
+        Ok(s) => println!("{}", s.value),
+        Err(e) => println!("{}", e),
+    }
+}
+
+struct Sample {
+    value: i32
+}
+
+impl Sample {
+    fn disp(&self) {
+        println!("{}",self.value);
+    }
+}
+
+impl TryFrom<String> for Sample {
+    type Error = String;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match value.parse::<i32>() {
+            Ok(val) => Ok(Sample { value: val }),
+            Err(_) => Err("Invalid value".to_string()),
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta biz başka bir crate'te başkaları tarafından yazılmış olan türlerin (hatta i32, i64, f32, f64 gibi temel türlerin
+    de) kendi trait'lerimizi desteklemesini sağlayabiliriz. Böylece biz adeta başkaları tarafından yazılmış olan türlere ve
+    temel türlere metot ve ilişkili fonksiyon eklemiş gibi oluruz. Örneğin:
+
+    trait Disp {
+        fn disp(&self);
+    }
+
+    impl Disp for i32 {
+        fn disp(&self) {
+            println!("{}", self);
+        }
+    }
+
+    Burada i32 türü için Disp trait'ini destekledik. Halbuki i32 türünü biz oluşturmadık. Artık i32 türünden bir değişken
+    ya da değerle disp metodunu da çağırabiliriz. Örneğin:
+
+    fn main() {
+        let a: i32 = 100;
+
+        a.disp();           // geçerli
+    }
+
+    Örneğin:
+
+    trait Disp {
+        fn disp(&self);
+    }
+
+    impl Disp for str {
+        fn disp(&self) {
+            println!("{}", self);
+        }
+    }
+
+    Burada disp metodundaki &self aslında &str türündendir. Yani string dilim referansı belirtmektedir. Biz artık örneğin
+    "ankara".disp() biçiminde bir çağrı yapabiliriz. Buradaki "ankara" str türündendir. Ancak bu str türü ile disp metodu
+    çağrıldığında otomatik olarak bu str değerinin adresi alınıp self parametresine yerleştirilecektir.
+
+    Ancak Rust'ta başkaları tarafından yazılmış olan türlere trait desteği verebilmek için ya trait'in kendi crate'imizde
+    ya da destek vermek istediğimiz yapı ya da enum türünün kendi crate'imizde olması gerekmektedir. Yukarıdaki örneklerde
+    i32 ve str türleri bizim crate'imizde değildir fakat Disp trait'i bizim crate'imizdedir. Ancak örneğin biz başka bir
+    crate'teki yapıyı başka bir crate'teki trait ile destekleyemeyiz.
+
+    Şimdi "nasıl olsa bir tür için birden fazla impl bloğu oluşturulabiliyor, o zaman hiç trait desteği olmadan da başkaları
+    tarafındna yazılmış olan türlere metot ekleyemez miyim" sorusu aklınıza gelebilir. Örneğin:
+
+    impl String {                   // error!
+        fn disp(&self) {
+            println!("{}", self);
+        }
+    }
+
+    İşte Rust'ta başka bir crate içerisinde oluşturulmuş olan tür için başka create'te impl bloğu oluşturulamamaktadır. O
+    halde bu tür işlemleri ancak trait desteği ile yapabilmekteyiz.
+---------------------------------------------------------------------------------------------------------------------------
+
 
 
 
