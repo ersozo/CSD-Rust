@@ -5746,45 +5746,45 @@
     for döngüsünde bir diziyi iter metodu ile dolaşmakla dizinin adresini alarak dolaşmak işlevsel olarak eşdeğerdir.
     Aşağıdaki iki dolaşım biçimi eşdeğerdir:
 
-    for x in a.iter() {
-        //...
-    }
+        for x in a.iter() {
+            //...
+        }
 
-    for x in &a {
-        //...
-    }
+        for x in &a {
+            //...
+        }
 
     Her iki dolaşımda da dizinin türü T olmak üzere x değişkeni &T türündendir. Yani for döngüsünde eğer bir diziyi adres
     yoluyla dolaşmak istiyorsak iter metodunu çağırmak yerine dizi nesnesinin adresini de alabiliriz. Tabii dizi adres yoluyla
     dolaşıldığı için bu durumda dizinin sahipliği devredilmez. Dolayısıyla for dögüsü bittiğinde de biz diziyi kullanılabiliriz.
     Örneğin:
 
-    let names: [String; 5] = [
-        String::from("Ali"),
-        String::from("Veli"),
-        String::from("Selami"),
-        String::from("Ayşe"),
-        String::from("Fatma")
-    ];
+        let names: [String; 5] = [
+            String::from("Ali"),
+            String::from("Veli"),
+            String::from("Selami"),
+            String::from("Ayşe"),
+            String::from("Fatma")
+        ];
 
-    for name in &names {
-        println!("{}", *name);
-    }
-    println!("{:?}", names);            // geçerli
+        for name in &names {
+            println!("{}", *name);
+        }
+        println!("{:?}", names);            // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
 
-    let names: [String; 5] = [
-        String::from("Ali"),
-        String::from("Veli"),
-        String::from("Selami"),
-        String::from("Ayşe"),
-        String::from("Fatma")
-    ];
+        let names: [String; 5] = [
+            String::from("Ali"),
+            String::from("Veli"),
+            String::from("Selami"),
+            String::from("Ayşe"),
+            String::from("Fatma")
+        ];
 
-    for name in &names {
-        println!("{}", *name);
-    }
-    println!("{:?}", names);            // geçerli
+        for name in &names {
+            println!("{}", *name);
+        }
+        println!("{:?}", names);            // geçerli
 
 ---------------------------------------------------------------------------------------------------------------------------
     Burada belki şu anda anlamayacak olsanız da geleceğe yönelik bir ayrıntıyı açıklamak istiyoruz. Rust'ta bir dizinin &
@@ -5793,22 +5793,22 @@
     bir türe otomatik dönüştürülmesine İngilizce "type coercion" denilmektedir. İşte Rust'ta aşağıdaki dönüştürme otomatik
     olarak yapılabilmektedir:
 
-    let rnames: &[String; 5] = &names;          // geçerli burada "coercion" yok, türler aynı
-    let srnames: &[String] = rnames;            // geçerli &[String; 5] türü otomatik olarak &[String] türüne dönüştürülebilir
+        let rnames: &[String; 5] = &names;          // geçerli burada "coercion" yok, türler aynı
+        let srnames: &[String] = rnames;            // geçerli &[String; 5] türü otomatik olarak &[String] türüne dönüştürülebilir
 
     İşte dilim referanları for döngüsünde kullanıldığında sanki dilim referansıyla iter metodu çağrılmış gibi olmaktadır.
     Yani aslında:
 
-    for name in &names {
-        //...
-    }
+        for name in &names {
+            //...
+        }
 
     Bu işlemin eşdeğeri şöyledir:
 
-    let temp: &[String] = &names;
-    for name in temp.iter() {
-        //...
-    }
+        let temp: &[String] = &names;
+        for name in temp.iter() {
+            //...
+        }
 
     Buradaki iter metodu diziye ilişkin iter metodu değil, dilime ilşkin iter metodudur.
 
@@ -5822,28 +5822,28 @@
     dizi elemanları üzerinde değişiklikler yapılabilir. Tabii iter_mut metodunun kullanılabilmesi için dizinin de mut olması
     gerekir. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for x in a.iter_mut() {             // error!
-        //...
-    }
+        for x in a.iter_mut() {             // error!
+            //...
+        }
 
     Burada dizi mut olmadığı için biz dizi ile iter_mut metodunu çağıramayız. Şimdi diziyi mut yapalım:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for x in a.iter_mut() {             // geçerli
-        //...
-    }
+        for x in a.iter_mut() {             // geçerli
+            //...
+        }
 
     Burada artık x &i32 türünden değil &mut i32 türünden olacaktır. Dolayısıyla artık biz döngü değişkenini * operatörüyle
     kullanarak atama yaparsak dizinin ilgili elemanına atama yapmış oluruz. Örneğin:
 
-    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+        let mut a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    for x in a.iter_mut() {
-        *x = *x * *x;
-    }
+        for x in a.iter_mut() {
+            *x = *x * *x;
+        }
 
     Burada x &mut i32 türündendir. Biz aslında dizinin her elemanını onun karesiyle değiştirmiş olduk.
 
@@ -5857,105 +5857,105 @@
     yol açmaktadır. Bu dizi referansı da otomatik olarak &mut [T] türüne dönüştürülmektedir. İşte bu türün de iter_mut metodu
     devreye girmektedir. Dolayısıyla T dizinin türünü belirtmek üzere aşağıdaki üç döngü işlevsel olarak tamamen eşdeğerdir:
 
-    for x in a.iter_mut() {
-        //...
-    }
+        for x in a.iter_mut() {
+            //...
+        }
 
-    for x &mut a {
-        //...
-    }
+        for x &mut a {
+            //...
+        }
 
-    let temp: &[T] = &a;
-    for x &mut temp {
-        //...
-    }
+        let temp: &[T] = &a;
+        for x &mut temp {
+            //...
+        }
 
     Yazım bakımından hangisinin tercih edileceği programcıya kalmıştır. Tabii daha az tuşa basmak isteniyorsa ikinci biçim
     tercih edilebilir. Ancak bazen ileride göreceğimiz gibi zincirli çağrımlar yapılması gerekrbilir. Bu durumda birinci
     biçimi kullanmak daha uygun olabilir. Örneğin:
 
-    let mut a: [i32;5] = [10, 20, 30, 40, 50];
+        let mut a: [i32;5] = [10, 20, 30, 40, 50];
 
-    for x in &mut a {
-        *x = *x * *x;
-    }
+        for x in &mut a {
+            *x = *x * *x;
+        }
 
-    for x in a {
-        print!("{} ",x);
-    }
+        for x in a {
+            print!("{} ",x);
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-    fn main() {
-    let mut a: [i32;5] = [10, 20, 30, 40, 50];
+        fn main() {
+        let mut a: [i32;5] = [10, 20, 30, 40, 50];
 
-    for x in &mut a {
-        *x = *x * *x;
-    }
+        for x in &mut a {
+            *x = *x * *x;
+        }
 
-    for x in a {
-        print!("{} ",x);
+        for x in a {
+            print!("{} ",x);
+        }
+        println!("");
     }
-    println!("");
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir diziyi iteratör yoluyla dolaşmanın üç yöntemini aşağıda özetliyoruz. a dizisinin T türünden olduğunu varsayıyoruz:
 
     1) Tüketici dolaşım:
 
-    for x in a.into_iter() {
-        //...
-    }
+            for x in a.into_iter() {
+                //...
+            }
 
-    Eşdeğeri:
+        Eşdeğeri:
 
-    for x in a {
-        //...
-    }
+            for x in a {
+                //...
+            }
 
-    Burada x T türündendir. int_iter metodu dizi türünün bir metodudur.
+        Burada x T türündendir. int_iter metodu dizi türünün bir metodudur.
 
     2) Adres yoluyla dolaşım:
 
-    for x in a.iter() {
-        //...
-    }
+            for x in a.iter() {
+                //...
+            }
 
-    Eşdeğeri:
+        Eşdeğeri:
 
-    for x in &a {
-        //...
-    }
+            for x in &a {
+                //...
+            }
 
-    Burada x &T tründendir. iter metodu dilim türünün bir metodudur.
+        Burada x &T tründendir. iter metodu dilim türünün bir metodudur.
 
     3) mut adres yoluyla dolaşım:
 
-     for x in a.iter_mut() {
-        //...
-    }
+            for x in a.iter_mut() {
+                //...
+            }
 
-    Eşdeğeri:
+        Eşdeğeri:
 
-    for x in &mut a {
-        //...
-    }
+            for x in &mut a {
+                //...
+            }
 
-    Burada x &mut T türündendir. iter_mut metodu dilim türünün bir metodudur.
+        Burada x &mut T türündendir. iter_mut metodu dilim türünün bir metodudur.
 ---------------------------------------------------------------------------------------------------------------------------
     Bir dizinin belli bir kısmının elde edilmesi işlemine "dizinin dilimlenmesi (array slicing)" denilmektedir. Dizi dilimleme
     yalnızca Rust'a özgü bir özellik değildir. Örneğin Python'da, Ruby'de, Go'da, Swift'te ve Kotlin'de de dizi dilimlemesi
     vardır. Rust'ta dizileri dilimleyebilmek için [] operatörünün içerisine range ifadelerinin yerleştirilmesi gerekir.
     Range ifadelerinin pratik oluşturulma biçimlerini aşağıdaki özet tabloyla yeniden anımsatmak istiyoruz:
 
-      Yapı İsmi              Range Operatör İle Yaratım
-    ------------            --------------------------
-    Range                   a..b
-    RangeInclusive          a..=b
-    RangeFrom               a..
-    RangeTo                 ..b
-    RangeToInclusive        ..=b
-    RangeFull               ..
+        Yapı İsmi              Range Operatör İle Yaratım
+        ------------            --------------------------
+        Range                   a..b
+        RangeInclusive          a..=b
+        RangeFrom               a..
+        RangeTo                 ..b
+        RangeToInclusive        ..=b
+        RangeFull               ..
 
     Biz bu range ifadelerinin hepsini for döngülerinde kullanamıyorduk. Ancak bu range ifadelerinin hepsi dilimlemede
     kullanılabilmektedir. Bir dizi range ifadeleriyle dilimlendiğinde elde edilen ürüne "dizi dilimi (array slice)" ya da
@@ -5977,7 +5977,7 @@
 
     Yukarıda da belirttiğimiz gibi biz bir dilimi [T] türünden bir değişkene de atayamayız. Örneğin a dizisi i32 türünden olsun:
 
-     let s:[i32] = a[..];           // error
+        let s:[i32] = a[..];           // error
 
     Burada a[..] ifadesi bir dilim belirtmektedir ve [i32] türündendir. Ancak biz bu dilimi [i32] türünden bir değişkene bile
     atayamayız. Ancak dilimler doğrudan dilim metotlarının çağrılmasında kullanılabilmektedir. Örneğin Rust'ta a[..].len()
@@ -5992,10 +5992,10 @@
 ---------------------------------------------------------------------------------------------------------------------------
     Yukarıdaki anlatımlar ışığında biz &a[x..y] ifadesini biz ancak &[T] türünden bir değişkene atayabiliriz. Örneğin:
 
-    let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-    let sr: &[i32];
+        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let sr: &[i32];
 
-    sr = &a[3..6];      // geçerli!
+        sr = &a[3..6];      // geçerli!
 
     Pekiyi böylesi bir atamada sr referansının içerisine ne yerleştirilmektedir? İşte dilim referansları aslında iki elemanlı
     bir yapı gibi bellekte yer kaplamaktadır. Yani buradaki sr değişkeni aslında iki parçadan oluşmaktadır. Birinci parça
@@ -6003,125 +6003,126 @@
     hem adres hem de uzunluk tutan referanslara (referanslar da bir çeşit göstericidir) "şişman göstericiler (fat pointers)"
     da denilmektedir. Bir dilim referansını şekilsel olarak şöyle gösterebiliriz:
 
-     Dilim Referansı
-    ┌────────────┐
-    │ gösterici  │
-    └────────────┘
-    ┌────────────┐
-    │ uzunluk    │
-    └────────────┘
+        Dilim Referansı
+        ┌────────────┐
+        │ gösterici  │
+        └────────────┘
+        ┌────────────┐
+        │ uzunluk    │
+        └────────────┘
 
     Pekiyi bu biçimdeki bir dizi dilim referansı bellekte kaç byte yer kaplayacaktır? İşte anımsanacağı gibi adres bilgileri
     çalışılan sistemin kaç bitlik olduğuna bağlı olarak değişeblmekteydi. Dizi dilim referansının uzunluk tutan kısmı usize
     türündendir. Referansın bu kısmı da sistemin kaç bitlik olduğuna göre değişebilmektedir. O halde 32 bit sistemlerde bu
     referans toplam 4 + 4 = 8 byte, 64 bit sistemlerde 8 + 8 = 16 byte yer kaplayacaktır.
+
 # 24. Ders 02/06/2025 - Pazartesi
 
     Dizileri dilimlerken daha önce görmüş olduğumuz tüm range ifadeleri kullanılabilmektedir. Örneğin a bir dizi olsun.
     Aşağıdaki dilimlemelerin hepsi geçerlidir:
 
-    Dilimleme Biçimi            Anlamı
+        Dilimleme Biçimi            Anlamı
 
-    a[x..y]                    x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
-    a[x..=y]                   x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil
-    a[..y]                     Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
-    a[..=y]                    Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil
-    a[..]                      Dizinin tüm elemanları
+        a[x..y]                    x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
+        a[x..=y]                   x'inci indeksten y'inci indekse kadar dizi elemanları, y'inci indeks dahil
+        a[..y]                     Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil değil
+        a[..=y]                    Baştan itibaren y'inci indekse kadar dizi elemanları, y'inci indeks dahil
+        a[..]                      Dizinin tüm elemanları
 
     Daha önceden de belirttiğimiz gibi (bu konun ayrıntıları ileride ayrı bir başlık halinde ele alınacak) bir dizinin adresi
     otomatik olarak dizi dilim referansına dönüştürülebilmektedir. Bu durumda bir dizinin tamamından dilim elde etmenin iki
     yolu vardır (dizinin T türünden olduğunu varsayıyoruz):
 
-    1) let sr: &[T] = &a[..];
-    2) let sr: &[T] = &a;
+       1) let sr: &[T] = &a[..];
+       2) let sr: &[T] = &a;
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta diziler fonksiyonlara iki yöntemle aktarılmaktadır:
 
-    1) Dizinin tamamının kopyalanarak fonksiyona aktarılması yöntemi: Rust'ta dizinin tüm elemanlarını fonksiyona kopyalayarak
-    bu biçimde aktarabiliriz. Böyle bir aktarım yöntemi C'de yoktur. Bu yöntemde fonksiyonun parametre değişkeni dizi ile aynı
-    türden bir dizi olur. Fonksiyon da aynı türden bir dizi ile çağrılır. Örneğin:
+       1) Dizinin tamamının kopyalanarak fonksiyona aktarılması yöntemi: Rust'ta dizinin tüm elemanlarını fonksiyona kopyalayarak
+       bu biçimde aktarabiliriz. Böyle bir aktarım yöntemi C'de yoktur. Bu yöntemde fonksiyonun parametre değişkeni dizi ile aynı
+       türden bir dizi olur. Fonksiyon da aynı türden bir dizi ile çağrılır. Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+            fn main() {
+                let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-        foo(a);
-    }
+                foo(a);
+            }
 
-    fn foo(a: [i32; 10]) {
-        //...
-    }
+            fn foo(a: [i32; 10]) {
+                //...
+            }
 
-    Zaten biz Rust'ta bir diziyi aynı türden bir diziye atayabiliyorduk. Fonksiyon çağrıldığında argümanlardan parametre
-    değişkenlerine atama yapıldığını anımsayınız. Bu biçimde aktarımda eğer dizi türü Copy değilse (yani taşınabilen bir türse)
-    bu durumda aktarımdan sonra dizinin sahipliği kaybedilir. Dizi çağıran fonksiyonda artık kullanılamaz.
-    Örneğin:
+        Zaten biz Rust'ta bir diziyi aynı türden bir diziye atayabiliyorduk. Fonksiyon çağrıldığında argümanlardan parametre
+        değişkenlerine atama yapıldığını anımsayınız. Bu biçimde aktarımda eğer dizi türü Copy değilse (yani taşınabilen bir türse)
+        bu durumda aktarımdan sonra dizinin sahipliği kaybedilir. Dizi çağıran fonksiyonda artık kullanılamaz.
+        Örneğin:
 
-    fn main() {
-        let names:[String; 5] = [
-            "ali".to_string(),
-            "veli".to_string(),
-            "selami".to_string(),
-            "ayşe".to_string(),
-            "fatma".to_string()
-        ];
+            fn main() {
+                let names:[String; 5] = [
+                    "ali".to_string(),
+                    "veli".to_string(),
+                    "selami".to_string(),
+                    "ayşe".to_string(),
+                    "fatma".to_string()
+                ];
 
-        foo(names);
+                foo(names);
 
-        for name in &names {                // error!
-            println!("{}", *name);
-        }
-    }
+                for name in &names {                // error!
+                    println!("{}", *name);
+                }
+            }
 
-    fn foo(names: [String; 5]) {
-        for name in &names {
-            println!("{}", *name);
-        }
-    }
+            fn foo(names: [String; 5]) {
+                for name in &names {
+                    println!("{}", *name);
+                }
+            }
 
-    Bu örnekte standart kütüpahedeki String türü bir Copy türü olmadığı için sahiplik kaybedilmiştir. Tabii dizilerin bu biçimde
-    fonksiyonlara aktarılması özel bir durum söz konusu sonra tercih edilmez. Dolayısıyla kötü bir tekniktir. (Bu durumu C'deki
-    yapı nesnelerinin fonksiyona adres yoluyla değil de kopyalama yoluyla aktarılmasına benzetebilirsiniz.)
+        Bu örnekte standart kütüpahedeki String türü bir Copy türü olmadığı için sahiplik kaybedilmiştir. Tabii dizilerin bu biçimde
+        fonksiyonlara aktarılması özel bir durum söz konusu sonra tercih edilmez. Dolayısıyla kötü bir tekniktir. (Bu durumu C'deki
+        yapı nesnelerinin fonksiyona adres yoluyla değil de kopyalama yoluyla aktarılmasına benzetebilirsiniz.)
 
     2) Dizinin dilimlenerek fonksiyona aktarılması yöntemi: Bu yöntemde fonksiyonun parametre değişkeni bir dilim referansı
     olur. Fonksiyon da dizi elemanlarına ilişkin dilim adresiyle çağrılır. Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+            fn main() {
+                let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-        foo(&a);        // foo(&a[..]);
-    }
+                foo(&a);        // foo(&a[..]);
+            }
 
-    fn foo(a: &[i32]) {
-    //...
-    }
+            fn foo(a: &[i32]) {
+            //...
+            }
 
-    Bu yöntemde dizi ne kadar büyük olursa olsun aslında fonksiyona yalnızca diziin başlangıç adresi ve uzunluğu aktarılmaktadır.
+        Bu yöntemde dizi ne kadar büyük olursa olsun aslında fonksiyona yalnızca diziin başlangıç adresi ve uzunluğu aktarılmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi elimizde bir dilim referansı varsa biz bu referansla dizi elemanlarına nasıl erişebiliriz? İşte Rust'ta dilim
     referansı ile yine [] operatörünü kullanarak dizinin elemanlarına (referansın gösterdiği yerdeki dizinin elemanlarına)
     erişebiliriz. Başka bir deyişle dilim referansları sanki diziymiş gibi kullanılabilmektedir. Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        fn main() {
+            let a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-        foo(&a);        // foo(&a[..]);
-    }
-
-    fn foo(sr: &[i32]) {
-        for i in 0..sr.len() {
-            print!("{} ", sr[i]);
+            foo(&a);        // foo(&a[..]);
         }
-        println!("");
-    }
+
+        fn foo(sr: &[i32]) {
+            for i in 0..sr.len() {
+                print!("{} ", sr[i]);
+            }
+            println!("");
+        }
 
     Tabii yine erişimde sınır kontrolü (bounds check) yapılmaktadır. foo fonksiyonun yazımına dikkat ediniz:
 
-    fn foo(sr: &[i32]) {
-        for i in 0..sr.len() {
-            print!("{} ", sr[i]);
+        fn foo(sr: &[i32]) {
+            for i in 0..sr.len() {
+                print!("{} ", sr[i]);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Burada dilimin len metodu kullanılmıştır. (Aslında dizilerin len metodu yoktur. Zaten dizilerle len metodunu çağırdığımızda
     dilimin len metodunu çağırmış oluruz.) Dilim referansının içerisinde zaten uzunluk bilgisinin bulunduğunu anımsayınız. len
@@ -6135,23 +6136,23 @@
     Dilim referanslarıyla iter metodu çağrıldığında yine referansın gösterdiği diziye ilişkin dizi elemanlarının adreslerini
     veren bir iteratör elde edilmektedir. Örneğin:
 
-    fn foo(sr: &[i32]) {
-        for val in sr.iter() {
-            print!("{} ", *val);
+        fn foo(sr: &[i32]) {
+            for val in sr.iter() {
+                print!("{} ", *val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Burada val değişkeni i32 türünden değildir, &i32 türündendir. Yani dizi elemanlarının adresini tutan bir gösterici gibidir.
     Biz de *val ifadesi ile dizi elemanına erişmiş olduk. Rust'ta zaten dilimler bir iteratör belirtmektedir. Dolayısyla yukarıdaki
     döngünün eşdeğeri hiç iter metodunu çağırmadan dilim referansının kendisi kullanılarak da oluşturulabilmektedir. Örneğin:
 
-    fn foo(sr: &[i32]) {
-        for val in sr {
-            print!("{} ", *val);
+        fn foo(sr: &[i32]) {
+            for val in sr {
+                print!("{} ", *val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Her iki biçim de tamamen eşdeğer etkiye yol açmaktadır. iter metodunu çağırmak yerine dilim referansının kendisinin
     kullanılabilmesinin nedeni dizi dilimlerinin IntoIterator trait'ini desteklemelerinden kaynaklanmaktadır. Bu konu ileride
@@ -6163,34 +6164,34 @@
     bu durumda dilim referansının da mut olması gerekir. mut bir dilim referansına atama yapabilmek için dizi de mut olmalıdır.
     Örneğin:
 
-    fn main() {
-        let mut a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        fn main() {
+            let mut a:[i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-        foo(&mut a);        // foo(&mut a[..]);
+            foo(&mut a);        // foo(&mut a[..]);
 
-        for val in a {
-            print!("{} ", val);
+            for val in a {
+                print!("{} ", val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
-    fn foo(sr: &mut [i32]) {
-        for val in sr.iter_mut() {
-            *val = *val * 2;
+        fn foo(sr: &mut [i32]) {
+            for val in sr.iter_mut() {
+                *val = *val * 2;
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Burada fonksiyonun parametresi olan dilim referansının mut bir referans olduğuna ve asıl dizinin de mut bir dizi
     olduğuna dikkat ediniz. Aslında bir dilim referansı mut ise zaten bu referansı for döngüsünde kullandığımızda
     iter_mut metodunun çağrılmasıyla aynı etki oluşmaktadır. Yani yukarıdaki foo fonksiyonunu şöyle de yazabilirdik:
 
-    fn foo(sr: &mut [i32]) {
-        for val in sr {
-            *val = *val * 2;
+        fn foo(sr: &mut [i32]) {
+            for val in sr {
+                *val = *val * 2;
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Biz dizilerle into_iter metodunu çağırdığımızda dizi elemanlarının adreslerini değil kopyalarını elde ediyorduk.
     İşte dilimlerin de aslında into_iter metotları vardır. Çünkü dilimler de IntoIterator isimli trait'i desteklemektedir.
@@ -6198,89 +6199,89 @@
     elemanlarının kendisini elde etmeyiz. Yine referans mut değilse mut olmayan bir referans, referans mut ise mut bir referans
     elde ederiz. Özetle aşağıdaki üç dolaşım biçimi de işlevsel olarak eşdeğerdir:
 
-    fn foo(sr: &[i32]) {
-        for val in sr.iter() {
-            //...
+        fn foo(sr: &[i32]) {
+            for val in sr.iter() {
+                //...
+            }
         }
-    }
 
-    fn foo(sr: &[i32]) {
-        for val in sr.into_iter() {
-            //...
+        fn foo(sr: &[i32]) {
+            for val in sr.into_iter() {
+                //...
+            }
         }
-    }
 
-    fn foo(sr: &[i32]) {
-        for val in sr {
-            //...
+        fn foo(sr: &[i32]) {
+            for val in sr {
+                //...
+            }
         }
-    }
 
     Burada üç dolaşım biçiminde de val değişkeni &i32 türündendir. Şimdi de referansın mut olduğunu varsayalım. Yine aşağıdaki üç
     dolaşım biçimi işlevsel olarak aynıdır:
 
-     fn foo(sr: &mut [i32]) {
-        for val in sr.iter_mut() {
-            //...
+        fn foo(sr: &mut [i32]) {
+            for val in sr.iter_mut() {
+                //...
+            }
         }
-    }
 
-    fn foo(sr: &mut [i32]) {
-        for val in sr.into_iter() {
-            //...
+        fn foo(sr: &mut [i32]) {
+            for val in sr.into_iter() {
+                //...
+            }
         }
-    }
 
-    fn foo(sr: &mut [i32]) {
-        for val in sr {
-            //...
+        fn foo(sr: &mut [i32]) {
+            for val in sr {
+                //...
+            }
         }
-    }
 
     Burada üç dolaşım biçiminde de val değişkeni &mut i32 türündendir.
 
     Aşağıda bir dizini en büyük elemanına geri dönen bir fonksiyon örneği verilmiştir. Örneğimizde biz bu fonksiyonu dizinin
     tamamına ilişkin bir dilim referansıyla çağırdık:
 
-    maxval = getmax(&a);
+        maxval = getmax(&a);
 
     Tabii aslında dizinin bvelli bir kısmının en büyük elemanını da elde edebilirdik. Örneğin:
 
-    maxval = getmax(&a[..5]);
+        maxval = getmax(&a[..5]);
 
     Burada dizinin ilk beş elemanının en büyüğü elde edilmştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
-    let maxval: i32;
+    fn main() {
+        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        let maxval: i32;
 
-    maxval = getmax(&a);
-    println!("Max: {}", maxval);
-}
-
-fn getmax(sr: &[i32]) -> i32 {
-    let mut maxval: i32;
-
-    maxval = sr[0];
-    for i in 0..sr.len() {
-        if sr[i] > maxval {
-            maxval = sr[i];
-        }
+        maxval = getmax(&a);
+        println!("Max: {}", maxval);
     }
-    maxval
-}
+
+    fn getmax(sr: &[i32]) -> i32 {
+        let mut maxval: i32;
+
+        maxval = sr[0];
+        for i in 0..sr.len() {
+            if sr[i] > maxval {
+                maxval = sr[i];
+            }
+        }
+        maxval
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Nasıl C'de const olmayan bir nesnenin adresi const bir göstericiye atanabiliyorsa aynı gerekçelerle Rust'ta mut bir
     dizi referansı mut olmayan bir dilim referansına atanabilmektedir. Başka bir deyişle mut bir referanstan mut olmayan
     referansa Rust'ta otomatik dönüştürme (type coercion) vardır. Örneğin:
 
-    let rs1: &mut [i32];
-    let rs2: &[i32];
-    //...
+        let rs1: &mut [i32];
+        let rs2: &[i32];
+        //...
 
-    rs2 = rs1;      // geçerli
+        rs2 = rs1;      // geçerli
 
     Bu durumda örneğin bir fonksiyonun parametre değişkeni mut olmayan bir dilim referansı ise biz bu fonksiyonu mut bir
     dizi diliminin adresiyle çağırırsak bir sorun oluşmaz.
@@ -6291,7 +6292,7 @@ fn getmax(sr: &[i32]) -> i32 {
     dizinin metodu mu yoksa diliminin metodu mu olduğunu anlamanın pratik bir yolu yoktur. Bunun için "The Rust Standard Library"
     dokümanlarına başvurmanız gerekir. Bu dokümanlara ilşkin bağlantıyı yeniden vermek istiyoruz:
 
-    https://doc.rust-lang.org/std/
+        https://doc.rust-lang.org/std/
 
     Bu dokümanlarda "Primitive Types" başlığı altındaki "array" ve "slice" kısımlarını gözden geçirebilirsiniz.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -6299,46 +6300,46 @@ fn getmax(sr: &[i32]) -> i32 {
     bilmemiz gerekir. Ancak bazı metotları kursumuzun bu noktasında gözden geçirebiliriz. Yalnızca dizilerde olan ancak dilimlerde
     olmayan metotların önemli olanları şunlardır:
 
-    map
-    try_map
-    into_iter (dilimlerde de var ama işlevi aynı değil)
-    Default (izleyen paragraflarda açıklayacağız)
+        map
+        try_map
+        into_iter (dilimlerde de var ama işlevi aynı değil)
+        Default (izleyen paragraflarda açıklayacağız)
 
     Dizilerde olmayan fakat dilimlerde olan metotların önemli olanları da şunlardır:
 
-    contains(&item)
-    starts_with(slice)
-    ends_with(slice)
-    binary_search(&item)
-    binary_search_by(|probe| ...)
-    windows(n)
-    chunks(n)
-    rchunks(n)
-    chunks_exact(n)
-    split(|x| condition)
-    splitn(n, |x| condition)
-    rsplit(...) / .rsplitn(...)
-    as_ptr()
-    as_mut_ptr()
-    as_ref() / as_mut()
-    get(index) / get_mut(index)
-    get_unchecked(index) (unsafe)
-    first() / .last()
-    split_at(mid)
-    split_at_mut(mid)
-    as_chunks() (1.63+)
-    sort()
-    sort_by(...)
-    sort_by_key(...)
-    reverse()
-    rotate_left(n) / rotate_right(n)
-    fill(value) (1.50+)
-    copy_from_slice(slice)
-    iter()
-    iter_mut()
-    windows(n).map(...)
-    chunks(n).map(...)
-    iter().enumerate()
+        contains(&item)
+        starts_with(slice)
+        ends_with(slice)
+        binary_search(&item)
+        binary_search_by(|probe| ...)
+        windows(n)
+        chunks(n)
+        rchunks(n)
+        chunks_exact(n)
+        split(|x| condition)
+        splitn(n, |x| condition)
+        rsplit(...) / .rsplitn(...)
+        as_ptr()
+        as_mut_ptr()
+        as_ref() / as_mut()
+        get(index) / get_mut(index)
+        get_unchecked(index) (unsafe)
+        first() / .last()
+        split_at(mid)
+        split_at_mut(mid)
+        as_chunks() (1.63+)
+        sort()
+        sort_by(...)
+        sort_by_key(...)
+        reverse()
+        rotate_left(n) / rotate_right(n)
+        fill(value) (1.50+)
+        copy_from_slice(slice)
+        iter()
+        iter_mut()
+        windows(n).map(...)
+        chunks(n).map(...)
+        iter().enumerate()
 
     Şimdi bu metotların bazılarını gözden geçirelim. Bir dizi ile hem dizinin hem de dilimin metotlarını kullanabildiğimize
     bir kez daha dikkatiniz çekmek istiyoruz.
@@ -6347,13 +6348,13 @@ fn getmax(sr: &[i32]) -> i32 {
     bu metot bizden parametre olarak bir referans istemektedir. Biz de & operatörünü kullanarak argümanı oluşturmalıyız.
     Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
-        let result: bool;
+        fn main() {
+            let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+            let result: bool;
 
-        result = a.contains(&42);
-        println!("{}", result);     // true
-    }
+            result = a.contains(&42);
+            println!("{}", result);     // true
+        }
 
     Burada sabit bir değerin adresinin alınması size biraz tuhaf gelebilir. Çünkü C'de böyle bir şey mümkün değildir. Ancak
     Rust'ta bir sabitin adresi alındığında derleyici önce sabiti statik ömürlü bir değişkene yerleştirir onun adresini alır.
@@ -6361,114 +6362,114 @@ fn getmax(sr: &[i32]) -> i32 {
     - starts_with ve end_with metotları dizinin ilk kısmının ve son kısmının argüman olarak verilenle aynı olup olmadığına
     bakar. Bu metot bizden bir dilim referansı istemektedir. Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
-        let result: bool;
+        fn main() {
+            let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+            let result: bool;
 
-        result = a.ends_with(&[42, 8, 53]);
-        println!("{}", result);     // true
-    }
+            result = a.ends_with(&[42, 8, 53]);
+            println!("{}", result);     // true
+        }
 
     - windows metodu bizden argüman olarak bir usize türünden bir tamsayı değeri alır. Bu değerin n olduğunu varsayalım.
     Söz konusu diziyi n'erli biçimde dilimleyerek bize dilim referanslarının elde edileceği veren bir iteratör verir.
     Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        fn main() {
+            let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
 
-        for sr in a.windows(3) {
-            println!("{:?}", sr);
+            for sr in a.windows(3) {
+                println!("{:?}", sr);
+            }
         }
-    }
 
     Buradaki sr &[i32] türündedir. Bu programdan aşağıdaki çıktı elde edilecektir:
 
-    [45, 23, 12]
-    [23, 12, 45]
-    [12, 45, 34]
-    [45, 34, 26]
-    [34, 26, 87]
-    [26, 87, 42]
-    [87, 42, 8]
-    [42, 8, 53]
+        [45, 23, 12]
+        [23, 12, 45]
+        [12, 45, 34]
+        [45, 34, 26]
+        [34, 26, 87]
+        [26, 87, 42]
+        [87, 42, 8]
+        [42, 8, 53]
 
     - chunks metodu da windows metoduna benmektedir. Ancak örtüşmeyen dilimlerin referanslarını verir. Örneğin:
 
-    fn main() {
-        let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        fn main() {
+            let a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
 
-        for sr in a.chunks(3) {
-            println!("{:?}", sr);
+            for sr in a.chunks(3) {
+                println!("{:?}", sr);
+            }
         }
-    }
 
     Buradan şu çıktı elde edilecektir:
 
-    [45, 23, 12]
-    [45, 34, 26]
-    [87, 42, 8]
-    [53]
+        [45, 23, 12]
+        [45, 34, 26]
+        [87, 42, 8]
+        [53]
 
     - sort metodu eğer dizinin eleman türü Ord trait'ini destekliyorsa diziyi sıraya dizmektedir. Tabii dizinin mut olması
     gerekir. Örneğin:
 
-    fn main() {
-        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        fn main() {
+            let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
 
-        a.sort();
+            a.sort();
 
-        for val in a {
-            print!("{} ", val);
+            for val in a {
+                print!("{} ", val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     - reverse metodu dizi ters yüz etmektedir. Örneğin:
 
-    fn main() {
-        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        fn main() {
+            let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
 
-        a.reverse();
+            a.reverse();
 
-        for val in a {
-            print!("{} ", val);
+            for val in a {
+                print!("{} ", val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     - fill metodu diziyi belli bir değerle doldurmaktadır. Örneğin:
 
-    fn main() {
-        let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
+        fn main() {
+            let mut a:[i32; 10] = [45, 23, 12, 45, 34, 26, 87, 42, 8, 53];
 
-        a.fill(0);
+            a.fill(0);
 
-        for val in a {
-            print!("{} ", val);
+            for val in a {
+                print!("{} ", val);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Burada artık dizinin bütün elemanları 0 olacaktır.
 
     - copy_from_slice metodu bir diziyi başka bir dizinin elemanlarıyla kopyalamak için kullanılmaktadır. Örneğin:
 
-    fn main() {
-        let mut a:[i32; 3] = [45, 23, 12];
+        fn main() {
+            let mut a:[i32; 3] = [45, 23, 12];
 
-        a.copy_from_slice(&[10, 20, 30]);
-        println!("{:?}", a);        // [10, 20, 30]
-    }
+            a.copy_from_slice(&[10, 20, 30]);
+            println!("{:?}", a);        // [10, 20, 30]
+        }
 
     Bu metotta kaynak ve hedef dilimler aynı uzunlukta olmalıdır. Tabii bazen dizinin belli bir kısmına kopyalama yapmak
     isteyebiliriz. Bunun için hedef diziyi de dilimlemek gerekir. Örneğin:
 
-    fn main() {
-        let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+        fn main() {
+            let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
 
-        a[3..6].copy_from_slice(&[10, 20, 30]);
-        println!("{:?}", a);        // [45, 23, 12, 10, 20, 30, 6, 2, 10, 34]
-    }
+            a[3..6].copy_from_slice(&[10, 20, 30]);
+            println!("{:?}", a);        // [45, 23, 12, 10, 20, 30, 6, 2, 10, 34]
+        }
 
     - Dilim referansının içerisindeki uzunluk bilgisinin len metoduyla elde edildiğini görmüştük. Pekiyi dilim referansının
     içerisindeki adres bilgisi nasıl elde edilebilir? İşte bunun için as_ptr isimli bir metot kullanılmaktadır. Tabii bu metot bize
@@ -6476,27 +6477,28 @@ fn getmax(sr: &[i32]) -> i32 {
     denilmektedir. Ham göstericiler de Rust'ta ancak unsafe bloklarda kullanılabilmektedir. Bu konunun ayrıntılarını zaten ileride
     ayrı bir başlık halinde ele alacağız. Örneğin:
 
-    let a:[i32; 5] = [10, 20, 30, 40, 50];
-    let sr: &[i32] = &a[2..4];
+        let a:[i32; 5] = [10, 20, 30, 40, 50];
+        let sr: &[i32] = &a[2..4];
 
-    let pt: *const i32 = sr.as_ptr();
-    unsafe {
-        println!("{}", *pt);        // 30
-    }
+        let pt: *const i32 = sr.as_ptr();
+        unsafe {
+            println!("{}", *pt);        // 30
+        }
 
     Eğer dizi mut ise as_mut_ptr metodu ile "mut bir ham gösterici" elde edilebilmektedir. Örneğin:
 
-   let mut a:[i32; 5] = [10, 20, 30, 40, 50];
-   let sr: &mut [i32] = &mut a[2..4];
+        let mut a:[i32; 5] = [10, 20, 30, 40, 50];
+        let sr: &mut [i32] = &mut a[2..4];
 
-    let pt: *mut i32 = sr.as_mut_ptr();
-    unsafe {
-        *pt = 100;
-    }
-    println!("{:?}", a);        // [10, 20, 100, 40, 50]
+            let pt: *mut i32 = sr.as_mut_ptr();
+            unsafe {
+                *pt = 100;
+            }
+            println!("{:?}", a);        // [10, 20, 100, 40, 50]
 
     Ayrıca dilimlerin as_ref isimli bir metodu da vardır. Bu metot önemli bir şey yapmamaktadır. Doğrudan dilim referansının
     kendisini vermektedir.
+
 # 25. Ders 04/06/2025 - Çarşamba
 
     Aslında yukarıdaki örnekten de görüldüğü gibi bir diziyi dilimler dilimlemez o dilim ile doğrudan dilimin metotlarını
@@ -19281,6 +19283,1933 @@ impl TryFrom<String> for Sample {
     İşte Rust'ta başka bir crate içerisinde oluşturulmuş olan tür için başka create'te impl bloğu oluşturulamamaktadır. O
     halde bu tür işlemleri ancak trait desteği ile yapabilmekteyiz.
 ---------------------------------------------------------------------------------------------------------------------------
+# 58. Ders 20/10/2025 - Pazartesi
+
+    Trait'lerin generic olabileceğini açıklamıştık. Bir trait generic olursa trait'lerin içerisindeki metotlarda ve ilişkili
+    fonksiyonlarda generic tür parametresi kullanılabilir. Tabii generic bir trait'i kullanırken açısal parantezler içerisinde
+    generic tür parametreleri için argüman belirtilmesi gerekir. Örneğin:
+
+    trait Test<T> {
+        fn foo(&self) -> T;
+    }
+
+
+    Burada Test generic bir trait'tir. Generic trait, enum, yapı türleri kullanılırken generic parametrenin gerçekte hangi
+    türü temsil ettiğinin açısal parantezler içerisinde belirtilmesi gerekmektedir. Örneğin:
+
+    struct Sample;
+
+    impl Test<i32> for Sample {
+        fn foo(&self) -> i32 {
+            println!("Sample::foo");
+            100
+        }
+    }
+
+    Burada generic trait'in Test<i32> biçiminde tür bilgisi ile belirtildiğine dikkat ediniz. Tanımlama şöyle olamazdı:
+
+    impl Test for Sample {      // error
+        //...
+    }
+
+    Burada Test bir generic trait olduğu halde generic parametre için tür belirtilmemiştir.
+
+    Rust Standart kütüphanesinde pek çok generic trait bulunmaktadır. Generic parametrelere default türler de iliştirilebilmektedir.
+    Bu durumda kullanım sırasında generic paramere için tür belirtilmezse bu default türün belirtilmiş olduğu varsayılmaktadır.
+    Örneğin:
+
+    trait Test<T = i32> {
+        fn foo(&self) -> T;
+    }
+
+    struct Sample;
+
+    impl Test for Sample {              // geçerli
+        fn foo(&self) -> i32 {
+            println!("Sample::foo");
+            100
+        }
+    }
+
+    Destekleme sırasında artık doğrudan Test yazılabildiğine dikkat ediniz. Buradaki Test aslında Test<i32> anlamına gelmektedir.
+
+    Generic trait'lerle ilgili ve genel olarak generic konusuyla ilgili çeşitli ayrıntılar vardır. Kurusumuzda generic'ler
+    konusu ayrı bölümde sıfırdan ele alınacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta trait'lerin deteklenmesi konusunda "kapsayıcı destekleme (blanket implementation)" denilen bir destekleme sentaksı
+    da vardır. Kapsayıcı desteklemeler ilk karşılaşanlara biraz karmaşık gelebilmektedir. Kapsayıcı destekleme "eğer ilgili
+    tür A trait'ini destekliyorsa B trait'indeki metotların ve ilişkili fonksiyonların bu tanımlamalarına da sahip olsun"
+    anlamına gelmektedir. Kapsayıcı desteklemede iki trait söz konusu olmaktadır. Biz bunlara A ve B trait'leri diyelim. Eğer
+    bir tür A trait'ini destekliyorsa B trait'indeki metotların spesifik tanımlamalarını da bünyesinde barındırıyor gibi bir
+    durum oluşturulmaktadır. Kapsayıcı desteklemenin tipik sentaksı şöyledir:
+
+    impl<T: A> B for T {
+        //...
+    }
+
+    Buradaki T ismi değişken isimlendrimesine uygun olan herhangi bir isim olabilir. Ancak bu bağlamda T gibi tek harfli
+    isimler çok tercih edilmektedir. Yukarıdaki sentaks şu anlama gelmektedir:
+
+    - T türü A trait'ini destekleyen herhangi bir türdür.
+    - B trait'i için destekleme yapılmaktadır. Yani bloğun içerisinde B trait'indeki metotlar ve ilişki fonksiyonlar
+    tanımlanmalıdır.
+    - Destekleme T türü için yapılmaktadır. Yukarıda da belirttiğimiz gibi burada T türü aslında A trait'ini destekleyen
+    herhangi bir türü belirtmektedir:
+
+    Örneğin:
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B {
+        fn bar(&self);
+    }
+
+    impl<T: A> B for T {
+        fn bar(&self) {
+            println!("Blanket B::bar")
+        }
+    }
+
+    Burada A da B de birer trait'tir. Kapsayıcı detekleme (blanket implementation) sentaksında derleyiciye adeta şu denilmektedir:
+    "A trait'ini destekleyen bir tür aynı zamanda B trait'i için tanımlanmış bu fonksiyonlara da sahip olsun". Yani A trait'ini
+    destekleyen herhangi bir tür sanki aynı zamanda B trait'ini de destekliyor gibi olmaktadır. Şimdi biz A trait'ini destekleyen
+    bir Sample yapısı tanımlayalım:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("A::foo");
+        }
+    }
+
+    İşte artık sanki bu Sample yapısı B trait'ini de destekliyormuş ve B trait'inin metotlarını ve ilişkli fonksiyonlarını
+    tanımamış gibi bir etki oluşmaktadır. Yani burada biz Sample yapısı türünden bir değişken ya da değerle hem A trait'indeki
+    foo metodunu hem de B trait'indeki bar metodunu da çağırabilmekteyiz. Örneğin:
+
+    fn main() {
+        let s = Sample { val: 10 };
+
+        s.foo();        // geçerli
+        s.bar();        // geçerli
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample { val: 10 };
+
+    s.foo();
+    s.bar();
+}
+
+trait A {
+    fn foo(&self);
+}
+
+trait B {
+    fn bar(&self);
+}
+
+impl<T: A> B for T {
+    fn bar(&self) {
+        println!("Blanket B::bar");
+    }
+}
+
+struct Sample {
+    val: i32
+}
+
+impl A for Sample {
+    fn foo(&self) {
+        println!("A::foo");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Peki kapsayıcı desteklemenin (blanket implementation) anlamı nedir ve kapsayıcı destekleme ne işe yaramaktadır? İşte
+    kapsayıcı desteklemelerde bir trait'teki metotlar başka bir trait'teki metotlar kullanılarak yazılabilmektedir ya da bir
+    trait'teki metotları yazabilmek için başka bir trait'teki metotların çağrılması gerekebilmektedir. Örneğin:
+
+    impl<T: A> B for T {
+        fn bar(&self) {
+            //...
+        }
+    }
+
+    Burada B trait'inin bar metodu T türü için yazılmak istenmiştir. Ancak bu bar metodu aslında A trait'indeki metotlardan
+    faydalanılarak yazılmaktadır. Örneğimizdeki bar metodunun self değişkeni aslında &T türündendir. Yani bu self parametresi
+    aslında A'yı destekleyen tür türünden bir referans belirtmektedir. Çünkü neticede bu bar metodu aslında A'yı destekleyen
+    tür türünden değişken ya da değerlerle çağrılabilmektedir. Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            //...
+        }
+    }
+    //...
+
+    let s = Sample { val: 10 };
+
+    s.bar();
+
+    Burada bar metodunun self parametresinin aslında &Sample türünden olduğuna dikkat ediniz. İşte örneğimizde aslında B
+    trait'indeki bar metodu self üzerinden A trait'indeki metotlar ya da ilişkili fonksiyonlar çağrılarak yazılabilmektedir:
+
+     impl<T: A> B for T {
+        fn bar(&self) {
+            //...
+            self.foo();     // bu çağrı geçerli
+            //...
+        }
+    }
+
+    Burada bar metodu içerisindeki self.foo() çağrısı geçerlidir. Çünkü derleyiciye "T türünün A trait'ini desteklediği sözü"
+    verilmiştir. Burada bir noktaya dikkat ediniz: Sample gibi bir yapıyı tanımlayan kişi foo metodunu yazmak zorundadır. Çünkü
+    Sample yapısı A trait'ini desteklemektedir. Öte yandan bar metodu zaten foo kullanılarak yazılabilmektedir. O halde aslında
+    bar metodu A trait'ini destekleyen tüm türler için self.foo() çağrısından faydalanılarak yazılabilir. İşte kapsayıcı destekleme
+    sayesinde bir trait'i destekleyen programcı artık bu trait kullanılarak yazılabilecek pek çok metoda otomatik biçimde sahip
+    olmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Kapsayıcı destekleme Rust'ın standart kütüphanesinde pek çok yerinde karşımıza çıkabilmektedir. Örneğin standart kütüphanede
+    std::fmt modülünde Display isimli bir trait bulunmaktadır. Bu trait'in fmt isimli zorunlu (required) bir metodu vardır.
+    Trait şöyle tanımlanmıştır:
+
+    pub trait Display {
+        fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error>;
+    }
+
+    Bu fmt metodu ilgili yere yazdırılacak yazıyı oluşturmaktadır. Aslında print! ve println! makroları da ilgili değişken
+    ya da değerleri yazdırırken bu fmt metodundan faydalanmaktadır. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    Biz Point türünden bir yapının içeriğini print! ya da println! makrolarıyla yazdıramayız:
+
+    fn main() {
+        let pt = Point { x: 10, y: 20 };
+
+        println!("{}", pt);     // error
+    }
+
+    Çünkü aslında bu örnekte println! makrosu pt değişkeni ile fmt metodunu çağırarak elde edilen yazıyı yazdırmaktadır.
+    Şimdi biz Display trait'ini Point için destekleyelim:
+
+    impl std::fmt::Display for Point {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    Buradaki tanımlamada daha önce görmediğimiz Formatter yapısını ve write! makrosunu kullandık. Ancak bu metot segisel
+    olarak da anlayabileceğiniz gibi gibi (x, y) biçimindeki bir yazının oluşturulmasına yol açmaktadır. Artık biz Point
+    türünden bir değişkeni ya da değeri println! ile yazdırabiliriz:
+
+    fn main() {
+        let pt = Point { x: 10, y: 20 };
+
+        println!("{}", pt);     // geçerli
+    }
+
+    Şimdi Print isimli başka bir trait'in olduğunu varsayalım. Bu trait'te print isimli bir bulunduğunu varsayalım. print
+    metodu Print trait'ini destekleyen türün alanlarını stdout dosyasına (ekrana) yazdırmakta kullanılıyor olsun:
+
+    trait Print {
+        fn print(&self);
+    }
+
+    Şimdi kendi Point yazpımızda Print trait'ini destekleyelim:
+
+    trait Print {
+        fn print(&self);
+    }
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Print for Point {
+        fn print(&self) {
+            println!("({},{})", self.x, self.y);
+        }
+    }
+
+    fn main() {
+        let pt = Point { x: 10, y: 20 };
+
+        pt.print();
+    }
+
+    Burada bir noktaya dikkat ediniz. Bir kişi hem Display trait'ini hem de Print trait'ini desteklemek isterse aslında
+    benzer bir işlemi iki kere yapmak zorunda kalacaktır. Oysa print metodu aslında Display trait'indeki fmt metodu
+    çağrılarak yazılabilmektedir. O halde Print trait'ini yazanlar Display trait'ini destekleyen türlere kolaylık olsun
+    diye print metodunu fmt metodundan faydalanarak kapsayıcı biçimde yazabilirler. Örneğin:
+
+    impl<T: std::fmt::Display> Print for T {
+        fn print(&self) {
+            println!("{}", self);
+        }
+    }
+
+    Buradaki print metodunun aslında gizli bir biçimde fmt çağrısı içerdiğine dikkat ediniz. O halde herhangi bir tür
+    eğer Display trait'ini destekliyorsa sanki Print trait'ini otomatik biçimde desteklemiş gibi olmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yukarıdaki örnekte Print trait'i Rust'ın standart kütüphanesinde var olan bir trait değildir. Ancak Display standart
+    kütüphanede bulunan bir trait'tir. Kapsayıcı desteklemeye Rust'ın standart kütüphanesinden basit bir örnek de verilebilir.
+    Standart kütüphanedeki std::string modülü içerisinde aşağıdaki gibi bir ToString trait'i bulunmaktadır:
+
+    pub trait ToString {
+        // Required method
+        fn to_string(&self) -> String;
+    }
+
+    İsminden de anlayabileceğiniz gibi bu trait'teki to_string metodu belli bir türün içerisindeki bilgiyi yazıya dönüştürmektedir.
+    Ancak aslında bu yazıya dönüştürme eylemi Display trait'i içerisindeki fmt metodu kullanılarak da yapılabilmektedir.
+    O halde bir kişi kendi türü için zaten Display trait'ini desteklemişse ayrıca onun ToString trait'ini desteklemesine
+    gerek kalmamaktadır. Çünkü standart kütüphande böyle bir kapsayıcı destekleme zaten yapılmış durumdadır:
+
+    impl<T: Display> ToString for T {
+        fn to_string(&self) -> String {
+            format!("{}", self)
+        }
+    }
+
+    O halde bizim ToString trait'i için ayrıca bir destekleme yapmamıza gerek yoktur. Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl std::fmt::Display for Point {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "({}, {})", self.x, self.y)
+        }
+    }
+
+    Burada Point yapısı Display trait'ini desteklemektedir. O halde sanki artık ToString trait'ini de destekliyor gibi
+    olmaktadır:
+
+    fn main() {
+        let pt = Point { x: 10, y: 20 };
+
+        println!("{}", pt.to_string());         // geçerli
+    }
+
+    Buradaki to_string çağrısı geçerlidir. Çünkü Display trait'ini destekleyen türler için ToString trait'i kapsayıcı bir
+    biçimde desteklenmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bir trait için bir kapsayıcı destekleme zaten varsa ayrıca o trait ilgili tür için açıkça desteklenememektedir.
+    Örneğin:
+
+    trait A {
+        fn foo(&self);
+    }
+
+    trait B {
+        fn bar(&self);
+    }
+
+    impl<T: A> B for T {
+        fn bar(&self) {
+            println!("Blanket B::bar")
+        }
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl A for Sample {
+        fn foo(&self) {
+            println!("A::foo");
+        }
+    }
+
+    Burada "A trait'ini destekleyen türler için B üzerinde kapsayıcı destekleme" yapılmıştır. Dolayısıyla örneğimizde
+    Sample yapısı a trait'ini desteklediği için sanki B trait'ini de destekliyor durumdadır. Böyle bir durumda biz Sample
+    yapısının açıkça B trait'ini desteklemesini sağlayamayız:
+
+    impl B for Sample {         // error!
+        fn bar(&self) {
+           //...
+        }
+    }
+
+    Eğer böyle bir durum mümkün olsaydı sanki aynı trait ikinci kez destekleniyormuş gibi bir durum oluşurdu.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Aşağıdaki gibi bir kapsayıcı destekleme söz konusu olsun:
+
+    impl<T: A> B for T {
+        //...
+    }
+
+    Bu kapsayıcı desteklemede A trait'ini destekleyen türler sanki B trait'ini de desteklemiş gibi olmaktadır. Peki bu
+    kapsayıcı desteklemeyi oluşturmak kimin görevidir? A'nın mı B'nin mi T'nin mi? İşte bu görev bu örnekteki B'ye aittir.
+    B trait'ini oluşturan kişi başkalarının işini kolaylaştırmak için bu kapsayıcı desteklemeyi yapar. Yukarıdaki örneğini
+    verdiğimiz ToSting trait'i std::string modülündedir. ToString trait'ini oluşturanlar Display trait'i üzerinde kapsayıcı
+    destekleme yapmıştır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Kapsayıcı desteklemede kısıt birden fazla trait'e de bağlı olabilir. Bu durumda daha önce de gördüğümüz gibi söz konusu
+    trait'ler '+' atomuyla belirtilmelidir. Örneğin:
+
+    impl<T: A + B> C for T {
+        //...
+    }
+
+    Artık buradaki koşul T'nin yalnızca A'yı desteklemesi değil hem A'yı hem de B'yi desteklemesi biçimindedir. Bu durumda
+    muhtemelen C trait'indeki metotları yazarken hem A trait'indeki metotlardan hem de B trait'indeki metotlardan faydalanılmıştır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Kapsayıcı desteklemede kısıt belirtilirken where sentaksı da kullanılabilmektedir. Ancak biz where sentaksını generic'ler
+    konusunda göreceğiz. where setntaksı açısal parantezler içerisinde ':' ile kısıt belirtmenin alternatif bir yoludur.
+    Örneğin:
+
+    impl<T: A> B for T {
+        //...
+    }
+
+    Kapsayıcı desteklemesinin where sentakslı eşdeğeri şöyledir:
+
+    impl<T> B for T
+    where T: A {
+    }
+
+    Genel olarak where sentaksı açısal parantezler içerisinde ':' ile kısıt belirtme sentaksını kapsamaktadır ancak
+    fazlalıkları da vardır.
+---------------------------------------------------------------------------------------------------------------------------
+ # 59. Ders 22/10/2025 - Çarşamba
+
+    Fonksiyonların ve metotların parametre değişkenlerinde ve geri dönüş değerlerinde impl anahtar sözcüğü kullanılabilmektedir.
+    Parametre değişkeninde kullanılan impl anahtar sözcüğü ile geri dönüş değerinede kullanılan impl anahtar sözcüğü farklı
+    anlamlara gelmektedir. "The Rust Reference" dokğmanlarında bu konu "impl Trait Type (10.1.16)" başlığında ele alınmıştır.
+    Yani Rust gramerinde bu bağlamdaki impl anahtar sözcüğü türe ilişkin bir anahtar sözcüktür.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Parametre değişkeninde impl anahtar sözcüğü ile bir trait belirtilirse bu durum "bu parametre değişkeni söz konusu trait'i
+    destekleyen herhangi bir türden olabilir" anlamına gelmektedir. Örneğin:
+
+    trait Test {
+        fn test(&self);
+    }
+
+    fn foo(a: impl Test) {
+        //...
+    }
+
+    Biz buradaki foo fonksiyonunu çağırırken parametre değişkeni için Test trait'ini destekleyen bir türden değişken ya da
+    değeri argüman olarak verebiliriz. Örneğin:
+
+    struct Sample {
+        a: i32
+    }
+
+    impl Test for Sample {
+        fn test(&self) {
+            println!("Sample::test");
+        }
+    }
+
+    struct Mample {
+        b: i32
+    }
+
+    impl Test for Mample {
+        fn test(&self) {
+            println!("Mample::test");
+        }
+    }
+
+    Burada Sample yapısı da Mample yapısı da Test trait'ini desteklemektedir. O halde biz foo fonksiyonunu Sample türünden
+    de Mample türünden de bir değişken ya da değerle çağırabiliriz. Örneğin:
+
+    fn main() {
+        let s = Sample { a: 100 };
+        let m = Mample { b: 200 };
+
+        foo(s);     // geçerli
+        foo(m);     // geçerli
+    }
+
+    Burada Sampe türü de Mample türü de Test Trait'ini desteklemektedir. Bu nedenle foo çağrımında kulanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample {a: 100};
+    let m = Mample {b: 200};
+
+    foo(s);     // geçerli
+    foo(m);     // geçerli
+}
+
+trait Test {
+    fn test(&self);
+}
+
+fn foo(a: impl Test) {
+    a.test();
+}
+
+struct Sample {
+    a : i32
+}
+
+impl Test for Sample {
+    fn test(&self) {
+        println!("Sample::test");
+    }
+}
+
+struct Mample {
+    b: i32
+}
+
+impl Test for Mample {
+    fn test(&self) {
+        println!("Mample::test");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Peki yukarıdaki foo fonksiyonunda parametre değişkeni hangi türdendir? Fonksiyonun tanımına bir kez daha bakınız:
+
+    fn foo(a: impl Test) {
+        //...
+    }
+
+    Burada a parametre değişkeninin Test türünden olduğunu sanabilirsiniz. Ancak Rust'ta trait'ler türünden değişkenler
+    bildirilememektedir. Peki o zaman a değişkeni hangi türdendir? İşte aslında buradaki a değişkeni bu fonksiyon hangi
+    türle çağrılmışsa o türden olur. Dolayısıyla bu fonksiyon aslında generic bir fonksiyondur. Biz henüz generic'ler konusunu
+    görmemiş olsak da bu fonksiyonun tamamen aşağıdakiyle eşdeğer olduğunu belirtmek istiyoruz:
+
+    fn foo<T: Test>(a: T) {
+        //...
+    }
+
+    Tabii where sentaksı da kullanılabilmektedir:
+
+    fn foo<T>(a: T)
+    where T: Test  {
+        //...
+    }
+
+    Bu nedenle parametredeki impl anahtar sözcüğü için Rust programcıları "syntactic sugar" terimini kullanmaktadır. (Programlamada
+    "syntactic sugar" sözcüğü "bir sentaksı daha kolay bir biçimde oluşturma" anlamına gelmektedir.) İşte buradaki foo generic
+    olduğu için aslında her çağrıldığında farklı bir foo oluşturulacaktır. (Bu sürece "monomorfizasyon" dendiğini anımsayınız.)
+
+    Yukarıdaki örnekte T türü bir yapı ya da enum türü ise bir sahiplik devri de söz konusu olacaktır. Genellikle parametrelerdeki
+    impl trait'ler referans olarak yani &impl T ya da &mut impl T (burada T bir trait belirtiyor) biçiminde karşımıza çıkar.
+    Örneğin:
+
+    fn foo(a: &impl Test) {
+        //...
+    }
+
+    Burada yine yukarıdaki semantik uygulanmaktadır. Yani bu fonksiyon Test trait'ini destekleyen bir değişkenin ya da değerin
+    adresiyle çağrılmalıdır. Tabii burada yine a değişkeni Test trait'i türünden referans değildir. Derleyici bu fonksiyon hangi
+    türden referansla çağrılmışsa o fonksiyondan o tür için ayrı bir tane yazmaktadır. Örneğin:
+
+    fn main() {
+        let s = Sample { a: 100 };
+        let m = Mample { b: 200 };
+
+        foo(&s);     // geçerli
+        foo(&m);     // geçerli
+    }
+
+    fn foo(a: &impl Test) {
+        a.test();
+    }
+
+    trait Test {
+        fn test(&self);
+    }
+
+    Burada foo fonksiyonu iki farklı türle çağrıldığı için derleyici tarafından iki farklı foo fonksiyonu monomorfize edilecektir.
+    Yukarıdaki foo fonksiyonunun eşdeğeri tamamen şöyledir:
+
+    fn foo<T: Test>(a: &T) {
+        //...
+    }
+
+    Tabii yine where sentaksı da kullanılabilirdi:
+
+    fn foo<T>(a: &T) where T: Test {
+        //...
+    }
+
+    Parametre ve geri dönüş değerindeki impl anahtar sözcüklerinin türü nitelediğini yani tür bilgisine dahil olduğunu
+    belirtmiştik. Bu nedenle mut bir referansı impl anahtar sözcüğü ile bildirirken & atomundan sonra önce mut anahtar
+    sözcüğünün sonra impl anahtar sözcüğünün getirilmesi gerekir. Yani burataki tür T bir trait belirtmek üzere impl T
+    biçimindedir. Örneğin:
+
+    fn foo(a: &mut impl Test) {     // doğru yazım
+        a.test();
+    }
+
+    Tabii bu durumda Test trait'ini destekleyen değişkenin de mut olması gerekir:
+
+    fn main() {
+        let mut s = Sample { a: 100 };
+        let mut m = Mample { b: 200 };
+
+        foo(&mut s);     // geçerli
+        foo(&mut m);     // geçerli
+    }
+
+    Rust'ta trait'ler türünden referanslar bildirilebilir. Ancak referansların dyn referanslar olması gerekir. İzleyen
+    paragraflarda dyn referanslar üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample { a: 100 };
+    let m = Mample { b: 200 };
+
+    foo(&s);     // geçerli
+    foo(&m);     // geçerli
+}
+
+fn foo(a: &impl Test) {
+    a.test();
+}
+
+trait Test {
+    fn test(&self);
+}
+
+struct Sample {
+    a : i32
+}
+
+impl Test for Sample {
+    fn test(&self) {
+        println!("Sample::test");
+    }
+}
+
+struct Mample {
+    b: i32
+}
+
+impl Test for Mample {
+    fn test(&self) {
+        println!("Mample::test");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonların ya da metotların geri dönüş değerlerinde impl T (burada T bir trait belirtmektedir) kullanılırsa parametredeki
+    semantik değişmektedir. Örneğin:
+
+    fn foo(a: i32) -> impl Test {
+        //...
+    }
+
+    Buradaki foo fonksiyonun geri dönüş değerinin Test değil impl Test biçiminde oluduğuna dikkat ediniz. foo fonksiyonu Test
+    türünü destekleyen herhangi bir türle geri döndürülebilir. Örneğin:
+
+    struct Sample {
+        a : i32
+    }
+
+    impl Test for Sample {
+        fn test(&self) {
+            println!("Sample::test");
+        }
+    }
+
+    fn foo(a: i32) -> impl Test {
+        Sample { a }                 // geçerli
+    }
+
+    Burada görüldüğü gibi foo fonksiyonunda verilen sözde durulmuş ve fonksiyon Test trait'ini destekleyen bir tür türünden
+    değişkenle geri döndürülmüştür. Örneğimizde Sample türü Test trait'ini desteklemektedir.
+
+    Fonksiyonun geri dönüş değerinedeki impl anahtar sözcüğü yanlış anlaşılmaya müsaittir. Bu biçimdeki fonksiyonlar tek bir
+    gerçek türle geri dönmek zorundadır. Örneğin Sample yapısı da Mample yapısı da Test trait'ini destekliyor olsun. Biz foo
+    fonksiyonunu yazarken Sample türüyle ya da Mample türüyle geri dönebiliriz. Ancak bazı durumlada Sample bazı durumlarda
+    Mample türüyle geri dönemeyiz. Örneğin:
+
+    fn foo(a: i32) -> impl Test {
+        if a > 0 {
+            Sample {a}
+        }
+        else {
+            Mample {a}          // error!
+        }
+    }
+
+    Burada fonksiyonun geri dönüş değeri belli ve tek bir türden olmak zorundadır. impl T (burada T bir trait belirtiyor)
+    türüyle geri dönen fonksiyonlarda fonksiyonu yazan adeta dış dünyaya şunları söylemektedir: "Bu fonksiyon T trait'ini
+    destekleyen herhangi bir somut değerle geri dönüyor. Ancak fonksiyonun gerçekte hangi türle geri döndüğünü sana söylemek
+    istemiyorum".
+
+    Biz yukarıda trait'ler türünden değişkenlerin bildirilemeyceğini belirtmiştik. Bu durumda aşağıdaki gibi bir foo fonksiyonunun
+    geri dönüş değeri nasıl kullanılacaktır?
+
+    fn foo(a: i32) -> impl Test {
+        //...
+    }
+
+    Trait türünden değişkenler bildiremediğimize göre bu fonksiyonun geri dönüş değerini Test türünden bir değişkene de
+    atayamayız:
+
+    let x: Test;            // error!
+
+    x = foo(10);
+
+    O zaman ilk akla gelecek durum geri dönüş değerini bir yere atamadan doğrudan kullanmak olabilir. Örneğin:
+
+    foo(10).test();         // geçerli
+
+    Ancak bu biçimdeki kullanım çok kısıtlı bir imkan sunmaktadır. İşte let deyiminde açıkça tür belirtilmeden bu fonksiyonun
+    geri dönüş değeri bir değişkene atanabilmektedir. Örneğin:
+
+    let x = foo(10);
+
+    Tabii artık buradaki x değişkeninin gerçek türünü biz bilmediğimiz için buradaki x değişkeni ile yalnızca Test trait'inin
+    metotlarını çağırabliriz. foo fonskiyonunda Sample türünden bir değerle geri dönüyor olsak bile artık x ile bu Sample
+    türünün alanlarını kullanamayız, metotlarını çağıramayız. Yalnızca Sample türünün desteklediği Test trait'inin metotlarını
+    çağırabiliriz. Aşağıdaki atamaya yeniden dikkat ediniz:
+
+    let x = foo(10);
+
+    Burada x değişkeni için foo fonksiyonu gerçekte hangi türden değerle geri döndürülmüşse o uzunlukta bir yer ayrılmalıdır.
+    Bu örnekte biz açıkça foo fonksiyonunda Sample türünden bir değer geri döndürüyor olsak bile x'in türünü Sample olarak
+    belirtemeyiz:
+
+    let x: Sample = foo(10);        // error!
+
+    Peki derleyici geri dönüş değerinde impl anahtar sözcüğü kullanıldığında fonksiyonun gerçekte hangi türden değer
+    geri döndürdüğünü nasıl bilmektedir? Eğer foo aynı crate içerisindeyse derleyici zaten crate içerisindeki tüm kaynak
+    kodları görebldiği için x'in hangi tür olduğunu kendisi tespit edebilir. Ancak foo örneğin bir kütüphane crate'i
+    içerisindeyse bu durumda derleyici kütüphanein meta data bilgilerinden fonksiyonun imzasını görür ve kendi uyguladığı
+    derleme sistematiği ile (yani ABI ile) geri döndürülen değerin uzunluğunu elde edebilir. (Örneğin fikir olarak derleyici
+    bu tür fonksyonlardan iki değer geri döndürebilir. Değerlerdne bir tanesi geri dönüş değerinin uzunluğu diğeri ise değerin
+    stack'teki başlangıç adresi olabilir. Derleyicilerin kullandığı bu türden kurallar topluluğuna "ABI (Application Binary
+    Interface)" denilmektedir.)
+
+    Geri dönüş değerinde impl anahtar sözcüğü kullanıldığında ve geri döndrülen değer bir değişkene atanıp o değişkenle
+    yapının ya enum ürünün trait'lerden gelen metotları çağrılabildiğinden sanki buradaki işlemin sonraki paragraflarda
+    ele alacağımız "dynamic dispatch" mekanizmasına benzer yürütüldüğü sanılabilmektedir. Ancak derleyici bu tür durumlarda
+    trait'in çağrılacak fonksiyonunu derleme aşamasında belirleyebilmektedir. Dolayısıyla burada bir "static dispatch"
+    mekanizması söz konusu olmaktadır. Rust kürüphanelerinde aslında fonksiyonun geri dönüş değerinde impl anahtar sözcüğü
+    kullanıldığında onun gerçek türünü de kütüphanenin meta data alanına yazmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Parametre değişkeninde ve geri dönüş değerinde belirtilen trait birden fazla olabilir. Bu durumda "o trait'lerin hepsinin
+    desteklenmesi" gerekir. Birden fazla trait daha önceden de gördüğümüz gibi '+' atomuyla belirtilmektedir. Örneğin:
+
+    fn test(t: impl A + B) {
+        //...
+    }
+
+    Burada t parametre değişkeni için hem A hem de B trait'ini destekleyen bir tür türden değişken ya da değer argüman olarak
+    verilebilir. Bunun eşdeğer generic karşılığı şöyledir:
+
+    fn test<T: A + B>(t: T) {
+        //...
+    }
+
+    Aynı eşdeğer fonksiyon where sentaksıyla da oluşturulabilirdi:
+
+    fn test<T>(t: T) where T: A + B {
+        //...
+    }
+
+    Ancak parametre değişkeni impl anahtar sözcüğü içeren bir referans ise bu durumda & atomundan sonraki kısım parantez
+    içerisine alınmak zorundadır. Örneğin:
+
+    fn test(t: &(impl A + B)) {         // parantezlere dikkat ediniz
+        //...
+    }
+
+    Burada & atomundan sonraki kısmın paranteze alındığına dikkat ediniz.
+
+    impl anahtar sözcüğü fonksiyonun ya da metodun geri dönüş değerinde kullanılıyorsa parantez gerekmemektedir.
+    Örneğin:
+
+    fn test() -> impl A + B {
+        //...
+    }
+
+    Burada fonksiyonun geri dönüş değeri hem A hem de B trait'ini destekleyen bir tür türünden olmalıdır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let x = test();
+
+    x.foo();        // geçerli
+    x.bar();        // geçerli
+}
+
+fn test() -> impl A + B {
+    Sample {val: 10}
+}
+
+trait A {
+    fn foo(&self);
+}
+
+trait B {
+    fn bar(&self);
+}
+
+struct Sample {
+    val: i32
+}
+
+impl A for Sample {
+    fn foo(&self) {
+        println!("A::foo");
+    }
+}
+
+impl B for Sample {
+    fn bar(&self) {
+        println!("B::bar");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust nesne yönelimli bir dil olmasa da trait'ler yoluyla nesne yönelimli dillerdeki "çokbiçimli (polymorphic)" mekanizma
+    Rust'ta kullanılabilmektedir. Çokbiçimilik (polymorphism) nense yönelimli programlama tekniğinde "gerçek türü bilmeden
+    arayüzleri kullanarak türden bağımsız kod parçalarının oluşturulmasını olanak sağlayan" bir mekanizmadır. İşte Rust'ta
+    çokbiçimlilik trait'ler yoluyla oluşturulabilmektedir. Java'da sınıfların bütün metotları default durumda çokbiçimlidir.
+    C++ ve C#'ta metotların (C++'ta metot yerine "üye fonksiyon" terimi kullanılmaktadır) çokbiçimli olması için onun virtual
+    anahtar sözcüğüyle bildirilmesi gerekmektedir. Python gibi dinamik tür sistemine sahip programlama dilleri zaten doğuştan
+    çokbiçimlidir.
+
+    Rust'ta çokbiçimlilik dyn trait'ler ve referanslar yoluyla sağlanmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ta bir trait türünden değişken bildirilemeyeceğini söylemiştik. Örneğin:
+
+    trait Test {
+        fn foo(&self);
+    }
+
+    //...
+
+    let t: Test;        // error!
+
+    Ancak trait'ler türünden referanslar dyn anajhtar sözcüğü kullanılarak bildirilebilmektedir:
+
+    let t: &dyn Test;           // geçerli
+    let t: &Test;               // error!
+
+    dyn anahtar sözcüğünün & atomuna bitişik yazılması tercih edilmektedir. Eğer referans mut ise önce mut anahtar sözcüğü
+    sonra dyn anahtar sözcüğü kullanılmak zorundadır. Örneğin:
+
+    let t: &mut dyn Test;           // geçerli
+
+    Burada da tıpkı önceki konuda gördüğümüz impl anahtar sözcüğünde olduğu gibi dyn anahtar sözcüğü de türe ilişkindir.
+    Örneğin:
+
+    let t: &dyn Test;
+
+    Burada t değişkeni dyn Test türündendir. dyn anahtar sözcüğü türe ilişkin olduğu için trait türünün hemen solunda
+    bulundurulmalıdır. Biz dyn anahtar sözcüğü kullanılarak bildirilen referanslara "dyn referanslar" da diyeceğiz.
+    dyn anahtar sözcüğü "dynamic" sözcüğünden kısaltılarak uydurulmuştur.
+
+    dyn bir referansa ilgili trait'i destekleyen herhangi bir yapı ya da enum türünden değişkenin ya da değerin adresi
+    atanabilmektedir. Örneğn:
+
+    trait Test {
+        fn foo(&self);
+     }
+
+    struct Sample{
+        val: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample::foo");
+        }
+    }
+
+    Burada Sample yapısı Test trait'ini desteklemektedir. O halde Sample türünden bir değişkenin adresini biz dyn Test
+    türünden bir referansa atayabiliriz:
+
+    let s = Sample {val: 10};
+    let t: &dyn Test;
+
+    t = &s;     // geçerli
+
+    Burada t referansının içerisinde Sample değişkenin adresi tutulmaktadır. dyn trait türünden bir referansa programın akışı
+    içerisinde o trait'i destekleyen farklı türlerden değişkenlerin adresleri atanabilmektedir. Örneğin Sample yapısının da
+    Mample yapısının da Test trait'ini destekledğini kabul edelim:
+
+    let s = Sample {val: 10}
+    let m = Mample {val: 20};
+    let mut t: &dyn Test;
+
+    t = &s;     // geçerli
+    //...
+    t = &m;     // geçerli
+---------------------------------------------------------------------------------------------------------------------------
+
+    dyn trait türünden bir referansla o trait'in metotları çağrıldığında o anda o referans hangi tüden bir değişkeni ya da
+    değeri gösteriyorsa o tür için desteklenen (implemente edilmiş olan) trait metotları çağrılmaktadır. Örneğin Sample ve
+    Mample türlerinin Test trait'ini desteklediğini varsayalım. Bu durumda Sample için de Mample için de Test trait'indeki
+    metotlar yazılmıştır. Test trait'inde foo metodunun bulunduğunu düşünelim:
+
+    let s = Sample {val: 10};
+    let m = Mample {val: 20};
+    let mut t: &dyn Test;
+
+    t = &s;
+    t.foo();        // Sample::foo çağrılır
+
+    t = &m;
+    t.foo();        // Mample::foo çağrılır
+
+    Burada t.foo() çağrısı yapıldığında t içerisinde hangi türden bir adres varsa o türün foo metodu çağrılmaktadır. Görüldüğü
+    gibi t.foo() çağrısı kimi zaman Sample yapısının foo metodunun çağrılmasına kimi zaman ise Mample yapısının foo metodunun
+    çağrılmasına yol açmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let s = Sample {val: 10};
+    let m = Mample {val: 20};
+    let mut t: &dyn Test;
+
+    t = &s;         // geçerli
+    t.foo();        // Sample::foo çağrılır
+
+    t = &m;         // geçerli
+    t.foo();        // Mample::foo çağrılır
+}
+
+trait Test {
+    fn foo(&self);
+}
+
+struct Sample{
+    val: i32
+}
+
+impl Test for Sample {
+    fn foo(&self) {
+        println!("Sample::foo");
+    }
+}
+
+struct Mample {
+    val: i32
+}
+
+impl Test for Mample {
+    fn foo(&self) {
+        println!("Mample::foo");
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    dyn bir trait referansıyla ilgili trait'in metotları çağrıldığında referansın içerisinde bulunan adresteki türe ilişkin
+    desteklenen metodun çağrılmasına "çokbiçimli (polymophic) mekanizma" denilmektedir. Çokbiçimli mekanizmada söz konusu
+    trait aslında "o türü destekleyen herhangi bir tür" işlevini görmektedir. Böylece türden bağımsız kod parçalarının yazımı
+    mümkün olmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+ZShape
+    ┌─┐┌─┐
+    └─┘├─┤┌─┐
+       └─┘└─┘
+
+    SquareShape
+    ┌─┐┌─┐
+    ├─┤├─┤
+    └─┘└─┘
+
+    Burada oyunun şekilsel kısmı düşen şeklin türünden bağımsız olarak aşağıdaki pseudo koddaki gibi yazılabilir:
+
+    let shape: &mut dyn Shape;
+
+    while true {
+        shape = get_random_shape();
+        while true {
+            shape.move_down();
+            match getkey() {
+                Key.LeftArrow => shape.move_left(),
+                Key.RightArrow => shape.move_right(),
+                Key.Enter => shape.rotate(),
+            }
+            //...
+        }
+        //...
+    }
+
+    Burada rastgele bir şekil yaratılmış sonra yaratılan o şekil neyse basılan tuşlara göre o şekil hareket ettirilmiştir.
+    Bu örnekte oyuna yeni bir şekil nasıl ekleyebiliriz? Tek yapacağımız şey yeni bir şekil yapısı tanımlayıp onun da Shape
+    trait'ini desteklemesini sağlamaktır. Tabii get_random_shape fonksiyonu da artık yeni şekli de dikkate alarak rastgele
+    bir şekil vermelidir. Yukarıda ideal durumda "daha önce yazılmış kodlarda değişiklik yapmadan hep eklemeler yoluyla
+    geliştirme sürecinin devam ettirilmesi gerektiğini" söylemiştik. Peki burada yeni bir şeklin oyuna eklenmesi
+    sırasında get_random_shape fonksiyonunun içinin de değiştirilmesi gerekmiyor mu? İşte aslında bu fonksiyonun içini
+    değiştirmeden bu fonksiyonun yeni eklenen şekli de vermesi sağlanabilmektedir. Bu kalıba nesne yönelimli programlama
+    tekniğinde "fabrika kalıbı (factory pattern)" denilmektedir. Bu örnekte kodlamanın spesifik şekillere dayalı değil
+    kavramı temsil eden trait'e dayalı yapıldığına dikkat ediniz.
+
+# 61. Ders 03/11/2025 - Pazartesi
+
+    Şimdi de bir komut satırı (command prompt) uygulaması yapalım. Ekrana (stdout dosyasına) bir komut satırı çıkartıp
+    klavyeden (stdin dosyasından) komut alan bir yapı oluşturabiliriz. Ancak komutları işlemeyi çokbiçimli mekanizmayı
+    kullanarak dyn Trait referansı ile bu yapıyı kullanacak kişilere bırakabiliriz. CmdLine isimli yapı şöyle tanımlanabilir:
+
+    struct CmdLine<'a> {
+        prompt: String,
+        cmd_execute: &'a dyn Execute,
+    }
+
+    Burada yapının cmd_execute alanının bir dyn referans olduğuna dikkat ediniz. Yapının referans alanları için bir ömür
+    bilgisinin iliştirilmesinin zorunlu olduğunu anımsayınız. Bu yapı için new ilişkili fonksiyonunu ve run metodunu şöyle
+    yazabiliriz:
+
+    impl<'a> CmdLine<'a> {
+        fn new(prompt: &str, cmd_execute: &'a dyn Execute) -> CmdLine<'a> {
+            CmdLine { prompt: prompt.to_string(), cmd_execute: cmd_execute }
+        }
+
+        fn run(&self) {
+            let mut cmd = String::new();
+
+            loop {
+                print!("{}>", self.prompt);
+                io::stdout().flush().unwrap();
+                io::stdin().read_line(&mut cmd).unwrap();
+                if !self.cmd_execute.execute(&cmd) {
+                    break
+                }
+                cmd.clear();
+            }
+        }
+    }
+
+    Burada new metodunun geri dönüş değeri ömür parametresine sahip bir yapı türünden olduğu için geri dönüş değerindeki
+    bu ömür bilgisinin fonksiyon parametreleriyle ilişkilendirilmiş olması gerekmektedir. run metodunda sonsuz bir döngü
+    içerisinde önce ekrana (stdout dosyasına) prompt basılmış sonra da klavyeden (stdin dosyasından) okuma yapılmıştır.
+    Okunan komut yazısı self.cmd_execute.execute çağrısı ile işletilmiştir. Çokbiçimli mekanizma devreye gireceği için
+    burada aslında bizim adresini geçirdiğimiz Execute trait'ini destekleyen yapının execute metodu çağrılacaktır. Böylece
+    bu yapı komut satırının kabasını oluşturmakta ancak komutların işlenmesini dışarıya bırakmaktadır. Biz bu örnekte flush
+    ve read_line metotlarının geri dönüş değerlerine unwap uygulayıp oluşabilecek hatayı ele almadık. Ancak siz bu tür temel
+    kodlarda sıkıcı da olsa bu durumları da ele almalısınız. Örneğimizdeki CmdLine yapısını kullanabilmemiz için bizim
+    Execute trait'ini destekleyen bir yapı ya da enum türünden bir değişken ya da değer oluşturup o değişken ya da değerin
+    adresini CmdLine yapısındaki cmd_execute alanına yerleştirmemiz gerekir. Örneğin:
+
+    struct CSDProcCmd {
+        //...
+    }
+
+    impl Execute for CSDProcCmd {
+        fn execute(&self, cmd_line: &String) -> bool  {
+            print!("command executes: {}", cmd_line);
+            cmd_line.trim() != "exit"
+        }
+    }
+
+    fn main() {
+        let proc_cmd = CSDProcCmd {
+            //...
+        };
+        let cmd_line = CmdLine::new("CSD", &proc_cmd);
+        cmd_line.run();
+    }
+
+    Burada CmdLine değişkeninin nasıl yaratıldığına dikkat ediniz:
+
+    let cmd_line = CmdLine::new("CSD", &proc_cmd);
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::io;
+use std::io::Write;
+
+fn main() {
+    let proc_cmd = CSDProcCmd {
+        //...
+    };
+    let cmd_line = CmdLine::new("CSD", &proc_cmd);
+    cmd_line.run();
+}
+
+trait Execute {
+    fn execute(&self, cmd_line: &String) -> bool;
+}
+
+struct CmdLine<'a> {
+    prompt: String,
+    cmd_execute: &'a dyn Execute,
+}
+
+impl<'a> CmdLine<'a> {
+    fn new(prompt: &str, cmd_execute: &'a dyn Execute) -> CmdLine<'a> {
+        CmdLine { prompt: prompt.to_string(), cmd_execute: cmd_execute }
+    }
+
+    fn run(&self) {
+        let mut cmd = String::new();
+        loop {
+            print!("{}>", self.prompt);
+            io::stdout().flush().unwrap();
+            io::stdin().read_line(&mut cmd).unwrap();
+            if !self.cmd_execute.execute(&cmd) {
+                break
+            }
+            cmd.clear();
+        }
+    }
+}
+
+// ...
+
+struct CSDProcCmd {
+    //...
+}
+
+impl Execute for CSDProcCmd {
+    fn execute(&self, cmd_line: &String) -> bool  {
+        print!("command executes: {}", cmd_line);
+        cmd_line.trim() != "exit"
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki gibi bir trait bulunuyor olsun:
+
+    trait Test {
+        fn foo(&self);
+    }
+
+    Bu trait türünden dyn referans parametreli bir fonksiyonun da bulunduğunu varsayalım:
+
+    fn run(r: &dyn Test) {
+        //...
+        r.foo();
+        //...
+    }
+
+    Biz bu fonksiyona Test trait'ini destekleyen hangi yapı ya da enum türünden adres geçersek fonksiyon aslında o türdeki
+    foo metodunu çağıracaktır. Bu nedenle örneğimizdeki run fonksiyonu derlenirken derleyici hangi foo metodunun çağrılacağını
+    bilemez. Çünkü çağrılacak foo metodu fonksiyona geçirilecek adresin türüne bağlıdır. O halde derleyici bu fonksiyonu
+    gördüğünde nasıl bir kod üretmektedir?
+
+    Bu tür çokbiçimli çağrılara C++'ta "late binding", Rust'ta ise "dynamic dispatch" denilmektedir. Rust'taki dynamic dispatch
+    mekanizması C++'tan farklı biçimde gerçekleştirilmektedir. Rust'ta &dyn bir trait referansı bildirildiğinde o referans
+    aslında kendi içerisinde bir tane değil iki tane gösterici tutmaktadır. Örneğin:
+
+    let s = Sample { a: 10, b: 20 };
+    let r: &dyn Test = &s;
+
+    println!("{}", std::mem::size_of_val(&r));      // 16
+
+    Burada 64 bitlik makinede r için ayrılan alanın 16 byte olduğu görülmektedir. (64 bit sistemlerde bir gösterici 8 byte
+    olduğundan 2 gösterici 16 byte yer kaplamaktadır.) Halbuki normal referanslar aynı sistemde 8 byte yer kaplamaktadır:
+
+    let a: i32 = 10;
+    let r: &i32 = &a;
+
+    println!("{}", std::mem::size_of_val(&r));      // 8
+
+    Peki neden Rust'ta dyn bir trait referansı iki göstericilik yer kaplamaktadır? İşte Rust'ta derleyici dyn uyumlu bir
+    trait'i destekleyen bir tür tanımlandığında o tür için bir "sanal fonksiyon tablosu" oluşturmaktadır. Sanal fonksiyon
+    tablosu trait'teki desteklenen fonksiyonların adreslerini tutan bir tablodur. (Biz tablo diyoruz ama bu bir fonksiyon
+    gösterici dizisidir.) İşte dyn trait referanslarının iki göstericisinden ilki bu değişken ya da değeri, ikincisi ise
+    sanal fonksiyon tablosunu göstermektedir. Örneğin trait'imiz şöyle olsun:
+
+    trait Test {
+        fn foo(&self);
+        fn bar(&self);
+    }
+
+    Bu trait'te iki fonksiyon vardır. Şimdi bu trait'i destekleyen bir Sample yapısı oluşturalım:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            //...
+        }
+
+        fn bar(&self) {
+            //...
+        }
+    }
+
+    İşte derleyici buradaki Sample yapısı için aşağıdakine benzer bir sanal fonksiyon tablosu oluşturur:
+
+    Sample Sanal Fonksiyon Tablosu
+    ---------------------------------
+    <Sample::foo fonksiyonun adresi>
+    <Sample::bar fonksiyonun adresi>
+
+    Şimdi biz Sample türünden bir değişken yaratıp onun adresini dyn Test türünden bir referansa atayalım:
+
+    let s = Sample { a: 10, b: 20 };
+    let r: &dyn Test;
+
+    r = &s;
+
+    Burada r'nin içerisinde aslında iki gösterici bulunmaktadır. Birinci gösterici s değişkenin adresini, ikinci gösterici
+    Sample için oluşturulmuş sanal fonksiyon tablosunu göstermektedir. Şimdi aşağıdaki gibi çokbiçimli bir çağrı yapalım:
+
+    r.foo();
+
+    Derleyici burada şöyle bir kod üretecektir: "r referansının içerisindeki ikinci göstericinin gösterdiği yerdeki sanal
+    fonksiyon tablosunun ilk elemanında adresi bulunan fonksiyonu çağır, birinci gösterici içerisindeki adresi de &self
+    parametresine aktar". Bunun sonucunda da Sample yapısındaki foo metodu çağrılacaktır. Şimdi şu çağrıyı yapalım:
+
+    r.bar();
+
+    Burada derleyici şöyle bir kod üretecektir: "r referansının içerisindeki ikinci göstericinin gösterdiği yerdeki sanal
+    fonksiyon tablosunun ikinci elemanında adresi bulunan fonksiyonu çağır, birinci gösterici içerisindeki adresi de &self
+    parametresine aktar".
+
+    Şimdi Mample isminde Test trait'ini destekleyen benzer başka bir yapının da tanımlanmış olduğunu varsayalım:
+
+    let m = Mample { a: 30, b: 40 };
+    //...
+
+    r = &m;
+
+    Şimdi artık r referansının ikinci göstericisi Mample yapısına ilişkin oluşturulmuş olan sanal fonksiyon tablosunu
+    gösterecektir. Dolayısıyla artık r ile foo ve bar metotları çağrıldığında Mample yapısının foo ve bar metotları
+    çağrılmış olacaktır.
+
+    Peki bir tür birden fazla trait'i destekliyorsa bu tür için sanal fonksiyon tablosu nasıl oluşturulur? Örneğin:
+
+    trait A {
+        fn foo(&self);
+        fn bar(&self);
+    }
+
+    trait B {
+        fn tar(&self);
+        fn zar(&self);
+    }
+
+    Sample yapısının her iki trait'i de desteklediğini varsayalım:
+
+    impl A for Sample {
+        //...
+    }
+
+    impl B for Sample {
+        //...
+    }
+
+    Böylesi bir durumda derleyicileri yazanlar farklı stratejiler izleyebilirler. Örneğin tipik olarak Sample yapısı için
+    iki ayrı sanal fonksiyon tablosu oluşturabilirler (mevcut Rust derleyicisi böyle yapmaktadır):
+
+    A Desteği İçin Sample Yapısının Sanal Fonksiyon Tablosu
+    -------------------------------------------------------
+    <Sample::foo fonksiyonun adresi>
+    <Sample::bar fonksiyonun adresi>
+
+    B Desteği İçin Sample Yapısının Sanal Fonksiyon Tablosu
+    -------------------------------------------------------
+    <Sample::tar fonksiyonun adresi>
+    <Sample::zar fonksiyonun adresi>
+
+    Sample türünden bir değişkenin adresinin dyn A ve dyn B türlerinden referanslara atandığını düşünelim:
+
+    let s = Sample {
+        //...
+    };
+    let ra: &dyn A;
+    let rb: &dyn B;
+
+    ra = &s;            // geçerli
+    ra.foo();
+    ra.bar();
+
+    rb = &s;            // geçerli
+    rb.tar();
+    rb.zar();
+
+    Burada derleyici ra = &s atamasında ra referansının ikinci gösterici kısmına Sample yapısının A desteği için oluşturulan
+    sanal fonksiyon tablosunun adresini, rb = &s atamasında ise rb referansının ikinci gösterici kısmına Sample yapısının
+    B desteği için oluşturulan sanal fonksiyon tablosunun adresini yerleştirebilir.
+
+    Biz yukarıdaki anlatımlarda dyn trait türünden referansların ilk gösterici kısmında değişken ya da değerin adresinin,
+    ikinci gösterici kısmında ise sanal fonksiyon tablosunun adresinin tutulduğunu söyledik. Ancak "The Rust Reference"
+    dokümanları bu konuda bir garanti vermemektedir.() Bu tür standartların bu biçimde gerçekleştirime yönelik garantiler
+    vermesi de zaten uygun değildir ve beklenmemelidir.) "The Rust Reference" dokümanları bu dyn trait referanslarının iki
+    parçadan oluştuğunu söylemekte fakat bunların sırası konusunda bir belirlemede bulunmamaktadır. "The Rust Reference"
+    dokümanları şöyle demektedir: "A trait object is a fat pointer consisting of a pointer to a value of some type T and
+    a pointer to a vtable for the trait implemented by T."
+
+    C++'ta (ve diğer pek çok nesne yönelimli programlama dilinde) sanal fonksiyon tablo adresleri gösterici ya da referansın
+    içerisinde değil nesnenin içerisinde saklanmaktadır. Bu durum C++'ta "bir sınıf bir sanal fonksiyona sahipse o sınıf
+    türünden nesnenin bir göstericilik daha fazla yer kaplamasına" yol açmaktadır. C++'ta sanal fonksiyon tablo göstericisinin
+    nesne içerisinde tutulması C++'ın genel tasarımıyla uyumludur. Ancak Rust'ta çokbiçimli davranış çok başvurulan bir
+    mekanizma değildir. Bu nedenle sistem programlama uygulamaları da göz önüne alındığında sanal fonksiyon tablo göstericilerinin
+    nesne içerisinde değil de referansın içerisinde tutulması Rust için daha uygundur.
+
+    Bilindiği gibi derleyiciler "gözlemlenebilen (başka bir deyişle yan etki (side effect) oluşturan)" bir davranış
+    değişikliği oluşturmadıktan sonra kodun daha etkin üretilmesi için her türlü optimizasyonu yapabilmektedir. Bu bağlamda
+    "dynamic dispatch" yerine bazı durumlarda da derleyici "static dispatch" uygulayan kodlar üretebilmektedir. Örneğin:
+
+    let s = Sample { a: 10, b: 20 };
+    let r: &dyn Test;
+
+    r.foo();
+
+    Burada her ne kadar çokbiçimli bir çağırma söz konusuysa da aslında Sample yapısının foo metodunun çağrıldığı görülmektedir.
+    Derleyici bu durumda optimizasyon seçenekleri de açıksa doğrudan Sample yapısındaki foo fonksiyonunu çağıracak bir kod
+    üretebilir. Yani dynamic dispatch yerine static dispatch uygulayabilir.
+
+# 62. Ders 05/11/2025 - Çarşamba
+
+    Rust'ta bazı durumlarda trait'ler türünden dyn referans bildirilememektedir. Başka bir deyişle her trait "dyn uyumlu (dyn
+    compatible)" değildir. Rust'ta dyn uyumlu trait'lere "nesne güvenli (object safe)" trait'ler de denilmektedir. Trait'lerin
+    dyn uyumunu bozan birkaç unsur vardır. Bu unsurları açıklayalım:
+
+    1) Geri dönüş değerinde Self olan trait'ler dyn uyumlu değildir. Örneğin:
+
+    trait Test {
+        fn foo(&self) -> Self;
+    }
+
+    Bu trait dyn uyumlu değildir. Başka bir deyişle "nesne güvenli (object safe)" değildir. Dolayısıyla biz aşağıdaki gibi
+    bir dyn referans bildirmeye çalışırsak error oluşacaktır:
+
+    let r: &dyn Test;       // error!
+
+    2) Generic metot içeren trait'ler dyn uyumlu değildir. Örneğin:
+
+    trait Test {
+        fn foo<T>(&self, a: T);
+    }
+
+    Bu trait de dyn uyumlu değildir. Dolayısıyla bu trait türünden de dyn referans bildirilemez.
+
+    3) Eğer trait'teki bir metodun birinci parametresi self biçimindeyse (yani &self ya da &mut self biçiminde değilse) böyle
+    trait'ler de bir süre öncesine kadar dyn uyumlu değildi.
+
+    trait Test {
+        fn foo(&self);
+        fn bar(self);
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample::foo");
+        }
+
+        fn bar(self) {
+            println!("Sample::bar");
+        }
+    }
+    //...
+
+    let s = Sample {a: 10, b: 20};
+    let r: &dyn Test = &s;              // bir süre öncesine kadar bu bağlama error oluşturuyordu.
+
+    Ancak Rust'ta 1.65 sürümü civarında bu konuda bir değişiklik yapılmıştır. Artık self parametresine sahip trait'ler
+    de dyn uyumludur ancak bu metotlar dyn bir referansla çağrılamamaktadır. Örneğin:
+
+    let s = Sample {a: 10, b: 20};
+    let r: &dyn Test = &s;          // geçerli
+
+    r.foo();        // geçerli
+    r.bar();        // error!
+
+    4) İlişkili fonksiyonlara (yani ilk parametresi &self, &mut self ya da self olmayan fonksiyonlara) sahip olan trait'ler de
+    dyn uyumlu değildir. Örneğin:
+
+    trait Test {
+        fn foo(&self);
+        fn bar();       // dikkat! dyn uyumunu bozuyor
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    impl Test for Sample {
+        fn foo(&self) {
+            println!("Sample::foo");
+        }
+
+        fn bar() {
+            println!("Sample::bar");
+        }
+    }
+    //...
+
+    let s = Sample {a: 10, b: 20};
+    let r: &dyn Test = &s;              // error!
+
+    Bu örnekte Test trait'i türünden dyn referans bildirilemediği için error oluşacaktır.
+
+    Yukarıdaki iki durumda trait dyn uyumlu olmadığı halde trait'teki metoda ya da ilişkili fonksiyona Self: sized kısıtı
+    iliştirilirse trait dyn uyumlu hale getirilebilmektedir. Biz birinci maddede Self ile geri dönen metotlara sahip trait'lerin
+    dyn uyumlu olmadığını söylemiştik. İşte bu trait'lerdeki uyumu bozan metotlara Self: Sized kısıtı iliştirilirse trait dyn
+    uyumlu hale getirilebilmektedir. Ancak trait bu biçimde  dyn uyumlu hale getirilebilse de yine dyn referansla bu kısıt
+    iliştirilmiş metotlar çağrılamamaktadır. Örneğin:
+
+    trait Test {
+        fn foo(&self);
+        fn bar(&self) -> Self;      // trait dyn uyumlu değil
+    }
+
+    Normal olarak bu trait bar metodu yüzünden dyn uyumlu değildir. Ancak bu metoda Self: Sized kısıtı iliştirildiğinde
+    artık trait dyn uyumlu hale getirilebilmektedir:
+
+    trait Test {
+        fn foo(&self);
+        fn bar(&self) -> Self where Self: Sized;        // trait dyn uyumlu
+    }
+
+    Tabii artık biz Test türünden bir dyn referans ile bar metodunu çağıramayız:
+
+    let s = Sample {a: 10, b: 20};
+    let r: &dyn Test = &s;          // geçerli
+
+    r.foo();                        // geçerli
+    r.bar();                        // error!
+
+    Aynı durum ilişkili fonksiyonlara sahip trait'ler için de aynı biçimde geçerlidir. Örneğin:
+
+    trait Test {
+        fn foo(&self);
+        fn bar();           // trait dyn uyumlu değil
+    }
+
+    Bu trait ilişkili fonksiyona sahip olduğu için dyn uyumlu değildir. Ancak bu fonksiyona Self: Sized kısıtı eklenirse
+    trait dyn uyumlu hale getirilebilmektedir:
+
+    trait Test {
+        fn foo(&self);
+        fn bar() where Self: Sized;
+    }
+
+    Tabii yine bu dyn trait referansı ile foo metodu çağrılabilir ancak bar metodu çağrılamaz. (Zaten ilişkili fonksiyonlar
+    ilgili türden değişken, değer ya da referansla çağrılamamaktadır.)
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta yaygın kullanılan trait'lerden biri de std::default modülündeki Default isimli trait'tir. Biz bu Default trait'ini
+    trait'ler konusundan önce ele almıştık. Burada yeniden bu trait üzerinde durmak istiyoruz. Default trait'i şöyle
+    tanımlanmıştır:
+
+    pub trait Default: Sized {
+        // Required method
+        fn default() -> Self;
+    }
+
+    Görüldüğü gibi Default trait'inin default isminde tek bir ilişkili fonksiyonu vardır. Bu fonksiyonun parametre almadığına
+    geri dönüş değerinin Self olduğuna dikkat ediniz. default metodu ilgili tür türünden default bir değer veren metottur.
+    Eğer siz de bir yapı ya da enum türü oluşturuyorsanız o yapının ya da enum türünden default bir değer vermek için bu
+    trait'i destekleyebilirsiniz. Default trait'i dyn uyumlu değildir. Tabii şimdi aklınıza "ben kendi türüm için default
+    değer vermek istiyorsam kendi istediğim isimli bir metotla da bunu yapabilirim, neden bu Default trait'ini destekleyeyim"
+    sorusu gelebilir. İşte bu trait bu default değer verme işlemi herkes için tanıdık bir hale getirmektedir. Biz bir türün
+    Default trait'ini desteklediğini biliyorsak o türün default metodunun olduğunu ve bu metodun da o tür türünden default bir
+    değer verdiğini bilmiş oluruz. Rust'ın temel türlerinin hepsi bu Default trait'ini desteklemektedir.
+
+    Bir tür türünden default değer o türü oluşturanlar tarafından belirlenir. Ancak bazı türler için default değerleri biz
+    sezgisel olarak da tahmin edebiliriz. Örneğin i32, i64, f32, f64 gibi türlerin ilişkili default fonksiyonları default
+    değer olarak 0 vermektedir. Örneğin:
+
+    let a = i32::default();
+
+    println!("{}", a);          // 0
+
+    String yapısı için default değer içi boş bir yazıdır. Örneğin:
+
+    let s = String::default();
+
+    println!("{}", s.len());            // 0
+
+    Örneğin Point isimli aşağıdaki gibi bir yapı oluşturmak isteyelim:
+
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+    Biz bu yapıya default desteği verebiliriz. Point için default değer (0, 0) olabilir:
+
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Self {
+            Point { x: x, y: y }
+        }
+
+        fn disp(&self) {
+            println!("x: {}, y: {}", self.x, self.y);
+        }
+    }
+
+    impl Default for Point {
+        fn default() -> Self {
+            Point{x: 0, y: 0}
+        }
+    }
+    //...
+
+    let pt = Point::default();
+
+    pt.disp();      // x: 0, y: 0
+
+    new ilişkili fonksiyonları ile default ilişkili fonksiyonlarındaki farka dikkat ediniz. new fonksiyonu bizim verdiğimiz
+    argümanlara göre yeni bir değer vermektedir. Halbuki default fonksiyonu türü oluşturanın istediği gibi default bir değer
+    vermektedir.
+
+    Daha önce de belirttiğimiz gibi eğer ilgili türün bütün alanları Default trait'ini destekliyorsa bu durumda ilgili
+    tür için #[derive(Default)] özniteliği ile otomatik Default desteği verilebilmektedir. Örneğin:
+
+    #[derive(Default)]
+    struct Rectangle {
+        x: i32,
+        y: i32,
+        width: i32,
+        height: i32
+    }
+    //...
+
+    let r = Rectangle::default();
+    println!("{}, {}, {}, {}", r.x, r.y, r.width, r.height);        // 0, 0, 0, 0
+
+    Tabii yukarıda da belirttiğimiz gibi otomatik Default desteği verebilmek için alanların hepsinin Default trait'ini
+    destekliyor olması gerekir. Aşağıdaki örnekte Point yapısı Default trait'ini desteklemediği için Rectangle yapısına
+    otomatik Default desteği verilememektedir:
+
+    #[derive(Default)]
+    struct Rectangle {
+        pt: Point,      // error! Point trait'i, Default trait'ini desteklemiyor
+        width: i32,
+        height: i32
+    }
+
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+# 63. Ders 10/11/2025 - Pazartesi
+
+    Bu bölümde Rust'ta generic'ler konusunu ele alacağız. Biz daha önce generic'ler konusunu üstünkörü ele almıştık. Ancak
+    bu bölümde sıfırdan başlayarak konuyu ayrıntılarıyla ele alacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Farklı türler için benzer işlemlerin yapılması gerektiği pek çok durum vardır. Örneğin sıralama yapan bir fonksiyon yazmak
+    isteyelim:
+
+    fn sort_i32(a: &mut [i32]) {
+        //...
+    }
+
+    Burada fonksiyon yalnızca i32 türünden bir diziyi sıraya dizebilmektedir. Eğer biz farklı türdn bir diziyi sıraya dizmek
+    istiyorsak içi aynı olacak biçimde bu fonksiyondan bir tane daha yazmamız gerekir. Örneğin i64 türünden bir diziyi sıraya
+    dizmek için içi aynı olan yeni bir fonksiyon yazmamız gerekir:
+
+    fn sort_i64(a: &mut [i64]) {
+        //...
+    }
+
+    Rust'ta farklı parametrik yapılara ilişkin aynı isimli fonksiyonlar oluşturulamamaktadır. (Rust'ta "function overloading"
+    ya da "method overloading" özelliğinin olmadığını anımsayınız. Bu nedenle fonksiyonların içi aynı olsa da bunlara farklı
+    isimlerin verilmesi gerekmektedir.) Örneğin i32 türündn bir dizinin en büyük elemanı ile geri dönen aşağıdaki gibi bir
+    yazmış olalım:
+
+    fn get_max_i32(a: &[i32]) -> i32 {
+        //...
+    }
+
+    Bu fonksiyonla biz ancak i32 türünden bir dizinin en büyük elemanını bulabiliriz. Biz örneğin i64 türünden bir dizinin
+    en büyük elemanını bu fonksiyonla bulamayız. Bunun için bu fonksiyonu içi aynı olacak biçimde i64 türü için yeniden yazmamız
+    gerekir:
+
+    fn get_max_i64(a: &[i64]) -> i64 {
+        //...
+    }
+
+    Aynı problemli durum yapılar için de söz konusu olabilmektedir. Bir yapı belli türlerden bilgileri kullanacak biçimde
+    oluşturulmuş olabilir. Böyle yapıların başka türlr için yniden tanımlanmaları grekir. Örneğin sabit büyüklükteki i32 türünden
+    bir diziyi bir kuyruk sistemi biçiminde kullanan Queue isimli bir yapı oluşturacak olalım. Bu yapıda kuyruğa eklenecek elemanlar
+    i32 türünden olacaktır:
+
+    struct QueueI32 {
+        queue: [i32; 1024],
+        head: usize,
+        tail: usize
+    }
+
+    impl QueueI32 {
+        //...
+    }
+
+    Eğer biz örneğin i64 türünden elemanları tutacak bir kuyruk sistemi oluşturmak istersek bu yapıdan i64 türü için yeni bir
+    tane daha tanımlamamız gerekir:
+
+    struct QueueI64 {
+        queue: [i64; 1024],
+        head: usize,
+        tail: usize
+    }
+
+    impl QueueI64 {
+        //...
+    }
+
+    İşte generic'ler bir şablon tanımlaması eşliğinde aynı fonksiyonun ya da struct, enum, trait gibi türlerin otomatik
+    olarak derleyici tarafından türe uygun biçimde oluşturulmasını sağlamaktadır. Yani generic'ler içi aynı olan ancak
+    farklı türler için tekrar tekrar yazmak zorunda olduğumuz fonksiyonların ve türlerin derleyici tarafından yazılmasını
+    sağlamaktadır. Bu da hem yük oluşturan bu sıkıcı işlemleri bizim üzerimizden alır hem kodumuzun daha az karmaşık görünmesini
+    sağlar. Bu özellik C++'ta "template", Java ve C#'ta "generic" simiyle zaten bulunmaktadır. Diğer modern pek çok dil de
+    artık bu mekanizmayı desteklemektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta generic fonksiyonların ve türlerin kullanılması durumunda derleyicinin o türlere dayalı olarak o generic şablondan
+    hareketle gerçek fonksiyonları ya da türleri oluşturması sürecine "monomorfizasyon (monomorphisation)" denilmektedir.
+    (C++'ta bu sürece "template instantiation" denildiğini anımsayınız.) Monomorfizasyon derleme aşamasında derleyici tarafından
+    yapılmaktadır. Rust'ta generic türler kütüphanelerde de bulundurulabilmektedir. (C++'ta böyle bir durumun mümkün olmadığını
+    anımsayınız.) Derleyici kütüphanelere başvurarak bu generic tanımlamaları elde edip monomorfizasyon işlemini derleme
+    aşamasında yapabilmektdir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta fonksiyonlar, metotlar, yapılar, enum türleri ve trait'ler generic biçimde tanımlanabilmektdir. Biz önce generic
+    fonksiyonları daha sonra da generic türleri ele alacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Generic fonksiyonlar ve metotlar tanımlanırken fonksiyon isminden sonra açısal parantezler içerisinde generic parametreler
+    aralarına ',' atomu yerleştirilerek bildirilmektedir. Fonksiyonun ya da metodun generic olduğu bu açısal parantezlerden
+    anlaşılmaktadır. Örneğin:
+
+    fn foo<T, K>(x: T, y: K) {
+        //...
+    }
+
+    Burada foo generic bir fonksiyondur, T ve K da generic parametrelerdir. Generic parametreler bir tür belirtmektedir. Bu
+    parametreler tür gereken her bağlamda kullanılabilmektedir. Generic parametreler genellikle T gibi K gibi V gibi tek
+    karakterlik büyük harfler kullanılarak isimlendirilmektedir. Ancak isimlendirme herhangi bir biçimde yapılabilir.
+
+    Generic bir fonksiyon çağrılmak istendiğinde derleyicinin generic parametrelerin gerçekte hangi türleri temsil ettiğini
+    belirlemesi gerekir. Buna Rust dünyasında "tür çıkarımı (type inference)" denilmektedir. (C++'ta buna "template argument
+    deduction" denildiğini anımsayınız.) Rust derleyicileri generic tür parametrelerinin gerçekte hangi türleri temsil ettiğini
+    iki biçimde belirlemektedir:
+
+    1) Eğer generic türler programcı tarafından açıkça belirtilmişse derleyici tür çıkarımı yapmaya çalışmaz, programcının
+    belirlediği türleri esas alır.
+    2) Eğer generic türler programcı tarafından açıkça belirtilmediyse derleyici tür çıkarımını fonksiyonun kullanıldığı
+    bağlamı göz önüne alarak yapar.
+
+    Eğer generic tür parametreleri açıkça belirtilmediyse ve derleyici de generic fonksiyonun kullanıldığı bağlamdan tür
+    çıkarımını yapamazsa bu durum error oluşturmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+    Generic fonksiyon çağrılırken tür parametreleri programcı tarafından fonksiyon isminden sonra :: operatörü ve bunu izleyen
+    açısal parantezlerle açıkça belirtilebilmektedir. Örneğin:
+
+    fn foo<T, K>(x: T, y: K) {
+        //...
+    }
+
+    Burada biz T türünün i32, K türünün i64 olmasını isteyelim. Bu durumda fonksiyonu şöyle çağırırız:
+
+    foo::<i32, i64>(10, 20);
+
+    Bu sentaksı C++'tan geçenler yadırgamaktadır. Çünkü C++'ta fonksiyon şablonlarında çağrım yapılırken tür belirlemesi
+    hemen fonksiyon isminden sonra açısal parantezler kullanılarak yapılmaktadır. Örneğin:
+
+    foo<int, long>(10, 20);
+
+    Halbuki Rust'ta fonksiyon isminden sonra hemen açısal parantezlerden önce :: operatörü kullanılmalıdır.
+
+    C++'ta ilk N tane şablon parametresi için açıkça tür belirtilip geri kalanlarının derleyici tarafından akıl yürütme
+    yoluyla belirlenmesi sağlanabilmektedir. Örneğin C++'ta foo fonksiyonun iki şablon parametresi varsa aşağıdaki gibi
+    bir çağrı yapabiliriz:
+
+    template <typename T, typename K>
+    void foo(T x, K y)
+    {
+        //...
+    }
+    //...
+
+    foo<int>(10, 3.14);
+
+    Burada biz ilk şablon parametresini açıkça belirttik, ancak ikinci şablon parametresinin türünü derleyicinin belirlemesini
+    istedik. Rust'ta bu işlem C++'taki gibi yapılmamaktadır. Rust'ta belli generic parametrelerin derleyici tarafından çıkarsanması
+    isteniyırsa o tür parametreleri için _ atomu kullanılmaktadır. Örneğin:
+
+    foo::<i32, _>(10, 3.14);
+
+    Burada biz birinci generic parametrenin türünü açıkça belirttik. Ancak ikinci generic parametrenin türünü derleyicinin
+    tespit etmesini istedik. Tabii _ atomu birden fazla generc parametre için de kullanılabilir. Bu atomun pozisyonu önemli
+    değildir. Örneğin:
+
+    foo::<_, f64>(10, 3.14);        // geçerli
+
+---------------------------------------------------------------------------------------------------------------------------
+    Eğer çağrım sırasında generic parametrenin türü programcı tarafından açıkça belirtilmemişse derleyici generic parametrenin
+    türünü argümanların türlerinden ve geri dönüş değerinin türünden hareketle çıkarsamaya çalışmaktadır. Örneğin:
+
+    use std::any::type_name;
+
+    fn foo<T, K>(x: T, y: K) {
+        println!("T: {}", type_name::<T>());
+        println!("K: {}", type_name::<K>());
+    }
+
+    Bu örneğimizde type_name isimli generic fonksiyon generic parametrenin türünü yazı olarak elde etmek için kullanılmıştır.
+    type_name fonksiyonu üzerinde ileride duracağız. Biz burada type_name fonksiyonunu parametre çıkarımını test etme amaçlı
+    kullanacağız. Şimdi foo fonksiyonunu şöyle çağırmış olalım:
+
+    foo(10, 3.14);
+
+    Derleyici 10 sabiti i32 türünden, 3.14 sabiti de f64 türünden olduğu için T türünün i32, K türünün de f64 olduğunu
+    çıkarsayacaktır. Dolayısıyla fonksiyondan şöyle bir çıktı elde edilecektir:
+
+    T: i32
+    K: f64
+
+    Eğer derleyici argümanlardan hareketle tür çıkarımı yapamazsa bu durumda çağırma ifadesinde error oluşacaktır. Örneğin:
+
+    fn foo<T>(x: T, y: T) {
+        println!("T: {}", type_name::<T>());
+    }
+
+    Burada x ve y parametre değişkenlerinin her ikisi de T türündendir. O halde çağırma sırasında iki argümanın da aynı
+    türden olması gerekir. Örneğin:
+
+    foo(3.14, 6.28);        // geçerli
+
+    Burada her iki argüman da f64 türünden olduğu için çağrı geçerlidir, T türü f64 olarak çıkarsanacaktır. Ancak örneğin:
+
+    foo(10, 6.28);        // error!
+
+    Burada T türü derleyici tarafından çıkarsanamayacağı için error oluşacaktır. Ancak örneğin:
+
+    foo::<i64>(10, 20);     // geçerli
+
+    Burada da bir sorun ortaya çıkmayacaktır. Çünkü 10 ve 20 sabitleri i64 türü için geçerli sabitlerdir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyonun geri dönüş değerinde de generic parametreler kullanılabilir. Örneğin:
+
+    fn foo<T>() -> T {
+        //...
+    }
+
+    Burada artık argümandan hareketle fonksiyonun geri dönüş değerinin türü tespit edilemeyecektir. Örneğin:
+
+    foo();
+
+    Bu tür durumlarda programcının açıkça tür belirlemesi yapması gerekmektedir. Örneğin:
+
+    foo::<i32>();
+
+    Ancak Rust derleyicisi geri dönüş değerinin atandığı değişkenden hareketle de tür çıkarımını da yapabilmektedir.
+    Örneğin:
+
+    fn foo<T: Default>() -> T {
+        let a: T = T::default();
+        a
+    }
+    //...
+
+    let a: i32;
+
+    a = foo();      // T türü i32 olarak çıkarsanır
+
+    Burada foo fonksiyonunun egri dönüş değeri i32 türüne atandığı için generic T parametresi de i32 olarak çıkarsanacaktır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta generic bir fonksiyon ya da metodun içerisindeki kodların generic parametrelerin türü ne olursa olsun geçerli
+    olması gerekir. Örneğin:
+
+    fn max(a: T, b: T) -> T {           // error!
+        if a > b {
+            a
+        }
+        else {
+            b
+        }
+    }
+
+    Buradaki generic max fonksiyonu derlenemeyecektir. Çünkü fonksiyonun içerisindeki kod olası her T türü için geçerli
+    değildir. Örneğin T türü i32 olsa ya da i64 olsa bu kod geçerli olurdu. Çünkü i32 ve i64 türleri > operatörüyle karşılaştırılabilmektedir.
+    Ancak örneğin bizim oluşturduğumuz Point türü > operatörüyle karşılaştırılamamaktadır. İşte bu tür durumlarda programcı
+    "tür sınırlaması (type bounding)" uygulayarak kodun her generic tür için geçerli olmasını sağlamalıdır. (Bu durum Rust'a
+    özgü değildir. C# ve Java'da da benzerdir. C++'a da "Concepts" ismiyle C++20 ile eklenmiştir.) Biz yukarıdaki generic
+    fonksiyonda eğer derleyiciye T türünün > operatörünü destekleyeceği sözünü verirsek kod artık geçerli olacaktır. Bu garanti
+    PartialOrd isimli trait ile verilmektedir:
+
+    fn max<T: PartialOrd>(a: T, b: T) -> T {            // geçerli
+        if a > b {
+            a
+        }
+        else {
+            b
+        }
+    }
+
+    Burada açısal parantezler içerisinde T: PartialOrd sentaksı ile biz derleyiciye T türünün PartialOrd trait'ini destekleyeceği
+    sözünü vermiş olduk. Artık derleyici generic fonksiyonu kabul edecektir. Örneğin:
+
+    let a = 10;
+    let b = 20;
+    let result: i32;
+
+    result = max(a, b);         // geçerli
+    println!("{}", result);
+
+    Burada T türü i32 olarak çıkarsanacaktır. Derleyiciye verilen söz tutulmuştur. Çünkü i32 türü PartialOrd trait'ini
+    desteklemektedir dolayısıyla iki i32 değeri > operatörüyle karşılaştırılabilmektedir. Peki böyle bir söz verildiği halde
+    programcı bu sözde durulmazsa ne olur? Örneğin:
+
+    let pt1 = Point { x: 1, y: 2 };
+    let pt2 = Point { x: 3, y: 4 };
+    let result: Point;
+
+    result = max(pt1, pt2);         // error!
+
+    Burada Point türü PartialOrd trait'ini desteklemediği için max çağrısı error ile sonuçlanacaktır. Tabii biz Point yapısının
+    PartialOrd trait'ini desteklemesini sağlayabiliriz. Bu durumda max fonksiyonunu Point ile de kullanabiliriz:
+
+    struct Point {
+        x: i32,
+        y: i32,
+    }
+
+    impl Point {
+        fn new(x: i32, y: i32) -> Point {
+            Point { x: x, y: y }
+        }
+
+        fn disp(&self) {
+            println!("x: {}, y: {}", self.x, self.y);
+        }
+    }
+
+    impl PartialEq for Point {
+        fn eq(&self, other: &Point) -> bool {
+            self.x == other.x && self.y == other.y
+        }
+    }
+
+    use std::cmp::Ordering;
+
+    impl PartialOrd for Point {
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            let pt1_len = self.x * self.x + self.y * self.y;
+            let pt2_len = other.x * other.x + other.y * self.y;
+
+            if pt1_len > pt2_len {
+                Some(Ordering::Greater)
+            }
+            else if pt1_len < pt2_len {
+                Some(Ordering::Less)
+            }
+            else {
+                Some(Ordering::Equal)
+            }
+        }
+    }
+
+    Biz henüz operatör metotlarını ve dolayısıyla da PartialOrd trait'ini görmedik. Ancak PartialOrd trait'i PartialEq
+    trait'inden türetilmiştir. Dolayısıyla biz yalnızca PartialOrd trait'ini değil aynı zamanda PartialEq trait'ini de
+    desteklemek zorundayız. Yukarıdaki desteğin nasıl yapıldığını bu aşamada bilmenize gerek yoktur. Burada önemli olan
+    nokta artık bizim Point yapımızın > operatörünü destekliyor olmasıdır. O halde artık biz max fonksiyonunda T türü
+    olarak Point türünü kullanırsak verdiğimiz sözde durmuş oluruz:
+
+    let pt1 = Point::new(1, 2);
+    let pt2 = Point::new(3, 4);
+    let result: Point;
+
+    result = max(pt1, pt2);         // geçerli
+    result.disp();
+
+---------------------------------------------------------------------------------------------------------------------------
+    O halde Rust'ta bir generic fonksiyon ya da metot yazılırken eğer kod içerisinde yaptığımız birtakım işlemler her generic
+    tür için geçerli olamıyorsa bizim tür sınırlamaları uygulayarak kodumuzu geçerli hale getirmemiz gerekir. Örneğin:
+
+    fn foo<T>() -> T {
+        T::default()            // error!
+    }
+
+    Bu kod derlenmeyecektir. Çünkü her T türünün default isminde bir ilişkili fonksiyonu olmak zorunda değildir. Ancak
+    örneğin:
+
+    fn foo<T: Default>() -> T {
+        T::default()            // geçerli
+    }
+
+    Burada artık fonksiyon geçerli hale gelmiştir. Çünkü T türünün Default trait'ini destekleyeceği sözü verilmiştir. T türü
+    Default trait'ini desteklediğine göre zaten default isimli bir ilişkili fonksiyonun bulunuyor olması gerekir. Biz burada
+    foo fonksiyonunu Default trait'ini desteklemeyen bir türle kullanamayız. Örneğin Point yapısının Default trait'ini
+    desteklemediğini varsayalım:
+
+    let result: Point;
+
+    result = foo::<Point>();        // error!
+
+    Derleyici foo fonksiyonunu Point için monomorfize edemeyecektir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de bir dizinin en büyük elemanı ile geri dönen get_max isimli generic fonksiyonu yazmaya çalışalım. Fonksiyonu
+    aşağıdaki gibi yazarsak error oluşacaktır:
+
+    fn get_max<T>(a: &[T]) -> T {           // error!
+        let mut max = a[0];
+
+        for i in 1..a.len() {
+            if a[i] > max {
+                max = a[i];
+            }
+        }
+        max
+    }
+
+    Burada iki sorun vardır. Birincisi derleyiciye T türünün > operatörünü destekleyeceği biçiminde bir söz verilmemiştir.
+    Buradaki ikinci sorun eğer fonksiyona aktardığımız dizi Copy türünden değilse fonksiyonun içerisindeki kod geçersiz hale
+    gelir. Çünkü anımsayacağınız gibi Copy türünden olmayan bir dizinin elemanları taşınamaz. İşte burada T türü için derleyiciye
+    iki sözün verilmesi gerekmektedir: T türünün > operatörünü destekliyor olması sözü ve T türünün Copy trait'ini destekliyor
+    olması sözü:
+
+    fn get_max<T: PartialOrd + Copy>(a: &[T]) -> T {            // geçerli
+        let mut max = a[0];
+
+        for i in 1..a.len() {
+            if a[i] > max {
+                max = a[i];
+            }
+        }
+        max
+    }
+---------------------------------------------------------------------------------------------------------------------------
+
+<BURADA KALDIK>
 
 
 
