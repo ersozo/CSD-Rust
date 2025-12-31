@@ -5,7 +5,7 @@
     Kursumuzda önce Rust'ın nasıl bir programlama dili olduğunu açıklayacağız.
 
     Rust genel amaçlı, yapısal, prosedürel ve fonksiyonel programlama modellerini destekleyen çok modelli (multi-paradigm),
-    statik tür sistemine sahip modern bir programlama dilidir. Tasarımında özellikle eşzamanlı (concurrent) programlama
+    statik tür sistemine sahip modern bir programlama dilidir. Tasarımında özellikle eş zamanlı (concurrent) programlama
     etkinliklerinin daha güvenli biçimde sağlanması ön planda tutulmuştur. Bunun sağlanabilmesi için de bellek erişim güvenliğine
     (memory safety) özel bir önem verilmiştir.
 
@@ -6504,79 +6504,79 @@
     Aslında yukarıdaki örnekten de görüldüğü gibi bir diziyi dilimler dilimlemez o dilim ile doğrudan dilimin metotlarını
     çağırabiliriz. Yani onun adresini alarak metot çağırmamıza gerek yoktur. Örneğin:
 
-    let a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
-    let result: bool;
+        let a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+        let result: bool;
 
-    result = a[2..6].contains(&8);
-    println!("{}", result);
+        result = a[2..6].contains(&8);
+        println!("{}", result);
 
     Buradaki contains metodunun nasıl çağrıldığına dikkat ediniz:
 
-    result = a[2..6].contains(&8);
+        result = a[2..6].contains(&8);
 
     Biz a[2..6] gibi bir ifadenin bir dilim belirttiğini ve dilimlerin de doğrudan bazı durumlar dışında kullanılamadığını
     belirtmiştik. Tabii eğer dizi mut ise dilim de mut kabul edilmektedir. Örneğin:
 
-    let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
+        let mut a:[i32; 10] = [45, 23, 12, 5, 8, 9, 6, 2, 10, 34];
 
-    a[..5].sort();
-    println!("{:?}", a);        // [5, 8, 12, 23, 45, 9, 6, 2, 10, 34]
+        a[..5].sort();
+        println!("{:?}", a);        // [5, 8, 12, 23, 45, 9, 6, 2, 10, 34]
 
     sort metodunun mut bir dilim referansı istediğini anımsayınız. a[..5] ifadesi a mut olduğu için otomatik olarak mut bir
     referansa dönüştürülmektedir. Dolayısıyla yukarıdaki örnekte diziinn ilk 5 elemanı sıraya dizilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta herhangi türden sıfır elemanlı bir dizi oluşturulabilir. Örneğin:
 
-    let a:[i32; 0];
+        let a:[i32; 0];
 
     Tabii 0 elemanlı bir diziye içi boş köşeli parantezlerle değer verilebilir. Örneğin:
 
-    let a:[i32; 0] = [];
+        let a:[i32; 0] = [];
 
     Bu dizinin uzunluğunu len metoduyla almak istediğimizde 0 değerini elde ederiz.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta çok boyutlu diziler "dizi dizileri gibi" oluşturulmaktadır. Örneğin biz i32 türünden 3 satırlı 2 sütunlu bir
     matris oluşturmak istsyelim. Bunu Rust'ta her biri 2 elemandan oluşan 3 elemanlı bir dizi gibi oluştururuz:
 
-    let a: [[i32; 2]; 3];
+        let a: [[i32; 2]; 3];
 
     Tabii bu biçimdeki dizilere iç içe köşeli parantezlerle ildeğer verilebilir. Örneğin:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
 
     Bu dizide elemana erişim de iki köşeli parantezle yapılmaktadır. Örneğin:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
 
-    println!("{}", a[2][1]);        // 60
+        println!("{}", a[2][1]);        // 60
 
     Tabii diğer dillerde olduğu iki boyutlu bir diziyi iç içe iki döngüyle dolaşabiliriz:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
 
-    for i in 0..a.len() {
-       for j in 0..a[i].len() {
-           print!("{} ", a[i][j]);
-       }
-       println!("");
-    }
+        for i in 0..a.len() {
+        for j in 0..a[i].len() {
+            print!("{} ", a[i][j]);
+        }
+        println!("");
+        }
 
     Bu koddan aşağıdaki gibi bir çıktı elde edilecektir:
 
-    10 20
-    30 40
-    50 60
+        10 20
+        30 40
+        50 60
 
     Tabii biz aslında bu iki boyutlu diziyi iteratör yoluyla da dolaşabiliriz. Örneğin:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
 
-    for x in a.iter() {
-        for y in x.iter() {
-            print!("{} ", *y);
+        for x in a.iter() {
+            for y in x.iter() {
+                print!("{} ", *y);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     iter metodu ile verilen iteratörün dolaşım sırasında dizi elemanlarının adreslerini verdiğini anımsayınız. O halde Yukarıdaki
     örnekte x değişkeni &[i32; 2] türünden olur. x.iter() çağrısı da aslında bu iç diziler üzerinde iteratör elde etmektedir.
@@ -6584,27 +6584,27 @@
     otomatik yapılmaktadır.) Bu durumda y değişkenin türü de &i32 olacaktır. Tabii yukarıdaki döngülerdeki ifadeler daha önce
     belirtiğimiz gibi şöyle de kısaltılabilirdi:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
 
-    for x in &a {
-        for y in x {
-            print!("{} ", *y);
+        for x in &a {
+            for y in x {
+                print!("{} ", *y);
+            }
+            println!("");
         }
-        println!("");
-    }
 
     Programlamada üçten fazla boyuta sahip dizilere çok seyrek biçimde gereksinim duyulmaktadır. Ancak üç boyutlu dizilerle
     çokça karşılabilmektedir. Rust'ta ikiden fazla boyutlu diziler benzer biçimde oluşturulmaktadır. Örneğin 2x2x2'lik bir diziyi
     şöyle oluşturabiliriz:
 
-    let a: [[[i32; 2]; 2]; 2] = [[[10, 20], [30, 40]], [[50, 60], [70, 80]]];
+        let a: [[[i32; 2]; 2]; 2] = [[[10, 20], [30, 40]], [[50, 60], [70, 80]]];
 
     Anımsanacağı gibi elemanlarının hepsi belli bir değerden oluşan diziler Rust'ta [değer; uzunluk] sentaksıyla yaratılabiliyordu.
     İşte aynı sentaksı biz çok boyutlu dizilerde de kullanabiliriz. Örneğin:
 
-    let a: [[i32; 2]; 3];
+        let a: [[i32; 2]; 3];
 
-    a = [[0; 2]; 3];
+        a = [[0; 2]; 3];
 
     Buradaki [[0; 2]; 3] ifadesine dikkat ediniz. Burada aslında [0; 2] dizisinden 3 tane oluşturulmaktadır. Öte yandan [0; 2]
     dizisi de elemanları 0 olan iki elemanlı dizi oluşturmaktadır. O halde bu ifade her elemanında 0 olan 3x2'lik bir dizi
@@ -6623,45 +6623,45 @@
     let deyiminde kalıp olarak köşeli parantezler içerisinde değişken listesi kullanılırsa (variable patterns) dizinin elemanları
     sırasıyla bu değişkenlere atanır. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
-    let [x, y, z] = a;
+        let a: [i32; 3] = [10, 20, 30];
+        let [x, y, z] = a;
 
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
 
     Burada aslında biz x, y, ve z isminde üç tane değişken yaratıp bu değişkenlere de dizi elemanlarını sırasıyla atamış
     olduk. Yukarıda yapılan işlemin tamamen eşdeğeri şöyledir:
 
-    let a: [i32; 3] = [10, 20, 30];
-    let x = a[0];
-    let y = a[1]
-    let z = a[2];
+        let a: [i32; 3] = [10, 20, 30];
+        let x = a[0];
+        let y = a[1]
+        let z = a[2];
 
     let deyimi ile dizi açımı sırasında ayrıca tür de belirtilebilir. Ancak bunun bir faydası olmadığı için Rust programcıları
     gereksiz tür belirtmekten kaçınmaktadır. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
-    let [x, y, z]: [i32; 3] = a;       // geçerli ama açım sırasında tür belirtmenin bir faydası yok
+        let a: [i32; 3] = [10, 20, 30];
+        let [x, y, z]: [i32; 3] = a;       // geçerli ama açım sırasında tür belirtmenin bir faydası yok
 
     Dizi açımı dolaylı bir atama anlamına geldiği için Copy türünden olmayan dizilerin elemanları bu işlem sırasında taşınmaktadır.
     Dolayısıyla açımdan sonra bu elemanlar kullanılamamaktadır. Örneğin:
 
-    let a: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
-    let [x, y, z] = a;
+        let a: [String; 3] = ["ali".to_string(), "veli".to_string(), "selami".to_string()];
+        let [x, y, z] = a;
 
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = ali, y = veli, z = selami
-    println!("{}", a[2]);       // error!
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = ali, y = veli, z = selami
+        println!("{}", a[2]);       // error!
 
     Açım yaparken (yani dilim kalıbını kullanırken) değerini bir değişkene yerleştirmek istemediğimiz elemanlar için _ atomunu
     kullanabiliriz. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
-    let [x, _, y, _, z] = a;
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let [x, _, y, _, z] = a;
 
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 30, z = 50
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 30, z = 50
 
     Buradaki açıma dikkat ediniz:
 
-    let [x, _, y, _, z] = a;
+        let [x, _, y, _, z] = a;
 
     Dizinin 0'ıncı indeksli elemanı x değişkenine, 2'inci indeksli elemanı y değişkenine ve 4'üncü indeksli elemanı da z
     değişkenine atanmaktadır. Buradaki _ karakterleri "bu indekse karşı gelen elemanların bir değişkene atanmasını istemiyorum"
@@ -6670,20 +6670,20 @@
     Normal olarak açım sırasında (yani dilim kalıbında) köşeli parantezlerin içerisinde kaynak dizi ile aynı uzunukta bir
     bir eleman listesinin bulundurulması gerekir. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-    let [x, y, z] = a;    //error!
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let [x, y, z] = a;    //error!
 
     Burada dizi 10 eleman uzunluğunda olduğu halde kalıpta yalnızca 3 eleman belirtilmiştir. İşte kalıptaki .. sentaksı "herhangi
     0 tane ya da daha fazla elemanla eşleş" anlamına gelmektedir. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-    let [x, y, z, ..] = a;      //geçerli
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let [x, y, z, ..] = a;      //geçerli
 
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 20, z = 30
 
     Burada açım kalıbına dikkat ediniz:
 
-    let [x, y, z, ..] = a;      //geçerli
+        let [x, y, z, ..] = a;      //geçerli
 
     Buradaki .. sentaksı "geri kalanların hepsi ama ben bunlarla ilgilenmiyorum" anlamına gelmektedir. "The Rust Reference"
     dokümanlarında .. biçiminde oluşturulan kalıplara "rest patterns" denilmektedir.
@@ -6691,33 +6691,33 @@
     Aslında .. sentaksı dilim kalıbında herhangi bir yerde bulunabilir. Yani sonda bulunmak zorunda değildir. Ancak bu sentaks
     dilim kalıbında yalnızca toplamda bir kez kullanılabilmektedir. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-    let [x, .., y, z] = a;
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
+        let [x, .., y, z] = a;
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
 
-    let [.., x, y, z] = a;
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 80, y = 90, z = 100
+        let [.., x, y, z] = a;
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 80, y = 90, z = 100
 
     .. sentaksı "0 tane" anlamına da gelmektedir. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
-    let [x, y, z, ..] = a;      // geçerli
+        let a: [i32; 3] = [10, 20, 30];
+        let [x, y, z, ..] = a;      // geçerli
 
     Burada .. ile sıfır eşleşme yapılacaktır. Ancak kalıp geçerlidir.
 
     .. kalıbında @ ile değişken bağlaması da yapılabilmektedir. Bu durumda ilgi değişken bir dizi olur. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-    let [x, others @ .., y, z] = a;
+        let [x, others @ .., y, z] = a;
 
-    println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
-    println!("others: {:?}", others);                   // others: [20, 30, 40, 50, 60, 70, 80]
+        println!("x = {}, y = {}, z = {}", x, y, z);        // x = 10, y = 90, z = 100
+        println!("others: {:?}", others);                   // others: [20, 30, 40, 50, 60, 70, 80]
 
     Buradaki açıma dikkat ediniz:
 
-    let [x, others @ .., y, z] = a;
+        let [x, others @ .., y, z] = a;
 
     Kalıptaki .. sentaksı 7 tane elemanla uyuşmaktadır. İşte biz others @ .. sentaksı ile bu 7 elemanı da bir dizi biçiminde
     elde edebilmekteyiz. Rust'ta sıfır elemanlı dizilerin neden geçerli olduğu bu bağlamdan da anlaşılmaktadır.
@@ -6725,31 +6725,31 @@
     Çok boyutlu diziler için açım özyinelemeli biçimde (yani kalıpta iç içe birden fazla köşeli parantez kullanılarak)
     yapılabilmektedir. Örneğin:
 
-    let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
-    let [[x, y], _, [z, k]] = a;
+        let a: [[i32; 2]; 3] = [[10, 20], [30, 40], [50, 60]];
+        let [[x, y], _, [z, k]] = a;
 
-    println!("x = {}, y = {}, z = {}, k = {}", x, y, z, k);     // x = 10, y = 20, z = 50, k = 60
+        println!("x = {}, y = {}, z = {}, k = {}", x, y, z, k);     // x = 10, y = 20, z = 50, k = 60
 ---------------------------------------------------------------------------------------------------------------------------
     Bir kalıp "her durumda zaman uyuşum gösterir" biçimdeyse bu tür kalıplara Rust'ta "çürütülemez (irrefuatble)" kalıplar
     denilmektedir. let deyimindeki kalıpların da "çürütülemez (irrefutable)" olması gerekmektedir. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    let [x, y, _] = a;          // geçerli
+        let [x, y, _] = a;          // geçerli
 
     Buradaki dilim kalıbı "çürütülemez (irrefutable)" biçimdedir. Dolayısıyla let bağlaması geçerlidir. Ancak örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    let [x, y, 30] = a;         // error!
+        let [x, y, 30] = a;         // error!
 
     Burada let deyimindeki kalıp çürütülemez (irrefutable) değildir. (Çürütülmez olmayan kalıplara "çürütülebilir (refutable)"
     kalıplar da denilmektedir.) Bu nedenle yukarıdaki bağlama error ile sonuçlanacaktır. Bu örnekte kalıbın uyuştuğunu
     düşünebilirsiniz. Ancak bu genel bir uyuşma değildir. Örneğin:
 
-    let mut a: [i32; 3] = [10, 20, 30];
-    //...
-    let [x, y, 30] = a;         // error!
+        let mut a: [i32; 3] = [10, 20, 30];
+        //...
+        let [x, y, 30] = a;         // error!
 
     Burada ikinci let deyiminden önce dizinin son elemanı değiştirilirse kalıp uyuşumu sağlanmayacaktır. Çürütülemez kalıp
     demek her koşul altında kesinlikle uyuşum göstyeren kalıp demektir.
@@ -6757,50 +6757,50 @@
     Rust'ın 1.65.0 (Kasım 2022) versiyonuyla birlikte let deyimine "irrefutable" olmayan kalıpların kullanılmasına olanak
     sağlamak amacıyla isteğe bağlı bir else kısmı da eklenmiştir. let deyiminin genel biçimi şu hale getirilmiştir:
 
-    let <kalıp> = ifade [ else { [deyimler] }]
+        let <kalıp> = ifade [ else { [deyimler] }]
 
     let deyiminin else kısmı kalıp uyuşumu sağlanamazsa çalıştırılmaktadır. Ancak else kısımdaki blok ifadesinin ! türünden
     olması (yani bu blok ifadesindeki akışın geri dönmemesi) gerekmektedir. Örneğin a değişkeni [i32; 3] türünden bir dizi
     olsun.
 
-    let [10, x, y] = a;         // error! kalıp "irrefutable" değil
+        let [10, x, y] = a;         // error! kalıp "irrefutable" değil
 
     Buradaki dilim kalıbı "irrefutable" olmadığı için derleme işleminde error oluşacaktır. Ancak bu let deyimine else kısmı
     eklenirse kalıp irrefutable olmasa bile derleme başarılı olur:
 
-    let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
+        let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
 
     Burada kalıp uyuşumu sağlanamazsa panic oluşacak ve program sonlanacaktır. panic! makrosunun ! türünden olduğuna ve
     else kısımdaki blok deyiminin de ! türünden olduğuna dikkat ediniz. Ayrıca Rust'ta bloğun son deyimi "divergent" ise
     yani ! türündense bloğun da bu değeri ürettiği kabul edilmektedir. Yani özel bir durum olarak biz yukarıdaki bağlamada
     panic! makrosundan sonra ';' atomunu da bulundurabilirdik:
 
-    let [10, x, y] = a else { panic!("refutable pattern in let statement!"); };
+        let [10, x, y] = a else { panic!("refutable pattern in let statement!"); };
 
     Burada yine bloktan elde edilen değer () türünden değil ! türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a = [10, 20, 30];
-    let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
+        fn main() {
+            let a = [10, 20, 30];
+            let [10, x, y] = a else { panic!("refutable pattern in let statement!") };
 
-    println!("{} {}", x, y);        // 20 30
-}
+            println!("{} {}", x, y);        // 20 30
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Dilim kalıplarında kaynak ifade bir dizi referansı olursa köşeli parantez içerisindeki değişkenler de birer referans olur
     (Yani dizi elemanlarının adreslerini tutan gösterici gibi olur). Örneğin:
 
-    let a:  = [10, 20, 30];
-    let [x, y, z] = &a;
+        let a:  = [10, 20, 30];
+        let [x, y, z] = &a;
 
-    println!("{}, {}, {}", *x, *y, *z);     // 10 20 30
-
+        println!("{}, {}, {}", *x, *y, *z);     // 10 20 30
+    
     Bu açımda x, y ve z i32 türünden değil &i32 türündendir. Ancak bu biçimdeki kalıplarda köşeli parantezlerin önüne '&'
     atomu getirilirse değişkenler artık referans olmaktan çıkar. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
-    let &[x, y, z] = &a;
+        let a: [i32; 3] = [10, 20, 30];
+        let &[x, y, z] = &a;
 
     Burada artık x, y ve z i32 türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -6810,83 +6810,85 @@ fn main() {
     bulundurulmasına "değişken kalıbı (variable pattern)" dendiğini ve değişken kalıplarının da her zaman uyuşum sağladığını
     anımsayınız.) Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    match a {
-        [10, 20, 50] => println!("[10, 20, 30]"),
-        [10, _, 50] => println!("[10, _ 30]"),
-        [.., 30] => println!("[.., 30]"),
-        [others @ .., 50] => println!("[others @ ..,  50]"),
-        _ => println!("cannot match"),
-    }
+        match a {
+            [10, 20, 50] => println!("[10, 20, 30]"),
+            [10, _, 50] => println!("[10, _ 30]"),
+            [.., 30] => println!("[.., 30]"),
+            [others @ .., 50] => println!("[others @ ..,  50]"),
+            _ => println!("cannot match"),
+        }
 
     Burada birinci kol ve ikinci kol uyuşum sağlamayacaktır. Ancak üçüncü kol uyuşum sağlayacaktır.
 
     match ifadesindeki dizinin türü ile match kollarındaki dilim kalbının türünün uyuşması gerekmektedir. Örneğin yukarıdaki
     match ifadesinde dizi 3 elemanlıdır. Burada biz 4 elemana sahip bir match kolu bulunduramayız.
+
 # 26. Ders 11/06/2025 - Çarşamba
+
     Match ifadesinde dilim kalıplarında da match koruması uygulanabilir. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    match a {
-       [x, y, _] if x + y < 50 => println!("[x, y, _] if x + y < 50"),
-        _ => println!("cannot match"),
-    }
+        match a {
+        [x, y, _] if x + y < 50 => println!("[x, y, _] if x + y < 50"),
+            _ => println!("cannot match"),
+        }
 
     Burada dilim kalıbından hemen sora match korumasının getirildiğine dikkat ediniz.
 ---------------------------------------------------------------------------------------------------------------------------
     Dilim kalıplarındaki köşeli parantez içerisindeki elemanlarda '|' atamu ile "veya kalıbı (or pattern)" da uygulanabilir.
     Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    match a {
-       [0 | 5 | 10, ..] => println!("[10|20|30, ..]"),
-        _ => println!("cannot match"),
-    }
+        match a {
+        [0 | 5 | 10, ..] => println!("[10|20|30, ..]"),
+            _ => println!("cannot match"),
+        }
 
     Buradaki birinci match kolundaki kalıba dikkat ediniz. Bu kalıpta "dizininin ilk elemanı 0 ya da 5 ya da 10 ise" uyuşum
     sağlanacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
     Dilim kalıplarında köşeli parantezler içerisindeki elemanlarda range kalıbı da kullanılabilmaktedir. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    match a {
-        [1..=15, ..] => println!("[1..=15, ..]"),
-        _ => println!("cannot match"),
-    }
+        match a {
+            [1..=15, ..] => println!("[1..=15, ..]"),
+            _ => println!("cannot match"),
+        }
 
     Burada [1..=15, ..] kalıbı "dizinin ilk elemanı 1 ile 15 arasındaysa uyuşum sağlayacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii biz dilim kalıbını da kalıp uyuşumu ile çalışan if let ve while let ifadelerinde kullanabiliriz. Örneğin:
 
-    let a: [i32; 3] = [10, 20, 30];
+        let a: [i32; 3] = [10, 20, 30];
 
-    if let [10, ..] = a {
-        println!("Ok")
-    }
-    else {
-        println!("Not ok")
-    }
+        if let [10, ..] = a {
+            println!("Ok")
+        }
+        else {
+            println!("Not ok")
+        }
 
     Tabii dilim kalıbındaki köşeli parantezler içerisindeki elemanlarda değişken kullanırsak ilgili eleman koşulunun her
     zaman sağlandığı kabul edilir. Biz de if let deyiminin doğruysa kısmında bu değişkeni kullanabiliriz. Örneğin:
 
-    if let [x, 20, 30] = a {
-        println!("{}", x);
-    }
-    else {
-        println!("Not ok")
-    }
+        if let [x, 20, 30] = a {
+            println!("{}", x);
+        }
+        else {
+            println!("Not ok")
+        }
 
     Burada eğer a dizisinin son iki elemanı 20 ve 30 ise uyuşum sağlanacak ve ilk eleman da x değişkenine yerleştirilecektir.
     Tabii dilim kalıbı while let ifadesinde de benzer biçimde kullanılabilmektedir. Örneğin:
 
-    while let [x, 10, 20] = a {
-        //...
-    }
+        while let [x, 10, 20] = a {
+            //...
+        }
 
     Burada kalıp uyuşumu saplandığı sürece döngü yinelenecektir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -6894,69 +6896,69 @@ fn main() {
     genel bir kalıp biçiminde oluşturulabilmektedir. Tabii fonksiyon parametreleri için oluşturulan kalıpların da "çürütülemez
     (irrefuable)" olması gerekir. Örneğin:
 
-    fn main() {
-        let a: [i32; 3] = [10, 20, 30];
+        fn main() {
+            let a: [i32; 3] = [10, 20, 30];
 
-        foo(a);
-    }
+            foo(a);
+        }
 
-    fn foo([x, _, _]: [i32; 3])  {
-        println!("{}", x);          // 10
-    }
+        fn foo([x, _, _]: [i32; 3])  {
+            println!("{}", x);          // 10
+        }
 
     Burada foo fonksiyonun tanımlanmasında parametre değişkeni olarak kullanılan kalıp "çürütülemez (irrefuable)" bir kalıptır.
     Aşağıdaki fonksiyon tanımlamasında parametrede belirtilen kalıp "çürütülebilir (refutable)" olduğu için derleme error ile
     sonuçlanacaktır:
 
-    fn foo([x, _, 30]: [i32; 3])  {        // error! parametre olarak kullanılan kalıp çürütülemez değil
-        println!("{}", x);
-    }
+        fn foo([x, _, 30]: [i32; 3])  {        // error! parametre olarak kullanılan kalıp çürütülemez değil
+            println!("{}", x);
+        }
 
     Parametre olarak kalıp kullanılması ile dizi elemanlarınının açılarak fonksiyona aktarılması sağlanabilmektedir. Örneğin:
 
-    fn main() {
-        let a: [i32; 3] = [10, 20, 30];
+        fn main() {
+            let a: [i32; 3] = [10, 20, 30];
 
-        foo(a);
-    }
+            foo(a);
+        }
 
-    fn foo([x, y, z]: [i32; 3])  {
-        println!("{}, {}, {}", x, y, z);
-    }
+        fn foo([x, y, z]: [i32; 3])  {
+            println!("{}, {}, {}", x, y, z);
+        }
 
     Fonksiyon parametrelerinde kalıp oluştururken tür belirtilmesi zorunludur. Örneğin aşağıdaki gibi bir fonksiyon tanımlaması
     geçerli değildir:
 
-    fn foo([x, y, z])  {                // error! tür bilgisi yok
-        println!("{}, {}, {}", x, y, z);
-    }
+        fn foo([x, y, z])  {                // error! tür bilgisi yok
+            println!("{}, {}, {}", x, y, z);
+        }
 
     Daha önceden de belirttiğimiz gibi fonksiyon parametresi bir dizi türünden referans ise dilim kalıbındaki değişkenler de
     dizi elemanlarının adreslerini tutan referanslar haline gelecektir. Örneğin:
 
-    fn foo([x, y, z]: &[i32; 3]) {
-        //...
-    }
+        fn foo([x, y, z]: &[i32; 3]) {
+            //...
+        }
 
     Burada x, y ve z i32 türünden değil &i32 türündendir. Tabii köşeli parantezlerin de önüne '&' atomunu getirirsek artık
     değişkenler referans olmaktan çıkacaktır:
 
-    fn foo(&[x, y, z]: &[i32; 3]) {
-        //...
-    }
+        fn foo(&[x, y, z]: &[i32; 3]) {
+            //...
+        }
 
     Burada x, y ve z artık &i32 türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
     Dilim kalıplarında kalıba karşı gelen ifade bir dizi yerine bir dilim referansı ya da bizaat bir dilim de olabilir.
     Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
-    let sr: &[i32] = &a[..3];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let sr: &[i32] = &a[..3];
 
-    match sr {
-        [1..200, 20, 30] => println!("[1..200, 20, _]"),
-        _ => println!("cannot match")
-    }
+        match sr {
+            [1..200, 20, 30] => println!("[1..200, 20, _]"),
+            _ => println!("cannot match")
+        }
 
     Burada match ifadesi &[i32] türünden bir dilim referansıdır. Derleyici programın çalışma zamanı soırasında kalıp uyuşumunu
     denetleyecek kodları oluşturmaktadır. Yukarıdaki match deyiminin ilk kolu uyuşum sağlayacaktır.
@@ -6966,39 +6968,39 @@ fn main() {
 
     Dilim kalıplarında ifadeler doğrudan dilim de olabilmektedir. Örneğin:
 
-    let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-    match a[..3] {
-        [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
-        _ => println!("cannot match")
-    }
+        match a[..3] {
+            [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
+            _ => println!("cannot match")
+        }
 
     Burada a[..3] bir dilim referansı değil bir dilimdir. Ancak match deyiminde dilimler de dilim kalıplarıyla kullanılabilmektedir.
     Tabii if let ve while let deyimlerinde de dilimlerin dilim kalıpları eşliğinde kullanılması mümkündür:
 
-    if let [x, y, z] = a[..3] {
-        println!("x = {}, y = {}, z = {}", x, y, z);
-    }
-    else {
-        println!("cannot match");
-    }
+        if let [x, y, z] = a[..3] {
+            println!("x = {}, y = {}, z = {}", x, y, z);
+        }
+        else {
+            println!("cannot match");
+        }
 
     Tabii bu durumda sr bir dilim referansı olmak üzere *sr bir dilim belirteceğine göre sr de *sr de match ve if let, while
     let gibi deyimlerdeki dilim kalıplarında kullanılabilir. Ancak gereksiz biçimde * operatörünü kullanmanın da bir anlamı
     yoktur. Örneğin:
 
-    fn main() {
-        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        fn main() {
+            let a: [i32; 5] = [10, 20, 30, 40, 50];
 
-        foo(&a[..3]);
-    }
-
-    fn foo(sr: &[i32]) {
-        match *sr {         // geçerli
-            [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
-            _ => println!("cannot match")
+            foo(&a[..3]);
         }
-    }
+
+        fn foo(sr: &[i32]) {
+            match *sr {         // geçerli
+                [x, y, z] => println!("x = {}, y = {}, z = {}", x, y, z),
+                _ => println!("cannot match")
+            }
+        }
 
     Burada biz match ifadesini zaten sr biçiçinde de belirtebilirdik.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -7006,95 +7008,95 @@ fn main() {
     hemen hepsinde bulunan bir veri yapsıdır. Bazı diller ise demetleri standart kütüphaneleri yoluyla desteklemektedir.
     Demetlerin built-in desteklendiği bazı programlama dilleri şunlardır:
 
-    Python
-    Haskell
-    Erlang
-    C# (7.0 ile 2017 yılında)
-    Java ("record" ismi altında Java 14 ile 2020 yılında)
-    C++ (built-in değil standart kütüphane yoluyla)
-    Swift
-    Go (kısıtlı biçimde)
-    Rust
+        Python
+        Haskell
+        Erlang
+        C# (7.0 ile 2017 yılında)
+        Java ("record" ismi altında Java 14 ile 2020 yılında)
+        C++ (built-in değil standart kütüphane yoluyla)
+        Swift
+        Go (kısıtlı biçimde)
+        Rust
 ---------------------------------------------------------------------------------------------------------------------------
     Bir demet "elemanları farklı türlerden olabilen sıralı bir grup değeri belirtmektedir. Bazı dinamik tür sistemine sahip
     olan dillerde elemanlar arasındaki sırasal ilişki onların bir dizi kullanılmasına olanak vermektedir. Demetler bir bakıma
     yapılara (structures) benzemektedir. Yapılarda da elemanlar farklı türlerden olabilmektedir. Her ne kadar aralarında bir
-     benzerlik varsa da demetlerle yapılar hem sentaks hem de semantik bakımdan farklı veri yapılarıdır.
+    benzerlik varsa da demetlerle yapılar hem sentaks hem de semantik bakımdan farklı veri yapılarıdır.
 
     Rust'ta demetler normal parantezlerle temsil edilmektedir. Bir demetin türü "parantezler içerisinde sırasıyla elemanların
     türleri belirtilerek ifade edilmektedir. Örneğin:
 
-    let t: (i32, f64, i32);
+        let t: (i32, f64, i32);
 
     Burada t değişkeni üç elemanlı bir demet belirtmektedir. Bu değişkenin türü (i32, f64, i32) biçiminde ifade edilmektedir.
 
     Demet yaratmak (yani demetler türünden değerler yaratmak) oldukça kolaydır. Tek yapılacak şey normal parantezler içerisinde
     elemanları aralarına ',' atomu getirerek belirtmektir. Örneğin:
 
-    let t: (i32, f64, i32);
+        let t: (i32, f64, i32);
 
-    t = (10, 3.14, 20);
+        t = (10, 3.14, 20);
 
     Burada t demetine onunla aynı türden olan bir demet atanmıştır. Tabii bu işlem ilkdeğer verme sentaksıyla da yapılabilmektedir:
 
-    let t: (i32, f64, i32) = (10, 3.14, 20);
+        let t: (i32, f64, i32) = (10, 3.14, 20);
 
     let deyiminde tür belirtilmeden de bir demet oluşturulabilir. Bu durumda tür çıkarımı daha önce diziler konusunda açıkladığımız
     kurallara göre yapılmaktadır. Normal parantezler içerisinde sonek almamış sabitler varsa ve bu sabitler tamsayı belirtiyorsa
     i32 türünden, noktalı sayı belirtiyorsa f64 türünden kabul edilmektedir. Örneğin
 
-    let t = (10, 20, 30.5),
+        let t = (10, 20, 30.5),
 
     Burada t demeti (i32, i32, f64) türündedir. Tabii eğer parantezler içerisindeki değerlerin türleri zaten biliniyorsa
     tür tespiti bu türler dikkate alınarak yapılmaktadır. Örneğin:
 
-    let t = (10u8, 20f32, 30i64);
+        let t = (10u8, 20f32, 30i64);
 
     Burada t demeti (u8, f32, i64) türündendir.
 
     Tabii parantezlerle demet yaratılırken demet değerlerinin sabit ifadesi biçiminde belirtilmesi gerekmez. demet değerleri
     herhangi bir ifade biçiminde oluşturulabilir. Örneğin:
 
-    t = (10 + a, x + y, foo())
+        t = (10 + a, x + y, foo())
 
     Burada bu ifadelerin değerleri hesaplanıp demet bu değerlerle yaratılacaktır. Örneğin:
 
-    let x = 10;
-    let y = 3.14;
+        let x = 10;
+        let y = 3.14;
 
-    let t = (x, y);
+        let t = (x, y);
 
     Burada t demeti (i32, f64) türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
     Aynı türden iki demet birbirine atanabilir. Ancak farklı türden demetler birbirine atanamazlar. Örneğin:
 
-    let t: (i32, f64) = (10, 3.14);
-    let k: (i32, f64);
+        let t: (i32, f64) = (10, 3.14);
+        let k: (i32, f64);
 
-    k = t;      // geçerli
+        k = t;      // geçerli
 
     Burada her iki demet de aynı türden olduğu için atama geçerlidir. Ancak örneğin:
 
-    let t: (i32, f32) = (10, 3.14);
-    let k: (i32, f64);
+        let t: (i32, f32) = (10, 3.14);
+        let k: (i32, f64);
 
-    k = t;      // error!
+        k = t;      // error!
 
     Burada iki demetin türleri farklı olduğu için atama error ile sonuçlanacaktır.
 
     Tabii normal parantezlerle demet yaratılırken sabitler sonek almamışsa Rust'ta yine "bağlama dayalı tür çıkarımı"
     yapılmaktadır. Örneğin:
 
-    let t: (i8, i32, f32);
+        let t: (i8, i32, f32);
 
-    t = (10, 20, 3.14);     // geçerli
+        t = (10, 20, 3.14);     // geçerli
 
     Burada 10 sabiti i32 türünden değildir. Bağlamda buna karşı gelen eleman i8 türünden olduğu için ve 10 sabiti i8 türüyle
     ifade edilebildiği için i8 türünden kabul edilmektedir. Aynı durum 20 ve 3.14 sabitleri için de geçerlidir. Fakat örneğin:
 
-    let t: (i8, i32, f32);
+        let t: (i8, i32, f32);
 
-    t = (10i32, 20, 3.14);     // error!
+        t = (10i32, 20, 3.14);     // error!
 
     Burada ilk demet elemanı açıkça sonek belirtilerek i32 türünden yapılmıştır. Bağlam yalnızca sonek almayan sabitler
     için dikkate alınmaktadır. Bu atama demetler farklı türlerden olduğu için error ile sonuçlanacaktır.
@@ -7102,119 +7104,119 @@ fn main() {
     Rust'ta bir demetin elemanlarına nokta operatöryüle açıkça indeks numarası belirtilerek erişilmektedir. Örneğin demet
     türünden değişkenin ismi t olmak üzere bu demetin elemanlarına t.0, t.1, t.2, t.3 ifadeleriyle erişilir:
 
-    let t = (10, 3.14, 20);
+        let t = (10, 3.14, 20);
 
-    println!("{}", t.0);        // 10
-    println!("{}", t.1);        // 3.14
-    println!("{}", t.2);        // 20
+        println!("{}", t.0);        // 10
+        println!("{}", t.1);        // 3.14
+        println!("{}", t.2);        // 20
 
 
     Buradaki 0, 1, 2, 3 gibi indeks belirten sabitlere tür iliştirilemez. Buradaki indeksler yerine değişkenler kullanılamaz.
     Örneğin:
 
-    let i = 0;
+        let i = 0;
 
-    println!("{}", t.i);        // error!
+        println!("{}", t.i);        // error!
 ---------------------------------------------------------------------------------------------------------------------------
     Sıfır elemanlı bir demet söz konusu olabilir. Anımsayacağınız gibi sıfır elemanlı demetlere "birim (unit)" deniliyordu.
     Rust'ta () sentaksının hemen 0 elemanlı bir demet türünü hem de sıfır elemanlı bir demet türünden değeri belirttiğini
     anımsayınız. Bu nedenle Rust'ta () ifadesine bazen "birim (unit)" bazen de "birim türü (unit type)" denilmektedir. Örneğin:
 
-    let t: () = ();         // geçerli
+        let t: () = ();         // geçerli
 
     Burada t değişkeni () türündedir. Bu türden bir değişkene yalnızca () ifadesi ya da içerisinde bu değer olan bir demet
     atanabilir.
 ---------------------------------------------------------------------------------------------------------------------------
     Tek elemanlı demetler oluşturulurken ekstra bir ',' atomu kullanılmak zorundadır. Örneğin:
 
-    let t = (10);
+        let t = (10);
 
     Burada (10) ifadesi tek elemanlı bir demet anlamına gelmemektedir. Buradaki parantezler demet parantezi değil öncelik
     parantezidir. Biz her ifadeyi gereksiz olsa da parantezlere alabiliriz. Fakat örneğin:
 
-    let t = (10, );
+        let t = (10, );
 
     Burada artık ekstra ',' atomundan dolayı parantezler demet parantezi olarak ele alınmaktadır. Tabii tek elemanlı demetlere
     aslında gerçek anlamda bir gereksinim yoktur.
 
     Tek elemanlı demet türü belirtilirken de ekstra ',' atomunun bulundurulması gerekmektedir. Örneğin:
 
-    let a: (i32) = (10, );      // error!
+        let a: (i32) = (10, );      // error!
 
     Rust'ta her ne kadar gereksiz ve anlamsız olsa da tür ifadeleri de paranteze alınabilmektedir. Dolayısıyla buradaki
     a değişkeni i32 türündendir. Bir demet belirtmemektedir. Tabii aşağıdaki bildirim geçerlidir:
 
-    let a: (i32, ) = (10, );      // geçerli
+        let a: (i32, ) = (10, );      // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
     Demetin elemanları başka bir demet olabilir. Örneğin:
 
-    let t: ((i32, i32), f64);
+        let t: ((i32, i32), f64);
 
     Burada t değişkeni iki elemanlı bir demet belirtmektedir. Bu demetin ilk elemanı da (yani .0 elemanı da) bir demet
     belirtmektedir. Örneğin:
 
-    t = ((10, 20), 3.14);
+        t = ((10, 20), 3.14);
 
     Tabii aslında biz let deyiminde tür belirtmeden de aynı değişkeni bildirebilirdik:
 
-    let t = ((10, 20), 3.14);
+        let t = ((10, 20), 3.14);
 
     Demet içerisindeki demetin elemanlına birden fazla noktasal indekslemeyle erişilmektedir. Örneğin yukarıdaki demetin
     ilk elemanın ilk elemanına t.0.0 ifadesiyle erişilir:
 
-    let t: ((i32, i32), f64) = ((10, 20), 3.14);
+        let t: ((i32, i32), f64) = ((10, 20), 3.14);
 
-    println!("{}", t.0.0);      // 10
-    println!("{}", t.0.1);      // 20
-    println!("{}", t.1);        // 3.14
+        println!("{}", t.0.0);      // 10
+        println!("{}", t.0.1);      // 20
+        println!("{}", t.1);        // 3.14
 
     Bir demetin elemanı bir dizi de olabilir. Örneğin:
 
-    let t: ((i32, [i32; 3]), f64) = ((10, [20, 30, 40]), 3.14);
+        let t: ((i32, [i32; 3]), f64) = ((10, [20, 30, 40]), 3.14);
 ---------------------------------------------------------------------------------------------------------------------------
     Demet dizileri de söz konusu olabilir. Örneğin:
 
-    let a: [(i32, i32); 5];
+        let a: [(i32, i32); 5];
 
-    Buarada a her elemanı (i32, i32) türünden olan 5 elemanlı bir dizidir. Dizi elemanlarına  ilkdeğerlerini şöyle verebiliriz:
+        Buarada a her elemanı (i32, i32) türünden olan 5 elemanlı bir dizidir. Dizi elemanlarına  ilkdeğerlerini şöyle verebiliriz:
 
-    let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
+        let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
 
-    Biz bu diziyi for döngüsüyle dolaşırsak demetleri elde ederiz:
+        Biz bu diziyi for döngüsüyle dolaşırsak demetleri elde ederiz:
 
-    let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
+        let a: [(i32, i32); 5] = [(10, 20), (30, 40), (50, 60), (70, 80), (90, 100)];
 
-    for t in a {
-        println!("{} {}", t.0, t.1);
-    }
+        for t in a {
+            println!("{} {}", t.0, t.1);
+        }
 
     Örneğin:
 
-    fn main() {
-        let people: [(&str, i32); 5] = [("ali", 10), ("veli", 20), ("selami", 30), ("ayşe", 40), ("fatma", 50)];
+        fn main() {
+            let people: [(&str, i32); 5] = [("ali", 10), ("veli", 20), ("selami", 30), ("ayşe", 40), ("fatma", 50)];
 
-        for person in people {
-            println!("{} {}", person.0, person.1);
+            for person in people {
+                println!("{} {}", person.0, person.1);
+            }
         }
-    }
 ---------------------------------------------------------------------------------------------------------------------------
     Aynı türden iki demet biribirine atanırken yine hedef değişken drop edilmekte ve sahiplik devredilmektedir. Eğer kaynak
     demetin eleman türlerinin hepsi Copy türünden değilse atamadan sonra sahiplik devredildiği (değer taşındığı için)
     için artık kaynak değişkeni kullanamayız. Örneğin:
 
-    let people: [(String, i32); 5] = [
-        (String::from("ali"), 10),
-        (String::from("veli"), 20),
-        (String::from("selami"), 30),
-        (String::from("ayşe"), 40),
-        (String::from("fatma"), 50)
-    ];
+        let people: [(String, i32); 5] = [
+            (String::from("ali"), 10),
+            (String::from("veli"), 20),
+            (String::from("selami"), 30),
+            (String::from("ayşe"), 40),
+            (String::from("fatma"), 50)
+        ];
 
-    let others: [(String, i32); 5];
+        let others: [(String, i32); 5];
 
-    others = people;
+        others = people;
 
-    println!("{}", people[0].0);        // error!
+        println!("{}", people[0].0);        // error!
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi demetlerin bellek organizasyonu nasıldır? "The Rust Reference" dokümanlarında açıkça bir bellek organizasyonu
     belirtilmemiştir. Rust'ta değişkenlerin ve değerlerin bellek organizasyonları aslında "tür temsili (type representation)"
@@ -7226,22 +7228,22 @@ fn main() {
 ---------------------------------------------------------------------------------------------------------------------------
     Demetler fonksiyonlara dizilerde olduğu gibi iki yolla aktarılabilmektedir:
 
-    1) Kopyalama ya da taşıma yoluyla
-    2) Adres yoluyla (ödünç alma yoluyla)
+      1) Kopyalama ya da taşıma yoluyla
+      2) Adres yoluyla (ödünç alma yoluyla)
 
     Kopyalama ya da taşıma yoluyla aktarımda fonksiyonun parametre değişkeni bir demet olur. Fonksiyon da aynı türden bir demet
     ifadesiyle (adresiyle değil) çağrılır. Yukarıda da belirttiğimiz gibi böyle bir aktarımda eğer demetin her elemanı Copy
     türünden değilse sahiplik devredilmekte yani demet değerleri taşınmaktadır. Örneğin:
 
-    fn main() {
-        let a: (String, i32) = (String::from("Ali"), 123);
+        fn main() {
+            let a: (String, i32) = (String::from("Ali"), 123);
 
-        foo(a);
-    }
+            foo(a);
+        }
 
-    fn foo(t: (String, i32)) {
-        println!("{}, {}", t.0, t.1)
-    }
+        fn foo(t: (String, i32)) {
+            println!("{}, {}", t.0, t.1)
+        }
 
     Buçağrımdan sonra artık biz main fonksiyonu içerisinde a demetini kullanamayız. Çünkü String türü bir Copy türü değildir,
     sahiplik devredilmiştir.
@@ -7249,15 +7251,15 @@ fn main() {
     Adres yoluyla aktarımda ise fonksiyonun parametre değişkeni demet türünden bir referans olur. Fonksiyon da aynı demet
     türünden bir değişkenin adresi alınarak çağrılır. Örneğin:
 
-    fn main() {
-        let a: (String, i32) = (String::from("Ali"), 123);
+        fn main() {
+            let a: (String, i32) = (String::from("Ali"), 123);
 
-        foo(&a);
-    }
+            foo(&a);
+        }
 
-    fn foo(t: &(String, i32)) {
-        //...
-    }
+        fn foo(t: &(String, i32)) {
+            //...
+        }
 
     Burada t parametre değişkeninin türüne dikkat ediniz. t artık bir referanstır (yani bir göstericidir.) Buradaki aktarım
     kopyalama ya da taşıma yoluyla değil adres yoluyla yapılmaktadır. Yani foo fonksiyonu içerisinde aslında t bir göstericidir.
@@ -7265,38 +7267,39 @@ fn main() {
     erişimlerde -> gibi operatörün olmadığını anımsayınız. Bu t regeransının gösterdiği yerdeki demetin elemanlarına yine t.0 ve t.1
     ifadeleriyle erişilmektedir. Örneğin:
 
-    fn foo(t: &(String, i32)) {
-        println!("{}, {}", t.0, t.1)
-    }
+        fn foo(t: &(String, i32)) {
+            println!("{}, {}", t.0, t.1)
+        }
 
     Pekiyi hangi aktarımı tercih etmeliyiz? Adres yoluyla aktarım çoğu zaman daha etkindir. Çünkü aktarılan bir yalnızca
     bir adres bilgisidir. Fakat küçük demetler özellikle eleman türleri Copy ise değerle de aktarılabilir. Örneğin:
 
-    fn main() {
-        let pt = (10, 20);
+        fn main() {
+            let pt = (10, 20);
 
-        foo(pt);
-    }
+            foo(pt);
+        }
 
-    fn foo(pt: (i32, i32)) {
-        println!("{}, {}", pt.0, pt.1)
-    }
+        fn foo(pt: (i32, i32)) {
+            println!("{}, {}", pt.0, pt.1)
+        }
 
     Tabii adres yoluyla aktarımda asıl demeti fonksiyonda değiştirmek istiyorsak referansın ve değişkenin mut olması gerekir.
     Örneğin:
 
-    fn main() {
-        let mut pt = (10, 20);
+        fn main() {
+            let mut pt = (10, 20);
 
-        println!("{}, {}", pt.0, pt.1);
-        foo(&mut pt);
-        println!("{}, {}", pt.0, pt.1);
-    }
+            println!("{}, {}", pt.0, pt.1);
+            foo(&mut pt);
+            println!("{}, {}", pt.0, pt.1);
+        }
 
-    fn foo(pt: &mut (i32, i32)) {
-        pt.0 = 30;
-        pt.1 = 40;
-    }
+        fn foo(pt: &mut (i32, i32)) {
+            pt.0 = 30;
+            pt.1 = 40;
+        }
+        
 # 27. Ders 16/06/2025 - Pazartesi
 
     Fonksiyonların geri dönüş değerleri demet biçiminde olabilir. Bu sayede birden fazla değerle geri dönen fonkiyonların
@@ -21170,9 +21173,9 @@ impl Execute for CSDProcCmd {
     foo fonksiyonunu Default trait'ini desteklemeyen bir türle kullanamayız. Örneğin Point yapısının Default trait'ini
     desteklemediğini varsayalım:
 
-    let result: Point;
+        let result: Point;
 
-    result = foo::<Point>();        // error!
+        result = foo::<Point>();        // error!
 
     Derleyici foo fonksiyonunu Point için monomorfize edemeyecektir.
 
@@ -21180,16 +21183,16 @@ impl Execute for CSDProcCmd {
     Şimdi de bir dizinin en büyük elemanı ile geri dönen get_max isimli generic fonksiyonu yazmaya çalışalım. Fonksiyonu
     aşağıdaki gibi yazarsak error oluşacaktır:
 
-    fn get_max<T>(a: &[T]) -> T {           // error!
-        let mut max = a[0];
+        fn get_max<T>(a: &[T]) -> T {           // error!
+            let mut max = a[0];
 
-        for i in 1..a.len() {
-            if a[i] > max {
-                max = a[i];
+            for i in 1..a.len() {
+                if a[i] > max {
+                    max = a[i];
+                }
             }
+            max
         }
-        max
-    }
 
     Burada iki sorun vardır. Birincisi derleyiciye T türünün > operatörünü destekleyeceği biçiminde bir söz verilmemiştir.
     Buradaki ikinci sorun eğer fonksiyona aktardığımız dizi Copy türünden değilse fonksiyonun içerisindeki kod geçersiz hale
@@ -21197,19 +21200,4850 @@ impl Execute for CSDProcCmd {
     iki sözün verilmesi gerekmektedir: T türünün > operatörünü destekliyor olması sözü ve T türünün Copy trait'ini destekliyor
     olması sözü:
 
-    fn get_max<T: PartialOrd + Copy>(a: &[T]) -> T {            // geçerli
-        let mut max = a[0];
+        fn get_max<T: PartialOrd + Copy>(a: &[T]) -> T {            // geçerli
+            let mut max = a[0];
 
-        for i in 1..a.len() {
-            if a[i] > max {
-                max = a[i];
+            for i in 1..a.len() {
+                if a[i] > max {
+                    max = a[i];
+                }
+            }
+            max
+        }
+
+# 64. Ders 12/11/2025 - Çarşamba
+
+    Adresiyle aldığı bir değişken ya da değeri ekrana (stdout dosyasına) yazdıran aşağıdaki disp isimli generic fonksiyonun
+    yazımında bir soun vardır:
+
+        fn disp<T>(a: &T) {
+            println!("{}", *a);         // error!
+        }
+
+    Burada T ütünen değerin println! makrosu ile yazdırılması için bu T türünün Display trait'ini destekliyor olması
+    gerekmektedir. O halde yukarıdaki fonksiyon T'nin her olası türü için geçerli olabilecek bir fonksiyon değildir. Bu
+    fonksiyonun geçerli olabilmesi için bizim T türünün std::fmt modülündeki Display trait'ini destekleyeceği sözünü
+    vermemiz gerekir. Bu da tür sınırlaması ile yapılmaktadır:
+
+        fn disp<T: std::fmt::Display>(a: &T) {
+            println!("{}", *a);         // geçerli
+        }
+
+    Temel türlerin hepsi Display trait'ini desteklemektedir. Display trait'i #[derive(Display)] özniteliği ile otomatik
+    olarak desteklenememektedir. Bunun için oluşturduğumuz yapı ya da enum türünün açıkça bu trait'i desteklemesi gerekir.
+    Biz henüz bu trait'in nasıl destekleneceğini görmemiş olsak da aşağıda bir rönek veriyoruz:
+
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+
+        impl std::fmt::Display for Point {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "({}, {})", self.x, self.y)
             }
         }
-        max
+
+    Artık biz Point türünü de disp generic fonksiyonu ile yazdırabiliriz:
+
+        let pt: Point = Point { x: 10, y: 20 };
+        disp(&pt);
+-----------------------------------------------------------------------------------------------------------------------------
+
+    Biz yukarıda generic fonksiyonlara örnek verdik. Generic olmayan yapı ve enum türlerinin metotları da generic olabilmektedir.
+    Örneğin:
+
+        struct Sample {
+            a: i32,
+            b: i32,
+        }
+
+        impl Sample {
+            fn foo<T>(&self, x: T) {
+                //...
+            }
+        }
+
+    Burada foo generic bir metottur. Yine foo metodu çağrılırken generic parametrelerin türleri açıkça tür belirtilebilir
+    ya da derleyicinin bunu çıkarsaması istenebilir:
+
+        let s = Sample { a: 10, b: 20 };
+
+        s.foo::<f64>(3.14);     // geçerli
+        s.foo(3.14);            // geçerli
+
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bir yapı generic olabilir. Generic yapılar yapı isminden sonra açısal parantezler içerisinde generic parametreler
+    belirtilerek tanımlanmaktadır. Örneğin:
+
+        struct Point<T> {
+            x: T,
+            y: T
+        }
+
+    Burada dikkat edilmesi gereken önemli bir nokta vardır. Aslında biz bunu daha önce de belirtmiştik. Generic türler
+    türünden somut türler tür ismi ve hemen sonra açısal parantezler içerisinde tür listesi belirtilerek oluşturulmaktadır.
+    Örneğin Point<i32>, Point<f64> Point türünden somut türleri belirtmektedir. Ancak generic türlerden değer oluşturuken
+    ya da generic türlerin metotlarına ve ilişkili fonksiyonlarına erişirken tür isminden sonra :: operatörü ve sonra açısal
+    parantezler içerisinde tür listesi belirtilmektedir. Örneğin:
+
+        let pt: Point<i32>;     // geçerli
+
+    Burada pt değişkeni Point<i32> türündendir. Burada türün aşağıdaki gibi belirtilmediğine dikkat ediniz:
+
+        let pt: Point::<i32>;     // error! böyle bir tür ifadesi yok
+
+    Ancak örneğin bu Point türünün new isimli ilişkili bir fonksiyonu olsun.
+
+        pt = Point::<i32>::new(10, 20);
+
+    Burada aslında bir tür belirtilmemektedir. Point generic türünün i32 açılımına ilişkin new ilişkili fonksiyonu
+    çağrılmaktadır. Burada new ilişki fonksiyonun şöyle çağrılmadığına dikkat ediniz:
+
+        pt = Point<i32>::new(10, 20);       // error! böyle bir çağrım yok
+
+    Örneğin:
+
+        let pt: Point<i32> = Point::<i32>{ x: 10, y: 20 }     // geçerli
+
+    Bu örnekte türü belirtirken Point<i32> sentaksının kullanıldığına ancak o türe ilişkin bir işlem yaparken Point::<i32>
+    sentaksının kullanıldığına dikkat ediniz.
+
+    Özellikle C++'tan Rust'a geçen programcılar buradaki hataları sık yapmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Generic bir yapının metotları ve ilişkili fonksiyonları tanımlanırken generic parametreler hem impl anahtar sözcüğünden
+    sonra hem de yapı isminden sonra belirtilmek zorundadır. Örneğin:
+
+        struct Point<T> {
+            x: T,
+            y: T
+        }
+
+        impl<T> Point<T> {
+            //...
+        }
+
+    Daha önce de belirttiğimiz gibi aslında impl bloğunda belirtilen generic parametre isimlerinin yapı tanımlamasındaki
+    isimlerle aynı olması da gerekmemektedir. Örneğin:
+
+        struct Point<T> {
+            x: T,
+            y: T
+        }
+
+        impl<K> Point<K> {      // geçerli
+            //...
+        }
+
+    Yapı tanımlamasıyla impl bloğundaki eşleştirme pozisyonel biçimde yapılmaktadır. Tabii Rust programcıları hemern her zaman
+    impl bloğunda da yapı tanımlamasındaki isimleri kullanmaktadır.
+
+    Generic yapılardaki generic parametreler impl bloğu içerisindeki tüm metot ve ilişkili fonksiyonlarda doğrudan
+    kullanılabilmektedir. Örneğin:
+
+        struct Point<T> {
+            x: T,
+            y: T
+        }
+
+        impl<T> Point<T> {
+            fn new(x: T, y: T) -> Self {
+                Point { x, y }
+            }
+
+            fn set_x(&mut self, x: T) {
+                self.x = x;
+            }
+
+            fn set_y(&mut self, y: T) {
+                self.y = y;
+            }
+        }
+
+    Burada T tür parametresinin metotlarda ve ilişkili fonksiyonlarda doğrudan kullanılabildiğine dikkat ediniz. Yapıyı
+    şöyle kullanabiliriz:
+
+        let mut pt: Point<i32>;
+
+        pt = Point::<i32>{ x: 10, y: 20 };
+        println!("{}, {}", pt.x, pt.y);
+
+        pt.set_x(30);
+        pt.set_y(40);
+
+        println!("{}, {}", pt.x, pt.y);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki yukarıdaki Point yapısına disp isimli bir metot ekleyecek olalım. Bu metotta Point yapısının x ve y elemanalarını
+    println! makrosu ile yazdıracaksak disp metodunun Display trait'ini destekliyor olması gerekir. Pekiyi buna ilişkin
+    tür sınırlaması nerede belirtilmelidir? İşte burada üç seçenek karşımıza çıkmaktadır.
+
+        1) Tür sınırlamasının yapıda ya da enum türünde belirtilmesi
+        2) Tür sınırlamasının impl bloğunda belirtilmesi
+        3) Tür sınırlamasının metotta ya da ilişkili fonksiyonda belirtilmesi
+
+    Burada en kapsayıcı olan sınırlamanın (bounding) yapıda belirtilmesidir. Eğer sınırlama yapıda belirtilirse zaten
+    bu sınırlamanın impl bloğunda da belirtilmesi zorunlu olmaktadır. Eğer sınırlama impl bloğunda belirtilirse bu durumda
+    blok içerisindeki tüm metotlar ve ilişkili fonksiyonlar için bu sınırlama geçerli olmaktadır. Eğer sınırlama belli bir
+    mettota ya da ilişkili fonksiyonda belirtilirse sınırlama yalnızca bu mettota ya da ilişkili fonksiyonda geçerli
+    olmaktadır. Bu durumu tersten örneklerle açıklayalım. Önce sınırlamayı belli bir metot ya da ilişkli fonksiyonla sınırlı
+    tutalım. Bu durumda sınırlama artık açısal parantezler içersinde değil where sentaksıyla yapılmak zorundadır. Örneğin:
+
+        struct Point<T> {
+            x: T,
+            y: T
+        }
+
+        impl<T> Point<T> {
+            fn new(x: T, y: T) -> Self {
+                Point { x, y }
+            }
+
+            fn set_x(&mut self, x: T) {
+                self.x = x;
+            }
+
+            fn set_y(&mut self, y: T) {
+                self.y = y;
+            }
+
+            fn disp(&self)
+            where T: std::fmt::Display {
+                println!("{}, {}", self.x, self.y);
+            }
+        }
+
+    Burada yalnızca disp metodu çağrılırken T türünün Display trait'ini desteklemesi gerekmektedir. Örneğin Sample yapısı
+    Display trait'ini desteklemiyor olsun:
+
+        struct Sample {
+            val: i32
+        }
+
+    Burada bizim Point<Sample> türünden bir değişken oluşturmamızda hiçbir sakınca yoktur:
+
+    let mut pt: Point<Sample>;                                          // geçerli
+    pt = Point::<Sample>::new(Sample{ val: 10 }, Sample{ val: 20 });    // geçerli
+
+    Çünkü new ilişkili fonksiyonun Display trait'ini desteklemesi gerekmemektedir. Ancak aşağıdaki çağrı error oluşturacaktır:
+
+    pt.disp();      // error!
+
+    disp metodunda T türünün Display trait'ini destekliyor olması gerekir. Ancak örneğimizde Sample yapısı Dİsplay trait'ini
+    desteklememektedir. Burada şu noktaya dikkat ediniz: Biz sınırlamayı yalnızca disp metoduna uyguladık. Bu durumda sınırlama
+    kontrolü yalnızca disp metodu çağrılırken yapılmaktadır.
+
+    Şimdi Display trait'ine ilişkin sınırlamayı impl bloğuna yerleştirelim:
+
+    impl<T: std::fmt::Display> Point<T> {
+        fn new(x: T, y: T) -> Self {
+            Point { x, y }
+        }
+
+        fn set_x(&mut self, x: T) {
+            self.x = x;
+        }
+
+        fn set_y(&mut self, y: T) {
+            self.y = y;
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Artık bu kısıt impl bloğundaki tüm metotlar ve ilişkili fonksiyonlar çağrılırken kontrol edilecektir. Yani buradaki
+    sınırlama impl bloğundaki tüm metotlara ve ilişkili fonksiyonlara uygulanmış gibi olmaktadır. Şimdi Display trait'ini
+    desteklemeyen Sample türü aşağıdaki işlemleri yapmak isteyelim:
+
+    let mut pt: Point<Sample>;                                              // geçerli
+
+    pt = Point::<Sample>::new(Sample{ val: 10 }, Sample{ val: 20 });        // error!
+    pt.disp();                                                              // error!
+
+    Burada Point<Sample> tür ifadesi error oluşturmamaktadır. Çünkü sınırlama yapıya değil impl bloğuna uygulanmıştır.
+    Ancak o bloktaki tüm ilişki fonksiyonlar ve metotlar bu için bu sınırlama uygulanmış gibi bir durum oluşmaktadır.
+    Dolayısıyla new ilişkili fonksiyonun çağrılması ve disp metounun çağrılması error oluşturacaktır.
+
+    Anımsanacağı gibi bir bir yapıın ilişkili fonksiyonları ve metotları birden fazla impl bloğu içerisinde tanımlanabiliyordu.
+    O halde bazı impl blokları sınırlama içerirken bazıları içermeyebilir. Örneğin:
+
+    impl<T> Point<T> {
+        fn new(x: T, y: T) -> Self {
+            Point { x, y }
+        }
+
+        fn set_x(&mut self, x: T) {
+            self.x = x;
+        }
+
+        fn set_y(&mut self, y: T) {
+            self.y = y;
+        }
+    }
+
+    impl<T: Display> Point<T> {
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Burada ikinci impl bloğuna sınırlama uygulanmıştır, ilk impl bloğuna sınırlama uygulanmamaıştır:
+
+    let mut pt: Point<Sample>;                                      // geçerli
+
+    pt = Point::<Sample>::new(Sample{val: 10}, Sample{val: 20});    // geçerli
+    pt.disp();                                                      // error!
+
+    impl bloğundaki sınırlamalar yalnızca açısal parantezler içerisinde değil where sentaksıyla da yapılabilmektedir.
+    Biz sınırlamaları daha sonra yeniden tümden gözden geçireceğiz. Örneğin:
+
+    impl<T> Point<T>
+    where T: std::fmt::Display {
+        fn new(x: T, y: T) -> Self {
+            Point { x, y }
+        }
+
+        fn set_x(&mut self, x: T) {
+            self.x = x;
+        }
+
+        fn set_y(&mut self, y: T) {
+            self.y = y;
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Eğer sınırlama yapıya uygulanırsa bu durumda sınırlama bu hem somut tür oluştururken hem de tüm impl bloklarında etkili
+    olmaktadır. Zaten eğer sınırlama yapıya uygulanmışsa tüm impl bloklarında da bu sınırlamaların belirtilmesi zorunlu
+    olmaktadır. Örneğin:
+
+    struct Point<T: std::fmt::Display> {
+        x: T,
+        y: T
+    }
+
+    impl<T: std::fmt::Display> Point<T> {
+        fn new(x: T, y: T) -> Self {
+            Point { x, y }
+        }
+
+        fn set_x(&mut self, x: T) {
+            self.x = x;
+        }
+
+        fn set_y(&mut self, y: T) {
+            self.y = y;
+        }
+
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Artık biz aşağıdaki bildirimi bile yapamayız:
+
+    let pt: Point<Sample>;      // error!
+
+    Tabii aslında yapıdaki sınırlamalar da where sentaksıyla oluşturulabilmektedir:
+
+    struct Point<T> where T: std::fmt::Display {        // geçerli
+        x: T,
+        y: T
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Tür sınırlaması yalnızca bir metot ya da ilişkili fonksiyon için de söz konusu olabilir. Bu durumda açısal parantez
+    sentaksı kullanılamaz kısıtın where sentaksıyla belirtilmesi gerekeir. Örneğin:
+
+    struct Point<T> {
+        x: T,
+        y: T
+    }
+
+    impl<T> Point<T> {
+        fn new(x: T, y: T) -> Self {
+            Point { x, y }
+        }
+
+        fn set_x(&mut self, x: T) {
+            self.x = x;
+        }
+
+        fn set_y(&mut self, y: T) {
+            self.y = y;
+        }
+
+        fn disp(&self)
+        where T: std::fmt::Display {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+
+    Burada Display trait sınırlaması yalnızca disp metoduna uygulanmıştır. Metoda ya da ilişkili fonksiyonlara özgü
+    sınırlamaların ancak where sentaksıyla oluşturulabildiğini bir kez daha vurgulamak istiyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi basit bir FIFO kuyruk sistemini generic bir yapı biçiminde gerçekleştirelim. Yapımız şöyle olabilir:
+
+    const SIZE: usize = 10;
+
+    struct Queue<T: Default + Copy> {
+        queue: [T; SIZE],
+        head: usize,
+        tail: usize,
+        count: usize
+    }
+
+    Aslında bu tür veri yapılarının gerçekleştirilmesinde dizilerin dinmaik bir biçimde yani istenilen büyüklükte oluşturulması
+    gerekir. Ancak biz örneğimizde şimdilik buradaki diziyi 10 gibi belli bir büyüklükte alıyoruz. Kuyruk elemanları bir dizide
+    olacağına göre ve bu elemanlar diziden alınıp verileceğine göre dizinin Copy türünden olması gerekmektedir. Çümkü anımsanacağı
+    gibi Copy türünden olmayan dizilerin belli elemanları taşınamamaktadır. Dizi elemanlarına default değer verilirken generic
+    tür neyse o türden default değerlerin verilmesi anlamlıdır. O halde buradaki yapımız Default trait'ini de desteklemeldir.
+    Yapı türünden bir nesne oluşturan new ilişkili fonksiyonu şöyle tanımlanmıştır:
+
+    impl<T: Default + Copy> Queue<T> {
+        fn new() -> Self {
+            Queue {
+                queue: [T::default(); SIZE],
+                head: 0,
+                tail: 0,
+                count: 0
+            }
+        }
+        //...
+    }
+
+    Kuyruğa eleman ekleyen ve kuyruktan eleman alan metotlar da şöyle tanımlanmıştır:
+
+    fn pop(&mut self) -> Option<T> {
+        let result: Option<T>;
+        if self.count == 0 {
+            return None;
+        }
+        result = Some(self.queue[self.head]);
+        self.head = (self.head + 1) % SIZE;
+        self.count -= 1;
+
+        result
+    }
+
+    fn pop(&mut self) -> Option<T> {
+           if self.count == 0 {
+            return None;
+        }
+        self.head = (self.head + 1) % SIZE;
+        self.count -= 1;
+
+        Some(self.queue[self.head])
+    }
+
+    push metodunun bool türüne geri dönmesi uygundur. Çünkü bu metot kuyruk doluysa başarısız olacaktır. pop metodu ise
+    hem kuyruktaki değeri hem de başarısızsa başarısızlık durumunu bize vermelidir. Bu nedenle pop metodunun geri dönüş
+    değeri Option türündendir. Kuyruk sistemini aşağıdaki gibi bir kodla test edebilirsiniz:
+
+    let mut q = Queue::<i32>::new();
+
+    for i in 0..100 {
+        if !q.push(i) {
+            println!("queue is full!");
+            break;
+        }
+    }
+
+    while let Some(val) = q.pop() {
+        println!("{}", val);
+    }
+
+    Aşağıda yapının gerçekleştirimini bir bütün olarak veriyoruz. Tabii yapıya siz de gerekli başka metotları ekleyebilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut q = Queue::<i32>::new();
+
+    for i in 0..100 {
+        if !q.push(i) {
+            println!("queue is full!");
+            break;
+        }
+    }
+
+    while let Some(val) = q.pop() {
+        println!("{}", val);
+    }
+}
+
+const SIZE: usize = 10;
+
+struct Queue<T> {
+    queue: [T; SIZE],
+    head: usize,
+    tail: usize,
+    count: usize
+}
+
+impl<T: Default + Copy> Queue<T> {
+    fn new() -> Self {
+        Queue {
+            queue: [T::default(); SIZE],
+            head: 0,
+            tail: 0,
+            count: 0
+        }
+    }
+
+    fn push(&mut self, item: T) -> bool {
+        if self.count >= self.queue.len() {
+            return false;
+        }
+        self.queue[self.tail] = item;
+        self.tail = (self.tail + 1) % SIZE;
+        self.count += 1;
+
+        true
+    }
+
+    fn pop(&mut self) -> Option<T> {
+        let result: Option<T>;
+        if self.count == 0 {
+            return None;
+        }
+        result = Some(self.queue[self.head]);
+        self.head = (self.head + 1) % SIZE;
+        self.count -= 1;
+
+        result
+    }
+
+    fn clear(&mut self) {
+        self.head = 0;
+        self.tail = 0;
+        self.count = 0;
+    }
+
+    fn len(&self) -> usize {
+        self.count
+    }
+
+    fn capacity(&self) -> usize {
+        SIZE
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        65. Ders 17/11/2025 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta const generic parametre denilen bir generic parametre türü de vardır. const generic parametreler aşağıdaki genel
+    biçimle bildirilmektedir:
+
+    const <parametre_ismi>: <tür>
+
+    Örneğin:
+
+    const U: i32
+    const V: u64
+
+    const generic parametrelerde ':' atomundan sonra belirtilen türün tamsayı türlerine ya da char ve bool türlerine ilişkin
+    olması gerekmektedir. Yani const generic parametrelerin türleri aşağıdakilerden biri olabilir:
+
+    u8
+    u16
+    u32
+    u64
+    u128
+    usize
+    i8
+    i16
+    i32
+    i64
+    i128
+    isize
+    bool
+    char
+
+    const generic parametreler için açıkça sabit ifadesi biçimnde ilgili türden bir değerin açısal parantezler içerisinde
+    belirtilmesi gerekir. Örneğin:
+
+    fn foo<T, const U: usize>(x: T) {
+        //...
+    }
+
+    Burada foo fonksiyonun iki generic parametresi vardır: T ve U. T parametresi herhangi bir türü temsil etmektedir. Ancak
+    U parametresi usize türünden bir sabit ifadesini temsil etmektedir. Dolayısıyla bu U değeri fonksiyonun içerisinde bir
+    sabit ifadesi gibi kullanılabilir. Örneğin:
+
+    fn foo<T, const U: usize>(x: T) {
+        let x: [i32; U] = [0; U];      // geçerli
+        //...
+    }
+
+    Dizi uzunluklarının usize türünden sabit ifadesi belirtmesi gerektiğini anımsayınız. Buradaki U const generic parametre
+    usize türünden sabit ifadesi belirttiği için fonksiyon içerisindeki dizi bildirimi geçerlidir. Aşağıdaki tanımlama da
+    benzer biçimde geçerlidir:
+
+    fn foo<T: Default, const U: usize>(x: T) {
+        let x: [T; U] = [T::default(); U];      // geçerli
+        //...
+    }
+
+    const generic parametreler birer sabit ifadesi belirttiği için fonksiyon ya da metot çağrılırken onlar için açısal
+    parantezler içerisinde sabit ifadesi girilmesi gerekir. Örneğin:
+
+    foo(100);                   // error!
+
+    Burada bu çağrıda U const generic parametrenin değeri belli değildir. Dolayısıyla çağrı da geçerli değildir. Örneğin:
+
+    foo::<i32, 10>(100);        // geçerli!
+
+    Burada çağrı geçerlidir. Artık U parametresinin değeri bellidir. Tabii T için tür çıkarımının derleyiciye yaptırılması
+    da aşağıdaki gibi sağlanabilir:
+
+    foo::<_, 10>(100);        // geçerli!
+
+    Generic yapılarda ve enum türlerinde de const generic parametreler kullanılabilir. Örneğin:
+
+    struct Queue<T, const SIZE: usize> {
+        queue: [T; SIZE],
+        head: usize,
+        tail: usize,
+        count: usize
+    }
+
+    Burada artık Queue yapısının queue alanındaki dizinin uzunluğunun generic const parametre yoluyla dışarıdan belirlenmesi
+    sağlanabilmektedir. (Dizi uzunluklarının sabit uszie türünden sabit ifadesi belirtmek zorunda olduğunu anımsayınız.)
+    Tabii artık impl bloğunda hetm T parametresinin hem de SIZE parametresinin belirrtilmesi gerekmektedir. Örneğin:
+
+    impl<T: Default + Copy, const SIZE: usize> Queue<T, SIZE> {
+        //...
+    }
+
+    Yukarıdaki Queue yapısının const generic parametre gerçekleştirimini aşağıda veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+
+    let mut q = Queue::<i32, 10>::new();
+
+    for i in 0..100 {
+        if !q.push(i) {
+            println!("queue is full!");
+            break;
+        }
+    }
+
+    while let Some(val) = q.pop() {
+        println!("{}", val);
+    }
+}
+
+struct Queue<T, const SIZE: usize> {
+    queue: [T; SIZE],
+    head: usize,
+    tail: usize,
+    count: usize
+}
+
+impl<T: Default + Copy, const SIZE: usize> Queue<T, SIZE> {
+    fn new() -> Self {
+        Queue {
+            queue: [T::default(); SIZE],
+            head: 0,
+            tail: 0,
+            count: 0
+        }
+    }
+
+    fn push(&mut self, item: T) -> bool {
+        if self.count >= self.queue.len() {
+            return false;
+        }
+        self.queue[self.tail] = item;
+        self.tail = (self.tail + 1) % SIZE;
+        self.count += 1;
+
+        true
+    }
+
+    fn pop(&mut self) -> Option<T> {
+        let result: Option<T>;
+        if self.count == 0 {
+            return None;
+        }
+        result = Some(self.queue[self.head]);
+        self.head = (self.head + 1) % SIZE;
+        self.count -= 1;
+
+        result
+    }
+
+    fn clear(&mut self) {
+        self.head = 0;
+        self.tail = 0;
+        self.count = 0;
+    }
+
+    fn len(&self) -> usize {
+        self.count
+    }
+
+    fn capacity(&self) -> usize {
+        SIZE
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    const generic parametrelerin değerlerini de derleyici eğer bağlam uygunsa otomatik çıkarsayabilmektedir. Örneğin:
+
+    fn foo<T, const SIZE: usize>(a: [T; SIZE]) {
+        //...
+    }
+
+    Burada fonksiyon bir dizi parametresi almaktadır. Fonksiyon parametresindeki T ve SIZE derleyici tarafından çıkarsanabilecektir.
+    Örneğin:
+
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+
+    foo(a);     // geçerli, T = i32, SIZE = 5
+
+    Burada derleyici argüman olarak girilen diziden hareketle T türünün i32 olduğunu, SIZE değerinin ise 5 olduğunu
+    anlayabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    enum türlerinin de generic olabileceğini belirtmiştik. Örneğin çok kullandığımız Option ve Result enum türlerinin de
+    generic olduğunu anımsayınız. Option enum türü şöyle tanımlanmıştır:
+
+    pub enum Option<T> {
+        None,
+        Some(T)
+    }
+
+    Burada enum türünün demetsel Some varyantının generic parametre türünden olduğuna dikkat ediniz. Generic enum türlerinde
+    enum türünün her farklı generic parametresinin varyantları da farklıdır. Varyantlar birimsel olsa da bunlar farklıdır.
+    ÖrneğinyOption::<i32>::None varyanı ile Option::<i64>::None varyantı farklı türlerdendir. Başka bir deyişle burada her
+    Option<T> türünün farklı bir None varyantı vardır. Varyantların ilgili enum türünden olduğunu anımsayınız. Dolayısıyla
+    burada Option::<i32>::None varyantı Option::<i32> türünden, Option::<i64>::None varyantı ise Option<i64> türündendir.
+    Tabii standart prelude içerisinde standart kütüphanedeki Option ve onun içerisindeki None ve Some isimleri
+    use edildiği için biz onları doğrudan kullanabilmekteyiz.
+
+    Rust derleyicisi atama işleminde eğer hedef generic enum türünün generic parametresini biliyorsa atama işleminde varyant
+    belirtilirken türün ayrıca belirtilmesine gerek kalmamaktadır. Örneğin:
+
+
+    Örneğin:
+
+    let mut opt: Option<i32>;
+
+    opt = Some(10);
+    //...
+    opt = None;
+
+    Burada biz doğrudan Some dediğimizde aslında Option::<i32>::Some demiş olmaktayız. Benzer biçimde doğrudan None dediğimizde
+    de aslında Option::<i32>::None demiş olmaktayız. Farklı generic türlere ilişkin Option enum değişkenlerine aynı None değerin
+    atanması kişilere tuhaf gelebilmektedir. Örneğin:
+
+    let opt1: Option<i32>;
+    let opt2: Option<i64>;
+
+    opt1 = None;
+    opt2 = None;;
+
+    Buradaki iki None değeri aynı None değeri değildir. Üstteki Option::<i32>::None alttaki ise Option::<i64>::None anlamına
+    gelmektedir. Derleyici yukarıda da belirttiğimiz hedefin türüne bakarak bu tespiti yapabilmektedir. Örneğin:
+
+    let opt: Option<i32>;
+
+    opt = Option::<i64>::None;      // error!
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Daha önce kullanmış olduğumuz Result enum türü de aslında iki generic parametre almaktadır:
+
+    pub enum Result<T, E> {
+        Ok(T),
+        Err(E),
+    }
+
+    Yine standart prelude içerisinde Result ismi, Ok ve Err varyant isimleri use edilmiştir. Dolayısıyla biz bu isimleri
+    doğrudan kullanabilmekteyiz. Örneğin:
+
+    let mut r: Result<i32, &str>;
+
+    r = Ok(10);         // geçerli
+    r = Err("fail");    // geçerli
+
+    Buradaki atamalar aslında tamamen aşağıdakilerle eşdeğerdir:
+
+    r = Result::<i32, &str>::Ok(10);
+    r = Result::<i32, &str>::Err("fail");
+
+    Örneğin aşağıdaki gibi generic bir enum söz konusu olsun:
+
+    enum Fruit<T> {
+        Apple,
+        Banana(T),
+        Orange {x: T, y: T}
+    }
+
+    Şimdi bu enum türünden bir değişken bildirelim:
+
+    let mut f: Fruit<i32>;
+
+    Şimdi de bu enum değişkenine bu enum türünün varyantlarını atayalım:
+
+    f = Fruit::Apple;
+
+    Bu atama aşağıdakiyle eşdeğerdir:
+
+    f = Fruit::<i32>::Apple;
+
+    Şimdi de f değişkenine diğer varyantı atayalım:
+
+    f = Fruit::Banana(10);
+
+    Derleyici yine hedef değişknin generic parametresinden hareketle bu atamayı aşağıdakiyle eşdeğer kabul edecektir:
+
+    f = Fruit::<i32>::Banana(10);
+
+    Şimdi de f değişkenine yapısal varyanı atayalım:
+
+    f = Fruit::Orange{x: 10, y: 20};
+
+    Derleyiciye göre bu atama işlemi de aşağıdakiyle eşdeğerdir:
+
+    f = Fruit::<i32>::Orange{x: 10, y: 20};
+
+    Bu örnekten de görüldüğü gibi Rust derleyicisi hedef enum değişkenin generic tür parametresini bildiği için varyant
+    ataması sırasında programcının ayrıca generic parametreyi açıkça belirtmesine gerek kalmamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta generic bir yapı ya da enum türü için farklı türlerden impl blokları oluşturulabilmektedir. Örneğin:
+
+    struct Sample<T> {
+        val: T
+    }
+
+    Böyle bir generic yapı için impl bloğunun aşağıdaki gibi oluşturulduğunu görmüştük:
+
+    impl<T> Sample<T> {
+        //...
+    }
+
+    Eğer istenirse T'nin bazı türleri için ayrı impl blokları da oluşturulabilmektedir. Örneğin:
+
+    struct Sample<T> {
+        val: T
+    }
+
+    impl<T> Sample<T> {
+        //...
+    }
+
+    impl Sample<i32> {
+        //...
+    }
+
+    impl Sample<i64> {
+        //...
+    }
+
+    Bu biçimde farklı türler için farklı impl blokları oluşturulurken impl anahtar sözcüğünden sonra açısal parantezler içerisinde
+    türün belirtilmesi zorunlu değildir. Yani örneğin:
+
+    impl Sample<i32> {
+        //...
+    }
+
+    bloğu ile aşağıdaki blok eşdeğerdir:
+
+    impl<i32> Sample<i32> {
+        //...
+    }
+
+    Bu biçimde özelleştirmeler yapılırken impl bloklarındaki fonksiyonların ve metotların aynı türler için çakışmaması
+    gerekir. Örneğin aşağıdaki ikinci impl bloğu error oluşmasına yol açacaktır.
+
+    struct Sample<T> {
+        val: T
+    }
+
+    impl<T> Sample<T> {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    impl Sample<i32> {
+        fn foo(&self) {                 // error!
+            println!("foo i32");
+        }
+    }
+
+    Burada birinci impl bloğu T üzerinden oluşturulduğu için ve bu T türü i32 de olabileceğinden dolayı sanki Sample<i32>
+    için aynı isimli iki fonksiyon tanımlanmış gibi bir durum oluşur. Örneğin:
+
+    struct Sample<T> {
+        val: T
+    }
+
+    impl Sample<f64> {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    impl Sample<i32> {
+        fn foo(&self) {                 // geçerrli
+            println!("foo i32");
+        }
+    }
+
+    Burada iki farklı impl bloğunda foo fonksiyonun bulunmasında bir sorun oluşmayacaktır. Çünkü Sample<i32> ile Sample<f64>
+    farklı türlerdir. Dolayısıyla burada aynı türün içerisinde birden fazla aynı isimli fonksiyon bulunmamaktadır. Bu tür
+    durumlarda trait sınırlaması dikkate alınmamaktadır. Örneğin:
+
+    struct Sample<T> {
+        val: T
+    }
+
+    impl<T: Copy> Sample<T> {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    impl Sample<String> {
+        fn foo(&self) {         // error!
+            //...
+        }
+    }
+
+    Burada T generic parametresi için Copy trait sınırlaması yapılmıştır. String yapısı da Copy türünden değildir. O halde
+    aslında burada bir çakışma olamaz. Ancak Rust derleyicisi karmaşık bir anlamlandırma oluşturabileceğinden generic
+    tür sınırlamalarını hiç dikkate almamaktadır. Dolayısoyla yukardaki ikinci impl bloğu yine error oluşturmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bazı nesne yönelimli programlama dillerinde olduğu gibi generic tür parametreleri için default tür belirlemesi
+    yapılabilmektedir. Defult tür belirleme işlemi açısal parantezler içerisinde generic tür isminden sonra '=' atomu kulanılarak
+    yapılmaktadır. Örneğin:
+
+    struct Sample<T = i32> {
+        val: T
+    }
+
+    Burada T generic parametresi için default tür i32 olarak belirtilmiştir. Default tür, "eğer generic parametre için tür
+    belirtilmezse varsayılacak türü" belirtmektedir. Yani yukarıdaki yapıyı biz kullanırken T generic parametresi için tür
+    belirlemesi yapmazsak default olarak T türü i32 anlamına gelecektir. Örneğin:
+
+    let s: Sample;
+
+    Burada s değişkeni Sample<i32> türündendir. Çünkü Sample için T türünün ne olacağı konusunda bir belirlemede bulunulmamıştır.
+
+    Rust'ta generic yapılardaki, enum türlerindeki ve trait'lerdeki generic parametrelere default türler iliştirilebilmektedir
+    ancak fonksiyonlardaki ve metotlardaki generic parametrelere default türler iliştirilememektedir. Örneğin:
+
+    fn foo<T = i32>(a: T) {     // error! generic fonksiyonlarda defult tür belirtilememektedir
+        //...
+    }
+
+    Rust'ta eğer generic bir türün gerçekte hangi tür olduğu çıkarımla belirlenebiliyorsa bu durumda verilen default tür dikkate
+    alınmaz. Örneğin:
+
+    struct Sample<T = i32> {
+        val: T
+    }
+    //...
+
+    let s = Sample { val: 3.14 };
+
+    Burada s artık Sample<i32> türünden değil Sample<f64> türündendir. Çünkü val alanından hareketle T için tür çıkarımı
+    yapılmaktadır. Bu tür durumlarda eğer açısal parantezler kullanıp içi boş bırakılırsa derleyici default türün kullanılmak
+    istendiğini kabul etmektedir. Örneğin:
+
+    let s = Sample::<> {val: 3.14};              // error!
+
+    Burada açısal parantezlerin içi boş bırakıldığı için default tür devreye sokulmaktadır. Ancak tür yerine _ atomunun bulundurulması
+    bu bağlamda default türü devreye sokmamaktadır:
+
+    let s = Sample::<_> {val: 3.14};        // geçerli
+
+    Burada s değişkeni Sample<f64> türündendir.
+
+    Bir generic parametreye default tür verilmişse onun sağındaki generic parametrelerin hepsine default tür verilmek zorundadır.
+    Örneğin:
+
+    struct Sample<T, K = i32> {             // geçerli
+        a: T,
+        b: K
+    }
+
+    struct Sample<T = i32, K> {             // error!
+        a: T,
+        b: K
+    }
+
+    struct Sample<T = i32, K = i64> {       // geçerli
+        a: T,
+        b: K
+    }
+
+    Yukarıda da belirttiğimiz gibi generic tür parametrelerine için default türlerin devreye girmesi isteniyorsa açısal
+    parantezler kullanılmalıdır. Açısal parantezlerin içerisi tamamen boş bırakılabilir ya da açısal parantezlerin içerisinde
+    yalnızca ilk N tane generic parametre için tür belirlemesi de yapılabilir. Bu durumda belirtilmeyen türler için
+    default türler devreye girecektir. Örneğin:
+
+    struct Sample<T = i32, K = i64> {
+        a: T,
+        b: K
+    }
+    //...
+
+    let s: Sample<f64>;
+
+    Burada s değişkeni Sample<f64, i64> türündendir. Örneğin:
+
+    let k: Sample;
+
+    Burada k değişkeni Sample<i32, i64> türündendir. Yukarıdaki bildirim aşağıdakiyle eşdeğerdir:
+
+    let k: Sample<>;
+
+    Eğer bu örnekte biz türü Sample<_, f64> biçiminde belirtseydik buradaki _ atomu yukarıda da belirttiğimiz gibi
+    "default türü kullan anlamına gelmeyecekti", "tür çıkarımı yap" anlamına gelecekti. Örneğin:
+
+    let s: Sample<_, f64>;      // error!
+
+    Burada derleyicinin tür çıkarımı yapabilmesi için yapının a alanının türünü bir biçimde belirleyebilmesi gerekmektdir.
+    Aşağıdaki gibi bir sentaks da geçerli değildir:
+
+    let s: Sample<, f64>;      // error! böyle bir sentaks yok
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki default tür iliştirilen generic yapılar ve enum türlerinde impl blokları nasıl olacaktır? İşte normal olarak impl
+    bloklarının yine generic bir biçimde yazılması gerekir. Örneğin:
+
+    struct Sample<T = i32> {
+        val: T
+    }
+
+    impl<T> Sample<T> {
+        fn foo(&self) {
+            //...
+        }
+    }
+
+    Tabii biz impl bloğunda Sample<T> değil yalnızca Sample da diyebilirdik. Bu durum i32 için özelleştirme yapmış olduğumuz
+    anlamına gelmektedir. Örneğin:
+
+    impl Sample {
+        fn foo(&self) {
+            println!("{}", self.val);
+        }
+    }
+
+    Bu impl bloğu tamamen aşağıdakiyle eşdeğerdir:
+
+      impl Sample<i32> {
+        fn foo(&self) {
+            println!("{}", self.val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Generic bir yapı ya da enum türünün generic parametresi hem default türe hem de trait sınırlamasına sahip olabilir. Bu
+    durumda önce ':' sentaksı ile trait sınırlaması belirtilir sonra da '=' sentaksı ile default tür belirtilir. ÖrneğiN:
+
+    struct Sample<T: Copy = i32> {          // geçerli
+        val: T
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de generic sınırlamaları (generic bounds) konusunu baştan itibaren ele aalım.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Generic sınırlamaları daha önceden de belirttiğimiz gibi generic fonksiyonların ve metotların söz konusu kısıtlar
+    sağlandığında her zaman geçerli olmasını derleme aşamasında garantiye almak için dile eklenmiştir. Yalnızca Rust'ta değil
+    C# ve Java gibi diğer dillerde de bu kavram benzer amaçları sağlamak için bulunmaktadır. C++'ta bu kavram C++20 ile
+    dile eklenmiştir.
+
+    Rust'ta generic sınırlamalar iki sentaks ile oluşturulmaktadır:
+
+    1) Açısal parantez içerisinde ':' sentaksı ile
+    2) where sentaksı ile
+
+    Bu iki sentaks bazı durumlarda tamamen eşdeğerdir. Ancak bazı durumlarda açısal parantez içerisinde sınırlama yetersiz
+    kalmakta ve mecburen where sentaksının kullanılması gerekmektedir.
+
+    Açısal parantezdeki ':' sentaksında generic türün desteklemesi gereken trait'ler ':' atomundan sonra blirtiliyordu.
+    Eğer birden fazla trait söz konusu ise bunlar '+' ile belirtiliyodu. Örneğin:
+
+    fn foo<T: Default + Copy>(a: T) {
+        //...
+    }
+
+    Birden fazla generic parametrenin olduğu durumda da sentaks aynı biçimdedir. Örneğin:
+
+    fn foo<T: Default + Copy, K: Clone> (a: T, k: K)  {
+        //...
+    }
+
+    where sentaksının genel biçimi de şöyledir:
+
+    where <paramete_ismi>: <sınırlamalar>, <parametre_ismi>: <sınırlamalar>, ....
+
+    where sentaksı fonksiyonun ya da metodun parametre parantezinden sonraya yerleştirilmektedir. Hem açısal parantez
+    sentaksı hem de where sentaksı fonksiyonun ya da metodun imzasına dahildir. Örneğin:
+
+    fn foo<T, K>(a: T, k: K)
+    where
+        T: Default + Copy,
+        K: Clone
+    {
+        //...
+    }
+
+    Rust programcıları genel olarak where sentaksındaki hizalamayı yukarıda biçimdeki yapmayı tercih etmektedir. Tabii
+    aslında atomlar istenildiği gibi peşi sıra geitirlebilmektedir. Örneğin:
+
+    fn foo<T, K> (a: T, k: K) where T: Default + Copy, K: Clone {
+        //...
+    }
+
+    Pek çok dilde "sentaksta virgüllerle ayrılmış olan listelerde (comma separetad lists)" listenin sonunda isteğe bağlı
+    son bir ',' atomu kullanılabilmektedir. Rust'ta da bu gelenek muhafaza edilmiştir. Bu tür durumlarda sonda bir ','
+    atomu görürseniz bunun özel bir anlama geldiğini sanmayınız. Örneğin:
+
+    fn foo<T, K>(a: T, k: K)
+    where
+        T: Default + Copy,
+        K: Clone,
+    {
+        //...
+    }
+    //...
+    let a = [10, 20, 30, 40, 50, ];
+    //...
+    bar(10, 20, 30, );
+    //..
+    struct Sample {
+        a: i32,
+        b: i32,
+    }
+
+    Bu tür virgülle aytılmış listelerin bazılarında son virgülün kasten yerleştirilmesi Rust'ta neredeyse gelenek haline
+    gelmiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki where sentaksının zorunlu olduğu durumlar dışında biz hangi sentaksı tercih etmeliyiz? Açısal parantez sentaksını mı
+    where sentaksını mı? Eğer generic parametreler fazla değilse ve sınırlamalar karmaşık değilse açısal parantez sentası
+    daha pratik olduğundan tercih edilebilir. Ancak çok fazla generic parametre varsa ve sınırlamalar da açısal parantez
+    içerecek biçimde karmaşıksa where sentaksı okunabilirlik bakımından tercih edilmelidir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Açısal parantez sentaksında önceki generic parametreye ilişkin sınırlama sonra generic parametrelere ilişkin olabilmektedir.
+    Örneğin:
+
+    trait Error<T, K> {
+        //...
+    }
+
+    fn foo<T: Error<U, K>, U: Copy, K: Default>() {
+        //...
+    }
+
+    Burada ilk generic parametresinin sınırlamasında sonraki generic parametreler kullanılmıştır. Ancak bu tür durumlarda
+    where sentaksı okunabilirlik bakımından tercih edilebilir:
+
+    fn foo<T, U, K>()
+    where
+        T: Error<U, K>,
+        U: Copy,
+        K: Default
+    {
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            66. Ders 19/11/2025 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Generic tür sınırlamalarının bazıları açısal parantez sentaksıyla bazıları ise where sentaksıyla oluşturulabilmektedir.
+    Örneğin:
+
+    fn foo<T: Copy, K>(a: T, b: K)
+    where
+        K: std::fmt::Debug,             // geçerli
+    {
+        //...
+    }
+
+    Burada T generic parametresi Copy trait'ini, K generic parametresi ise Debug trait'ini desteklemek zorundadır. Aynı
+    generic paramatre için hem açısal parantezler içerisinde hem de where sentaksında sınırlama yapılabilir. Bu durumda
+    bu sınırlamalar sanit + ile çoğaltılmış gibi etki göstermektedir. Örneğin:
+
+    fn foo<T: Copy, K>(a: T, b: K)
+    where
+        T: std::fmt::Debug,
+        K: std::fmt::Debug
+    {
+        //...
+    }
+
+    Burada artık T generic parametresi hem Copy hem de Debug trait'ini desteklemek zorundadır. Tabii okunabilirlik bakımından
+    hem açısal parantezler içerisinde hem de where sentaksı içerisinde sınırlama belirtmek iyi bir teknik değildir. Rust
+    programcıları ya tüm sınırlamaları açısal parantezler içerisinde ya da where sentaksına belirtmeyi tercih etmektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Trait sınırlamasında bir trait ilişkili türlere sahipse sınırlamada eğer ilişkili türün ne olacağı konusunda bir sınırlama
+    yapılmazsa bu durum ilişkili türün herhangi bir olabileceği anlamına gelmektedir. Örneğin Test trait'i şöyle olsun:
+
+    trait Test {
+        type Item;
+
+        fn test(&self);
+    }
+
+    Anımsanacağı gibi bu trait'i destekleyen türlerin Item türünü impl bloğu içerisinde belirtmesi gerekmektedir. Şimdi
+    aşağıdaki gibi bir generic fonksiyon tanımlamış olalım:
+
+    fn foo<T>(a: T)
+    where
+        T: Test
+    {
+        //...
+    }
+
+    Burada T generic parametresinin Test trait'ini destekleyen bir tür türünden olması gerektiğine ilişkin bir sınırlamada
+    bulunulmuştur. Ancak bu sınırlamada Test trait'ini destekleyen türdeki Item türü hakkında bir sınırlama yoktur. O halde
+    Test trait'ini destekleyen türdeki Item ilişkili türü hangi tür olursa olsun foo fonksiyonuna argüman olarak verilebilir.
+    Örneğin:
+
+    struct Sample(i32);
+
+    impl Test for Sample {
+        type Item = f64;
+
+        fn test(&self) {
+            //...
+        }
+        //...
+    }
+
+    Biz Sample türünden bir değişken yaratıp onunla foo fonksiyonunu çağırabiliriz:
+
+    let s = Sample(10);
+
+    foo(s);     // geçerli
+
+    Ancak sınırlama yapılırken ilişkili tür için de belirlemede bulunulabilmektedir. Örneğin:
+
+    fn foo<T>(a: T)
+    where
+        T: Test<Item=i32>
+    {
+        //...
+    }
+
+    Burada artık sınırlama şu anlama gelmektedir: "T generic parametresi Test trait'ini Item ilişkili türü i32 olacak
+    biçimde desteklemek zorundadır." Örneğin:
+
+    struct Sample(i32);
+
+    impl Test for Sample {
+        type Item = f64;
+
+        fn test(&self) {
+            //...
+        }
+    }
+    //...
+
+    let s = Sample(10);
+
+    foo(s);     // error!
+
+    Burada Sample yapısı Test trait'ini desteklemektedir ancak ilişkili Item türü uygun değildir.
+
+    Tabii ilişkili tür belirleme açısal parantezler içerisinde de benzer biçimde yapılabilmektedir:
+
+    fn foo<T: Test<Item=i32>>(a: T)
+    {
+        //...
+    }
+
+    Yukarıda da belirttiğimiz gibi açısal parantezler yeniden açışsal parantez kullanıldığında okunabilirlik biraz
+    bozulabilmektedir. Bu tür durumlarda where sentaksını tercih edebilirsiniz.
+
+    İlişkili türlere sahip olan trait'lerde ilişkili türler için de sınırlamalar oluşturulabilmektedir. Örneğin:
+
+    fn foo<T>(a: T)
+    where
+        T: Test<Item: Copy>
+    {
+        //...
+    }
+
+    Buradaki sınırlama şu anlama gelmektedir: "T generic parametresi Test türünü destekleyen bir tür türünden olmalıdır.
+    Ancak o türde Item isimli ilişkili tür de Copy trait'ini desteklemelidir." BUradaki sentaksta artık Item isminden
+    sonra '=' atomu değil ':' atomunun kullanıldığına dikkat ediniz. Örneğin Sample yapısı şöyle tanımlanmış olsun:
+
+    struct Sample(i32);
+
+    impl Test for Sample {
+        type Item = String;
+
+        fn test(&self) {
+            println!("foo");
+        }
+    }
+
+    Biz Sample türünden bir değerle yukarıdaki foo fonksiyonunu çağıramayız. Her ne kadar Sample türü Test trait'ini
+    destekliyor olsa da Item ilişkili türü Copy türünden değildir:
+
+    let s = Sample(10);
+
+    foo(s);     // error!
+
+    Bu kıst açısal paramtezler içerisinde de oluşturulabilmektedir:
+
+    fn foo<T: Test<Item: Copy>>(a: T)
+    {
+        //...
+    }
+
+    Tabii bu tür sınırlamalar daha karışık hale de gelebilmektedir. Örneğin:
+
+    fn foo<T>(a: T)
+    where
+        T: Test<Item: AnotherTest<AnotherItem: Copy>>
+    {
+        //...
+    }
+
+    Burdada T generic parametre için belirtilen kısıt şu anlama gelmektedir: "T generic parametresi Test trait'ini destekleyen
+    ancak Item türü de AnotherTest trait'ini destekleyen bir tür türündenolmalıdır. AnotherTest türünü destekleyen türde
+    ise AnotherItem türü Copy trait'ini desteklemidir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bu bölümde Rust'ta "operatör metotları konusunu ele alacağız. Operatör metotları ya da operatör fonksiyonları nesne
+    yönelimli pek çok programlama dilinde var olan bir özelliktir. Çeşitli diller operatör metotlarını kendilerine uygun bir
+    biçimde bünyesine dahil etmiştir. Operatör metotlarının bulunduğu yaygın diller şunlardır:
+
+    C++
+    C#
+    Python
+    Ruby
+    Swift
+    Kotlin
+    Rust
+
+    Java her ne kadar C#'a oldukça benzese de operatör metotlarına sahip değildir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Operatör metotları aslında dile ek bir işlevsellik kazandırmamaktadır. Yalnızca okunabilirliği artıran bir işlev görmektedir.
+    Operatör metotları sayesinde programcının kendi oluşturduğu türler +, -, *, /, >, < gibi operatörlerle kullanılabilmektedir.
+    Örneğin karmaşık sayıları temsil eden bir yapı tanımlamış olalım:
+
+    #[derive(Copy, Clone)]
+    struct Complex {
+        real: f64,
+        imag: f64,
+    }
+
+    Biz iki karmaşık sayıyı toplayan bir fonksiyon yazmak isteyelim. Tabii bu fonksiyon Complex yapısıyla ilgili olduğu için
+    Complex yapısının ilişkili fonksiyonu biçiminde yazılabilir:
+
+    impl Complex {
+        fn new(real: f64, imag: f64) -> Complex {
+            Complex { real, imag }
+        }
+
+        fn add(left: Complex, right: Complex) -> Complex {
+            let real = left.real + right.real;
+            let imag = left.imag + right.imag;
+
+            Complex { real, imag }
+        }
+
+        fn disp(&self) {
+            println!("{}+{}i", self.real, self.imag)
+        }
+    }
+
+    Artık biz iki karmaşık sayıyı bu add metodunu kullanarak toplayabiliriz:
+
+    let x = Complex::new(3., 2.);
+    let y = Complex::new(4., 3.);
+    let result: Complex;
+
+    result = Complex::add(x, y);
+    result.disp();
+
+    Buradaki toplama işlemini yapan satıra dikkat ediniz:
+
+    result = Complex::add(x, y);
+
+    Eğer biz bu işlemi doğrudan + operatörünü kullanarak yapabilseydik kodumuz matematiksel alana daha yakın hale gelirdi,
+    dolayısıyla daha okunabilir olurdu:
+
+    result = x + y;
+
+    İşte operatör metotları bunu sağlamaktadır. Yani operatör metotları sayesinde biz kendi türümüzü sanki onlar temel
+    türlerdenmiş gibi operatörlerle kullanabilir hale gelmekteyiz. Tabii aslında yukarıdaki örneğimizde derleyici x + y
+    ifadesini gördüğünde x ve y değişkenlerini operatör metodu denilen metoda argüman olarak geçirip o metodu çağırmaktadır.
+    Yani aslında x + y ifadesi bir metodun çağrılmasına yol açmaktadır. x + y ifadesindne elde edilen değer bu operatör
+    metodunun geri dönüş değeridir. Başak bir deyişle:
+
+    result = x + y;
+
+    işlemini derleyici adeta aşağıdaki ile eşdeğr kabul etmektedir:
+
+    result = x.add(y);
+
+    Aşağıdaki örnekte iki Complex sayı Complex yapısının add isimli ilişkili fonksiyonuyla toplanmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let x = Complex::new(3., 2.);
+    let y = Complex::new(4., 3.);
+    let result: Complex;
+
+    result = Complex::add(x, y);
+    result.disp();
+}
+
+#[derive(Copy, Clone)]
+struct Complex {
+    real: f64,
+    imag: f64,
+}
+
+impl Complex {
+    fn new(real: f64, imag: f64) -> Complex {
+        Complex { real, imag }
+    }
+
+    fn add(left: Complex, right: Complex) -> Complex {
+        let real = left.real + right.real;
+        let imag = left.imag + right.imag;
+
+        Complex { real, imag }
+    }
+
+    fn disp(&self) {
+        println!("{}+{}i", self.real, self.imag)
+    }
+}
+
+
+# 67. Ders 24/11/2025 - Pazartesi
+
+    Rust'ta operatör metotları trait tabanlıdır. Yani operatör metotlarını oluşturabilmek için özel bazı trait'lerin desteklenmesi
+    gerekmektedir. Rust derleyicisi ilgili tür bu özel trait'leri destekliyorsa bu türlere ilişkin operatörler kullanıldığında
+    türde desteklenen trait'lerin ilgili metotlarını çağırmaktadır. Örneğin Sample yapısı eğer std::ops::Add trait'ini
+    destekliyorsa bu trait'te bulunan add metodunu barındırmak zorundadır. Derleyici de iki Sample değerinin + operatörüyle
+    toplandığını gördüğünde bu add metodunu çağırır. Yani Rust derleyicisi aslında operatörleri metot çağrılarına dönüştürmektedir.
+    Tutarlılığın sağlanması için i32, i64, f64 gibi temel türlerin de bu trait'leri desteklediği varsayılmaktadır. Yani
+    örneğin a ve b i32 türündense a + b işlemi Rust'a göre i32 yapısının add metodu tarafından yapılmaktadır. Tabii aslında
+    temel türler için Rust bir metot çağırmaz. Ancak semantik bütünlük sağlansın diye sanki temel türler de birer yapı
+    gibi ele alınmıştır.
+
+    Rust'ta operatör metotlarının yazılması için gereken tüm trait'ler std::ops modülünde bulunmaktadır. Biz genellikle
+    örneklerimizde bu trait'leri nitelikli olarak değil use deyimi ile niteliksiz olarak kullanacağız.
+
+    Rust'ta operatörlerin çoğu için operatör metodu yazılabilmektedir. Ancak aşağıdaki operatörler için operatör metotları
+    yazılamamaktadır:
+
+    =
+    &&
+    ||
+    ..
+    ..=
+    .
+
+    Biz kursumuzda operatörleri tek tek ele alıp bunlar için hangi trait'lerin desteklenmesi gerektiğini tek tek açıklayacağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Operatör metotları konusunu birkaç örnek yapı ile ele alacağız. Bunlardan biri rasyonel sayıları temsil eden Rational
+    yapısıdır. Bilindiği gibi rasyonel sayılar a ve b tamsayı olmak üzere a / b biçimindeki sayılardır. Tabii burada b'nin
+    0 olmaması gerekir. Rational yapısının iskeleti şöyle oluşturulabilir:
+
+    struct Rational {
+        a: i64,
+        b: i64
+    }
+
+    impl Rational {
+        fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+            if b == 0 {
+                return Err("invalid rational number");
+            }
+            if b < 0 {
+                a = -a;
+                b = -b;
+            }
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            Ok(result)
+        }
+
+        fn gcd(mut a: i64, mut b: i64) -> i64 {
+            if a == 0 { return b; }
+            if b == 0 { return a; }
+            while b != 0 {
+                let r = a % b;
+                a = b;
+                b = r;
+            }
+            a
+        }
+
+        fn simplify(&mut self) {
+            let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+            self.a /= gcd;
+            self.b /= gcd;
+        }
+
+        fn disp(&self) {
+            if self.a == 0 {
+                println!("0");
+            }
+            else if self.b == 1 {
+                println!("{}", self.a);
+            }
+            else {
+                println!("{}/{}", self.a, self.b);
+            }
+        }
+    }
+
+    Burada rasyonel sayılar new ilişkili fonksiyonuyla yaratılmalıdır. Bu iskelet yapıyı aşağıdaki gibi bir kodla test
+    edebiliriz:
+
+    fn main() {
+        let x = Rational::new(4, 8).unwrap();
+
+        x.disp();           // 1/2
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    + operatörü için std::ops modülündeki Add trait'i kullanılmaktadır. Add trait'i şöyle tanımlanmıştır:
+
+    pub trait Add<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn add(self, rhs: Rhs) -> Self::Output;
+    }
+
+    Add trait'inin generic olduğuna dikkat ediniz. Bu trait'in Rhs isimi generic parametresi default olarak Self türünü
+    almıştır. Buradaki Self Add anlamına gelmemektedir. Bu trait'i destekleyen tür anlamına gelmektedir. Yani örneğin
+    bu Add trait'ini eğer Rational yapısı desteklerse buradaki Rhs default olarak Rational anlamına gelir. Ayrıca trait'in
+    Output isimli bir ilişkili türü de vardır. Add trait trait'ini destekleyen türde add metodu yazılmak zorundadır. add
+    metodunun ilk parametresi trait'i destekleyen tür türündendir. İkinci parametresi Rhs türünden olduğuna göre default
+    olarak o da Add trait'ini destekleyen tür türündendir. Metodun geri geri dönüş değeri ilişkili tür türündendir.
+    O halde biz Rational yapımızda Add trait'ini şöyle destekleyebiliriz:
+
+    impl Add for Rational {
+        type Output = Rational;
+
+        fn add(self, other: Rational) -> Rational {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Burada yalnızca Add demekle Add<Raional> demek arasında bir fark yoktur. Bu durumda add metodunun her iki parametresi
+    de Rational türündendir. add metodunun geri dönüş değerinin türünün Output ilişkili türüyle belirlendiğini anımsayınız.
+    Bu durumda bu metodun geri dönüş değeri de Rational türündendir. Özetle buradaki add metodu iki Rational değerini alıp
+    bunları toplar ve topama ilişkin Rational değeriyle geri döner.
+
+    Add trait'inde self parametresinin &self biçiminde olmadığına self biçiminde olduğuna dikkat ediniz. Benzer biçimde
+    add metodunun ikinci parametresi de referans değildir. O halde add metoduna biz Rational değişkenlerini geçirdiğimizde
+    Rational türü Copy türünden olmadığı için sahiplik devri yapmış oluruz. Yani add metodundan sonra artık bu değişkenleri
+    kullanamayız. Buradaki aktarımın ödünç alma biçiminde değil de taşıma biçiminde yapıldığına dolayısıyla da çağrımın
+    "call by reference" biçiminde değil "call by value" biçiminde yapıldığına dikkat ediniz.
+
+    Aşağıda Add trait'ini destekleyen Rational örneği bir bütün olarak verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::Add;
+
+fn main() {
+    let x = Rational::new(1, 3).unwrap();
+    let y = Rational::new(2, 4).unwrap();
+    let result: Rational;
+
+    result = x.add(y);      // result = x + y;
+    result.disp();
+}
+
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl Rational {
+    fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+        if b == 0 {
+            return Err("invalid rational number");
+        }
+        if b < 0 {
+            a = -a;
+            b = -b;
+        }
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        Ok(result)
+    }
+
+    fn gcd(mut a: i64, mut b: i64) -> i64 {
+        if a == 0 { return b; }
+        if b == 0 { return a; }
+        while b != 0 {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a /= gcd;
+        self.b /= gcd;
+    }
+
+    fn disp(&self) {
+        if self.a == 0 {
+            println!("0");
+        }
+        else if self.b == 1 {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl Add for Rational {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+# 68. Ders 26/11/2025 - Çarşamba
+
+    std::ops öodülündeki bir operatöre ilişkin trait bir yapı ya da enum türü tarafından desteklendiğinde artık metot çağrısı
+    yerine doğrudan metodun temsil ettiği operatör kullanılabilir. Bu durumda derleyici operatör ifadesini gördüğünde operatörün
+    operand'karın trait metoduna argümanm olarak geçirir ve operatör metodunu çağırır. Çağrılan metodun geri dönüş değeri
+    operatörün ürettiği değeri oluşturmaktadır.
+
+    Op trait'inin iki operand'lı bir operatöre ilişkin trait olduğunu bunun da metodunun op isminde olduğunu kabul edelim.
+    Bu durumda aşağıdaki iki ifadeşlem eşdeğerdir:
+
+    a op b
+    a.op(b)
+
+    Yani örneğin a + b ifadesi aslında a.add(b) ifadesiyle eşdeğerdir. İki operand'lı operatörlerde derleyici her zaman
+    sol taraftaki operand'ın türüne ilişkin türde ilgili operatör metodunu aramaktadır. Yani örneğin a + b ifadesinde a
+    operand'ının Sample isimli yapı türünden olduğunu varsayalım. Bu durumda ifadenin geçerli olması için Sample yapısının
+    std::ops::Add trait'ini destekliyor olması gerekmektedir. Buradaki metodun self parametresine b ise diğer parametresine
+    aktarılacaktır. İki operand'lı operatörlere ilişkin trait metotlarının toplamda iki parametresinin olduğuna dikkat
+    ediniz. Parametrelerden biri self paramatresidir ve bu parametre soldaki operand'ı temsil eder. Diğer parametre ise
+    sağdaki operand'ı temsil eder.
+
+    Şimdi de Op trait'inin tek operand'lı bir oprratöre ilişkin olduğunu varsayalım. Yine bu Op trait'inin operatör işlemini
+    yapan op isimli metodu bulunuyor olsun. Bu durumda aşağıdaki iki ifade birbirleriyle eşdeğerdir:
+
+    op a
+    a.op()
+
+    Burada artık operatör metodunun yalnızca self parametresinin olduğuna dikkat ediniz. operand doğrudan metodun self
+    parametresine atanmaktadır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    op1 ve op2 iki operand'lı iki operatör belirtiyor olsun. a op1 b op2 c ifadesinde operatör önceliğine göre önce a op1 b
+    işleminin yapıldığını varsayalım. Bu durumda a op1 b işleminden elde edilen değerin türü de ilgili operatör metodunu
+    destekliyorsa a op1 b op2 c işlemi geçerli olur. Bu da a.op1(b).op2(c) ifadesiyle eşdeğer olacaktır. Örneğin a +  b + c
+    ifadesinin eşdeğeri a.add(b).add(c) biçimindedir. Yani operatörler bu biçimde kombine edilebilmektedir. Örneğin:
+
+    let x = Rational::new(1, 3).unwrap();
+    let y = Rational::new(1, 2).unwrap();
+    let z = Rational::new(3, 2).unwrap();
+    let result: Rational;
+
+    result = x + y + z;     // result = x.add(y).add(z);
+    result.disp();
+
+    Burada x + y + z ifadesinin x.add(y).add(z) ile eşdeğer olduğuna dikkat ediniz.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi add metodunun parametik yapısında self parametresi ve diğer parametre referans değildir.
+    Dolayısıyla eğer söz konusu tür Copy türünden değilse değişkenler taşınır. Biz de artık bu değişkenleri işlem
+    sonrasında kullanamayız. Örneğin:
+
+    let x = Rational::new(1, 3).unwrap();
+    let y = Rational::new(1, 2).unwrap();
+    let z = Rational::new(3, 2).unwrap();
+    let mut result: Rational;
+
+    result = x + y + z;             // result = x.add(y).add(z);
+    result.disp();
+
+    x.disp();                       // error!
+    y.disp();                       // error!
+    z.disp();                       // error!
+
+    Burada x, y ve z değişkenleri taşındığı için x + y + z işleminden sonra onları kullanamayız. Tabii biz Rational yapısını
+    Copy türü olarak tanımlarsak bu durumda artık değişkenler taşınmaz. Dolayısıyla yukarıdaki kod error oluşturmaz:
+
+    #[derive(Copy, Clone)]
+    struct Rational {
+        a: i64,
+        b: i64
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki örnekte iki rasyonel sayıyı toplayacak bir add metodu yazdık. Peki bir rasyonel sayı ile o rasyonel sayının
+    türü ile uyumlu olan (örneğimizde i64) bir tamsayıyı toplayabilir miyiz? Örneğin:
+
+    let x = Rational::new(1, 3).unwrap();
+    let result: Rational;
+
+    result = x + 1;         // error!
+
+    Bu işlem matematikte geçerlidir. Ancal bizim yazmış olduğumuz add metodu bu işlem için kullanılamaz:
+
+    impl Add for Rational {
+        type Output = Rational;
+
+        fn add(self, other: Rational) -> Rational {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Çünkü bu add metodu ikinci operand'ı Rational beklemektedir. İşte bu işlemin yapılabilmesini Add trait'ini desteklerken
+    açıkça generic türü belirterek sağlayabiliriz. Anımsayacağınız gibi iki operand'lı operatör metotlarına ilişkin trait'lerin
+    generic parametreleri sağ  taraf taraftaki operand'ın türünü belirtiyordu. Bu durumda x + 1 gibi bir işlemin de yapılabilmesini
+    şöyle sağlayabiliriz:
+
+    impl Add<i64> for Rational {
+        type Output = Rational;
+
+        fn add(self, other: i64) -> Rational {
+            let a = other * self.b + self.a;
+            let b = self.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Buradaki add metodu artık bir Rational değeri ile i64 değerini toplayıp sonucu Rational olarak vermektedir. Bırada
+    bizim Rational yapımızdaki pay ve payda değerleri (a ve b alanlarını kastediyoruz) i64 türündendir. Dolayısıyla Rust'ın
+    "aynı türler üzerinde işlem yapabilme" tasarımına uygun bakımından bir Rational değeri ile i64 türünden bir değeri toplayacak
+    operatör metodunun yazılması uygun olur. Peki biz aynı zamanda bir Rational değeir ile i32 değerini de toplayabilmek
+    istersek bunu nasıl sağlayabiliriz? En bazriz yöntem i32 türü için yeni bir impl bloğu oluşturmaktır:
+
+    impl Add<i32> for Rational {
+        type Output = Rational;
+
+        fn add(self, other: i32) -> Rational {
+            let a = other as i64 * self.b + self.a;
+            let b = self.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Tabii aslında bu metodunun içi zaten var olan operatör metodunu çağıracak biçimde de yazılabilir:
+
+    impl Add<i32> for Rational {
+        type Output = Rational;
+
+        fn add(self, other: i32) -> Rational {
+        self + other as i64
+        }
+    }
+
+    Peki buradaki add metodunu da generic yapabilir miydik? Biz operatör metotlarının generic'lerle kullanılması konuusunu
+    ileride ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------
+    Biz Rust'taki i32, i64, f64 gibi temel türlerin de (primitive types) birer yapı belirttiğini söylemiştik. Daha önceden
+    de bu türlerle sqrt gibi abs gibi metotları çağırdığımızı anımsayınız. İşte aynı zamanda bu türler Rust'ta bu operatör
+    trait'lerini desteklemektedir. Örneğin:
+
+    let a = 10;
+    let b = 20;
+    let result: i32;
+
+    result = a + b;
+
+    Tıpkı diğer yapılarda olduğu gibi a + b iafdesi yine i32 yapısı için de a.add(b) ifadesiyle eşdeğerdir. Örneğin:
+
+    result = a.add(b);      // geçerli
+
+    Rust'ta aşağıdaki gibi bir ifade geçerlidir:
+
+    result = 10.add(20);      // geçerli
+
+    Sabitler de aslında ilgili türden değer belirttiğine göre doğrudan sabitler kullanılarak da metotlar çağrılabilmetedir.
+
+    Aklınıza şöyşe bir soru geşebilir: a ve b örneğin i32 türünden olsa a + b işlemini yapmak için derleyici gerçekten
+    bir metot mu çağırmaktadır? Tabii ki hayır. Kodun gözlemlenebilir işlevi değişmedikten sonra derleyici kodu istediği
+    gibi değiştirebilir. Biz Rust'ta a.add(b) yapmış olsak bile Rust derleyicisi yine tek bir makine komutu ile bu iki sayıyı
+    toplayacaktır. Özetle her ne kadar Rust'taki temel ütrler birer yapıysa da aslında kod üretimi bakımından bunların C'deki
+    temel türlerden bir farkı yoktur.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Bilindiği gibi matematikte + ve * gibi işlemlerin değişme özelliği vardır. Yani örneğin matematikte a + b ile b + a arasında
+    hiçbir farklılık yoktur. İşte operatör metotlarını yazarken eğer operatörün değişme özelliği varsa bu değişme özelliğini
+    sizin sağlamanız iyi bir tekniltir. Örneğin yukarıdaki örnekte bir Rational değeri ile bir i64 değeri x + 1 gibi bir ifade
+    ile toplanabilmektedir. O halde bunun terisinin de sağlanması iyi bir tekniktir. Yani nasıl x + 1 geçerliyse 1 + x'te geçerli
+    olmalıdır. Örneğin x Rational yapısı türüden a da temel türlerden olsun. x + a ifadesinin eşdeğeri x.add(a) biçimindedir.
+    Ancak a + x ifadesinin eşdeğeri a.add(x) biçimindedir. Temel türlerde add metodu bulunmaktadır. Ancak parametresi Rational
+    olan bir Add metodu bulunmamaktadır. İşte a + x gibi bir ifadenin yazılanilmesi için bizim a değerinin ilişkin olduğu yapı
+    için kendimizin bir add metodu yazmamız gerekir. Örneğin:
+
+    impl Add<Rational> for i64 {
+        type Output = Rational;
+
+        fn add(self, other: Rational) -> Rational {
+            other + self
+        }
+    }
+
+    Add trait'inin generic parametresinin sağdaki operand'ın türünü belirttiğini anımsayınız. O halde burada sağdaki operand
+    Rational türünden olacaktır. soldaki self opereran'ı destek verdiğimiz yapıya ilişkinidir. Yani örneğimizde i64 türündendir.
+    O halde buradaki add metodu sol taraftaki operand'ı i64 olan, sağ taraftaki operand'ı Rational olan ve Rational türünden
+    bir değerle geri dönne metottur. Tabii biz zaten daha önce Rational + i64 işlemini yapan metodu yazmıştık. O halde bu
+    metodun içini yeniden yazmak yerine yazmış olduğumuz metodu çağırmak daha uygundur. Peki x Rational tründen olmak üzere
+    1 + x işlemindeki 1 derleyici için hangi türden ele alınacaktır. Anımsanacağı gibi Rust'ta bu tür durumlarda sabit
+    için tür belirlemesi bağlamdan hareketle tespit edilmektedir. 1 + x işlemini yapabilecek add metodu i64 yapısı için
+    yazıldığından dolayı derleyici buradaki 1 değerininin i32 türünden değil i64 türünden olduğunu kabul edecektir. Yani
+    bir sorun oluşmayacaktır. Tabii biz bu örneğimizde hem i32 için hem de i64 için add metodunu yazmış olsaydık 1 + x
+    gibi bir işlemde artık i32 türü için yazdığımız add kullanılacaktı.
+
+    Aşağıda açıkladığımız durumların gerçekleştirildiği örneği bir bütün olarak veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::Add;
+
+fn main() {
+    let x = Rational::new(1, 3).unwrap();
+    let result: Rational;
+
+    result = 1 + x;
+    result.disp();
+}
+
+#[derive(Copy, Clone)]
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl Rational {
+    fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+        if b == 0 {
+            return Err("invalid rational number");
+        }
+        if b < 0 {
+            a = -a;
+            b = -b;
+        }
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        Ok(result)
+    }
+
+    fn gcd(mut a: i64, mut b: i64) -> i64 {
+        if a == 0 { return b; }
+        if b == 0 { return a; }
+        while b != 0 {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a /= gcd;
+        self.b /= gcd;
+    }
+
+    fn disp(&self) {
+        if self.a == 0 {
+            println!("0");
+        }
+        else if self.b == 1 {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl Add for Rational {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<i64> for Rational {
+    type Output = Rational;
+
+    fn add(self, other: i64) -> Rational {
+        let a = other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<i32> for Rational {
+    type Output = Rational;
+
+    fn add(self, other: i32) -> Rational {
+        let a = other as i64 * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<Rational> for i64 {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        other + self
+    }
+}
+
+impl Add<Rational> for i32 {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        other + self
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Operatör metotlarına ilişkin trait'lerdeki metotların parametreleri referans değildir. Bu durumda daha önceden de belirtitğimiz
+    gibi "call by value" işlemi yapılmaktadır. Tabii eğer söz konusu türler Copy türünden değilse aslında derleyici gerçek
+    anlamda bir taşıma işlemi yapmaz. Arka planda bir görmüyor olsak bile aktarımı adres yoluyla yapabilmektedir. Söz konusu
+    tür Copy türünden olsa bile eğer parametre değişkenleri mut değilse derleyici yine optimizasyon yaparak "call by value"
+    yerine "call by reference" uygulayabilmektedir. Yani Rust'ta aslında çoğu durumda biz "call value" semnatiğini uyguluyor
+    olsak bile derleyici arka planda "call by reference" uygulayabilmektedir. Dolayısıyla aslında "call by value" durumunun
+    yaratacağı dezavantaj çoğu durumda derleyicilerin optimizasyonu sayesinde elimine edilmektedir. Bu durumu şöyle özeteyebiliriz:
+
+    - Parametre Copy türünden değil referans da değil: Derleyici optimizasyon sırasında "call by referance" yapabilir.
+    - Parametre Copy türünden ancak parametre mut değil: Derleyici optimizasyon sırasında "call by referance" yapabilir.
+    - Parametre Copy türünden değil ancak mut: Derleyici optimizasyon sırasında "call by referance" yapamaz.
+
+    Peki yine de biz operatör metotlarına aktarımı açıkça "call by reference" ile yapabilir miyiz? Aslında yapabiliriz.
+    Ancak Rust'taki referansların C++'taki referanslar gibi olmadığını anımsayınız. Rust'ta bir referansa atama yapılırken
+    atanacak değer referans türünden değilse açıkça bizim & operatörüyle adres almamız gerekir. Operatör fonksiyonlarının
+    "call by reference" biçiminde çağrılmasını sağlayabilmek için akla gelen ilk yöntem trait'teki generic parametreyi
+    referans yapmaktır. Tabii desteklenecek türün de referans yapılması gerekiri Örneğin:
+
+    impl Add<&Rational> for &Rational {
+        type Output = Rational;
+
+        fn add(self, other: &Rational) -> Rational {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Burada trait kurallarına uyulmuştur. Add trait'inin generic parametresi &Rational biçimdedir. O halde artık add metodunun
+    ikinci parametresi Rational türünden değil &Rational türünden olacaktır. add metodunun self parametresini &self biçiminde
+    yazamayız. Çünkü bu durum trait'te belirtilen imzaya uymamaktadır. Birinci paranetreyi self biçiminde tutarak onun
+    referans belirtmesini sağlamak için desteğin referans türüne yapılması gerekmektedir. Destek sentaksındaki for anahtar
+    sözcüğünün sağındaki türün Rational olmadığına &Rational olduğuna dikkat ediniz. Bu durumda self parametresi artık
+    &Rational türünden olacaktır. Görüldüğü gibi artık her iki operand'ın da aktarımı "call by reference" biçiminde yapılmaktadır.
+    Bu aktarım biçimi C++'taki operatör fonksiyonlarına benzer hale gelmiştir. Ancak maalesef Rust'ta böyle bir tasarım
+    okunabilirliği oldukça bozmaktadır. Çünkü bu tasarımda biz iki Rational değerini toplayabilmemiz için onların adreslerini
+    açıkça bizim gerekir. Örneğin:
+
+    let x = Rational::new(1, 3).unwrap();
+    let y = Rational::new(1, 2).unwrap();
+    let result: Rational;
+
+    result = x + y;         // error!
+
+    Bizim artık bu işlemi şöyle yapmamız gerekir:
+
+    result = &x + &y;         // geçerli
+
+    Biz operatör metotları okunabilirlik ifade gücü sağlamak amacıyla kullanılmaktadır. Halbuki bu son durum okunabilirliği
+    tamamen bozmaktadır. Peki bu işlemi gerçekten x + y ifadesiyle yapabilmenin bir yolu yok mudur?
+
+    Yukarıdaki referanslı biçimde aslında generic parametrenin belirtilmesine gerek yoktur. Generic parametrenin defalt türü
+    Self olduğuna göre ve buradaki Self de &Rational anlamına geleceğine göre generic tür belirtilmeyebilir. Örneğin:
+
+    impl Add for &Rational {
+        type Output = Rational;
+
+        fn add(self, other: &Rational) -> Rational {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    Burada zaten generic parametre &Rational türündendir. Tabii biz her zaman impl bloğu içerisinde impl türü için Self
+    anahtar sözcüğünü de kullanabiliriz. Yani add metodunun ikinci parametresi için &Rational yerine Self de fiyebilirdik:
+
+    impl Add for &Rational {
+        type Output = Rational;
+
+        fn add(self, other: Self) -> Rational {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+# 69. Ders 01/12/2025 - Pazartesi
+
+    Biz yukarıda + operatörü için operatör metodu yazdık. Ancak dört temel aritmetik operatörün yazımı birbirine çok benzerdir.
+    Yalnıcza trait'ler farklıdır. Örneğin çıkartma - operatörü için Sub trait'i, * operatörü için Mul trait'i, / operatörü için
+    ise Div trait'i kullanılmaktadır. Yukarıda da belirttiğimiz gibi temel aritmetik operatörlere ilişkin bu trait'lerin
+    genel kullanımı birbirine çok benzerdir. Yalnıca metotlar isimleri farklıdır. Aşağıda bu dört trait'in tanımını veriyoruz:
+
+
+    pub trait Add<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn add(self, rhs: Rhs) -> Self::Output;
+    }
+
+    pub trait Sub<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn sub(self, rhs: Rhs) -> Self::Output;
+    }
+
+    pub trait Mul<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn mul(self, rhs: Rhs) -> Self::Output;
+    }
+
+    pub trait Div<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn div(self, rhs: Rhs) -> Self::Output;
+    }
+
+    Şimdi Rational yapımıza - operatör desteğini verelim. Bunun için yazmamız gereken impl blokları şöyledir:
+
+    impl Sub for Rational {
+        type Output = Rational;
+
+        fn sub(self, other: Rational) -> Rational {
+            let a = self.a * other.b - self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b};
+            result.simplify();
+            result
+        }
+    }
+
+    impl Sub<i64> for Rational {
+        type Output = Rational;
+
+        fn sub(self, other: i64) -> Rational {
+            let a = -other * self.b + self.a;
+            let b = self.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl Sub<Rational> for i64 {
+        type Output = Rational;
+
+        fn sub(self, other: Rational) -> Rational {
+            let a = self * other.b - other.a;
+            let b = other.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    Şimdi de Rational yapımıza * operatörü desteği verelim. Yazmamız gereken impl blokları da şöyledir:
+
+    impl Mul for Rational {
+        type Output = Rational;
+
+        fn mul(self, other: Rational) -> Rational {
+            let a = self.a * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl Mul<i64> for Rational {
+        type Output = Rational;
+
+        fn mul(self, other: i64) -> Rational {
+            let a = self.a * other;
+            let b = self.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl Mul<Rational> for i64 {
+        type Output = Rational;
+
+        fn mul(self, other: Rational) -> Rational {
+            other * self
+        }
+    }
+
+    Rasyonel sayılarda bölme işleminin sağdaki operand'ın tersiyle çarpma anlamına geldğini anımsaınız. Bu durumda Rational
+    yapımıza bölme detsteğini vermek için yazmamız gereken şmpl blokları şöyledir:
+
+    impl Div for Rational {
+        type Output = Rational;
+
+        fn div(self, other: Rational) -> Rational {
+            let a = self.a * other.b;
+            let b = self.b * other.a;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl Div<i64> for Rational {
+        type Output = Rational;
+
+        fn div(self, other: i64) -> Rational {
+            let a = self.a;
+            let b = self.b * other;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl Div<Rational> for i64 {
+        type Output = Rational;
+
+        fn div(self, other: Rational) -> Rational {
+            let a = self * other.b;
+            let b = other.a;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    % operatörü için Rem ("Remainder" isminden geiyor) isimli trait kullanılmaktadır. Bu trait aşağıdaki gibi tanımlanmıştır:
+
+    pub trait Rem<Rhs = Self> {
+        type Output;
+
+        // Required method
+        fn rem(self, rhs: Rhs) -> Self::Output;
+    }
+
+    Kullanım biçiminin diğer artimetik operatörlerle aynı olduğuna dikkat ediniz.
+
+    Rational yapımıza % operatörü desteği vermek biraz zorlama olacaktır. Ancak biz yine de z bir Rational değeri k da i64
+    türündne olmak üzere z % k işlemini yapan bir % operatör metodunu Rationa yapısına ekleyelim. Bu işlemin sonucu da
+    rasyonel sayının gerçek sayı karşılığının k değerine bölümünden elde edilen kalan olsun. Bu işlemin ürettiği değerin
+    f64 olması daha anlamlıdır:
+
+    impl Rem<i64> for Rational {
+        type Output = f64;
+
+        fn rem(self, other: i64) -> f64 {
+            (self.a as f64 / self.b as f64) % other as f64
+        }
+    }
+
+    Aşağıda beş operatörü destekleyen Rational yapısını bir bütün olarak veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::{Add, Sub, Mul, Div, Rem};
+
+fn main() {
+    let x = Rational::new(20, 3).unwrap();
+    let y = Rational::new(1, 3).unwrap();
+    let result: f64;
+
+    result = x % 2;
+    println!("{} ", result);
+
+
+}
+
+#[derive(Copy, Clone)]
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl Rational {
+    fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+        if b == 0 {
+            return Err("invalid rational number");
+        }
+        if b < 0 {
+            a = -a;
+            b = -b;
+        }
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        Ok(result)
+    }
+
+    fn gcd(mut a: i64, mut b: i64) -> i64 {
+        if a == 0 { return b; }
+        if b == 0 { return a; }
+        while b != 0 {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a /= gcd;
+        self.b /= gcd;
+    }
+
+    fn disp(&self) {
+        if self.a == 0 {
+            println!("0");
+        }
+        else if self.b == 1 {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl Add for Rational {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<i64> for Rational {
+    type Output = Rational;
+
+    fn add(self, other: i64) -> Rational {
+        let a = other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<Rational> for i64 {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        other + self
+    }
+}
+
+impl Sub for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self.a * other.b - self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<i64> for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: i64) -> Rational {
+        let a = -other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<Rational> for i64 {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self * other.b - other.a;
+        let b = other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        let a = self.a * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<i64> for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: i64) -> Rational {
+        let a = self.a * other;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<Rational> for i64 {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        other * self
+    }
+}
+
+impl Div for Rational {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self.a * other.b;
+        let b = self.b * other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<i64> for Rational {
+    type Output = Rational;
+
+    fn div(self, other: i64) -> Rational {
+        let a = self.a;
+        let b = self.b * other;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<Rational> for i64 {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self * other.b;
+        let b = other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Rem<i64> for Rational {
+    type Output = f64;
+
+    fn rem(self, other: i64) -> f64 {
+        (self.a as f64 / self.b as f64) % other as f64
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Karşılaştırma operatörlerine ilişkin operatör metotları için PartialEq ve PartialOrd trait'leri kullanılmaktadır. PartialOrd
+    trait'i zaten PartialEq trait'inden türetilmiştir. Yani PartialOrd trait'ini destekleyenler mecburen PartialEq trait'ini
+    de desteklemesi gerekir. Bu trait'ler std::cmp modülünde (std::ops modülünde değil) aşağıdaki gibi tanımlanmışlardır:
+
+    pub trait PartialEq<Rhs = Self>
+    where
+        Rhs: ?Sized,
+    {
+        // Required method
+        fn eq(&self, other: &Rhs) -> bool;
+
+        // Provided method
+        fn ne(&self, other: &Rhs) -> bool { ... }
+    }
+
+    pub trait PartialOrd<Rhs = Self>: PartialEq<Rhs>
+    where
+        Rhs: ?Sized,
+    {
+        // Required method
+        fn partial_cmp(&self, other: &Rhs) -> Option<Ordering>;
+
+        // Provided methods
+        fn lt(&self, other: &Rhs) -> bool { ... }
+        fn le(&self, other: &Rhs) -> bool { ... }
+        fn gt(&self, other: &Rhs) -> bool { ... }
+        fn ge(&self, other: &Rhs) -> bool { ... }
+    }
+
+    Trait isimlerindeki "Partial" öneki kafanızı karıştırabilir. Trait'lere bu "Partial" önekleri "kısmi sıralama ilişkisini
+    (partial ordering relation)" vurgulamak içindir. Sıralama teorisinde bir kümenin elemanları belli bir sıraya göre
+    konumlandırılabilmektedir. Eğer kümenin tüm elemanları birbirleriyle sırasal olarak karşılaştırılabiliyorsa buna matematikte
+    "tam sıralama (total ordering)" denilmektedir. Eğer kümenin bazı elemanları birbirleriyle sırasal olarak karşılaştırılamıyorsa
+    buna da "kısmi sıralama (partial ordering)" denilmektedir. Örneğin tamsayılar kümesinde <= işlemini ele alalım. Biz bu
+    işlemle tüm tamsayıları bir sıraya dizebiliriz. Biz <= operatörünü kullanarak tüm tamsayıları sıraya dizebiliriz. Ancak
+    bilgisayardaki f64 gibi gerçek sayı türleri <= operatörü dikkate alındığında tam sıralama değil kısmı sıralama özelleğine
+    sahiptir. Çünkü her f64 türünden değer <= operatörüyle karşılaştırılamamaktadır. Çünkü anımsayacağınız gibi f64 türü
+    IEEE 754 standartlarına uymaktadır. Dolayısıyla bazı f64 değerleri NaN (Not a Number) olabilmektedir. NaN değeri ile
+    bir gerçek sayı değeri <= operatörüyle karşılaştırılamaz. O halde "kısmi sıralama (partial orddering)" söz konusu olduğunda
+    iki değeri karşılaştırdımızda dört durum oluşabilmektedir:
+
+    Büyüktür
+    Küçüktür
+    Eşittir
+    Karşılaştırılamaz
+
+    İşte bu nedenle izleyen paragraflarda göreceğimiz gibi PartialOrd işleminden bir Option<Ordering> değeri elde edilmektedir.
+
+    PartialEq ve PartialOrd trait'lerinin ilk parametresine dikkat ediniz. Bu ilk parametre self biçiminde değil &self
+    biçimindedir. Yani karşılaştırma işlemlerinde sahiplik devredilmemektedir. Bu operatör metotlarının ikinci parametreleri
+    de referans biçimindedir. Yani "call by reference" durumu söz konusudur.
+
+    PartialEq ve PartialOrd trait'lerinde tek bir metodun zorunlu olduğuna dikkat ediniz. Çünkü bu zorunlu metotlar programcı
+    tarafından yazılırsa zaten diğer metotlar bu zorunlu metot kullanılarak yazılabilmektedir. Örneğin PartialEq trait'inde
+    zorunlu metot eq metodudur. Eğer programcı eq metodunu yazarsa ne metodunu yazmayabilir. Çünkü zaten eq metodu çağrılarak
+    ne değeri elde edilebilmektedir. PartialOrd trait'indeki zorunlu metoda dikkat ediniz:
+
+    fn partial_cmp(&self, other: &Rhs) -> Option<Ordering>;
+
+    Bu metot Option<Ordering> değerine geri dönmektedir. Ordering bir enum türüdür ve std::cmp modülünde aşağıdaki gibi
+    tanımlanıştır:
+
+    pub enum Ordering {
+        Less = -1,
+        Equal = 0,
+        Greater = 1,
+    }
+
+    O halde aslında Option<Ordering> türü Less, Equal, Greater ya da None değeri veren bir türdür. Programcı bu zorunlu metodu
+    yazarken eğer iki değer karşılaştırılamaz biçimdeyse Option<Ordering>::None değerine geri dönmektedir. PartialOrd trait'inde
+    lt, le, gt, ge metotları partial_cmp metodu kullanılarak yazılmıştır. Dolayısıyla bu trait'te programcının tek yazması
+    gereken metot partial_cmp metodudur. Aşağıda karşılaştırma işlemlerinin eşdeğer metot karşılıkları verilmiştir:
+
+    a == b  eşdeğeri a.eq(&b)
+    a != n  eşdeğeri a.ne(&b)
+    a < b   eşdeğeri a.lt(&b)
+    a <= b  eşdeğeri a.le(&b)
+    a > b   eşdeğeri a.gt(&b)
+    a >= b  eşdeğeri a.ge(&b)
+
+    Rust'taki temel türlerin hepsi PartialEq ve PartialOrd trait'lerini desteklemektedir.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Şimdi Rational yapısında için PartialEq trait'ini destekleyerek iki Rational yapısının == ve != operatörleriyle karşılatırılmasını
+    sağlayalım. Bunun için yalnızca zorunlu eq metodunu yazmamız yeterlidir:
+
+    impl PartialEq for Rational {
+        fn eq(&self, other: &Rational) -> bool {
+            self.a == other.a && self.b == other.b
+        }
+    }
+
+    Biz rasyonel sayıları sadeleştirerek a ve b alanlarında tuttuğumuz için iki rasyonel sayısının eşitliğini yukarıdaki gibi
+    sorgulayabilmekteyiz.
+
+    Şimdi de Rational yapısına <, >, <= ve >= operatör desteğini verelim. Bunun için PartialOrd trait'indeki partial_cmp
+    metodunu yazmamız gerekir. partial_cmp metodu Option değerine geri dönmektedir. Ancak rasyonel sayılar zaten "tam sıralamaya
+    (total ordering)" uygundur. Dolayısıyla bizim partial_cmp metodumuz aslında hin None değerine geri dönmeyecektir.
+    Peki iki rasyonel sayıyı nasıl karşılaştırabiliriz? Akla gelecek ilk yöntem bu rasyonel sayıların payını paydasına bölüp
+    bunlardan gerçek sayı elde etmek ve bu gerçek sayıları karşılaştırmaktır. Bu yöntem çoğu durumda yeterli olabilir.
+    Ancak yuvarlama hatalarından dolayı farklı iki değer aynı değere uvarlanabilmektedir. Daha sağlam bir yol bu iki rasyonel
+    sayının paydalarını eşitleyip paylarını karşılaştırmaktır. Örneğin a/b rasyonel sayısı ile c/d rasyonel sayısını bu
+    yöntemle karşılaştıracak olalım. a/b kesrinin payını ve paydasını d ile c/d kesrinin payını ve paydasını da b ile çarparsak
+    paydaları eşitleyebiliriz. O halde aslında karşılaştırmayı a * d ile b * c arasında yapabiliriz:
+
+    impl PartialOrd for Rational {
+        fn partial_cmp(&self, other: &Rational) -> Option<Ordering> {
+            let x = self.a * other.b;
+            let y = other.a * self.b;
+
+            if x > y {
+                Some(Ordering::Greater)
+            }
+            else if x < y {
+                Some(Ordering::Less)
+            }
+            else {
+                Some(Ordering::Equal)
+            }
+        }
+    }
+
+    Aslında yukarıdaki yazım daha sade hale de getirilebilir. Tüm temel türlerin PartialEq ve PartialOrd trait'lerini
+    desteklediğini belirmiştik:
+
+    impl PartialOrd for Rational {
+        fn partial_cmp(&self, other: &Rational) -> Option<Ordering> {
+            let left = self.a * other.b;
+            let right = other.a * self.b;
+
+            left.partial_cmp(&right)
+        }
+    }
+
+    Aşağıda Rational yapısının son hali bir bütün olarak verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::{Add, Sub, Mul, Div, Rem};
+use std::cmp::{PartialEq, PartialOrd, Ordering};
+
+fn main() {
+    let x = Rational::new(1, 2);
+    let y = Rational::new(1, 3);
+
+    if x < y {
+        println!("x < y");
+    }
+    else if x > y {
+        println!("x > y");
+    }
+    else if x == y {
+        println!("x == y");
+    }
+}
+
+#[derive(Copy, Clone)]
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl Rational {
+    fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+        if b == 0 {
+            return Err("invalid rational number");
+        }
+        if b < 0 {
+            a = -a;
+            b = -b;
+        }
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        Ok(result)
+    }
+
+    fn gcd(mut a: i64, mut b: i64) -> i64 {
+        if a == 0 { return b; }
+        if b == 0 { return a; }
+        while b != 0 {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a /= gcd;
+        self.b /= gcd;
+    }
+
+    fn disp(&self) {
+        if self.a == 0 {
+            println!("0");
+        }
+        else if self.b == 1 {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl Add for Rational {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<i64> for Rational {
+    type Output = Rational;
+
+    fn add(self, other: i64) -> Rational {
+        let a = other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<Rational> for i64 {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        other + self
+    }
+}
+
+impl Sub for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self.a * other.b - self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<i64> for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: i64) -> Rational {
+        let a = -other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<Rational> for i64 {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self * other.b - other.a;
+        let b = other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        let a = self.a * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<i64> for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: i64) -> Rational {
+        let a = self.a * other;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<Rational> for i64 {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        other * self
+    }
+}
+
+impl Div for Rational {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self.a * other.b;
+        let b = self.b * other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<i64> for Rational {
+    type Output = Rational;
+
+    fn div(self, other: i64) -> Rational {
+        let a = self.a;
+        let b = self.b * other;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<Rational> for i64 {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self * other.b;
+        let b = other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Rem<i64> for Rational {
+    type Output = f64;
+
+    fn rem(self, other: i64) -> f64 {
+        (self.a as f64 / self.b as f64) % other as f64
+    }
+}
+
+impl PartialEq for Rational {
+    fn eq(&self, other: &Rational) -> bool {
+        self.a == other.a && self.b == other.b
+    }
+}
+
+impl PartialOrd for Rational {
+    fn partial_cmp(&self, other: &Rational) -> Option<Ordering> {
+        let left = self.a * other.b;
+        let right = other.a * self.b;
+
+        left.partial_cmp(&right)
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz Rust'ta kısmi sıralamanın (partial ordering) PartialEq ve PartialOrd trait'leriyle temsil edildiğini söyledik. Rust'ta
+    tam sıralama da (total ordering) Eq ve Ord (başında Partial sözcüğünün olmadığına dikkat ediniz) trait'leriyle temsil
+    edilmektedir. Bu trait'lerin operatör metotlarıya bir ilgisi yoktur. Ancak burada biz mantıksal çağrışım nedeniyle bu
+    iki trait üzerinde de durmak istiyoruz. Bu iki trait'te std::cmp modülü içerisindedir. Eq trait'inin aslında PartialEq
+    trait'inden bir farkı yoktur. Eq trait'i PartialEq trait'inden türetilmiştir ve elemana sahip değildir:
+
+    pub trait Eq: PartialEq { }
+
+    Kısmı sıralamada == ve != operatörlerinin Option üretmediğini anımsayınız. Çünkü bir kümenin iki elemanının karşılaştırılamaz
+    olması zaten == karşılaştırmasında doğrudan false != karşılaştırmasında da true elde edilmesi anlamına gelmektedir.
+    Dolayısıyla == ve != operatörleri için kısmı sıralamayla tam sıralama davranışı arasında fark yoktur.
+
+    Ord trait'i ise Eq ve PartialOrd trait'lerinden türetilmiştir:
+
+    pub trait Ord: Eq + PartialOrd {
+        // Required method
+        fn cmp(&self, other: &Self) -> Ordering;
+
+        // Provided methods
+        fn max(self, other: Self) -> Self
+        where Self: Sized { ... }
+        fn min(self, other: Self) -> Self
+        where Self: Sized { ... }
+        fn clamp(self, min: Self, max: Self) -> Self
+        where Self: Sized { ... }
+    }
+
+    Yani Ord tarit'ini destekleyen bir yapı ya da enum türü Eq (dolayısıyla PartialEq) ve PartialOrd trait'lerini de
+    desteklemek zorundadır. Ord trait'inde cmp isimli zorunlu bir metot olduğuna dikkat ediniz. (PartialOrd trait'indeki
+    zorunlu metodun partial_cmp biçiminde olduğunu anımsayınız.) cmp metodu Option<Ordering> üründen değil doğrudan Ordering
+    türünden bir değerle geri dönmektedir. Tam sıralamada kümenin tüm elemanları sıralanabilir olduğu için cmp metodunun
+    geri dönüş değerinin Option olmasına gerek kalmamıştır.
+
+    Rust'ın i32 gibi, i64 gibi temel tamsayı türlerinin hepsi aynı zamanda Ord trait'ini de destekliyor durumdadır. Ancak
+    f32 ve f64 türleri yukarıda da belirttiğimiz gerekçelerle bu trait'i desteklememektedir.
+
+    Eq ve Ord trait'lerinin türetme dumunu aşağıdaki şekille özetleyebiliriz:
+
+    PartialEq
+        |
+        |
+    PartialOrd
+        |
+        +---> Eq
+        |
+        |
+        Ord
+---------------------------------------------------------------------------------------------------------------------------
+
+    İşaret - operatörü için std::ops modülündeki Neg isimli trait kullanılmaktadır. Trait şöyle tanımlanmıştır:
+
+    pub trait Neg {
+        type Output;
+
+        // Required method
+        fn neg(self) -> Self::Output;
+    }
+
+    Burada Neg trait'inin generic olmadığına ve neg metodunun parametresinin self biçiminde olduğuna dikkat ediniz. Yani
+    neg metodu sahipliği almaktadır.  Metodun geri dönüş değeri Output türündendir. Bu Output türü hemen her zaman Self
+    türüyle aynı olmaktadır. Yani örneğin bir Rational değerinin negatifini biz yine Rational olarak elde ederiz.
+
+# 70. Ders 03/12/2025 - Çarşamba
+
+    Rational yapısı için - operatör metodu şöyle yazılabilir:
+
+    impl Neg for Rational {
+        type Output = Rational;
+
+        fn neg(self) -> Rational {
+            Rational { a: -self.a, b: self.b }
+        }
+    }
+
+    Bir rasyonel sayının negatifinin pay kısmının negatifi alınrak aluşturulduğına dikkat ediniz. Örneğin:
+
+    let x = Rational::new(1, 2).unwrap();
+    let y: Rational;
+
+    y = -x + x;
+
+    y.disp();           // 0
+
+---------------------------------------------------------------------------------------------------------------------------
+    +=, *=, /=, %= gibi bileşik atama operatörleri için de operatör metotalrı yazılabilmektedir. (Ancak Rust'ta zaten sahiplik
+    devri olduğu için atama operatörüne yönelik bir operatör metodu yazılamamaktadır.) Biz operatörler konusunda a += b gibi
+    bir işlemin a = a + b işlemiyle edeğer olduğunu belirtmiştik. Aslında biraz daha ayrıntıya girdeğimizde bu iki işlem
+    birbirine eşdeğer değildir. Çünkü bu işlemde farklı operatör metotları çağrılmaktadır. Biz bir yapı ya da enum türü
+    için + operatör metodunu yazmış olsak bile += operatörünü kullanamyız. Bu operatör metodunun ayrıca yazılması gerekmektedir.
+    Örneğin biz Rational yapısı için + operatör metodunu yazmıştık. Ancak aşağıdaki işlemi += operatör metodunu ayrıca
+    yazmadıktan sonra yapamayız:
+
+    let mut x = Rational::new(1, 2).unwrap();
+    let y = Rational::new(1, 3).unwrap();
+
+    x += y;         // error!
+    x = x + y;      // geçerli
+
+    Peki neden operatörlerin normal biçimleri ve bileşik biçimleri birbirinden ayrılmıştır? Örneğin + operatörüne ilişkin
+    operatör metodunu yazdığımızda x += y neden derleyici tarafından x = x + y biçiminde ele alınmamaktadır? İşte bazen
+    x = x + y işlemiyle x += y işlemi arasında semantik farklılıklar oluşturulabilmektedir. Örneğin x = x + y işleminde
+    x + y yeni bir değer yaratırken x += y bir ekleme işleminin yapılmasını sağlayabilmektedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Artimetik operatörlere ilişkin bileşik operatörlerin ilişkin olduğu trait'ler şunlardır:
+
+    AddAssign
+    SubAssign
+    MulAssign
+    DivAssign
+    RemAssign
+
+    Bu trait şöyle tanımlanmıştır:
+
+    pub trait AddAssign<Rhs = Self> {
+        // Required method
+        fn add_assign(&mut self, rhs: Rhs);
+    }
+
+    pub trait SubAssign<Rhs = Self> {
+        // Required method
+        fn sub_assign(&mut self, rhs: Rhs);
+    }
+
+    pub trait MulAssign<Rhs = Self> {
+        // Required method
+        fn mul_assign(&mut self, rhs: Rhs);
+    }
+
+    pub trait DivAssign<Rhs = Self> {
+        // Required method
+        fn div_assign(&mut self, rhs: Rhs);
+    }
+
+    pub trait RemAssign<Rhs = Self> {
+        // Required method
+        fn rem_assign(&mut self, rhs: Rhs);
+    }
+
+    Bu trait'lerin hepsi std::ops modülünde tanımlanmıştır. Trait'lere baktığımızda bu bileşik operatör metotlarının normal
+    operatör metotlarından farklılıklarının şunlar olduğunu görmekteyiz:
+
+    - Bu opeartörlerde bir Output ilişkili türü yoktur. Çünkü bu operatörler aslında sol taraftaki operand üzerinde güncelleme
+    işlemi yapmaktadır.
+
+    - Bu trait metotlarının geri dönüş değerleri yokturç Yani () biçimindedir.
+
+    - Bu trait metotlarının self parametreleri &mut self biçimindedir. Yani bu operatörlerin sol tarafındaki operand mut olmak
+    zorundadır.
+
+    - Bu trait metotlarının ikinci parametresini oluşturan operand'ın sahipliği devredilmektedir.
+
+    - Bu trait metotlarının ismi op_assign biçimindedir.
+
+    Yine trait'lerin generic parametreleri sağ taraftaki operand'ın türünü belirtmektedir. Defalt tür yine sol taraftaki
+    operand'ın türündendir.
+
+    Örneğin biz Rational yaısı için += operatör metodunu aşağıdaki gibi yazabiliriz:
+
+    impl AddAssign for Rational {
+        fn add_assign(&mut self, other: Rational) {
+            self.a = self.a * other.b + self.b * other.a;
+            self.b = self.b * other.b;
+
+            self.simplify();
+        }
+    }
+
+    Burada metodun bir değere geri dönmediğine doğrudan sol taraftaki operand'ı güncellediğine dikkat ediniz. Tabii biz
+    eğer + operatör metodunu yazmışsak (Rational yapımızda yazmıştık) aynı işlemi şöyle de yapabiliriz:
+
+    impl AddAssign for Rational {
+        fn add_assign(&mut self, other: Rational) {
+            *self = *self + other;
+        }
+    }
+
+    Eğer derleyici hiç optimizasyon yapmasaydı ilk biçim ikinci biçimden daha hızlı çalışırdı. Ancak Rust derleyicileri
+    bu tür durumları iyi bir biçimde optimize etmektedir. Dolayısıyla pratikte iki gerçekleştirim arasında bir fark
+    oluşmamaktadır. Şimdi Rational yapısı için diğer bileşik atama operlarini yazalım:
+
+    impl SubAssign for Rational {
+        fn sub_assign(&mut self, other: Rational) {
+            *self = *self - other;
+        }
+    }
+
+    impl MulAssign for Rational {
+        fn mul_assign(&mut self, other: Rational) {
+            *self = *self * other;
+        }
+    }
+
+    impl DivAssign for Rational {
+        fn div_assign(&mut self, other: Rational) {
+            *self = *self / other;
+        }
+    }
+
+    Biz Rational yapımızda genel olarak bir Rational değerle i64 türünden değeri işleme sokuyorduk. Bu durumda aynı desteği
+    bileşik atama operatörlerine de vermimiz uygun oluar:
+
+    impl AddAssign<i64> for Rational {
+        fn add_assign(&mut self, other: i64) {
+            *self = *self + other;
+        }
+    }
+
+    impl SubAssign<i64> for Rational {
+        fn sub_assign(&mut self, other: i64) {
+            *self = *self - other;
+        }
+    }
+
+    impl MulAssign<i64> for Rational {
+        fn mul_assign(&mut self, other: i64) {
+            *self = *self * other;
+        }
+    }
+
+    impl DivAssign<i64> for Rational {
+        fn div_assign(&mut self, other: i64) {
+            *self = *self / other;
+        }
+    }
+
+    Geldiğmiğz noktaya kadar Rational yapısının son halini aşağıda veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::{Add, Sub, Mul, Div, Rem, Neg, AddAssign, SubAssign, MulAssign, DivAssign, Not};
+use std::cmp::{PartialEq, PartialOrd, Ordering};
+
+fn main() {
+    //...
+}
+
+#[derive(Copy, Clone)]
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl Rational {
+    fn new(mut a: i64, mut b: i64) -> Result<Rational, &'static str>  {
+        if b == 0 {
+            return Err("invalid rational number");
+        }
+        if b < 0 {
+            a = -a;
+            b = -b;
+        }
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        Ok(result)
+    }
+
+    fn gcd(mut a: i64, mut b: i64) -> i64 {
+        if a == 0 { return b; }
+        if b == 0 { return a; }
+        while b != 0 {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a /= gcd;
+        self.b /= gcd;
+    }
+
+    fn disp(&self) {
+        if self.a == 0 {
+            println!("0");
+        }
+        else if self.b == 1 {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl Add for Rational {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<i64> for Rational {
+    type Output = Rational;
+
+    fn add(self, other: i64) -> Rational {
+        let a = other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Add<Rational> for i64 {
+    type Output = Rational;
+
+    fn add(self, other: Rational) -> Rational {
+        other + self
+    }
+}
+
+impl Sub for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self.a * other.b - self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b};
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<i64> for Rational {
+    type Output = Rational;
+
+    fn sub(self, other: i64) -> Rational {
+        let a = -other * self.b + self.a;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Sub<Rational> for i64 {
+    type Output = Rational;
+
+    fn sub(self, other: Rational) -> Rational {
+        let a = self * other.b - other.a;
+        let b = other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        let a = self.a * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<i64> for Rational {
+    type Output = Rational;
+
+    fn mul(self, other: i64) -> Rational {
+        let a = self.a * other;
+        let b = self.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Mul<Rational> for i64 {
+    type Output = Rational;
+
+    fn mul(self, other: Rational) -> Rational {
+        other * self
+    }
+}
+
+impl Div for Rational {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self.a * other.b;
+        let b = self.b * other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<i64> for Rational {
+    type Output = Rational;
+
+    fn div(self, other: i64) -> Rational {
+        let a = self.a;
+        let b = self.b * other;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Div<Rational> for i64 {
+    type Output = Rational;
+
+    fn div(self, other: Rational) -> Rational {
+        let a = self * other.b;
+        let b = other.a;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl Rem<i64> for Rational {
+    type Output = f64;
+
+    fn rem(self, other: i64) -> f64 {
+        (self.a as f64 / self.b as f64) % other as f64
+    }
+}
+
+impl PartialEq for Rational {
+    fn eq(&self, other: &Rational) -> bool {
+        self.a == other.a && self.b == other.b
+    }
+}
+
+impl PartialOrd for Rational {
+    fn partial_cmp(&self, other: &Rational) -> Option<Ordering> {
+        let left = self.a * other.b;
+        let right = other.a * self.b;
+
+        left.partial_cmp(&right)
+    }
+}
+
+impl Neg for Rational {
+    type Output = Rational;
+
+    fn neg(self) -> Rational {
+        Rational { a: -self.a, b: self.b }
+    }
+}
+
+impl AddAssign for Rational {
+    fn add_assign(&mut self, other: Rational) {
+        *self = *self + other;
+    }
+}
+impl SubAssign for Rational {
+    fn sub_assign(&mut self, other: Rational) {
+        *self = *self - other;
+    }
+}
+
+impl MulAssign for Rational {
+    fn mul_assign(&mut self, other: Rational) {
+        *self = *self * other;
+    }
+}
+
+impl DivAssign for Rational {
+    fn div_assign(&mut self, other: Rational) {
+        *self = *self / other;
+    }
+}
+
+impl AddAssign<i64> for Rational {
+    fn add_assign(&mut self, other: i64) {
+        *self = *self + other;
+    }
+}
+
+impl SubAssign<i64> for Rational {
+    fn sub_assign(&mut self, other: i64) {
+        *self = *self - other;
+    }
+}
+
+impl MulAssign<i64> for Rational {
+    fn mul_assign(&mut self, other: i64) {
+        *self = *self * other;
+    }
+}
+
+impl DivAssign<i64> for Rational {
+    fn div_assign(&mut self, other: i64) {
+        *self = *self / other;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir yapı ya da enum türünden değerle [] operatürünü kullanmak isteyebiliriz. Örneğin x biizm oluşturuğumuz yapı türünden
+    bir değişken olsun. Biz bu x değişkenini x[n] biçiminde ya da x[n] = val biçiminde kullanmak isteyebiliriz. Tabii bir
+    yapının ya da enum türünün [] operatörüyle kullanılabilmesi için onun bir dizi değer tutuyor olması gerekir. Örneğin
+    yukarıda tanımladığımız Rational türünden bir değerin [] operatörüyle kullanılmasının bir anlamı yoktur. [] operatörü
+    çağrışımsal olarak O(1) karmaşıklıktaki erişimlerde kullanılmaktadır. Örneğin dinamik büyütülen bir diziyi temsil eden
+    bir yapında [] operatörü anlamlıdır. Ancak elemanlara sıralı erişimin yapıldığı bir bağlı listede [] operatörü yanlış
+    anlaşılmalar yol açabilir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Örneğin aşağıdaki gibi bir Date yapımız olsun:
+
+    struct Date {
+        day: i32,
+        month: i32,
+        year: i32,
+    }
+
+    impl Date {
+        fn new(day: i32, month: i32, year: i32) -> Self {
+            Date { day, month, year }
+        }
+
+        fn disp(&self) {
+            println!("{}/{}/{}", self.day, self.month, self.year);
+        }
+    }
+
+    Biraz zorlama olsa da biz yapıya [] operatörü desteğini vermek isteyelim. [] içerisindeki değer 0, 1, ya da 2 oalbilsin.
+    0 indeski yapının day elemanına, 1 indeksi month elemanına ve 2 indeksi de year elemanına erişmek için kulanılacak olsun.
+    [] operatör desteği verebilmek için iki trait kullanılmaktadır:
+
+    pub trait Index<Idx>
+    where
+        Idx: ?Sized,
+    {
+        type Output: ?Sized;
+
+        // Required method
+        fn index(&self, index: Idx) -> &Self::Output;
+    }
+
+    pub trait IndexMut<Idx>: Index<Idx>
+    where
+        Idx: ?Sized,
+    {
+        // Required method
+        fn index_mut(&mut self, index: Idx) -> &mut Self::Output;
+    }
+
+    Index trait'i [] operatörüyle değer elde etek için, IndexMut trait'i ise değer yerleştirmek için kullanılmaktadır. Yani
+    biz köşeli parantez ifadesini atama operatörünün sağında kullanırsak index metodu, solunda kullanırsak index_mut
+    metodu çağrılacaktır.
+
+    x bir yapı ya da enum türünden bir değişken ya da değeri belirtiyor olsun. y = x[i] işleminin eşdeğeri şöyledir:
+
+    y = *x.index(i);
+
+    Benzer biçimde x[i] = y ifadesinin eşdeğeri de şöyledir:
+
+    *x.index_mut(i) = y;
+
+    Bu eşdeğerlik "The Rust Reference" dokümanlarında "8.2.6 Array and slice indexing expressions" başlığı altında şöyle
+    açıklanmıştır:
+
+
+    For other types an index expression a[b] is equivalent to *std::ops::Index::index(&a, b), or *std::ops::IndexMut::index_mut(&mut a, b)
+    in a mutable place expression context. Just as with methods, Rust will also insert dereference operations on a repeatedly
+    to find an implementation."
+
+# 71. Ders 10/12/2025 - Çarşamba
+
+    Index trait'indeki index metoduna dikkat ediniz:
+
+    pub trait Index<Idx>
+    where
+        Idx: ?Sized,
+    {
+        type Output: ?Sized;
+
+        // Required method
+        fn index(&self, index: Idx) -> &Self::Output;
+    }
+
+    Bu metot Index trait'inin generic türü türünden bir indeks değeri alıp Output isimli ilişkili türden bir referansla
+    geri dönmektedir. Yukarıdaki Date yapımız için bu trait'i desteklemeye çalışalım:
+
+    impl Index<usize> for Date {
+        type Output = i32;
+
+        fn index(&self, index: usize) -> &i32 {
+            match index {
+                0 => &self.day,
+                1 => &self.month,
+                2 => &self.year,
+                _ => panic!("invalid date index"),
+            }
+        }
+    }
+
+    Index trait'inin generic parametresinin köşeli parantez içerisindeki index'in türünü belirttiğini anımsayınız. Köşeli
+    parantezler içerisinde genellikle usize türünden index değerleri bulunur. Ancak böyle bir zorunluluk yoktur. Yukarıdaki
+    örneğimize göre Date türünden bir değişken ya da değer ile [] operatörünü kullandığımızda [] içerisine usize türünden bir
+    index değeri yazmak zorundayız. index metodunun geri dönüş değerinin Output ilişkili türünden bir referans olması gerekir.
+    Biz Index trait'ini desteklerken Output ilişkili türünü i32 aldık. Bu durumda index metodunun geri dönüş değeri de &i32
+    türünden olmak zorundadır. index metodunun hemen her zaman self parametresinin içerisindeki bir değerle geri dönmesi
+    gerekir. Çünkü geri dönüş değeri için bir ömür belirtilmediğinden ömür self ile ilişkili olmak zorundadır. Biz de index
+    metodunun içerisinde index 0 ise, self.day, 1 ise self.month ve 2 ise self.year alanlarının adresiyle geri döndük. index
+    metotlarını yazarken geçersiz indeksler için mecburen panic! uygulamak gerekir. Operatör metodumuzun testini şöyle yapabiliriz:
+
+    fn main() {
+        let date = Date::new(10, 12, 2021);
+
+        println!("{}/{}/{}", date[0], date[1], date[2]);
+    }
+
+    Şimdi de IndexMut trait'ini destekleyelim. IndexMut trait'inin tanımlamasına bir kez daha dikkat ediniz:
+
+    pub trait IndexMut<Idx>: Index<Idx>
+    where
+        Idx: ?Sized,
+    {
+        // Required method
+        fn index_mut(&mut self, index: Idx) -> &mut Self::Output;
+    }
+
+    IndexMut trait'i ındex trait'inden türetilmiştir. Yani IndexMut trait'ini destekleyen programcı mutlaka Index trait'ini
+    de desteklemek zorundadır. Başka bir deyişle Rust'ta "write-only" bir [] operatör metodu yazılamamaktadır. index_mut
+    metodunun birinci parametresinin &mut self türünden olduğuna dikkat ediniz. Yani bu operatörün mutlaka mut bir değişkenle
+    kullanılması gerekmektedir. index_mut metodunun geri dönüş değeri de &mut bir referanstır. IndexMut trait'inde ayrıca
+    bir Output ilişkili türünün olmadığına da dikkat ediniz. Output ilişkili türü Index trait'indeki türdür. Türemiş trait
+    taban trait'in ilişkili türlerini kullanabilmektedir.
+
+    Date yapımız için bu trait'i şöyle destekleyebiliriz:
+
+    impl IndexMut<usize> for Date {
+        fn index_mut(&mut self, index: usize) -> &mut i32 {
+            match index {
+                0 => &mut self.day,
+                1 => &mut self.month,
+                2 => &mut self.year,
+                _ => panic!("invalid date index"),
+            }
+        }
+    }
+
+    index_mut metodunda yapılanlar index metodunda yapılanlara benzerdir. Ancak geri döndürülen referans mut bir referanstır.
+    Biz bu küçük örnekte atama sırasında herhangi bir geçerlilik sınaması yapmadık. Yani örneğin bu durumda yapıyı kullanan
+    Data yapısının alanlarına geçersiz değerler de atayabilir. Bu metodun tesitini de şöyle yapabiliriz:
+
+    fn main() {
+        let mut date = Date::new(10, 12, 2021);
+
+        println!("{}/{}/{}", date[0], date[1], date[2]);
+
+        date[0] = 20;
+        date[1] = 8;
+        date[2] = 2022;
+
+        println!("{}/{}/{}", date[0], date[1], date[2]);
+    }
+
+    Yukarıdaki işlemlerin metot çağırma eşdeğerileri de şöyledir:
+
+    fn main() {
+        let mut date = Date::new(10, 12, 2021);
+
+        println!("{}/{}/{}", *date.index(0), *date.index(1), *date.index(2));
+
+        *date.index_mut(0) = 20;
+        *date.index_mut(1) = 8;
+        *date.index_mut(2) = 22;
+
+        println!("{}/{}/{}", *date.index(0), *date.index(1), *date.index(2));
+    }
+
+    Aşağıda örneğin tamamı verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------
+
+use std::ops::{Index, IndexMut};
+
+fn main() {
+    let mut date = Date::new(10, 12, 2021);
+
+    println!("{}/{}/{}", date[0], date[1], date[2]);
+    date[0] = 20;
+    date[1] = 8;
+    date[2] = 2022;
+
+    println!("{}/{}/{}", date[0], date[1], date[2]);
+}
+
+struct Date {
+    day: i32,
+    month: i32,
+    year: i32,
+}
+
+impl Date {
+    fn new(day: i32, month: i32, year: i32) -> Self {
+        Date { day, month, year }
+    }
+
+    fn disp(&self) {
+        println!("{}/{}/{}", self.day, self.month, self.year);
+    }
+}
+
+impl Index<usize> for Date {
+    type Output = i32;
+
+    fn index(&self, index: usize) -> &i32 {
+        match index {
+            0 => &self.day,
+            1 => &self.month,
+            2 => &self.year,
+            _ => panic!("invalid date index"),
+        }
+    }
+}
+
+impl IndexMut<usize> for Date {
+    fn index_mut(&mut self, index: usize) -> &mut i32 {
+        match index {
+            0 => &mut self.day,
+            1 => &mut self.month,
+            2 => &mut self.year,
+            _ => panic!("invalid date index"),
+        }
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    [] operatör metodunda köşeli parantezler içerisine usize türünden bir index ifadesi getirilmesi zorunlu değildir. Eğer
+    bağlam uygunsa programcı kendi yapı ya da enum türünden değişken ya da değerleri başka türlerle de indeksleyebilir. Örneğin
+    bir enum türü için [] operatör metodunu aşağıdaki gibi destekleyebiliriz. Örneğin yukarıdaki Date yapımıza ilişkin bir
+    değişkeni usize türüyle değil de DateType isimli bir enum türüyle de indeskleyebiliriz:
+
+    enum DateType {
+        Day,
+        Month,
+        Year,
+    }
+
+    impl Index<DateType> for Date {
+        type Output = i32;
+
+        fn index(&self, index: DateType) -> &i32 {
+            match index {
+                DateType::Day => &self.day,
+                DateType::Month => &self.month,
+                DateTypeYear => &self.year,
+                _ => panic!("invalid date index"),
+            }
+        }
+    }
+
+    impl IndexMut<DateType> for Date {
+        fn index_mut(&mut self, index: DateType) -> &mut i32 {
+            match index {
+                DateType::Day => &mut self.day,
+                DateType::Month => &mut self.month,
+                DateTypeYear => &mut self.year,
+                _ => panic!("invalid date index"),
+            }
+        }
+    }
+
+    Bu durumda artık köşeli parantezler içerisine DateType türünden bir değer de yazabiliriz. Örneğin:
+
+    fn main() {
+        let mut date = Date::new(10, 12, 2021);
+
+        println!("{}/{}/{}", date[DateType::Day], date[DateType::Month], date[DateType::Year]);
+        date[DateType::Day] = 20;
+        date[DateType::Month] = 8;
+        date[DateType::Year] = 2022;
+
+        println!("{}/{}/{}", date[DateType::Day], date[DateType::Month], date[DateType::Year]);
+    }
+
+    Örneğin index'in string olduğu bir kullanımı da mümkün hale getirebiliriz:
+
+    impl Index<&str> for Date {
+        type Output = i32;
+
+        fn index(&self, index: &str) -> &i32 {
+            match index {
+                "day" => &self.day,
+                "month" => &self.month,
+                "year" => &self.year,
+                _ => panic!("invalid date index"),
+            }
+            }
+        }
+
+    impl IndexMut<&str> for Date {
+        fn index_mut(&mut self, index: &str) -> &mut i32 {
+            match index {
+                "day" => &mut self.day,
+                "month" => &mut self.month,
+                "year" => &mut self.year,
+                _ => panic!("invalid date index"),
+            }
+        }
+    }
+
+    Kullanım için şöyle bir örnek verebiliriz:
+
+    fn main() {
+        let mut date = Date::new(10, 12, 2021);
+
+        println!("{}/{}/{}", date["day"], date["month"], date["year"]);
+        date["day"] = 20;
+        date["month"] = 8;
+        date["year"] = 2022;
+
+        println!("{}/{}/{}", date["day"], date["month"], date["year"]);
     }
 ---------------------------------------------------------------------------------------------------------------------------
 
-<BURADA KALDIK>
+    [] operatör metoduna Range desteği de verebiliriz. Anımsanacağı gibi Range ve benzeri yapılar bir grup elemanı elde
+    etmek için kullanılıyordu. Önce Range yapısını anımsatmak istiyoruz:
+
+    pub struct Range<Idx> {
+        pub start: Idx,
+        pub end: Idx,
+    }
+
+    Görüldüğü gibi yapının bir generic parametresi vardır, start ve end indeksleri aralık belirtmektedir. Şimdi aşağıdaki gibi
+    bir MyArray yapımız olsun:
+
+    struct MyArray {
+        array: [i32; 10]
+    }
+
+    impl MyArray {
+        fn new(array: [i32; 10]) -> MyArray {
+            MyArray {array}
+        }
+    }
+
+    Burada MyArray 10 elemanlı i32 türünden array isimli bir dizi alanına sahiptir. Biz de bu yapımız için Range yapısını
+    aşağıdaki gibi destekleyebiliriz:
+
+    impl Index<Range<usize>> for MyArray {
+        type Output = [i32];
+
+        fn index(&self, range: Range<usize>) -> &[i32] {
+            &self.array[range]
+        }
+    }
+
+    Burada bir noktaya dikkat ediniz. Output ilişkili türü [i32] biçiminde bir dilim belirtmektedir dolayısıyla da index
+    metodunun geri dönüş değeri &[i32] biçiminde bir dizi dilim referansıdır. Ancak bu metot çağrıldığında derleyici dereferens
+    işlemini de kendisi yapmaktadır. (Dilim referanslarıyla doğrudan [] operatörünü kullanabildiğimizi anımsayınız.) Dolayısıyla
+    bizim tıpkı normal dizileri dilimlerken yaptığımız gibi dilimleme işleminden elde edilen dizi dilimiin adresini almamız gerekir.
+    Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let ma = MyArray::new(a);
+
+    let rs: &[i32] = &ma[2..5];
+
+    Bu işlemin eşdeğeri şöyledir:
+
+    let rs: &[i32] = &*ma.index(2..5);
+
+    Burada derleyicinin zaten * operatörünü uyguladığına dikkat ediniz. Biz atamayı şöyle yapamazdık:
+
+    let rs: &[i32] = ma[2..5];
+
+    Çünkü bu işlemin eşdeğeri şöyledir:
+
+    let rs: &[i32] = *ma.index(2..5);
+
+    Bir dizi dilimi dizi dilim referansına atanamaz.
+
+    Tabii biz 2..5 biçiminde range operatörü yerine doğrudan Range nesnesini de kullanabilirdik:
+
+    let rs: &[i32] = &ma[Range {start: 2, end: 5}];
+---------------------------------------------------------------------------------------------------------------------------
+    C++'ta olduğu gibi Rust'ta * operatörüne ilişkin operatör metodu yazılabilmektedir. Ancak Rust'ta bu operatör metotudu
+    doğrudan değil dolaylı bir biçimde yazılmaktadır. Bu işlemleri yapan operatör metotlarına gösterici gibi davranan yapılar
+    ya da enum türleri oluşturmak amacıyla gereksinim duyulmaktadır. Gösterici gibi davranan yapılara (ya da sınıflara)
+    İngilizce "smart pointer" denilmektedir.
+
+    Rust'ta * operatörüne ilişkin operatör metotları Deref ve DerefMut trait'lerinin desteklenmesiyle yazılabilmektedir.
+    Deref ve DerefMut trait'leri şöyle tanımlanmıştır:
+
+    pub trait Deref {
+        type Target: ?Sized;
+
+        // Required method
+        fn deref(&self) -> &Self::Target;
+    }
+
+    pub trait DerefMut: Deref {
+        // Required method
+        fn deref_mut(&mut self) -> &mut Self::Target;
+    }
+
+    Deref ve DerefMut trait'lerinin generic olmadığına dikkat ediniz. Deref trait'inin Target isimli bir ilişkili türü vardır.
+    deref metodu bu ilişkli tür türünden referansa geri dönmektedir. DerefMut trait'i Deref trait'inden türetilmiş durumdadır.
+    Bu trait'in deref_mut metodu &mut referans alıp &mut bir referans s geri döndürmektedir.
+
+# 72. Ders 15/12/2025 - Pazartesi
+
+    x bir yapı ya da enum türünden mut olmayan bir değişken ya da değer belirtiyor olsun. *x ifadesinin eşdeğeri *x.deref()
+    biçimindedir. Eğer x mut bir değişken ise ve *x ifadesine atama yapılıyorsa *x ifadesinin eşdeğeri *x.deref_mut() biçiminde
+    olur. Burada bir noktaya dikkat ediniz. deref ve deref_mut metotları referans geri döndürmektedir. Bu referansa * operatörü
+    uygulanmaktadır. Rust'ta C++'ta olduğu gibi doğrudan * operatör metodu yazılamamaktadır. Biz yapı ya da enum türünden
+    değişken ya da değere * operatörü uyguladığımızda önce bu yapı ya da enum türünden değişken ya da değer üzerinde deref
+    ya da deref_mut metodu çağrılmakta ve onun geri döndürdüğü referansın gösterdiği yere erişilmektedir. "The Rust Reference"
+    dokümanlarında "The dereference operator" başlığında * operatörünün bu bağlamdaki davranışı şöyle açıklanmaktadır:
+
+    "On non-pointer types *x is equivalent to *std::ops::Deref::deref(&x) in an immutable place expression context and
+    *std::ops::DerefMut::deref_mut(&mut x) in a mutable place expression context."
+
+    Örneğin:
+
+    struct Number {
+        number: i32
+    }
+
+    impl Number {
+        fn new(number: i32) -> Number {
+            Number { number }
+        }
+
+        fn disp(&self) {
+            println!("{}", self.number)
+        }
+    }
+
+    impl Deref for Number {
+        type Target = i32;
+
+        fn deref(&self) -> &i32 {
+            &self.number
+        }
+    }
+
+    Burada Deref trait'inin gerçekleştiriminde Target ilişkili türünün i32 olduğuna dikkat ediniz. Bu durumda deref metodu
+    da &i32 türünden geri dönüş değerine sahip olmak zorundadır. Metodun Number yapısının number alanın adresiyle geri
+    döndürüldüğüne dikkat ediniz. (Anımsanacağı gibi fonksiyonların ve metotların geri dönüş değerleri referans ise "lifetime
+    elision" denilen özel iki durumda ömür bilgisinin iliştirilmesi elimine edilebilmektedir.)
+
+    Yukarıdaki Number yapısı türünden bir değişken ya da değerle artık * operatörünü kullanılabiliriz. Örneğin:
+
+    let n = Number::new(10);
+
+    println!("{}", *n);
+
+    Burada *n ifadesinin eşdeğeri *n.deref() biçimindedir.
+
+    Bu örneğimizde n değişkenin mut olduğunu düşünelim:
+
+    let mut n = Number::new(10);
+
+    Biz yine n ile * operatörünü kullanabiliriz. Çünkü *n ifadesi n üzerinde bir değişilik yapmayı hedeflememektedir. Ancak
+    *n ifadesini *n = 20 gibi bağlamda kullanamayız. Bu durumda bizin artık DerefMut trait'ini de desteklememiz gerekir.
+    Örneğin:
+
+    impl DerefMut for Number {
+        fn deref_mut(&mut self) -> &mut i32 {
+            &mut self.number
+        }
+    }
+
+    Burada deref_mut metodunun &mut self parametresine aldığına ve geri dönüş değerinin de &mut i32 biçiminde olduğuna
+    dikkat ediniz. Artık Number değişkeninine * ile atama yapabilriz:
+
+    let mut n = Number::new(10);
+    *n = 20;            // geçerli
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıda Deref ve DerefMut trait'lerini * operatörü bağlamında ele aldık. Ancak Rust'ta bu iki trait "deref conversion"
+    denilen otomatik referans dönüştürmelerinde de devreye girmektedir. Anımsanacağı gibi Rust'ta "coercion" sözcüğü
+    "otomatik dönüştürme" anlamına gelmektedir. Rust'ta temel türler arasında otomatik dönüştürmenin olmadığını da anımsayınız.
+    Otomatik dönüştürmeler yalnızca referans ve göstericiler ile ilgili olarak yapılmaktadır. Bu konu "The Rust Reference"
+    dokümanlarında "10.7 Type coercions" başlığında ele alınmıştır. Bu bölümde referanslar ve göstericilerle ilgili mümkün
+    olan otomatik dönüştürmeler şöyle listelenmiştir:
+
+    1) dyn T => dyn U, eğer U trait'i T trait'inin taban trait'i ise
+    2) &mut => to &T
+    3) *mut T => *const T
+    4) &T => *const T
+    5) &mut T => *mut T
+    6) &T ya da &mut T => &U eğer T Deref<Target = U> trait'ini destekliyorsa
+    7) &mut T => &mut U if T DerefMut<Target = U> trait'ini destekliyorsa
+
+    Ayrıca bölümde "Unsized coercions" başlığı altında dizilerden dilimlere otomatik dönüştürmenin de mümkün olduğu
+    belirtilmiştir:
+
+    8) [T; n] => [T]
+
+    Tabii anımsanacağı gibi Rust'ta [T] türündne bir değişken bildirilememktedir. Ancak &[T] türünden değişkenler bildirilebilmektedir
+    Dolayısıyla bu 8'inci maddedeki dönüştürme aslında prtaikte &[T; N] => &[T] biçiminde karşımıza çıkmaktadır.
+
+    Yukarıdaki listede 6'ıncı ve 7'inci maddelere dikkat ediniz. Bu maddelerde özetle söylenmak istenen şey şudur: Eğer
+    elimizde bir T türü varsa ancak bu T türü Deref<Target=U> trait'ini destekliyorsa &T türünden &U türüne otomatik
+    dönüştürme vardır. Bnezer biçimde elimizde bir T türü varsa ancak bu T türü DerefMut<Target=U> trait'ini destekliyorsa
+    &mut T türünden &mut U türüne otomatik dönüştürme vardır. Örneğin:
+
+    let n = Number::new(10);
+    let r: &i32;
+
+    Aşağdıdaki gibi bir atamanın yapılabilmesi için Number yapısının Deref<Target=i32> trait'ini destekliyor olması gerekir:
+
+    r = &n;     // geçerli değer Number Deref<Target=i32> trait'ini destekliyorsa
+
+    Benzer biçimde:
+
+    let mut n = Number::new(10);
+    let r: &mut i32;
+
+    Burada da aşağıdaki gibi bir atamanın yapılabilmesi için Number yapısının DerefMut<Target=i32> trait'ini destekliyor
+    olması gerekmektedir:
+
+    r = &mut n;
+
+---------------------------------------------------------------------------------------------------------------------------
+    Standart kütüphanede Deref ve DerefMut trait'lerine benzer std::convert modülünde AsRef isimli ve AsMut isimli trait'ler
+    de vardır. AsRef trait'i şöyle tanımlanmıştır:
+
+    pub trait AsRef<T>
+    where
+        T: ?Sized,{
+        // Required method
+        fn as_ref(&self) -> &T;
+    }
+
+    AsMut trait'i de şöyle tanımlanmıştır:
+
+   pub trait AsMut<T>where
+        T: ?Sized,{
+        // Required method
+        fn as_mut(&mut self) -> &mut T;
+    }
+
+    Görüldüğü gibi iki trait arasındaki tek fark referansların mut'luk durumudur. AsRef<T> ve AsMut<T> bu trait'leri bunları
+    destekleyen türden T türüne dönüştürme yapmak için kullanılmaktadır. Ancak bu trait'ler otomatik dönüştürmede devreye
+    girmemekte ve otomatik dereferense işlemini yapmamakltadır. Dolayısıyla bu trait'ler * operatörüne ilişkin operatör
+    metotlarının yazılmasında kullanılamazlar. Ancak açıkça (explicit) dönüştürme vurgulanmak isteniyorsa bu trait'ler
+    tercih edilebilmektedir. Örneğin:
+
+    struct Number {
+        number: i32
+    }
+
+    impl Number {
+        fn new(number: i32) -> Number {
+            Number { number }
+        }
+
+        fn disp(&self) {
+            println!("{}", self.number)
+        }
+    }
+
+    impl AsRef<i32> for Number {
+        fn as_ref(&self) -> &i32 {
+            &self.number
+        }
+    }
+
+    impl AsMut<i32> for Number {
+        fn as_mut(&mut self) -> &mut i32 {
+            &mut self.number
+        }
+    }
+
+    Burada Deref yerine AsRef, DerefMut yerine AsMut trait'leri desteklenmiştir. Ancak artık biz Nuköber türünden bir
+    değişkenden içerisindeki number alanının adresini açıkça as_ref ve as_mut metotlarını çağırarak elde edebiliri. Örneğin:
+
+    let mut n = Number::new(10);
+    let r: &i32;
+    let k: &mut i32;
+
+    r = n.as_ref();
+    println!("{}", *r);
+
+    k = n.as_mut();
+    *k = 20;
+    n.disp();
+
+    Burada bir kez daha Deref ve DefetMut ile AsRef ve AsMut trait'lerinin arasındaki farkları vurgulamak istiyoruz:
+
+    1) Deref ve DerefMut trait'lerini desteklenirse * operatörü ilgili tür için kullanılabilir. Ancal AsRef ve AsMut
+    trait'lerinin böyle bir etkisi yoktur.
+
+    2) Deref ve DerefMut trait'leri bunları derstekleyen tür türünden değişkenlerin adresleri alındığında ilgili türe
+    otomatik dönüşüm (deref coercion) sağlamaktadır. Ancak AsRef ve AsMut trait'lerinin böyle bir bir özelliği yoktur.
+
+    Yani biz yalnızca AsRef ve AsMut trait'lerini desteklersek aşağdaki işlemleri yapamayız:
+
+    let n = Number::new(10);
+    let r: &i32;
+    let x: i32;
+
+    r = &n;     // error! bu işlem ancak Deref trait'i ile mümkündür
+    x = *x;     // errror! bu işlem ancak Deref trait'i ile mümkündür
+
+---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki örneklerde operatör metotlarını generic olmayan yapılarda kullandık. Eğer yapı (ya da enum) generic ise
+    sentaks biraz kafa karıştırıcı olabilmektedir. Bu nedenle generic yapı ya da enum türlerine ilişkin operatör metotlarının
+    yazımı üzerinde de ayrıca durmak istiyoruz.
+
+    Daha önce üzerinde çalışmış olduğumuz Rational yapısını bu kez generic olarak gerçekleştirmeye çalışalım:
+
+    struct Rational<T> {
+        a: T,
+        b: T
+    }
+
+    Rasyonel sayıların pay ve paydasının tamsyı olması gerektiğini anımsayınız. O halde bizim bu generic Rational yapımızda
+    generic T parametresi için "işaretli tamsayı türünden olma" sınırlamasını oluşturmamız gerekir. Rust'ta tür sınırlamalarının
+    trait'lerle yapıldığını görmüştük. Peki bu işi yapan standart bir trait var mıdır? Maalesef Rust'ta bu sınırlamayı
+    yapabilecek standart bir trait yoktur. Rust'ın standart kütüphanesi minimalist tutulmuştur. Standart kütüphanenin
+    yetmediği durumlarda başkaları tarafından yazılmış olan kütüphaneler kullanılmaktadır. İşte temel türler üzerinde
+    sınırlamalar yapmak için "num" isimli başkaları tarafından yazılmış bir crate bulunmaktadır. Anımsanacağı gibi bir
+    crate'i kullanmak için tek yapılacak şey ".toml" dosyasında [Dependencies] bölümüne crate'in versiyon numarasını
+    belirtmektir. Örneğin:
+
+    [package]
+    name = "RustRover-Project"
+    version = "0.1.0"
+    edition = "2021"
+
+    [dependencies]
+    num="0.4.2"
+
+    num crate'nin dokümantasyonuna "docs.rs" sitesindeki aşağıdaki bağlantıyla erişebilirsiniz:
+
+    https://docs.rs/num/latest/num/
+
+    num crate'nin içerisindeki tür sınırlaması için oluşturulmuş önemli trait'ler şunlardır:
+
+    num::Integer - Tüm tamsayı türleri (hem işaretli hem işaretsiz) için genel trait
+    num::Signed - İşaretli sayılar için trait (negatif değer alabilenler)
+    num::PrimInt - Primitive integer türleri için trait
+    num::Num - Temel sayısal operasyonlar için en genel trait
+    num::Float - f32 ve f64 tgürleri için trait
+
+    Bu durumda biz Rational yapı tanımşamasında ya da impl bloklarında aşağıdaki gibi tür sınırlaması uygulayabiliriz:
+
+    use num::{Integer, Signed};
+    use std::fmt::Display;
+
+    struct Rational<T: Integer + Signed + Display = i64> {
+        a: T,
+        b: T
+    }
+
+    Generic Rational yapımız için new ilişkili fonksiyonunu ve disp metodunu tanımlayalım:
+
+    use num::{Integer, Signed, Zero, One};
+    use std::fmt::Display;
+
+   struct Rational<T = i64>
+    where T: Integer + Signed + Copy
+    {
+        a: T,
+        b: T
+    }
+
+   impl<T> Rational<T>
+    where T: Integer + Signed + Copy {
+        fn new(a: T, b: T) -> Result<Rational<T>, &'static str> {
+            if b == T::zero() {
+                return Err("invalid rational number");
+            }
+            let mut result = Rational { a, b };
+            result.simplify();
+            Ok(result)
+
+        }
+
+        fn gcd(mut a: T, mut b: T) -> T {
+            if a == Zero::zero() { return b; }
+            if b == Zero::zero() { return a; }
+            while b != Zero::zero() {
+                let r = a % b;
+                a = b;
+                b = r;
+            }
+            a
+        }
+
+        fn simplify(&mut self) {
+            let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+            self.a = self.a / gcd;
+            self.b = self.b / gcd;
+        }
+
+        fn disp(&self)
+        where T: Display {
+            if self.a == Zero::zero() {
+                println!("0");
+            }
+            else if self.b == One::one() {
+                println!("{}", self.a);
+            }
+            else {
+                println!("{}/{}", self.a, self.b);
+            }
+        }
+    }
+
+    Burada disp metodunun nasıl yazıldığına dikkat ediniz. T generic parametresi zaten Integer ve Signed trait'lerini
+    destekliyor olduğu için biz de Display trait'ini desteklediğimizde artık self.a ve self.b değerlerini println!
+    makrosuyla yazdırabilir hale gelmekteyiz. Metotlarda 0 ve 1 sabitleri yerine num crate'indeki Zero::zero ve
+    One::one ilişkili fonksiyonlarının kullanıldığına dikkat ediniz. Biz bu metot içeriside doğrudan 0 ve 1 sabitlerini
+    kullanamayız. Her ne kadar T türü işaretli tamsayı türlerinden biri olacak biçimde sınırlandırılmışsa da karşılaştırma
+    operatörlerinin her iki operand'ının da aynı türden olma zorunluluğu nedeniyle bu işlemi yapamamaktayız.
+
+    Şimdi + ve - operatörlerine ilişkin operatör netotlarını yazalım:
+
+    impl<T> Add<Rational<T>> for Rational<T>
+    where T: Integer + Signed + Copy {
+        type Output = Rational<T>;
+
+        fn add(self, other: Rational<T>) -> Rational<T> {
+            let a = self.a * other.b + self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    impl<T> Sub<Rational<T>> for Rational<T>
+    where T: Integer + Signed + Copy {
+        type Output = Rational<T>;
+
+        fn sub(self, other: Rational<T>) -> Rational<T> {
+            let a = self.a * other.b - self.b * other.a;
+            let b = self.b * other.b;
+
+            let mut result = Rational { a, b };
+            result.simplify();
+            result
+        }
+    }
+
+    Diper operatör metotları da benzer biçimde yazılabilir. Bu örneğin bütünsel halini aşağıda veriyoruz.
+-----------------------------------------------------------------------------------------------------------------------
+
+use num::{Integer, Signed, Zero, One};
+use std::fmt::Display;
+use std::ops::{Add, Sub};
+
+fn main() {
+    let x = Rational::new(1, 2).unwrap();
+    let y = Rational::new(1, 2).unwrap();
+    let z: Rational<i32>;
+
+    z = x - y;
+    z.disp();
+}
+
+struct Rational<T = i64>
+where T: Integer + Signed + Copy
+{
+    a: T,
+    b: T
+}
+
+impl<T> Rational<T>
+where T: Integer + Signed + Copy {
+    fn new(a: T, b: T) -> Result<Rational<T>, &'static str> {
+        if b == T::zero() {
+            return Err("invalid rational number");
+        }
+        let mut result = Rational { a, b };
+        result.simplify();
+        Ok(result)
+
+    }
+
+    fn gcd(mut a: T, mut b: T) -> T {
+        if a == Zero::zero() { return b; }
+        if b == Zero::zero() { return a; }
+        while b != Zero::zero() {
+            let r = a % b;
+            a = b;
+            b = r;
+        }
+        a
+    }
+
+    fn simplify(&mut self) {
+        let gcd = Self::gcd(self.a.abs(), self.b.abs());
+
+        self.a = self.a / gcd;
+        self.b = self.b / gcd;
+    }
+
+    fn disp(&self)
+    where T: Display {
+        if self.a == Zero::zero() {
+            println!("0");
+        }
+        else if self.b == One::one() {
+            println!("{}", self.a);
+        }
+        else {
+            println!("{}/{}", self.a, self.b);
+        }
+    }
+}
+
+impl<T> Add<Rational<T>> for Rational<T>
+where T: Integer + Signed + Copy {
+    type Output = Rational<T>;
+
+    fn add(self, other: Rational<T>) -> Rational<T> {
+        let a = self.a * other.b + self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+impl<T> Sub<Rational<T>> for Rational<T>
+where T: Integer + Signed + Copy {
+    type Output = Rational<T>;
+
+    fn sub(self, other: Rational<T>) -> Rational<T> {
+        let a = self.a * other.b - self.b * other.a;
+        let b = self.b * other.b;
+
+        let mut result = Rational { a, b };
+        result.simplify();
+        result
+    }
+}
+
+# 73. Ders 17/12/2025 - Çarşamba
+
+    Rust'ta C++'taki gibi "tür dönüştürme operatör fonksiyonu" yoktur. Yukarıda görmüş olduğumuz Deref ve DerefMut trait'leri
+    sahipliği bırakmadan değişken içerisindeki alanın adresiyle geri dönmek için kullanılmaktadır. Deref ve DerefMut trait'lerinin
+    bir çeşit ödünç alma mekanizmasını uyguladığına dikkat ediniz. Rust'ta bu trait'lerin desteklenmesi ile C++'taki tür
+    dönüştürme operatör fonksiyonu etkisi tam olmasa da adres yoluyla kısmen karşılamaktadır.
+
+    Rust'ta Deref ve DerefMut trait'lerinin yanı sıra değişkenin sahipliğini devrederek dönüştürme yapmak için std::convert
+    modülünde bulunan From ve Into trait'leri de bulundurulmuştur. Bu trait'ler için standart prelude içerisinde use işlemi
+    yapıldığından dolayı trait isimleri doğrudan kullanılabilmektedir. Biz aslında From trait'iyle daha önce karşılaşmıştık:
+
+    let s = String::from("ankara");
+
+    İşte aslında String yapısındaki from ilişkili fonksiyonu From trait'inden gelmektedir.
+
+    From trait'i şöyle tanımlanmıştır:
+
+    pub trait From<T>: Sized {
+        // Required method
+        fn from(value: T) -> Self;
+    }
+
+    Burada from fonksiyonun bir metot olmadığına ilişkli fonksiyon olduğuna dikkat ediniz. Fonksiyon T türünden bir parametreye
+    sahiptir. Parametre bir referans olmadığı için sahiplik devri söz konusu olmaktadır. Fonksiyonun geri dönüş değeri From
+    trait'ini destekleyen tür türünden olmak zorundadır. Biz X türünden bir yapı ya da enum türünün From<T> trait'ini
+    desteklediğini görmüş olalım. Bu durumda şunu anlkamalıyız: "X yapı ya da enum türünün from isimli bir ilişkili fonksiyonu
+    vardır. Bu from fonksiyonu T türünden bir değeri alıp X türünden bir değer vermektedir". Aşağıdaki kullanıma dikkat
+    ediniz:
+
+    let s = String::from("ankara");
+
+    Burada biz String yapısında From<&str> trait'inin desteklendiğini anlıyoruz. Bu from fonksiyonu parametre olarak &str
+    alıp bize String vermektedir. Şimdi de aşağıdaki örneğe bakınız:
+
+    struct Number {
+        number: i32
+    }
+
+    impl Number {
+        fn new(number: i32) -> Number {
+            Number { number }
+        }
+
+        fn disp(&self) {
+            println!("{}", self.number)
+        }
+    }
+
+    impl From<i32> for Number {
+        fn from(value: i32) -> Number {
+            Number {number: value}
+        }
+    }
+
+    impl From<&str> for Number {                // dikkat! aslında kötü bir fikir
+        fn from(s: &str) -> Number {
+            Number {number: s.parse().unwrap()}
+        }
+    }
+
+    Burada i32 alıp Number veren ve &str alıp Number veren iki from fonksiyonu oluşturulmuştur. From trait'indeki from
+    fonksiyonunun her zaman başarılı olması gerektiğine dikkat ediniz. Aslında bu nedenle &str alıp Number veren from
+    fonksiyonunu oluşturmak iyi bir teknik değildir. Çünkü bu durumda eğer string içerisindeki yazı i32 ile temsil edilen
+    bir sayı belirtmiyorsa panic oluşacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let n = Number::from(10);
+    n.disp();
+
+    let k = Number::from("20");
+    k.disp();
+}
+
+struct Number {
+    number: i32
+}
+
+impl Number {
+    fn new(number: i32) -> Number {
+        Number { number }
+    }
+
+    fn disp(&self) {
+        println!("{}", self.number)
+    }
+}
+
+impl From<i32> for Number {
+    fn from(value: i32) -> Number {
+        Number {number: value}
+    }
+}
+
+impl From<&str> for Number {                // dikkat! aslında kötü bir fikir
+    fn from(s: &str) -> Number {
+        Number {number: s.parse().unwrap()}
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    From trait'indeki from fonksiyonunun referans almadığına doğrudan değerin kendisini aldığına dikkat ediniz. O halde
+    eğer kaynak tür Copy türünden değilse bir sahiplik devri de söz konusu olacaktır. Örneğin:
+
+    struct Number<T> {
+        number: T
+    }
+
+    struct Rational {
+        a: i64,
+        b: i64
+    }
+
+    impl From<Rational> for Number<f64> {
+        fn from(r: Rational) -> Number<f64> {
+            Number {number: r.a as f64 / r.b as f64 }
+        }
+    }
+
+    Burada Number generic bir yapıdır. From trait'i Number<f64> destklenmiştir. Burada from fonksiyonu Rational alıp Number<f64>
+    vermektedir. Ancak Rational yapısı Copy türünden olmadığı için sahiplik devri söz konusu olacaktır. Dolayısıyla biz from
+    çağrısından sonra artık argüman olarak verdiğimiz değişkeni kullanamayız:
+
+    let r = Rational {a: 1, b: 2};
+    let n = Number::from(r);
+
+    println!("{}", n.number);
+
+    println!("{}/{}", r.a, r.b);        // error! sahiplik devredildi
+---------------------------------------------------------------------------------------------------------------------------
+
+fn main() {
+    let r = Rational {a: 1, b: 2};
+    let n = Number::from(r);
+
+    println!("{}", n.number);
+
+    // println!("{}/{}", r.a, r.b);        ===> error! sahiplik devredildi
+}
+
+struct Number<T> {
+    number: T
+}
+
+struct Rational {
+    a: i64,
+    b: i64
+}
+
+impl From<Rational> for Number<f64> {
+    fn from(r: Rational) -> Number<f64> {
+        Number {number: r.a as f64 / r.b as f64 }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+    Into trait'i From trait'inin metotsal ters biçimi gibidir. Şöyle tanımlanmıştır:
+
+    pub trait Into<T>: Sized {
+        // Required method
+        fn into(self) -> T;
+    }
+
+    Buradaki into artık bir metottur. Bu metot trait'i destekleyen türden bir değeri alıp generic parametreyle belirtilen
+    türe dönüştürmektedir. into metodunun parametresinin &self değil self biçiminde olduğuna dikkat ediniz. Yani metot
+    çağrıldıktan sonra yine sahiplik devri yapılacaktır. Örneğin:
+
+    struct Number {
+        number: i32
+    }
+
+    impl Number {
+        fn new(number: i32) -> Number {
+            Number { number }
+        }
+
+        fn disp(&self) {
+            println!("{}", self.number)
+        }
+    }
+
+    impl From<i32> for Number {
+        fn from(value: i32) -> Number {
+            Number {number: value}
+        }
+    }
+
+    impl Into<i32> for Number {
+        fn into(self) -> i32 {
+            self.number
+        }
+    }
+
+    Burada from fonksiyonu i32'den Number türüne into fonksiyonu ise Number türünden i32 türüne dönüştürme yapmaktadır.
+    Bu metotları aşağıdaki gibi kullanmış olalım:
+
+    let n = Number::from(10);
+    n.disp();
+
+    let val: i32 = n.into();
+    println!("{}", val);
+
+    Burada into metodunun kullanımına dikkat ediniz:
+
+    let val: i32 = n.into();
+
+    into metodunun hangi türe dönüştürme yapmak için kullanıldığını derleyiciye söylemek için hedef türün açıkça belirtilmesi
+    gerekmektedir. Aşağıdaki kullanım geçerli değildir:
+
+    let val = n.into();                     // error!
+
+    Burada derleyici hangi türe dönüştürme yapan into metodunun kullanılacağını alyamamamaktadır. (Örneğimizde yalnızca i32
+    türüne dönüştürme yapan into metodu vardır. Ancak derleyici "nasıl olsa yalnızca bir tane into var o halde hedef tür
+    i32 olmalıdır" biçiminde bir akıl yürütme yapmamaktadır.) Peki biz into metodunda hedef türü nasıl açıkça belirtebiliriz?
+    Aşağıdaki bir sentaks geçerli değildir:
+
+    let val = n.into::<i32>();              // error!
+
+    Çünkü burada into metodu generic değildir, Into trait'i generic'tir. O halde mecburen bu işlem için UFCS sentaksını
+    kullanmamız gerekir:
+
+    let val = Into::<i32>::into(n);         // geçerli
+
+    into metodunda self üzerinden sahiplik devrinin yapıldığına dikkat ediniz:
+
+    let n = Number::from(10);
+    let val: i32;
+
+    val = n.into();
+    println!("{}", val);
+
+    println!("{}", n.number);       // error!
+
+    Bu örnekte n değişkenin sahipliği devredilerek tüketilmiştir. Dolayısıyla into çağrısından sonra artık biz n değişkenini
+    kullanamayız.
+---------------------------------------------------------------------------------------------------------------------------
+
+    Rust'ın standart kütüphanesinde From<T> türünü destekleyen her tür için Into<T> desteği de "kaplayıcı destekleme
+    (blanket implementation)" yoluyla verilmiştir. From tarit'i üzerinden Into kaplayıcı desteklemesi şöyle oluşturulmuştur:
+
+    impl<T, U> Into<U> for T
+    where
+        U: From<T>
+    {
+        fn into(self) -> U {
+            U::from(self)
+        }
+    }
+
+    Burada ana noktaya dikkat ediniz: Aslında from kullanılarak into yazılabilmektedir. Yukarıdaki kapsayıcı destekleme
+    şu anlama gelmektedir: Eğer bir U türünden T türüne dönüştürme yapan bir from fonksiyonu varsa U türünün içerisinde de
+    T türünde dönüştürme yapan bir into metodu da otomatik olarak oluşturulmaktadır. Yani örneğin biz i32 türünden Number türüne
+    dönüştürme yapan bir from fonksiyonu oluşturmuşsak, i32 türünün içerisinde de Number türüne türüne dnüştürme yapan bir into
+    metodu da otomatik olarak oluşturulmaktadır. Bunun için bizim ayrıca i32 türü için Number türüne dönüştürme yapan into
+    metodunu yazmamıza gerek yoktur. Örneğin:
+
+    struct Number {
+        number: i32
+    }
+
+    impl Number {
+        fn new(number: i32) -> Number {
+            Number { number }
+        }
+
+        fn disp(&self) {
+            println!("{}", self.number)
+        }
+    }
+
+    impl From<i32> for Number {
+        fn from(value: i32) -> Number {
+            Number {number: value}
+        }
+    }
+
+    Burada i32 türünden Number türüne dönüştürme yapan from ilişkili fonksiyonunu biz yazdık. Artık i32 türünün içerisinde de
+    Number türüne dönüştürme yapan into metodu kapsayıcı destekleme sayesinde otomatik olarak oluşturulacaktır. Burada sıklıkla
+    yapılan bir yanlış anlaşılmaya dikkatinizi çekmek istiyoru: i32 türünden Number türüne from ile yapılan dönüştürmenin
+    kapsayıcı karşılığı Number türünden i32 türüne yapılan dönüştürme değildir, yine i32 türünden Number türüne yapılan ancak
+    i32 içerisindeki metotla yapılan dönüşürmedir. Zaten kapsayıcı destekleme "bir fonksiyon ya da metot varsa onu kullanarak
+    diğerininin otomatik yazılması" anlamına gelmektedir. Örneğin elimizde i32 türünden Number türüne dönüştürme yapan bir
+    from fonksiyonu varsa biz i32 türünden Number türüne dönüştürme yapan into metodunu bu fonksiyonu kullanarak aşağdıaki
+    gibi yazabiliriz:
+
+    impl Into<Number> for i32 {
+        fn into(self) -> Number {
+            Number::from(self)
+        }
+    }
+
+    Buradaki self artık i32 anlamına gelmektedir. Tabii biz bu biçimde bir desteği kodumuza eklersek aynı zamanda kapsayıcı
+    destekleme de bulunduğu için error oluşacaktır. Ancak burada bizim göstermek istediğimiz şey U türünden T türüne dönüştürme
+    yapan bir from fonksiyonu varsa U türü için T türüne dönüştürme yapan into metodu da from metodu kullanılarak yazılabilmektedir.
+    Örneğin Rational türünden Number türüne dönüştürme yapan bir from fonksiyonu varsa Rational türünden de Number türüne
+    dönüştürme yapan bir into metodu otomatik olarak bulunuyor olacaktır. Örneğin:
+
+    let s = String::from("ankara");
+
+    Burada &str türünden String türüne dönüştürme yapan bir from fonksiyonun olduğunu görüyorsunuz. O halde &str türünün
+    içerisinde de String türüne dönüştürme yapan bir into metodu bulunmak zorundadır:
+
+    let k: String;
+
+    k = "ankara".into();
+---------------------------------------------------------------------------------------------------------------------------
+
+    Yukarıda da belirttiğimiz gibi biz i32 türünden Number türüne dönüştürme yapan from fonksiyonunu yazmış olalım. Bu durum
+    bizim Number türünden i32 türüne dönştürme yapabileceğimiz anlamına gelmemektedir. i32 içerisinde Number türüne dönüştürme
+    yapan bir metodun da otomatik bulundurulduğu anlamına gelmektedir.
+
+    Peki biz Number türünden de i32 türüne dönüştürme yapmak isteyelim. Bu durumda Number için i32 dönüştürmesi yapan
+    into metodunu mu yazmalıyız, yoksa i32 için Number dönüştürmesini yapan from metodunu mu yazmalıyız? İşte bu tür
+    durumlarda "her zaman from metodunun yazılması" tercih edilmektedir. Nasıl olsa into metodu da kapsayıcı destekleme
+    sayesinde otomatik olarak oluşturulacaktır.
+
+# 74. Ders 29/12/2025 - Pazartesi
+
+    Bu bölümde Rust'ta "hataların ele alınması (error handling)" konusu üzerinde duracağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    C'de hataların ele alınması genellikle fonksiyonların geri dönüş değerlerinin kontrol edilmesi yoluyla yapılmaktadır.
+    Yani programcı bir fonksiyonu çağırdığında fonksiyonun başarılı olup olmadığını genellikle fonksiyonun geri dönüş değerine
+    bakarak tespit eder ve hata durumunda gerekli işlemleri if deyimini kullanarak gerçekleştirir. Örneğin UNIX/Linux sistemlerindeki
+    POSIX fonksiyonlarının önemli bir böşümü int türden geri dönüş değerine sahiptir. Bu fonksiyonlar başarı durumunda 0 değerine
+    başarısızlık durumunda -1 değerine geri dönmektedir:
+
+    struct stat finfo;
+
+    if (stat("test.dat", &fnfo) == -1) {
+        perror("stat");
+        exit(EXIT_FAILURE);
+    }
+
+    Aynı teknik çoğu kez C++'ta da kullanılmaktadır. Ancak C++, Java ve C# gibi diller "exception" mekanizmasına da sahiptir.
+    Bu sayede bir kod içerisinde her fonksiyon çağrısının geri dönüş değerini kontrol etmeye gerek kalmamaktadır. Bu fonksiyonlar
+    başarısızlık durumunda exception fırlatmakta ve fırlatılanm exception'lar ortak bir noktada ele alınabilmektedir. Örneğin
+    biz Linux sistemlerinde peşi sıra üç kez read işlemi yapmış olalım:
+
+    if (read(...) == -1) {
+        perror("read");
+        exit(EXIT_FAILURE);
+    }
+    if (read(...) == -1) {
+        perror("read");
+        exit(EXIT_FAILURE);
+    }
+    if (read(...) == -1) {
+        perror("read");
+        exit(EXIT_FAILURE);
+    }
+
+    Halbuki örneğin buna benzer işlemler C#'ta şöyle yapılabilmektedir:
+
+    try {
+        fs = FileStream(...);
+
+        fs.Read(...);
+        fs.Read(...);
+        fs.Read(...);
+    }
+    catch (Exception e) {
+        Console.WriteLine(e);
+    }
+
+    Exception mekanizmasında fonksiyonlar zaten başarısız olduğunda exception fırlatabilmektedir. Programcı hatanın
+    ele alımını tek bir noktada yapabilmektedir.
+
+    C'de fonksiyonun her çağrımında kontrol yapılması istenmiyorsa genellikle sarma fonksiyon yazılmaktadır. Hata ele alımları
+    da goto deyimi ile ortak bir noktada yapılabilmektedir.
+
+    Exception mekanizması daha açık bir kodlamaya olanak sağlasa da bu mekanizmanın derleyici tarafından gerçekleştirilmesi
+    bir maliyet gerektirmektedir. Bu nedenle aşağı seviyeli sistem programlama uygulamalarında exception mekanizması uygun
+    bir araç olmaktan çıkmaktadır. Exception mekanizması genel olarak nesne yönelimli programlama dillerinde bulunan bir
+    özelliktir.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta exceptipon mekanizması yoktur. Hatalar Option ve Result enum türleri yoluyla ele alınmaktadır. Yani Rust'ta bir
+    fonksiyon başarısız olabiliyorsa genellikle onun geri dönüş değeri Option<T> ya da Result<T, E> türündendir. Programcı
+    da kalıp uyuşumu özelliklerini kullanarak hatayı belirleyip ele almaktadır. Anımsayacağınız gibi Option<T> enum türü
+    Some(T) ve None varyantlarına, Result<T, E> enum türü ise Ok(T) ve Err(E) varyantlarına sahipti. Option<T> türü hata
+    durumunda hataya ilişkin bir bilgi vermemektedir. Option<T> türünde jata durumu None varyantıyla tespit edilmektedir.
+    Halbuki Result<T, E> türünde hatalı durumun nedenine iişkin bir bilgi de iletilmektedir. Eğer hatanın nedeni ile
+    ilgilenilmiyorsa ya da hata tek bir nedenden kaynaklanıyorsa Option<T> türü kullanılabilir. Ancak hatanın pek çok nedeni
+    varsa ve hata durumunda bu hata nedeni de fonksiyonu çağıran kişiye iletilecekse Result<T, E> türü tercih edilmelidir.
+    Bu enum türlerinin tanımlamasını
+    yendien veriyoruz:
+
+    pub enum Option<T> {
+        None,
+        Some(T),
+    }
+
+    pub enum Result<T, E> {
+        Ok(T),
+        Err(E),
+    }
+
+---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta hataları iki grupta ele alabiliriz:
+
+    1) Telafi Edilemeyecek Hatalar (Unrecoverable Errors)
+    2) Telafi Edilebilecek Hatalar (Recoverable Errors)
+
+    Telafi edilemeyecek hata demekle "hata oluştuğunda artık programa devam etmenin bir anlamının kalmadığı" durumları
+    kastediyoruz. Rust'ta böylesi durumlarda tipik olarak panic makrolarıyla program sonandırılmaktadır. Telafi edilebilecek
+    hatalar ise "hata oluştuğunda kodun bir biçimde yoluna devam edebileceği" durumları belirtmektedir. Örneğin bir dosya
+    açılamazsa programcı başka bir dosyayı kullanarak işlemine devam edebilir.
+
+    Biz önce telafi edilebilir hatalar üzerinde sonra da telafi edilemez hatalar üzerinde duracağız.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir fonksiyonun geri dönüş değeri Option<T> türündense hata ele alımı tipik olarak birkaç biçimde yapılabilmektedir.
+    En sık kullanılan yöntemler if let ve match deyimleridir. Örneğin f32 değer üzerinde bölme işlemi yapan div isimli
+    bir fonksiyon yazacak olalım. Eğer payda 0 ise bölme yapılamayacktır. Bu durumda fonksiyonun geri dönüş değeri Option<f64>
+    olabilir:
+
+    fn div(a: i32, b: i32) -> Option<f64> {
+        if b != 0 {
+            Some(a as f64 / b as f64)
+        }
+        else {
+            None
+        }
+    }
+
+    Programcı da fonksiyonu çağırıp ele hata ele alımını if let ya da match deyiminde yapabilir:
+
+    if let Some(result) = div(10, 0) {
+        println!("{}", result);
+    }
+    else {
+        eprintln!("divide by zero!");
+    }
+    //...
+
+    Ya da örneğin:
+
+    match div(10, 4) {
+        Some(result) => println!("{}", result),
+        None => eprintln!("divide by zero!..")
+    }
+    println!("program continues...");
+
+    if let deyiminde kalıptaki değişkenin yalnızca if deyiminin doğruysa kısmında kullanılabildiğine dikkat ediniz. Eğer bu
+    değer dışarıya iletilecekse if deyimini bir ifade gibi kullanmak gerekir. Tabii bu durumda deyimin else kısmı ya aynı
+    türdne olmalı ya da ! türünden (yani "divergent") olamlıdıri Örneğin:
+
+    let result: f64;
+
+    result = if let Some(result) = div(10, 0) {
+        //...
+        result
+    }
+    else {
+        eprintln!("divide by zero!");
+        std::process::exit(1)
+    };
+    println!("{}", result);
+
+    Aynı dırım match deyiminde de geçerlidir. Kalıp uyuşumu ile elde edilen değerin yerleştirildiği değişken yalnızca ilgili
+    match kolunda kullanılabilmektedir. Bu değerin dışarıya iletilmesi için match deyimini bir ifade biçiminde kullanılması
+    gerekmektedir. Örneğin:
+
+    let result: f64;
+
+    result = match div(10, 4) {
+        Some(result) => {
+            //...
+            result
+        },
+        None => {
+            eprintln!("divide by zero!");
+            std::process::exit(1)
+        }
+    };
+    println!("{}", result);
+
+    Tabii eğer None durumunda özel birtakım işlemler yapılmayacaksa Option<T> türüne geri dönen fonksiyonlarla doğrudan
+    Option<T> enum türünün unwrap ya da expect metotları çağrılabilir. Örneğin:
+
+    let result: f64;
+
+    result = div(10, 4).unwrap();
+    println!("{}", result);
+
+    Hatayı önce is_none metoduyla ele alıp sonra yola devam etmek Rust için iyi bir teknik değildir. Örneğin:
+
+     if result.is_none() {              // kötü teknik
+        println!("dive by zero!..");
+        std::process::exit(1);
+    }
+    let val = result.unwrap();
+    println!("{}", val);
+
+    unwrap metodu kendi içerisinde yeniden kontrol uygulamaktadır. Bu yöntemde aslında None kontrolü iki kez yapılmış olacaktır.
+    İkinci kez kontrolün yapılmaması için unwrap_uncheked isimli bir metodun da bulunduğunu anımsayınız. Ancak bu metot unsafe
+    olduğu için ensafe bağlamda kullanılabilmektedir. Yukarıdaki durum için bu metodun kullanılması da tavsiye edilmez.
+    Örneğin:
+
+    if result.is_none() {
+        println!("dive by zero!..");
+        std::process::exit(1);
+    }
+    let val = unsafe {
+      result.unwrap_unchecked()
+    };
+    println!("{}", val);
+
+    Görüldüğü gibi "önce hatayı kontrol et, hata varsa programı sonlandır, hata yoksa devam et" biçimindeki kontrol C'de
+    çokça uygulanıyor olsa da Rust'ta Option türü için uygun değildir.
+
+    Option<T> türü için hatayı ele almanın diğer bir yolu da unwrap_or_else metodunu kullanmaktır. Bu metot eğer Option<T>
+    değerindeki varyant Some(T) ise T türünden değeri geri döndürmektedir, değilse parametresiyle aldığı closure çağrımını
+    yapıp o çağrıdan elde edilen değeri geri döndürmektedir. Tabii closure çağrısı T türünden değer geri döndürmeyecekse
+    divergent olmak zorundadır. Örneğin:
+
+    let result: f64;
+
+    result = div(10, 4).unwrap_or_else(|| {
+        println!("divide by zero!..");
+        std::process::exit(1)
+    });
+
+    println!("{}", result);
+
+    Closure konusu ileride ele alınacaktır.
+
+---------------------------------------------------------------------------------------------------------------------------
+    Bir fonksiyon Result<T, E> türüne geri dönüyorsa hata durumunda hata nedeni hakkında da bilgi vermektedir. Bu tür
+    fonksiyonların ele alımı Option<T> türüne geri dönen fonksiyonların ele alımına oldukça benzemektedir. Eğer söz konusu
+    hata "telafi edilemez ise ve hatanın nedeni ile ilgilenilmiyorsa yine doğrudan unwrap ya da expect metotları kullanılabilir.
+    Programcılar özellikle deneme kodları yazarken unwrap ve expect metotlarını Result<T, E> türü için de oldukça sık
+    kullanmaktadır.
+
+    Örneğin kişinin yaşını kontrol eden validate_age isimli bir fonksiyon yazacak olalım. Bu fonksiyon eğer parametre
+    olarak girilen yaş negatif ise ya da 150'den büyük ise farklı mesaj metinleri oluşturarak başarısızlıkla geri dönüyor olsun.
+    Eğer yaş geçerliyse fonksiyon parametresiyle girilen yaştan 1 fazlasıyla geri dönsüyor olsun.
+
+    fn validate_age(age: i32) -> Result<i32, String> {
+        if age < 0 {
+            Err(String::from("age cannot be negative!.."))
+        }
+        else if age > 150 {
+            Err(String::from("age too high!.."))
+        }
+        else {
+            Ok(age + 1)
+        }
+    }
+
+    Burada fonksiyon başarı durumunda i32 değeri ile başarısızlık durumunda da başarısızlığın nedenini belirten bir
+    String ile geri dönmektedir. Biz hata mesajını dikkate almadan durumu da "telafi edilemez biçimde" ele alacaksak
+    doğrudan unwrap ya da expect metotlarını kullanabiliriz:
+
+    let new_age: i32;
+
+    new_age = validate_age(10).unwrap();
+    println!("{}", new_age);
+
+    Eğer hatanın nedenini dikkate alacak ve onu rapor edeceksek match deyimini kullanabiliriz. Örneğin:
+
+     match validate_age(10) {
+        Ok(new_age) => println!("{}", new_age),
+        Err(msg) => eprintln!("Error: {msg}")
+    }
+
+    Eğer Ok(T) durumunda elde edilen değer dışarıda kullanılacaksa match deyimi bir ifade biçiminde kullanılmalıdır.
+    Tabii Err(E) varyantı ele alınırken divergent durum oluşturulmalıdır. Örneğin:
+
+    let new_age: i32;
+
+    new_age = match validate_age(10) {
+        Ok(new_age) => new_age,
+        Err(msg) => {
+            eprintln!("Error: {msg}");
+            std::process::exit(1)
+        }
+    };
+    println!("{}", new_age);
+
+    Result<T, E> türüne geri dönen fonksiyonlarda if let deyimi pek işlevsel olamamaktadır. Çünkü bu durumda hata mesajı
+    etkin bir biçimde elde edilemeyecektir. Örneğin:
+
+    if let Ok(new_age) = validate_age(10) {
+        println!("{}", new_age);
+    }
+    else {
+        println!("invalid age!..");
+    }
+
+    Aklınıza else if let kullanmak da gelebilir. Ama bu durumda da bireden fazla kez kalıp uyuşumu yapılacaktır. Örneğin:
+
+    if let Ok(new_age) =  result {
+        println!("{}", new_age);
+    }
+    else if let Err(msg) = result {
+        println!("Error: {msg}");
+    }
+
+    Bu işlemin match deyiminden zaten bir farkı da kalmamıştır. C'deki gibi önce hatayı ele alıp sonra yola devam etmek de
+    Rust'ta genellikle iyi bir teknik değildir. Örneğin:
+
+    let result =  validate_age(10);
+    let new_age: i32;
+
+    if let Err(msg) = result {
+        println!("{}", msg);
+        std::process::exit(1);
+    }
+
+    new_age = unsafe {
+        result.unwrap_unchecked()
+    };
+
+    println!("{}", new_age);
+
+    Burada unwrap_uncheked metodu Ok kontrolü yapmamaktadır. Ancak metot unsafe olduğu için unsafe bağlamda çağrılma
+    zorunluluğu ortaya çıkmıştır.
+
+    Tıpkı Option<T> türünde olduğu gibi Result<T, E> türünün de unwrap_or_else metodu bulunmaktadır. Bu metot eğer Result
+    değeri Ok(T) ise T türünden değeri, Err(E) ise E türünden değerle parametresiyle belirtilen closure çağrısını yapıp
+    clousure çağrısındna elde edilen değeri geri döndürmektedir. Tabii burada closure çağrısının divergent olması
+    gerekmektedir. Örneğin:
+
+    let new_age: i32;
+
+    new_age = validate_age(10).unwrap_or_else(|msg| {
+        println!("Error: {msg}");
+        std::process::exit(1)
+    });
+
+---------------------------------------------------------------------------------------------------------------------------
+
 
 
 
