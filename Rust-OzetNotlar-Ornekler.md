@@ -6795,7 +6795,7 @@
         let [x, y, z] = &a;
 
         println!("{}, {}, {}", *x, *y, *z);     // 10 20 30
-    
+
     Bu açımda x, y ve z i32 türünden değil &i32 türündendir. Ancak bu biçimdeki kalıplarda köşeli parantezlerin önüne '&'
     atomu getirilirse değişkenler artık referans olmaktan çıkar. Örneğin:
 
@@ -7299,15 +7299,15 @@
             pt.0 = 30;
             pt.1 = 40;
         }
-        
+
 # 27. Ders 16/06/2025 - Pazartesi
 
     Fonksiyonların geri dönüş değerleri demet biçiminde olabilir. Bu sayede birden fazla değerle geri dönen fonkiyonların
     yazımı kolaylaşmaktadır-. Örneğin:
 
-    fn foo() -> (i32, f64) {
-        //...
-    }
+        fn foo() -> (i32, f64) {
+            //...
+        }
 
     Bu fonksiyon (i32, f64) türünden bir demetle geri dönmektedir. C'de demet olmadığını anımsayınız. (C++'ın standart
     kütüphanesinde demet işlevselliğini sağlayan tuple isimli bir sınıf vardır.) C'de yukarıdaki fonksiyonun eşdeğeri ancak
@@ -7318,181 +7318,181 @@
     Pekiyi fonksiyonların demetlerle geri dönmesi durumunda başarı kontrolü nasıl yapılabilir? Örneğin ikinci derece bir
     denklemin köklerini geri döndüren bir fonksiyonun parametrik yapısı aşağıdaki gibi olabilir mi?
 
-    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
-        //...
-    }
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64) {
+            //...
+        }
 
     Buradaki sorun denklemin kökünün olmaması durumunda fonksiyonun neyle geri döndürüleceğidir. Rust'ta bu tür durumlarda
     genellikle henüz görmediğimiz Option ve Result isimli sayımlama (enumeration) türleri tercih edilmektedir. Bu sayımlama
     türleri asıl değerlerin yanı sıra başarısızlığın da iletilmesini sağlamaktadır. Tabii biz başarı durumunu da bir demet
     elemanı ile iletebiliriz. Bu durumda fonksiyonumuzun parametrik yapısı şöyle olacaktır:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
-        //...
-    }
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+            //...
+        }
 
     Bu yöntemin de sorunu başarısızlık durumunda gereksiz bir biçimde iki kök için değer kullanılmayacağı halde değer
     girilmesidir. Örneğin:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
-        let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+            let delta: f64;
 
-        delta = b * b - 4.0 * a * c;
-        if delta < 0.0 {
-            (0., 0., false)
-        }
-        else {
-            let x1 = (-b + delta.sqrt()) / (2. * a);
-            let x2 =  (-b - delta.sqrt()) / (2. * a);
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                (0., 0., false)
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
 
-            (x1, x2, true)
+                (x1, x2, true)
+            }
         }
-    }
 
     Burada delta < 0 olduğu durumda kullanılmayacak olduğu halde iki kök değeri de girilmek zorunda kalınmıştır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result: (f64, f64, bool);
+        fn main() {
+            let result: (f64, f64, bool);
 
-    result = get_roots(1., 0., -4.);
-    if result.2 {
-        println!("{} {}", result.0, result.1);
-    }
-    else {
-        println!("No roots!");
-    }
-}
+            result = get_roots(1., 0., -4.);
+            if result.2 {
+                println!("{} {}", result.0, result.1);
+            }
+            else {
+                println!("No roots!");
+            }
+        }
 
-fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
-    let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+            let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        (0., 0., false)
-    }
-    else {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 =  (-b - delta.sqrt()) / (2. * a);
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                (0., 0., false)
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
 
-        (x1, x2, true)
-    }
-}
+                (x1, x2, true)
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Yukarıdaki örnek için alternatif bir çözüm de şöyle oluşturulabilir: Fonksiyon dışarıdan adresiyle aldığı bir demetin
     içini doldurabilir. Geri dönüş değeri de başarı ya da başarısızlığı belirtebilir. Bu durumda fonksiyonun parametrik yapısı
     şöyle olacaktır:
 
-    fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
-            //...
-    }
+        fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
+                //...
+        }
 
     Fonksiyonda  aşağıdaki gibi çağrılacaktır:
 
-    let mut result: (f64, f64) = (0., 0.);
+        let mut result: (f64, f64) = (0., 0.);
 
-    if get_roots(1., 0., -4., &mut result) {
-        println!("x1 = {}, x2 = {}", result.0, result.1);
-    }
-    else {
-        println!("No roots!...")
-    }
+        if get_roots(1., 0., -4., &mut result) {
+            println!("x1 = {}, x2 = {}", result.0, result.1);
+        }
+        else {
+            println!("No roots!...")
+        }
 
     Aşağıdaki örnekte bu çözüm uygulanmıştır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut result: (f64, f64) = (0., 0.);
+        fn main() {
+            let mut result: (f64, f64) = (0., 0.);
 
-    if get_roots(1., 0., -4., &mut result) {
-        println!("x1 = {}, x2 = {}", result.0, result.1);
-    }
-    else {
-        println!("No roots!...")
-    }
-}
+            if get_roots(1., 0., -4., &mut result) {
+                println!("x1 = {}, x2 = {}", result.0, result.1);
+            }
+            else {
+                println!("No roots!...")
+            }
+        }
 
-fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
-    let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64, result: &mut (f64, f64)) -> bool {
+            let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        false
-    }
-    else {
-        result.0 = (-b + delta.sqrt()) / (2. * a);
-        result.1 = (-b - delta.sqrt()) / (2. * a);
-        true
-    }
-}
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                false
+            }
+            else {
+                result.0 = (-b + delta.sqrt()) / (2. * a);
+                result.1 = (-b - delta.sqrt()) / (2. * a);
+                true
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Daha önceden de belirttiğimiz gibi yukarıdaki örnektekine benzer durumlarda aslında Rust'ta en iyi yöntem fonksiyonun
     Option<(f64, f64)> sayımlama türüyle (bazı durumlarda da Result sayımlama türüyle) geri döndürülmesidir:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
-        //...
-    }
+        fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+            //...
+        }
 
     Biz sayımlama türlerini henüz görmedik. Sonraki bölümde sayımlama türlerini göreceğiz. Aşağıda henüz bu konuları
     görmemiş olsak da Rust'ça böyle bir fonksiyonun nasıl tanımlanıp kullanıldığına ilişkin somut bir örnek verilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    if let Some(result) = get_roots(1., 0., -4.) {
-        println!("x1 = {} x2 = {}", result.0, result.1);
+    fn main() {
+        if let Some(result) = get_roots(1., 0., -4.) {
+            println!("x1 = {} x2 = {}", result.0, result.1);
+        }
+        else {
+            println!("No roots!");
+        }
     }
-    else {
-        println!("No roots!");
-    }
-}
 
-fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
-    let delta: f64;
+    fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+        let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        None
-    }
-    else {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 =  (-b - delta.sqrt()) / (2. * a);
+        delta = b * b - 4.0 * a * c;
+        if delta < 0.0 {
+            None
+        }
+        else {
+            let x1 = (-b + delta.sqrt()) / (2. * a);
+            let x2 =  (-b - delta.sqrt()) / (2. * a);
 
-        Some((x1, x2))
+            Some((x1, x2))
+        }
     }
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Demetler de tıpkı diziler gibi açılabilmektedir. Daha önceden de belirttiğimiz gibi  aslında açım (destructuring) işlemi
-     bir kalıp uyuşumu ile yapılmaktadır. Demet açımı için kullanoılan kalıplaara "demet kalıpları (tuple patterns)" denilmektedir.
-     Yani açım (destructuring) işlemi aslında kalıp uyuşumu (pattern matching) sürecinin özel bir durumudur.
+    bir kalıp uyuşumu ile yapılmaktadır. Demet açımı için kullanoılan kalıplaara "demet kalıpları (tuple patterns)" denilmektedir.
+    Yani açım (destructuring) işlemi aslında kalıp uyuşumu (pattern matching) sürecinin özel bir durumudur.
 
     Demet açımında normal parantezler kullanılmaktadır. Örneğin:
 
-    let t: (i32, i32) = (10, 20);
-    let (x, y) = t;             // demet açımı
+        let t: (i32, i32) = (10, 20);
+        let (x, y) = t;             // demet açımı
 
     Burada t demetinin ilk elemanı x değişkenine, ikinci elemanı da y değişkenine atanacaktır. Dizilerde olduğuğu gibi bu tür
     açımlarda ayrıca türün belirtilmesine gerek yoktur. Ancak yapılsa da bir sorun oluşturmaz. Örneğin:
 
-    let t: (i32, i32) = (10, 20);
-    let (x, y): (i32, i32) = t;     // tür belirtmeye gerek yok, ancak belirtilse de bir sorun oluşmaz
+        let t: (i32, i32) = (10, 20);
+        let (x, y): (i32, i32) = t;     // tür belirtmeye gerek yok, ancak belirtilse de bir sorun oluşmaz
 
     Rust programcıları bu biçimdeki gereksiz tür belirtmelerini tercih etmemektedir.
 
     Açım işlemi tıpkı dizilerde olduğu gibi fonksiyon çağrısı sırasında da yapılabilmektedir. Fonksiyonların parametre
     değişkenlerinin bir kalıp biçiminde oluşturulabildiğini anımsayınız. Örneğin:
 
-    fn main() {
-        let t: (i32, i32) = (10, 20);
+        fn main() {
+            let t: (i32, i32) = (10, 20);
 
-        foo(t);
-    }
+            foo(t);
+        }
 
-    fn  foo((x, y): (i32, i32))  {
-        println!("x = {}, y = {}", x, y);
-    }
+        fn  foo((x, y): (i32, i32))  {
+            println!("x = {}, y = {}", x, y);
+        }
 
     Burada t demeti fonksiyona açılarak gönderilmektedir. Tabii fonksiyon parametrelerinde mutlaka türün belirtilmesi
     gerekmektedir.
@@ -7500,110 +7500,110 @@ fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
     Dilim kalıplarında olduğu gibi demet kalıplarında da demetin adresi alınırsa kalıptaki değişkenler artık referans haline
     gelmektedir. Örneğin:
 
-    fn  foo((x, y): &(i32, i32))  {
-        println!("x = {}, y = {}", *x, *y);
-    }
+        fn  foo((x, y): &(i32, i32))  {
+            println!("x = {}, y = {}", *x, *y);
+        }
 
     Burada x ve y değişkenleri i32 türünden değil &i32 türündendir. Tabii fonksiyon da demetin adresiyle çağrılmalıdır.
     Tıpkı dilim kalıplarında olduğu gibi kalıptaki parantezlerin önüne '&' atomu getirilebilir. Bu durumda kalıptaki değişkenler
     referans olmaktan çıkar. Örneğin:
 
-    fn  foo(&(x, y): &(i32, i32))  {
-        println!("x = {}, y = {}", x, y);
-    }
+        fn  foo(&(x, y): &(i32, i32))  {
+            println!("x = {}, y = {}", x, y);
+        }
 
     Burada x ve y artık i32 türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let t: (i32, i32) = (10, 20);
+        fn main() {
+            let t: (i32, i32) = (10, 20);
 
-    foo(&t);
-}
+            foo(&t);
+        }
 
-fn  foo((x, y): &(i32, i32))  {
-    println!("x = {}, y = {}", *x, *y);
-}
+        fn  foo((x, y): &(i32, i32))  {
+            println!("x = {}, y = {}", *x, *y);
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Demetlerin kullanıldığı programlama dillerinde fonksiyonların geri dönüş değerleri demet ise bunların açılarak elde
     edilmesiyle biçimindeki kodlarla sık karşılaşılmaktadır. Örneğin:
 
-    fn main() {
-        let (x, y, z) = foo();
-        println!("{}, {}, {}", x, y, z);
-    }
+        fn main() {
+            let (x, y, z) = foo();
+            println!("{}, {}, {}", x, y, z);
+        }
 
-    fn  foo() -> (i32, i32, i32) {
-        (10, 20, 30)
-    }
+        fn  foo() -> (i32, i32, i32) {
+            (10, 20, 30)
+        }
 
     Burda foo fonksiyonunun gri dönüş değeri açılarak elde edilmiştir:
 
-    let (x, y, z) = foo();
+        let (x, y, z) = foo();
 
     Aşağıdaki örnekte ikinci derece denklemin köklerine geri dönen fonksiyonun geri dönüş değeri açılarak elde edilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let (x1, x2, result) = get_roots(1., 0., -4.);
+        fn main() {
+            let (x1, x2, result) = get_roots(1., 0., -4.);
 
-    if result {
-        println!("x1 = {}, x2 = {}", x1, x2);
-    }
-    else {
-        println!("No roots!");
-    }
-}
+            if result {
+                println!("x1 = {}, x2 = {}", x1, x2);
+            }
+            else {
+                println!("No roots!");
+            }
+        }
 
-fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
-    let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+            let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        (0., 0., false)
-    }
-    else {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 =  (-b - delta.sqrt()) / (2. * a);
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                (0., 0., false)
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
 
-        (x1, x2, true)
-    }
-}
+                (x1, x2, true)
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Demet içerisinde bir demet ya da dizi özyinelemeli biçimde açılabilmektedir. Örneğin:
 
-    let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
-    let (x, y, z) = t;
+        let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
+        let (x, y, z) = t;
 
-    println!("{}", x);          // 10
-    println!("{:?}", y);        // (20, 30, 40)
-    println!("{}", z);          // 50
+        println!("{}", x);          // 10
+        println!("{:?}", y);        // (20, 30, 40)
+        println!("{}", z);          // 50
 
     Burada y değişkeni bir demet olarak açılacaktır. Çünkü y değişkenine karşı gelen demet elemanı bir demettir. Ancak biz
     özyinelemeli açım da yapabiliriz. Örneğin:
 
-    let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
-    let (x, (y, z, k), m) = t;
+        let t: (i32, (i32, i32, i32), i32) = (10, (20, 30, 40), 50);
+        let (x, (y, z, k), m) = t;
 
-    println!("{}", x);          // 10
-    println!("{:?}", y);        // 20
-    println!("{}", z);          // 30
-    println!("{}", k);          // 40
-    println!("{}", m);          // 50
+        println!("{}", x);          // 10
+        println!("{:?}", y);        // 20
+        println!("{}", z);          // 30
+        println!("{}", k);          // 40
+        println!("{}", m);          // 50
 
     Bu örnekte iç demet de açılmıştır. Demetin elemanları dizi ise ya da dizinin elemanları demet ise yine açım benzer biçimde
     yapılmaktadır. Örneğin:
 
-    let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
-    let (x, [y, z, k], m) = t;
+        let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
+        let (x, [y, z, k], m) = t;
 
-    println!("{}", x);          // 10
-    println!("{:?}", y);        // 20
-    println!("{}", z);          // 30
-    println!("{}", k);          // 40
-    println!("{}", m);          // 50
+        println!("{}", x);          // 10
+        println!("{:?}", y);        // 20
+        println!("{}", z);          // 30
+        println!("{}", k);          // 40
+        println!("{}", m);          // 50
 
     Burada bir noktaya dikkatinizi çekmek istiyoruz. Biz şimdiye kadarki örneklerimizde genellikle let deyiminde değişkenin
     türünü tülerin daha iyi kavranabilmesi için açıkça belirttik. Aslında Rust programcıları bu tür gereksiz tür ifadelerini
@@ -7616,24 +7616,24 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     Genel olarak demet kalıplarında parantezler içerisindeki demet elemanlarının her biri bir kalıp ifadesi olabilir. Örneğin
     demet kalıbı aşağıdaki gibi sabitlerden oluşturulabilir:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (10, 20, 30) => println!("(10, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (10, 20, 30) => println!("(10, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Burada (10, 20, 30) kalıbında demetin her elemanı bir sabittir.
 
     Yine kalıpta değişken kullanılırsa her zaman uyuşum sağlanır. Değişkene karşı gelen demet değerleri değişkenlere yerleştirilir.
     Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (x, 20, y) => println!("x = {}, y = {}", x, y),
-        _ => println!("No match!"),
-    }
+        match t {
+            (x, 20, y) => println!("x = {}, y = {}", x, y),
+            _ => println!("No match!"),
+        }
 
     Burada (x, 20, y) kalıbı ile uyuşum sağlanırsa yeni x ve y değişkenleri yaratılıp t'nin ilgili elemanları bu değişkenlere
     yerleştirilecektir.
@@ -7641,61 +7641,61 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     Demet kalıplarında da demet elemanlarının bir ya da birden fazlasında '_' atomu (wildcard pattern) kullanılabilir. Bu
     durumda bu atoma karşı gelen demet elemanlarının uyuştuğu kabul edilir. Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (_, 100, _) => println!("(_, 100, _) matched"),
-        (_, 20, 30) => println!("(_, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (_, 100, _) => println!("(_, 100, _) matched"),
+            (_, 20, 30) => println!("(_, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Burada match iafdesinin ikinci kolu uyuşum sağlayacaktır. Tabii yine kollardan birden fazlası uuyuşum sağlayabilir. Ancak
     ilk uyuşum sağlayan kol işleme sokulur. Yine demet kalıbındaki küme parantezi içerisindeki elemanlarda ".." atomu kullanılırsa
     "diğerlerinin hepsinin uyuşum saladığı" kabul edilmektedir. Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (10, ..) => println!("(_, ..) matched"),
-        (10, 20, 30) => println!("(_, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (10, ..) => println!("(_, ..) matched"),
+            (10, 20, 30) => println!("(_, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Burada (10, ..) kalıbı ilk elemanı 10 olan diğer elemanları herhangi değerlere sahip olan demetlerle uyuşum sağlamaktadır.
     Bu örnekte birden fazla kolun uyuşum sağladığına da dikkat ediniz. Örneğimizde uyuşumu sağlayan birinci kol çalıştırılacaktır.
     Tabii yine ".." atomu demet elemanlarında yalnızca bir kez kullanılabilmektedir. Demet kalıplarında da  ".." atomu demetin
     sonunda bulunmak zorunda değildir. Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (.., 20) => println!("(.., 20) matched"),
-        (10, 20, 30) => println!("(_, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (.., 20) => println!("(.., 20) matched"),
+            (10, 20, 30) => println!("(_, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Byrada ikinci kol uyuşum sağlayacaktır.
 
     Kalıptaki demet elemanlarında range kalıpları da kullanılabilir. Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (10, 15..25, 30) => println!("(10, 25..25, 30) matched"),
-        (10, 20, 30) => println!("(_, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (10, 15..25, 30) => println!("(10, 25..25, 30) matched"),
+            (10, 20, 30) => println!("(_, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Buradaki (10, 15..25, 30) kalıbına dikkat ediniz. Bu demet kalıbının ikinci elemanında range kalıbı kullanılmıştır.
     Demet kalıplarında da kalıptan sonra if anahtar sözcüğü ile "koruma (guard)" oluşturulabilmektedir. Örneğin:
 
-    let t: (i32, i32, i32) = (10, 20, 30);
+        let t: (i32, i32, i32) = (10, 20, 30);
 
-    match t {
-        (x, y, z) if x + y > 100 => println!("(x, y, z) if x + y > 100 matched"),
-        (10, 20, 30) => println!("(_, 20, 30) matched"),
-        _ => println!("No match!"),
-    }
+        match t {
+            (x, y, z) if x + y > 100 => println!("(x, y, z) if x + y > 100 matched"),
+            (10, 20, 30) => println!("(_, 20, 30) matched"),
+            _ => println!("No match!"),
+        }
 
     Burada (x, y, z) if x + y > 100 kalıbına dikkat ediniz. Her ne kadar sanki demet kalıbındaki elemanlarda değişken
     kalıpları kullanıldığı için birinci kolun uyuşum sağlayacağı sanılabiliyorsa da koruma yüzünden birinci kalıp uyuşum
@@ -7704,20 +7704,20 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     Dilim kalıbında (dizi kalıbında) @ ile dizinin bir kısmı değişkene bağlanabiliyordu. Bu işlem demetlerde geçerli değildir.
     Örneğin:
 
-    let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
-    let (10, others @ .., 50) = t;      // error!
+        let t: (i32, [i32; 3], i32) = (10, [20, 30, 40], 50);
+        let (10, others @ .., 50) = t;      // error!
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii demet kalıpları da yalnızca let ve match deyimlerinde değil if let ve while let deyimlerinde de kullanılabilmektedir.
     Örneğin:
 
-    let t: (i32, i32) = (10, 20);
+        let t: (i32, i32) = (10, 20);
 
-    if let (x, 20) = t {
-        println!("matched! x = {}", x);
-    }
-    else {
-        println!("not matched!");
-    }
+        if let (x, 20) = t {
+            println!("matched! x = {}", x);
+        }
+        else {
+            println!("not matched!");
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi demetler for döngüsüyle dolaşılabilir mi? Başka bir deyişle demetler bir iteratör belirtmekte midir? Statik tür
     sistemine sahip programlama dillerindeki bu konudaki temel sorun demet elemanlarının türleri farklı olabildiği için
@@ -7740,115 +7740,115 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     biri olabilir. İlk akla gelecek seçenek parametreyi int türden yapmak ve parametreyi bir switch içerisine sokarak ele
     almaktır:
 
-    public static void Move(int direction)
-    {
-        switch (direction) {
-            case 0:             // left
-                //...
-                break;
-            case 1:             // up
-                //...
-                break;
-            case 2:             // right
-                //...
-                break;
-            case 3:             // down
-                //...
-                break;
+        public static void Move(int direction)
+        {
+            switch (direction) {
+                case 0:             // left
+                    //...
+                    break;
+                case 1:             // up
+                    //...
+                    break;
+                case 2:             // right
+                    //...
+                    break;
+                case 3:             // down
+                    //...
+                    break;
+            }
         }
-    }
 
     Bu durumda fonksiyonu (metodu) şöyle çağırırız:
 
-    Move(0);        // left
-    //...
-    Move(1);        // up
-    //...
-    Move(2);        // right
-    //...
-    Move(3);        // down
+        Move(0);        // left
+        //...
+        Move(1);        // up
+        //...
+        Move(2);        // right
+        //...
+        Move(3);        // down
 
     Parametrenin yukarıdaki gibi bir tamsayı türünden alınmasının şu dezavantajları vardır:
 
-    1) Okunabilirlik zayıf olur. Koda bakan kişi topun hangi yöne götürülmek istendiğini çabuk anlayamaz.
-    2) Fonksiyona (metoda) yanlış değer geçilirse hata derleme aşamasında değil çalışma zamanı sırasında sinsice ortaya çıkar.
+      1) Okunabilirlik zayıf olur. Koda bakan kişi topun hangi yöne götürülmek istendiğini çabuk anlayamaz.
+      2) Fonksiyona (metoda) yanlış değer geçilirse hata derleme aşamasında değil çalışma zamanı sırasında sinsice ortaya çıkar.
 
     Pekiyi fonksiyonun parametresi string yapılsa nasıl olur? Örneğin:
 
-    public static void Move(string direction)
-    {
-        switch (direction) {
-            case "left":
-                //...
-                break;
-            case "up":
-                //...
-                break;
-            case "right":
-                //...
-                break;
-            case "down":
-                //...
-                break;
+        public static void Move(string direction)
+        {
+            switch (direction) {
+                case "left":
+                    //...
+                    break;
+                case "up":
+                    //...
+                    break;
+                case "right":
+                    //...
+                    break;
+                case "down":
+                    //...
+                    break;
+            }
         }
-    }
 
     Bu durumda fonksiyon da şöyle çağrılacaktır:
 
-    Move("left");
-    //...
-    Move("up");
-    //...
-    Move("right");
-    //...
-    Move("down");
+        Move("left");
+        //...
+        Move("up");
+        //...
+        Move("right");
+        //...
+        Move("down");
 
     Bu tasarımda biz okunabilirlik problemini çözmüş olduk ancak hala bu tasarımın iki dezavantajı vardır:
 
-    1) Fonksiyona (metoda) yanlış argüman geçilirse hata yine derleme aşamasında değil programın çalışma zamanı sırasında
-    sinsice ortaya çıkacaktır.
-    2) String'lerin karşılaştırılması sayıların karşılaştırılmasına göre çok daha yavaştır. (İki string'in karşılaştırılmasının
-    bir döngü içerisinde string'lerin karşılıklı karakterlerinin karşılaştırılması yoluyla yapıldığını anımsayınız.)
+      3) Fonksiyona (metoda) yanlış argüman geçilirse hata yine derleme aşamasında değil programın çalışma zamanı sırasında
+      sinsice ortaya çıkacaktır.
+      4) String'lerin karşılaştırılması sayıların karşılaştırılmasına göre çok daha yavaştır. (İki string'in karşılaştırılmasının
+      bir döngü içerisinde string'lerin karşılıklı karakterlerinin karşılaştırılması yoluyla yapıldığını anımsayınız.)
 
     İşte sayımlama türleri bu tür durumlar için düşünülmüştür. Birtakım olgular ya da seçenekler hem yazısal biçimle ifade
     edilsin hem de arka planda aslında sayısal biçimde işleme sokulsun ve geçersiz değerler derleme aşamasında teşhis
     esilsin isteniyorsa sayımlama türleri tercih edilmelidir. Yine C# üzerinden örnek verelim:
 
-    enum Direction
-    {
-        Left, Up, Right, Down
-    }
-    //...
-
-    public static void Move(Direction d)
-    {
-        switch (d)
+        enum Direction
         {
-            case Direction.Left:
-                //...
-                break;
-            case Direction.Up:
-                //...
-                break;
-            case Direction.Right:
-                //...
-                break;
-            case Direction.Down:
-                //...
-                break;
+            Left, Up, Right, Down
         }
-    }
+        //...
+
+        public static void Move(Direction d)
+        {
+            switch (d)
+            {
+                case Direction.Left:
+                    //...
+                    break;
+                case Direction.Up:
+                    //...
+                    break;
+                case Direction.Right:
+                    //...
+                    break;
+                case Direction.Down:
+                    //...
+                    break;
+            }
+        }
 
     Çağırma şöyle yapılabilir:
 
-    Move(Direction.Left);
-    //...
-    Move(Direction.Up);
-    //...
-    Move(Direction.Right);
-    //...
-    Move(Direction.Down);
-    //...
+        Move(Direction.Left);
+        //...
+        Move(Direction.Up);
+        //...
+        Move(Direction.Right);
+        //...
+        Move(Direction.Down);
+        //...
 
     Buarada enum eşemanları aslında tamsayısal bir değer belirtmektedir. Artık biz bu fonksiyonu (metodu) olmayan bir yön
     ile çağırırsak hata derleme aşamasında ortaya çıkacaktır. İşte programlama dillerinde "haftanın günleri", "yılın ayları",
@@ -7863,105 +7863,105 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     birliğin tüm elemanları aynı adresten itibaren yerleştirilir. Dolayısıyla bir birliğin bir elemanına değer atandığında diğer
     elemanların da değerleri değişecek ve anlamsızlaşacaktır. Örneğin C'de aşağıdaki bigi bir birlik söz konusu olsun:
 
-    union sample {
-        int a;
-        sdhort b;
-        double c;
-    };
+        union sample {
+            int a;
+            sdhort b;
+            double c;
+        };
 
     Bu birlik türünden bir değişken tanımlayalım:
 
-    union Sample s;
+        union Sample s;
 
     Burada s değişkeni için birliğin en büyük elemanının uzunluğu kadar yer ayrılacaktır. Çünkü elemanlar çakışık yerleştirilmektedir:
 
-    Offset:     0  1  2  3  4   5   6   7   8
-          ------------------------------------
-    İçerik:    a0  a1  a2  a3  ??  ??  ??  ??
-               b0  b1  ??  ??  ??  ??  ??  ??
-               c0  c1  c2  c3  c4  c5  c6  c7
+        Offset:     0  1  2  3  4   5   6   7   8
+            ------------------------------------
+        İçerik:    a0  a1  a2  a3  ??  ??  ??  ??
+                b0  b1  ??  ??  ??  ??  ??  ??
+                c0  c1  c2  c3  c4  c5  c6  c7
 
     Örneğin:
 
-    s.c = 3.14;
+        s.c = 3.14;
 
     Artık s.a ve s.b elemanlarının değerleri anlamsız olacaktır. Birlikler "farklı bilgilerin yalnızca bir tanesinin bulundurulması
     durumunda" yer kazancı sağlamaktadır. Ancak elimizde bir birlik varsa bizim onun hangi elemanının set edilmiş olduğunu
     bilmemiz gerekir. Örneğin:
 
-    void foo(union Sample *ps)
-    {
-        //...
-    }
+        void foo(union Sample *ps)
+        {
+            //...
+        }
 
     Burada biz birliğin hangi elemanının set edilmiş olduğunu bilmezsek içerisindeki değeri kullanamayız. O halde bizim bir
     biçimde birliğin hangi elemanının set edilmiş olduğu bilgisini de yukarıdaki fonksiyona parametre olarak geçirmemiz gerekir.
     Tabii bunu daha organize bir biçimde yapı içerisinde birlik kulllanarak sağlayabiliriz:
 
-    struct sample {
-        union {
-            int a;
-            short b;
-            double c;
-        } info;
-        int type;       // 0 => a, 1 => b, 2 => c
-    };
+        struct sample {
+            union {
+                int a;
+                short b;
+                double c;
+            } info;
+            int type;       // 0 => a, 1 => b, 2 => c
+        };
 
-    struct sample s;
+        struct sample s;
 
-    s.info.c = 3.14;
-    s.type = 2;
+        s.info.c = 3.14;
+        s.type = 2;
 
-    foo(&s);
+        foo(&s);
 
     Bu durumda foo fonksiyonu da şöyle olacaktır:
 
-    void foo(struct sample *ps)
-    {
-        swich (ps->type) {
-            case 0:             // a elemanına başvur
-                //...
-                break;
-            case 1:             // b elemanına başvur
-                //...
-                break;
-            case 2:             // c elemanına başvur
-                //...
-                break;
+        void foo(struct sample *ps)
+        {
+            swich (ps->type) {
+                case 0:             // a elemanına başvur
+                    //...
+                    break;
+                case 1:             // b elemanına başvur
+                    //...
+                    break;
+                case 2:             // c elemanına başvur
+                    //...
+                    break;
+            }
         }
-    }
 
     Bu örnek ve açıklama Rust'taki enum türlerini anlamamızı kolaylaştıracaktır.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta sayımlama türleri sentaktik olarak "Item" grubunundadır. "The Rust Reference" dokümanlarında "Item" ara sembolünün
     BNF açılımı şöyledir:
 
-    Item:
-        OuterAttribute*
-        VisItem
-        | MacroItem
+        Item:
+            OuterAttribute*
+            VisItem
+            | MacroItem
 
-    VisItem:
-       Visibility?
-      (
-          Module
-        | ExternCrate
-        | UseDeclaration
-        | Function
-        | TypeAlias
-        | Struct
-        | Enumeration
-        | Union
-        | ConstantItem
-        | StaticItem
-        | Trait
-        | Implementation
-        | ExternBlock
-    )
+        VisItem:
+        Visibility?
+        (
+            Module
+            | ExternCrate
+            | UseDeclaration
+            | Function
+            | TypeAlias
+            | Struct
+            | Enumeration
+            | Union
+            | ConstantItem
+            | StaticItem
+            | Trait
+            | Implementation
+            | ExternBlock
+        )
 
-    MacroItem:
-        MacroInvocationSemi
-    | MacroRulesDefinition
+        MacroItem:
+            MacroInvocationSemi
+        | MacroRulesDefinition
 
     Item'lar "global alanda ya da bir fonksiyonun içerisinde tanımlanabilen sentaktik öğeleri belirtmektedir. Item öğelerinin
     sonunda ';' bulundurulmadığını anımsayınız. Daha önceden de belirtitğimiz gibi "Item" öğeleri kodun aşağısında bulundurulsa
@@ -7970,9 +7970,9 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
 ---------------------------------------------------------------------------------------------------------------------------
     Bir sayımlama türü (enum türü) tanımlamanın genel biçimi şöyledir:
 
-    enum <isim> {
-        [enum_elemanları]
-    }
+        enum <isim> {
+            [enum_elemanları]
+        }
 
     Görüldüğü gibi enum anahtar sözcüğünü bir "enum ismi" izlemektedir. Küme parantezlerinin içerisine de enum elemanları
     yerleştirilmektedir. enum elemanları ',' atomuyla birbirinden ayrılmaktadır. Rust'ta enum elemanlarına "varyant (variant)"
@@ -7980,41 +7980,41 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
 
     enum elemanları (yani varyantları) üç gruba ayrılmaktadır:
 
-    - Birimsel (unit-like) enum elemanları
-    - Demetsel (tuple-like) enum elemanları
-    - Yapısal (struct-like) enum elemanları
+      - Birimsel (unit-like) enum elemanları
+      - Demetsel (tuple-like) enum elemanları
+      - Yapısal (struct-like) enum elemanları
 
     En basit enum elemanları "birimsel (unit-like)" denilen ya da "birim varyant" denilen enum elemanlarıdır. Bu enum elemanları
     yalnızca bir isimden oluşmaktadır. Yalnızca birimsel elemanlardan oluşan enum türleri C/C++, C#, Java gibi dillerdeki
     enum türlerine oldukça benzemektedir. Örneğin:
 
-    enum MyEnum {
-        A, B, C
-    }
+        enum MyEnum {
+            A, B, C
+        }
 
     Burada A, B ve C varyantları MyEnum isimli enum türünün birimsel elemanlarıdır. Rust programcıları okunabilirlik bakımından
     genellikle her enum elemanını ayrı bir satırda yazmayı tercih etmektedir. Örneğin:
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down
-    }
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down
+        }
 
     Sayımlama türlerinin demetsel ve yapısal elemanlarını izleyen paragraflarda açıklayacağız.
 ---------------------------------------------------------------------------------------------------------------------------
     Pek çok programlama dilinde olduğu gibi Rust'ta da enum'lar türünden değişkenler bildirilebilmektedir. Örneğin:
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down
-    }
-    //...
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down
+        }
+        //...
 
-    let d: Direction;
+        let d: Direction;
 
     Burada d değişkeni Direction türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -8025,82 +8025,82 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
 
     Rust'ta enum türünün varyantları ilgili enum türündendir. Örneğin:
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down
-    }
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down
+        }
 
     Burada Direction::Left, Direction::Up, Direction::Left ve Direction::Down varyantları Direction türündedir. Rust'ta atama
     işleminde kaynak ve hedef türlerin aynı olması gerektiğini anımsayınız. O halde bir enum varyantı ancak o enum türünden
     bir değişkene atanabilir. Enum türlerinden diğer türlere, diğer türlerden enum türlerine otomatik dönüştürme (coercion)
     yoktur. Örneğin:
 
-    let d: Direction;
+        let d: Direction;
 
-    d = Direction::Down;        // geçerli, d ile Direction::Down aynı türden
+        d = Direction::Down;        // geçerli, d ile Direction::Down aynı türden
 
     Örneğin:
 
-    enum Fruit {
-        Banana,
-        Apple,
-        Ornage,
-        Cherry
-    }
+        enum Fruit {
+            Banana,
+            Apple,
+            Ornage,
+            Cherry
+        }
 
-    enum Company {
-        Microsoft,
-        Apple,
-        Google,
-        Oracle
-    }
-    //...
+        enum Company {
+            Microsoft,
+            Apple,
+            Google,
+            Oracle
+        }
+        //...
 
-    let f: Fruit;
+        let f: Fruit;
 
-    f = Company::Apple;      // error! f ile Company::Apple farklı türlerden
+        f = Company::Apple;      // error! f ile Company::Apple farklı türlerden
 ---------------------------------------------------------------------------------------------------------------------------
     Enum türlerinin demetsel varyantları bir isim ve parantezler içerisinde tür listesiyle oluşturulmaktadır. Bu sentaks
     demet sentaksına benzediği için bu varyantlara demetsel varyantlar (tuple-like variants) denilmiştir. Örneğin:
 
-    enum MyEnum {
-        A,              // birimsel varyant
-        B(i32, f64),    // demetsel varyant
-    }
+        enum MyEnum {
+            A,              // birimsel varyant
+            B(i32, f64),    // demetsel varyant
+        }
 
     Burada MyEnum enum türünün B isimli varyantı demetsel bir varyanttır. Enum türünün demetsel varyantları kullanılırken
     tıpkı bir demet oluşturuluyormuş gibi demet türleri için değerler belirtilir. Örneğin:
 
-    let s: MyEnum;
+        let s: MyEnum;
 
-    s = MyEnum::B(10, 3.14);
+        s = MyEnum::B(10, 3.14);
 
     Rust'taki enum türlerinin yalnızca sembolik sabitleri barındırmadığına aynı zamanda sanki bir birlik gibi değerler
     de tuttuğuna dikkat ediniz. Bir enum türünün farklı demetsel varyantları bulunabilmektedir. Örneğin:
 
-    enum IPAdress {
-        V4(u8, u8, u8, u8),
-        V6(String)
-    }
-    //...
+        enum IPAdress {
+            V4(u8, u8, u8, u8),
+            V6(String)
+        }
+        //...
 
-    let ipv4 = IPAdress::V4(127, 0, 0, 1);
-    let ipv6 = IPAdress::V6(String::from("2001:db8:85a3::8a2e:370:7334"));
+        let ipv4 = IPAdress::V4(127, 0, 0, 1);
+        let ipv6 = IPAdress::V6(String::from("2001:db8:85a3::8a2e:370:7334"));
 ---------------------------------------------------------------------------------------------------------------------------
     Biz henüz yapıları görmedik. Ancak enum türlerinin yapısal varyantları sentaks bakımından yapılara (structures) benzemektedir.
     Yapısal varyant oluşturmanın genel biçimi şöyledir:
 
-    <isim> { <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, ... }
+        <isim> { <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, <eleman_ismi>: <tür>, ... }
 
     Varyant isminden sonra küme parantezlerinin kullanıldığına dikkat ediniz. Örneğin:
 
-    enum MyEnum {
-        A,                          // birimsel varyant
-        B(i32, f64),                // demetsel varyant
-        C { x: i32, y: f64 }        // yapısal varyant
-    }
+        enum MyEnum {
+            A,                          // birimsel varyant
+            B(i32, f64),                // demetsel varyant
+            C { x: i32, y: f64 }        // yapısal varyant
+        }
 
     enum türünün yapısal varyantları oluşturulurken küme parantezleri içerisinde eleman isimleri, sonra ':' atomu ve tür
     bilgisi bulundurulmaktadır.
@@ -8112,7 +8112,9 @@ fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
     parantezlerinin başı ile sonunda birer SPACE karakteri bulundurmaktadır. Halbuki demetsel varyantlarda Rust programcıları
     bu boşlukları bulundurmazlar. Biz de kursumuzda -her ne kadar bu yazım biçimini eleştiriyorsak da- bu genel eğilime
     uyacağız.
+
  # 29. Ders 23/06/2025 - Pazartesi
+ 
     Enum türlerinin yapısal varyantlarına ilişkin enum türünden değerler oluşturmanın genel biçimi şöyledir:
 
     <enum_ismi>::<varyant_ismi> {<eleman_ismi>: değer, <eleman_ismi>: değer, <eleman_ismi>: değer, ...}
