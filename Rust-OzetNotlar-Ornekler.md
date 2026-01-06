@@ -8123,14 +8123,14 @@
     yaratılmaktadır. Yaratım sırasında önce varyantın ismi sonra küme parantezleri içerisinde alanların isimleri ve onların
     değerleri belirtilmektedir. Eleman ismiyle değeri arasında ':' atomu bulundurulmaktadır. Örneğin:
 
-    enum MyEnum {
-        A,                          // birimsel varyant
-        B(i32, f64),                // demetsel varyant
-        C { x: i32, y: f64 }        // yapısal varyant
-    }
-    //...
+        enum MyEnum {
+            A,                          // birimsel varyant
+            B(i32, f64),                // demetsel varyant
+            C { x: i32, y: f64 }        // yapısal varyant
+        }
+        //...
 
-    let s: MyEnum = MyEnum::C { x: 100, y: 3.14 };
+        let s: MyEnum = MyEnum::C { x: 100, y: 3.14 };
 
     Yine pek çok Rust programcısı varyant isminden sonra, küme parantezlerinin başında ve sonunda birer SPACE karakteri
     bulundurmaktadır.
@@ -8139,33 +8139,33 @@
     Ancak yapısal varyantlardaki varyant elemanlarının (bunlara "The Rust Reference" dokümanlarında "field" denilmektedir)
     isimli olduğuna dikkat ediniz. Tabii yapısal varyantları oluştururken isimlerin sırasının bir önemi yoktur. Örneğin:
 
-    let s: MyEnum = MyEnum::C { y: 3.14, x: 100 };        // geçerli
+        let s: MyEnum = MyEnum::C { y: 3.14, x: 100 };        // geçerli
 
     Ancak yapısal varyantlara ilişkin enum değerleri oluşturulurken varyantın tüm alanları için değer belirtilmek zorundadır.
     Örneğin:
 
-    let s: MyEnum = MyEnum::C { x: 100 };     // error! y için değer belirtilmemiş
+        let s: MyEnum = MyEnum::C { x: 100 };     // error! y için değer belirtilmemiş
 ---------------------------------------------------------------------------------------------------------------------------
     Demetsel ve yapısal varyantlara ilişkin enum değerleri yaratılırken yaratım sanki bir fonksiyon çağırma işlemiymiş gibi
     yapılmaktadır. Bu nedenle "The Rust Reference" dokümanlarında ve Rust programcıları arasında enum varyantlarına ilişkin
     değerlerin yaratılması için kullanılan ifadelere "enum yapıcı fonksiyonları (enum consructors)" da denilmektedir. Örneğin:
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Apricot { price: i32, unit: i32 }
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Apricot { price: i32, unit: i32 }
+        }
 
     Burada Fruit::Banana(10) gibi bir ifadeye ya da Fruit::Apricot { price: 300, unit: 1 } gibi bir ifadeye "yapıcı fonksiyon
     (constructor)" da denilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
     Yukarıda da belirttiğimiz gibi bir enum yapıcı fonksiyonundaki öğelere "alan (field)" denilmektedir. Örneğin:
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Apricot { price: i32, unit: i32 }
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Apricot { price: i32, unit: i32 }
+        }
 
     Buaradaki Banana varyantının i32 öğesi bir alandır. Benzer biçimde Apricot varyantının x ve y öğeleri de birer alan
     belirtmektedir. Görüldüğü gibi alanlar da Banana varyantında olduğu gibi isimsiz, Apricot varyantında olduğu gibi isimli
@@ -8174,29 +8174,29 @@
     Eğer bir enum türünde yapıcı fonksiyonların hepsi alansızsa tür enum türlerine "alansız (field-less)" enum türleri
     denilmektedir. Örneğin.
 
-    enum City {
-        NewYork,
-        Paris(),
-        Ankara {}
-    }
+        enum City {
+            NewYork,
+            Paris(),
+            Ankara {}
+        }
 
     Burada City isimli enum türü "alansız (field-less)" bir enum türüdür. Her ne kadar buradaki Paris varyantı demetsel bir
     varyantsa da bir alanı yoktur. Benzer biçimde her ne kadar Ankara varyantı yapısal bir varyantsa da bir alana sahip değildir.
     Dolayısıyla buradaki City enum türü "alansız (field-less)" bir enum türüdür. Tabii buradaki enum türünden Paris varyantına
     ilişkin ve Ankara varyantına ilişkin enum değerleri yaratılırken yine demet ve yapı sentaksı kullanılmaktadır. Örneğin:
 
-    let x = City::Paris();
-    let y = City::Ankara {};
+        let x = City::Paris();
+        let y = City::Ankara {};
 
     Eğer bir enum türünün tüm elemanları birimsel (unit-like) ise bu biçimdeki enum türlerine "yalnızca birimsel elemanlardan
     oluşan enum türleri (unit-only enums)" denilmektedir. Örneğin:
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down
-    }
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down
+        }
 
     Buradaki Direction enum türü "yalnızca birimsel elemanlardan oluşan (unit-only)" bir enum türüdür.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -8206,39 +8206,39 @@
     de) yaratılabilmektedir. Ancak bu yaratım sentaksında demetsel varyantlara ilişkin alanların isimleri olmadığı için indeksleri
     kullanılmaktadır. Örneğin:
 
-    enum Vehicle {
-        Car,
-        Truck(i32, f64),
-        Motorcycle { x: i32, y: i32 },
-    }
+        enum Vehicle {
+            Car,
+            Truck(i32, f64),
+            Motorcycle { x: i32, y: i32 },
+        }
 
     Biz Truck varyantına ilişkin bir enum değerini şöyle yaratıyorduk:
 
-    let v = Vehicle::Truck(10, 5.5);
+        let v = Vehicle::Truck(10, 5.5);
 
     Ancak şöyle yaratabiliriz:
 
-    let v = Vehicle::Truck { 0: 10, 1: 5.5 };
+        let v = Vehicle::Truck { 0: 10, 1: 5.5 };
 
     Burada isim yerine elemanın demetteki indeks numarasının belirtildiğine dikkat ediniz. "Bu sentaksın ne anlamı olabilir"
     diye düşünebilirsiniz. Bu sayede demetsel varyantlarını yapıcı fonksiyonlarında elemanları farklı sıralarda belirtebilmekteyiz.
     Örneğin:
 
-    let v = Vehicle::Truck { 1: 5.5, 0: 10 };
+        let v = Vehicle::Truck { 1: 5.5, 0: 10 };
 
     2) The Rust Reference dokümanlarına göre enum türünün birimsel varyantlarına ilişkin enum değerleri boş küme parantezleriyle
     de yaratılabilmektedir. Anımsayacağınız gibi biz birimsel varyantlara ilişkin enum değerlerini doğrudan isim belirterek
     yaratıyorduk:
 
-    let v = Vehicle::Car;
+        let v = Vehicle::Car;
 
-    Bu yaratımı şöyle de yapabilmekteyiz:
+        Bu yaratımı şöyle de yapabilmekteyiz:
 
-    let v = Vehicle::Car {};
+        let v = Vehicle::Car {};
 
     Ancak demet sentaksıyla birimsel varyantlara ilişkin enum değerleri yaratılamamaktadır:
 
-    let v = Vehicle::Car();         // error!
+        let v = Vehicle::Car();         // error!
 ---------------------------------------------------------------------------------------------------------------------------
     Bir enum türünün varyantlarına enum ismi ve :: operatöryle erişildiğini belirtmiştik. Rust'ta :: operatörüne "yol ayıracı
     (path seperator)" denilmektedir. Eğer enum varyantlarına bu operatör olmadan doğrudan erişilmek isteniyorsa use deyimimden
@@ -8247,35 +8247,35 @@
 
     Niteliklendirmenin elimine edilmesi için use deyimi şöyle kullanılmaktadır:
 
-    use <enum_ismi>::*;
+        use <enum_ismi>::*;
 
     Örneğin:
 
-    enum Vehicle {
-        Car,
-        Truck(i32, f64),
-        Motorcycle { x: i32, y: i32 },
-    }
+        enum Vehicle {
+            Car,
+            Truck(i32, f64),
+            Motorcycle { x: i32, y: i32 },
+        }
 
-    use Vehicle::*;
-    //...
-
-    fn main() {
-        let v = Truck(10, 5.5);     // geçerli
+        use Vehicle::*;
         //...
-    }
+
+        fn main() {
+            let v = Truck(10, 5.5);     // geçerli
+            //...
+        }
 
     Burada use deyiminden dolayı enum varyantı enum ismi kullanılmadan doğrudan belirtilmiştir. Daha önceden de belirttiğimiz
     gibi use deyimi gramer olarak bir "Item" durumundadır. "Item" öğelerinin yazım sırasının bir önemi yoktur. Yani biz
     önce use deyimini kullanıp sonra enum tanımalasını yapabiliriz:
 
-    use Vehicle::*;         // geçerli
+        use Vehicle::*;         // geçerli
 
-    enum Vehicle {
-        Car,
-        Truck(i32, f64),
-        Motorcycle { x: i32, y: i32 },
-    }
+        enum Vehicle {
+            Car,
+            Truck(i32, f64),
+            Motorcycle { x: i32, y: i32 },
+        }
 
     enum türünün tüm varyantları için değil tek bir varyantı için de use deyimini kullanabiliriz. Örneğin:
 
@@ -8284,7 +8284,7 @@
     Burada yalnızca Car varyantı niteliklendirilmedne kullanılabilir durumdadır. Birden fazla varyantın niteliklendirilmeden
     kullanılmasını sağlamak istiyorsnız küme parantezlerini kullanmalısınız. Örneğin:
 
-    use Vehicle::{Car, Truck};
+        use Vehicle::{Car, Truck};
 
     Burada Vehicle enum türünün Car ve Truck varyantları niteliklendirilmeden kullanılabilir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -8292,20 +8292,20 @@
 
     Bir enum türünden değişkenin içerisinde enum türünün yalnızca bir varyantı bulunabilir. Örneğin:
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Apricot { price: i32, unit: i32 }
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Apricot { price: i32, unit: i32 }
+        }
 
-    let f: Fruit = Fruit::Banana(10);
+        let f: Fruit = Fruit::Banana(10);
 
     Burada f isimli enum değişkeninin içerisinde Banana varyantı vardır. f değişkeninin içerisinde belli bir anda tek bir
     varyant bulunabilir. Ancak bu varyanty daha sonra değiştirilebilir. Örneğin:
 
-    let mut f: Fruit = Fruit::Banana(10);
-    //...
-    f = Fruit = Fruit::Apple;
+        let mut f: Fruit = Fruit::Banana(10);
+        //...
+        f = Fruit = Fruit::Apple;
 
     Pekiyi Rust'ta bir enum değişkeninin içerisinde hangi varyantın bulunduğunu nasıl anlarız? Bunu anladıktan sonra o varyantın
     alanlarını nasıl elde edebiliriz? İşte bu soruları yanıtlayabailmemiz için öncelikle enum varyantlarına ilişkin "ayırıcı
@@ -8314,11 +8314,11 @@
     Bir enum türünün her varyantı bir "ayırıcı değere (discriminant)" sahiptir. Default durumda (yani programcı bir belirleme
     yapmamışsa) enum türünün ayırıcı değerleri 0'dan itibaren tamsayılarla temsil edilmektedir. Örneğin:
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Apricot { price: i32, unit: i32 }
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Apricot { price: i32, unit: i32 }
+        }
 
     Burada Apple varyantının ayırıcı değeri 0, Banana varyantının 1, Apricot varyantının 2'dir. Programcı enum varyantlarının
     ayırıcı değerlerini bazı koşullar sağlanıyorsa açıkça da (explicitly) belirleyebilmektedir. Eğer programcı enum varyantı
@@ -8331,12 +8331,12 @@
     1) Eğer enum türü yalnızca birimsel elemanlardan oluşuyorsa (yani "unit-only" ise) enum türünün varyantları için açıkça
     ayırıcı değer belirlemesi yapılabilmektedir. Örneğin:
 
-    enum Direction {
-        Left,
-        Up = 10,
-        Right,
-        Down = 20
-    }
+        enum Direction {
+            Left,
+            Up = 10,
+            Right,
+            Down = 20
+        }
 
     Burada Left varyantının ayırıcı değeri 0, Up varyantının 10, Right varyantının 11 ve Down varyantının 20'dir. enum türünün
     yalnızca birimsel elemanlardan oluştuğuna (yani "unit-only" olduğuna) dikkat ediniz.
@@ -8347,59 +8347,59 @@
     (yani enum anahtar sözcüğünden önce) repr ("represent" sözcüğünden kısaltma) özniteliği iliştirilirse bu öznitelik
     enum türünün varyantlarına ilişkin ayırıcı değerlerin türünü belirtir. Örneğin:
 
-    #[repr(u8)]
-    enum Direction {
-        Left(i32),
-        Up(i32) = 10,
-        Right(i32),
-        Down(i32) = 20
-    }
+        #[repr(u8)]
+        enum Direction {
+            Left(i32),
+            Up(i32) = 10,
+            Right(i32),
+            Down(i32) = 20
+        }
 
     Burada enum türü yalnızca birimsel varyantlardan oluşmadığı halde enum tanımlamasına repr özniteliği iliştildiği için
     enum varyantları için "= <sabit_ifadesi>" sentaksıyla ayırıcı değer belirlemesi yapılabilmiştir. Örneğimizdeki #[repr(u8)]
     özniteliğindeki u8 ayırıcı değerin türünü belirtmektedir. Ayırıcı değerler repr özniteliğinde belirtilen türün sınırları
     dışında değerlere sahip olamazlar. Örneğin aşağıdaki enum tanımlaması error ile sonuçlanacaktır:
 
-    #[repr(u8)]
-    enum Direction {
-        Left(i32),
-        Up(i32),
-        Right(i32) = 255,
-        Down(i32)               // error!
-    }
+        #[repr(u8)]
+        enum Direction {
+            Left(i32),
+            Up(i32),
+            Right(i32) = 255,
+            Down(i32)               // error!
+        }
 
     Burada Down varyantının ayırıcı değeri 256 olacaktır. Ancak bu değer u8 türünün sınırları dışında kalmaktadır.
 
     Yukarıdaki iki koşuldan en az biri sağlanmıyorsa biz enum varyantları için ayırıcı değer belirlemesi yapamayız. Örneğin:
 
-    enum Direction {            // error!
-        Left(i32),
-        Up(i32) = 10,
-        Right(i32),
-        Down(i32) = 20
-    }
+        enum Direction {            // error!
+            Left(i32),
+            Up(i32) = 10,
+            Right(i32),
+            Down(i32) = 20
+        }
 
     Bu örnekte ayırıcı değer belirleme işlemi geçerli değildir.
 
     enum tanımlamasına repr ile ayırıcı değer türü iliştirilirken bu türün tamsayı türlerine ilişkin olması zorunludur. Örneğin:
 
-    #[repr(f64)]                // error!
-    enum Direction {
-        Left(i32),
-        Up(i32),
-        Right(i32),
-        Down(i32)
-    }
+        #[repr(f64)]                // error!
+        enum Direction {
+            Left(i32),
+            Up(i32),
+            Right(i32),
+            Down(i32)
+        }
 
     Rust'ta enum varyantlarına ilişkin ayırıcı değerlerinin hepsi birbirinden farklı olmak zorundadır. (Halbuki C/C++, Java ve
     C# gibi dillerde böyle bir koşul yoktur.) Örneğin:
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down = 1        // error!
-    }
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down = 1        // error!
+        }
 
     Buarada Up varyantının ayrıcı değeri de Down varyantının ayırıcı değeri de 1'dir. Bu durum error oluşturacaktır.
 
@@ -8409,7 +8409,9 @@
     temsiline göre de enum varyantlarının ayırıcı değerleri isize türündendir. Ancak "The Rust Reference" dokümanları bu
     isize türünün yalnızca temsil amacıyla kullanıldığını belirtmektedir. Yani default ayırıcı değer türü isize olsa da
     derleyiciler isterse kod üretirken bundan daha küçük türleri de kullanabilirler.
+
 # 30. Ders 25/06/2025 - Çarşamba
+
     Bir enum türünden değişkenin bellek organizasyonu daha önce de belirttiğimiz gibi adeta bir "birlik (union)" organizasyonu
     gibidir. enum türünden bir değişken için C'de olduğu gibi enum türünün en büyük elemanını içerecek büyüklükte bir yer
     ayrılmaktadır. Ancak C'den farklı olarak Rust'taki enum değişkenleri aynı zamanda ayırıcı değeri de kendi içerisinde tutmaktadır.
@@ -8424,11 +8426,11 @@
     enum değişkeninin içsel organizasyonunun nasıl olması gerektiği konusunda bir açıklama yaptık. Şimdi açıklamalarımızı
     somut bir örnekle pekiştirelim. Aşağıdaki gibi bir enum tanımlanmış olsun:
 
-    enum Fruit {
-        Apple,
-        Banana(i32, f64),
-        Apricot { price: i32, unit: i32 }
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32, f64),
+            Apricot { price: i32, unit: i32 }
+        }
 
     Burada Apple varyantı birimsel bir varyanttır. Birimsel varyantların aslında değişken içerisinde bir yer kaplamasına
     gerek yoktur. Çünkü zaten birimsel varyantlar değer tutmamaktadır. Dolayısıyla aslında onlar yalnızca ayırıcı değer
@@ -8441,39 +8443,39 @@
     rapor edilmektedir. Muhtemelen derleyicimiz bu enum türünün ayırıcı değeri için 8 byte değil 4 byte ayırmıştır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let f = Fruit::Apple;
-    let size = std::mem::size_of_val(&f);
+    fn main() {
+        let f = Fruit::Apple;
+        let size = std::mem::size_of_val(&f);
 
-    println!("{}", size);       // 16
-}
-
-enum Fruit {
-    Apple,
-    Banana(i32, f64),
-    Apricot { price: i32, unit: i32 }
-}
-
----------------------------------------------------------------------------------------------------------------------------
-    Bu konuda sıkça tereddüt edilen bir konu hakkında açıklamada bulunmak istiyoruz. Aşağıdaki enum türünden değişkene dikkat
-    ediniz:
+        println!("{}", size);       // 16
+    }
 
     enum Fruit {
         Apple,
         Banana(i32, f64),
         Apricot { price: i32, unit: i32 }
     }
-    //...
 
-    let f = Fruit::Apple;
+---------------------------------------------------------------------------------------------------------------------------
+    Bu konuda sıkça tereddüt edilen bir konu hakkında açıklamada bulunmak istiyoruz. Aşağıdaki enum türünden değişkene dikkat
+    ediniz:
+
+        enum Fruit {
+            Apple,
+            Banana(i32, f64),
+            Apricot { price: i32, unit: i32 }
+        }
+        //...
+
+        let f = Fruit::Apple;
 
     Burada neden f için 16 byte yer ayrılıyor? Örneğin 4 byte bunun için yetmez miydi? İşte tıpkı C'deki birliklerde olduğu
     derleyicinin enum türünden değişkeni için enum türünün en büyük elemanını tutabilecek kadar yer ayırması gerekmektedir.
     Çünkü daha sonra (eğer değişken mut ise) bu değişken aynı enum türünün başka bir varyantını da tutabilmelidir. Örneğin:
 
-    let mut f = Fruit::Apple;
-    //...
-    f = Fruit::Banana(10, 5.5);
+        let mut f = Fruit::Apple;
+        //...
+        f = Fruit::Banana(10, 5.5);
 
     Burada başlangıçta f değişkeni Fruit::Apple varyantını tutarken sonra Fruit::Banana(10, 5.5) varyantını tutar hale
     gelmiştir. İşte işin başında f için en kötü olasılıkla en uzun elemanı da tutabilecek uzunlukta bir yer ayrılması
@@ -8488,20 +8490,20 @@ enum Fruit {
     türünden bir değişken as operatöryle herhangi bir tamsayı türüne (ancak gerçek sayı türlerine değil) dönüştürülerek ayırıcı
     değer elde edilebilir. Örneğin:
 
-    fn main() {
-        let d = Direction::Right;
-        let dval: i32;
+        fn main() {
+            let d = Direction::Right;
+            let dval: i32;
 
-        dval = d as i32;            // geçerli, enum "unit-only"
-        println!("{}", dval);       // 2
-    }
+            dval = d as i32;            // geçerli, enum "unit-only"
+            println!("{}", dval);       // 2
+        }
 
-    enum Direction {
-        Left,
-        Up,
-        Right,
-        Down
-    }
+        enum Direction {
+            Left,
+            Up,
+            Right,
+            Down
+        }
 
     Byrada d değişkeni Direction isimli enum türündendir. Bu enum türünün tüm varyantları birimseldir. Bu nedenle bu enum
     türünden bir değişken ya da değer as operatörü ile bir tamsayı türüne dönüştürüldüğünde ayırıcı değer elde edilebilir.
@@ -8510,88 +8512,88 @@ enum Fruit {
     değer belirtilmemişse bu enum türünden değişken ya da değer tamsayı türlerine dönüştürülerek ayırıcı değer elde edilebilir.
     Örneğin:
 
-    enum Color {
-        Red,
-        Green(),
-        Blue {},
-        Magenta
-    }
+        enum Color {
+            Red,
+            Green(),
+            Blue {},
+            Magenta
+        }
 
     Burada Color alansız (field-less) bir enum türüdür. Bu enum türünün birimsel olmayan varyantları için açıkça değer belirtilmediği
     için bu enum türünden değişken ya da değer as operatörüyle tamsayı türlerine dönüştürülerek ayırıcı değer elde edilebilir:
 
-    fn main() {
-        let d = Color::Blue{};
-        let dval: i32;
+        fn main() {
+            let d = Color::Blue{};
+            let dval: i32;
 
-        dval = d as i32;            // geçerli
-        println!("{}", dval);       // 2
-    }
+            dval = d as i32;            // geçerli
+            println!("{}", dval);       // 2
+        }
 
     Burada bir hatırlatma yapmak istiyoruz. Yukarıdaki enum türünün varyantları için ancak repr özniteliği ile ayırıcı değer
     belirtilebilmektedir. Aşağıdaki enum türüne dikkat ediniz:
 
-    #[repr(i32)]
-    enum Color {
-        Red = 10,
-        Green(),
-        Blue {},
-        Magenta
-    }
+        #[repr(i32)]
+        enum Color {
+            Red = 10,
+            Green(),
+            Blue {},
+            Magenta
+        }
 
     Burada biz bu enum türünden bir değişken ya da değeri yine as operatörüyle tamsayı türlerine dönüştürebiliriz. Çünkü açıkça
     değeri belirtilen varyant birimsel varyanttır:
 
-    fn main() {
-        let d = Color::Blue{};
-        let dval: i32;
+        fn main() {
+            let d = Color::Blue{};
+            let dval: i32;
 
-        dval = d as i32;            // geçerli
-        println!("{}", dval);       // 2
-    }
+            dval = d as i32;            // geçerli
+            println!("{}", dval);       // 2
+        }
 
-    #[repr(i32)]
-    enum Color {
-        Red = 10,
-        Green(),
-        Blue {},
-        Magenta
-    }
+        #[repr(i32)]
+        enum Color {
+            Red = 10,
+            Green(),
+            Blue {},
+            Magenta
+        }
 
     Fakat aşağıdaki dönüştürme error ile sonuçlanacaktır:
 
-    fn main() {
-        let d = Color::Blue{};
-        let dval: i32;
+        fn main() {
+            let d = Color::Blue{};
+            let dval: i32;
 
-        dval = d as i32;            // error!
-        println!("{}", dval);
-    }
+            dval = d as i32;            // error!
+            println!("{}", dval);
+        }
 
-    #[repr(i32)]
-    enum Color {
-        Red,
-        Green() = 10,
-        Blue {},
-        Magenta
-    }
+        #[repr(i32)]
+        enum Color {
+            Red,
+            Green() = 10,
+            Blue {},
+            Magenta
+        }
 
     Tabii enum alansız değilse zaten hiçbir durumda dönüştürme yapılamamaktadır. Örneğin:
 
-    fn main() {
-        let d = Color::Blue{};
-        let dval: i32;
+        fn main() {
+            let d = Color::Blue{};
+            let dval: i32;
 
-        dval = d as i32;            // error!
-        println!("{}", dval);
-    }
+            dval = d as i32;            // error!
+            println!("{}", dval);
+        }
 
-    enum Color {
-        Red,
-        Green(i32),
-        Blue,
-        Magenta
-    }
+        enum Color {
+            Red,
+            Green(i32),
+            Blue,
+            Magenta
+        }
 
     Burada Color alansız (field-less) bir enum değildir. Dolayısıyla bu enum türünden bir değişken ya da değer tamsayı türlerine
     dönüştürülemez.
@@ -8602,29 +8604,29 @@ enum Fruit {
     da == ve != operatörleriyle karşılaştırılabilmektedir. Bu sayede biz aynı türden iki enum değişkeninin ya da değerinin
     içerisinde aynı ayrıcı değerin olup olmadığını dolaylı bir biçimde anlayabiliriz. Örneğin:
 
-    enum Color {
-        Red(i32),
-        Green(i32),
-        Blue(i32),
-        Magenta(i32)
-    }
-    //...
+        enum Color {
+            Red(i32),
+            Green(i32),
+            Blue(i32),
+            Magenta(i32)
+        }
+        //...
 
-    let x = Color::Blue(10);
-    let y = Color::Blue(20);
+        let x = Color::Blue(10);
+        let y = Color::Blue(20);
 
     Burada x ve y değişkenleri alan değerleri farklı olsa da aynı varyantı turmaktadır. İşte biz bu x ve y değişkenlerinin
     içerisindeki ayırıcı değerlerin aynı olup olmadığını std::mem::discriminant fonksiyonuyla anlayabiliriz:
 
-    let disc_x: std::mem::Discriminant<Color>;
-    let disc_y: std::mem::Discriminant<Color>;
-    let result: bool;
+        let disc_x: std::mem::Discriminant<Color>;
+        let disc_y: std::mem::Discriminant<Color>;
+        let result: bool;
 
-    disc_x = std::mem::discriminant(&x);
-    disc_y = std::mem::discriminant(&y);
+        disc_x = std::mem::discriminant(&x);
+        disc_y = std::mem::discriminant(&y);
 
-    result = disc_x == disc_y;
-    println!("result: {}", result);         // true
+        result = disc_x == disc_y;
+        println!("result: {}", result);         // true
 
     Burada x ve y içerisinde aynı varyant bulunmaktadır. Ancak bu varyantların tuttukları değer farklıdır. Fakat std::mem::discriminant
     fonksiyonu bu alan değerlerine değil yalnızca ayırıcı değere bakmaktadır. Tabii bu tür karşılaştırmalar aslında daha kısa
@@ -8632,46 +8634,46 @@ enum Fruit {
 
     use std::mem::discriminant;
 
-    let x = Color::Blue(10);
-    let y = Color::Blue(20);
-    let result: bool;
+        let x = Color::Blue(10);
+        let y = Color::Blue(20);
+        let result: bool;
 
-    result = discriminant(&x) == discriminant(&y);
-    println!("{}", result);     // true
+        result = discriminant(&x) == discriminant(&y);
+        println!("{}", result);     // true
 
     Ya da örneğin:
 
-    let x = Color::Blue(10);
+        let x = Color::Blue(10);
 
-    if discriminant(&x) == discriminant(&Color::Blue(10)) {
-        println!("yes");
-    }
-    else {
-       println!("no");
-    }
+        if discriminant(&x) == discriminant(&Color::Blue(10)) {
+            println!("yes");
+        }
+        else {
+        println!("no");
+        }
 
     Ancak bu Discriminant<E> değeri ile >, <, >=, <= gibi karşılaştırmalar yapılamamaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
 use std::mem::discriminant;
 
-fn main() {
-    let x = Color::Blue(10);
+    fn main() {
+        let x = Color::Blue(10);
 
-    if discriminant(&x) == discriminant(&Color::Blue(10)) {
-        println!("yes");
+        if discriminant(&x) == discriminant(&Color::Blue(10)) {
+            println!("yes");
+        }
+        else {
+        println!("no");
+        }
     }
-    else {
-       println!("no");
-    }
-}
 
-enum Color {
-    Red(i32),
-    Green(i32),
-    Blue(i32),
-    Magenta(i32)
-}
+    enum Color {
+        Red(i32),
+        Green(i32),
+        Blue(i32),
+        Magenta(i32)
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi bir enum türünden nesnesnin içerisindeki varyant alanlarını nasıl elde edebiliriz? İşte varyant alanları ancak
@@ -8681,49 +8683,79 @@ enum Color {
 ---------------------------------------------------------------------------------------------------------------------------
     Birimsel enum varyantları için kalıplar doğrudan varyant ismiyle belirtilmektedir. Örneğin:
 
-    enum Direction  {
-        Left,
-        Up,
-        Right,
-        Down
-    }
-    //...
+        enum Direction  {
+            Left,
+            Up,
+            Right,
+            Down
+        }
+        //...
 
-    let d = Direction::Right;
+        let d = Direction::Right;
 
-    match d {
-        Direction::Left => println!("left"),
-        Direction::Up => println!("up"),
-        Direction::Right => println!("right"),
-        Direction::Down => println!("down")
-    }
+        match d {
+            Direction::Left => println!("left"),
+            Direction::Up => println!("up"),
+            Direction::Right => println!("right"),
+            Direction::Down => println!("down")
+        }
 
     Burada kalıpların oluşturulma biçimine dikkat ediniz. Kalıplar yalnızca varyant isimlerinden oluşturulmuştur. Çünkü
     kalıplara ilişkin varyantlarda alanlar yoktur.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let d = Direction::Right;
+        fn main() {
+            let d = Direction::Right;
 
-    match d {
-        Direction::Left => println!("left"),
-        Direction::Up => println!("up"),
-        Direction::Right => println!("right"),
-        Direction::Down => println!("down")
-    }
-}
+            match d {
+                Direction::Left => println!("left"),
+                Direction::Up => println!("up"),
+                Direction::Right => println!("right"),
+                Direction::Down => println!("down")
+            }
+        }
 
-enum Direction  {
-    Left,
-    Up,
-    Right,
-    Down
-}
+        enum Direction  {
+            Left,
+            Up,
+            Right,
+            Down
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     enum türünün demetsel varyantları için daha önce demetler (tuples) konusunda görmüş olduğumuz demet kalıplarının hepsi
     kullanılabilir. Yani bu durumda kalıp bir demet kalıbı gibi oluşturulmaktadır. Önce enum varyantının ismi belirtilir,
     sonra parantezler içerisinde demet kalıbı oluşturulur. Örneğin:
+
+        enum Color  {
+            RGB(u8, u8, u8),
+            GrayScale(u8),
+            CMYK(u8, u8, u8, u8),
+        }
+
+    Buradaki enum türünün varyantları demetsel biçimdedir. Biz de match deyiminde varyant isminden sonra demet kalıplarını
+    kullanabiliriz:
+
+        match color {
+            Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
+            Color::GrayScale(c) => println!("Grayscale, {}", c),
+            Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
+        }
+
+    Burada match kollarında uyuşma sağlandığında biz hem değişkenin hangi varyantı tuttuğunu hem de o varyantın alanlarını
+    elde etmiş oluruz. Yukarıdaki match deyiminin "exhaustive" olduğuna da dikkat ediniz. Bu nedenle match ifadesinin sonuna
+    _ kolu yerleştirmedik.
+    ---------------------------------------------------------------------------------------------------------------------------
+
+    fn main() {
+        let color = Color::RGB(255, 255, 0);
+
+        match color {
+            Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
+            Color::GrayScale(c) => println!("Grayscale, {}", c),
+            Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
+        }
+    }
 
     enum Color  {
         RGB(u8, u8, u8),
@@ -8731,76 +8763,46 @@ enum Direction  {
         CMYK(u8, u8, u8, u8),
     }
 
-    Buradaki enum türünün varyantları demetsel biçimdedir. Biz de match deyiminde varyant isminden sonra demet kalıplarını
-    kullanabiliriz:
-
-     match color {
-        Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
-        Color::GrayScale(c) => println!("Grayscale, {}", c),
-        Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
-    }
-
-    Burada match kollarında uyuşma sağlandığında biz hem değişkenin hangi varyantı tuttuğunu hem de o varyantın alanlarını
-    elde etmiş oluruz. Yukarıdaki match deyiminin "exhaustive" olduğuna da dikkat ediniz. Bu nedenle match ifadesinin sonuna
-    _ kolu yerleştirmedik.
----------------------------------------------------------------------------------------------------------------------------
-
-fn main() {
-    let color = Color::RGB(255, 255, 0);
-
-    match color {
-        Color::RGB(r, g, b) => println!("RGB: {}, {}, {}", r, g, b),
-        Color::GrayScale(c) => println!("Grayscale, {}", c),
-        Color::CMYK(c, m, y, k) => println!("CMYK: {}, {}, {}, {}", c, m, y, k),
-    }
-}
-
-enum Color  {
-    RGB(u8, u8, u8),
-    GrayScale(u8),
-    CMYK(u8, u8, u8, u8),
-}
-
 ---------------------------------------------------------------------------------------------------------------------------
     Demetsel varyantlarda varyant isminden sonra yalnızca değişken kalıplarını değil daha önce görmüş olduğumuz tüm demet
     kalıplarını kullanabiliriz. Örneğin:
 
-     match color {
-        Color::RGB(255, g, _) => println!("RGB: {}", g),
-        Color::GrayScale(c) => println!("Grayscale, {}", c),
-        Color::CMYK(..) => println!("CMYK"),
-        _=> println!("None")
-    }
+        match color {
+            Color::RGB(255, g, _) => println!("RGB: {}", g),
+            Color::GrayScale(c) => println!("Grayscale, {}", c),
+            Color::CMYK(..) => println!("CMYK"),
+            _=> println!("None")
+        }
 
     Burada ilk match koluna dikkat ediniz:
 
-    Color::RGB(255, g, _) => println!("RGB: {}", g),
+        Color::RGB(255, g, _) => println!("RGB: {}", g),
 
     Bu match kolunun uyuşması için ilk değerin 255 olması gerekir. Burada demetin üçüncü elemanı her durumda uyuşum sağlayacaktır.
     Programcı demetin ikinci elemanının değerini elde etmek istemiştir. Şimdi de üçüncü match koluna dikkat ediniz:
 
-    Color::CMYK(..) => println!("CMYK"),
+        Color::CMYK(..) => println!("CMYK"),
 
     Burada programcı CMYK varyantının her alanına uyuşum sağlamak istemiştir. Bu kalıp şöyle yazılamazdı:
 
-    Color::CMYK => println!("CMYK"),            // error!
+        Color::CMYK => println!("CMYK"),            // error!
 
     Yine demetsel varyantlarda .. atomu herhangi bir elemanda bulunabilmektedir. Örneğin:
 
-    Color::RGB(.., b) => println!("RGB: {}", b),
+        Color::RGB(.., b) => println!("RGB: {}", b),
 
     Tabii .. atomu yalnızca tek bir elemanda bulunabilir. Biz yine @ sentaksı ile "başlama (binding)" yapabiliriz. Örneğin:
 
-    c @ Color::RGB(255, g, _) => println!("RGB: {:?} {}", c, g),
+        c @ Color::RGB(255, g, _) => println!("RGB: {:?} {}", c, g),
 
     Burada tüm varyantın değeri ayrıca c değişkenine de yerleştirilmiştir. Tabii demetsel varyantlarda demet elemanlarında
     demet kalıplarındaki diğer diğer tüm kalıplar kullanılabilir. Örneğin biz bir alanda range kalıbını kullanabiliriz:
 
-    Color::RGB(200..=255, g, b) => println!("RGB: {} {}", g, b),
+        Color::RGB(200..=255, g, b) => println!("RGB: {} {}", g, b),
 
     Yine demetsel varyantlara ilişkin kalıplarda koruma (guard) uygulanabilir. Örneğin:
 
-    Color::RGB(_, g, b) if g + b > 100 => println!("RGB: {} {}", g, b),
+        Color::RGB(_, g, b) if g + b > 100 => println!("RGB: {} {}", g, b),
 
     Burada kalıp uyuşumunun sağlanması içinb ayrıca g + b > 100 koşulunun da sağlanması gerekmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -8808,26 +8810,76 @@ enum Color  {
     hoş gelmeyen bir durum vardı. Denklemin kökü yoksa biz gereksiz bir biçimde yine bir demet oluşturuyorduk. Fonksiyonun
     tasarımını anımsayınız:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
-        let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> (f64, f64, bool) {
+            let delta: f64;
 
-        delta = b * b - 4.0 * a * c;
-        if delta < 0.0 {
-            (0., 0., false)
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                (0., 0., false)
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
+                (x1, x2, true)
+            }
         }
-        else {
-            let x1 = (-b + delta.sqrt()) / (2. * a);
-            let x2 =  (-b - delta.sqrt()) / (2. * a);
-            (x1, x2, true)
-        }
-    }
 
     İşte bu tür durumlarda aslında Rust'ta enum türleri tercih edilmektedir. enum türleri farklı içerikteki bilgileri çakıuşık
     biçimde tutabildiği için bu tür durumlara çok uygundur. Aşağıdaki tasarıma dikkat ediniz:
 
-    enum QuadraticResult {
-        Roots(f64, f64),
-        None
+        enum QuadraticResult {
+            Roots(f64, f64),
+            None
+        }
+
+        fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+            let delta = b * b - 4. * a * c;
+
+            if delta > 0. {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 = (-b - delta.sqrt()) / (2. * a);
+                QuadraticResult::Roots(x1, x2)
+            }
+            else {
+                QuadraticResult::None
+            }
+        }
+
+    Burada artık fonksiyon bir enum değerine geri dönemektedir. Bu değer de ya QuadraticResult::Roots varyantına ilişkin
+    olabilir ya da QuadraticResult::None varyantına ilişkin olabilir. Şimdi fonksiyonu çağıralım:
+
+        let qresult: QuadraticResult;
+
+        qresult = get_roots(1., 0., -4.);
+
+    Bizim burada fonksiyonun köklerinin olup olmadığını belirleyip eğer kök varsa kök değerlerini elde etmemiz gerekir. İşte
+    bunu kalıp uyuşumu ile match ifadesini kullanarak sağlayabiliriz:
+
+        match qresult {
+            QuadraticResult::Roots(x1, x2) => println!("x1 = {} x2 = {}", x1, x2),
+            QuadraticResult::None => println!("No root found"),
+        }
+
+    Tabii biz kalıp uyuşumu ile çalışan if let deyimini de kullanabilirdik. Ne de olsa örneğimizdeki QuadraticResult enum
+    türünün yalnızca iki varyantı vardır. Örneğin:
+
+        if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
+            println!("x1 = {}, x2 = {}", x1, x2);
+        }
+        else {
+            println!("No root found!")
+        }
+
+    Burada eğer kalıp uyuşuyorsa zaten kök var demektir. Kökün olmaması durumunda kalıp uyuşumu da sağlanmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------
+
+    fn main() {
+        if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
+            println!("x1 = {}, x2 = {}", x1, x2);
+        }
+        else {
+            println!("No root found!")
+        }
     }
 
     fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
@@ -8843,191 +8895,141 @@ enum Color  {
         }
     }
 
-    Burada artık fonksiyon bir enum değerine geri dönemektedir. Bu değer de ya QuadraticResult::Roots varyantına ilişkin
-    olabilir ya da QuadraticResult::None varyantına ilişkin olabilir. Şimdi fonksiyonu çağıralım:
-
-    let qresult: QuadraticResult;
-
-    qresult = get_roots(1., 0., -4.);
-
-    Bizim burada fonksiyonun köklerinin olup olmadığını belirleyip eğer kök varsa kök değerlerini elde etmemiz gerekir. İşte
-    bunu kalıp uyuşumu ile match ifadesini kullanarak sağlayabiliriz:
-
-    match qresult {
-        QuadraticResult::Roots(x1, x2) => println!("x1 = {} x2 = {}", x1, x2),
-        QuadraticResult::None => println!("No root found"),
+    enum QuadraticResult {
+        Roots(f64, f64),
+        None
     }
-
-    Tabii biz kalıp uyuşumu ile çalışan if let deyimini de kullanabilirdik. Ne de olsa örneğimizdeki QuadraticResult enum
-    türünün yalnızca iki varyantı vardır. Örneğin:
-
-    if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
-        println!("x1 = {}, x2 = {}", x1, x2);
-    }
-    else {
-        println!("No root found!")
-    }
-
-    Burada eğer kalıp uyuşuyorsa zaten kök var demektir. Kökün olmaması durumunda kalıp uyuşumu da sağlanmayacaktır.
----------------------------------------------------------------------------------------------------------------------------
-
-fn main() {
-    if let QuadraticResult::Roots(x1, x2) = get_roots(1., 0., -4.) {
-        println!("x1 = {}, x2 = {}", x1, x2);
-    }
-    else {
-        println!("No root found!")
-    }
-}
-
-fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
-    let delta = b * b - 4. * a * c;
-
-    if delta > 0. {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 = (-b - delta.sqrt()) / (2. * a);
-        QuadraticResult::Roots(x1, x2)
-    }
-    else {
-        QuadraticResult::None
-    }
-}
-
-enum QuadraticResult {
-    Roots(f64, f64),
-    None
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Yukarıdaki enum türünü hata mesajını da barındıracak biçimde aşağıdaki hale dönüştürebiliriz:
 
-    enum QuadraticResult {
-        Roots(f64, f64),
-        Error(String),
-    }
+        enum QuadraticResult {
+            Roots(f64, f64),
+            Error(String),
+        }
 
     Artık enum türünün bir elemanı kökleri, diğer elemanı kökün olmaması durumundaki hata mesajı belirtmektedir. Tabii fonksiyonu
     da Fonksiyon da şöyle değiştirmemiz gerekecektir:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
-        let delta = b * b - 4. * a * c;
+        fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+            let delta = b * b - 4. * a * c;
 
-        if delta > 0. {
-            let x1 = (-b + delta.sqrt()) / (2. * a);
-            let x2 = (-b - delta.sqrt()) / (2. * a);
-            QuadraticResult::Roots(x1, x2)
+            if delta > 0. {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 = (-b - delta.sqrt()) / (2. * a);
+                QuadraticResult::Roots(x1, x2)
+            }
+            else {
+                QuadraticResult::Error(String::from("No roots found"))
+            }
         }
-        else {
-            QuadraticResult::Error(String::from("No roots found"))
-        }
-    }
 
     Biz de artık fonksiyonun geri dönüş değerini match ifadesi ile aşağıdaki gibi ele alırız:
 
-    match get_roots(1., 0., 4.) {
-        QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
-        QuadraticResult::Error(msg) => println!("{}", msg)
-    }
+        match get_roots(1., 0., 4.) {
+            QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
+            QuadraticResult::Error(msg) => println!("{}", msg)
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    match get_roots(1., 0., 4.) {
-        QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
-        QuadraticResult::Error(msg) => println!("{}", msg)
-    }
-}
+        fn main() {
+            match get_roots(1., 0., 4.) {
+                QuadraticResult::Roots(x1, x2) => println!("x1 = {}, x2 = {}", x1, x2),
+                QuadraticResult::Error(msg) => println!("{}", msg)
+            }
+        }
 
-fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
-    let delta = b * b - 4. * a * c;
+        fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+            let delta = b * b - 4. * a * c;
 
-    if delta > 0. {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 = (-b - delta.sqrt()) / (2. * a);
-        QuadraticResult::Roots(x1, x2)
-    }
-    else {
-        QuadraticResult::Error(String::from("No roots found"))
-    }
-}
+            if delta > 0. {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 = (-b - delta.sqrt()) / (2. * a);
+                QuadraticResult::Roots(x1, x2)
+            }
+            else {
+                QuadraticResult::Error(String::from("No roots found"))
+            }
+        }
 
-enum QuadraticResult {
-    Roots(f64, f64),
-    Error(String),
-}
+        enum QuadraticResult {
+            Roots(f64, f64),
+            Error(String),
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi de enum türlerinin yapısal (struct-like) varyantlarına ilişkin kalıplar üzerinde duralım. enum türümüz aşağıdaki
     gibi olsun:
 
-    enum MyEnum {
-        A,
-        B(i32, i32),
-        C { x: i32, y: i32, z: i32 },
-    }
+        enum MyEnum {
+            A,
+            B(i32, i32),
+            C { x: i32, y: i32, z: i32 },
+        }
 
     Bu enum türünden aşağıdaki gibi bir değişken oluşturalım:
 
-    let me: MyEnum = MyEnum::C { x: 10, y: 20, z: 30 };
+        let me: MyEnum = MyEnum::C { x: 10, y: 20, z: 30 };
 
     Şimdi bu örneği kullanarak yapısal varyantlara ilişkin kalıpların nasıl oluşturulduğubu madde madde açıklayalım:
 
     - Yapısal kalıplarda önce yapısal varyantın ismi sonra küme parantezleri içerisinde eleman isimleri ve ':' atomu ile
     sabit kalıpları oluşturulabilir. Örneğin:
 
-    match me {
-        MyEnum::C { x: 10, y: 20, z: 30 } => println!("matched"),
-        _ => println!("cannot match!")
-    }
+        match me {
+            MyEnum::C { x: 10, y: 20, z: 30 } => println!("matched"),
+            _ => println!("cannot match!")
+        }
 
     Burada MyEnum::C kalıbına dikkat ediniz. Varyantın her alanı için sabit kalıbı kullanılmıştır.
 
     Tabii yapısal varyant kalıplarında alanların yapısal vatyanttaki sırayı izlemesi zorunlu değildir. Örneğin:
 
-     match me {
-        MyEnum::C { y: 20, z: 30, x: 10 } => println!("matched"),
-        _ => println!("cannot match!")
-    }
+        match me {
+            MyEnum::C { y: 20, z: 30, x: 10 } => println!("matched"),
+            _ => println!("cannot match!")
+        }
 
     - Yapısal varyantlarda varyantın alanları için _ (wildcard pattern) atomu bulundurulursa kalıp uyuşumu o alanlar için her
     zaman sağlanmaktadır. Örneğin:
 
-    match me {
-        MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
-        _ => println!("cannot match!")
-    }
+        match me {
+            MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
+            _ => println!("cannot match!")
+        }
 
     Burada match deyiminin ilk koluna dikkat ediniz:
 
-    MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
+        MyEnum::C { x: _, y: 20, z: _ } => println!("matched"),
 
     Bu kalıp "x herhangi bir değerde olabilir, z herhangi bir değerde olursa olsun, ancak y 20 olmalı" anlamına gelmektedir.
 
     - Yapısal varyantların alanlarında da .. kalıbı (rest pattern) kullanılabilmektedir. Ancak yapısal varyantlarda bu ..
     kalıbı küme parantezlerinin sonunda bulunmak zorundadır. Örneğin:
 
-    match me {
+        match me {
+            MyEnum::C { y: 20, .. } => println!("matched"),
+            _ => println!("cannot match!")
+        }
+
+    match deyiminin birinci koluna dikkat ediniz:
+
         MyEnum::C { y: 20, .. } => println!("matched"),
-        _ => println!("cannot match!")
-    }
-
-   match deyiminin birinci koluna dikkat ediniz:
-
-    MyEnum::C { y: 20, .. } => println!("matched"),
 
     Burada .. kalıbı "geri kalan tüm alanlar herhangi bir değerde olabilir" anlamına gelmektedir. Aşağıdaki kalıp geçerli
     değildir:
 
-    MyEnum::C { .., y: 20 } => println!("matched"),         // error!
+        MyEnum::C { .., y: 20 } => println!("matched"),         // error!
 
     Demetsel varyanlarda bu .. kalıbı herhangi bir yerde bulunabilmesine karşın yapısal varyanlarda sonra bulunmak zorundadır.
 
     - Yapısal varyanların alanlarında da değişken kalıbı kullanılabilir. Bu durumda alan ismini ':' atomu ve bunu da bir
     değişken izler. Örneğin:
 
-    match me {
-        MyEnum::C { x: a, y: b, z: 30} => println!("matched: a = {}, b = {}", a, b),
-        _ => println!("cannot match!")
-    }
+        match me {
+            MyEnum::C { x: a, y: b, z: 30} => println!("matched: a = {}, b = {}", a, b),
+            _ => println!("cannot match!")
+        }
 
     Burada birinci match kolunda x ve y alanları her zaman uyuşum sağlmaktadır. Ancak bu alanların değerlerini biz a ve b
     değişkenlerinin içerisine yerleştirdik.
@@ -9036,23 +9038,23 @@ enum QuadraticResult {
     bu durum da geçerli kabul edilmektedir. The Rust Reference dokümanlarına göre "yalnızca alan isminin belirtilmesi, alan
     isminden sonra ':' ve alan isminin aynısının kullanılması ile aynı etkiye"  sahiptir. Örneğin:
 
-    match me {
-        MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
-        _ => println!("cannot match!")
-    }
+        match me {
+            MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
+            _ => println!("cannot match!")
+        }
 
     Örneğimizdkei match deyiminin ilk koluna dikkat ediniz:
 
-    MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
+        MyEnum::C { x, y, z: 30 } => println!("matched: x = {}, y = {}", x, y),
 
     Burada x ve y alan isimlerinden sonra ':' sentaksı kullanılmamıştır. Dolayısıyla bu alanların değerleri doğrudan x ve
     y isimli değişkenler yaratılarak onların içerisine yerleştirilecektir. Yani yukarıdaki kalıp aşağıdakiyle tamamen eşdeğerdir:
 
-    MyEnum::C { x: x, y: y, z: 3 } => println!("matched: x = {}, y = {}", x, y),
+        MyEnum::C { x: x, y: y, z: 3 } => println!("matched: x = {}, y = {}", x, y),
 
     - match deyiminde yapısal varyantların alanlarında yine koruma uygulanabilir. Örneğin:
 
-    MyEnum::C {x, y, z: 30} if x + y > 30 => println!("matched: x = {}, y = {}", x, y),
+        MyEnum::C {x, y, z: 30} if x + y > 30 => println!("matched: x = {}, y = {}", x, y),
 
     Burada uyuşumun sağlanması için aynı zamanda x + y > 30 koşulunun da sağlanması gerekmektedir.
 
@@ -9061,8 +9063,8 @@ enum QuadraticResult {
     Pekiyi enum türünden bir değişken ya da değer fonksiyonlara nasıl aktarılabilir? İşte tıpkı dizilerde olduğu gibi enum
     türünden değişkenler ya da değerler fonksiyonlara iki biçimde aktarılabilmektedir:
 
-    1) Kopyalama (ya da taşıma yoluyla)
-    2) Adres yoluyla
+      1) Kopyalama (ya da taşıma yoluyla)
+      2) Adres yoluyla
 
     Bir enum türünden değişkenin ya da değerin kopyalanarak (ya da taşınarak) fonksiyona aktarılması durumunda fonksiyonun
     parametre değişkeni enum türünden bir değişken olur. Fonksiyon da aynı enum türünden bir değişken ya da değerle çağrılır.
@@ -9071,25 +9073,25 @@ enum QuadraticResult {
 
     Örneğin:
 
-    fn main() {
-        let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
+        fn main() {
+            let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
 
-        foo(f);
-    }
-
-    fn foo(f: Fruit) {
-        match f {
-            Fruit::Apple =>println!("Apple"),
-            Fruit::Banana(items) => println!("Banana: {}", items),
-            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+            foo(f);
         }
-    }
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Orange { origin: String, weight: f64},
-    }
+        fn foo(f: Fruit) {
+            match f {
+                Fruit::Apple =>println!("Apple"),
+                Fruit::Banana(items) => println!("Banana: {}", items),
+                Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+            }
+        }
+
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Orange { origin: String, weight: f64},
+        }
 
     Burada f değiikeninin içerisindeki değer bir bütün olarak fonksiyona aktarılmıştır. Artık bu aktarımdam sonra eğer enum
     varyantının içerisinde Copy türünden olmayan bir alan (field) varsa enum değişkeni sahipliğini kaybedecektir. Çünkü değişken
@@ -9102,34 +9104,34 @@ enum QuadraticResult {
     da enum türünden değişkenin ya da değerin adresiyle çağrılır. Her ne kadar biz henüz "referanslar ve göstericiler konusunu"
     görmemiş olsak da buna bir örnek vermek istiyoruz:
 
-    fn main() {
-        let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
+        fn main() {
+            let f = Fruit::Orange { origin: String::from("Anamur"), weight: 3.56};
 
-        foo(&f);
-    }
+            foo(&f);
+        }
 
-    fn foo(f: &Fruit) {
+        fn foo(f: &Fruit) {
+            match f {
+                Fruit::Apple =>println!("Apple"),
+                Fruit::Banana(items) => println!("Banana: {}", *items),
+                Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+            }
+        }
+
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Orange { origin: String, weight: f64},
+        }
+
+    match deyiminde match anahtar sözcüğünün yanındaki ifade bir referans ise kalıp uyuşumundaki alan belirten değişkenler de
+    birer referans olur. foo fonksiyonu içerisindeki match deyimine dikkat ediniz:
+
         match f {
             Fruit::Apple =>println!("Apple"),
             Fruit::Banana(items) => println!("Banana: {}", *items),
             Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
         }
-    }
-
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Orange { origin: String, weight: f64},
-    }
-
-    match deyiminde match anahtar sözcüğünün yanındaki ifade bir referans ise kalıp uyuşumundaki alan belirten değişkenler de
-    birer referans olur. foo fonksiyonu içerisindeki match deyimine dikkat ediniz:
-
-    match f {
-        Fruit::Apple =>println!("Apple"),
-        Fruit::Banana(items) => println!("Banana: {}", *items),
-        Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
-    }
 
     Burada f değişkeni &Fruit türündendir. Yani Fruit isimli enum türünden bir referanstır. Bu durumda kalıptaki alanlarda
     kullanılan değişkenler de birer referans olur. (Örneğin items değişkeni &i32 türünden, o değişkeni &String türünden ve w
@@ -9137,13 +9139,13 @@ enum QuadraticResult {
     anlatıldığı bölümde daha ayrıntılı bir biçimde duracağız. Burada bir noktaya daha değinmek istiyoruz. Yukarıdaki örnekte
     match ifadesinde f yerine *f kullanarak kalıptaki alanların referans olmaktan çıkartılabileceğini sanabilirsiniz. Örneğin:
 
-    fn foo(f: &Fruit) {
-        match *f {
-            Fruit::Apple =>println!("Apple"),
-            Fruit::Banana(items) => println!("Banana: {}", *items),
-            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+        fn foo(f: &Fruit) {
+            match *f {
+                Fruit::Apple =>println!("Apple"),
+                Fruit::Banana(items) => println!("Banana: {}", *items),
+                Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", *o, *w)
+            }
         }
-    }
 
     Burada artık *f ifadesi &Fruit türünden değil, Fruit türündendir. Dolayısıyla items, o ve w alanlarının artık referans
     olmaması gerekir. Ancak Rust'ta Copy türünden olmayan bir referans ile o referansın gösterdiği yerdeki değere erişilip
@@ -9151,25 +9153,25 @@ enum QuadraticResult {
     mekanizmalarının yürütülmesi mümkün olmazdı.) Tabii yukarıdaki enum türünün bütün alanları Copy türünden olsaydı yukarıdaki
     işlem yapılabilirdi. Örneğin aşağıdaki durumda match deyimi geçerli olacaktır:
 
-    fn main() {
-        let f = Fruit::Orange { origin: 10, weight: 3.56};
+        fn main() {
+            let f = Fruit::Orange { origin: 10, weight: 3.56};
 
-        foo(&f);
-    }
-
-    fn foo(f: &Fruit) {
-        match *f {
-            Fruit::Apple =>println!("Apple"),
-            Fruit::Banana(items) => println!("Banana: {}", items),
-            Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+            foo(&f);
         }
-    }
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Orange { origin: i32, weight: f64},
-    }
+        fn foo(f: &Fruit) {
+            match *f {
+                Fruit::Apple =>println!("Apple"),
+                Fruit::Banana(items) => println!("Banana: {}", items),
+                Fruit::Orange {origin: o, weight: w} => println!("Orange {}, {}", o, w)
+            }
+        }
+
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Orange { origin: i32, weight: f64},
+        }
 
     Burada artık Fruit türünün varyantlarına ilişkin tüm alanların Copy türünden olduğuna dikkat ediniz. Eğer bir enum
     türünün tüm varyantlarındaki alanlar Copy türündense enum türü de Copy türünden kabul edilmektedir.
@@ -9180,7 +9182,7 @@ enum QuadraticResult {
     Bu nedenle enum türünden bir değişkenle o enum türünün bir metodunun çağrıldığını görürseniz şaşırmamalısınız. Örneğin f
     değişkeni bir enum türünden olsun. Kodda da aşağıdaki gibi bir ifade bulunuyor olsun:
 
-    f.foo();
+        f.foo();
 
     Burada foo söz konusu enum türünün bir metodudur.
 
@@ -9188,31 +9190,31 @@ enum QuadraticResult {
     bir metot yazılmıştır. Bu disp metodunda match deyimi kullanılarak enum değişkeninin içerisinde hangi varyantın bulunduğu
     belirlenmiş ve onun bilgileri ekrana (stdout dosyasına) yazdırılmıştır:
 
-    fn main() {
-        let f = Fruit::Apple;
-        let k = Fruit::Banana(100);
-        let m = Fruit::Orange {amount: 10, weight: 6.32};
+        fn main() {
+            let f = Fruit::Apple;
+            let k = Fruit::Banana(100);
+            let m = Fruit::Orange {amount: 10, weight: 6.32};
 
-        f.disp();
-        k.disp();
-        m.disp();
-    }
+            f.disp();
+            k.disp();
+            m.disp();
+        }
 
-    enum Fruit {
-        Apple,
-        Banana(i32),
-        Orange { amount: i32, weight: f64},
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32),
+            Orange { amount: i32, weight: f64},
+        }
 
-    impl Fruit {
-        fn disp(&self) {
-            match self {
-                Fruit::Apple => println!("Apple"),
-                Fruit::Banana(amount) => println!("Banana({})", *amount),
-                Fruit::Orange { amount, weight } => println!("Orange({}, {})", *amount, *weight)
+        impl Fruit {
+            fn disp(&self) {
+                match self {
+                    Fruit::Apple => println!("Apple"),
+                    Fruit::Banana(amount) => println!("Banana({})", *amount),
+                    Fruit::Orange { amount, weight } => println!("Orange({}, {})", *amount, *weight)
+                }
             }
         }
-    }
 
     Metotlarım impl anahtar sözcüğüyle oluşturulmuş bir blok içerisinde yazıldığına dikkat ediniz. disp metodundaki self
     anahtar sözcüğü disp metodunun çağrıldığı enum değişkenini ya da değerini temsil etmektedir. Parametredeki &self ifadesi
@@ -9224,10 +9226,10 @@ enum QuadraticResult {
     Aşağıdaki örnekte daha önce yapmış olduğumuz ikinci derece denklemin köklerini temsil eden QuadraticResult isimli enum
     türüne unwrap ve expect isimli iki metot yerleştirdik. Bu enum türünü yeniden anımsatmak istiyoruz:
 
-    enum QuadraticResult {
-        Roots(f64, f64),
-        None
-    }
+        enum QuadraticResult {
+            Roots(f64, f64),
+            None
+        }
 
     Bu enum türünün Roots varyantı ikinci derece denklemin köklerini, None varyantı ise köklerin olmayışını belirtmektedir.
     Örneğimizdeki enum türünün unwrap metodu eğer kök varsa bu köklere ilişkin "(f64, f64) türünden bir demete" demete geri
@@ -9240,21 +9242,21 @@ enum QuadraticResult {
     expect metodunun unwrap metodundan tek farkı bir string sabitini de argüman olarak alabilmesidir. Bu metot kök yoksa
     panic oluştururken bu panic mesajını ekrana (stderr dosyasına) bastırmaktadır. Metotlar aşağıdaki gibi yazılmıştır:
 
-    impl QuadraticResult {
-        fn unwrap(&self) -> (f64, f64) {
-            match self {
-                Self::Roots(x1, x2) => (*x1, *x2),
-                Self::None => panic!(),
+        impl QuadraticResult {
+            fn unwrap(&self) -> (f64, f64) {
+                match self {
+                    Self::Roots(x1, x2) => (*x1, *x2),
+                    Self::None => panic!(),
+                }
             }
-        }
 
-        fn expect(&self, msg: &str) -> (f64, f64) {
-            match self {
-                Self::Roots(x1, x2) => (*x1, *x2),
-                Self::None => panic!("{}", msg),
+            fn expect(&self, msg: &str) -> (f64, f64) {
+                match self {
+                    Self::Roots(x1, x2) => (*x1, *x2),
+                    Self::None => panic!("{}", msg),
+                }
             }
         }
-    }
 
     Metolardaki &self anahtar sözcüğü (s'nin küçük harf olduğuna dikkat ediniz) metodun çağrıldığı enum türünden değişkenin
     ya da değerin adresini, Self anahtar sözcüğü ise (S'nin büyük harf olduğuna dikkat ediniz) impl bloüundaki enum ismini
@@ -9263,46 +9265,46 @@ enum QuadraticResult {
     vermektir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result = get_roots(-2., 0., -4.);
+        fn main() {
+            let result = get_roots(-2., 0., -4.);
 
-    let (x1, x2) = result.expect("No root found!");
-    println!("x1 = {}, x2 = {}", x1, x2);
-}
-
-fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
-    let delta = b * b - 4. * a * c;
-
-    if delta > 0. {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 = (-b - delta.sqrt()) / (2. * a);
-        QuadraticResult::Roots(x1, x2)
-    }
-    else {
-        QuadraticResult::None
-    }
-}
-
-enum QuadraticResult {
-    Roots(f64, f64),
-    None
-}
-
-impl QuadraticResult {
-    fn unwrap(&self) -> (f64, f64) {
-        match self {
-            Self::Roots(x1, x2) => (*x1, *x2),
-            Self::None => panic!(),
+            let (x1, x2) = result.expect("No root found!");
+            println!("x1 = {}, x2 = {}", x1, x2);
         }
-    }
 
-    fn expect(&self, msg: &str) -> (f64, f64) {
-        match self {
-            Self::Roots(x1, x2) => (*x1, *x2),
-            Self::None => panic!("{}", msg),
+        fn get_roots(a: f64, b: f64, c: f64) -> QuadraticResult {
+            let delta = b * b - 4. * a * c;
+
+            if delta > 0. {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 = (-b - delta.sqrt()) / (2. * a);
+                QuadraticResult::Roots(x1, x2)
+            }
+            else {
+                QuadraticResult::None
+            }
         }
-    }
-}
+
+        enum QuadraticResult {
+            Roots(f64, f64),
+            None
+        }
+
+        impl QuadraticResult {
+            fn unwrap(&self) -> (f64, f64) {
+                match self {
+                    Self::Roots(x1, x2) => (*x1, *x2),
+                    Self::None => panic!(),
+                }
+            }
+
+            fn expect(&self, msg: &str) -> (f64, f64) {
+                match self {
+                    Self::Roots(x1, x2) => (*x1, *x2),
+                    Self::None => panic!("{}", msg),
+                }
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta enum türleri de generic olabilmektedir. Kursumuzda generic türler ve fonksiyonlar ileride ayrı bir bölümde
@@ -9315,36 +9317,36 @@ impl QuadraticResult {
     Bir enum generic olarak yazılırken enum isminden sonra açısal parantezler içerisinde tür parametreleri belirtilir.
     Örneğin:
 
-    enum MyEnum<T, K> {
-        //...
-    }
+        enum MyEnum<T, K> {
+            //...
+        }
 
     Burada T ve K türleri temsil eden tür parametreleridir. enum türü de bu bu tür parametrelerine dayalı olarak oluşturulur.
     Tür parametreleri isimlendirme kuralın uygun herhangi biçimde isimlendirilebilmektedir. Ancak Rust programcıları generic
     türlerin tür parametrelerini tek bir büyük harfle isimlendirmeyi tercih etmektedir. Örneğin:
 
-    enum Fruit<T> {
-        Apple,
-        Banana(T, T),
-        Orange(T)
-    }
+        enum Fruit<T> {
+            Apple,
+            Banana(T, T),
+            Orange(T)
+        }
 
     Burada tür parametresi olan T aslında herhangi bir türü temsil etmektedir. Örneğin eğer T tür parametresi i32 olsa bu
     enum türü aşağıdaki hale gelecektir:
 
-    enum Fruit {
-        Apple,
-        Banana(i32, i32),
-        Orange(i32)
-    }
+        enum Fruit {
+            Apple,
+            Banana(i32, i32),
+            Orange(i32)
+        }
 
     Eğer T tür parametresi f64 olsaydı bu durumda Fruit enum türü şu hale gelecekti:
 
-    enum Fruit {
-        Apple,
-        Banana(f64, f64),
-        Orange(f64)
-    }
+        enum Fruit {
+            Apple,
+            Banana(f64, f64),
+            Orange(f64)
+        }
 
     İşte generic türlerde derleyici bir şablon eşliğinde gerçek türleri belirleyerekgerçek türleri kendisi oluşturmaktadır.
     Derleyicinin generic bir türe bakıp generic parametreler yerine gerçek türleri yerleştirip o generic türden gerçek bir
@@ -9355,11 +9357,11 @@ impl QuadraticResult {
     Bir generic enum türünden değişken bildirilirken yalnızca enum ismi belirtilemez, açısal parantezler içerisinde enum
     tür parametrelerinin de belirtilmek gerekir. Örneğin:
 
-    let f: Fruit<i32>;
+        let f: Fruit<i32>;
 
     Burada f değişkeni Fruit türünden değildir, Fruit<i32> türündedir. Örneğin:
 
-    let k: Fruit<f64>;
+        let k: Fruit<f64>;
 
     Burada k değişkeni Fruit<f64> türündendir.
 
@@ -9369,9 +9371,9 @@ impl QuadraticResult {
     Pekiyi generic bir enum türünden enum varyantı nasıl oluşturulmaktadır? İşte generic enum türlerine ilişkin varyantları
     yapıcılarla (constuctors) iki biçimde oluşturulabilmektedir:
 
-    1) Generic tür parametrelerinin açıkça (explicit) belirtilmesi yoluyla
-    2) Derleyicinin içinde bulunulan bağlamdan hareketle generic parametrelerin türlerini kendisinin tespit etmesi (implicit)
-    yoluyla
+      1) Generic tür parametrelerinin açıkça (explicit) belirtilmesi yoluyla
+      2) Derleyicinin içinde bulunulan bağlamdan hareketle generic parametrelerin türlerini kendisinin tespit etmesi (implicit)
+      yoluyla
 
     Varyant oluştururken generic parametreler açıkça aşağıdaki biçimde belirtilmektedir:
 
@@ -9379,13 +9381,13 @@ impl QuadraticResult {
 
     Örneğin:
 
-    let f: Fruit<i32>;
+        let f: Fruit<i32>;
 
-    f = Fruit::<i32>::Banana(10, 20);
+        f = Fruit::<i32>::Banana(10, 20);
 
     Burada varyantın belirtilme biçimi size tuhaf gelebilir. Sanki bunun aşağıdaki gibi olması gerektiğini düşünebilirsiniz:
 
-    f = Fruit<i32>::Banana(10, 20);
+        f = Fruit<i32>::Banana(10, 20);
 
     Özellikle C++, Java ve C# gibi dillerden geçen kişiler Rust'taki bu sentaksı yadırgamaktadır. Bu dillerden geçen programcılar
     açıkça tür belirtirken Fruit<i32> sentaksı kullanıldığı halde varyant oluşturulurken Fruit::<i32>::Banana sentaksının
@@ -9398,77 +9400,79 @@ impl QuadraticResult {
     derleyici eğer hedef değişkenin türü belliyse enum parametrelerinin türünü de kendisi otomatik olarak belirleyebilmektedir.
     Örneğin:
 
-    let f: Fruit<i32>;
+        let f: Fruit<i32>;
 
-    f = Fruit::Banana(10, 20);
+        f = Fruit::Banana(10, 20);
 
     Burada Rust derleyicisi hedef tür Fruit<i32> olduğu için Banana varyantının da Fruit<i32> türünün bir enum türünün varyantı
     olduğunu anlayabilmektedir. Tabii aşağıdaki varyant oluşturma işlemi error'le sonuçlanacaktır:
 
-    let f: Fruit<f64>;
+        let f: Fruit<f64>;
 
-    f = Fruit::Banana(10, 20);          // error!
+        f = Fruit::Banana(10, 20);          // error!
 
     Çünkü derleyici burada hedef türün Fruit<f64> olduğunu gördüğü için Banana varyantının da Fruit<f64> türüne ilişkin
     olması gerektiğini düşünecektir. Ancak Fruit<f64> türünün Banana varyantının alanları f64 türündendir. Oysa 10 ve 20 i32
     türündendir.
+
 # 32. Ders 02/07/2025 - Çarşamba
+
     Yukarıda da belirttiğimiz gibi Rust derleyicisi eğer bağlamdan hareketle generic parametrelerin hangi gerçek türlere karşı
     geldiğini çıkarsayabiliyorsa programcının tür parametrelerini açıkça belirtmesine gerek kalmamaktadır. Örneğin:
 
-    fn main() {
-        foo(Fruit::Banana(10, 20));
-    }
-
-    fn foo(f: Fruit<i32>) {
-        match f {
-            Fruit::Apple => println!("Apple"),
-            Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
-            Fruit::Orange(orange) => println!("Orange ({})", orange),
+        fn main() {
+            foo(Fruit::Banana(10, 20));
         }
-    }
 
-    enum Fruit<T> {
-        Apple,
-        Banana(T, T),
-        Orange(T)
-    }
+        fn foo(f: Fruit<i32>) {
+            match f {
+                Fruit::Apple => println!("Apple"),
+                Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
+                Fruit::Orange(orange) => println!("Orange ({})", orange),
+            }
+        }
+
+        enum Fruit<T> {
+            Apple,
+            Banana(T, T),
+            Orange(T)
+        }
 
     Burada foo fonksiyonun parametre değişkeni Fruit<i32> türündendir. Fonksiyonu çağırırken enum varyantında generic
     türün belirtilmesine gerek kalmaz. Çünkü derleyici bu hedef değişkene bakarak tür tespitini kendisi yapabilecektir.
     Fonksiyonun çağrımına dikkat ediniz:
 
-    foo(Fruit::Banana(10, 20));
+        foo(Fruit::Banana(10, 20));
 
     Tabii biz generic türler için açıkça tür parametresini belirterek de fonksiyonu aşağıdaki gibi çağırabilirdik:
 
-    foo(Fruit::<i32>::Banana(10, 20));
+        foo(Fruit::<i32>::Banana(10, 20));
 
     Şimdi de foo içerisindeki match ifadesine dikkat ediniz:
 
-     fn foo(f: Fruit<i32>) {
-        match f {
-            Fruit::Apple => println!("Apple"),
-            Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
-            Fruit::Orange(orange) => println!("Orange ({})", orange),
+        fn foo(f: Fruit<i32>) {
+            match f {
+                Fruit::Apple => println!("Apple"),
+                Fruit::Banana(a, b) => println!("Banana ({}, {})", a, b),
+                Fruit::Orange(orange) => println!("Orange ({})", orange),
+            }
         }
-    }
 
     Burada match ifadesi Fruit<i32> üründendir. O halde match kollarının da bu türden olması gerekir. Bu nedenle programcının
     match kollarında açıkça tür belirtmesine gerek yoktur. Tabii programcı açıkta tür belirtirse de bir sorun oluşmayacaktır.
     Örneğin:
 
-    fn foo(f: Fruit<i32>) {
-        match f {
-            Fruit::<i32>::Apple => println!("Apple"),
-            Fruit::<i32>::Banana(a, b) => println!("Banana ({}, {})", a, b),
-            Fruit::<i32>::Orange(orange) => println!("Orange ({})", orange),
+        fn foo(f: Fruit<i32>) {
+            match f {
+                Fruit::<i32>::Apple => println!("Apple"),
+                Fruit::<i32>::Banana(a, b) => println!("Banana ({}, {})", a, b),
+                Fruit::<i32>::Orange(orange) => println!("Orange ({})", orange),
+            }
         }
-    }
 
     Şimdi de aşağıdaki örneğe dikkat ediniz:
 
-    let f = Fruit::Banana(10, 20);
+        let f = Fruit::Banana(10, 20);
 
     Burada derleyici hedef türü bilmediğine göre tür çıkarımını yapabilir mi? İşte bu tür durumlarda derleyici enum varyantı
     için kullanılan alanların türlerinden hareketle generic parametrelerin türünü tespit edebilmektedir. Örneğimizde Banana
@@ -9476,7 +9480,7 @@ impl QuadraticResult {
     türü Fruit<i32> biçiminde çıkarsayacaktır. Tabii böyle bir çıkarsamanın mümkün olması için yapıcı fonksiyondaki argümanların
     da tutarlı olması gerekir. Örneğin:
 
-    let f = Fruit::Banana(10, 3.54);        // error!
+        let f = Fruit::Banana(10, 3.54);        // error!
 
     Burada Banana yapıcı fonksiyonunun argümanları farklı türlerdendir. Dolayısıyla tür çıkarımı yapılamayacaktır.
 
@@ -9486,13 +9490,13 @@ impl QuadraticResult {
 
     Tabii bazen gerçekten (seyrek de olsa) programcının generic parametreleri açıkça (explicitly) belirtmesi gerekebilir.
 
-    enum Fruit<T> {
-        Apple,
-        Banana(T, T),
-        Orange(T)
-    }
+        enum Fruit<T> {
+            Apple,
+            Banana(T, T),
+            Orange(T)
+        }
 
-    let f = Fruit::Apple;      // error!
+        let f = Fruit::Apple;      // error!
 
     Apple varyantının birimsel (unit) bir varyant olduğuna dikkat ediniz. Bu durumda Rust derleyicisi generic tür çıkarımını
     yapamayacaktır. Dolayısıyla bağlama işlemi error ile sonuçlanacaktır. Şimdi siz "nasıl olsa Apple varyantı T türünden bir
@@ -9500,56 +9504,57 @@ impl QuadraticResult {
     Ancak programın başka bir yerinde bu f değişkenine bir şey atanabileceği (tabii değişkenin mut olması gerekir) için derleyicinin
     tür çıkarımını yapmış olması gerekir. İşte böylesi durumlarda enum türü açıkça belirtilmek zorundadır. Örneğin:
 
-    let f = Fruit::<i32>::Apple;
+        let f = Fruit::<i32>::Apple;
 ---------------------------------------------------------------------------------------------------------------------------
     enum türlerinin metotlara sahip olabileceğini belirtmiştik. İşte generic enum türleri de metotolara sahip olabilmektedir.
     Generic türlere ilişkin metotolar yazılırken yazarken hem impl anahtar sözcüğünden sonra hem de enum isminden sonra generic
     parametrelerin açısal parantezler içerisinde belirtilmesi gerekir. Örneğin:
 
-    enum Fruit<T> {
-        Apple,
-        Banana(T, T),
-        Orange(T)
-    }
+        enum Fruit<T> {
+            Apple,
+            Banana(T, T),
+            Orange(T)
+        }
 
-    impl<T> Fruit<T> {
-        fn disp(&self) {
-            match &self {
-                Fruit::Apple => println!("Apple"),
-                Fruit::Banana(a, b) => println!("Banana"),
-                Fruit::Orange(a) => println!("Orange"),
+        impl<T> Fruit<T> {
+            fn disp(&self) {
+                match &self {
+                    Fruit::Apple => println!("Apple"),
+                    Fruit::Banana(a, b) => println!("Banana"),
+                    Fruit::Orange(a) => println!("Orange"),
+                }
             }
         }
-    }
 
     Burada disp generic enum türünün bir metodudur. Bu metot içerisinde biz T türünü kullanabiliriz. Tabii metotlar konusu,
     generic türler konusu aslında ayrı bir bölümde ayrıntılarıyla ele alınacaktır. Biz yalnızca burada generic türlerin de
     metotlara sahip olabileceğine dikkatinizi çekmek istiyoruz.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let f = Fruit::Banana(10, 20);
+        fn main() {
+            let f = Fruit::Banana(10, 20);
 
-    f.disp();
-}
-
-enum Fruit<T> {
-    Apple,
-    Banana(T, T),
-    Orange(T)
-}
-
-impl<T> Fruit<T> {
-    fn disp(&self) {
-        match &self {
-            Fruit::Apple => println!("Apple"),
-            Fruit::Banana(a, b) => println!("Banana"),
-            Fruit::Orange(a) => println!("Orange"),
+            f.disp();
         }
-    }
-}
+
+        enum Fruit<T> {
+            Apple,
+            Banana(T, T),
+            Orange(T)
+        }
+
+        impl<T> Fruit<T> {
+            fn disp(&self) {
+                match &self {
+                    Fruit::Apple => println!("Apple"),
+                    Fruit::Banana(a, b) => println!("Banana"),
+                    Fruit::Orange(a) => println!("Orange"),
+                }
+            }
+        }
 
 # 33. Ders 09/07/2025 - Çarşamba
+
     Rust'ın standart kütüphanesinde std::option modülünde bulunan Option isimli bir enum türü sıkça kullanılmaktadır. Biz de
     bu bölümde bu Option enum türünü ele alacağız. Option enum türü generic biçimdedir. Türün bir tane generic parametresi
     vardır. Option enum türü şöyle tanımlanmıştır:
