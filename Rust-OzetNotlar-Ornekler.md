@@ -9559,10 +9559,10 @@ use std::mem::discriminant;
     bu bölümde bu Option enum türünü ele alacağız. Option enum türü generic biçimdedir. Türün bir tane generic parametresi
     vardır. Option enum türü şöyle tanımlanmıştır:
 
-    pub enum Option<T> {
-        Some(T),
-        None
-    }
+        pub enum Option<T> {
+            Some(T),
+            None
+        }
 
     Görüldüğü gibi Option türünün Some ve None isimli iki varyantı vardır. Some varyantı demetsel bir varyanttır ve T türünden
     bir alana (field) sahiptir. None varyantı ise birimsel bir varyanttır. Ek bilgi tutmamaktadır. Her ne kadar Option türü
@@ -9570,24 +9570,24 @@ use std::mem::discriminant;
     tür ismi ve Option içerisindeki Some ve None varyantları :: operatörü ile hiç niteliklendirme yapılmadan da kullanılabilir.
     Örneğin:
 
-    let ops = std::option::Option::<i32>::Some(123);
+        let ops = std::option::Option::<i32>::Some(123);
 
     Burada tam niteliklendirme yapılarak Option enum'unun Some varyantına ilişkin bir değer oluşturulmuştur. Generic parametre
     açıkça belirtilmeden de aynı işlem yapılabilirdi:
 
-    let ops = std::option::Option::Some(123);
+        let ops = std::option::Option::Some(123);
 
     Tabii aslında prelude sayesinde std::option niteliklendirmesini kullanmayabiliriz. Örneğin:
 
-    let ops = Option::Some(123);
+        let ops = Option::Some(123);
 
     Örneğin:
 
-    let t = Option::<i32>::Some(10);
+        let t = Option::<i32>::Some(10);
 
     Yine prelude sayesinde Option ismiyle niteliklendirmeyi de kaldırabiliriz. Örneğin:
 
-    let ops = Some(123);
+        let ops = Some(123);
 
     Burada ops değişkeni Option<i32> türündendir.
 
@@ -9595,83 +9595,83 @@ use std::mem::discriminant;
     aşağıdaki bağlama error ile sonuçlanacaktır. Çünkü burada None varyantının hangi generic parametreye sahip Option
     türüne ilişkin olduğu bilinmemektedir.
 
-    let ops = None;     // error!
+        let ops = None;     // error!
 
     Tabii daha önceden de belirttiğimiz gibi bağlamada kalıpta belirtilen hedef tür dikkate alınarak otomatik tür çıkarımı
     yapılabilmektedir. Örneğin:
 
-    let ops: Option<f64> = None;
+        let ops: Option<f64> = None;
 
     Burada None varyantının Option<f64> türünün None varyantı olduğu anlaşılmaktadır.
 
     Tabii Option enum türünün tür parametresi bir yapı türünden de olabilir. Örneğin:
 
-    let ops: Option<String> = Some(String::from("this is a message"));
+        let ops: Option<String> = Some(String::from("this is a message"));
 
     Örneğin:
 
-    let ops: Option<&str> = Some("this is a message");
+        let ops: Option<&str> = Some("this is a message");
 
     Option enum'undaki tür parametresi bir demet türünden de olabilir. Örneğin:
 
-    let ops: Option<(f64, f64)> = Some((2.4, 6.5));
+        let ops: Option<(f64, f64)> = Some((2.4, 6.5));
 
     Burada Option tür parametresi (f64, f64) türündendir. Tabii aslında biz yularıdaki bağlamayı daha az tuşa basarak aşağıdaki
     gibi de yapabilirdik:
 
-    let ops = Some((2.4, 6.5));
+        let ops = Some((2.4, 6.5));
 
     Burada özellikle Python programcıları için bir uyarıda bulunmak istiyoruz. Python'da None bir anahtar sözcüktür. Rust'ta
     None sıradan bir isimdir. Aşağıdaki gibi bir kod gördüğünüzde None ismini bir anahtar sözcük sanmayınız:
 
-    let ops: Option<i32>;
-    //...
-    ops = None;
+        let ops: Option<i32>;
+        //...
+        ops = None;
 ---------------------------------------------------------------------------------------------------------------------------
     Option türü önceki örneklerimizden de anlayacağınız gibi "hem bir değeri hem de başarısılık durumunu" ifade etmek için
     kullanılmaktadır. Aşağıdaki gibi bir fonksiyon olsun:
 
-    fn foo() -> Option<i32> {
-        //...
-    }
+        fn foo() -> Option<i32> {
+            //...
+        }
 
     Bu fonksiyon başarı durumunda Some(i32) varyantına ilişkin bir değer, başarısızlık durumunda None varyantına ilişkin bir
     değer vermektedir. Yani Option türü bir birlik organizasyonu içerisinde "ya başarı durumundaki değeri ya da başarısızlık
     bilgisini" ifade etmek için kullanılmaktadır. Örneğin C'de foo isimli bir fonksiyon başarı durumunda herhangi bir int
     değeri bize verebiliyor olsun. Ancak fonksiyon başarısız da olabilsin. Biz bu fonksiyonu şöyle tanımlayamayız:
 
-    int foo(void)
-    {
-        //...
-    }
+        int foo(void)
+        {
+            //...
+        }
 
     Burada fonksiyon başarısız olduğunda verebilecği bir int değer yoktur. Çünkü fonksiyon başarı durumunda herhangi bir
     int değer verebilmektedir. Biz C'de bu tür durumlarda genellikle fonksiyonun geri dönüş değerini "başarı-başarısızlık"
     için kullanırız. Fonksiyonun da geri dönüş değerini parametre yoluyla iletmesini sağlarız. Örneğin:
 
-    bool foo(int *val)
-    {
-        //...
-    }
+        bool foo(int *val)
+        {
+            //...
+        }
 
     Burada programcı önce fonksiyonun geri dönüş değerine bakar. Ancak geri dönüş değeri true ise parametre olarak verdiği
     nesneye başvurur. İşte böylesi durumlarda Rust'ta Option enum türü kullanılmaktadır:
 
-    fn foo() -> Option<i32> {
-        //...
-    }
+        fn foo() -> Option<i32> {
+            //...
+        }
 
     Burada foo başarılıysa Some(i32) varyantına işlişkin bir değere, başarısızsa None varyantına ilişkin bir değere geri
     dönecektir. Örneğin:
 
-    fn mysqrt(x: f64) -> Option<f64> {
-        if x < 0.0 {
-            return None;
+        fn mysqrt(x: f64) -> Option<f64> {
+            if x < 0.0 {
+                return None;
+            }
+            else {
+                Some(x.sqrt())
+            }
         }
-        else {
-            Some(x.sqrt())
-        }
-    }
 
     Burada eğer mysqrt fonksiyonun parametresi negatif ise fonksiyon başarısızlıkla yani Option::<f64>::None varyantı ile
     geri dönmektedir. Eğer parametre negatif değilse Option::<f64>::Some varyantıyla geri dönmektedir.
@@ -9679,140 +9679,140 @@ use std::mem::discriminant;
     Pekiyi elimizde Option türünden bir değişken ya da değer olsun. Biz bu değişken ya da değerin içerisindeki varyantın
     ne olduğunu nasıl anlayabiliriz? İşte Rust'ta bunun için iki yol vardır:
 
-    1) match ya da if let deyimi ile
-    2) Option enum türünün metotları ile
+      1) match ya da if let deyimi ile
+      2) Option enum türünün metotları ile
 
     Elimizde bir Option türünden değişken ya da değer varsa biz match deyimi ile hem başarısızlığı anlayabilir hem de başarı
     durumunda Some varyantının alan değerini elde edebiliriz. Örneğin:
 
-    val = getval();
+        val = getval();
 
-    match mysqrt(val) {
-        Some(x) => println!("{}", x),
-        None => println!("failed to get sqrt of val")
-    }
+        match mysqrt(val) {
+            Some(x) => println!("{}", x),
+            None => println!("failed to get sqrt of val")
+        }
 
     Burada mysqrt fonksiyonun geri dönüş değeri Option<f64> türündendir. natch deyimi ile varyant tespiti yapılıp Some varyantının
     içerisindeki alan değeri elde edilmiştir. Tabii aynı işlem if let deyimiyle de yapılabilirdi:
 
-    val = getval();
+        val = getval();
 
-    if let Some(x) = mysqrt(val) {
-        println!("{}", x);
-    }
-    else {
-        println!("failed to get sqrt of val")
-    }
+        if let Some(x) = mysqrt(val) {
+            println!("{}", x);
+        }
+        else {
+            println!("failed to get sqrt of val")
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let val: f64;
+        fn main() {
+            let val: f64;
 
-    val = getval();
+            val = getval();
 
-    match mysqrt(val) {
-        Some(x) => println!("{}", x),
-        None => println!("failed to get sqrt of val")
-    }
-}
+            match mysqrt(val) {
+                Some(x) => println!("{}", x),
+                None => println!("failed to get sqrt of val")
+            }
+        }
 
-fn mysqrt(x: f64) -> Option<f64> {
-    if x < 0.0 {
-        return None;
-    }
-    else {
-        Some(x.sqrt())
-    }
-}
+        fn mysqrt(x: f64) -> Option<f64> {
+            if x < 0.0 {
+                return None;
+            }
+            else {
+                Some(x.sqrt())
+            }
+        }
 
-fn getval() -> f64 {
-    let mut buf: String = String::new();
+        fn getval() -> f64 {
+            let mut buf: String = String::new();
 
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse into number")
-}
+            std::io::stdin().read_line(&mut buf).expect("read line failed");
+            buf.trim().parse().expect("parse into number")
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi daha önce yapmış olduğumuz ikinci derece denklemin köklerine geri dönen fonksiyonu Option enum'unu kullanarak
     yeniden yazalım:
 
-    fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
-        let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+            let delta: f64;
 
-        delta = b * b - 4.0 * a * c;
-        if delta < 0.0 {
-            None
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                None
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
+                Some((x1, x2))
+            }
         }
-        else {
-            let x1 = (-b + delta.sqrt()) / (2. * a);
-            let x2 =  (-b - delta.sqrt()) / (2. * a);
-            Some((x1, x2))
-        }
-    }
 
     Burada get_roots fonksiyonunun geri dönüş değeri Option<(f64, f64>) türündendir. Option türünün (f64, f64) monomorfizasyonu a
     şağıdaki gibidir:
 
-    enum Option {
-        Some((f64, f64)),
-        None
-    }
+        enum Option {
+            Some((f64, f64)),
+            None
+        }
 
     İşte biz yine fonksiyonu çağırıp geri dönüş değerini match deyimi içerisine sokarak varyantın Some olup olmadığını
     tespit edebiliriz:
 
-    result = get_roots(1., 0., -4.);
+        result = get_roots(1., 0., -4.);
 
-    match result {
-        Some((x1, x2)) => println!("x1: {}, x2: {}", x1, x2),
-        None => println!("No result"),
-    }
+        match result {
+            Some((x1, x2)) => println!("x1: {}, x2: {}", x1, x2),
+            None => println!("No result"),
+        }
 
     Burada ilk match koluna dikkat ediniz. Some varyantının alanı da bir demet olduğu için açım (destructuring) doğrudan
     yapılmıştır. Burada x1 ve x2'nin f64 türünden olduğuna dikkat ediniz.
 
     Tabii Some kalıbı aşağıdaki gibi de düzenlenebilirdi:
 
-     match result {
-        Some(t) => println!("x1: {}, x2: {}", t.0, t.1),
-        None => println!("No result"),
-    }
+        match result {
+            Some(t) => println!("x1: {}, x2: {}", t.0, t.1),
+            None => println!("No result"),
+        }
 
     Burada artık t değişkeni (f64, f64) türünden bir demettir. Benzer biçimde bu işlemi if let deyimiyle de yapabilirdik:
 
-    if let Some(t) = result {
-        println!("x1: {}, x2: {}", t.0, t.1)
-    }
-    else {
-        println!("No results found!")
-    }
+        if let Some(t) = result {
+            println!("x1: {}, x2: {}", t.0, t.1)
+        }
+        else {
+            println!("No results found!")
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result;
+        fn main() {
+            let result;
 
-    result = get_roots(1., 0., -4.);
-    if let Some(t) = result {
-       println!("x1: {}, x2: {}", t.0, t.1)
-    }
-    else {
-       println!("No results found!")
-    }
-}
+            result = get_roots(1., 0., -4.);
+            if let Some(t) = result {
+            println!("x1: {}, x2: {}", t.0, t.1)
+            }
+            else {
+            println!("No results found!")
+            }
+        }
 
-fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
-    let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+            let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        None
-    }
-    else {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 =  (-b - delta.sqrt()) / (2. * a);
-        Some((x1, x2))
-    }
-}
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                None
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
+                Some((x1, x2))
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Option türünden bir değişken ya da değerin varyantları hakkında bilgi edinebilmek için Option türünün metotlarından da
@@ -9822,213 +9822,213 @@ fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
     varyantın Some ya da None oluğu olmadığını belirten bool türden bir değerle geri dönmektedir. Metotların parametrik
     yapıları şöyledir:
 
-    pub const fn is_some(&self) -> bool
-    pub const fn is_none(&self) -> bool
+        pub const fn is_some(&self) -> bool
+        pub const fn is_none(&self) -> bool
 
     Metotların ilk parametrelerinin &self ya da self biçiminde olduğunu belirtmiştik. Bu parametre metodun çağrıldığı değişkeni
     ya da değeri belirtiyordu. Burada bir noktaya dikkat ediniz. is_some metodu bize Some varyantındaki alanın değerini vermemektedir.
     Yalnızca enum'un Some varyantını içerip içermediği bilgisini vermektedir. Örneğin:
 
-    result = get_roots(1., 0., -4.);
+        result = get_roots(1., 0., -4.);
 
-    if result.is_some() {
-        println!("roots found")
-    }
-    else {
-        println!("root not found")
-    }
+        if result.is_some() {
+            println!("roots found")
+        }
+        else {
+            println!("root not found")
+        }
 
     Burada biz kökün olup olmadığını anlayabildik. Kök varsa bunun değerlerini elde edemedik. Tabii aynı şey aslında is_none
     metoduyla da yapılabilirdi:
 
-    result = get_roots(1., 0., -4.);
+        result = get_roots(1., 0., -4.);
 
-    if result.is_none() {
-        println!("root not found")
-    }
-    else {
-        println!("roots found")
-    }
+        if result.is_none() {
+            println!("root not found")
+        }
+        else {
+            println!("roots found")
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     - Option enum'unun en çok kullanılan metotlarından ikisi unwrap ve expect metotlarıdır. unwrap metodu eğer enum içerisindeki
     varyant Some ise bize o Some içerisindeki alan değerini verir, None ise panic oluşturur. expect metodu da çok benzerdir.
     unwrap metodundan farkı panic oluştururken panic mesajının belirlenmesine olanak sağlamasıdır. Metotların parametrik yapıları
     şöyledir:
 
-    pub const fn unwrap(self) -> T
-    pub const fn expect(self, msg: &str) -> T
+        pub const fn unwrap(self) -> T
+        pub const fn expect(self, msg: &str) -> T
 
     unwrap metodunun parametre almadığına expect metodunun ise string dilim referansı parametresi aldığına dikkat ediniz.
     Her iki metot da eğer enum'da Some varyantı varsa onun alan değerine geri dönmektedir. Örneğin:
 
-    let roots: (f64, f64);
+        let roots: (f64, f64);
 
-    roots = get_roots(1., 0., -4.).unwrap();
-    println!("x1 = {}, x2 = {}", roots.0, roots.1);
+        roots = get_roots(1., 0., -4.).unwrap();
+        println!("x1 = {}, x2 = {}", roots.0, roots.1);
 
     Burada get_roots fonksiyonun geri dönüş değerinin Option<(f64, f64)> türünden olduğuna dikkat ediniz. Bu değer hemen
     unwrap edilmiştir. Zaten kök yoksa panic ile program sonlandırılacaktır. Programın devam etmesi için kök olması gerekir.
     unwrap metodunun başarı durumunda bize (f64, f64) türünden bir demet verdiğine dikkat ediniz. Tabii fonksiyonun geri
     dönüş değeri (f64, f64) türünden olduğuna göre biz let deyimi ile açım (destructuring) da yapabiliriz:
 
-    let (x1, x2) =  get_roots(1., 0., -4.).unwrap();
-    println!("x1 = {}, x2 = {}", x1, x2);
+        let (x1, x2) =  get_roots(1., 0., -4.).unwrap();
+        println!("x1 = {}, x2 = {}", x1, x2);
 
     let deyiminde kalıbın "irrefuable" olması gerektiğini anımsayınız. Buradaki kalıp irrefutable biçimdedir.
 
     Yukarıda da belirttiğimiz gibi expect metodunun unwrap metodundan farkı panic durumunda panic mesajının da belirlenmesine
     olanak sağlamasıdır. Örneğin:
 
-    let roots: (f64, f64);
+        let roots: (f64, f64);
 
-    roots = get_roots(1., 0., 4.).expect("root not found");
+        roots = get_roots(1., 0., 4.).expect("root not found");
 ---------------------------------------------------------------------------------------------------------------------------
     - Option enum türünün unwrap_or metodu eğer enum içerisinde None değeri varsa panic yerine metodun bizim belirlediğimiz
     değerle geri döndürülmesini sağlamaktadır. Metodun parametrik yapısı şöyledir:
 
-    pub fn unwrap_or(self, default: T) -> T
+        pub fn unwrap_or(self, default: T) -> T
 
     Örneğin:
 
-    let val: f64;
-    let result: f64;
+        let val: f64;
+        let result: f64;
 
-    val = getval();
-    result = mysqrt(val).unwrap_or(-1.0);
+        val = getval();
+        result = mysqrt(val).unwrap_or(-1.0);
 
     Burada unwrap_or metodu "eğer enum'da Some varyantı varsa onun alan değerini, eğer None varyantı varsa -1.0 değerini
     vermektedir. Yani hiçbir zaman panic oluşmayacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let val: f64;
-    let result: f64;
+        fn main() {
+            let val: f64;
+            let result: f64;
 
-    val = getval();
+            val = getval();
 
-    result = mysqrt(val).unwrap_or(-1.);
-    println!("{}", result);
-}
+            result = mysqrt(val).unwrap_or(-1.);
+            println!("{}", result);
+        }
 
-fn mysqrt(x: f64) -> Option<f64> {
-    if x < 0.0 {
-        return None;
-    }
-    else {
-        Some(x.sqrt())
-    }
-}
+        fn mysqrt(x: f64) -> Option<f64> {
+            if x < 0.0 {
+                return None;
+            }
+            else {
+                Some(x.sqrt())
+            }
+        }
 
-fn getval() -> f64 {
-    let mut buf: String = String::new();
+        fn getval() -> f64 {
+            let mut buf: String = String::new();
 
-    std::io::stdin().read_line(&mut buf).expect("read line failed");
-    buf.trim().parse().expect("parse into number")
-}
+            std::io::stdin().read_line(&mut buf).expect("read line failed");
+            buf.trim().parse().expect("parse into number")
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     get_roots fonksiyonunun geri dönüş değerinin Option<(f64, f64)> türündne olduğunu anımsayınız. Her bu enum için unwrap_or
     kullanacaksanız metoda argüman olarak (f64, f64) türünden bir demet vermelisiniz. Örneğin:
 
-    let result: (f64, f64);
+        let result: (f64, f64);
 
-    result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
-    println!("{}, {}", result.0, result.1);
+        result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
+        println!("{}, {}", result.0, result.1);
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let result: (f64, f64);
+        fn main() {
+            let result: (f64, f64);
 
-    result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
-    println!("{}, {}", result.0, result.1);
-}
+            result = get_roots(1., 0., 4.).unwrap_or((0., 0.));
+            println!("{}, {}", result.0, result.1);
+        }
 
-fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
-    let delta: f64;
+        fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
+            let delta: f64;
 
-    delta = b * b - 4.0 * a * c;
-    if delta < 0.0 {
-        None
-    }
-    else {
-        let x1 = (-b + delta.sqrt()) / (2. * a);
-        let x2 =  (-b - delta.sqrt()) / (2. * a);
-        Some((x1, x2))
-    }
-}
+            delta = b * b - 4.0 * a * c;
+            if delta < 0.0 {
+                None
+            }
+            else {
+                let x1 = (-b + delta.sqrt()) / (2. * a);
+                let x2 =  (-b - delta.sqrt()) / (2. * a);
+                Some((x1, x2))
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     - Option enum türünün unwrap_or_default metodu ek bir argüman almaz. Enum'daki varyant Some ise Some içerisindeki alanın
     değeri ile None ise T türünün default değeri ile geri dönmektedir. Metodun parametrik yapısı şöyledir:
 
-    pub fn unwrap_or_default(self) -> T
+        pub fn unwrap_or_default(self) -> T
 
     Nümerik türlerin default değerleri 0'dır. bool türünün ise false biçimdedir. Örneğin:
 
-    val = getval();
-    result = mysqrt(val).unwrap_or_default();
+        val = getval();
+        result = mysqrt(val).unwrap_or_default();
 
     Buradan biz ya val değerinin karekökünü ya da f64 türünün default değeri olan 0'ı elde ederiz. Örneğin:
 
-    let ops = Option::<bool>::None;
-    let result: bool;
+        let ops = Option::<bool>::None;
+        let result: bool;
 
-    result = ops.unwrap_or_default();
-    println!("{}", result);             // false
+        result = ops.unwrap_or_default();
+        println!("{}", result);             // false
 
     Demetlerin default değerleri elemanların default değerlerinden oluşmaktadır. Örneğin (i32, i32) demet türünün default
     değeri (0, 0) biçimindedir:
 
-    let ops = Option::<(i32, i32)>::None;
-    let result: (i32, i32);
+        let ops = Option::<(i32, i32)>::None;
+        let result: (i32, i32);
 
-    result = ops.unwrap_or_default();
-    println!("{:?}", result);           // (0, 0)
+        result = ops.unwrap_or_default();
+        println!("{:?}", result);           // (0, 0)
 
     Tabii her türün bir default değeri olmak zorunda değildir. Programcı kendi türleri için default değer oluşturmak istiyorsa
     Default isimli trait'i desteklemesi gerekir. Bu konu ileride trait'lerin anlatıldığı bölümde ele alınacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
     - Option enum türünün as_ref isimli metodu argümansız olarak kullanılmaktadır. Metodun parametrik yapısı şöyledir:
 
-    pub const fn as_ref(&self) -> Option<&T>
+        pub const fn as_ref(&self) -> Option<&T>
 
     Bu metot Option<T> türünden bir değişken ya da değere uygulanırsa Option<&T> türünden bir değer elde edlmektedir. Örneğin
     elimizde şöyle bir Option<i32> değişkeni olsun:
 
-    let ops1 = Option::<i32>::Some(123);
-    let ops2: Option<&i32>;
+        let ops1 = Option::<i32>::Some(123);
+        let ops2: Option<&i32>;
 
-    let ops2 = ops1.as_ref();
+        let ops2 = ops1.as_ref();
 
     Pekiyi Option<T> değerinden Option<&T> değerinin oluşturulmasının ne anlamı olabilir? işte bazen Option içerisinde tutulan
     nesnenin ekndisini değil de onun adresini elde etmek isteyebiliriz. Böylece eğeri taşımadan ödünç almış oluruz. Örneğin:
 
-    let opt = Some(String::from("ankara"));
+        let opt = Some(String::from("ankara"));
 
-    if let Some(s) = opt {
-        println!("{}", s);
-    }
-    else {
-        println!("None")
-    }
+        if let Some(s) = opt {
+            println!("{}", s);
+        }
+        else {
+            println!("None")
+        }
 
-    let s = opt.unwrap();       // error!
+        let s = opt.unwrap();       // error!
 
     Burada biz opt içerisindeki değer kalıp uyuşumu ile elde ettik. Ancak bu değer String türünden olduğu için ve String
     türü de Copy türünden olmadığı için opt içerisindeki değer taşınmıştır. Dolayısıyla if let deyiminden sonra artık biz
     opt değişkenini kullanamayız. İşte hem opt içerisindeki değeri taşımadan elde etmek için as_ref metodu kullanılmaktadır.
     Örneğin:
 
-    let opt = Some(String::from("ankara"));
+        let opt = Some(String::from("ankara"));
 
-    if let Some(s) = opt.as_ref() {
-        println!("{}", *s);
-    }
-    else {
-        println!("None")
-    }
+        if let Some(s) = opt.as_ref() {
+            println!("{}", *s);
+        }
+        else {
+            println!("None")
+        }
 
-    let s = opt.unwrap();       // geçerli
+        let s = opt.unwrap();       // geçerli
 
     Burada biz if let ile artık opt içerisindeki değerin adresini elde etmiş oluyourz. Çünkü as_ref metodu bize Option<&String>
     değeri vermektedir.
@@ -10037,16 +10037,16 @@ fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
     ref kalıbı enum alanının kendisini değil adresini elde etmekte kullanılmaktadır. Dolayısıyla yukarıdaki işlemin eşdeğeri
     şöyle oluşturulabilmektedir:
 
-    let opt = Some(String::from("ankara"));
+        let opt = Some(String::from("ankara"));
 
-    if let Some(ref s) = opt {
-        println!("{}", *s);
-    }
-    else {
-        println!("None")
-    }
+        if let Some(ref s) = opt {
+            println!("{}", *s);
+        }
+        else {
+            println!("None")
+        }
 
-    let s = opt.unwrap();       // geçerli
+        let s = opt.unwrap();       // geçerli
 
     Burada kalıp olarak Some(ref s) kullanıldığına dikkat ediniz. Bu kalıp zaten Some varyantının alanının adresini elde
     etmekte kullanılmaktadır.
@@ -10058,42 +10058,42 @@ fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
     değişkeninin içerisinde None varyantı varsa artık bu işlemden sonra Some varyantı bulunacaktır. Metodun parametrik yapısı
     şöyledir:
 
-    pub fn insert(&mut self, value: T) -> &mut T
+        pub fn insert(&mut self, value: T) -> &mut T
 
     Metot insert edilen değerin yerleştirildiği Some alanın mut referansıyla geri dönmektedir. Ancak metodun geri dönüş değerine
     pek gereksinim duyulmamaktadır. Örneğin:
 
-    fn main() {
-        let mut opt = Some(123);
-        let mut result: i32;
+        fn main() {
+            let mut opt = Some(123);
+            let mut result: i32;
 
-        result = opt.unwrap();
-        println!("{}", result);     // 123
+            result = opt.unwrap();
+            println!("{}", result);     // 123
 
-        opt.insert(500);
+            opt.insert(500);
 
-        result = opt.unwrap();
-        println!("{}", result);     // 500
-    }
+            result = opt.unwrap();
+            println!("{}", result);     // 500
+        }
 
     - Option enum türünün get_or_insert metodu insert metoduna benzerdir. Ancak bu metot eğer enum değişkeni ya da geçici
     değeri içerisinde Some varyantı varsa onun alanın mut referansıyla ger döner. Ancak None varyantı varsa gerçekten insert
     işlemi yapar Metodun parametrik yaısı şöyledir:
 
-    pub fn get_or_insert(&mut self, value: T) -> &mut T
+        pub fn get_or_insert(&mut self, value: T) -> &mut T
 
     Örneğin:
 
-    let mut opt = Option::<i32>::None;
-    let mut result: i32;
+        let mut opt = Option::<i32>::None;
+        let mut result: i32;
 
-    opt.get_or_insert(500);
+        opt.get_or_insert(500);
 
-    result = opt.unwrap();
-    println!("{}", result);     // 500
+        result = opt.unwrap();
+        println!("{}", result);     // 500
 
-    let rval: &mut i32 = opt.get_or_insert(1000);
-    println!("{}", rval);           // 500
+        let rval: &mut i32 = opt.get_or_insert(1000);
+        println!("{}", rval);           // 500
 
     Burada get_or_insert metodunun ilk çağrılmasında opt içerisinde None varyantı olduğu için Some varyantı insert edilmiştir.
     Ancak ikinci çağrıda artık opt içerisinde Some varyantı vardır. Dolayısıyla bir insert işlemi yapılamamıştır.
@@ -10102,121 +10102,121 @@ fn get_roots(a: f64, b: f64, c: f64) -> Option<(f64, f64)> {
     ya da geçici değer içerisinde None varyantı varsa default alan değerine sahip Some varyantı insert edilmektedir.
     Metodun parametrik yapısı şöyledir:
 
-    pub fn get_or_insert_default(&mut self) -> &mut T
+        pub fn get_or_insert_default(&mut self) -> &mut T
 
     - Option enum türünün take metodu mut bir referansla çağrılmak zorundadır. Bu metot enum içerisindeki değeri bir Option
     nesnesi olarak taşıma yoluyla geri döndürür. Ancak metodun çağrıldığı değişkene None varyantı yerleştirir.
     Metodun parametrik yapısı şöyledir:
 
-    pub const fn take(&mut self) -> Option<T>
+        pub const fn take(&mut self) -> Option<T>
 
     Örneğin:
 
-    let mut opt = Option::Some(123);
-    let opt2: Option<i32>;
+        let mut opt = Option::Some(123);
+        let opt2: Option<i32>;
 
-    opt2 = opt.take();
+        opt2 = opt.take();
 
     Burada artık opt içerisindeki değer Option olarak op2'ye taşınmıştır. Ancak opt değişkenin içerisinde artık None varyantı
     vardır. Bunu şöyle test edebilirsiniz:
 
-     match opt {
-        Option::Some(val) => { println!("{}", val); },
-        Option::None => { println!("None"); }               // None
-    }
-    match opt2 {
-        Option::Some(val) => { println!("{}", val); },      // 123
-        Option::None => { println!("None"); }
-    }
+        match opt {
+            Option::Some(val) => { println!("{}", val); },
+            Option::None => { println!("None"); }               // None
+        }
+        match opt2 {
+            Option::Some(val) => { println!("{}", val); },      // 123
+            Option::None => { println!("None"); }
+        }
 
     - Option enum türünün replace metodu enum içerisindeki eski değeri verip ona yeni bir Some varyantı yerleştirmektedir.
     Metodun parametrik yapısı şöyledir:
 
-    pub const fn replace(&mut self, value: T) -> Option<T>
+        pub const fn replace(&mut self, value: T) -> Option<T>
 
     Örneğin:
 
-    let mut opt = Some(123);
-    let old: Option<i32>;
+        let mut opt = Some(123);
+        let old: Option<i32>;
 
-    old = opt.replace(500);
+        old = opt.replace(500);
 
-    println!("{:?}", opt);      // Some(500)
-    println!("{:?}", old);      // Some(123)
+        println!("{:?}", opt);      // Some(500)
+        println!("{:?}", old);      // Some(123)
 
     Option enum türünün diğer metorları için "Rust Standard Library" dokümanlara başvurabilirsiniz.
 ---------------------------------------------------------------------------------------------------------------------------
     Aşağıda i32 türünden bir dizinin içerisinde bir değer arayan find isimli fonksiyon örneği verilmiştir. Fonksiyonun
     parametrik yapısı şöyledir:
 
-    fn find(a: &[i32], val: i32) -> Option<usize>
+        fn find(a: &[i32], val: i32) -> Option<usize>
 
     Fonksiyonun birinci parametresi dilim referansını ikinci parametresi aranacak değeri belirtmektedir. Fonksiyon başarı
     durumunda değerin bulunduğu dizi indeksine ilişkin Some varyantı ile başarısızlık durumunda None varyantı ile geri
     dönmektedir. Fonksiyonun çağrımı şöyle yapılabilir:
 
-    let a = [10, 4, 67, 34, 21];
+        let a = [10, 4, 67, 34, 21];
 
-    if let Some(index) = find(&a, 67) {
-        println!("{}", index);      // 2
-    }
-    else {
-        println!("cannot find!");
-    }
+        if let Some(index) = find(&a, 67) {
+            println!("{}", index);      // 2
+        }
+        else {
+            println!("cannot find!");
+        }
 
     Aslında dilimlerin de bu işi yapan metotları vardır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a = [10, 4, 67, 34, 21];
+        fn main() {
+            let a = [10, 4, 67, 34, 21];
 
-    if let Some(index) = find(&a, 67) {
-        println!("{}", index);      // 2
-    }
-    else {
-        println!("cannot find!");
-    }
-}
-
-fn find(a: &[i32], val: i32) -> Option<usize> {
-    for i in 0..a.len() {
-        if a[i] == val {
-            return Some(i);
+            if let Some(index) = find(&a, 67) {
+                println!("{}", index);      // 2
+            }
+            else {
+                println!("cannot find!");
+            }
         }
-    }
-    None
-}
+
+        fn find(a: &[i32], val: i32) -> Option<usize> {
+            for i in 0..a.len() {
+                if a[i] == val {
+                    return Some(i);
+                }
+            }
+            None
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     String dilimlerinin (yani str türünün) de find ve rfind isimli metotları benzer biçimde Option<usize> değeri ile
     geri dönmektedir. Metotların parametrik yapıları şöyledir:
 
-    pub fn find<P>(&self, pat: P) -> Option<usize>
-    pub fn rfind<P>(&self, pat: P) -> Option<usize>
+        pub fn find<P>(&self, pat: P) -> Option<usize>
+        pub fn rfind<P>(&self, pat: P) -> Option<usize>
 
     Metotlar yazı içerisinde bir kalıp aramaktadır. Kalıp bir karakter olabilir. Eğer kalıp bulunursa bulunduğu yerin
     indeksine ilişkin Some varyantı ile bulunamazsa None varyantı ile geri dönmektedir. Örneğin:
 
-    fn main() {
-        let s: &str = "ankara";
+        fn main() {
+            let s: &str = "ankara";
 
-        if let Some(index) = s.find('k') {
-            println!("{}", &s[index..]);            // kara
+            if let Some(index) = s.find('k') {
+                println!("{}", &s[index..]);            // kara
+            }
+            else {
+                println!("cannot find!..")
+            }
         }
-        else {
-            println!("cannot find!..")
-        }
-    }
 
     Burada index değişkeninin usize türünden olduğuna dikkat ediniz.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta çok kullanılan standart kütüphanedeki diğer bir enum türü de Result isimli enum türüdür. Result enum türü std::result
     modülünde aşağıdaki gibi tanımlanmıştır:
 
-    pub enum Result<T, E> {
-        Ok(T),
-        Err(E),
-    }
+        pub enum Result<T, E> {
+            Ok(T),
+            Err(E),
+        }
 
     Görülğü gibi bu enum türü de generic biçimdedir. Ancak iki generic parametresi vardır. Bu enum türünde Ok ve Err isimli
     iki demetsel varyan bulunmaktadır. Result enum türü başarı ya da başarısızlığı bilgi ile aktarmak amacıyla kullanılmaktadır.
@@ -10236,35 +10236,35 @@ fn find(a: &[i32], val: i32) -> Option<usize> {
     bir biçimde derleyici tarafından tespit edilmesi gerekir. Bu açıkça yapılabileceği gibi bağlamdan hareketle de yapılabilmektedir.
     Örneğin:
 
-    let r: std::result::Result<i32, &str>;      // geçerli
+        let r: std::result::Result<i32, &str>;      // geçerli
 
     Burada Result ismi açıkça modül ismi belirtilerek niteliklendirme yoluyla kullanılmıştır. Ancak niteliklendirme yapmaya
     gerek yoktur:
 
-    let r: Result<i32, &str>;                   // geçerli
+        let r: Result<i32, &str>;                   // geçerli
 
     Result enum türünde iki generic parametre vardır. Dolayısıyla derleyicinin bu iki parametreyi tespit etmesi gerekir.
     Aşağıdaki bağlamada birinci generic parametrenin türü tespit edilebildiği halde ikinci generic parametrenin türü tespit
     edilemediğinden dolayı bağlama error ile sonuçlanacaktır:
 
-    let r = Result::Ok(123);                  // error!
+        let r = Result::Ok(123);                  // error!
 
     Aşağıdaki bağlama geçerlidir. Çünkü her iki generic tür de açıkça belirtilmiştir:
 
-    let r = Result::<i32, &str>::Ok(123);       // geçerli
+        let r = Result::<i32, &str>::Ok(123);       // geçerli
 
     Tabii bağlam izin veriyorsa generic parametrelerin açıkça belirtilmesine gerek kalmaz. Örneğin:
 
-    let r: Result<i32, &str>;
+        let r: Result<i32, &str>;
 
-    r = Ok(123);   // geçerli
+        r = Ok(123);   // geçerli
 
     Burada r değişkeninin türü zaten derleyici tarafından bilinmektedir. Dolayısıyla Ok varyantı için generic tür belirtilmesine
     gerek yoktur. Benzer biçimde örneğin:
 
-    let r: Result<i32, &str>;
+        let r: Result<i32, &str>;
 
-    r = Err("file not found");      // geçerli
+        r = Err("file not found");      // geçerli
 
     Burada da generic türlerin belirtilmesine gerek yoktur.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -10272,11 +10272,11 @@ fn find(a: &[i32], val: i32) -> Option<usize> {
     bir yapı değerine, başarısızlık durumunda da hataya ilişkin bir hata yazısına geri dönecek olsun. Burada Option yerine
     Result türünün kullanılması daha uygundur:
 
-    fn accept_socket(s: Socket) -> Result<Socket, String>
+        fn accept_socket(s: Socket) -> Result<Socket, String>
 
     Eğer bu fonksiyon Option ile geri dönüyor olsaydı fonksiyonun parametrik yapısı şöyle olurdu:
 
-    fn accept_socket(s: Socket) -> Option<Socket>
+        fn accept_socket(s: Socket) -> Option<Socket>
 
     Fakat bu durumda hatanın nedenini anlayamazdık.
 
@@ -10289,7 +10289,7 @@ fn find(a: &[i32], val: i32) -> Option<usize> {
     bir yazı okurkan std::io::stdin() fonksiyonu bize Stdin yapısı türünden bir değer veriyordu. Biz de bu yapının read_line
     metodunu çağırıyorduk. Stdin yapısının read_line metodunun parametrik yapısı şöyledir:
 
-    pub fn read_line(&self, buf: &mut String) -> Result<usize>
+        pub fn read_line(&self, buf: &mut String) -> Result<usize>
 
     Fonksiyon stdin türünden bir değişken ya da değerin adresini ve bir de mut bir String değişkeninin adresini almaktadır.
     Fonksiyon klavyeden okunanları bir String değişkeninin içerisine yerleştirecektir. Ancak bu fonksiyon başarısız da
@@ -10297,22 +10297,22 @@ fn find(a: &[i32], val: i32) -> Option<usize> {
     Geri dönüş değerinde belirtilen Result ismi takma addır (Yani bunu C'deki typedef ismi gibi düşünebilirsiniz.) Bu takma
     ad std::io modülünde aşağıdaki gibi tanımlanmıştır:
 
-    pub type Result<T> = Result<T, Error>;
+        pub type Result<T> = Result<T, Error>;
 
     Yani aslında geri dönüş değerindeki std::io::Result<usize> türü std::result::Result<usize, std::io::Error> anlamına
     gelmektedir. Dolayısıyla bu metot başarı durumunda Ok(usize) değeri ile başarısızlık durumunda Error isimli bir yapı
     değeri ile geri dönmektedir. Eğer bu metodun geri dönüş değeri kullanılacak olsaydı bu şöyle yapılabilirdi:
 
-    let mut s: String = String::new();
-    let result: std::result::Result<usize, std::io::Error> = std::io::stdin().read_line(&mut s);
+        let mut s: String = String::new();
+        let result: std::result::Result<usize, std::io::Error> = std::io::stdin().read_line(&mut s);
 
-    match result {
-        Ok(n) => {
-            println!("{} bytes read...", n);
-            println!("{}", s);
-        },
-        Err(e) => println!("Error: {}", e),
-    }
+        match result {
+            Ok(n) => {
+                println!("{} bytes read...", n);
+                println!("{}", s);
+            },
+            Err(e) => println!("Error: {}", e),
+        }
 
     Buradaki e değişkeninin std::io::Error isimli yapı türünden olduğuna dikkat ediniz. Biz burada bu yapı üzerinde
     durmayacağız. Ancak bu yapı Display ve Debug trait'lerini desteklediği için doğrudan hatayı yazı olarak pritnln!
