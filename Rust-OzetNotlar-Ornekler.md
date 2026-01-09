@@ -16253,21 +16253,21 @@ impl Drop for Sample {
     klonlanabilmektedir. Bu konu ileride trait'ler konusunda ayrıca ele alınacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let s = Sample {a: 10, b: 20};
-    let k: Sample;
+    fn main() {
+        let s = Sample {a: 10, b: 20};
+        let k: Sample;
 
-    k = s;
+        k = s;
 
-    println!("{}, {}", s.a, s.b);       // geçerli
-    println!("{}, {}", k.a, k.b);       // geçerli
-}
+        println!("{}, {}", s.a, s.b);       // geçerli
+        println!("{}, {}", k.a, k.b);       // geçerli
+    }
 
-#[derive(Clone, Copy)]
-struct Sample {
-    a: i32,
-    b: i32
-}
+    #[derive(Clone, Copy)]
+    struct Sample {
+        a: i32,
+        b: i32
+    }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapı ya da enum türüne #[derive(Clone, Copy)] özniteliğinin iliştirilmesi için o yapı ya da enum türünün tüm alanlarının
