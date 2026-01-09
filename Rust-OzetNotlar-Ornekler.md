@@ -10332,53 +10332,53 @@ use std::mem::discriminant;
     - Result enum türünün is_ok ve is_err isimli metotları enum içerisinde Ok varyantının mı Err varyantının mı bulunduğunu
     tespit etmekte kullanılmaktadır. Metotların parametrik yapıları şöyledir:
 
-    pub const fn is_ok(&self) -> bool
-    pub const fn is_err(&self) -> bool
+        pub const fn is_ok(&self) -> bool
+        pub const fn is_err(&self) -> bool
 
     Örneğin:
 
-    fn main() {
-        let result = foo();
+        fn main() {
+            let result = foo();
 
-        if result.is_ok() {
-            println!("Ok")
+            if result.is_ok() {
+                println!("Ok")
+            }
+            else {
+                println!("Err")
+            }
         }
-        else {
-            println!("Err")
-        }
-    }
 
-    fn foo() -> Result<i32, String> {
-        //...
-        Ok(123)
-    }
+        fn foo() -> Result<i32, String> {
+            //...
+            Ok(123)
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     - Result enum türünün ok ve err metotları Result değerini Option haline getirip Option enum değeriyle geri dönmektedir.
     Metotların parametrik yapıları şöyledir:
 
-    pub fn ok(self) -> Option<T>
-    pub fn err(self) -> Option<E>
+        pub fn ok(self) -> Option<T>
+        pub fn err(self) -> Option<E>
 
     ok metodu eğer Result içerisinde Ok varyantı varsa bu Ok varyantının tuttuğu alan bilgisini Some varyantı içeren bir Option
     haline getirmektedir. Result içerisinde Err varyantı varsa geri döndürülen Option değeri None varyantı içerecektir.
     Örneğin:
 
-    fn main() {
-        let result: Result<i32, String> = foo();
-        let opt: Option<i32> = result.ok();
+        fn main() {
+            let result: Result<i32, String> = foo();
+            let opt: Option<i32> = result.ok();
 
-        if let Some(val) = opt {
-            println!("{}", val);                // 123
+            if let Some(val) = opt {
+                println!("{}", val);                // 123
+            }
+            else {
+                println!("There is no result");
+            }
         }
-        else {
-            println!("There is no result");
-        }
-    }
 
-    fn foo() -> Result<i32, String> {
-        //...
-        Ok(123)
-    }
+        fn foo() -> Result<i32, String> {
+            //...
+            Ok(123)
+        }
 
     Burada foo fonksiyonu Err varyantıyla geri dönseydi is_ok metodunun verdiği Option değeri None varyantına sahip olurdu.
     err metodu da tersten benzer işlemi yapmaktadır. Yani Result içerisinde Err varyantı varsa metot Some varyantında bu Err
@@ -10389,27 +10389,27 @@ use std::mem::discriminant;
     geri döndürür. Bu metot eğer Option içerisinde None varyantı varsa argüman olarak aldığı bilgiden Err varyantı içeren
     bir Result değeri oluşturup bu result değerini geri döndürmektedir. Metodun parametrik yapısı şöyledir:
 
-    pub fn ok_or_else<E, F>(self, err: F) -> Result<T, E>
+        pub fn ok_or_else<E, F>(self, err: F) -> Result<T, E>
 
     Bu metot generic bir metottur. Metodun self dışındaki parametresi Err varyantının alanını oluşturmaktadır. Örneğin:
 
-    fn main() {
-        let opt: Option<i32>;
-        let result: Result<i32, &str>;
+        fn main() {
+            let opt: Option<i32>;
+            let result: Result<i32, &str>;
 
-        opt = foo();
-        result = opt.ok_or("Unknown error");
+            opt = foo();
+            result = opt.ok_or("Unknown error");
 
-        match result {
-            Ok(val) => println!("{}",val),
-            Err(val) => println!("{}",val),         // Unknown error
+            match result {
+                Ok(val) => println!("{}",val),
+                Err(val) => println!("{}",val),         // Unknown error
+            }
         }
-    }
 
-    fn foo() -> Option<i32> {
-        //...
-        None
-    }
+        fn foo() -> Option<i32> {
+            //...
+            None
+        }
 
     Burada foo fonksiyonu None varyantıyla geri dönmüştür ok_or metodu "Unknown error" yazını barındıran Err varyantına
     sahip bir Result değeri verecektir.
@@ -10417,129 +10417,129 @@ use std::mem::discriminant;
     - Tıpkı Option enum türünde olduğu gibi Result enum türünde de as_ref metodu vardır. Bu metot sayesinde biz Result
     içerisindeki varyantın sahipliğini almak yerine onu ödünç alabiliriz. as_ref metodunun parametrik yapısı şöyledir:
 
-    pub const fn as_ref(&self) -> Result<&T, &E>
+        pub const fn as_ref(&self) -> Result<&T, &E>
 
-    Örneğin:
+        Örneğin:
 
-    fn main() {
-        let result = foo();
+        fn main() {
+            let result = foo();
 
-        match result.as_ref() {
-            Ok(val) => println!("{}", *val),            // 123
-            Err(e) => println!("{}", *e),
+            match result.as_ref() {
+                Ok(val) => println!("{}", *val),            // 123
+                Err(e) => println!("{}", *e),
+            }
         }
-    }
 
-    fn foo() -> Result<i32, String> {
-        //...
-        Ok(123)
-    }
+        fn foo() -> Result<i32, String> {
+            //...
+            Ok(123)
+        }
 
     Burada match ifadesinin ilk kolundaki val değişkeni i32 türünden değil &i32 türündendir. Benzer biçimde match ifadesinin
     ikinci kolundaki e de String türünden değil &String türündendir. Aslında daha önceden de belirttiğimiz gibi aynı etki
     ref kalıbıyla da sağlanabilmektedir. Örneğin:
 
-    fn main() {
-        let result = foo();
+        fn main() {
+            let result = foo();
 
-        match result {
-            Ok(ref val) => println!("{}", *val),
-            Err(ref e) => println!("{}", *e),
+            match result {
+                Ok(ref val) => println!("{}", *val),
+                Err(ref e) => println!("{}", *e),
+            }
         }
-    }
 
-    fn foo() -> Result<i32, String> {
-        //...
-        Ok(123)
-    }
+        fn foo() -> Result<i32, String> {
+            //...
+            Ok(123)
+        }
 
     Burada da yine val değişkeni &i32 türünden e değişkeni de &String türündendir.
 
     - as_mut metodu da as_ref ile aynı şeyi yapmaktadır. Ancak bu metot mut bir referans ile çalışır ve mut referanslardan
     oluşan bir Result nesnesi verir. Metodun parametrik yapısı şöyledir:
 
-    pub const fn as_mut(&mut self) -> Result<&mut T, &mut E>
+        pub const fn as_mut(&mut self) -> Result<&mut T, &mut E>
 ---------------------------------------------------------------------------------------------------------------------------
     - Result enum türünün de unwrap ve expect metotları vardır. unwrap metodu eğer Result içerisinde Ok varyantı varsa
     onun alan değerine geri döner, Err varyantı varsa panic oluşturur. expect metodu da aynı şeyi yapmaktadır ancak bu metotta
     panic mesajı belirtilebilmektedir. expect metoduna değer panic mesajında aşağıdaki biçimde görüntülenmektedir:
 
-    mesaj: <Err varyantındaki değer>
+        mesaj: <Err varyantındaki değer>
 
     Metotların parametrik yapıları şöykedir:
 
-    pub fn expect(self, msg: &str) -> T
-    pub fn unwrap(self) -> T
+        pub fn expect(self, msg: &str) -> T
+        pub fn unwrap(self) -> T
 
     Örneğin:
 
-    fn main() {
-        let val: i32;
+        fn main() {
+            let val: i32;
 
-        val = foo().expect("fail");
-        println!("{}", val);
-    }
+            val = foo().expect("fail");
+            println!("{}", val);
+        }
 
-    fn foo() -> Result<i32, String> {
-        //...
-        Ok(123)
-    }
+        fn foo() -> Result<i32, String> {
+            //...
+            Ok(123)
+        }
 
     Eğer hata oluşma olasılığı çok düşükse hatayı match ile ele almak yerine doğrudan unwrap ya da expect metotlarını
     kullanmayı tercih edebilirsiniz.
 
     - unwrap metodunun da tıpkı Option enum türünde olduğu gibi unwrap_or ve unwrap_or_default isminde benzerleri de vardır:
 
-    pub fn unwrap_or(self, default: T) -> T
-    pub fn unwrap_or_default(self) -> T
+        pub fn unwrap_or(self, default: T) -> T
+        pub fn unwrap_or_default(self) -> T
 
     unwrap_or metodu eğer Result içerisinde Ok varyantı varsa onun alan değeri ile Err varyantı varsa metotta belirtilen
     değerle geri dönmektedir. unwrap_or_default metodu ise Err varyantı için T türünün default değeriyle geri dönmektedir.
 
     Result enum türünün diğer metorları için "Rust Standard Library" dokümanlarına başvurabilirsiniz:
 
-    https://doc.rust-lang.org/std/result/enum.Result.html
+        https://doc.rust-lang.org/std/result/enum.Result.html
 ---------------------------------------------------------------------------------------------------------------------------
     Bazen başarı durumunda bir bilginin iletilmesi gerekmez ancak başarısızlık durumunda gerekebilir. Örneğin biz bir dosyayı
     flush edecek olalım. Bu işlemi başardığımızda bize verilecek ek bir bilgi yoktur. Ancak bu işi başaramadığımızda neden
     başaranadığımıza ilişkin bir bilgi elde etmek isteriz. İşte bu tür durumlarda genellikle Rust programcıları Result enum
     türünün Ok varyantına ilişkin generic parametreyi () ile birim türü biçiminde belirtmektedir. Örneğin:
 
-    fn foo() -> Result<(), String>
+        fn foo() -> Result<(), String>
 
     Burada foo başarı durumunda bize bir bilgi vermemektedir. Ancak başarısızlık durumunda bir hata mesajı vermektedir.
     Örneğin:
 
-    use std::process::exit;
+        use std::process::exit;
 
-    fn main() {
-        if let Err(e) = foo() {
-            println!("{}", e);
-            exit(1);
+        fn main() {
+            if let Err(e) = foo() {
+                println!("{}", e);
+                exit(1);
+            }
+            println!("everything is ok");
         }
-        println!("everything is ok");
-    }
 
-    fn foo() -> Result<(), String> {
-        //...
-        Err(String::from("Unknown error"))
-    }
+        fn foo() -> Result<(), String> {
+            //...
+            Err(String::from("Unknown error"))
+        }
 
     Örneğin daha önce de biz ekrana '\n' karakteri ile sonlanmayan bir yazı basmak için Stdout türünden bir değerle Stdout
     yapısının flush metodunu çağırmıştık. Bu flush metodunun parametrik yapısı şöyledir:
 
-    fn flush(&mut self) -> Result<()>
+        fn flush(&mut self) -> Result<()>
 
     Buradaki Result ismi std::result::Result ismi değil daha önceden de sözünü ettiğimiz std::io modülündeki takma isimdir:
 
-    pub type Result<T> = Result<T, Error>;
+        pub type Result<T> = Result<T, Error>;
 
     Yani aslında buradaki std::io::Rusult<()> türü tamamen std::result::Result<(), std::io::Error> türü anlamına gelmektedir.
     O halde result başarılıysa bize bir şey vermemekte, başarısızsa başarısılığın nedenini Error türünden bir değerle vermektedir.
     Biz flush işlemini daha önce hep aşağıdaki gibi kullanmıştık:
 
-    println!("Bir değer giriniz:");
-    std::io::stdout().flush().expect("Can't flush stdout");
+        println!("Bir değer giriniz:");
+        std::io::stdout().flush().expect("Can't flush stdout");
 
     Mademki flush metodunun başarısız olma olasılığı çok düşüktür o halde unwrap ya da expect metotlarıyla bu durumu
     geçiştirebiliriz.
@@ -10558,93 +10558,93 @@ use std::mem::discriminant;
 
     Yapı tanımlamanın temel genel biçimi şöyledir:
 
-    struct <yapı_ismi> {
-        <alan_ismi>: <tür>,
-        <alan_ismi>: <tür>,
-        <alan_ismi>: <tür>,
-        ....
-    }
+        struct <yapı_ismi> {
+            <alan_ismi>: <tür>,
+            <alan_ismi>: <tür>,
+            <alan_ismi>: <tür>,
+            ....
+        }
 
     Örneğin:
 
-    struct Complex {
-        real: f64,
-        imag: f64,
-    }
+        struct Complex {
+            real: f64,
+            imag: f64,
+        }
 
     Burada real ve imag Complex yapısının alanlarıdır. Örneğin:
 
-    struct Person {
-        name: String,
-        no: i32
-    }
+        struct Person {
+            name: String,
+            no: i32
+        }
 
     Burada name ve no Person yapısının alanlarıdır. Örneğin:
 
     Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
     Burada day, month ve year Date yapısının alanlarıdır.
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi programlama dillerinde yapı benzeri veri yapılarına neden gereksinim duyulmaktadır? Bunun birkaç temel nedeni
     vardır:
 
-    1) Birbirleriyle ilişkili olan birtakım olguları tekil değişkenlerle ifade etmek yerine bir yapı biçiminde ifade etmek
-    algısal karışıklığı azaltır ve kodun daha anlaşılır olmasını sağlar. Örneğin bir tarihi belirten gün, ay ve yıl değerlerini
-    bağımsız değişkenlerde tutmak yerine Date isimli bir yapının alanları biçiminde tutmak kodun daha iyi algılanmasına ve
-    kavranmasına yol açmaktadır.
+      1) Birbirleriyle ilişkili olan birtakım olguları tekil değişkenlerle ifade etmek yerine bir yapı biçiminde ifade etmek
+      algısal karışıklığı azaltır ve kodun daha anlaşılır olmasını sağlar. Örneğin bir tarihi belirten gün, ay ve yıl değerlerini
+      bağımsız değişkenlerde tutmak yerine Date isimli bir yapının alanları biçiminde tutmak kodun daha iyi algılanmasına ve
+      kavranmasına yol açmaktadır.
 
-    2) Yapı alanları (elemanları) bellekte ardışıl tutulduğu için birbirileriyle ilişkili ancak farklı türlerden bilgilerin
-    adres yoluyla tek hamlede fonksiyonlara aktarılması mümkün hale getirilmektedir.
+      2) Yapı alanları (elemanları) bellekte ardışıl tutulduğu için birbirileriyle ilişkili ancak farklı türlerden bilgilerin
+      adres yoluyla tek hamlede fonksiyonlara aktarılması mümkün hale getirilmektedir.
 
     Rust'ta yapılara ilişkin metotlar da yazılabilmektedir. Rust'ta yapılar trait'leri de destekleyebilmektedir. Böylece nesne
     yönelimli programlama tekniğinin bazı temel prensipleri de Rust'ta yapılar yoluyla uygulanabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapı türünden değişken yine let deyimiyle bildirilebilmektedir (bağlanabilmektedir). Örneğin:
 
-    let date: Date;
+        let date: Date;
 
     Burada date değişkeni Date isimli yapı türündendir. Rust'ta bir yapı türünden değer aşağıdaki genel biçimle oluşturulmaktadır:
 
-    <yapı_ismi> {
-        <alan_ismi>: değer,
-        <alan_ismi>: değer,
-        <alan_ismi>: değer,
-        ...
-    }
+        <yapı_ismi> {
+            <alan_ismi>: değer,
+            <alan_ismi>: değer,
+            <alan_ismi>: değer,
+            ...
+        }
 
     Bu genel biçimde önce yapı isminin belirtildiğine sonra küme parantezleri içerisinde tek tek elemanlar için değerlerin
     belirtildiğine dikkat ediniz. Örneğin:
 
-    let date: Date;
+        let date: Date;
 
-    date = Date {
-        day: 10,
-        month: 12,
-        year: 2020,
-    };
+        date = Date {
+            day: 10,
+            month: 12,
+            year: 2020,
+        };
 
     Burada Date türünden bir yapı değeri oluşturulup date değişkenine atanmıştır. Tabii biz bu işlemi doğrudan let deyiminde
     de yapabilirdik:
 
-    let date = Date {
-        day: 10,
-        month: 12,
-        year: 2020,
-    };
+        let date = Date {
+            day: 10,
+            month: 12,
+            year: 2020,
+        };
 
     Burada date değişkeni Date türündendir. Bir yapı türünden bir değer oluştururken yapının her alanı için  değer belirtilmsi
     gerekir. Örneğin aşağıdaki bağlama error ile sonuçlanacaktır:
 
-    let date = Date {
-        day: 10,
-        month: 12,
-    };
+        let date = Date {
+            day: 10,
+            month: 12,
+        };
 
     Burada yapının year alanı için bir değer belirtilmemiştir. (C'de yapının ilk elemanlarına değer verilip diğer elemanlarına
     değer verilmezse diğer elemanlara 0 (ya da NULL adres) değeri verilmiş gibi işlem yapıldığınıu anımsayınız. Ancak Rust'ta
@@ -10652,11 +10652,11 @@ use std::mem::discriminant;
 
     Tabii yapı türünden değer oluştururken alanların yapı tanımlamasındaki sıraya uygun olması gerekemz. Örneğin:
 
-    let date = Date {               // geçerli
-        year: 2020,
-        month: 12,
-        day: 10,
-    };
+        let date = Date {               // geçerli
+            year: 2020,
+            month: 12,
+            day: 10,
+        };
 
     Görüldüğü gibi ypı tanımlamasında sıra day, month, year biçiminde olduğu halde değer oluştururken bu sıra izlenmek zorunda
     değildir. Dolayısıyla yukarıdaki kod geçerlidir.
@@ -10664,74 +10664,74 @@ use std::mem::discriminant;
     Bir yapı türünden değer oluştururken yalnızca yapı alanının ismi belirtilirse bu alana faaliyet alanında olan aynı isimli
     değişkenin değerinin atandığı kabul edilmektedir. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
+        }
 
     Bu yapı türünden bir değeri aşağıdaki gibi yaratabiliriz:
 
-    let a = 10;
-    let c = 30;
+        let a = 10;
+        let c = 30;
 
-    let s: Sample = Sample {
-        a,
-        b: 20,
-        c
-    };
+        let s: Sample = Sample {
+            a,
+            b: 20,
+            c
+        };
 
     Bir yapı türünden değer oluştururken yapı alanın yalnızca isminin belirtilmesi faaliyet alanında bulunan o isimdeki
     değişkenin o alana yerleştirileceği anlamına gelmektedir. Yani örneğin yapı alanının ismi a olmak üzere değer oluştururken
     bu a ismini ':' olmadan kullanırsak bu sentaks tamamen a: a anlamına gelmektedir. Yukarıdaki ilkdeğer vermenin eşdeğeri
     aşağıdaki gibidir:
 
-    let a = 10;
-    let c = 30;
+        let a = 10;
+        let c = 30;
 
-    let s: Sample = Sample {
-        a: a,
-        b: 20,
-        c: c
-    };
+        let s: Sample = Sample {
+            a: a,
+            b: 20,
+            c: c
+        };
 
     Buna Rust'ta "yapı alanlarına kısa yolla (shorthand) değer verme" denilmektedir. Bu sentaks özellikle fonksiyonlarda
     sıkça kullanılmaktadır. Örneğin:
 
-    fn create_sample(a: i32, b: i32, c: i32) -> Sample {
-        Sample { a, b, c }
-    }
+        fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+            Sample { a, b, c }
+        }
 
     Bu fonksiyon aldığı üç parametre ile yapı türünden değer oluşturup o değerle geri dönmektedir. Bu tanımalama aşağıdakiyle
     eşdeğerdir:
 
-    fn create_sample(a: i32, b: i32, c: i32) -> Sample {
-        Sample { a: a, b: a, c: c }
-    }
+        fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+            Sample { a: a, b: a, c: c }
+        }
 
     Bu fonksiyon sayesinde biz bu yapı türünden bir değeri daha kolay oluşturabiliriz:
 
-    let s: Sample;
+        let s: Sample;
 
-    s = create_sample(10, 20, 30);
+        s = create_sample(10, 20, 30);
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let s: Sample;
+        fn main() {
+            let s: Sample;
 
-    s = create_sample(10, 20, 30);
-    //...
-}
+            s = create_sample(10, 20, 30);
+            //...
+        }
 
-fn create_sample(a: i32, b: i32, c: i32) -> Sample {
-    Sample { a: a, b: a, c: c }
-}
+        fn create_sample(a: i32, b: i32, c: i32) -> Sample {
+            Sample { a: a, b: a, c: c }
+        }
 
-struct Sample {
-    a: i32,
-    b: i32,
-    c: i32
-}
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta bir yapı türünden değer oluştururken kullanılan diğer bir kısa yol da .. sentaksıdır. Bu sentaksta yapı türünden
@@ -10739,15 +10739,15 @@ struct Sample {
     getirilir. Bu sentaks "geri kalan alanlar bu yapı ifadesindeki (tipik olarak değişkenindeki) alanların aynısı olacak"
     anlamına gelmektedir. Örneğin:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
-    let k: Sample;
+        let s = Sample { a: 10, b: 20, c: 30 };
+        let k: Sample;
 
-    k = Sample { b: 100, ..s };
+        k = Sample { b: 100, ..s };
 
     Byrada oluşturulan yapı değerinin b alanında 100 olacaktır. Geri kalan alanlar a ve c'dir. Bunlar da s'ten alınacaktır.
     Yani bu kodun eşdeğeri şöyledir:
 
-    k = Sample { b: 100, a: s.a, b: s.b };
+        k = Sample { b: 100, a: s.a, b: s.b };
 
     Tabii sonraki paragraflarda göreceğimiz gibi burada bir sahiplik devri de söz konusudur. Yani bu örnekte eğer Sample
     Copy türünden değilse s'nin sahipliği de devredilmektedir.
@@ -10756,103 +10756,103 @@ struct Sample {
     Ancak tipik yazım böyledir. Bu sentaks küme parantezlerinin sonunda ve yalnızca bir kez bulundurulmak zorundadır. Aşağıdaki
     değer yaratımı da geçerlidir:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
-    let k: Sample;
+        let s = Sample { a: 10, b: 20, c: 30 };
+        let k: Sample;
 
-    k = Sample { ..s };
+        k = Sample { ..s };
 
     Tabii bu işlem zaten aşağıdakiyle eşdeğerdir:
 
-    k = s;
+        k = s;
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta yapı alanalarına diğer pek çok dilde olduğu gibi bir yapı türünden değişken ya da referansla nokta operatörü
     kullanılarak erişilmektedir. Nokta operatörü iki operand'lı araek bir operatördür. Öncelik tablosunda yüksek öncelikli
     bir biçimde bulunmaktadır:
 
-    .                                       Soldan Sağa
-    ()                                      Soldan Sağa
-    - !                                     Sağdan Sola
-    as                                      Soldan Sağa
-    * /  %                                  Soldan Sağa
-    + -                                     Soldan Sağa
-    <<  >>                                  Soldan Sağa
-    &                                       Soldan Sağa
-    ^                                       Soldan Sağa
-    |                                       Soldan Sağa
-    < > >= <= == !=                         Parantezsiz Kombine Edilemez
-    &&                                      Soldan Sağa
-    ||                                      Soldan Sağa
-    .. ..=                                  Parantezsiz Kombine Edilemez
-    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+        .                                       Soldan Sağa
+        ()                                      Soldan Sağa
+        - !                                     Sağdan Sola
+        as                                      Soldan Sağa
+        * /  %                                  Soldan Sağa
+        + -                                     Soldan Sağa
+        <<  >>                                  Soldan Sağa
+        &                                       Soldan Sağa
+        ^                                       Soldan Sağa
+        |                                       Soldan Sağa
+        < > >= <= == !=                         Parantezsiz Kombine Edilemez
+        &&                                      Soldan Sağa
+        ||                                      Soldan Sağa
+        .. ..=                                  Parantezsiz Kombine Edilemez
+        = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
 
     Nokta operatörünün sol tarafındaki operand bir yapı türünden değişken ya da değer, sağ tarafındaki operand ise o
     yapının bir alanı (ya da bir metodu) olmalıdır. Örneğin:
 
-    fn main() {
-        let date = Date {
-            day: 10,
-            month: 12,
-            year: 2020,
-        };
+        fn main() {
+            let date = Date {
+                day: 10,
+                month: 12,
+                year: 2020,
+            };
 
-        println!("{}/{}/{}", date.day, date.month, date.year);
-    }
+            println!("{}/{}/{}", date.day, date.month, date.year);
+        }
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
     Yine Rust'ta da yapının bir alanı başka bir yapı türünden olabilir. Bu durumda iç alanlara birden fazla nokta operatörüyle
     erişilmektedir. Örneğin:
 
-    struct Person {
-        name: String,
-        bday: Date
-    }
+        struct Person {
+            name: String,
+            bday: Date
+        }
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
     Burada Person yapısının bday alanı Date yapısı türündendir. Person türünden bir yapı değerini şöyle oluşturabiliriz:
 
-    let per = Person {
-        name: String::from("Ali Güneş"),
-        bday: Date {
-            day: 12,
-            month: 12,
-            year: 1995
-        }
-    };
-    println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
+        let per = Person {
+            name: String::from("Ali Güneş"),
+            bday: Date {
+                day: 12,
+                month: 12,
+                year: 1995
+            }
+        };
+        println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let per = Person {
-        name: String::from("Ali Güneş"),
-        bday: Date {
-            day: 12,
-            month: 12,
-            year: 1995
+        fn main() {
+            let per = Person {
+                name: String::from("Ali Güneş"),
+                bday: Date {
+                    day: 12,
+                    month: 12,
+                    year: 1995
+                }
+            };
+            println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
         }
-    };
-    println!("{}, {}/{}/{}", per.name, per.bday.day, per.bday.month, per.bday.year);
-}
 
-struct Person {
-    name: String,
-    bday: Date
-}
+        struct Person {
+            name: String,
+            bday: Date
+        }
 
-struct Date {
-    day: u32,
-    month: u32,
-    year: u32
-}
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta da tıpkı C'de olduğu gibi bir yapı değişkenine aynı türden bir yapı değişkeni ya da değeri atanabilir. Bu durumda
@@ -10862,25 +10862,25 @@ struct Date {
     sürece (default durumda) Copy türüne ilişkin değildir, yani taşınmaktadır.
     Örneğin:
 
-    fn main() {
-        let d1 = Date {
-            day: 10,
-            month: 12,
-            year: 1995
-        };
-        let d2: Date;
+        fn main() {
+            let d1 = Date {
+                day: 10,
+                month: 12,
+                year: 1995
+            };
+            let d2: Date;
 
-        d2 = d1;            // geçerli
-        println!("{}/{}/{}", d2.day, d2.month, d2.year);
+            d2 = d1;            // geçerli
+            println!("{}/{}/{}", d2.day, d2.month, d2.year);
 
-        println!("{}/{}/{}", d1.day, d1.month, d1.year);            // error!
-    }
+            println!("{}/{}/{}", d1.day, d1.month, d1.year);            // error!
+        }
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
     Bu örnekte d1 yapı değişkeni d2'ye atanmıştır. Atama deafult durumda bit dzeyinde kopyalama yoluyla (bunun tek hamlede
     memcpy gibi bir fonksiyonla yapıldığını varsayabilirsiniz) yoluyla yapılmaktadır. Ancak C'den farklı olarak Rust'ta
@@ -10889,56 +10889,56 @@ struct Date {
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapı değişkeni mut değilse onun herhangi bir alanının değerini değiştiremeyiz. Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-    //...
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+        //...
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    pt.x = 100;     // error
-    pt.y = 100;     // error
+        pt.x = 100;     // error
+        pt.y = 100;     // error
 
 
     Eğer yapının alanları daha sonra değiştirilmek isteniyorsa bu durumda yapı değişkeni mut yapılmalıdır. Örneğin:
 
-    let mut pt = Point { x: 10, y: 20 };
+        let mut pt = Point { x: 10, y: 20 };
 
-    pt.x = 100;     // geçerli
-    pt.y = 200;     // geçerli
+        pt.x = 100;     // geçerli
+        pt.y = 200;     // geçerli
 
     C'de yapı nesnesi const olmadığı halde onun belli elemanları const yapılabilmektedir. Ancak Rust'ta bir yapı değişkeninin
     belli alanları mut yapılamaz. Yapı değişkeni ya bütünsel olarak mut olur ya da bütünsel olarak mut olmaz.
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapı türünden değişkeninin alanlarına değer atayarak ona ilkdeğer veremeyiz. Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-    //...
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+        //...
 
-    let pt: Point;
+        let pt: Point;
 
-    pt.x = 10;      // error!
-    pt.y = 20;      // error!
+        pt.x = 10;      // error!
+        pt.y = 20;      // error!
 
     Yapı değişkenine ilkdeğer vermek ancak küme parantezleriyle sağlanmaktadır:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta yapı ile demet arasında kalan ismine "demetsel yapı (tuple struct)" denilen ilginç bir yapı türü de vardır.
     Demetsel yapılar struct anahtar sözcüğü ile ancak yapı sentaksıyla değil demet sentaksıyla tanımlanmaktadır. Demetsel yapı
     anımlamanın genel biçimi şöyledir:
 
-    struct <yapı_ismi>(<tür>, <tür>, <tür>, ...);
+        struct <yapı_ismi>(<tür>, <tür>, <tür>, ...);
 
     Örneğin:
 
-    struct Date(i32, i32, i32);
-    struct Person(String, i32);
-    struct Complex(f64, f64);
+        struct Date(i32, i32, i32);
+        struct Person(String, i32);
+        struct Complex(f64, f64);
 
     Görüldüğü gibi demetsel yapıların kendi isimleri vardır ancak alanlarının isimleri yoktur. Demetlerin birer tür ismine sahip
     olmadığını, demet elemanlarının da isimlerinin olmadığını anımsayınız. İşte demetsel yapılar adeta bir demet gibi davranmakla
@@ -10948,14 +10948,14 @@ struct Date {
 
     Demetsel bir yapı türünden değer oluşturmanın genel biçimi şöyledir:
 
-    <demetsel_yapı_ismi>(değer, değer, ....)
+        <demetsel_yapı_ismi>(değer, değer, ....)
 
     Örneğin:
 
-    struct Person(String, i32);
-    //...
+        struct Person(String, i32);
+        //...
 
-    let per: Person = Person(String::from("Ali Kale"), 123);
+        let per: Person = Person(String::from("Ali Kale"), 123);
 
     Demetsel yapı oluştururken alanlar için değerlerin küme parantezleriyle değil de demet sentaksında olduğu gibi normal
     parantezlerle verildiğine dikkat ediniz.
@@ -10963,41 +10963,43 @@ struct Date {
     Demetsel yapılardaki alanların isimleri olmadığı için onlara erişim isim yoluyla değil demet sentaksında olduğu gibi
     <değişken>.0, <değişken>.1, <değişken>.2, ... biçiminde indeks nelirtilerek yapılmaktadır. Örneğin:
 
-    struct Person(String, i32);
-    //...
+        struct Person(String, i32);
+        //...
 
-    let per: Person = Person(String::from("Ali Kale"), 123);
-    println!("{}, {}", per.0, per.1);
+        let per: Person = Person(String::from("Ali Kale"), 123);
+        println!("{}, {}", per.0, per.1);
+
  # 36. Ders 21/07/2025 - Pazartesi
+
     Normal yapıların ve demetsel yapıların yanı sıra Rust'ta bir de "birimsel yapılar (unit like structs)" denilen yapılar
     da vardır. Birimsel yapılar yalnızca struct anahtar sözcüğü ve yapı isminden oluşmaktadır. Yani bu yapılar tanımlanırken
     küme parantezleri hiç kullanılmaz. Dolayısıyla bu yapılar alanlara da sahip değildir. Birimsel yapı tanımlamanın genel
     biçimi şöyledir:
 
-    struct <yapı_ismi>;
+        struct <yapı_ismi>;
 
     Örneğin:
 
-    struct Sample;
-    struct Test;
+        struct Sample;
+        struct Test;
 
     Birimsel yapıları tanımlarken tanımlamanın sonunda ';' atomunun bulundurulduğuna dikkat ediniz. Birimsel yapılar alanlara
     sahip olmadığına göre bunlar türünden değişkenler nasıl tanımlanmaktadır? İşte birimsel yapılarda yapının ismi aynı zamanda
     o türden bir değer gibi de kullanılmaktadır. Dolayısıyla aşağıdaki gibi bir değişken tanımlaması geçerlidir:
 
-    struct Sample;
-    //...
+        struct Sample;
+        //...
 
-    let s: Sample = Sample;
+        let s: Sample = Sample;
 
     Burada Sample hem birimsel yapının tür ismini hem de bu türden değeri belirtmektedir. Tabii biz aynı bağlamayı şöyle de
     yapabilirdik:
 
-    let s = Sample;
+        let s = Sample;
 
     Aslında birimsel yapılar türünden değerler boş küme parantezleriyle de oluşturulabilmektedir:
 
-    let s = Sample {};
+        let s = Sample {};
 
     Ancak küme parantezlerinin kullanılmasına gerek yoktur.
 
@@ -11008,11 +11010,11 @@ struct Date {
 
     Pekiyi mademki birimsel yapılar alan içermiyor bu türden değişkenler için yine de yer ayrılır mı? Örneğin:
 
-    struct Sample;
-    //...
+        struct Sample;
+        //...
 
-    let s = Sample;
-    let k = Sample;
+        let s = Sample;
+        let k = Sample;
 
     Buada s ve k için yer ayrılmakta mıdır? İşte bu tür durumlarda derlyeici yine de bu değişkenler için kendi belirlediği
     bir uzunluk kadar (örneğin 1 byte) bellekte yer ayırmaktadır. Yani burada yine s ve k'nın birer bellek adresi vardır.
@@ -11021,8 +11023,8 @@ struct Date {
 
     Pekiyi aşağıdaki iki yapı tanımlası arasında bir fark var mıdır?
 
-    1) struct Sample;
-    2) strcut Sample {}
+      1) struct Sample;
+      2) strcut Sample {}
 
     Aslında bu iki tanımasında da Sample yapısının alanı yoktur. Dolayısıyla bu iki tanımlama çok benzer etkilere yol açacaktır.
     Ancak yine de bu iki tanımlama arasında şu farklar vardır:
@@ -11032,24 +11034,24 @@ struct Date {
     - Birinci tanımalamada birimsel yapı türünden değeri yalnızca yapı ismiyle belirtebiliriz. Ancak ikinci tanımalamada
     bunu yapamayız. Örneğin:
 
-    struct Sample;
-    //...
+        struct Sample;
+        //...
 
-    let s = Sample;     // geçerli
+        let s = Sample;     // geçerli
 
     Fakat örneğin:
 
-    struct Sample {}
-    //...
+        struct Sample {}
+        //...
 
-    let s = Sample;     // error!
+        let s = Sample;     // error!
 
     İkicni biçimde bu yapı türünden değer boş küme parantezleriyle oluşturulmak zorundadır. Örneğin:
 
-    struct Sample {}
-    //...
+        struct Sample {}
+        //...
 
-    let s = Sample {};     // geçerli
+        let s = Sample {};     // geçerli
 
     - Birimsel yapı tanımlamasında bazı öznitelikler yapıya iliştirilememektedir.
 
@@ -11058,8 +11060,8 @@ struct Date {
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapı fonksiyonlara tıpkı enum türlerinde olduğu iki biçimde aktarılabilmektedir:
 
-    1) Atama (kopyalma ya da taşıma) yoluyla aktarım (call by value)
-    2) Adres yoluyla aktarım (call by reference)
+      1) Atama (kopyalma ya da taşıma) yoluyla aktarım (call by value)
+      2) Adres yoluyla aktarım (call by reference)
 
     Atama yoluyla aktarımda fonksiyonun parametre değişkeni bir yapı türünden olur. Fonksiyon da aynı yapı türünden bir
     değişken ya da değerle çağrılır. Bu durumda yapının tüm alanları (elemanları) karşılıklı olarak parametre değişkenine
@@ -11068,21 +11070,21 @@ struct Date {
     default durumda Copy türünden olmadığı için böylesi aktarım sonrasında artık argüman olarak kullanılan yapı değişkeni
     taşındığı için kullanılamamaktadır. Örneğin:
 
-    fn main() {
-        let date = Date { day: 10, month: 12, year: 2020 };
+        fn main() {
+            let date = Date { day: 10, month: 12, year: 2020 };
 
-        disp(date);
-    }
+            disp(date);
+        }
 
-    fn disp(date: Date) {
-        println!("{}/{}/{}", date.day, date.month, date.year);
-    }
+        fn disp(date: Date) {
+            println!("{}/{}/{}", date.day, date.month, date.year);
+        }
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
     Tabii bu biçimdeki aktarın tıpkı C'de olduğu gibi genellikle etkin bir yöntem değildir. Programlama dillerinde bu biçimdeki
     aktarımlara "değerle çağrım (call by value)" da dendiğini anımsayınız.
@@ -11092,16 +11094,16 @@ struct Date {
     yapı türünden bir referans (ya da gösterici) olur. Fonksiyon da aynı yapı türünden bir değişken ya da değerin adresiyle çağrılır.
     Örneğin:
 
-    fn main() {
-        let date = Date { day: 10, month: 12, year: 2020 };
+        fn main() {
+            let date = Date { day: 10, month: 12, year: 2020 };
 
-        disp(&date);
-        println!("{}/{}/{}", date.day, date.month, date.year);      // geçerli
-    }
+            disp(&date);
+            println!("{}/{}/{}", date.day, date.month, date.year);      // geçerli
+        }
 
-    fn disp(date: &Date) {
-        println!("{}/{}/{}", date.day, date.month, date.year);
-    }
+        fn disp(date: &Date) {
+            println!("{}/{}/{}", date.day, date.month, date.year);
+        }
 
     Bu yöntemde yapı ne kadar büyük olursa olsun fonksiyona yalnızca onun adresi aktarılmaktadır. Dolayısıyla aktarım çok
     etkindir. Genellikle özel bir durum yoksa bu aktarım yöntemi tercih edilmektedir. Ayrıca bu aktarım yönteminde asıl
@@ -11138,9 +11140,9 @@ struct Date {
     Bir yapıya ilişkin metotlar impl bloğu içerisinde tanımlanmaktadır. impl ("implementation" sözcüğünden kısaltılmıştır)
     anahtar sözcüğünü bir sınıf ismi ve bir blok izlemektedir. Generic olmayan impl bloğunun genel biçimi şöyledir:
 
-    impl <yapı_ismi> {
-        //...
-    }
+        impl <yapı_ismi> {
+            //...
+        }
 
     Buradaki yapı ismi metotların ilişkin olduğu yapıyı belirtmektedir. Örneğin biz Date yapısına ilişkin metotlar yazacaksak
     buradaki yapı ismi Date, Point yapısına ilişkin metotlar yazacaksak buradaki yapı ismi Point olmalıdır.
@@ -11148,61 +11150,61 @@ struct Date {
     impl bloğu içerisinde metotlar normal fonksiyonlar gibi tanımlanmaktadır. Ancak metotların ilk parametreleri şunlardan biri
     olabilir:
 
-    self
-    &self
-    &mut self
+        self
+        &self
+        &mut self
 
     self parametresi ilgili yapı türünden bir değişkeni, &self ve &mut self parametreleri ise ilgili yapı türünden bir referansı
     (yani bir adres tutan değişkeni) belirtmektedir. Metodun bu birinci zorunlu parametresinden sonraki parametreleri herhangi
     bir biçimde olabilir. Metotlar da yine herhangi türden bir geri dönüş değerine sahip olabilirler. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
-
-    impl Sample {
-        fn foo(&self) {
-            //...
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
         }
 
-        fn bar(&self, x: i32) {
-            //...
-        }
+        impl Sample {
+            fn foo(&self) {
+                //...
+            }
 
-        fn tar(self) {
-            //...
+            fn bar(&self, x: i32) {
+                //...
+            }
+
+            fn tar(self) {
+                //...
+            }
         }
-    }
 
     Burada foo metodu ekstra parametreye sahip değildir. Ancak bar metodunun i32 türünden ekstra bir parametresi vardır.
     tar metodunun birinci parametresinin &self değil self biçiminde olduğuna dikkat ediniz. Pekiyi metotların bu self
     parametreleri ne anlama gelmektedir? Örneğimizdeki foo metodu parametre almadığına göre aşağıdaki gibi çağrılacaktır:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    s.foo();
+        s.foo();
 
     İşte burada foo fonksiyonun birinci parametresine aslında gizlice foo fonksiyonun çağrılmasında kullanılan değişken
     ya da değerin adresi geçirilmektedir. Yani bu fonksiyonu içerisinde self parametresi kullanıldığında aslında s değişkeni
     kullanılıyor gibi bir etki oluşacaktır. Eğer burada foo metot değil global bir fonksiyon oslaydı eşdeğer çağrım ifadesi
     şöyle olurdu:
 
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
+        }
 
-    fn foo(slf: &Sample) {
+        fn foo(slf: &Sample) {
+            //...
+        }
         //...
-    }
-    //...
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    foo(&s);
+        foo(&s);
 
     Biz burada parametre değişkenine self ismi yerine slf ismini verdik. Çünkü self bir anahtar sözcüktür.
 
@@ -11211,22 +11213,22 @@ struct Date {
     derleyici tarafından fonksiyon haline getirilerek amaç dosyaya yazılmaktadır. Örneğimizdeki bar metodunu çağırırken x
     parametresi için de bir argüman girmeliyiz. Örneğin:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    s.bar(100);
+        s.bar(100);
 
     Bu durumda s'in adresi self değişkenine (self bir referanstır) 100 değeri de x değişkenine aktarılacaktır. bar metodunun
     fonksiyon eşdeğeri şöyledir:
 
-    fn bar(slf: &Sample, x: i32) {
-        //...
-    }
+        fn bar(slf: &Sample, x: i32) {
+            //...
+        }
 
     Çağrım da şöyle yapılacaktır:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    bar(&s, 100);
+        bar(&s, 100);
 
     Burada da görüldüğü gibi s değişkeninin adresi slf parametre değişkenine 100 değeri de x parametre değişkenine aktarılmaktadır.
 
@@ -11234,18 +11236,18 @@ struct Date {
     metodun çağrılmasında kullanılan değişken ya da değerin adresi değil kendisi parametre değişkenine atanacaktır. Ancak çağrı
     aynı biçimde yapılmaktadır. Örneğin:
 
-    s.tar();
+        s.tar();
 
     Burada s değişkeninin kendisi bar metodunun self değişkenine atanmaktadır. Yani bu çağrının fonksiyon eşdeğeri şöyledir:
 
-    fn tar(slf: Sample) {
-        //..
-    }
-    //...
+        fn tar(slf: Sample) {
+            //..
+        }
+        //...
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    tar(s);
+        tar(s);
 
     Tabii burada s artık sahipliğini parametre değişkenine devredecektir. Genellikle metotların parametreleri self biçiminde
     değil &self biçiminde olur.
