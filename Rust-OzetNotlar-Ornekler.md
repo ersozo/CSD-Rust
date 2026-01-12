@@ -593,11 +593,11 @@
     harfler farklı karakterler olarak ele alınmaktadır. Rust'ta değişken isimlendirmesinde Unicode tablodaki tüm dillerin
     alfabetik ve nümerik karakterleri kullanılabilmektedir. Örneğin biz bir değişken ismini Türkçe karakterlerden oluşturabiliriz:
 
-    let ağrı_dağının_yüksekliği = 5137;
+        let ağrı_dağının_yüksekliği = 5137;
 
     Her ne kadar böyle bir serbestlik varsa da diğer pek çok dilde olduğu gibi değişken isimlendirmesinde yoğun olarak İngilizce
     karakterler tercih edilmektedir. Birden fazla sözcük içeren değişkenlerin harflendirilmesi (capitalization) için Rust'ta
-    genel olarak C'deki gibi "yılan notasyonu (snake casting)" tercih edilmektedir. Ancak "yapı, enum, trait gibi "elemanlar
+    genel olarak C'deki gibi "yılan notasyonu (snake case)" tercih edilmektedir. Ancak "yapı, enum, trait gibi "elemanlar
     (items)" genellikle Pascal tarzı, sembolik sabitler ise genellikle Pascal tarzı ya da tüm harfleri büyük olacak biçimde
     harflendirilmektedir. Biz de kursumuzda Rust'taki bu geleneğe uyacağız.
 
