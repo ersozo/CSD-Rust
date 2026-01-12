@@ -11257,52 +11257,52 @@ use std::mem::discriminant;
     Metotların birinci parametreleri aslında self, &self ya da &mut self biçiminde bildirilmek yerine türün açıkça belirtilmesiyle
     da bildirilebilmektedir. Ancak parametre değişkeninin ismi self olmak zorundadır. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
-
-    impl Sample {
-        fn foo(&self) {
-            //...
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
         }
-    }
+
+        impl Sample {
+            fn foo(&self) {
+                //...
+            }
+        }
 
     Burada fooo metodu şöyle de tanımlanabilirdi:
 
-    impl Sample {
-        fn foo(self: &Sample) {
-            //...
+        impl Sample {
+            fn foo(self: &Sample) {
+                //...
+            }
         }
-    }
 
     İzleyen paragraflarda da ele alacağımız gibi impl bloğu içerisindeki Self ('S' harfinin büyük yazıldığına dikkat ediniz)
     anahtar sözcüğü impl bloğundaki türü temsil etmektedir. Dolayısıyla yukarıdaki foo metodu aşağıdaki gibi de tanımlanabilmektedir:
 
-    impl Sample {
-        fn foo(self: &Self) {
-            //...
+        impl Sample {
+            fn foo(self: &Self) {
+                //...
+            }
         }
-    }
 
     Ancak eğer ilk parametre değişkeninin ismi self olmazsa bu bir metot belirtmez. İzleyen paragraflarda da ele alacağımız
     gibi "ilişkili fonksiyon (associated function)" belirtir. Örneğin:
 
-    impl Sample {
-        fn foo(s: &Sample) {      // foo artık bir metot belirtmiyor
-            //...
+        impl Sample {
+            fn foo(s: &Sample) {      // foo artık bir metot belirtmiyor
+                //...
+            }
         }
-    }
 
     Burada foo artık bir metot değil bir ilişkili fonksiyondur. O halde metotların ilk parametre değişkenleri için kısa ve
     uzun yazımlar şöyledir:
 
-    Kısa Yazım          Uzun Yazım
+        Kısa Yazım          Uzun Yazım
 
-    &self               self: &Self
-    &mut self           self: &mut Self
-    self                Self
+        &self               self: &Self
+        &mut self           self: &mut Self
+        self                Self
 ---------------------------------------------------------------------------------------------------------------------------
     Metotlar belli bir yapı üzerinde işlem yapan o yapı için anlamlı fonksiyonlardır. Rust'ta bir yapı hem birtakım alanlardan
     hem de o alanlar üzerinde işlem yapan metotlardan oluşmaktadır. Rust'ın bu kısmı "nesne tabanlı (object based)" dillere
@@ -11317,266 +11317,267 @@ use std::mem::discriminant;
     Aşağıdaki örnekte ekran koordinat sisteminde bir pixel'in koordinat bilgisini tutan ve bu koordinat bilgisi üzerinde işlem
     yapan Point isimli bir yapının gerçekleştirimi verilmektedir. Yapı aşağıdaki gibi iki alandan oluşmaktadır:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
+        struct Point {
+            x: i32,
+            y: i32,
+        }
 
     Yapı için aşağıdaki metotlar yazılmıştır:
 
-    impl Point {
-        fn translate(&mut self, deltax: i32, deltay: i32) {
-            self.x += deltax;
-            self.y += deltay;
-        }
-
-        fn magnitude(&self) -> f64 {
-            ((self.x * self.x + self.y * self.y) as f64).sqrt()
-        }
-
-        fn add(&self, other: &Point) -> Point {
-            Point {
-                x: self.x + other.x,
-                y: self.y + other.y,
+        impl Point {
+            fn translate(&mut self, deltax: i32, deltay: i32) {
+                self.x += deltax;
+                self.y += deltay;
             }
-        }
 
-        fn distance(&self, other: &Point) -> f64 {
-            let dx = (self.x - other.x);
-            let dy = (self.y - other.y);
-            ((dx * dx + dy * dy) as f64).sqrt()
-        }
+            fn magnitude(&self) -> f64 {
+                ((self.x * self.x + self.y * self.y) as f64).sqrt()
+            }
 
-        fn disp(&self) {
-            println!("({},{})", self.x, self.y);
-        }
+            fn add(&self, other: &Point) -> Point {
+                Point {
+                    x: self.x + other.x,
+                    y: self.y + other.y,
+                }
+            }
 
-    }
+            fn distance(&self, other: &Point) -> f64 {
+                let dx = (self.x - other.x);
+                let dy = (self.y - other.y);
+                ((dx * dx + dy * dy) as f64).sqrt()
+            }
+
+            fn disp(&self) {
+                println!("({},{})", self.x, self.y);
+            }
+
+        }
 
     translate metodu bir noktayı deltax ve deltay kadar ötelemektedir. magnitude metodu noktanın orijine uzaklığını hesaplamaktadır.
     add metodu iki noktayı toplayıp bize yeni bir nokta olarak vermektedir. distance metodu iki noktanın arasındaki Öklit
     uzaklığını hesaplamaktadır. add metodunun geri dönüş değerini Point biçiminde belirtmek yerine Self anahtar sözcüğünü
     de kullanabilirdik:
 
-    impl Sample {
-        //...
-        fn add(&self, other: &Point) -> Self {
-            Point {
-                x: self.x + other.x,
-                y: self.y + other.y,
+        impl Sample {
+            //...
+            fn add(&self, other: &Point) -> Self {
+                Point {
+                    x: self.x + other.x,
+                    y: self.y + other.y,
+                }
             }
+            //...
         }
-        //...
-    }
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut pt = Point { x: 10, y: 12 };
+        fn main() {
 
-    pt.disp();
-    pt.translate(3, 5);
-    pt.disp();
-    println!("{}", pt.magnitude());
+            let mut pt = Point { x: 10, y: 12 };
 
-    let pt2 = Point { x: 1, y: 2 ;
-    let result: Point;
+            pt.disp();
+            pt.translate(3, 5);
+            pt.disp();
+            println!("{}", pt.magnitude());
 
-    result = pt.add(&pt2);
-    result.disp();
+            let pt2 = Point { x: 1, y: 2 };
+            let result: Point;
 
-    let dist = pt.distance(&pt2);
-    println!("{}", dist);
-}
+            result = pt.add(&pt2);
+            result.disp();
 
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-impl Point {
-    fn disp(&self) {
-        println!("({},{})", self.x, self.y);
-    }
-
-    fn translate(&mut self, deltax: i32, deltay: i32) {
-        self.x += deltax;
-        self.y += deltay;
-    }
-
-    fn magnitude(&self) -> f64 {
-        ((self.x * self.x + self.y * self.y) as f64).sqrt()
-    }
-sabitlerde
-    fn add(&self, other: &Point) -> Point {
-        Point {
-            x: self.x + other.x,
-            y: self.y + other.y,
+            let dist = pt.distance(&pt2);
+            println!("{}", dist);
         }
-    }
 
-    fn distance(&self, other: &Point) -> f64 {
-        let dx = (self.x - other.x);
-        let dy = (self.y - other.y);
-        ((dx * dx + dy * dy) as f64).sqrt()
-    }
-}
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+
+        impl Point {
+            fn disp(&self) {
+                println!("({},{})", self.x, self.y);
+            }
+
+            fn translate(&mut self, deltax: i32, deltay: i32) {
+                self.x += deltax;
+                self.y += deltay;
+            }
+
+            fn magnitude(&self) -> f64 {
+                ((self.x * self.x + self.y * self.y) as f64).sqrt()
+            }
+
+            fn add(&self, other: &Point) -> Point {
+                Point {
+                    x: self.x + other.x,
+                    y: self.y + other.y,
+                }
+            }
+
+            fn distance(&self, other: &Point) -> f64 {
+                let dx = (self.x - other.x);
+                let dy = (self.y - other.y);
+                ((dx * dx + dy * dy) as f64).sqrt()
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Şimdi de ekran koordinat sistemi için bir Rectangle yapısı oluşturalım. Dikdörtgensel bir bölge sol-üst ve sağ-alt köşe
     noktalarıyla tutulableceği gibi sol-üst köşe ve genişlik-yükseklik bilgisiyle de tutulabilir. Biz bu ikinci yöntemi tercih
     edeceğiz:
 
-    struct Rectangle {
-        x: i32,
-        y: i32,
-        width: i32,
-        height: i32,
-    }
+        struct Rectangle {
+            x: i32,
+            y: i32,
+            width: i32,
+            height: i32,
+        }
 
     Dikdörtgensel bir bölge üzerinde yapılabilecek faydalı işlemler neler olabilir? Tipik olanlar şunlardır:
 
-    - Dikdörtgeni ötelemek
-    - Bir noktanın dikdörtgen içerisinde olup olmadığını anlamak (hit testing)
-    - İki dikdörtgenin kesişim dikdörtgenini bulmak
-    - Dikdörtgenin koordinat bilgilerini yazdırmak
+      - Dikdörtgeni ötelemek
+      - Bir noktanın dikdörtgen içerisinde olup olmadığını anlamak (hit testing)
+      - İki dikdörtgenin kesişim dikdörtgenini bulmak
+      - Dikdörtgenin koordinat bilgilerini yazdırmak
 
     Aşağıda bu işlemleri yapan metotların gerçekleştirimi verilmiştir. Bu örnekten de görecğiniz gibi bir yapı başka bir
     yapıyı da kullanabilmektedir. Örneğimizde Rectangle yapısı Point yapıısını da kullanmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut rect = Rectangle { x: 10, y: 10, width: 10, height: 10};
-    let rect2 = Rectangle { x: 15, y: 10, width: 15, height: 5};
+        fn main() {
+            let mut rect = Rectangle { x: 10, y: 10, width: 10, height: 10};
+            let rect2 = Rectangle { x: 15, y: 10, width: 15, height: 5};
 
-    let pt = Point { x: 14, y: 15 };
+            let pt = Point { x: 14, y: 15 };
 
-    if rect.is_inside(13, 13) {
-        println!("The point is inside");
-    }
-    else {
-        println!("The point is not inside");
-    }
-
-    let result_rect = rect.intersects_rect(&rect2);
-    result_rect.disp();
-
-    if rect.is_inside_pt(&pt) {
-        println!("The point is inside");
-    }
-    else {
-        println!("The point is not inside");
-    }
-
-    rect.disp();
-    rect.translate(3, 2);
-    rect.disp();
-}
-
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-impl Point {
-    fn disp(&self) {
-        println!("({},{})", self.x, self.y);
-    }
-
-    fn translate(&mut self, deltax: i32, deltay: i32) {
-        self.x += deltax;
-        self.y += deltay;
-    }
-
-    fn magnitude(&self) -> f64 {
-        ((self.x * self.x + self.y * self.y) as f64).sqrt()
-    }
-
-    fn add(&self, other: &Point) -> Point {
-        Point {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        }
-    }
-
-    fn distance(&self, other: &Point) -> f64 {
-        let dx = (self.x - other.x);
-        let dy = (self.y - other.y);
-        ((dx * dx + dy * dy) as f64).sqrt()
-    }
-}
-
-struct Rectangle {
-    x: i32,
-    y: i32,
-    width: i32,
-    height: i32,
-}
-
-impl Rectangle {
-    fn disp(&self) {
-        println!("x: {}, y: {}, width: {}, height: {}", self.x, self.y, self.width, self.height);
-    }
-
-    fn translate(&mut self, deltax: i32, deltay: i32) {
-        self.x += deltax;
-        self.y += deltay;
-    }
-
-    fn is_inside_pt(&self, pt: &Point) -> bool {
-        pt.x > self.x && pt.x < self.x + self.width && pt.y > self.y && pt.y < self.y + self.height
-    }
-
-    fn is_inside(&self, x: i32, y: i32) -> bool {
-        x > self.x && x < self.x + self.width && y > self.y && y < self.y + self.height
-    }
-
-    fn intersects_rect(&self, rect: &Rectangle) -> Rectangle {
-        let x1 = self.x.max(rect.x);
-        let y1 = self.y.max(rect.y);
-        let x2 = (self.x + self.width).min(rect.x + rect.width);
-        let y2 = (self.y + self.height).min(rect.y + rect.height);
-
-        if x1 < x2 && y1 < y2 {
-            Rectangle {
-                x: x1,
-                y: y1,
-                width: x2 - x1,
-                height: y2 - y1,
+            if rect.is_inside(13, 13) {
+                println!("The point is inside");
             }
-        } else {
-            Rectangle {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
+            else {
+                println!("The point is not inside");
+            }
+
+            let result_rect = rect.intersects_rect(&rect2);
+            result_rect.disp();
+
+            if rect.is_inside_pt(&pt) {
+                println!("The point is inside");
+            }
+            else {
+                println!("The point is not inside");
+            }
+
+            rect.disp();
+            rect.translate(3, 2);
+            rect.disp();
+        }
+
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+
+        impl Point {
+            fn disp(&self) {
+                println!("({},{})", self.x, self.y);
+            }
+
+            fn translate(&mut self, deltax: i32, deltay: i32) {
+                self.x += deltax;
+                self.y += deltay;
+            }
+
+            fn magnitude(&self) -> f64 {
+                ((self.x * self.x + self.y * self.y) as f64).sqrt()
+            }
+
+            fn add(&self, other: &Point) -> Point {
+                Point {
+                    x: self.x + other.x,
+                    y: self.y + other.y,
+                }
+            }
+
+            fn distance(&self, other: &Point) -> f64 {
+                let dx = (self.x - other.x);
+                let dy = (self.y - other.y);
+                ((dx * dx + dy * dy) as f64).sqrt()
             }
         }
-    }
-}
+
+        struct Rectangle {
+            x: i32,
+            y: i32,
+            width: i32,
+            height: i32,
+        }
+
+        impl Rectangle {
+            fn disp(&self) {
+                println!("x: {}, y: {}, width: {}, height: {}", self.x, self.y, self.width, self.height);
+            }
+
+            fn translate(&mut self, deltax: i32, deltay: i32) {
+                self.x += deltax;
+                self.y += deltay;
+            }
+
+            fn is_inside_pt(&self, pt: &Point) -> bool {
+                pt.x > self.x && pt.x < self.x + self.width && pt.y > self.y && pt.y < self.y + self.height
+            }
+
+            fn is_inside(&self, x: i32, y: i32) -> bool {
+                x > self.x && x < self.x + self.width && y > self.y && y < self.y + self.height
+            }
+
+            fn intersects_rect(&self, rect: &Rectangle) -> Rectangle {
+                let x1 = self.x.max(rect.x);
+                let y1 = self.y.max(rect.y);
+                let x2 = (self.x + self.width).min(rect.x + rect.width);
+                let y2 = (self.y + self.height).min(rect.y + rect.height);
+
+                if x1 < x2 && y1 < y2 {
+                    Rectangle {
+                        x: x1,
+                        y: y1,
+                        width: x2 - x1,
+                        height: y2 - y1,
+                    }
+                } else {
+                    Rectangle {
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0,
+                    }
+                }
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir yapının tüm metotlarının tek bir impl bloğu içerisinde bulunması zorunlu değildir. Yani aynı yapıya ilişkin birden
     fazla impl bloğu bulundurulabilir. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
-
-    impl Sample {
-        fn foo(&self) {
-            //...
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
         }
-    }
 
-    //...
-
-    impl Sample {
-        fn bar(&self) {
-            //...
+        impl Sample {
+            fn foo(&self) {
+                //...
+            }
         }
-    }
+
+        //...
+
+        impl Sample {
+            fn bar(&self) {
+                //...
+            }
+        }
 
     Burada Smaple yapısının metotları birden fazla impl bloğu içerisinde tanımlanmıştır.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -11584,21 +11585,21 @@ impl Rectangle {
     "ilişkili fonksiyonlar (associated functions)" denilmektedir İlişkili fonksiyonlar ilgili yapı türünden değişken ya da
     değeri kullanmamaktadır. Bu nedenle onların self parametresi yoktur. Örneğin:
 
-    impl Sample {
-        fn foo(&self) {     // metot
-            //...
+        impl Sample {
+            fn foo(&self) {     // metot
+                //...
+            }
+
+            fn bar(a: i32) {    // ilişkili fonksiyon
+                //...
+            }
         }
 
-        fn bar(a: i32) {    // ilişkili fonksiyon
-            //...
+        struct  Sample {
+            a: i32,
+            b: i32,
+            c: i32
         }
-    }
-
-    struct  Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
 
     Burada foo yapının bir metodudur. Çünkü foo ilgili yapı türünden bir değişken ya da değerin alanları üzerinde işlem
     yapma niyetiyle bulundurulmuştur. Bu nedenle self parametresine sahiptir. Ancak bar bir metot değildir. İlişkili bir
@@ -11608,10 +11609,10 @@ impl Rectangle {
     sahip olmadığı için yapı türünden bir değişken ya da değerler çağrılmamaktadır. İlişkili fonksiyonlar yapı ismi ile ve ::
     operatörü kullanılarak çağrılmaktadır. Örneğin:
 
-    let s = Sample { a: 10, b: 20, c: 30 };
+        let s = Sample { a: 10, b: 20, c: 30 };
 
-    s.foo();
-    Sample::bar(100);
+        s.foo();
+        Sample::bar(100);
 
     bar fonksiyonunun Sample::bar biçiminde çağrıldığına dikkat ediniz.
 
@@ -11619,21 +11620,21 @@ impl Rectangle {
     türünden bir değişkenin ya da değerin alanlarını kullanmadığına göre pekala global bir fonksiyon biçiminde de bulunabilirler.
     Örneğin:
 
-    impl Sample {
-        fn foo(&self) {     // metot
+        impl Sample {
+            fn foo(&self) {     // metot
+                //...
+            }
+        }
+
+        fn bar(a: i32) {
             //...
         }
-    }
 
-    fn bar(a: i32) {
-        //...
-    }
-
-    struct Sample {
-        a: i32,
-        b: i32,
-        c: i32
-    }
+        struct Sample {
+            a: i32,
+            b: i32,
+            c: i32
+        }
 
     Tabii artık biz bar fonksiyonunu Sample::bar biçiminde değil doğrudan bar ismiyle çağırırız. İşte fonksiyon ilgili yapının
     alanlarını kullanmıyor olsa da mantıksal biçimde o yapının konusu ile ilgili bir etkinlikte bulunuyorsa fonksiyonun
@@ -11652,26 +11653,26 @@ impl Rectangle {
 
     Örneğin Date isimli bir yapının tarih bilgisi ile ilgili işlemler yapmak üzere oluşturulduğunu düşünelim:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
-
-    impl Date {
-        fn disp(&self) {
-            println!("{}/{}/{}", self.day, self.month, self.year);
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
-        //...
-    }
+
+        impl Date {
+            fn disp(&self) {
+                println!("{}/{}/{}", self.day, self.month, self.year);
+            }
+            //...
+        }
 
     Bir yılın artık yıl olup olmadığını (İngilizce artık yıla "leap year" denilmektedir) veren bir fonksiyon da yazmak
     isteyelim. Bu fonksiyonun aslında belli bir tarih bilgisiyle bir ilgisi yoktur. Bu fonksiyon parametre olarak bizden
     bir yıl ister. Bu yılın artık olup olmadığına yönelik bool bir değerle geri döner. Örneğin:
 
-    fn isleap(year: u32) -> bool {
-        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    }
+        fn isleap(year: u32) -> bool {
+            year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+        }
 
     Bu fonksyon görüldüğü gibi Date türünden bir değeri kullanmamaktadır. Yalnızca bir yıl bilgisini kullanmaktadır. Ancak
     fonksiyonun yaptığı iş tarih işlemleriyle ilgilidir. Yani fonksiyon her ne kadar Date türünden bir değeri kullanmıyorsa
@@ -11679,131 +11680,131 @@ impl Rectangle {
     dışarıda global fonksiyon olarak tanımalamak yerine impl bloğu içerisine alarak yapının ilişkili fonksiyonu haline getirmek
     iyi bir tekniktir. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
-
-    impl Date {
-        fn disp(&self) {
-            println!("{}/{}/{}", self.day, self.month, self.year);
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
 
-        fn isleap(year: u32) -> bool {
-            year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+        impl Date {
+            fn disp(&self) {
+                println!("{}/{}/{}", self.day, self.month, self.year);
+            }
+
+            fn isleap(year: u32) -> bool {
+                year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            }
+            //...
         }
-        //...
-    }
 
-    Artık bu isleap fonksiyonunu biz isleap biçiminde değil Date::isleap biçiminde çağırabiliriz. Örneğin:
+        Artık bu isleap fonksiyonunu biz isleap biçiminde değil Date::isleap biçiminde çağırabiliriz. Örneğin:
 
-    fn main() {
-    let d = Date { day: 10, month: 12, year: 2024 };
+        fn main() {
+        let d = Date { day: 10, month: 12, year: 2024 };
 
-        d.disp();
+            d.disp();
 
-        if Date::isleap(2000) {
-            println!("Artık");
+            if Date::isleap(2000) {
+                println!("Artık");
+            }
+            else {
+                println!("Artık değil");
+            }
         }
-        else {
-            println!("Artık değil");
-        }
-    }
 ---------------------------------------------------------------------------------------------------------------------------
     En çok karşılaşılan ilişkili fonksiyonlar ilgili yapı türünden değer yaratan ve genellikle new biçiminde isimlendirilen
     fonksiyonlardır. Bir yapı türünden değeri küme parantezleriyle oluştururken çokça tuşa basılmaktadır. Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-    //...
+        struct Point {
+            x: i32,
+            y: i32,
+        }
+        //...
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
     Burada Point yapısının yalnızca iki elemanı vardır. Ancak yapının daha çok elemanı olsaydı bu durumda tüm elemanlara
     ilkdeğer verebilmek için daha fazla tuşa basmak zorunda kalırdık. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
-
-    struct Person {
-        name: String,
-        bplace: String,
-        bdate: Date,
-    }
-    //...
-
-    let person = Person {
-        name: String::from("Abit süzülmüş"),
-        bplace: String::from("Eskişehir"),
-        bdate: Date {
-            day: 10,
-            month: 10,
-            year: 1969
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
-    };
+
+        struct Person {
+            name: String,
+            bplace: String,
+            bdate: Date,
+        }
+        //...
+
+        let person = Person {
+            name: String::from("Abit süzülmüş"),
+            bplace: String::from("Eskişehir"),
+            bdate: Date {
+                day: 10,
+                month: 10,
+                year: 1969
+            }
+        };
 
     İşte bu tür değer yaratımlarını kolaylaştırmak için Rust programcıları yapılar için genellikle new biçiminde isimlendirdikleri
     bir ilişki fonksiyon bulundurmaktadır. Böylece o yapı türünden değerler küme parantezleriyle değil new fonksiyonun çağrılmasıyla
     yaratılmaktadır. Tabii new ismi gelenekseldir, zorunlu bir isim değildir. Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-
-    impl Point {
-        fn new(x: i32, y: i32) -> Point {
-            Point { x: x, y: y }
+        struct Point {
+            x: i32,
+            y: i32,
         }
+
+        impl Point {
+            fn new(x: i32, y: i32) -> Point {
+                Point { x: x, y: y }
+            }
+            //...
+        }
+
         //...
-    }
 
-    //...
-
-    let pt = Point::new(10, 20);
+        let pt = Point::new(10, 20);
 
     Burada Point::new fonksiyonu bir metot değildir. Point yapısının ilişkili bir fonksiyonudur. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
-    impl Date {
-        fn new(day: u32, month: u32, year: u32) -> Date {
-            Date {
-                day,
-                month,
-                year
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Date {
+                Date {
+                    day,
+                    month,
+                    year
+                }
             }
+            //...
+        }
+
+        struct Person {
+            name: String,
+            bplace: String,
+            bdate: Date,
+        }
+
+        impl Person {
+            fn new(name: String, bplace: String, bdate: Date) -> Person {
+                Person {
+                    name,
+                    bplace,
+                    bdate
+                }
+            }
+            //..
         }
         //...
-    }
-
-    struct Person {
-        name: String,
-        bplace: String,
-        bdate: Date,
-    }
-
-    impl Person {
-        fn new(name: String, bplace: String, bdate: Date) -> Person {
-            Person {
-                name,
-                bplace,
-                bdate
-            }
-        }
-        //..
-    }
-    //...
 
     let person = Person::new(String::from("Abit Süzülmüş"), String::from("Eskişehir"), Date::new(10, 10, 1969));
 
@@ -11812,18 +11813,18 @@ impl Rectangle {
     Bir yapı türünden değeri eğer yapı için bir new fonksiyonu yazılmışsa new fonksiyonuyla yaratılması iyi bir tekniktir.
     Çünkü new fonksiyonları içerisinde sınama (validation) işlemleri yapılabilmektedir. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32
+        }
 
-    impl Date {
-        fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+                //...
+            }
             //...
         }
-        //...
-    }
 
     Burada new fonksiyuonuna geçersiz bir tarih girilirse fonksiyon Option::None değeri ile geri döndürülebilir. Böylece
     Date türünden değer yaratılırken sınama da yapılmış olur.
@@ -11831,33 +11832,33 @@ impl Rectangle {
     Yukarıdaki paragrafta genellikle yapılar için o yapı türünden değer yaratan new isimli bir ilişkili fonksiyonun bulundurulduğunu
     belirttik. Pekiyi bu fonksiyon ile yapı türünden değer yaratılması bir zaman kaybı oluşturur mu? Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-
-    impl Point {
-        fn new(x: i32, y: i32) -> Point {
-            Point { x: x, y: y }
+        struct Point {
+            x: i32,
+            y: i32,
         }
-        //...
-    }
 
-    let pt = Point { x: 10, y: 20 };
+        impl Point {
+            fn new(x: i32, y: i32) -> Point {
+                Point { x: x, y: y }
+            }
+            //...
+        }
+
+        let pt = Point { x: 10, y: 20 };
 
     pt değişkeninde istenilen değerlerin oluşması normal olarak üç aşamada gerçekleşmektedir.
 
-    1) Önce new fonksiyonu içerisinde Point türünden değer yaratılır.
-    2) Yaratılan değer new fonksiyonun geri dönüş değeri için oluşturulan geçici değişkene taşınır.
-    3) Bu geçici değişkenden pt değişkenine taşıma yapılır.
+      1) Önce new fonksiyonu içerisinde Point türünden değer yaratılır.
+      2) Yaratılan değer new fonksiyonun geri dönüş değeri için oluşturulan geçici değişkene taşınır.
+      3) Bu geçici değişkenden pt değişkenine taşıma yapılır.
 
     Ancak derleyiciler aslında bu tür durumlarda kodu optimize ederek bu taşımaları en az düzeyde yapmaktadır. Örneğin
     derleyici aslında önce Point türünden değeri yaratıp onu geri dönüş değeri için yaratılan geçici değişkene atamak
     yerine doğrudan Point değerini zaten geçici değişken üzerinde oluşturabilir. Bu durumda yukarıda işlem iki aşamaya
     indirgenecektir:
 
-    1) new fonksiyonun geri dönüş değeri için ayrılan geçici değişkende Point değeri doğrudan oluşturulur.
-    2) Bu geçici değişkenden pt değişkenine taşıma yapılır.
+      4) new fonksiyonun geri dönüş değeri için ayrılan geçici değişkende Point değeri doğrudan oluşturulur.
+      5) Bu geçici değişkenden pt değişkenine taşıma yapılır.
 
     Hatta derleyiciler bu tür durumlarda bir kademe daha ileri giderek doğrudan fonksiyonun geri dönüş değerine ilişkin
     geçici değişkeni sanki pt imiş gibi de yaratabilmektedir. Böylece aslında tüm bu işlemler tek bir yaratıma indirginmeiş
@@ -11865,7 +11866,7 @@ impl Rectangle {
     Optimization (NRVO)" denilmektedir. Örneğin Rust derleyicileri aşağıdaki gibi bir ilkdeğer vermede optimizasyon uygulayarak
     gereksiz taşıma yapmamaktadır:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
     Burada derleyici önce geçici bir değer oluşturup onu pt değişkenine taşımamaktadır. Doğrudan değeri pt üzerinde
     oluşturmaktadır.
@@ -11886,31 +11887,31 @@ impl Rectangle {
     Yapıların ilişkili fonksiyonlarını daha iyi açıklayabilmek için tarih işlemleri yapan bir Date yapısı üzerinde çalışalım.
     Date yapımız şöyle olsun:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
     Date yapsının new ilişki fonksiyonu parametresiyle aldığı gün, ay, bilgilerinden bir Date değeri oluşturup bu değere
     geri dönmektedir:
 
-    fn new(day: u32, month: u32, year: u32) -> Date {
-        Date { day, month, year }
-    }
+        fn new(day: u32, month: u32, year: u32) -> Date {
+            Date { day, month, year }
+        }
 
     Date yapısının ilişkili _isleap fonksiyonu belli bir yılın artık olup olmadığını belirlemekte kullanılmaktadır. Bu fonksiyon
     belli bir tarih üzerinde işlem yapmamaktadır. Bir yılı parametre olarak alıp bool bir değere geri dönmektedir. Fonksiyonun
     Date yapısı ile ilgisi nedeniyle global bir fonksiyon yerine Date sınıfının ilişkili fonksiyonu yapılması iyi bir tekniktir.
     Fonksiyon şöyle yazılmıştır:
 
-    impl Date {
-        //...
-         fn _isleap(year: u32) -> bool {
-            year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+        impl Date {
+            //...
+            fn _isleap(year: u32) -> bool {
+                year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            }
+            //...
         }
-        //...
-    }
 
     Nesne yönelimli programlama dillerinde sınıfların belli elemanlarının dışarıdan gizlenmesi için gizlenmek istenen elemanlar
     sınıfların private bölümlerine yerleştirilmektedir. Örneğin isleap gibi bir metot içsel bir kullanıma ilişkindir. Bu metodun
@@ -11922,23 +11923,23 @@ impl Rectangle {
     (Bu tür durumlarda orijin noktası olarak seçilen tarihe İngilizce "epoch" da denilmektedir.) Biz örneğimizde epoch olarak
     01/01/1900 tarihini alacağız. 01/01/1900'den belli bir tarihe kadar geçen gün sayısı aşağıdaki gibi bir metotla hesaplanabilir:
 
-    impl Date {
-        //...
-        fn _total_days(&self) -> u32 {
-            let mut tdays: u32 = 0;
-            let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        impl Date {
+            //...
+            fn _total_days(&self) -> u32 {
+                let mut tdays: u32 = 0;
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-            for i in 1900..self.year {
-                tdays += if Date::isleap(i) { 366 } else { 365 }
+                for i in 1900..self.year {
+                    tdays += if Date::isleap(i) { 366 } else { 365 }
+                }
+                montab[1] = if Date::isleap(self.year) { 29 } else { 28 };
+                for i in 0 ..self.month - 1 {
+                    tdays += montab[i as usize];
+                }
+                tdays + self.day
             }
-            montab[1] = if Date::isleap(self.year) { 29 } else { 28 };
-            for i in 0 ..self.month - 1 {
-                tdays += montab[i as usize];
-            }
-            tdays + self.day
+            //...
         }
-        //...
-    }
 
     Bu metotta birkaç mokta üzerinde açıklama yapmak istiyoruz. Bir metot kendi yapısıyla ilişkili bir fonksiyonu doğrudan
     isimle çağıramamaktadır. Yine sanki dışarıdan çağrılıyormuş gibi yapı ismiyle çağırabilmektedir. Örneğimizde isleap
@@ -11959,71 +11960,71 @@ impl Rectangle {
     bu tarihten geçen gün sayısının 7'ye bölümnden elde edilen kalan 0 ise o tarih de Pazar'dır. Yapımızdaki bu işi yapn
     metot şöyle yazılmıştır:
 
-    fn dayname(&self) -> &str {
-        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-        days[(self.total_days() % 7) as usize]
-    }
+        fn dayname(&self) -> &str {
+            let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+            days[(self.total_days() % 7) as usize]
+        }
 
     Örneğimizde iki tarihi karşılaştıran compare isimli bir metot da yazılmıştır. Metot Ordering isimli enum türüne geri
     dönmektedir:
 
-    fn compare(&self, other: &Self) -> Ordering {
-        let diff = self.total_days() - other.total_days();
+        fn compare(&self, other: &Self) -> Ordering {
+            let diff = self.total_days() - other.total_days();
 
-        if diff < 0 {
-            Ordering::Less
+            if diff < 0 {
+                Ordering::Less
+            }
+            else if diff > 0 {
+                Ordering::Greater
+            }
+            else  {
+                Ordering::Equal
+            }
         }
-        else if diff > 0 {
-            Ordering::Greater
-        }
-        else  {
-            Ordering::Equal
-        }
-    }
 
-    enum Ordering {
-        Less,
-        Equal,
-        Greater,
-    }
+        enum Ordering {
+            Less,
+            Equal,
+            Greater,
+        }
 
     Aslında Rust'ın standart kütüphanesinde de hazır bir Ordering enum türü vardır:
 
-    #[repr(i8)]
-    pub enum Ordering {
-        Less = -1,
-        Equal = 0,
-        Greater = 1,
-    }
+        #[repr(i8)]
+        pub enum Ordering {
+            Less = -1,
+            Equal = 0,
+            Greater = 1,
+        }
 
     Örneğimizde total_days metodunun ters işlemini yapan _from_total_days isimli bir ilişkili fonksiyon da bulundurulmuştur:
 
-    fn _from_total_days(tdays: u32) -> Date {
-        let mut total: u32 = 0;
-        let mut ydays: u32;
-        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        fn _from_total_days(tdays: u32) -> Date {
+            let mut total: u32 = 0;
+            let mut ydays: u32;
+            let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+            let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-        for i in 1900.. {
-            ydays = if Date::_isleap(i) { 366 } else { 365 };
-            if total + ydays >= tdays {
-                year = i;
-                break;
+            for i in 1900.. {
+                ydays = if Date::_isleap(i) { 366 } else { 365 };
+                if total + ydays >= tdays {
+                    year = i;
+                    break;
+                }
+                total += ydays;
             }
-            total += ydays;
-        }
-        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
-        for i in 0..12 {
-            if total + montab[i as usize] >= tdays {
-                month = i + 1;
-                break;
+            montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+            for i in 0..12 {
+                if total + montab[i as usize] >= tdays {
+                    month = i + 1;
+                    break;
+                }
+                total += montab[i as usize];
             }
-            total += montab[i as usize];
-        }
-        day = tdays - total;
+            day = tdays - total;
 
-        Date { day, month, year }
-    }
+            Date { day, month, year }
+        }
 
     Rust'ta birtakım değerleri alarak ilgili yapı türünden değer veren fonksiyonlar geleneksel olarak from_xxx biçiminde
     isimlendirilmektedir.
@@ -12031,129 +12032,129 @@ impl Rectangle {
     Bir tarihten belli bir dün sonrasına ilişkin bir tarihin elde edilmesi çok gereksinim duyulan işlemlerdendir. Yapımıza
     bu işlemi yapan bir metot da ekledik:
 
-    fn add_days(&self, days: u32) -> Date {
-        Date::_from_total_days(self._total_days() + days)
-    }
+        fn add_days(&self, days: u32) -> Date {
+            Date::_from_total_days(self._total_days() + days)
+        }
 
     İki tarih arasındaki farkı gün sayısı olarak elde eden bir metota da gereksinim duyulmaktadır. Örneğimizde böyle
     bir metot da bulundurduk:
 
-    fn diff_date(&self, other: &Date) -> u32 {
-        self._total_days() - other._total_days()
-    }
+        fn diff_date(&self, other: &Date) -> u32 {
+            self._total_days() - other._total_days()
+        }
 
     Nihayet örneğimizde tarihi ekrana (stdout dosyasına) yazdıran disp isimli bir metot da bulunmaktadır:
 
-    fn disp(&self) {
-        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
-    }
+        fn disp(&self) {
+            println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+        }
 
     Date örneğinin tamamı aşağıda verilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let date = Date::new(31, 12, 2025);
-    let date2 = Date::new(1, 1, 2026);
-    let days: u32;
+        fn main() {
+            let date = Date::new(31, 12, 2025);
+            let date2 = Date::new(1, 1, 2026);
+            let days: u32;
 
-    days = date2.diff_date(&date);
-    println!("{}", days);       // 1
-}
-
-struct Date {
-    day: u32,
-    month: u32,
-    year: u32,
-}
-
-impl Date {
-    fn new(day: u32, month: u32, year: u32) -> Date {
-        Date { day, month, year }
-    }
-
-    fn _total_days(&self) -> u32 {
-        let mut tdays: u32 = 0;
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        for i in 1900..self.year {
-            tdays += if Date::_isleap(i) { 366 } else { 365 }
+            days = date2.diff_date(&date);
+            println!("{}", days);       // 1
         }
-        montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
-        for i in 0..self.month - 1 {
-            tdays += montab[i as usize];
+
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
-        tdays + self.day
-    }
 
-    fn dayname(&self) -> &str {
-        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-
-        days[(self._total_days() % 7) as usize]
-    }
-
-    fn add_days(&self, days: u32) -> Date {
-        Date::_from_total_days(self._total_days() + days)
-    }
-
-    fn diff_date(&self, other: &Date) -> u32 {
-        self._total_days() - other._total_days()
-    }
-
-    fn disp(&self) {
-        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
-    }
-
-    fn compare(&self, other: &Self) -> Ordering {
-        let diff = self._total_days() - other._total_days();
-
-        if diff < 0 {
-            Ordering::Less
-        }
-        else if diff > 0 {
-            Ordering::Greater
-        }
-        else  {
-            Ordering::Equal
-        }
-    }
-
-    fn _isleap(year: u32) -> bool {
-        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    }
-
-    fn _from_total_days(tdays: u32) -> Date {
-        let mut total: u32 = 0;
-        let mut ydays: u32;
-        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        for i in 1900.. {
-            ydays = if Date::_isleap(i) { 366 } else { 365 };
-            if total + ydays >= tdays {
-                year = i;
-                break;
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Date {
+                Date { day, month, year }
             }
-            total += ydays;
-        }
-        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
-        for i in 0..12 {
-            if total + montab[i as usize] >= tdays {
-                month = i + 1;
-                break;
+
+            fn _total_days(&self) -> u32 {
+                let mut tdays: u32 = 0;
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900..self.year {
+                    tdays += if Date::_isleap(i) { 366 } else { 365 }
+                }
+                montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
+                for i in 0..self.month - 1 {
+                    tdays += montab[i as usize];
+                }
+                tdays + self.day
             }
-            total += montab[i as usize];
+
+            fn dayname(&self) -> &str {
+                let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+                days[(self._total_days() % 7) as usize]
+            }
+
+            fn add_days(&self, days: u32) -> Date {
+                Date::_from_total_days(self._total_days() + days)
+            }
+
+            fn diff_date(&self, other: &Date) -> u32 {
+                self._total_days() - other._total_days()
+            }
+
+            fn disp(&self) {
+                println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+            }
+
+            fn compare(&self, other: &Self) -> Ordering {
+                let diff = self._total_days() - other._total_days();
+
+                if diff < 0 {
+                    Ordering::Less
+                }
+                else if diff > 0 {
+                    Ordering::Greater
+                }
+                else  {
+                    Ordering::Equal
+                }
+            }
+
+            fn _isleap(year: u32) -> bool {
+                year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            }
+
+            fn _from_total_days(tdays: u32) -> Date {
+                let mut total: u32 = 0;
+                let mut ydays: u32;
+                let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900.. {
+                    ydays = if Date::_isleap(i) { 366 } else { 365 };
+                    if total + ydays >= tdays {
+                        year = i;
+                        break;
+                    }
+                    total += ydays;
+                }
+                montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+                for i in 0..12 {
+                    if total + montab[i as usize] >= tdays {
+                        month = i + 1;
+                        break;
+                    }
+                    total += montab[i as usize];
+                }
+                day = tdays - total;
+
+                Date { day, month, year }
+            }
         }
-        day = tdays - total;
 
-        Date { day, month, year }
-    }
-}
-
-enum Ordering {
-    Less,
-    Equal,
-    Greater,
-}
+        enum Ordering {
+            Less,
+            Equal,
+            Greater,
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi bir yapı türünden değer yaratırken yapı alanlarına yerleştirilecek değerlerin sınanması Rust'ta nasıl yapılmaktadır.
@@ -12162,182 +12163,182 @@ enum Ordering {
     Rust'ta C++, Java ve C# gibi dillerdeki gibi bir exception mekanizması yoktur. Pekiyi bu durumda örneğin yukarıdaki Date
     yapısının new ilişkili fonksiyonuna programcı yanlış değer geçerse ne olacak? Örneğin:
 
-    impl Date {
-        //...
-        fn new(day: u32, month: u32, year: u32) -> Date {
-           Date { day, month, year }
+        impl Date {
+            //...
+            fn new(day: u32, month: u32, year: u32) -> Date {
+            Date { day, month, year }
+            }
+            //...
         }
-        //...
-    }
 
-    let date = Date::new(40, 12, 2025);
+        let date = Date::new(40, 12, 2025);
 
     Burada 40 değeri gün için geçerli bir değer değildir. Ancak new fonksiyonu bir Date değeri vermek zorundadır. İşte Rust'ta
     bu tür durumlarda fonksiyonlar Option ya da Result türleri ile geri döndürülmektedir. Böylece fonksiyonu çağıran kişi
     kalıp uyuşumu ile değerin geçerli olup olmadığını anlayabilmektedir. Örneğin:
 
-    impl Date {
-        //...
-        fn new(day: u32, month: u32, year: u32) -> Option<Date> {
-            if year < 1900 || month < 1 || month > 12{
-                return None;
+        impl Date {
+            //...
+            fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+                if year < 1900 || month < 1 || month > 12{
+                    return None;
+                }
+
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+
+                if day < 1 || day > montab[(month - 1) as usize] {
+                    return None;
+                }
+
+                Some(Date { day, month, year })
             }
-
-            let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            montab[1] = if Date::_isleap(year) { 29 } else { 28 };
-
-            if day < 1 || day > montab[(month - 1) as usize] {
-                return None;
-            }
-
-            Some(Date { day, month, year })
+            //...
         }
-        //...
-    }
 
     Burada tarih bilgisi üzerinde gerekli sınamanın yapıldığını görüyorsunuz. Fonksiyon sınama başarısızsa Option::None varyantı
     ile sınama başarılı ise Option::Some varyantı ile geri döndürülmüştür. Tabii artık new donksiyonu çağrıldığında Date elde
     edilmeyecektir, Option<Date> elde edilecektir. new fonksiyonun geri dönüş değeri unwrap ya da expect uygulanarak kullanılabilir:
 
-    let date = Date::new(29, 2, 2025).expect("invalid date");
+        let date = Date::new(29, 2, 2025).expect("invalid date");
 
     Bu kodda eğer tarih geçersizse panik oluşacak, geçerliyse Date değeri elde edilecektir. Tabii programcı buradaki olası
     hatayı if let ile kalıp uyuşumu kullanarak da ele alabilir. Örneğin:
 
-    if let Some(date) = Date::new(29, 2, 2025).expect("invalid date") {
-        //...
-    }
-    else {
-        //...
-    }
+        if let Some(date) = Date::new(29, 2, 2025).expect("invalid date") {
+            //...
+        }
+        else {
+            //...
+        }
 
     Burada varyantın alanınının yalnızca if let deyiminin doğruysa kısmında kullanılabileceğnine dikkat ediniz. Bu tür durumlarda
     is_none ya da is_some metotlarından da faydalanabilirsiniz. Örneğin:
 
-    let date = Date::new(29, 2, 2025);
+        let date = Date::new(29, 2, 2025);
 
-    if date.is_none() {
-        //...
-    }
+        if date.is_none() {
+            //...
+        }
 
     Burada artık date değişeninin Option<Date> türünden olduğuna dikkat ediniz.
 
     Aşağıda Date örneğinin sınamalı biçimi de bir bütün olarak verilmiştir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    fn main() {
-        let date = Date::new(10, 2, 2025).unwrap();
+        fn main() {
+            fn main() {
+                let date = Date::new(10, 2, 2025).unwrap();
 
-        date.disp();
-    }
-}
-
-struct Date {
-    day: u32,
-    month: u32,
-    year: u32,
-}
-
-impl Date {
-    fn new(day: u32, month: u32, year: u32) -> Option<Date> {
-        if year < 1900 || month < 1 || month > 12{
-            return None;
-        }
-
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
-
-        if day < 1 || day > montab[(month - 1) as usize] {
-            return None;
-        }
-
-        Some(Date { day, month, year })
-    }
-
-    fn _total_days(&self) -> u32 {
-        let mut tdays: u32 = 0;
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        for i in 1900..self.year {
-            tdays += if Date::_isleap(i) { 366 } else { 365 }
-        }
-        montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
-        for i in 0..self.month - 1 {
-            tdays += montab[i as usize];
-        }
-        tdays + self.day
-    }
-
-    fn dayname(&self) -> &str {
-        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-
-        days[(self._total_days() % 7) as usize]
-    }
-
-    fn add_days(&self, days: u32) -> Date {
-        Date::_from_total_days(self._total_days() + days)
-    }
-
-    fn diff_date(&self, other: &Date) -> u32 {
-        self._total_days() - other._total_days()
-    }
-
-    fn disp(&self) {
-        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
-    }
-
-    fn compare(&self, other: &Self) -> Ordering {
-        let diff = self._total_days() - other._total_days();
-
-        if diff < 0 {
-            Ordering::Less
-        }
-        else if diff > 0 {
-            Ordering::Greater
-        }
-        else  {
-            Ordering::Equal
-        }
-    }
-
-    fn _isleap(year: u32) -> bool {
-        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    }
-
-    fn _from_total_days(tdays: u32) -> Date {
-        let mut total: u32 = 0;
-        let mut ydays: u32;
-        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        for i in 1900.. {
-            ydays = if Date::_isleap(i) { 366 } else { 365 };
-            if total + ydays >= tdays {
-                year = i;
-                break;
+                date.disp();
             }
-            total += ydays;
         }
-        montab[1] = if Date::_isleap(year) { 29 } else { 28 };
-        for i in 0..12 {
-            if total + montab[i as usize] >= tdays {
-                month = i + 1;
-                break;
+
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
+
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Option<Date> {
+                if year < 1900 || month < 1 || month > 12{
+                    return None;
+                }
+
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+
+                if day < 1 || day > montab[(month - 1) as usize] {
+                    return None;
+                }
+
+                Some(Date { day, month, year })
             }
-            total += montab[i as usize];
+
+            fn _total_days(&self) -> u32 {
+                let mut tdays: u32 = 0;
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900..self.year {
+                    tdays += if Date::_isleap(i) { 366 } else { 365 }
+                }
+                montab[1] = if Date::_isleap(self.year) { 29 } else { 28 };
+                for i in 0..self.month - 1 {
+                    tdays += montab[i as usize];
+                }
+                tdays + self.day
+            }
+
+            fn dayname(&self) -> &str {
+                let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+                days[(self._total_days() % 7) as usize]
+            }
+
+            fn add_days(&self, days: u32) -> Date {
+                Date::_from_total_days(self._total_days() + days)
+            }
+
+            fn diff_date(&self, other: &Date) -> u32 {
+                self._total_days() - other._total_days()
+            }
+
+            fn disp(&self) {
+                println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+            }
+
+            fn compare(&self, other: &Self) -> Ordering {
+                let diff = self._total_days() - other._total_days();
+
+                if diff < 0 {
+                    Ordering::Less
+                }
+                else if diff > 0 {
+                    Ordering::Greater
+                }
+                else  {
+                    Ordering::Equal
+                }
+            }
+
+            fn _isleap(year: u32) -> bool {
+                year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            }
+
+            fn _from_total_days(tdays: u32) -> Date {
+                let mut total: u32 = 0;
+                let mut ydays: u32;
+                let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900.. {
+                    ydays = if Date::_isleap(i) { 366 } else { 365 };
+                    if total + ydays >= tdays {
+                        year = i;
+                        break;
+                    }
+                    total += ydays;
+                }
+                montab[1] = if Date::_isleap(year) { 29 } else { 28 };
+                for i in 0..12 {
+                    if total + montab[i as usize] >= tdays {
+                        month = i + 1;
+                        break;
+                    }
+                    total += montab[i as usize];
+                }
+                day = tdays - total;
+
+                Date { day, month, year }
+            }
         }
-        day = tdays - total;
 
-        Date { day, month, year }
-    }
-}
-
-enum Ordering {
-    Less,
-    Equal,
-    Greater,
-}
+        enum Ordering {
+            Less,
+            Equal,
+            Greater,
+        }
 
 # 40. Ders 04/08/2025 - Pazartesi
 
