@@ -12925,12 +12925,12 @@ use std::mem::discriminant;
                     ┌──────────────────────────┐
                     │ Yazılımsal Adres Bilgisi │
                     └────────────┬─────────────┘
-                                │
-                ┌─────────────┴─────────────┐
-                │                           │
-        ┌──────────────────┐        ┌──────────────────┐
-        │  Doğrusal Adres  │        │        Tür       │
-        └──────────────────┘        └──────────────────┘
+                                 │
+                    ┌────────────┴─────────────┐
+                    │                          │
+            ┌──────────────────┐        ┌────────────────┐
+            │  Doğrusal Adres  │        │      Tür       │
+            └──────────────────┘        └────────────────┘
 
     Programlama söz konusu olduğunda yalnızca bellekteki doğrusal adres yetersiz kalmaktadır. O adreste hangi türden bir bilginin
     bulunduğunun da bir biçimde belirlenmiş olması gerekmektedir. Biz kursumuzda "adres" dendiğinde "yazılımsal adres" kavramını
