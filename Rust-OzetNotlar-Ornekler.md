@@ -8114,7 +8114,7 @@
     uyacağız.
 
  # 29. Ders 23/06/2025 - Pazartesi
- 
+
     Enum türlerinin yapısal varyantlarına ilişkin enum türünden değerler oluşturmanın genel biçimi şöyledir:
 
     <enum_ismi>::<varyant_ismi> {<eleman_ismi>: değer, <eleman_ismi>: değer, <eleman_ismi>: değer, ...}
@@ -12345,17 +12345,17 @@ use std::mem::discriminant;
     Daha önceden de bahsettiğimiz gibi impl bloğu içerisinde Self anahtar sözcüğü (S'nin büyük yazıldığında dikkat ediniz)
     gerçekleştirimi yapılan türü (yani impl anahtar sözcüğünün yanındaki yapı ya da enum türünü) belirtmektedir. Örneğin:
 
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-
-    impl Point {
-        fn new(x: i32, y: i32) -> Self {
-            Self { x, y }
+        struct Point {
+            x: i32,
+            y: i32,
         }
-        //...
-    }
+
+        impl Point {
+            fn new(x: i32, y: i32) -> Self {
+                Self { x, y }
+            }
+            //...
+        }
 
     Burada new ilişkili fonksiyonu Self ile geri dönmektedir. Buradaki Self anahtar sözcüğü Point anlamına gelmektedir. Self
     ile self anahtar sözcükleri arasındaki farklılığa dikkat ediniz. self anahtar sözcüğü (s'nin küçük olduğuna dikkat ediniz)
@@ -12363,49 +12363,49 @@ use std::mem::discriminant;
     Halbuki Self anahtar sözcüğü (S'nin büyük olduğuna dikkat ediniz) impl bloğunda gerçekleştirimi yapılan türü belirtmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let pt = Point::new(10, 20);
-    println!("{}, {}", pt.x, pt.y);
-}
+        fn main() {
+            let pt = Point::new(10, 20);
+            println!("{}, {}", pt.x, pt.y);
+        }
 
-struct Point {
-    x: i32,
-    y: i32,
-}
+        struct Point {
+            x: i32,
+            y: i32,
+        }
 
-impl Point {
-    fn new(x: i32, y: i32) -> Self {
-        Self { x, y }
-    }
-    //...
-}
+        impl Point {
+            fn new(x: i32, y: i32) -> Self {
+                Self { x, y }
+            }
+            //...
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     enum türlerinin de metotlara ve ilişkili fonksiyonlara sahip olabileceğini belirtmiştik. enum türlerine ilişkin metotlar
     ve ilişkili fonksiyonlar yazılırken de yine Self anahtar sözcüğü kullanılabilmektedir. Buradaki Self anahtar sözcüğü
     ilgili enum türünü belirtir. Örneğin:
 
-    enum Fruit {
-    Apple,
-    Banana(i32),
-    Orange(String),
-    None
-}
+        enum Fruit {
+        Apple,
+        Banana(i32),
+        Orange(String),
+        None
+    }
 
-    impl Fruit {
-        fn new() -> Self {
-            Self::None
-        }
+        impl Fruit {
+            fn new() -> Self {
+                Self::None
+            }
 
-        fn disp(&self) {
-            match self {
-                Self::Apple => println!("Apple"),
-                Self::Banana(disp) => println!("Banana({})", disp),
-                Self::Orange(disp) => println!("Orange({})", disp),
-                Self::None => println!("None"),
+            fn disp(&self) {
+                match self {
+                    Self::Apple => println!("Apple"),
+                    Self::Banana(disp) => println!("Banana({})", disp),
+                    Self::Orange(disp) => println!("Orange({})", disp),
+                    Self::None => println!("None"),
+                }
             }
         }
-    }
 
     Burada impl bloğunun içerisindeki Self anahtar sözcüğü Fruit anlamına gelmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -12413,117 +12413,117 @@ impl Point {
     sözcüğünü kullandık.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let date = Date::new(10, 2, 2025).unwrap();
+        fn main() {
+            let date = Date::new(10, 2, 2025).unwrap();
 
-    date.disp();
-}
-
-struct Date {
-    day: u32,
-    month: u32,
-    year: u32,
-}
-
-impl Date {
-    fn new(day: u32, month: u32, year: u32) -> Option<Self> {
-        if year < 1900 || month < 1 || month > 12{
-            return None;
+            date.disp();
         }
 
-        let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        montab[1] = if Self::_isleap(year) { 29 } else { 28 };
-
-        if day < 1 || day > montab[(month - 1) as usize] {
-            return None;
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
 
-        Some(Self {day, month, year})
-    }
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Option<Self> {
+                if year < 1900 || month < 1 || month > 12{
+                    return None;
+                }
 
-    fn _total_days(&self) -> u32 {
-        let mut tdays = 0;
-        let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                montab[1] = if Self::_isleap(year) { 29 } else { 28 };
 
-        for i in 1900..self.year {
-            tdays += if Self::_isleap(i) { 366 } else { 365 }
-        }
-        montab[1] = if Self::_isleap(self.year) { 29 } else { 28 };
-        for i in 0..self.month - 1 {
-            tdays += montab[i as usize];
-        }
-        tdays + self.day
-    }
+                if day < 1 || day > montab[(month - 1) as usize] {
+                    return None;
+                }
 
-    fn dayname(&self) -> &str {
-        let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-
-        days[(self._total_days() % 7) as usize]
-    }
-
-    fn add_days(&self, days: u32) -> Self {
-        Self::_from_total_days(self._total_days() + days)
-    }
-
-    fn diff_date(&self, other: &Self) -> u32 {
-        self._total_days() - other._total_days()
-    }
-
-    fn disp(&self) {
-        println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
-    }
-
-    fn compare(&self, other: &Self) -> Ordering {
-        let diff = self._total_days() - other._total_days();
-
-        if diff < 0 {
-            Ordering::Less
-        }
-        else if diff > 0 {
-            Ordering::Greater
-        }
-        else  {
-            Ordering::Equal
-        }
-    }
-
-    fn _isleap(year: u32) -> bool {
-        year % 4 == 0 && year % 100 != 0 || year % 400 == 0
-    }
-
-    fn _from_total_days(tdays: u32) -> Self {
-        let mut total: u32 = 0;
-        let mut ydays: u32;
-        let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
-        let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        for i in 1900.. {
-            ydays = if Self::_isleap(i) { 366 } else { 365 };
-            if total + ydays >= tdays {
-                year = i;
-                break;
+                Some(Self {day, month, year})
             }
-            total += ydays;
-        }
-        montab[1] = if Self::_isleap(year) { 29 } else { 28 };
-        for i in 0..12 {
-            if total + montab[i as usize] >= tdays {
-                month = i + 1;
-                break;
+
+            fn _total_days(&self) -> u32 {
+                let mut tdays = 0;
+                let mut montab: [u32; 12]  = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900..self.year {
+                    tdays += if Self::_isleap(i) { 366 } else { 365 }
+                }
+                montab[1] = if Self::_isleap(self.year) { 29 } else { 28 };
+                for i in 0..self.month - 1 {
+                    tdays += montab[i as usize];
+                }
+                tdays + self.day
             }
-            total += montab[i as usize];
+
+            fn dayname(&self) -> &str {
+                let days: [&str; 7] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+                days[(self._total_days() % 7) as usize]
+            }
+
+            fn add_days(&self, days: u32) -> Self {
+                Self::_from_total_days(self._total_days() + days)
+            }
+
+            fn diff_date(&self, other: &Self) -> u32 {
+                self._total_days() - other._total_days()
+            }
+
+            fn disp(&self) {
+                println!("{}/{}/{} - {}", self.day, self.month, self.year, self.dayname());
+            }
+
+            fn compare(&self, other: &Self) -> Ordering {
+                let diff = self._total_days() - other._total_days();
+
+                if diff < 0 {
+                    Ordering::Less
+                }
+                else if diff > 0 {
+                    Ordering::Greater
+                }
+                else  {
+                    Ordering::Equal
+                }
+            }
+
+            fn _isleap(year: u32) -> bool {
+                year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            }
+
+            fn _from_total_days(tdays: u32) -> Self {
+                let mut total: u32 = 0;
+                let mut ydays: u32;
+                let (mut day, mut month, mut year): (u32, u32, u32) = (0, 0, 0);
+                let mut montab: [u32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                for i in 1900.. {
+                    ydays = if Self::_isleap(i) { 366 } else { 365 };
+                    if total + ydays >= tdays {
+                        year = i;
+                        break;
+                    }
+                    total += ydays;
+                }
+                montab[1] = if Self::_isleap(year) { 29 } else { 28 };
+                for i in 0..12 {
+                    if total + montab[i as usize] >= tdays {
+                        month = i + 1;
+                        break;
+                    }
+                    total += montab[i as usize];
+                }
+                day = tdays - total;
+
+                Self { day, month, year}
+            }
         }
-        day = tdays - total;
 
-        Self { day, month, year}
-    }
-}
-
-enum Ordering {
-    Less,
-    Equal,
-    Greater,
-}
+        enum Ordering {
+            Less,
+            Equal,
+            Greater,
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi impl bloğu içerisinde yapının ya da enum türünün doğrudan isminin kullanılması mı yoksa Self anahtar sözcüğünün
@@ -12540,70 +12540,70 @@ enum Ordering {
     Her trait derive özniteliği ile kullanılamaz. #[derive(<trait_listesi>)] özniteliği yalnızca önceden belirlenmiş olan bazı
     trait'ler için kullanılabilmektedir. Bunların listesi şöyledir:
 
-    Clone
-    Copy
-    Debug
-    Default
-    Eq
-    PartialEq
-    Ord
-    PartialOrd
-    Hash
+        Clone
+        Copy
+        Debug
+        Default
+        Eq
+        PartialEq
+        Ord
+        PartialOrd
+        Hash
 
     İşte eğer derive özniteliğinde Default trait'i belirtilirse sanki ilgili yapı default isimli bir ilişkili fonksiyona
     sahipmiş gibi kullanılabilmektedir. Örneğin:
 
-    #[derive(Default)]
-    struct Point {
-        x: i32,
-        y: i32,
-    }
-
-    impl Point {
-        fn new(x: i32, y: i32) -> Self {
-            Self { x, y }
+        #[derive(Default)]
+        struct Point {
+            x: i32,
+            y: i32,
         }
 
-        fn disp(&self) {
-            println!("x: {}, y: {}", self.x, self.y);
+        impl Point {
+            fn new(x: i32, y: i32) -> Self {
+                Self { x, y }
+            }
+
+            fn disp(&self) {
+                println!("x: {}, y: {}", self.x, self.y);
+            }
         }
-    }
 
-    fn main() {
-        let pt = Point::new(10, 20);
-        pt.disp();
+        fn main() {
+            let pt = Point::new(10, 20);
+            pt.disp();
 
-        let pt = Point::default();
-        pt.disp();          // x: 0, y: 0
-    }
+            let pt = Point::default();
+            pt.disp();          // x: 0, y: 0
+        }
 
     Burada biz Point::default() ifadesiyle yapının default isimli ilişkili fonksiyonunu çağırabildik. Çünkü bu fonksiyon
     derleyici tarafından otomatik bir biçimde yazıldı. default fonksiyonunun parametresinin olmadığına dikkat ediniz.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let pt = Point::new(10, 20);
-    pt.disp();
+        fn main() {
+            let pt = Point::new(10, 20);
+            pt.disp();
 
-    let pt = Point::default();
-    pt.disp();
-}
+            let pt = Point::default();
+            pt.disp();
+        }
 
-#[derive(Default)]
-struct Point {
-    x: i32,
-    y: i32,
-}
+        #[derive(Default)]
+        struct Point {
+            x: i32,
+            y: i32,
+        }
 
-impl Point {
-    fn new(x: i32, y: i32) -> Self {
-        Self { x, y }
-    }
+        impl Point {
+            fn new(x: i32, y: i32) -> Self {
+                Self { x, y }
+            }
 
-    fn disp(&self) {
-        println!("x: {}, y: {}", self.x, self.y);
-    }
-}
+            fn disp(&self) {
+                println!("x: {}, y: {}", self.x, self.y);
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi biz bir yapıya #[derive(Default)] özniteliğini iliştirdiğimizde yaratılan yapı değerinin alanlarındaki değerler
@@ -12615,37 +12615,37 @@ impl Point {
     olması (implemente ediyor olması) gerekmektedir. Temel türlerin bu trait'i desteklediği kabul edilmektedir. String türü de
     örneğin bu trait'i desteklemektedir. Aşağıdaki örneğe dikkat ediniz:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
-    #[derive(Default)]          // error! yapının bdate alanı Default trait'ini desteklemiyor
-    struct Person {
-        name: String,
-        age: u32,
-        bdate: Date
-    }
+        #[derive(Default)]          // error! yapının bdate alanı Default trait'ini desteklemiyor
+        struct Person {
+            name: String,
+            age: u32,
+            bdate: Date
+        }
 
     Bu kod error oluşturacaktır. Çünkü Person yapısının name ve age alanlarına ilişkin türler Default trait'ini desteklemektedir
     ancak bdate alanının ilişkin olduğu Date türü bu trait'i desteklememektedir. (Bu anlamda bir özyinelemenin işletilmediğine
     dikkat ediniz.) Tabii biz Date yapısının da Default trait'ini desteklemesini sağlayabiliriz. Bu durumda error ortadan
     kalkacaktır. Örneğin:
 
-    #[derive(Default)]
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        #[derive(Default)]
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
-    #[derive(Default)]          // geçerli, yapının tüm alanları Default trait'in destekliyor
-    struct Person {
-        name: String,
-        age: u32,
-        bdate: Date
-    }
+        #[derive(Default)]          // geçerli, yapının tüm alanları Default trait'in destekliyor
+        struct Person {
+            name: String,
+            age: u32,
+            bdate: Date
+        }
 
     Bu kod artık derlenecektir. Tabii Date için default değerin 0/0/0 olması aslında pek uygun değildir. Kendi yapınıza
     için #[derive(Default)]  özniteliğini iliştirmeden önce yapınızın alanlarının default değer almasının anlamlı olup
@@ -12653,75 +12653,75 @@ impl Point {
     pek anlamlı değildir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-   let per = Person::default();
+        fn main() {
+        let per = Person::default();
 
-    per.disp();
-}
+            per.disp();
+        }
 
-#[derive(Default)]
-struct Date {
-    day: u32,
-    month: u32,
-    year: u32,
-}
+        #[derive(Default)]
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
-impl Date {
-    fn new(day: u32, month: u32, year: u32) -> Self {
-        Self { day, month, year }
-    }
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Self {
+                Self { day, month, year }
+            }
 
-    fn disp(&self) {
-        println!("{}/{}/{}", self.day, self.month, self.year);
-    }
-}
+            fn disp(&self) {
+                println!("{}/{}/{}", self.day, self.month, self.year);
+            }
+        }
 
-#[derive(Default)]
-struct Person {
-    name: String,
-    age: u32,
-    bdate: Date
-}
+        #[derive(Default)]
+        struct Person {
+            name: String,
+            age: u32,
+            bdate: Date
+        }
 
-impl Person {
-    fn new(name: String, age: u32, bdate: Date) -> Self {
-        Self { name, age, bdate }
-    }
+        impl Person {
+            fn new(name: String, age: u32, bdate: Date) -> Self {
+                Self { name, age, bdate }
+            }
 
-    fn disp(&self) {
-        println!("{} is {} years old and was born in {}", self.name, self.age, self.bdate.year);
-    }
-}
+            fn disp(&self) {
+                println!("{} is {} years old and was born in {}", self.name, self.age, self.bdate.year);
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii aslında Default trait'ini otomatik değil açıkça da destekleyebiliriz (implemente edebiliriz). Her ne kadar biz
     henüz trait'ler konusunu görmediysek de burada bir örnek vermek istiyoruz:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
-
-    impl Date {
-        fn new(day: u32, month: u32, year: u32) -> Self {
-            Self { day, month, year }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
 
-        fn disp(&self) {
-            println!("{}/{}/{}", self.day, self.month, self.year);
-        }
-    }
+        impl Date {
+            fn new(day: u32, month: u32, year: u32) -> Self {
+                Self { day, month, year }
+            }
 
-    impl Default for Date {
-        fn default() -> Self {
-            Self {
-                day: 1,
-                month: 1,
-                year: 1900
+            fn disp(&self) {
+                println!("{}/{}/{}", self.day, self.month, self.year);
             }
         }
-    }
+
+        impl Default for Date {
+            fn default() -> Self {
+                Self {
+                    day: 1,
+                    month: 1,
+                    year: 1900
+                }
+            }
+        }
 
     Ancak yapıya derive(Default) özniteliğini iliştirilmişse artık açıkça destekleme yapılamaz. Yani destekleme ya otomatik
     yapılabilir ya da açıkça yapılabilir.
@@ -12729,108 +12729,108 @@ impl Person {
     Pekiyi enum türlerine #[derive(Defult)] özniteliği iliştirilebilir mi? Yani örneğin aşağıdaki gibi bir enum tanımalaması
     geçerli midir?
 
-    #[derive(Default)]              // error!
-    enum Direction {
-        Left(String),
-        Up(String),
-        Right(String),
-        Down(String),
-        None
-    }
+        #[derive(Default)]              // error!
+        enum Direction {
+            Left(String),
+            Up(String),
+            Right(String),
+            Down(String),
+            None
+        }
 
     Burada sorun Direction::default() fonksiyonu çağrıldığında elde edilecek enum değerinin hangi varyanta ilişkin olacağıdır.
     Değerin llk varyanta ilişkin olabileceğini düşünebilirsiniz. Ancak bu pek anlamlı değildir. İşte #[derive(Default)] özniteliği
     için enum türünün hangi varyantının default değer olarak kullanılcağı #[default] özniteliği ile belirlenmektedir. Bu öznitelik
     hangi varyantın önüne yazılırsa o varyant default değer olarak kullanılır. Örneğin:
 
-    #[derive(Default)]
-    enum Direction {
-        Left(String),
-        Up(String),
-        Right(String),
-        Down(String),
-        #[default]
-        None
-    }
+        #[derive(Default)]
+        enum Direction {
+            Left(String),
+            Up(String),
+            Right(String),
+            Down(String),
+            #[default]
+            None
+        }
 
     Burada None varyantı default değer olarak kullanılacaktır. Ancak #[default] özniteliği enum'un yalnızca birimsel varyantlarına
     uygulanabilmektedir. Örneğin aşağıdaki tanımlama error oluşturacaktır:
 
-    #[derive(Default)]
-    enum Direction {
-        #[default]          // error! buözniteli yalnızca birimsel varyantlara uygulanabilir
-        Left(String),
-        Up(String),
-        Right(String),
-        Down(String),
-        None
-    }
+        #[derive(Default)]
+        enum Direction {
+            #[default]          // error! buözniteli yalnızca birimsel varyantlara uygulanabilir
+            Left(String),
+            Up(String),
+            Right(String),
+            Down(String),
+            None
+        }
 
     Tabii enum için de aslında Default trait'i açıkça desteklenebilir. Örneğin:
 
-    enum Direction {
-        Left(String),
-        Up(String),
-        Right(String),
-        Down(String),
-        #[default]
-        None
-    }
-
-    impl Default for Direction {
-        fn default() -> Self {
-            Direction::Left(String::from("Sol"))
+        enum Direction {
+            Left(String),
+            Up(String),
+            Right(String),
+            Down(String),
+            #[default]
+            None
         }
-    }
 
-    fn main() {
-        let d = Direction::default();
+        impl Default for Direction {
+            fn default() -> Self {
+                Direction::Left(String::from("Sol"))
+            }
+        }
 
-        d.disp();           // Left(Sol)
-    }
+        fn main() {
+            let d = Direction::default();
+
+            d.disp();           // Left(Sol)
+        }
 
     Trait'ler konusu ileride ayrı bir başlık altında ele alınacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let d = Direction::default();
+        fn main() {
+            let d = Direction::default();
 
-    d.disp();
-}
-
-enum Direction {
-    Left(String),
-    Up(String),
-    Right(String),
-    Down(String),
-    None
-}
-
-impl Direction {
-    fn disp(&self) {
-        match self {
-            Direction::Left(x) => {
-                println!("Left({})", x);
-            },
-            Direction::Up(x) => {
-                println!("Up({})", x);
-            },
-            Direction::Right(x) => {
-                println!("Right({})", x);
-            },
-            Direction::Down(x) => {
-                println!("Down({})", x);
-            },
-            Direction::None => println!("None"),
+            d.disp();
         }
-    }
-}
 
-impl Default for Direction {
-    fn default() -> Self {
-        Direction::Left(String::from("Sol"))
-    }
-}
+        enum Direction {
+            Left(String),
+            Up(String),
+            Right(String),
+            Down(String),
+            None
+        }
+
+        impl Direction {
+            fn disp(&self) {
+                match self {
+                    Direction::Left(x) => {
+                        println!("Left({})", x);
+                    },
+                    Direction::Up(x) => {
+                        println!("Up({})", x);
+                    },
+                    Direction::Right(x) => {
+                        println!("Right({})", x);
+                    },
+                    Direction::Down(x) => {
+                        println!("Down({})", x);
+                    },
+                    Direction::None => println!("None"),
+                }
+            }
+        }
+
+        impl Default for Direction {
+            fn default() -> Self {
+                Direction::Left(String::from("Sol"))
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'taki yapılar nesne yönelimli dillerdeki sınıflara biraz benzemektedir. Ancak Rust'taki yapılar o dillerdeki
@@ -12855,29 +12855,29 @@ impl Default for Direction {
 
     Rust'ta tür sisteminin nasıl sınıflandırıldığını yeniden anımsatmak istiyoruz:
 
-    Primitive types:
-        Boolean — bool
-        Numeric — integer and float
-        Textual — char and str
-        Never — ! — a type with no values
-    Sequence types:
-        Tuple
-        Array
-        Slice
-    User-defined types:
-        Struct
-        Enum
-        Union
-    Function types:
-        Functions
-        Closures
-    Pointer types:
-        References
-        Raw pointers
-        Function pointers
-    Trait types:
-        Trait objects
-        Impl trait
+        Primitive types:
+            Boolean — bool
+            Numeric — integer and float
+            Textual — char and str
+            Never — ! — a type with no values
+        Sequence types:
+            Tuple
+            Array
+            Slice
+        User-defined types:
+            Struct
+            Enum
+            Union
+        Function types:
+            Functions
+            Closures
+        Pointer types:
+            References
+            Raw pointers
+            Function pointers
+        Trait types:
+            Trait objects
+            Impl trait
 
     Görüldüğü gibi "The Rust Reference" dokümanlarında referanslar "Pointer Types" grubunda yer almaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -12904,33 +12904,33 @@ impl Default for Direction {
     byte'ın doğrusal adreesi 0x12FC10 ise bu byte belleğin tepesinden itibaren 0x0012FC10'ıncı byte'ıdır. İşlemciler erişecekleri
     yerin doğrusal adresini vererek bellekte belli bir bölgeye erişirler.
 
-                    ─────────┐
-    0x00000000      │  ??
-    0x000001        │  ??
-    0x000002        │  ??
-    ...             │  ...
-    0x0012FC0E      │  ??
-    0x0012FC0F      │  ??
-    0x0012FC10      │  ??  ← hedef bayt
-    0x0012FC11      │  ??
-    0x0012FC12      │  ??
-    ...             │  ...
-    0xFFFFFFFF      │  ??
-                    └─────────┘
+                        ─────────┐
+        0x00000000      │  ??
+        0x000001        │  ??
+        0x000002        │  ??
+        ...             │  ...
+        0x0012FC0E      │  ??
+        0x0012FC0F      │  ??
+        0x0012FC10      │  ??  ← hedef bayt
+        0x0012FC11      │  ??
+        0x0012FC12      │  ??
+        ...             │  ...
+        0xFFFFFFFF      │  ??
+                        └─────────┘
 
     Ancak yazılımsal adres bilgisi iki bileşenli bir bilgidir: Sayısal Bileşen"  ve "Tür Bileşeni".  Yazılımsal adres bilgisinin
     "sayısal bileşeni" bellekte bir doğrusal adres, "tür" bileşeni ise o doğrusal adresteki değişken ya da değerin türünü
     belirtmektedir
 
-                ┌──────────────────────────┐
-                │ Yazılımsal Adres Bilgisi │
-                └────────────┬─────────────┘
-                             │
-               ┌─────────────┴─────────────┐
-               │                           │
-    ┌──────────────────┐        ┌──────────────────┐
-    │  Doğrusal Adres  │        │        Tür       │
-    └──────────────────┘        └──────────────────┘
+                    ┌──────────────────────────┐
+                    │ Yazılımsal Adres Bilgisi │
+                    └────────────┬─────────────┘
+                                │
+                ┌─────────────┴─────────────┐
+                │                           │
+        ┌──────────────────┐        ┌──────────────────┐
+        │  Doğrusal Adres  │        │        Tür       │
+        └──────────────────┘        └──────────────────┘
 
     Programlama söz konusu olduğunda yalnızca bellekteki doğrusal adres yetersiz kalmaktadır. O adreste hangi türden bir bilginin
     bulunduğunun da bir biçimde belirlenmiş olması gerekmektedir. Biz kursumuzda "adres" dendiğinde "yazılımsal adres" kavramını
@@ -12943,16 +12943,16 @@ impl Default for Direction {
     onun ilk byte'ının (en düşük adresli byte'ının) adresini belirtiriz. Aşağıdaki gösterimde B0, B1, B2 ve B3 byte'ları i32
     türünden bir değişkenin ya da değerin bellekteki byte adreslerini belirtiyor olsun.
 
-    ┌──────────┬──────┐
-    │Adres     │Bayt  │
-    ├──────────┼──────┤
-    │   ...    │  ..  │
-    │0x0012FC10│  B0  │
-    │0x0012FC11│  B1  │
-    │0x0012FC12│  B2  │
-    │0x0012FC13│  B3  │
-    │   ...    │  ..  │
-    └──────────┴──────┘
+        ┌──────────┬──────┐
+        │Adres     │Bayt  │
+        ├──────────┼──────┤
+        │   ...    │  ..  │
+        │0x0012FC10│  B0  │
+        │0x0012FC11│  B1  │
+        │0x0012FC12│  B2  │
+        │0x0012FC13│  B3  │
+        │   ...    │  ..  │
+        └──────────┴──────┘
 
     Burada bu i32 türünden değişken ya da değerini yazılımsal adresinin sayısal bileşeni için için yalnızca 0x0012FC10 doğrusal
     adresi kullanılmaktadır.  İşlemciler de belli bir adresten başlayan belli büyüklükteki bilgiler üzerinde işlem yapabilmektedir.
@@ -12965,7 +12965,7 @@ impl Default for Direction {
     Bir değişkenin ya da değerin adresi alındığında adresin sayısal bileşeni o değişken ya da değerin bellekteki doğrusal
     başlangıç adresinden, tür bileşeni ise o değişken ya da değerin türünden oluşmaktadır. Örneğin:
 
-    let a: i32 = 0;
+        let a: i32 = 0;
 
     Burada & operatörü ile a'nın adresi alındığında adresin sayısal bileşeni olarak değişkenin bellekteki doğrusal adresi,
     tür bileşeni olarak da i32 türü elde edilecektir.
@@ -12976,26 +12976,26 @@ impl Default for Direction {
     okunuyor)" operatörü denilmektedir. (Anımsanacağı gibi bu operatöre C'de ve C++'ta "indirection" operatörü denilmektedir.)
     Eğer r referansı &T türündense *r ifadesi de T türündendir. Örneğin:
 
-    let a:i32 = 10;
-    let r: &i32 = &a;
+        let a:i32 = 10;
+        let r: &i32 = &a;
 
     Burada  referansının tür bileşeni i32 türünden olduğu için *r ifadesi de i32 türündendir. *r ifadesi ile aslında a
     değişkenşne erişilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
     Bir referansa aynı türden bir değişkenin ya da değerin adresi yerleştirilebilir. Örneğin:
 
-    let a: i32 = 10;
-    let r: &i32;
+        let a: i32 = 10;
+        let r: &i32;
 
-    r = &a;             // geçerli
+        r = &a;             // geçerli
 
     Burada r değişkeni &i32 türündendir. &a ifadesi de &i32 türündendir. Bu atama sonucunda r'nin içerisine a'nın adresi
     yerleştirilmektedir. Bir referansa farklı türden bir değişkenin ya da değerin adresi atanamaz. Örneğin:
 
-    let a: i64 = 10;
-    let r: &i32;
+        let a: i64 = 10;
+        let r: &i32;
 
-    r = &a;     // error!
+        r = &a;     // error!
 
     Burada r değişkeni &i32 türündendir. Ancak bu değişkene &i64 türünden bir değer atanmak istenmiştir. i64 türünden bir
     değişkenin adresini biz ancak &i64 türünden bir referansa atayabiliriz.
@@ -13003,31 +13003,33 @@ impl Default for Direction {
     Bir referansa bir adres yerleştirildiğinde artık referans o adresteki değeri gösteriyor durumdadır. Biz de referansın
     gösterdiği yerdeki değere * operatörüyle erişebiliriz. Örneğin:
 
-    let a: i32 = 10;
-    let r: &i32;
+        let a: i32 = 10;
+        let r: &i32;
 
-    r = &a;
-    println!("{}", *r);     // 10
+        r = &a;
+        println!("{}", *r);     // 10
 
     Burada r referansı a değişkeninin adresini tutmaktadır. *r ile aslında a değişkenine erişilmektedir:
 
-    r ----> a (10)
+        r ----> a (10)
 
     Burada a ile *r bellekte aynı değeri belirtmektedir.
+
 # 41. Ders 06/08/2025 - Çarşamba
+
     Anımsayacağınız gibi C'de const göstericiler üç kısma ayrılmaktadır:
 
     1) Kendisi değil gösterdiği yer const olan const göstericiler. Örneğin:
 
-    const int *pi;
+        const int *pi;
 
     2) Gösterdiği yer değil kendisi const olan const göstericiler. Örneğin:
 
-    int * const pi = adres;
+        int * const pi = adres;
 
     3) Hem kendisi hem de gösterdiği yer const olan const göstericiler. Örneğin:
 
-    const int * const pi = adres;
+        const int * const pi = adres;
 
     Tabii C'de en çok kullanılan const göstericiler kendisi değil gösterdiği yer const olan const göstericilerdir. Zaten C'de
     "const gösterici" denildiğinde default olarak kendisi değil gösterdiği yer const olan const göstericiler anlaşılmaktadır.
@@ -13038,48 +13040,48 @@ impl Default for Direction {
     1) Kendisi değiştirilemez (immutable) ve gösterdiği yer de değiştirilemez (immutable) olan referanslar: Bu tür referanslar
     şöyle bildirilmektedir:
 
-    let r: &T;
+        let r: &T;
 
     Burada r'ye bir kez adres ataması yapılabilir. Ancak daha sonra ne r ne de *r değiştirilebilir. Bunun eşdeğer C karşılığını
     şöyle ifade edebiliriz:
 
-    const T * const *r = adres;
+        const T * const *r = adres;
 
     2) Kendisi değiştirilebilir, gösterdiği yer değiştirilemez referanslar: Bu tür referanslar şöyle bildirilmektedir:
 
-    let mut r: &T;
+        let mut r: &T;
 
     Burada r'ye istediğimiz kadar adres ataması yapabiliriz. Ancak *r'yi değiştiremeyiz. Bunun eşdeğer C karşılığını şöyle
     oluşturabiliriz:
 
-    const T *r;
+        const T *r;
 
     3) Kendisi değiştirilemez, gösterdiği yer değiştirilebilir referanslar: Bu tür referanslar şöyle bildirilmektedir:
 
-    let r: &mut T;
+        let r: &mut T;
 
     Burada r'ye yalnızca bir kez adres ataması yapılabilir. Ancak *r istenildiği zaman değiştirilebilir. Bunun da eşdeğer
     C karşılığı şöyle oluşturulabilir:
 
-    T * const r = adres;
+        T * const r = adres;
 
     4) Kendisi de gösterdiği yer de değiştirilebilir referanslar: Bu tür referanslar da şöyle bildirilmektedir:
 
-    let mut r: &mut T;
+        let mut r: &mut T;
 
     Burada hem r'ye istediğimiz kadar adres ataması hem de *r'ye istediğimiz değer ataması yapabiliriz. Bunun da eşdeğer
     C karşılığı şöyle oluşturulabilir:
 
-    T *r;
+        T *r;
 
     Rust'ta let deyiminde değişkenin önündeki mut belirleyicisinin referansın kendi değiştirilebilirliğini & atomunun sağındaki
     mut belirleyicisinin ise referansın gösterdiği yerin değiştirilebilirliğini belirttiğine dikkat ediniz. Örneğin:
 
-    let r: &mut i32;
+        let r: &mut i32;
 
     Burada r değiştirilebilir değildir, onun gösterdiği yer değiştirilebilirdir. Örneğin:
 
-    let mut r: &i32;
+        let mut r: &i32;
 
     Burada r değiştirilebilirdir ancak r'nin gösterdiği yer değiştirilebilir değildir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -13088,17 +13090,17 @@ impl Default for Direction {
     terimini referansın gösterdiği yerin değiştirilemez olduğunu belirtmekte kullanacağız. Referanslaın kendilerin mut olmasını
     biz "kendisi mut olan referans" biçiminde belirteceğiz. Örneğin
 
-    let r1: &i32;
-    let r2: &mut i32;
-    let mut r3: &i32;
-    let mut r4: &mut i32;
+        let r1: &i32;
+        let r2: &mut i32;
+        let mut r3: &i32;
+        let mut r4: &mut i32;
 
     Kullanacağımız terminolojiye şöyledir:
 
-    - r1 kendisi de mut olmayan mut olmayan referanstır.
-    - r2 kendisi mut olmayan mut bir referanstır.
-    - r3 kendisi mut olan mut olmayan bir referanstır
-    - r4 kendisi de mut olan bir referanstı.
+       - r1 kendisi de mut olmayan mut olmayan referanstır.
+       - r2 kendisi mut olmayan mut bir referanstır.
+       - r3 kendisi mut olan mut olmayan bir referanstır
+       - r4 kendisi de mut olan bir referanstı.
 
     Kurusumuzda "mut referans" ya da "mut olmayan referans" referansın türünün mut olup olmadığını belirtecektir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -13108,22 +13110,22 @@ impl Default for Direction {
     mut bile olsa onun değiştirilebilir biçimde adresini almak için &mut operatörü kullanılmaktadır. (& ile mut bitişik yazılmak
     zorunda değildir ancak geleneksel yazım bunların bitişik yazılması biçimindedir.) Örneğin:
 
-    let mut a: i32 = 10;
+        let mut a: i32 = 10;
 
     Burada a değiştirilebilir bir değişkendir. Biz bu değişkenin adresini &a biçiminde alırsak bu adres &i32 türünden olur,
     &mut i32 türünden olmaz. Yani değişken mut olduğunda & operatörü bize değiştirilemez bir adres vermektedir. Örneğin:
 
-    let mut a: i32 = 10;
-    let r: &i32;
+        let mut a: i32 = 10;
+        let r: &i32;
 
-    r =  &a;        // geçerli
-    *r = 20;        // error!
+        r =  &a;        // geçerli
+        *r = 20;        // error!
 
     Yukarıdaki işlemin eşdeğer C karşılığı şöyledir:
 
-    int a = 10;
-    const int * const r = &a;       // geçerli
-    *r = 20;                        // geçersiz!
+        int a = 10;
+        const int * const r = &a;       // geçerli
+        *r = 20;                        // geçersiz!
 
     Burada a mut bir değişken olduğu halde adresi değiştirilemez biçimde alınmıştır. Halbuki C'de const olmayan nesnenin
     adresi alındığında bu adres gösterdiği yer const olmayan bir adrestir. Yukarıdaki örnekte değiştirilebilir bir değişkenin
@@ -13132,63 +13134,63 @@ impl Default for Direction {
     Rust'ta değiştirilebilir bir değişkenin adresi & operatörüyle değiştirilebilir bir referansa atanamaz. Yani Rust'ta &T
     türünden &mut T türüne otomatik dönüştürme (type coercion) yoktur. Örneğin:
 
-    let mut a: i32 = 10;
-    let r: &mut i32;
+        let mut a: i32 = 10;
+        let r: &mut i32;
 
-    r =  &a         // error!
+        r =  &a         // error!
 
     Burada &a ifadesi &i32 türündendir. Biz bu adresi &mur i32 türünden bir referansa atayamayız. Bu işlemin eşdeğer C
     karşılığı şöyledir:
 
-    int a = 10;
-    int * const r = (const int *) &a;       // geçersiz!
+        int a = 10;
+        int * const r = (const int *) &a;       // geçersiz!
 
     Yukarıdaki örnekte bizim "değiştirilebilir bir değişkenin adresini değiştirilebilir biçimde &mut operatöryle" almamız
     gerekirdi:
 
-    let mut a: i32 = 10;
-    let r: &mut i32;
+        let mut a: i32 = 10;
+        let r: &mut i32;
 
-    r =  &mut a         // geçerli
-    *r = 20;            // geçerli
+        r =  &mut a         // geçerli
+        *r = 20;            // geçerli
 
     Bu işlemin eşdeğer C karşılığı da şöyle ifade edilebilir:
 
-    int a = 10;
-    int * const r = &a;     // geçerli
+        int a = 10;
+        int * const r = &a;     // geçerli
 
-    *r = 20;                // geçerli
+        *r = 20;                // geçerli
 
     Tabii Rust'ra mut olmayan bir değişkenin değiştirilebilir biçimde yani &mut operatöryle adresi alınamamaktadır. Örneğin:
 
-    let a = 10;
-    let r: &mut i32;
+        let a = 10;
+        let r: &mut i32;
 
-    r = &mut a;         // error!
+        r = &mut a;         // error!
 
-    Burada a mut bir dğeişken değildir, bu nedenle adresi &mut operatörüyle alınamaz.
+    Burada a mut bir değişken değildir, bu nedenle adresi &mut operatörüyle alınamaz.
 
     Rust'ta mut bir değişkenin adresi & operatörü ile ya da &mut operatörü ile mut olmayan bir referansa atanabilir. Yani
     Rust'ta &mut T türünden &T türüne otomatik dönüştürme (type coercion)" vardır. Örneğin:
 
-    let mut a: i32 = 10;
-    let r: &i32;
+        let mut a: i32 = 10;
+        let r: &i32;
 
-    r = &a;     // geçerli
+        r = &a;     // geçerli
 
     Burada mut bir değişkenin adresi & operatöryle alındığı için &i32 türünden bir referans elde edilmiştir. Örneğin:
 
-    let mut a: i32 = 10;
-    let r: &i32;
+        let mut a: i32 = 10;
+        let r: &i32;
 
-    r = &mut a;     // geçerli
+        r = &mut a;     // geçerli
 
     Burada &mut i32 türünden bir refernas &i32 türünden referansa atanmıştır. Bu durum geçerlidir. mut bir referansın
     adresinin mut olmayan bir göstericiye atanmasını C'deki const olmayan bir nesnenin adresinin gösterdiği yer const olan
     bir göstericiye atanmasına benzetebilirsiniz. Yukarıdaki örneğin eşdeğer C karşılığı şöyledir:
 
-    int a = 10;
-    const int * const pi = &a;      // geçerli
+        int a = 10;
+        const int * const pi = &a;      // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
     Yukarıdaki anlatımları aşağıdaki gibi özetleyebiliriz:
 
@@ -13205,70 +13207,70 @@ impl Default for Direction {
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta bir değişkenin adresi alınacaksa değişken içerisine daha önce bir değerin atanmış olması gerekir. Örneğin:
 
-    let a: i32;
-    let r: &i32;
+        let a: i32;
+        let r: &i32;
 
-    r = &a;                 // error!
+        r = &a;                 // error!
 
     Burada a değişkenine henüz bir değer atanmadığı için onun adresi alınamamaktadır. Halbuki bunun eşdeğer C karşılığının
     geçerli olduğuna dikkat ediniz:
 
-    int a;
-    int * const r = &a;     // geçerli
+        int a;
+        int * const r = &a;     // geçerli
 
     Rust'ta içerisinde çöp değer olan bir değişkenin kullanılması yasaklanmıştır. Halbuki C'de bu durum geçerlidir ancak
     tanımsız davranışa (undefined behavior) yol açmaktadır. Aynı durum değiştirilebilir değişkenler ve referanslar için de
     benzerdir. Örneğin:
 
-    let mut a;
-    let r: &mut i32;
+        let mut a;
+        let r: &mut i32;
 
-    r = &mut a;     // error! a'ya henüz değer atanmamış
+        r = &mut a;     // error! a'ya henüz değer atanmamış
 ---------------------------------------------------------------------------------------------------------------------------
     Örneğin bir fonksiyon i32 türünden bir değişkenin adresini alarak onu değiştirecek olsun. Bu durumda fonksiyonun parametre
     değişkeninin &mut i32 türünden olması gerekir. Değişkenin adresini de fonksiyona gönderirken &mut operatörüyle almalıyız.
     Örneğin:
 
-    fn foo(a: &mut i32) {
-        *a = 20;
-    }
+        fn foo(a: &mut i32) {
+            *a = 20;
+        }
 
-    fn main() {
-        let mut a: i32 = 10;
+        fn main() {
+            let mut a: i32 = 10;
 
-        println!("{}", a);      // 10
+            println!("{}", a);      // 10
 
-        foo(&mut a);            // geçerli
+            foo(&mut a);            // geçerli
 
-        println!("{}", a);      // 20
-    }
+            println!("{}", a);      // 20
+        }
 
     Yukarıdaki örnekte biz a'ya değer atamadan onun adresini fonksiyona geçemezdik:
 
-    let mut a: i32;
+        let mut a: i32;
 
-    foo(&mut a);            // error!
+        foo(&mut a);            // error!
 
     Yukarıda da belirttiğimiz gibi Rust'ta bir değişkenin adresinin alınabilmesi için ona değer atanmış olması gerekir.
 ---------------------------------------------------------------------------------------------------------------------------
     Bir referansı * operatörü olmadan kullandığımızda biz referansın içerisindeki adresi kullanmış oluruz. Örneğin:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
+        let a: i32 = 10;
+        let r: &i32 = &a;
 
     Burada r değişkenini kullandığımızda aslıda r'nin içerisindeki adresi kullanmış oluruz. Ancak *r bu adresin gösterdiği
     yerdeki değerdir. Yani *r ifadesini kullanmakla a'yı kullanmak arasında işlevsel bir farklılık yoktur. Biz r'yi aşağıdaki
     gibi bir k değişkenine atamış olalım:
 
-    k = r;
+        k = r;
 
     Burada k'nın türü &i32 olmalıdır:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
-    let k: &i32;
+        let a: i32 = 10;
+        let r: &i32 = &a;
+        let k: &i32;
 
-    k = r;
+        k = r;
 
     Bu bakımdan sematik C'deki gibidir. C'de de biz bir göstericiyi * operatörü olmadan kullandığımızda içerisindeki adresi
     kullanmış oluruz.
@@ -13278,24 +13280,24 @@ impl Default for Direction {
     bu tür ifadelere "değer ifadeleri (value expressions)" dendiğini anımsayınız) adresleri alınabilmektedir. Rust bu bakımdan
     C'ye benzememektedir. Örneğin:
 
-    let r: &i32;
+        let r: &i32;
 
-    r = &10;        // Rust'ta geçerli, ancak C karşılığı geçersiz!
+        r = &10;        // Rust'ta geçerli, ancak C karşılığı geçersiz!
 
     Pekiyi 10 sabitinin bir adresi olmadığına göre r'ye hangi adres yerleştirilmektedir? İşte Rust'ta bu durumda derleyici
     tarafından önce aynı türden geçici bir değişken yaratılır, ifadenin değeri bu geçici değişkene atanır sonra da geçici
     değişkenin adresi referansa yerleştirilir. Yani yukarıdaki işlemin eşdeğeri şöyledir:
 
-    let r: &i32;
+        let r: &i32;
 
-    let temp: i32 = 10;
-    r = &temp;
+        let temp: i32 = 10;
+        r = &temp;
 
     Aşağıdaki gibi bir ifade de Rust'ta geçerlidir:
 
-    let r: &i32;
+        let r: &i32;
 
-    r = &(10 + 20);        // geçerli
+        r = &(10 + 20);        // geçerli
 
     Yine 10 + 20 değeri bir geçici değişkene atanıp o geçici değişkenin adresi referansa yerleştirilmektedir.
 
@@ -13305,42 +13307,42 @@ impl Default for Direction {
 
     Rust'ta değer ifadesinin mut olarak adresi alınamamaktadır. Örneğin:
 
-    let r: &mut i32;
+        let r: &mut i32;
 
-    r = &mut 10;        // error!
+        r = &mut 10;        // error!
 
     Yani bu tür durumlarda yaratılan geçici değişken değiştirilebilir değildir.
 
     Ancak bu işlem let ile bağlama sırasında sırasında yapılırsa kalıp uyuşumu kuralları işletildiği için geçerli olmaktadır:
 
-    let r: &mut i32 = &mut 10;
+        let r: &mut i32 = &mut 10;
 
     Tabii fonksiyon çağrısı bir bağlama kabul edildiği için (yani kalıp uyuşumu söz konusu olduğu için) bir değer ifadesinin
     adresi &mut olarak alınıp fonksiyonu gönderilebilmektedir. Örneğin:
 
-    fn foo(r: &mut i32) {
+        fn foo(r: &mut i32) {
+            //...
+        }
         //...
-    }
-    //...
 
-    foo(&mut 10);       // geçerli
+        foo(&mut 10);       // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
     İki değişkenin içerisindeki değeri yer değiştiren swap isimli fonksiyon şöyle yazılabilir:
 
-    fn main() {
-        let mut x = 10;
-        let mut y = 20;
+        fn main() {
+            let mut x = 10;
+            let mut y = 20;
 
-        println!("x = {}, y = {}", x, y);
-        swap(&mut x, &mut y);
-        println!("x = {}, y = {}", x, y);
-    }
+            println!("x = {}, y = {}", x, y);
+            swap(&mut x, &mut y);
+            println!("x = {}, y = {}", x, y);
+        }
 
-    fn swap(a: &mut i32, b: &mut i32) {
-        let temp = *a;
-        *a = *b;
-        *b = temp;
-    }
+        fn swap(a: &mut i32, b: &mut i32) {
+            let temp = *a;
+            *a = *b;
+            *b = temp;
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Biz enum'lar ve yapılar konusunda o zamanlar henüz görmemiş olsak da referansları kullanmıştık. Burada yeniden enum'lar
     ve yapılar türünden referansların üzerinde daha ayrıntılı duracağız.
@@ -13348,22 +13350,22 @@ impl Default for Direction {
     Yapılar bileşik nesneler belirtmektedir. Bir yapı değişkeninin adresi alındığında o yapı değişkeninin bütünsel olarak
     bellekteki başlangıç adresi elde edilmektedir. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
+        }
 
     Date türünden bir değişken bildirelim:
 
-    let date = Date { day: 10, month: 12, year: 1998 };
+        let date = Date { day: 10, month: 12, year: 1998 };
 
     Burada derleyicici Date yapısınn alanlarını bellekte ardışıl bir biçimde yerleştirecektir. Dolayısıyla &date ifadesi ile
     biz bu ardışıl alanların başlangıç adresini elde ederiz:
 
-    let rdate: &Date;
+        let rdate: &Date;
 
-    rdate = &date;
+        rdate = &date;
 
     Derleyici bu adresten itibaren yapı alanlarının nerelerde olduğunu tespit edebilmektedir. Anımsanacağı gibi C'de bir yapı
     nesnesinin kendisi ile o nesnenin elemanlarına erişilirken nokta operatörü, yapı nesnesinin adresi ile yepı elemanlarına
@@ -13373,23 +13375,23 @@ impl Default for Direction {
     bakmakta, bu operand yapı türünden bir değişkenin ya da değerin adresi ise o adresteki yapı değerinin alanına erişmektedir.
     (Tabii aslında aynı emantik C'de uygulanabilirdi. Ancak C bunu tercih etmemiştir.) Örneğin:
 
-    let date = Date { day: 10, month: 12, year: 1998 };
-    let rdate: &Date = &date;
+        let date = Date { day: 10, month: 12, year: 1998 };
+        let rdate: &Date = &date;
 
-    println!("{}/{}/{}", rdate.day, rdate.month, rdate.year);
+        println!("{}/{}/{}", rdate.day, rdate.month, rdate.year);
 
     Bu kod parçasının eşdeğer C karşılığı şöyle oluşturulabilir:
 
-    struct Date date = {10, 12, 1998};
-    const struct Date * const r = &date;
+        struct Date date = {10, 12, 1998};
+        const struct Date * const r = &date;
 
-    printf("%d/%d/%d\n", r->day, r->month, r->year);
+        printf("%d/%d/%d\n", r->day, r->month, r->year);
 
     Burada rdate değişkeni &Date türünden olduğu halde (yani bir yapı adresi belirttiği halde) elemanlara yine nokta operatörüyle
     erişilmektedir. Tabii Rust'ta da eğer istersek tıpkı C'de olduğu gibi önce * operatörü ile yapı değişkenine bütünsel
     olarak erişip yine nokta operatörü ile onun elemanlarına erişebiliriz:
 
-    println!("{}/{}/{}", (*rdate).day, (*rdate).month, (*rdate).year);      // geçerli
+        println!("{}/{}/{}", (*rdate).day, (*rdate).month, (*rdate).year);      // geçerli
 
     Ancak Rust'ta böyle bir erişime hiç gerek yoktur. r bir yapı türünden referans a da bu yapının bir alanını belirtmek
     üzere Rust'ta r.a ifadesi ile (*r).a ifadesi tamamen eşdeğerdir.
@@ -13398,79 +13400,79 @@ impl Default for Direction {
     Fonksiyonun paramatresi yapı türünden bir referans ya da mut referans olur. Fonksiyon da yapı değişkenin ya da değerinin
     adresiyle çağrılır. Örneğin:
 
-    fn main() {
-        let pt: Point = Point { x: 10, y: 20 };
+        fn main() {
+            let pt: Point = Point { x: 10, y: 20 };
 
-        disp(&pt);
-    }
+            disp(&pt);
+        }
 
-    fn disp(pt: &Point) {
-        println!("{}, {}", pt.x, pt.y)
-    }
+        fn disp(pt: &Point) {
+            println!("{}, {}", pt.x, pt.y)
+        }
 
-    struct Point  {
-        x: i32,
-        y: i32
-    }
+        struct Point  {
+            x: i32,
+            y: i32
+        }
 
     Fonksiyon içerisinde referans yoluyla yapının alanlarına nokta operatörüyle erişildiğine dikkat ediniz.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta bir yapı türünden değer ifadesi oluşturulup onun adresi de alınabilir. Örneğin:
 
-    let r: &Point = &Point{ x: 10, y: 20 };       // geçerli
+        let r: &Point = &Point{ x: 10, y: 20 };       // geçerli
 
-    println!("{}, {}", r.x, r.y);
+        println!("{}, {}", r.x, r.y);
 
     Burada yine geçici bir Point değişkeni yaratılıp onun adresi referansa atanmaktadır. Bu geçici Point değişkeni referans
     faaliyet alanını bitirdiğinde yok edilecektir. Tabii aynı şey fonksiyon çağrılarında da yapılabilir:
 
-    fn main() {
-        disp(&Point { x: 10, y: 20 });
-        //...
-    }
+        fn main() {
+            disp(&Point { x: 10, y: 20 });
+            //...
+        }
 
-    fn disp(pt: &Point) {
-        println!("{}, {}", pt.x, pt.y)
-    }
+        fn disp(pt: &Point) {
+            println!("{}, {}", pt.x, pt.y)
+        }
 
-    struct Point  {
-        x: i32,
-        y: i32
-    }
+        struct Point  {
+            x: i32,
+            y: i32
+        }
 
     Burada yaratılan geçici değişken fonksiyonun çağrısının sonunda (yani r referansı faaliyet alanını bitirdiğinde) yok
     edilecektir. Yukarıda da sözünü ettiğimiz gibi eğer değer ifadesinin adresi &mut ile alınıyorsa ancak bağlama yapılırken
     atama mümkün olmaktadır. Örneğin:
 
-    let r: &mut Point;
+        let r: &mut Point;
 
-    r = &mut Point{ x: 10, y: 20 };       // error!
+        r = &mut Point{ x: 10, y: 20 };       // error!
 
     Ancak örneğin:
 
-    let r: &mut Point = &mut Point{ x: 10, y: 20 };       // geçerli
+        let r: &mut Point = &mut Point{ x: 10, y: 20 };       // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
     Yapıların metotları çağrılırken eğer self parametresi referans ise (genellikle böyle olur) nokta operatöryle metot
     çağrılırken zaten yapı değişkenin ya da değerinin adresi otomatik olarak alınmaktadır. Programcının ayrıca & ya da &mut
     operatörünü kullanmasına gerek yoktur. Örneğin:
 
-    struct Date {
-        day: u32,
-        month: u32,
-        year: u32,
-    }
-
-    impl Date {
-        fn disp(&self) {
-            println!("{}/{}/{}", self.day, self.month, self.year);
+        struct Date {
+            day: u32,
+            month: u32,
+            year: u32,
         }
-    }
+
+        impl Date {
+            fn disp(&self) {
+                println!("{}/{}/{}", self.day, self.month, self.year);
+            }
+        }
 
     Biz burada Date türünden bir değişkenle disp metodunu aşağıdaki gibi çağırmış olalım:
 
-    let date = Date { day: 10, month: 12, year: 1998 };
+        let date = Date { day: 10, month: 12, year: 1998 };
 
-    date.disp();
+        date.disp();
 
     Derleyici burada date değişkeninin adresini alarak disp metodunun self referans parametresine yerleştirmektdir.
     Metot içerisinde self.day, self.month ve self.year ifadeleri ile referansın gösterdiği yer olan date değişkenin
@@ -13480,17 +13482,17 @@ impl Default for Direction {
     nokta operatörünün solunda yapı türünden referans varsa artık onun adresini almaz, onun içerisindeki adres değerini
     doğrudan self referansına yerleştirir. Örneğin:
 
-    let date = Date { day: 10, month: 12, year: 1998 };
-    let rdate: &Date = &date;
+        let date = Date { day: 10, month: 12, year: 1998 };
+        let rdate: &Date = &date;
 
-    rdate.disp();
+        rdate.disp();
 
     Burada disp metodu Date türünden değişkenle değil referansla çağrılmıştır. Derleyici artık rdate değişkenin adresini
     almayacaktır. Çünkü rdate zaten adres belirtmektedir. Doğrudan rdate referansının içerisindeki adresi disp metodunun self
     referansına yerleştirecektir. Tabii çağrım yine C'deki gibi önce * operatörüyle değişkenin bütününe erişip sonra nokta
     operatörü kullanılarak da yapılabilirdi. Ancak Rust'ta buna hiçgerek yoktur:
 
-    (*rdate).disp();        // geçerli fakat gereksiz
+        (*rdate).disp();        // geçerli fakat gereksiz
 ---------------------------------------------------------------------------------------------------------------------------
     Biz metotların birinci parametrelerinin &mut self biçiminde de olabileceğini belirtmiştik. Bir metot onun çağrıldığı yapı
     değişkeni ya da değeri üzerinde değişiklik yapacaksa metodun birinci parametresi &mut self biçiminde olmalıdır. s bir yapı
@@ -13502,91 +13504,91 @@ impl Default for Direction {
 
     Örneğin aşağıdaki gibi bir Point yapısı olsun:
 
-    struct Point  {
-        x: i32,
-        y: i32
-    }
+        struct Point  {
+            x: i32,
+            y: i32
+        }
 
     Bu Point yapısı için aşağıdaki gibi impl bloğu oluşturmuş olalım:
 
-    impl Point {
-        fn new(x: i32, y: i32) -> Point {
-            Point { x, y }
-        }
+        impl Point {
+            fn new(x: i32, y: i32) -> Point {
+                Point { x, y }
+            }
 
-        fn set(&mut self, x: i32, y: i32) {
-            self.x = x;
-            self.y = y;
-        }
+            fn set(&mut self, x: i32, y: i32) {
+                self.x = x;
+                self.y = y;
+            }
 
-        fn disp(&self) {
-            println!("{}, {}", self.x, self.y);
+            fn disp(&self) {
+                println!("{}, {}", self.x, self.y);
+            }
         }
-    }
 
     Byrada disp metodunun ilk parametresinin &self biçiminde, set metodunun ilk parametresinin de &mut self biçimine olduğuna
     dikkat ediniz. Şimdi bu metotları çağıralım:
 
-    let mut pt = Point::new(10, 20);
+        let mut pt = Point::new(10, 20);
 
-    pt.disp();      // 10, 20
+        pt.disp();      // 10, 20
 
     Burada disp metodunun birinci parametresi &self olfuğu için derleyici pt'nin & operatörüyle adresini alarak self değişkenine
     yerleştirecektir. Ancak örneğin:
 
-    pt.set(30, 40);
+        pt.set(30, 40);
 
     Burada set metodunun birinci parametresi &mut self olduğu için derleyici pt değişkeninin adresini &mut operatöryle alarak
     self parametresine yerleştirecektir. Tabii burada bu çağrının mümkün olması için pt değişkeninin de mut olması gerekir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut pt = Point::new(10, 20);
+        fn main() {
+            let mut pt = Point::new(10, 20);
 
-    pt.disp();      // 10, 20
+            pt.disp();      // 10, 20
 
-    pt.set(30, 40);
+            pt.set(30, 40);
 
-    pt.disp();      // 30, 40
-}
+            pt.disp();      // 30, 40
+        }
 
-struct Point  {
-    x: i32,
-    y: i32
-}
+        struct Point  {
+            x: i32,
+            y: i32
+        }
 
-impl Point {
-    fn new(x: i32, y: i32) -> Point {
-        Point { x: x, y: y }
-    }
+        impl Point {
+            fn new(x: i32, y: i32) -> Point {
+                Point { x: x, y: y }
+            }
 
-    fn set(&mut self, x: i32, y: i32) {
-        self.x = x;
-        self.y = y;
-    }
+            fn set(&mut self, x: i32, y: i32) {
+                self.x = x;
+                self.y = y;
+            }
 
-    fn disp(&self) {
-        println!("{}, {}", self.x, self.y);
-    }
-}
+            fn disp(&self) {
+                println!("{}, {}", self.x, self.y);
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     &, &mut ve * operatörleri öncelik tablosunda artimetik operatörlerin ve as operatörünün yukarısında sağdan sola grupta
     bulunmaktadır:
 
-    ()                                      Soldan Sağa
-    - ! * & &mut                            Sağdan Sola
-    as                                      Soldan Sağa
-    * /  %                                  Soldan Sağa
-    + -                                     Soldan Sağa
-    <<  >>                                  Soldan Sağa
-    &                                       Soldan Sağa
-    ^                                       Soldan Sağa
-    |                                       Soldan Sağa
-    < > >= <= == !=                         Parantezsiz Kombine Edilemez
-    &&                                      Soldan Sağa
-    ||                                      Soldan Sağa
-    = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
+        ()                                      Soldan Sağa
+        - ! * & &mut                            Sağdan Sola
+        as                                      Soldan Sağa
+        * /  %                                  Soldan Sağa
+        + -                                     Soldan Sağa
+        <<  >>                                  Soldan Sağa
+        &                                       Soldan Sağa
+        ^                                       Soldan Sağa
+        |                                       Soldan Sağa
+        < > >= <= == !=                         Parantezsiz Kombine Edilemez
+        &&                                      Soldan Sağa
+        ||                                      Soldan Sağa
+        = += -= *= /= %= &= |= ^= <<= >>=       Sağdan Sola
 
     Bu durumda örneğin &10 + 20 ifadesi error oluşturacaktır. Çünkü & operatörü + operatöründen daha yüksek önceliklidir.
     Ancak &(10 + 20) ifadesi geçerlidir. Benzer biçimde örneğin r referansı &i32 türünden olsun *r + 10 gbi bir ifade geçerlidir.
@@ -13602,56 +13604,56 @@ impl Point {
     Eğer let deyimindeki kalıpta türü belirtilmeyen bir değişken varsa ve bağlama ifadesi bir adres belirtiyorsa kalıptaki
     değişken o adres türünden olur. Örneğin:
 
-    let a: i32 = 10;
-    let r = &a;
+        let a: i32 = 10;
+        let r = &a;
 
     Burada r değişkeni &i32 türündendir. Yani bu bağlama aşağıdakiyle eşdeğerdir:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
+        let a: i32 = 10;
+        let r: &i32 = &a;
 
     Eğer adres mut ise bu durumda referans da mut olacaktır. Örneğin:
 
-    let mut a: i32 = 10;
-    let r = &mut a;
+        let mut a: i32 = 10;
+        let r = &mut a;
 
     Burada r değişkeni &mut i32 türündendir. Yani yukarıdaki bağlama aşağıdakiyle eşdeğerdir:
 
-    let mut a: i32 = 10;
-    let r: &mut i32 = &mut a;
+        let mut a: i32 = 10;
+        let r: &mut i32 = &mut a;
 ---------------------------------------------------------------------------------------------------------------------------
     Eğer kalıp &değişken biçimindeyse kalıp ifadesinin bir adres belirtmesi gerekir. Bu durumda değişken bir referans olmaz
     kalıp ifadesindeki referansın tür bileşeni türünden olur. Örneğin:
 
-    let a: i32 = 10;
-    let &b = &a;
+        let a: i32 = 10;
+        let &b = &a;
 
     Burada b değişkeni &i32 türünden değildir i32 türündendir. Yani aslında bu bağlama aşağıdakiyle eşdeğerdir:
 
-    let b: i32 = a;
+        let b: i32 = a;
 
     Burada siz kalıptaki ve kalıp ifadesindeki & operatörlerlerinin birbirini götürdüğünü düşünebilirsiniz. Tabii yukarıda
     da belirttiğimiz gibi eğer kalıptaki değişkenin önünde & varsa bu durumda kalıp ifadesinin de adres belirtmesi gerekir.
     Örneğin:
 
-    let a: i32 = 10;
-    let &b = a;         // error!
+        let a: i32 = 10;
+        let &b = a;         // error!
 
     Bu biçimdei kalıp uyuşumu match ve if let deyimlerinde de aynı biçimde geçerlidir. Örneğin:
 
-    let a: i32 = 10;
+        let a: i32 = 10;
 
-    match &a {
-        &b => println!("b = {}", b)     // b burada i32 türünden
-    }
+        match &a {
+            &b => println!("b = {}", b)     // b burada i32 türünden
+        }
 
     Tabii kalıpta & ile bir değişken kullanıldığında match ifadesinin (yani kalıp ifadesinin) de yine adres belirtmesi gerekmektedir.
 
     Fonksiyon çağrılarında türün belirtilmesi zorunlu olduğu için türün de referans olması gerekmektedir. Örneğin:
 
-    fn foo(&a: &i32) {           // geçerli, a i32 türündendir
-        //...
-    }
+        fn foo(&a: &i32) {           // geçerli, a i32 türündendir
+            //...
+        }
 
     Fonksiyon içerisinde a i32 türündendir. Tabii burada foo fonksiyonu i32 türünden bir değişkenin ya da değerin adresi ile
     çağrılmalıdır.
@@ -13660,36 +13662,36 @@ impl Point {
     belirtiyorsa ancak kalıptaki yapı isminin solunda & operatörü yoksa bu durumda yapı alanlarına ilişkin değişkenler referans
     belirtirler. Örneğin:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match &pt {
-        Point { x, y } => { println!("{}, {}", *x, *y)}
-    }
+        match &pt {
+            Point { x, y } => { println!("{}, {}", *x, *y)}
+        }
 
     Burada x ve y değişkenleri &i32 türündendir. Eğer kalıptaki yapı isminin solunda & operatörü varsa bu durumda yapı alanlarına
     ilişkin değişkenler referans belirtmezler. Örneğin:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match &pt {
-        &Point { x, y } => { println!("{}, {}", x, y)}
-    }
+        match &pt {
+            &Point { x, y } => { println!("{}, {}", x, y)}
+        }
 
     Burada x ve y i32 türündendir. Tabii bu kalıbı benzer biçimde let deyiminde de kullanabilirdik:
 
-    let pt = Point { x: 10, y: 20 };
-    let &Point {x, y} = &pt;
+        let pt = Point { x: 10, y: 20 };
+        let &Point {x, y} = &pt;
 
     Tabii yukarıda da belirttiğimiz gibi eğer kalıpta & varsa kalıp ifadesinin de adres belirtmesi gerekir. Örneğin:
 
-    let pt = Point { x: 10, y: 20 };
-    let &Point {x, y} = pt;         // error
+        let pt = Point { x: 10, y: 20 };
+        let &Point {x, y} = pt;         // error
 
     Burada kalıp ifadesi adres belirtmediği için error oluşacaktır. Halbuki bunun tersinin geçerli olduğuna dikkat ediniz.
     Yani kalıpta & olmadığı halde kalıp ifadesi adres olabilmektedir:
 
-    let pt = Point { x: 10, y: 20 };
-    let Point { x, y } = &pt;         // geçerli
+        let pt = Point { x: 10, y: 20 };
+        let Point { x, y } = &pt;         // geçerli
 
     Burada x ve y &i32 türündendir.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -13697,91 +13699,91 @@ impl Point {
     Point { x: &a, y: &b } gibi bir kalıbın uygulanabilmesi için Point yapısının x ve y alanlarının &i32 türünden olması
     gerekir. Aşağıdaki kalıp bağlaması geçerli değildir. Örneğin:
 
-    let pt = Point { x: 10, y: 20 };
-    let Point { x: &a, y: &b } = &pt;         // error!
+        let pt = Point { x: 10, y: 20 };
+        let Point { x: &a, y: &b } = &pt;         // error!
 
     Yukarıda da belirttiğimiz gibi eğer yapı alanlarında & kullanılıyorsa kalıp ifadesinin değil alanların adres belirtmesi
     gerekir. Ancak yapı alanların referans  olması durumunda yapı alanlarına bir ömür bilgisi de iliştirilmelidir. Biz henüz
     bu konuyu görmedik. Ancak burada bir örnek vermek isttiyoruz. Aşağıdaki gibi yapı tanımlaması Rust'ta geçerli değildir:
 
-    struct Point {
-        x: &i32,
-        y: &i32,
-    }
+        struct Point {
+            x: &i32,
+            y: &i32,
+        }
 
     Burada yapı alanları için bir ömür belirlemesinin yapılması gerekir. Örneğin:
 
-    struct Point<'a> {
-        x: &'a i32,
-        y: &'a i32,
-    }
+        struct Point<'a> {
+            x: &'a i32,
+            y: &'a i32,
+        }
 
     Şimdi artık yapının alanları adres belirtmektedir. Aşağıdaki kalıp geçerlidir:
 
-    let pt = Point { x: &10, y: &20 };
-    let Point { x: &a, y: &b } = pt;
+        let pt = Point { x: &10, y: &20 };
+        let Point { x: &a, y: &b } = pt;
 
     Buradaki a ve b değişkenleri i32 türündendir. Rust'a alanlarda & atomu ile kalıp oluşturulmuşsa alan isminin belirtilmesi
     gerekmektedir. Yani alanlarda & atomu varsa alanlar için kısa yol sentaksı kullanılamamaktadır. Aşağıdaki kalıp geçerli
     değildir:
 
-    let pt = Point { x: &10, y: &20 };
-    let Point { &x, &y } = pt;                    // error
+        let pt = Point { x: &10, y: &20 };
+        let Point { &x, &y } = pt;                    // error
 
     Bunun yerine aşağıdaki kalıp kullanılmalıdır:
 
-    let pt = Point { x: &10, y: &20 };
-    let Point { x: &x, y: &y } = pt;              // geçerli
+        let pt = Point { x: &10, y: &20 };
+        let Point { x: &x, y: &y } = pt;              // geçerli
 ---------------------------------------------------------------------------------------------------------------------------
     Referans kalıplarında ref anahtar sözcüğü de kullanılabilmektedir. Bu ref anahtar sözcüğünün işlevi Rust'ı yeni öğrenelerde
     biraz kafa karıştırıcı olabilmektedir. Aşağıdaki gibi bir kalıbın geçerli olmadığını belirtmiştik:
 
-    let a: i32 = 10;
-    let &r = a;         // error!
+        let a: i32 = 10;
+        let &r = a;         // error!
 
     Kalıpta & varsa kalıp ifadesinin de adres belirtmesi gerekir. Oysa biz bazen kalıp ifadesi adres belirtmediği halde
     kalıptaki değişkenin referans olmasını isteyebiliriz. Bunu yukarıdaki biçimde yapamadığımızı görüyorsunuz. İşte bu işlem
     ancak değişkenin önüne ref anahtar sözcüğü getirilerek yapılabilmektedir. Örneğin:
 
-    let a: i32 = 10;
-    let ref r = a;         // gçerli
+        let a: i32 = 10;
+        let ref r = a;         // gçerli
 
     Artık burada a'nın adresi r referansına yerleştirilecektir. Burada artık r değişkeni &i32 türündendir. Yapılarda da bu ref
     anahtar sözcüğü özellikle yapı alanlarında benzer biçimde kullanılmaktadır. Örneğin:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match pt {
-        Point { ref x, ref y } => println!("x: {}, y: {}", *x, *y),
-    }
+        match pt {
+            Point { ref x, ref y } => println!("x: {}, y: {}", *x, *y),
+        }
 
     Burada match ifadesinin (yani kalıp ifadesinin) adres belirtmediğine dikkat ediniz. Ancak x ve y alanları artık referans
     belirtmektedir. Yani örneğimizde x ve y değişkenleri &i32 türündendir. Aşağıdaki kalıbın geçerli olmadığını belirtmiştik:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match pt {
-        Point { x: &x, y: &y } => println!("x: {}, y: {}", *x, *y),       // error!
-    }
+        match pt {
+            Point { x: &x, y: &y } => println!("x: {}, y: {}", *x, *y),       // error!
+        }
 
     Yukarıda da belirttiğimiz gibi bu kalıbın geçerli olabilmesi için Point yapısının x ve y alanlarının adres belirtmesi
     gerekir.
 
     Tabii yapının bazı alanları için ref kullanılıp bazıları için kullanılmayabilir. Öneğin:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match pt {
-        Point { ref x, y } => println!("x: {}, y: {}", *x, y),
-    }
+        match pt {
+            Point { ref x, y } => println!("x: {}, y: {}", *x, y),
+        }
 
     Burada x değişkeni &i32 türünden, y değişkeni ise i32 türündendir. Aşağıdaki kalıp geçerlidir:
 
-    let pt = Point { x: 10, y: 20 };
+        let pt = Point { x: 10, y: 20 };
 
-    match &pt {
-        &Point { ref x, y } => println!("x: {}, y: {}", *x, y),
-    }
+        match &pt {
+            &Point { ref x, y } => println!("x: {}, y: {}", *x, y),
+        }
 
     Burada kalıpta & olduğu için match ifadesinin adres belirtmesi zorundadır. Bu iki & operatörünün birbirini götüreceğini
     düşünebilirsiniz. Bu durumda bu kalıp öncekiyle tamamen aynı olacaktır. Yani bu kalıptda da x değişkeni &i32 türünden,
@@ -13791,55 +13793,56 @@ impl Point {
     Anımsanacağı gibi dilim referanslarına Rust'ta "şişman göstericiler (fat pointers)" de deniliyordu. Dilim referansları
     aslında bir adres ve bir uzunluk belirtiyordu. Dilim referanslarına dilimlerin adreslerinin atandığını anımsayınız. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-    let r = &a[3..7];
+        let r = &a[3..7];
 
     Burada r değişkeni &[i32] tründendir. Bu değişken aslında iki parçadan oluşmaktadır: Dilimin başlangıç adresi ve uzunluğu.
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta for döngülerinin de kalıp uyuşumu ile çalıştığını anımsayınız. Örneğin:
 
-    fn main() {
-        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        fn main() {
+            let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-        let r = &a[3..7];
+            let r = &a[3..7];
 
-        for val in r {
-            print!("{} ", val);
+            for val in r {
+                print!("{} ", val);
+            }
         }
-    }
 
     Burada val değişkeni &i32 türündendir. Yani döngü her yinelendiğinde aslında dilimin bir elemanının adresi elde edilmektedir.
     O halde biz for döngüsündeki kalıpta da & atomunu kullanabiliriz. Örneğin:
 
-    for &val in r {
-        print!("{} ", val);
-    }
+        for &val in r {
+            print!("{} ", val);
+        }
 
     Burada artık val &i32 türünden değil i32 türündendir. Yani iteratör her dolaşımda bize bir deilimin adresini verecek ancak
     derleyici bu adresin gösterdiği yeri val değişkenine atayacaktır.
 
     Tabii biz for döngüsündeki kalıpta ref anahtar sözcüğünü de kullanabiliriz. Örneğin:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-    for val in a {
-        print!("{} ", val);
-    }
+        for val in a {
+            print!("{} ", val);
+        }
 
     Anımsanacağı gibi burada val değişkeni i32 türündendir. Ancak siz dizi elemanın adresini elde etmek istiyorsanız ref
     kalıbını kullanabilirsiniz:
 
-    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-    let r = &a[3..7];
+        let r = &a[3..7];
 
-    for ref val in a {
-        print!("{} ", val);
-    }
+        for ref val in a {
+            print!("{} ", val);
+        }
 
     Artık buradaki val değişkeni i32 türündendir. Döngünün her inelenmesinde dizi elemanın adresi elde edilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
+
 # 43. Ders 25/08/2025 - Pazartesi
 
     T bir tür belirtmek üzere aslında &T türünün de metotları vardır. Yani biz T türünden bir referansla yalnızca T türünün
@@ -26042,17 +26045,7432 @@ impl From<Rational> for Number<f64> {
 
     Tıpkı Option<T> türünde olduğu gibi Result<T, E> türünün de unwrap_or_else metodu bulunmaktadır. Bu metot eğer Result
     değeri Ok(T) ise T türünden değeri, Err(E) ise E türünden değerle parametresiyle belirtilen closure çağrısını yapıp
-    clousure çağrısındna elde edilen değeri geri döndürmektedir. Tabii burada closure çağrısının divergent olması
+    clousure çağrısından elde edilen değeri geri döndürmektedir. Tabii burada closure çağrısının divergent olması
     gerekmektedir. Örneğin:
 
     let new_age: i32;
 
     new_age = validate_age(10).unwrap_or_else(|msg| {
-        println!("Error: {msg}");
+        eprintln!("Error: {msg}");
         std::process::exit(1)
     });
+    println!("{}", new_age);
 
 ---------------------------------------------------------------------------------------------------------------------------
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            75. Ders 05/01/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz panic! makrosunu daha önce kullandık. Bu makro "telafi edilemeyecek (unrecoverable)" hata durumlarında programı
+    sonlandırmak için kullanılmaktadır. panic! makrosu argüman olarak hataya ilişkin bir bilgi alabilmektedir. panic!
+    makrosunda tıpkı print! makrosunda olduğu gibi "{}" biçiminde yer tutucular kullanılabilmektedir. Örneğin:
+
+    if a < 0 {
+        panic!("Invalid value: {}", a);
+    }
+
+    Burada panic oluştuğunda a değişkenin değeri de yazdırılmıştır. panic! makrosu hata mesajını stderr dosyasına yazdırmaktadır.
+    print! ve prinln! makrolarının mesajları stdout dosyasına eprint! ve eprintln! makrolarının ise stderr dosyasına
+    yazdırdığını anımsayınız.
+
+    panic! makrosu aynı zamanda default durumda o zamana kadar yaratılmış ancak yok edilmemiş olan tüm yerel değişkenleri
+    drop etmektedir. Yani eğer ilgili tür Copy türü değilse ve Drop trait'ini destekliyorsa onların drop metotları da ters sırada
+    çağrılacaktır. Örneğin:
+
+    fn main() {
+        let x = Sample::new(10);
+
+        foo(-10);
+    }
+
+    fn foo(a: i32) {
+        let y = Sample::new(20);
+
+        bar(a);
+    }
+
+    fn bar(a: i32) {
+        let z = Sample::new(30);
+
+        if a < 0 {
+            panic!("invalid parameter!");
+        }
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Self { val }
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Drop: {}", self.val);
+        }
+    }
+
+    Burada main fonksiyonu foo fonksiyonunu foo fonksiyonu da bar fonksiyonunu çağırmıştır. bar fonksiyonu içerisinde panic!
+    makrosu çağrılmıştır. İşte default durumda programın başından beri yaratılan tüm yerel değişkenler için "ters sırada"
+    drop metotları çağrılacaktır. Yukarıdaki programın çıktısı panic haricinde şöyle olacaktır:
+
+    Drop: 30
+    Drop: 20
+    Drop: 10
+
+    Stack unwinding süreci için derleyici bizim görmediğimiz biçimde bazı kayıtlar da tutmaktadır. Sistem programlama
+    uygulamalarında bu tür ekstra kayıtlar genellikle istenmez. İşte Rust'ta panic sırasındaki "stack unwinding" durumu
+    "Cargo.toml" dosyası yoluyla elimine edilebilmektedir. Programcı isterse bu dosyaya aşağıdaki ekleyerek default olan
+    "unwind" durumunu "abort" haline getirebilmektedir:
+
+    [profile.dev]
+    panic = "abort"
+
+    [profile.release]
+    panic = "abort"
+
+    Burada "dev" projenin debug versiyonunu, "release" ise release versiyonunu belirtmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    panic! makrosunun dışında Rust'ta benzer amaçlarla kullanılan todo! ve unimplemented! makroları da vardır. Bu makrolar da
+    panic oluşturmaktadır. Dolayısıyla panic! makrosu için söylediklerimiz bu makrolar için de geçerlidir. İki makro arasında
+    niyet bakımından belki bir farklılık düşünülebilir. todo! makrosu daha çok "şimdi yazılmadı ama ileride yazılacak" anlamına
+    gelmektedir. unimplemented! makrosu ise daha çok "kasti olarak yazılmadı" gibi bir anlama gelmektedir. Örneğin:
+
+    fn foo() {
+        todo!("foo");
+    }
+
+    Burada foo fonksiyonun içi henüz yazılmamıştır. İleride buraya dönülüp için yazılması gibi bir niyet vardır.
+
+    todo! ve unimplemented! makrolarının dışında unreachable! isimli bir makro da vardır. Bu makro "bir noktaya kodun
+    gelmemesi gerektiği halde geldiği durumlarda panik oluşturmak için kullanılmaktadır. Örneğin.
+
+    match foo() {
+        0 => bar(),
+        1 => tar(),
+        2 => zar(),
+        _ => unreachable!("unexpected match!..")
+    }
+
+    Burada foo fonksiyonun geri dönüş değerinin i32 türünden olduğunu ve fonksiyonun normal olarak 0, 1 ya da 2 değeri
+    geri döndürdüğünü kabul edelim. match deyiminin exhaustive olması gerektiği için mecburen sonuna _ kalıbı yerleştirilmiştir.
+    Ancak aslında akış buraya hiç gelmemelidir. İşte bu tür durumlarda okunabilir bir biçimde panik oluşturmak için
+    unreachable! makrosu kullanılabilmektedir. (Tabii aslında yukarıdaki gibi bir örnekte foo fonksiyonun enum geri döndürmesi
+    daha iyi bir tekniktir. Çünkü bu durumda zaten tüm enum varyantları match kollarına dizildiğinde match ifadesi exhaustive
+    hale gelmektedir. Ancak bu tür durumlarla da bazen mecburen karşılabilmektedir.)
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta da C'de ve C++'ta olduğu gibi assert makroları vardır. Programlama dillerinde assert mekanizması programın
+    "release" versiyonunda bulunmayacak olan ancak "debug" versiyonunda böcek yakalamak için eklenen kontrol kodlarının
+    oluşturulmasını sağlamaktadır. assert makrolarında aslında görünüşte gereksiz olan kontroller koda eklenmektedir. Çünkü
+    bu kontrollerin amacı programın geliştirilmesi sırasında olası hataların programcı tarafından tespit edilmesini sağlamaktır.
+    Assert mekanizmalarında "release" derlemesi yapılırken otomatik olarak tüm assert makroları koddan kaldırılır. Yani sanki
+    onun oluşturduğu kontroller bir derleyici ayarıyla koddan atılmaktadır. Böylece geliştiricinin geliştirme aşamasında bolca
+    assert kullanmasının bir sakıncası yoktur. Nasıl olsa onlar nihai üründe koddan çıkartılacaktır.
+
+    Rust'ta assert makrolarının listesi şöyledir:
+
+    ┌──────────────────────┬────────────────────────────────────────────────────────────┬─────────────────┐
+    │     Makro            │                    Parametreler                            │      Mod        │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ assert!              │ assert!(condition)                                         │ Debug + Release │
+    │                      │ assert!(condition, format_string, args...)                 │                 │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ assert_eq!           │ assert_eq!(left, right)                                    │ Debug + Release │
+    │                      │ assert_eq!(left, right, format_string, args...)            │                 │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ assert_ne!           │ assert_ne!(left, right)                                    │ Debug + Release │
+    │                      │ assert_ne!(left, right, format_string, args...)            │                 │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ debug_assert!        │ debug_assert!(condition)                                   │ Sadece Debug    │
+    │                      │ debug_assert!(condition, format_string, args...)           │                 │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ debug_assert_eq!     │ debug_assert_eq!(left, right)                              │ Sadece Debug    │
+    │                      │ debug_assert_eq!(left, right, format_string, args...)      │                 │
+    ├──────────────────────┼────────────────────────────────────────────────────────────┼─────────────────┤
+    │ debug_assert_ne!     │ debug_assert_ne!(left, right)                              │ Sadece Debug    │
+    │                      │ debug_assert_ne!(left, right, format_string, args...)      │                 │
+    └──────────────────────┴────────────────────────────────────────────────────────────┴─────────────────┘
+
+    Buradadaki başı debug ile başlamayan makrolar programın "release" versiyonunda da kodda kalmaktadır. Başı "debug"
+    ile başlayan makrolar programın "debug" versiyonunda koda eklenmekte, "release" versiyonunda koddan çıkartılmaktadır.
+    Buradaki assert makroları aynı zamanda asıl argümanlardan sonra yer tutucu içeren mesaj yazısıda alabilmektedir.
+    Örneğin:
+
+    fn draw_rect(row1: u32, col1: u32, row2: u32, col2: u32) {
+        debug_assert!(row1 < row2 && col1 < col2, "invalid rectangle");
+
+        println!("drawing rectangle...");
+    }
+
+    Burada ekranda dikdörtgensel bir çizim yapan fonksiyon yazılmıştır. Normal olarak bu fonksiyonda hiçbir zaman
+    row1 >= row2 ya da col1 >= col2 durumu oluşmamalıdır. İşte böyle bir kontrolü projeyi geliştirirken olası böcekleri
+    yakalamak amacıyla koda ekleyebiliriz. Nasıl olsa programın "release" aşamasında bunlar basit bir biçimde koddan
+    otomatik biçimde kaldırılabilecektir.
+
+    Pek çok IDE'de programın "debug" versiyonu ile "release" verisyonu bir combobox'tan ayarlanabilmektedir. Eğer derlemeyi
+    komut satırından yapıyorsanız default versiyon "debug" versiyonudur. "Release" versiyonunda derleme yapmak için rustc
+    derleyicisinde cargo aracında "--release" komut satırı argümanı kullanılmalıdır. Örneğin:
+
+    rustc --release main.rs
+    cargo build --release
+    cargo run --release
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta diğer bazı dillerde de bulunan ? ile temsil edilen önemli bir operatör vardır. Bu operatöre Rust dünyasında "soru
+    işareti operatörü (question mark operator)" ya da "try operatörü (try operator)" denilmektedir. "The Rust Reference"
+    dokümanlarında bu operatör 8.2.4. Bölümünde "The try propagation expression" başlığı altında ele alınmıştır.
+
+    ? operatörü tek "operand'lı sonek (unary postfix)" bir operatördür. Bu operatörün solundaki operand'ın Try isimli trait'i
+    destekleyen bir tür türünden olması gerekmektedir. Yani ifade? gibi bir kullanımda ifade'nin Try trait'ini destekleyen
+    bir tür türünden olması zorunludur. Her ne kadar ? operatörü daha genel biçimde trait ile ilişkilendirilmiş olsa da
+    tipik olarak Option ve Result türleri için düşünülmüştür. Zaten ilk zamanlar Try trait'i yoktu. Dolayısıyla ? operatörü
+    built-in bir biçimde Option ve Result türleriyle kullanılabiliyordu.
+
+    ? operatörünün nasıl bir işlev gördüğü ilk karşılaşan kişilerde kavramsal zorluk oluşturabilmektedir. Biz de önce bu
+    operatöre neden gereksinim duyulduğuna yönelik bir örnekle konuya girelim. foo ve bar fonksiyonlarının Option<i32>
+    türüyle geri döndüğünü varsayalım. tar fonksiyonu da Option<i32> türüyle geri dönüyor olsun. tar fonksyionun foo ve bar
+    fonksiyonlarını çağırarak onların çarpım değerleriyle geri döndüğünü kabul edelim:
+
+    fn foo(a: i32) -> Option<i32> {
+        if a < 10 {
+            Some(a * 2)}
+        else {
+            None
+        }
+    }
+
+    fn bar(a: i32) -> Option<i32> {
+        if a < 5 {
+            Some(a * 4)}
+        else {
+            None
+        }
+    }
+
+    fn tar(a: i32) -> Option<i32> {
+        let val1: i32;
+        let val2: i32;
+
+        val1 = match foo(a) {
+            Some(val) => val,
+            None => return None
+        };
+
+        val2 = match bar(a) {
+            Some(val) => val,
+            None => return None
+        };
+
+        Some(val1 * val2)
+    }
+
+    Burada görüldüğü gibi tar fonksiyonu foo fonksiyonunu çağırdığında onun geri dönüş değerini kontrol etmektedir. Eğer foo
+    None ile geri dönmüşse tar da None ile geri dönmektedir. Benzer biçimde bar fonksiyonun da geri dönüş değeri kontrol
+    edilmiştir. İşte ? operatörü bu sıkıcı işlemi yapan bir operatördür.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        76. Ders 07/01/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    tar fonksiyonun yazımına bir kez daha dikkat ediniz:
+
+    fn tar(a: i32) -> Option<i32> {
+        let val1: i32;
+        let val2: i32;
+
+        val1 = match foo(a) {
+            Some(val) => val,
+            None => return None
+        };
+
+        val2 = match bar(a) {
+            Some(val) => val,
+            None => return None
+        };
+
+        Some(val1 * val2)
+    }
+
+    Burada eğer foo fonksiyonu Option<i32>::None varyantı ile geri dönüyorsa biz de tar fonksiyonunu hedef türün None varyantıyla
+    geri döndürmüş durumdayız. Aynı işlemi bar çağrısı için de yaptık. İşte buradaki işlemler ? operatörü ile çok daha kısa bir biçimde
+    yapılabilmektedir:
+
+    fn tar(a: i32) -> Option<i32> {
+        let val1: i32;
+        let val2: i32;
+
+        val1 = foo(a)?;
+        val2 = bar(a)?;
+
+        Some(val1 * val2)
+    }
+
+    O halde ? operatörü ne anlama gelmektedir?
+
+    1) Eğer ? operatörünün solundaki ifade Option<T> türündense ve Option<T>::None varyantı içeriyorsa bu operatör kullanıldığı
+    fonksiyonu hedef Option türünün None varyantıyla ile geri döndürmekte, eğer solundaki ifade Option<T> türündense ve
+    Option<T>::Some(val) varyantı içeriyorsa val değerini üretmektedir.
+
+    2) Eğer ? operatörünün solundaki ifade Result<T, E> türündense ve Result<T, E>::Err(e) varyantını içeriyorsa bu operatör
+    kullanıldığı fonksiyonu hedef türün Err(e.into()) değeri ile geri döndürmekte, eğer solundaki ifade Result<T, E> ve
+    Result<T, E>::Ok(val) varyantı içeriyorsaval değerini üretmektedir.
+
+    Şimdi de bu operatörün yaklaşık eşdeğerlerini oluşturalım. Örneğin exp ifadesi Option<T> türündne olsun ve ? operatörü
+    şöyle kullanılmış olsun:
+
+    a = exp?;
+
+    Bu işlemin eşdeğeri şöyledir:
+
+    a = match exp {
+        Some(val) => val,
+        None => return None
+    };
+
+    Şimdi de exp ifadesinin Result<T, E> türündne olduğunu kabul edelim ve ? operatörü aşağıdaki gibi kullanılmış olsun:
+
+    a = exp?;
+
+    Bunun match eşdeğeri de şöyledir:
+
+    val = match exp {
+        Ok(val) => val,
+        Err(e) => return Err(e.into()),
+    };
+
+    Burada Result<T, E> türü söz konusu olduğunda ve match ifadesi Err(e) varyantını içerdiğinde fonksiyonun Err(e.into())
+    varyantı ile geri döndürüldüğüne dikkat ediniz. From trait'inden gelen from ilişkili fonksiyonunun kaplayıcı destekleme
+    sayesinde into metodu olarak da kullanılabildiğini anımsayınız. O halde yukarıdaki eşdeğerlik şöyle oluşturulabilir:
+
+    val = match exp {
+        Ok(val) => val,
+        Err(e) => return Err(From::from(e)),
+    };
+
+    Buradaki son dönüştürmenin neden yapıldığını izleyen paragraflarda ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let result: i32;
+
+    result = tar(3).unwrap();
+    println!("{}", result);
+}
+
+fn foo(a: i32) -> Option<i32> {
+    if a < 10 {
+        Some(a * 2)}
+    else {
+        None
+    }
+}
+
+fn bar(a: i32) -> Option<i32> {
+    if a < 5 {
+        Some(a * 4)}
+    else {
+        None
+    }
+}
+
+fn tar(a: i32) -> Option<i32> {
+    let val1: i32;
+    let val2: i32;
+
+    val1 = foo(a)?;
+    val2 = bar(a)?;
+
+    Some(val1 * val2)
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de ? operatörünün Result<T, E> ile kullanıma basit bir örnek verelim. foo, bar ve tar fonksiyonları
+    Result<i32, &'static str> türü ile geri geri dönüyor olsun:
+
+    fn foo(a: i32) -> Result<i32, &'static str> {
+        if a < 10 {
+            Ok(a * 2)
+        }
+        else {
+            Err("invalid argument!..")
+        }
+    }
+
+    fn bar(a: i32) -> Result<i32, &'static str> {
+        if a < 5 {
+            Ok(a * 4)}
+        else {
+            Err("invalid argument!..")
+        }
+    }
+
+    fn tar(a: i32) -> Result<i32, &'static str> {
+        let val1: i32;
+        let val2: i32;
+
+        val1 = foo(a)?;
+        val2 = bar(a)?;
+
+        Ok(val1 * val2)
+    }
+
+    Burada tar fonksiyonunda foo ve bar çağrılarına dikkat ediniz:
+
+    val1 = foo(a)?;
+    val2 = bar(a)?;
+
+    Burada eğer foo ve bar fonksiyonları Err(e) varyantıyla geri dönerse tar fonksiyonu da bununla geri döndürülmüştür.
+    Eğer bu fonksiyonlar Ok(val) varyantıyla geri dönerlerse çağrılardan val değerleri elde edilmiştir. Fonksiyonlar aşağıdaki
+    gibi bir kodla test edilebilir:
+
+    fn main() {
+        let result: i32;
+
+        result = tar(3).unwrap();
+        println!("{}", result);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let result: i32;
+
+    result = tar(3).unwrap();
+    println!("{}", result);
+}
+
+fn foo(a: i32) -> Result<i32, &'static str> {
+    if a < 10 {
+        Ok(a * 2)
+    }
+    else {
+        Err("invalid argument!..")
+    }
+}
+
+fn bar(a: i32) -> Result<i32, &'static str> {
+    if a < 5 {
+        Ok(a * 4)}
+    else {
+        Err("invalid argument!..")
+    }
+}
+
+fn tar(a: i32) -> Result<i32, &'static str> {
+    let val1: i32;
+    let val2: i32;
+
+    val1 = foo(a)?;
+    val2 = bar(a)?;
+
+    Ok(val1 * val2)
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    exp? ifadesindeki ? operatörü eğer exp ifadesi Option<T> türünün None varyantını içeriyorsa fakat fonksiyonun geri dönüş
+    değeri Option<K> türündense gerekli dönüştürmeyi kendisi yapmaktadır. Aşağıdaki örneğe dikkat ediniz:
+
+    fn foo(a: i32) -> Option<i32> {
+        if a < 10 {
+            Some(a * 2)}
+        else {
+            None
+        }
+    }
+
+    Burada foo ve bar fonksiyonlarının Option<i32> geri dönüş değerine sahip olduğunu görüyorsunuz. Şimdi tar fonksiyonunun
+    aşağıdaki gibi yazılmış olduğunu düşünelim:
+
+    fn tar(a: i32) -> Option<i64> {
+        let result: i32;
+
+        result = foo(a)?;
+
+        Some(result as i64 * 2)
+    }
+
+    Burada foo fonksiyonun Option<i32>::None değeri ile geri döndüğünü düşünelim. Normalde fonksiyonun geri dönüş değeri
+    Option<i64> olduğu için burada bir sorun çıkacağını düşünebilirsiniz. Ancak yukarıda verdiğimiz eşdeğerlik dikkate
+    alındığında burada bir soun çıkmayacağı anlaşılacaktır:
+
+    result = match foo() {
+        Some(val) => val,
+        None => return None
+    };
+
+    Bu tür dönüştürmeye Rust'ta resmi olmayan bir biçimde "kovaryans dönüştürmesi" de denilmektedir. Aynı durum Result
+    türü için de geçerlidir. Örneğin:
+
+    fn foo(a: i32) -> Result<i32, String> {
+        if a < 10 {
+            Ok(a * 2)
+        }
+        else {
+            Err(String::from("invalid value!.."))
+        }
+    }
+
+    fn tar(a: i32) -> Result<i64, String> {
+        let result: i32;
+
+        result = foo(a)?;
+
+        Ok(result as i64 * 2)
+    }
+
+    Burada foo fonksiyonu Result<i32, String> türünden bir değer geri döndürmektedir. result = foo()? ifadesinin eşdeğerinin
+    aşağıdaki gibi olduğunu anımsayınız:
+
+    result = match foo(a) {
+        Ok(val) => val,
+        Err(e) => return Err(e.into()),
+    }
+
+    Burada tar fonksiyonun geri dönüş değeribib Result<i64, String> türündne olması bir sorun oluşturmayacaktır. Çünkü
+    aslında derleyicinin geri döndürdüğü değer Result<i32, String> türünden Err(e.into()) değil Result<i64, String> türünden
+    Err(e.into()) değeridir.
+
+    Yukarıdaki anlatımlardan şu sonuçları çıkartabiliriz:
+
+    1) exp? ifadesinde exp ifadesi Option<T> türündense ancak ifadenin kullanıdığı fonksiyon Option<K> türündense bir
+    sorun ortaya çıkmayacaktır.
+
+    2) exp? ifadesinde exp ifadesi Result<T, E> türündense ve ifadenin kullanıldığı fonksiyonun geri dönüş değeri Result<K, E>
+    ise bir sorun ortaya çıkmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da anlatımlardan da anlaşılacağı gibi eğer exp? ifadesinde exp ifadesi Result<T, E> türündense fakat bu ifadenin
+    kullanıldığı fonksiyonun geri dönüş değeri Result<T, K> türündense exp? ifadesinin kullanımı error oluşturacktır. Örneğin:
+
+    struct Sample;
+
+    fn foo(a: i32) -> Result<i32, String> {
+        if a < 10 {
+            Ok(a * 2)
+        }
+        else {
+            Err(String::from("invalid value!.."))
+        }
+    }
+
+    fn tar(a: i32) -> Result<i32, Sample> {
+        let result: i32;
+
+        result = foo(a)?;           // error
+
+        Ok(result * 2)
+    }
+
+    Burada result = foo()? ifadesinin eşdeğeri şöyledir:
+
+    result = match foo(a) {
+        Ok(val) => val,
+        Err(e) => Err(e.into()),        // error!
+    };
+
+    Burada artık adeta Err(e.into()) ifadesi sanki Result<i32, Sampel> türüne atanmış olmaktadır. Bu atama da geçersizdir.
+
+    İşte into metodu ya da from fonksiyonu bu tür durumlarda otomatik dönüştürme yapmakta kullanılmaktadır. Eğer exp?
+    türü Result<T, E> ise ancak ifadenin kullanıldığı fonksiyonun geri dönüş değerindeki E türü farlı ise (tabii T
+    türü de farklı olabilir) into metodu ya da from fonksiyonu bu dönüştürmeyi yapabiliyorsa sorun ortadan kaldırılmaktadır.
+    Örneğin:
+
+    fn foo(a: i32) -> Result<i32, String> {
+        if a < 10 {
+            Ok(a * 2)
+        }
+        else {
+            Err(String::from("invalid value!.."))
+        }
+    }
+
+    fn tar(a: i32) -> Result<i32, Sample> {
+        let result: i32;
+
+        result = foo(a)?;       // geçerli
+
+        Ok(result * 2)
+    }
+
+    struct Sample;
+
+    impl From<String> for Sample {
+        fn from(s: String) -> Self {
+            Sample
+        }
+    }
+
+    Burada artık tar içerisindeki result = foo(a)? çağrısı geçerlidir. Çünkü artık eşdeğerlikte Err(e.into()) varyantı
+    Result<i32, Sample> ile uyum hale gelmektedir. Burada bir noktaya dikkat ediniz. Yukarıdaki örnekte tar fonksiyonun
+    geri dönüş değeriin T generic parametresi i32 türünden olmak zorunda da değildir. Tabii tar fonksiyonunun içinde ona
+    uygun düzenlemenin yapılması gerekmektedir. Örneğin:
+
+    fn tar(a: i32) -> Result<i64, Sample> {
+        let result: i32;
+
+        result = foo(a)?;
+
+        Ok(result as i64 * 2)
+    }
+
+    into çağrısının (ya da from çağrısının) Result türü için söz konusu olduğuna Option için söz konusu olmadığına dikkat
+    ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Konuya girişte ? operatörünün aslında yalnızca Option ve Result türü ile değil de genel olarak Try trait'ini destekleyen
+    türlerle kullanılabildiğini söylemiştik. Eskiden bu operatör gerçekteb Option ve Result türü ile çalışıyordu. Ancak
+    maalesef güncel Rust derleyicilerinin stabil versiyonlarında henüz programcı kendi yapıları ya da enum türleri için bu
+    trait'i destekleyememektedir. Bu özellik şimdilik ancak Rust'ın "nightly" tabir edilen deneme sürümlerinde kullanılabilmektedir.
+    Biz kursumuzda henüz konu tam oturmadığı için Try trait'inden bahsetmeyeceğiz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi ? operatörünün kullanımına standart kütüphane bağlamında bir örnek verelim. Anımsanacağı gibi str (yani string
+    dilimi) yapısının parse metodu eğer parse işlemi tamsayı türlerine doğru yapılıyorsa Result<T, ParseIntError> değeri
+    ile geri dönmektedir. (Burada T tamsayı türlerini temsil ediyor.) Yani bu metot eğer parse işlemi başarılıysa bize Ok(T)
+    türünden değer, başarısızsa Err(ParseIntError) türündne değer geri döndürmektedir. Şimdi aşağıdaki gibi bir fonksiyon
+    yazacak olalım:
+
+    use std::num::ParseIntError;
+
+    fn tsquare(s: &str) -> Result<i32, ParseIntError> {
+        let result: i32;
+
+        result = s.parse()?;
+        Ok(result * result)
+    }
+
+    Burada tsquare fonksiyonu bir string dilim referansını parametre olarak alıp Result<i32, ParseIntError> türüne geri
+    dönmektedir. parse işleminin naısl yapıldığına dikkat ediniz:
+
+    result = s.parse()?;
+
+    Burada parse işlemi başarısızsa fonksiyon hemen geri önecektir. Başarılıysa da parse eidlen değer result değişkenine
+    atanacaktır. Fonskiyonu şöyle test edebiliriz:
+
+    fn main() {
+        let s = "10";
+        let result: i32;
+
+        result = tsquare(s).unwrap();
+        println!("{}", result);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::num::ParseIntError;
+
+fn main() {
+    let s = "10";
+    let result: i32;
+
+    result = tsquare(s).unwrap();
+    println!("{}", result);
+}
+
+fn tsquare(s: &str) -> Result<i32, ParseIntError> {
+    let result: i32;
+
+    result = s.parse()?;
+    Ok(result * result)
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                                77. Ders 12/01/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi eğer geri fonksiyonun geri dönüş değerindeki Result türündeki Err türü ? operatörünün
+    solundaki türle uyuşmuyorsa fonksiyonun geri dönüş değerindeki Result türünün Err türü için From trait'inin desteklenmesi
+    gerekmektedir. Yukarıdaki örnekte tsquare fonksiyonunun geri dönüş değerinin MyErrot türünden olduğunu düşünelim:
+
+    #[derive(Debug)]
+    enum MyError {
+        Err(&'static str),
+    }
+
+    fn tsquare(s: &str) -> Result<i32, MyError> {
+        let result: i32;
+
+        result = s.parse()?;
+        Ok(result * result)
+    }
+
+    Burada parse metodu Result<i32, ParseIntError> ile geri dönemktedir. Halbuki fonksiyonumuz Result<i32, MyError> geri
+    dönüyor. İşte bu duurmda bizim ParseIntError türünün Myerror türüne dönüştürülmesini sağlayan From trait'ini desteklememiz
+    gerekir. Örneğin:
+
+    impl From<ParseIntError> for MyError {
+        fn from(val: ParseIntError) -> Self {
+            MyError::Err("Error!")
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::num::ParseIntError;
+
+fn main() {
+    let s = "10";
+    let result: i32;
+
+    result = tsquare(s).unwrap();
+    println!("{}", result);
+}
+
+#[derive(Debug)]
+enum MyError {
+    Err(&'static str),
+}
+
+fn tsquare(s: &str) -> Result<i32, MyError> {
+    let result: i32;
+
+    result = s.parse()?;
+    Ok(result * result)
+}
+
+impl From<ParseIntError> for MyError {
+    fn from(val: ParseIntError) -> Self {
+        MyError::Err("Error!")
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aslında henüz görmemiş olsak da bu tür durumlarda çokbiçimliliği kullanarak daha genel bir destek de oluşturulabilmektedir.
+    Rust'ın standart kütüphanesindeki ve standart olmayan pek çok kütüphanedeki Result enum türünün Err türü genel olarak
+    std::error::Error isimli bir trait'i desteklemektedir. İşte biz çokbiçimli davranışı da devreye sokarak bu Err türünü
+    Box<dyn std::error::Error> türünden alarak onun her türlü XXXError türü için geçerli olmasını sağlayabiliriz. Böylece
+    ? operatörünün solundaki Result türünden değerin Err türü ne olursa olsun (tabii bu türün std::error::Error türünü
+    desteklemesi gerekmektedir) tüm hataları elde edebiliriz. Örneğin:
+
+    fn tsquare(s: &str) -> Result<i32, Box<dyn std::error::Error>> {
+        let result: i32;
+
+        result = s.parse()?;
+        Ok(result * result)
+    }
+
+    Yukarıdakş kod sorunsuz derlenecektir. tsquare metodunun içerisindeki ? solunda bulunan ifade Result<i32, std::num::ParseIntError>
+    olsa bile bir sorun çıkmayacaktır. Bu durumda hatanın ele alınması şöyle yapılabilecektir:
+
+    fn main() {
+        let s = "10";
+        let result: i32;
+
+        match tsquare("ankara") {
+            Ok(val) => println!("{}", val),
+            Err(e) => println!("{}", e),
+        }
+    }
+
+    Burada elde edilecek mesaj aslında ParseIntError yapısının veridği mesajdır. Burada henüz görmediğimiz Box konusu olduğu
+    için biz açıklamaları burada keseceğiz. Ancak buradaki mekanizma diğer pek çok nesne yönelimli programlama dillerindeki
+    exception sınıflarının taban bir exception sınıfından türetilmiş olmasına benzemektedir. O dillerdeki taban exception
+    sınıfı ise hata mesajını çokbiçimli olarak veren metotlara sahiptir. Rust'taki std::error::Error trait'i Display ve
+    Debug trait'lerinden türetilmiştir:
+
+    pub trait Error: Debug + Display {
+        // ...
+    }
+
+    Elimizde bu trait türünden dyn bir referans varsa biz bu trait'lerin sağladığı metotlar yoluyla orijinal hata mesajını
+    elde edebilmekteyiz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+ fn main() {
+        let s = "10";
+        let result: i32;
+
+        match tsquare("ankara") {
+            Ok(val) => println!("{}", val),
+            Err(e) => println!("{}", e),
+        }
+    }
+
+ fn tsquare(s: &str) -> Result<i32, Box<dyn std::error::Error>> {
+    let result: i32;
+
+    result = s.parse()?;
+    Ok(result * result)
+}
+
+fn main() {
+    let s = "10";
+    let result: i32;
+
+    match tsquare("ankara") {
+        Ok(val) => println!("{}", val),
+        Err(e) => println!("{}", e),
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki fonksiyona dikkat ediniz:
+
+    fn get_square() -> Result<i32, Box<dyn std::error::Error>> {
+        let val: i32;
+        let mut s: String = String::new();
+        let result: i32;
+
+        std::io::stdin().read_line(&mut s)?;
+        val = s.trim().parse()?;
+
+        Ok(val * val)
+    }
+
+    Burada get_square fonksiyonu klavyeden (stdin dosyasından) bir değer okuyup o değerin karesiyle geri dönmektedir.
+    Burada önce std::io::stdin fonksiyonun geri döndürdüğü Stdin yapısı türünden değer ile read_line metodu çağrılmıştır.
+    buradaki read_line metodu aslında Result<i32, std::io::Error> türü ile geri dönmektedir. (Buradaki Error türünü
+    std::error::Error trait'i ile karıştırmayınız). Buradan elde edilen yazı ile de önce String yapısının trim metodu
+    çağrılmıştır. Bu trim metodu &str türünden bir string dilim referansı vermektedir. string dilim referansı ile de
+    str türünün parse metodu çağrılmıştır. Bu parse metodunun örneğimizde Result<i32, std::num::ParseIntError> türüyle
+    geri döndüğünğ anımsayınız. İşte burada aslında ? operatörünün solundaki ifadedeki Result türünün Err türleri farklıdır.
+    Fonksiyonda iki farklı tür için ? operatörünün kullanılması ancak fonksiyonun geri dönüş değerinin
+    Result<i32, Box<dyn std::error::Error>> olması ile sağlanabilmektedir. Bu örnekte get_square fonksiyonun geri dönüş
+    değeri aynı biçimde kullanılacaktır:
+
+    fn main() {
+        match get_square() {
+            Ok(val) => println!("{}", val),
+            Err(e) => println!("{}", e),
+        }
+    }
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    match get_square() {
+        Ok(val) => println!("{}", val),
+        Err(e) => println!("{}", e),
+    }
+}
+
+fn get_square() -> Result<i32, Box<dyn std::error::Error>> {
+    let val: i32;
+    let mut s: String = String::new();
+    let result: i32;
+
+    std::io::stdin().read_line(&mut s)?;
+    val = s.trim().parse()?;
+
+    Ok(val * val)
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kurusumuzun bu bölümünde Rust'ta heap tahsisatları için kullanılan std::boxed modülünde bulunan Box yapısını ele alacağız.
+    Box Rust'ta built-in bir yapıdır. Dolayısıyla Box türünü kullanırken herhangi bir use işlemi yapmaya gerek yoktur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bilindiği gibi programlama dillerinde heap alanı iki gerekçeyle kullanılmaktadır:
+
+    1) Derleme zamanında uzunluğu bilinmeyen ancak çalışma zamanında bilinen nesneleri tahsis etmek için.
+    2) Nesnelerin ömürlerini kontrol etmek için.
+
+    Programlama dillerindeki global değişkenlerin statik ömürlü olduğunu, yerel değişkenelrin ise içerisinde tanımlandıkları
+    bloğun yaşamı kadar olduğunu anımsaynız. Biz nesnelerin istediğimiz bir noktada yaratılmasını ve yok edilmesini istiyorsak
+    onları heapt'te yaratıyorduk.
+
+    C++'ta bir kaynağın ömrünün bir nsnenin ömrüye ilişkilendirilmesine "RAII (Resource Acquisition is Initialization)"
+    denilmektedir. C++'taki bu teknik sayesinde bir kaynak nesnenin ömrü bittiğinde otomatik boşaltılmaktadır. C++'ta
+    dinamik nesne tahsisatları için RAII prensibini kullanan "akıllı gösterici (smart pointer)" sınıfları bulundurulmuştur.
+    Ruts zaten RAII prensibini doğuştan desteklemektedir. İşte Rust'taki Box yapısı adeta C++'ta unique_ptr sınıfı gibi
+    bir işlev görmektedir. Box yapısı ile heap'te yapılan tahsisatlar Box değişkenn ömrü bittiğinde otomatik olarak heap'ten
+    silinmektedir. Tabii bu silinme işlemi Box yapısının Drop trait'ini desteklemesi ile sağlanmaktadır. Örneğin:
+
+    {
+        let b = Box::new(100);
+        //...
+    }
+
+    Burada heap'te bir i32 uzunluğunda yer tahsis edilmiştir. Ancak tahsis edilen yer bir yapı değişkeni ile kullanıma
+    sunulmaktadır. Örneğimizdeki b yapı değişkeninin ömrü bittiğinde Box yapısının drop metodu çağrılacak ve heap'te
+    yapılan tahsisat serbest bırakılacaktır. Böylece Rust programcısı C'deki free gibi bir fonksiyonu C++'taki delete gibi
+    bir operatörü kullanmak zorunda kalmamaktadır. Rust'ta bu sayede bellek sızınısı olasılığı ortadan kaldırılmış olmaktadır.
+    Rust'ta Copy türündne olmayan her nesnenin bir sahibinin olduğunu ve bu sahipliğin atama işlemleriyle devredildiğini
+    anımsayınız. Örneğin:
+
+    fn main() {
+        let a: Box<i32>;
+
+        a = foo();
+        bar(a);
+        //...
+    }
+
+    fn foo() -> Box<i32> {
+        Box::new(100)
+    }
+
+    fn bar(b: Box<i32>) {
+        //...
+    }
+
+    Burada foo fonksiyonun içerisinde Box::new(100) çağrısı ile heap'te i32 türünden bir nesne tahsis edilmiştir. Sonra bu
+    nesnenin sahipliği geri dönüş değerine ilişkin geçici değişkene devredilmiştir. Oradan da sahiplik a değişkenine
+    devredilmiştir. Sonra a değişkenin sahipliği bar fonksiyonun parametre değişkeni olan b'ye devredilmiştir. Nihateinde
+    heap'teki i32 türünden nesne bar fonksiyonu bittiğinde drop metodu yoluyla free hale getirilecektir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box yapısı yukarıdaki örnekten de gördüğünüz gibi generic bir yapıdır. Şöyle tanımlanmıştır:
+
+    pub struct Box<T, A = Global>(/* private fields */)
+    where
+        A: Allocator,
+        T: ?Sized;
+
+    Bu tanımlamadan Box türünün iki generic parametresinin olduğu görülmektedir. T ile temsil edilen birinci generic parametre
+    heap'te tahsis edilecek nesnenin türünü belirtmektedir. İkinci generic parametre ise tahsisat işleminde kullanılacak
+    tahsisat nesnesinin türünü belirtmektedir. Bu generic parametrenin default olarak Global türünü belirttiğine dikkat ediniz.
+    Global isimli tahsisat yapısı zaten Rust'ta kullanılan default tahsisat yapısıdır. Yani tahsisatlar default durumda
+    Rust'ın bu yapısının içerisindeki ilişkili fonksiyonlar tarafından yapılmaktadır. Programcılar bu default tahsisat yapısını
+    çok uç durumlarda değiştirmek zorunda kalmaktadır. (Örneğin programcı başka bir heap tahsisat algoritması kullanmak
+    isteyebilir. Box tahsisatlarının da bu algoritma tarafından yapılmasını sağlayabilir.) Tanımlamadaki generic tür
+    sınırlamalarına da dikkat ediniz. Tahsisatı yapacak yapının Allocator isimli bir trait'i desteklemesi gerekmektedir.
+    Ancak tahsis edilecek nesnenin türünün de derleme zamanında biliniyor olması gerekmemektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box türünden bir değer Box yapısının new ilişkili fonkisyonuyla yaratılmaktadır. Örneğin:
+
+    let b = Box::new(100);
+
+    Bu bağlama aşağıdakiyle eşdeğerdir:
+
+    let b: Box<i32> = Box::new(100);
+
+    Burada 100 sabiti i32 türünden kabul edilmiştir. Tabii istenirse tahsisat türü açıkça da belirtilebilir. Örneğin:
+
+    let b = Box::<i64>::new(100);
+
+    Burada artık heap'te i64 türünden bir nesne yaratılmaktadır. b'nin türü de Box<i64> olacaktır.
+
+    Box<T> türünden bir değer yalnızca bir göstericinin uzunluğu kadar yer kaplamaktadır. Yani Box<T> türünü kullanmanın
+    doğrudan referans ya da gösterici kullanmaktan yer bakımından bir farkı yoktur. Örneğin:
+
+    let b = Box::<i32>::new(100);
+
+    println!("{:?}", std::mem::size_of_val(&b));        // 8
+
+    64 bit sistemlerde adres bilgisinin 8 byte olduğunu anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box<T> türü Deref trait'ini desteklediği için doğrudan * operatörüyle kullanılabilmektedir. (Anımsanacağı gibi Deref
+    trait'ini destekleyen bir yapı ya da enum değerine * operatörü uygulandığında önce ilgili türün deref metodu çağrılıyordu.
+    Bu metot da bir referansa geri dönüyordu. * operatörü geri döndürülen referansa uygulanıyordu.) Bu durumda biz Box<T>
+    türünden bir değişkeni bir referans gibi kullanabiliriz. Örneğin:
+
+    let b = Box::<i64>::new(100);
+    let val: i64;
+
+    val = *b;                   // b adeta bir &i64 türünden bir referans gibi davranıyor
+    println!("{}", val);
+
+    Buradaki *b ifadesinin *b.deref() ile eşdeğer olduğunu anımsayınız. İşte Box yapısının deref metodu adresini tuttuğu
+    heap'teki nesnenin referansına geri dönmektedir. Böylece biz Box türünden bir değişkenin & operatörü ile adresini
+    aldığımızda aslında heap'te tahsis edilmiş olan nesnenin referansını elde etmiş oluruz.
+
+    Eğer yapılan tahsisat bir yapı ya da enum türündense Box içerisindeki adresi tutulan nesneynin alanlarına doğrudan nokta
+    ile erişebilmektedir. Örneğin:
+
+    let pt: Box<Point>;
+
+    pt = Box::new(Point {x: 10, y: 20});
+    println!("{}, {}", pt.x, pt.y);
+
+    Tıpkı referanslarda olduğu gibi bizim (*pt).x ve (*pt).y gibi açıkça dereference işlemini yapmamıza gerek yoktur.
+    Bu tür erişimlerde otomatik Deref işleminin yapıldığını anımsayınız. The Rust Reference 8.2.11'de "Field Access Expressions"
+    başlığı altında bu durum şöyle açıklanmıştı:
+
+    *****
+    "if the type of the container operand implements Deref or DerefMut depending on whether the operand is mutable,
+    it is automatically dereferenced as many times as necessary to make the field access possible. This process is also
+    called autoderef for short."
+    *****
+
+    "The Rust Reference" dokümanlarındaki bu açıklamaya göre yukarıdaki pt.x ifadesi için derleyici önce Box türünde x
+    isimli bir alan var mı diye bakacak, eğer bulamazsa bu kez *pt işlemini yaparak Point türünde x'i arayacaktır. Dolayısıyla
+    burada Point türünün x alanına erişilecektir.
+
+    Sonuç olarak Box türünden bir değişken tamamen bir referans gibi davranmaktadır.
+
+    Her ne kadar biz "Box türünden değişkenler üzerinde * gibi operatörler uygulandığında deref metodu çağrılıyor diyorsak
+    da" Box aslında built-in bir yapıdır. Dolayısıyla gerçekte bu deref çağrıları hiç yapılmamaktadır. Yani aslında Box
+    türünden bir değişkeni kullanmakla bir referansı kullanmak arasında yer ve zaman bakımından bir maliyet farkı yoktur.
+
+    Box<T> türünde T bit yapı ya da enum türündense nokta operatörü ile doğrudan T türünün metotları çağrılabilmektedir.
+    Örneğin:
+
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+    impl Point {
+        fn disp(&self) {
+            println!("{}, {}", self.x, self.y);
+        }
+    }
+    //...
+
+    let b: Box<Point> = Box::new(Point {x: 10, y: 20});
+
+    b.disp();       // burada (*b).disp() işlemine gerek ypk
+
+    Burada b üzerinde otomatik olarak Deref dönüştürmesi yapılıp deref metodu çağrılacak ve elde edilen Point değeri ile
+    disp metodu çağrılacaktır. Anımsacağı gibi "The Rust Reference" dokümanlarında "8.2.10 Method Call Expression"
+    başlığında bu metot çağrısındaki dönüştürme için şunlar söylenmişti:
+
+    *****
+    "The first step is to build a list of candidate receiver types. Obtain these by repeatedly dereferencing the receiver
+    expression’s type, adding each type encountered to the list, then finally attempting an unsized coercion at the end,
+    and adding the result type if that is successful.
+
+    The first step is to build a list of candidate receiver types. Obtain these by repeatedly dereferencing the receiver
+    expression’s type, adding each type encountered to the list, then finally attempting an unsized coercion at the end,
+    and adding the result type if that is successful.
+
+    Then, for each candidate T, add &T and &mut T to the list immediately after T.
+    For instance, if the receiver has type Box<[i32;2]>, then the candidate types will be Box<[i32;2]>, &Box<[i32;2]>,
+    &mut Box<[i32;2]>, [i32; 2] (by dereferencing), &[i32; 2], &mut [i32; 2], [i32] (by unsized coercion), &[i32],
+    and finally &mut [i32]."
+    *****
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box türünü kullanarak heap'te bir dizi de tahsis edebiliriz. Örneğin:
+
+    let b: Box<[i32; 5]>;
+
+    Burada b değişkeni Box<[i32; 5]> türündendir. Biz şimde Box::new ilişkili fonksiyonuna bir dizi verirsek heap'te dizi
+    tahsis edilecek ve verdiğimiz dizi heap'te tahsis edilen diziye atanacaktır. Örneğin:
+
+    b = Box::new([10, 20, 30, 40, 50]);
+
+    Anımsanacağı gibi Rust'ta x[i] ifadesi tamamen *std::ops::Index::index(&x, i) ya da *std::ops::Index::index_mut(&x, i)
+    ifadesiyle eşdeğerdir. Bu durumda yukarıdaki Box değişkenini biz b[i] gibi bir ifadede kullanırsak bu ifade
+    *std::ops::Index::index(&b, i) ile eşdeğer olacaktır. &b ifadesinde de Deref dönüştürmesi uygulanacağından b[i] ifadesi
+    de b değişkeninde adresi tutulan dizinin i'inci elemanına erişme anlamına gelecektir. Özetle biz böylesi bir durumda Box
+    değişkenini tamamen bir dizi gibi kullanabiliriz:
+
+    let b: Box<[i32; 5]>;
+
+    b = Box::new([10, 20, 30, 40, 50]);
+
+    for i in 0..b.len() {
+        print!("{} ", b[i]);
+    }
+    println!();
+
+    Tabii dizi türleri için heap'te tahsisat yapılırken dizi uzunluğunun sabit ifadesi biçiminde belirtilmesi zorunludur.
+    Bu durumu C'deki malloc fonksiyonun işlevi ile ya da C++'ta new operatörünün işlevi ile karıştırmayınız. Örneğin:
+
+    let size = 5;
+    let b: Box<[i32; size]>;        // error!
+
+    Burada dizi uzunluğu sabit ifadesiyle belirtilmemiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        78. Ders 14/01/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box türü ile bir trait türünden tahsisatlar da yapılabilmektedir. Ancak söz konusu trait'in dyn uyumlu olması ve trait
+    isminde önce dyn anahtar sözcüğünün kullanılması zorunludur. Böylece heap tabanlı çpkbiçimli davranışlar oluşturulabilmektedir.
+    Örneğin aşağıdaki gibi bir trait ve onu destekleyen yapılar bulunuyor olsun:
+
+    trait Go {
+        fn go(&self);
+    }
+
+    struct Car {
+        //...
+    }
+
+    struct Truck {
+        //...
+    }
+
+    struct Motorcycle {
+        //...
+    }
+
+    impl Go for Car {
+        fn go(&self) {
+            println!("Car is going...");
+        }
+    }
+
+    impl Go for Truck {
+        fn go(&self) {
+            println!("Truck is going...");
+        }
+    }
+
+    impl Go for Motorcycle {
+        fn go(&self) {
+            println!("Motorcycle is going...");
+        }
+    }
+
+    Biz Box<dyn Go> türünden bir değişken bildirebiliriz:
+
+    let mut g: Box<dyn Go>;
+
+    Burada g değişkeni aslında Go trait'ini destekleyen heap'te tahsis edilmiş olan nesnelerin adreslerini tutabilmektedir.
+    Biz bu g değişkeni ile trait metodunu çağırırsak dinamik türe ilişkin yani ilgili trait referansının gösterdiği türe
+    ilişkin yapnın ilgili metodu çağrılacaktır. Örneğin:
+
+    g = Box::new(Car {});
+    g.go();         // Car yapısının go metodu çağrılır
+
+    g = Box::new(Truck {});
+    g.go();         // Truck yapısının go metodu çağrılır
+
+    g = Box::new(Motorcycle {});
+    g.go();         // Motorcycle yapısının go metodu çağrılır
+
+    Görüldüğü gibi çokbiçimli etki heap'te tahsis edilmiş olan neselerle de oluşturabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box türünden bir değişkenin faaliyet alan bittiğinde dropğ edildiğini dolayısıyla heap'teki nesnenin de free hale getirildiğini
+    belirtmiştik. İşte Box<T> türünden eğer T drop trait'ini destekliyorsa Box değişkeni dropğ edilirken heap'te tutulan
+    T türündne nesne için de drop metodu çağrılacaktır. Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Sample is dropping...");
+        }
+    }
+
+    fn main() {
+        println!("one");
+        {
+            let b = Box::new(Sample { val: 10 });
+
+            println!("two");
+        }
+        println!("two");
+    }
+
+    Buarada Box değişkeni iç blok bittiğinde drop edilecektir. Bu değişkenin adresini tuttuğu heap'teki Sample nesnesi
+    üzerinde de drop metodu çağrılacaktır. Programı çalıştırdığımızda ekranda şunları göreceğiz:
+
+    one
+    two
+    Sample is dropping...
+    two
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki elimizde bir değişkeni varsa biz o değişken faaliyet alanını bitirmeden heap'teki alanı nasıl free hale getirebiliriz.
+    Örneğin:
+
+    fn main() {
+        let b = Box::new(Sample { val: 10 });
+
+        // Bu noktada heap'ten temizlemek isteyebiliriz
+
+        println!("program continues...");
+    }
+
+    Biz burada heap'te yaratılmış olan Sample türünden nesneyi belli bir noktada yok etmek isteyebiliriz. Bunun için Box
+    yapısında bir metot yoktur. Ancak Rust Standart Kütüphanesinde bu işlemin yapılmasına yol açan aşağıdaki gibi tanımlanmış
+    std::mem modülünde drop isimli bir fonksiyon bulunmaktadır. Bu fonksiyon şöyle yazılmıştır:
+
+    fn drop<T>(_: T) {
+    }
+
+    Görüldüğü gibi drop fonksiyonu hiçbir şey yapmamaktadır. Box nesnesinin sahipliği fonksiyonun parametre değişkenine
+    aktarılacağına göre fonksiyon bittiğinde de zaten drop işlemi yapılacaktır. drop fonksiyonu standart prelude içerisinde
+    use edildiği için doğrudan kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box<T> türünden bir değişkene ya da değer & operatörü uygulayıp bu ifadeyi T türünden bir referansa atamak istediğimizde
+    Box<T> türü Deref<Target = T> trait'ini desteklediği için yapının deref metodu çağrılacaktır. Bu deref metodu da heap'te
+    tutulan nesnenin adresini bize vermektedir. Dolayısıyla biz istediğimiz zaman heap'teki nesnenin adresini bir referans
+    olarak elde edebiliriz. Örneğin:
+
+    let b = Box::new(Sample { val: 10 });
+    let r: &Sample;
+
+    r = &b;
+    println!("{}", r.val);
+
+    Burada biz &b ifadesi ile Box değişkeninin adresini elde etmek istediğimizde aslında heap'teki Sample nesneninin adresini
+    elde etmiş olduk. Eğer referansın mut olmasını istiyorsak Box değişkenin de mut olması ve adresin &mut operatörüyle
+    elde edilmesi gerekmektedir. Örneğin:
+
+    let mut b = Box::new(Sample { val: 10 });
+    let r: &mut Sample;
+
+    r = &mut b;
+    println!("{}", r.val);      // 10
+    r.val = 20;
+    println!("{}", b.val);      // 20
+
+    Burada görüldüğü gibi &mut b ifadesi ile Box değişkenin adresi alınarak mut bir referansa yerleştirilmiştir. Sonra da
+    bu referans yoluyla heap'tek Sample nesnesinin val alanı değiştirilmiştir. Biz mut referans atamaları konsuunu ele
+    almıştık. Anımsanacağı gibi bir referans onun son kullanıldığı noktada bu bağlamda faaliyet alanını bitiriyordu. Dolaısıyla
+    yukarıdaki kod parçasında bir sorun oluşmayacaktır. Ancak anımsanacağı gibi bu kod parçası aşağıdaki gibi olsaydı
+    sorun ortaya çıkardı:
+
+    let mut b = Box::new(Sample { val: 10 });
+    let r: &mut Sample;
+
+    r = &mut b;
+    println!("{}", r.val);
+    r.val = 20;
+    println!("{}", b.val);
+    r.val = 30;                 // error!
+
+    mut bir referansın faaliyet alanı boyunca o referansın gösterdiği yere ancak bu referanls erişilebilir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box<T> türünden bir değişkenin adresi T türünden bir göstericiye de atanabilir. Ancak bunun için önce * operatörü ile
+    heap'teki nesneye erişilip sonra onun adresi alınmalıdır. Örneğin:
+
+    let b = Box::new(Sample { val: 10 });
+    let ps: *constt Sample;
+    ps = &*b;
+
+    Burada ps = &*b; ifadesine dikkat ediniz. Bu ifadede önce *b işlemi yapılıp heap'teki Sample nesnesine erişilmiş, ondan
+    sonra onun adresi alınarak göstericiye yerleştirilmiştir. Burada bir noktaya dikkat ediniz. Bu işlemi biz ps = &b;
+    biçiminde yapamayız. Çünkü burada Deref dönüştürmesinin devreye girmesi için atanacak hedef türün Smaple türünden referans
+    olması gerekir. Halbuki atanacak hedef tür referans değil bir göstericidir. Bu nedenle bu işlemi yapabilmek için önce *b ifadesiyle
+    Sample nesnesine erişilip sonra onun adresi elde edilmelidir. Box değişkenin gösterdiği heap'teki nesnenin mut olarak da
+    adresi alınabilir. Örneğin:
+
+    let mut b = Box::new(Sample { val: 10 });
+    let ps: *constt Sample;
+    let r: &mut Sample;
+
+    r = &mut *b;
+
+    Heap'teki nesnenin adresi elde edildikten sonra nesne yine faaliyet alanı bittiğinde drop edilecektir. Bu tür durumlarda
+    tanımsız davranışlar oluşabilmektedir. Örneğin:
+
+    fn main() {
+        let ps: *constt Sample;
+        {
+            let b = Box::new(Sample { val: 10 });
+
+            ps = &*b;
+            unsafe {
+                println!("{}", (*ps).val);
+            }
+        }
+        unsafe {
+            println!("{}", (*ps).val);      // dikkat tanımsız davranış!
+        }
+    }
+
+    Burada iç blok bittiğinde heap'teki nesne drop edilecek dolayısıyla free hale getirilecektir. Artık nesneye blok dışından
+    erişmek tanımsız davranışa yol açacaktır.
+
+    Aslında &*b işlemini yapan Box yapısına as_ptr ve as_mut_ptr isimli ilişkili fonksiyonlar da eklenmiştir. Ancak bu fonksiyonlar
+    henüz karalı sürümde bulunmamaktadır. Bı ilişkili fonksiyonların parametrik yapıları şöyledir:
+
+    pub fn as_ptr(b: &Box<T, A>) -> *const T
+    pub fn as_mut_ptr(b: &mut Box<T, A>) -> *mut T
+
+    Görüldüğü gibi fonlsiyonlar Box<T> türünden referan alıp mut olmayan ve mut olan gösteriye geri dönmektedir.
+
+    Hem heap'teki nesnenin sahipliği devredilip hem de onun göstericiye atanması isteniyorsa bunun için Box yapısının into_raw
+    isimli ilişki fonksiyonu kullanılmaktadır. Bu fonksiyonun parametrik yapısı şöyledir:
+
+    pub fn into_raw(b: Box<T>) -> *mut T
+
+    Burada into_raw ilişkili fonksiyonunun parametresinin referans olmadığına ve geri dönüş değerinin mut bir gösterici olduğuna
+    dikkat ediniz. Fonksiyon yapı değerinin sahipliğini almaktadır,  ancak tabii onu drop etmemektedir. Örneğin:
+
+    fn main() {
+        let ps: *mut Sample;
+        {
+            let b = Box::new(Sample { val: 10 });
+
+            ps = Box::into_raw(b);
+            unsafe {
+                println!("{}", (*ps).val);
+            }
+        }
+        unsafe {
+            println!("{}", (*ps).val);      // artık tanımsız davranış değil
+        }
+    }
+
+    Burada Box değişkenin içerisindeki nesne adresi Box::into_raw fonksiyonuyla elde edilmiştir. Bu fonksiyon sahipliği
+    devralmakla birlikte drop işlemini yapmamaktadır. Dolayısıyla iç bloktan çıkıldığında hala heap'teki nesne yaşıyor
+    durumda olacaktır. Tabii yukarıdaki örnekte artık nesnenin sahipliği tutulmadığı için onun drop edilmesi manuel olarak
+    sağlanmalıdır. Peki artık elimizde heap'taki nesneyi gösteren bir gösterici varsa biz bu nesneyi nasıl drop edeceğinz?
+    Bu nesnein drop edilmesi aşağıdaki gibi sağlanamamaktadır:
+
+    drop(*ps);      // error!
+
+    Ancak *ps ifadesinden sahipliği alarak yeniden orijinal türdne bir değerin elde edilmesi gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        79. Ders 19/01/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    into_raw ilişkili fonksiyonun ters işlemi from_raw fonksiyonuyla yapılmaktadır. Fonksiyonun parametrik yapısı şöyledir:
+
+    pub unsafe fn from_raw(raw: *mut T) -> Box<T>
+
+    Fonksiyon *mut T türünden bir adresi paranetre olarak alıp bundan yaniden Bo<T> nesnesi oluşturmaktadır. Bu ilişkili
+    fonksiyon tipik olarak into_raw ilişkili fonksiyonuyla elde edilen göstericeden yeniden Box nesesi elde etmek için
+    kullanılmaktadır. Böylece biz bu yolla drop işlemini istediğimiz noktada gerçekleştirebiliriz. Yukarıda verdiğimiz
+    örneğe dikkat ediniz:
+
+    fn main() {
+        let ps: *mut Sample;
+        {
+            let b = Box::new(Sample { val: 10 });
+
+            ps = Box::into_raw(b);
+            unsafe {
+                println!("{}", (*ps).val);
+            }
+        }
+        unsafe {
+            println!("{}", (*ps).val);      // artık tanımsız davranış değil
+        }
+
+        // göstericinin gösterdiği yer free hale getirilmemiştir
+    }
+
+    Burada b değişkeninin heap'te gösterdiği nesneyi gösteren bir gösterici elde edilmiştir. Ancak göstericinin gösterdiği
+    yerdeki Sample nesnesi free hale getirilmemiştir. Yukarıda drop(*ps) çağrısının da ypılamayacağını görmüştük. İşte bu
+    işlem tipik olarak from_raw ilişkili fonksiyonu yoluyla yapılmaktadır. Örneğin:
+
+    fn main() {
+        let ps: *mut Sample;
+        {
+            let b = Box::new(Sample { val: 10 });
+
+            ps = Box::into_raw(b);
+            unsafe {
+                println!("{}", (*ps).val);
+            }
+        }
+        unsafe {
+            println!("{}", (*ps).val);      // artık tanımsız davranış değil
+        }
+        //...
+
+        unsafe {
+            let b = Box::from_raw(ps);
+            drop(b);
+        }
+    }
+
+    Aslında unsafe blok da bir faaliyet alanı belirttiğine göre değişkenin faaliyet alanı bittiğinde drop işlemi işlemi
+    yapılacağına göre hiç drop çağrısına bile gerek yoktur:
+
+    unsafe {
+            let _ = Box::from_raw(ps);
+            //...
+        }
+
+    Benzer biçimde yukarıdaki işlem tek hamlede drop çağrılarak şöyle de yapılabilirdi:
+
+    unsafe {
+        drop(Box::from_raw(ps));
+    }
+
+    Box yapısının aslında burada açıkladığımızdan çok daha fazla metotları ve ilişkili fonklsiyonları vardır. Ancak çok
+    kullanılanlar bunlardır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Box<T> yapısı ile ilgili anahtar noktalar şunlardır:
+
+    - Box<T> yapısının amacı akışın belirli noktasında heap'te T türündne nesne tahsis etmektir.
+
+    - Box<T> türündne heap'te tahsisat yapmak için Box::new ilişkili fonksiyonu kullanılmaktadır.
+
+    - Box<T> türünden bir değişken ya da değer T türünden bir referans gibi kullanılabilmektedir. Örneğin b değişkeni Box<i32>
+    türündense heap tahsis edilmiş olan nesneye *b ifadesiyle erişilebilir. b değişkeni mut ise *b de mut durumdadır.
+
+    - Box<T> türündne değişken ya da değerin & operatör ile adresi alınarak T türünden bir referansa yerleştirilebilir. Örneğin:
+
+    let b: Boxi32> = Box::new(100);
+    let r: &i32;
+    let mr: &mut i32;
+
+    r = &b;             // geçerli
+    mr = &mut b;        // geçerli
+
+    - Box türünden bir değişkenin heap'te gösterdiği T türünden nesnenin adresini bir göstericiye atamak için &*b ifadesi
+    ya da &mut *b kullanılmaktadır. Örneğin:
+
+    let b: Boxi32> = Box::new(100);
+    let pi: *const i32;
+
+    pi = &*b;       // geçerli
+
+    Ancak bu biçimde adres elde edildiğinde b değişkeni de faaliyet alanını bitirdiğinde drop edilecektir. Heap'teki nesne
+    drop edildikten sonra göstericinin gösterdiği yere erişmek tanımsız davranışa yol açacaktır.
+
+    - Elimizde Box<T> türünden bir değişken varsa o değişkenin sahipliğini bırakarak heap'teki nesnenin adresi elde edilecekse
+    bu işlem into_raw ilişkili fonksiyonuyla yapılmalıdır. Örneğin:
+
+    let b: Boxi32> = Box::new(100);
+    let pi: *mut i32;
+
+    pi = Box::into_raw(b);
+
+    Burada artık b değişkeni drop edilmeyecektir. Dolayısıyla b değişkeni faaliyet alanını bitirse bile onun heap'te gösterdiği
+    nesne free hale getirilmeyecektir.
+
+    - into_raw ilişkili fonksiyonuyla sahipliği bırakılmış ancak drop edilmemiş heap'teki nesnenin geri bırakılması için
+    yenidne ondan Box<T> değerinin oluşturulması ve onun drop fonksiyonuna verilmesi gerekmektedir. Bu işlem de from_raw
+    ilişkili fonksiyonuyla yapılmaktadır. Örneğin:
+
+    let b: Boxi32> = Box::new(100);
+    let pi: *mut i32;
+
+    pi = Box::into_raw(b);
+    //...
+    unsafe {
+        let _ = Box::from_raw(pi);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Box uygulaması olarak başa ekleme yapılabilen "tek bağlı liste (single linked list)" örneği verelim. Bağlı
+    listemizin düğümünü aşağıdaki gibi bir yapıyla temsil edebiliriz:
+
+    struct Node<T>  {
+        val: T,
+        next: Option<Box<Node<T>>>
+    }
+
+    Burada next alanının türü size biraz karşık gelebilir. Box<T> türünden bir değerin aslında heap'ta T türünden bir
+    nesneyi tuttuğunu anımsayınız. Buradaki Node yapısı generic olduğna göre Box içerisinde tutulan tür de Box<Node<T>>
+    biçiminde olacaktır. Öte yandan bağlı listenin son düğümü artık başka bir Box<Node<T>> türünü göstermeyeceği için bunu
+    Option<T> enum tür ile temsil edilmesi uygundur. O halde next alanı ya None değerini içermektedir (bağlı listenin
+    son elemanı böye olabilir) ya da Box<Node<T>> değerini içermektedir. Bağlı listenin kendisini temsil eden LList yapısını
+    da şöyle tanımlayabiliriz:
+
+    struct LList<T> {
+        head: Option<Box<Node<T>>>,
+        count: usize
+    }
+
+    Eğer LList yapısının head alanı None ise henüz bağlı listede hiç eleman yoktur. Yapının vount alanı ise o anda bağlı
+    listedeki eleman sayısını tutmaktadır.
+
+    İlk yapılacak şüphesiz içi boş bir bağlı liste oluşturmaktır. Bu işlemi geleneksel olarak new ilişkili fonksiyonuna
+    yaptırabiliriz. Bizin push_front içerisinde yeni bir Node değeri yaratıp, LList yapısının head alanının orayı bu
+    yarattığımız bu düğümü göstermesini, yarattığmız bu düğümün de LList yapının head alanının gösterdiği düğümü göstermesini
+    sağlamamız gerekir. Ancak bu işlem şöyle yapılamaz:
+
+    fn push_front(&mut self, val: T) {
+        let new_node = Box::new(Node { val, next: self.head });       // error! kısmı sahiplik devredilmez
+        self.head = Some(new_node);
+        self. count += 1;
+    }
+
+    Buradaki sorun yeni yaratılan düğümün next alanına self.head alanın atanmasıdır. Rust'ta bir yapının Copy türünden
+    olmayan belli bir alanının sahipliği devredilememektedir. Box::new(Node {val, next: self.head}) işleminde self ile
+    belirtilen değişkenin head alanın sahipliği devredilmek istenmiştir. Bir yapı değişkenin bütünsel olarak sahipliği
+    devredilebilir ancak Copy türünden olmayan alanlarının sahipliği devredilemez. İşte bu tür durumlarda sahiplik
+    devredilmeden bir değişkenin içerisindeki değerin alınması gerekmektedir. Option enum türünün take isimli metodu
+    bunu yapabilmektedir. Biz take metodunu görmüştük. Bu metot Option değişkenin içerisindeki değeri alıp ona  None
+    vatyantını yerleştiriyordu. Ancak bu işlemi yaparken değişkenin sahipliğine dokunmuyordu. O halde yukarıdaki
+    push_front metodu şöyle düzeltilebilir:
+
+     fn push_front(&mut self, val: T) {
+        let new_node = Box::new(Node { val, next: self.head.take() });        // geçerli
+        self.head = Some(new_node);
+        self. count += 1;
+    }
+
+    Biz burada self.head.take() işlemi ile self içerisindeki head alanın değerini elde ettik ve head alanına None varyantını
+    yerleştirdik. Bu take işlemi sahipliğe dokunmadan bu işlemi yaptı. Sonraki satırdaki self.head = Some(new_node) atamsı
+    self.head alanın drop edilmesine yol açacaktır. Ancak bunun bir sakıncası yoktur. Çünkü bu head alanında artık None
+    varyantı vardır.
+
+    Şimdi de dolaşım işlemini yapan disp isimli bir metot yazalım. Bu metodu yazarken biz dolaşımı sahipliği alarak
+    yapmamalıyız. Referanslarla ödünç alarak yapmalıyız. Metot şöyle yazılabilir:
+
+    fn disp(&self) {
+        let mut opt = &self.head;
+
+        while let Some(boxed_node) = opt {
+            print!("{:?} ", boxed_node.val);
+            opt = &boxed_node.next;
+        }
+    }
+
+    Burada opt değişkeni Option<Boz<Node<T>>> türünden bir referanstır. Yani biz burada opt değişkeninin içerisine
+    LList yapısının head alanın adresini atamış olduk. Artık bizim düğümler üzerinde yürümemiz gerekir. Bağlı listedeki
+    son düğümün next elemanının None varyantı içerdiğine dikkat ediniz. O halde bizim None görmeyene kadar, başka bir deyişle
+    Some kalıbı sağlandığı sürece döngüyü devam ettirmemiz gerekir. Bunun için while let deyimini kullandık:
+
+    while let Some(boxed_node) = opt {
+        //...
+        opt = &boxed_node.next;
+    }
+
+    Bu döngü node_opt None olmayabna kadar devam etmesini ve Option alanın Some değerinin elde edilmesini sağlamaktadır.
+    Tabii biz bir sonraki düğüme geçmek için node_opt = box_node.next işlemini yaptık.
+
+    Şimdi de bağlı listenin başındaki düğümü silelim:
+
+    fn pop_front(&mut self) -> Option<T> {
+        let opt = self.head.take();
+        if let Some(boxed_node) = opt {
+            self.head = boxed_node.next;
+            self.count -= 1;
+            Some(boxed_node.val)
+        }
+        else {
+            None
+        }
+    }
+
+    Burada önce self.head.take ile LList yapıısnın head alanı elde edilmiştir. head alanının Optiontüründen olduğunu anımsayınız.
+    take metodu head alanının sahipliğini devretmeden içindeki değeri almakta ve oraya None varyantını yerleştirmektedir:
+
+    let opt = self.head.take();
+
+    Dolayısıyla bu işlemden sonra head alanın içerisinde None değeri bulunacak ce head alanı opt olarak elde edilecektir.
+    Bundan sonra metotta opt içerisinde Some varyantının bulunup bulunmadığına bakılmıştır:
+
+    if let Some(boxed_node) = opt {
+        //...
+    }
+
+    Eğer opt içerisinde Some varyantı varsa onun değeri boxed_value değişkenine aktarılmıştır. Burada boxed_value Node
+    yapısı türündendir. Sonra bağlı listenin başındaki bu düğümden sonra gelen düğüm head alanına atanmıştır:
+
+    self.head = boxed_node.next;
+
+    pop_front metodu bağlı listeden atılan ilk düğümdeki derler, bağlı listede hiç eleman yoksa None değeri ile geri
+    dönmektedir.
+
+    Buradaki bağlı liste tek bağlı listedir ve bağlı listenin ancak başına eleman eklenebilmektedir. Bağlı listenin sonuna
+    eleman eklenebilmesi için son düğümün de bir biçimde tutulması gerekir. Son düğümün Box biçimde tutulması yerine
+    düz bir gösterici ile tutulması işlemler bakımından kolaylık sağlamaktadır. Yukarıdak tek bağlı liste yapısını şöyle test
+    edebiliriz:
+
+    fn main() {
+        let mut ll = LList::<i32>::new();
+
+        ll.push_front(10);
+        ll.push_front(20);
+        ll.push_front(30);
+        ll.push_front(40);
+        ll.push_front(50);
+
+        ll.disp();
+        println!("------------------");
+        if let Some(val) = ll.pop_front() {
+            println!("Deleted value: {}", val);
+        }
+        ll.disp();
+        println!("------------------");
+        if let Some(val) = ll.pop_front() {
+            println!("Deleted Value: {}", val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::fmt::Debug;
+
+fn main() {
+    let mut ll = LList::<i32>::new();
+
+    ll.push_front(10);
+    ll.push_front(20);
+    ll.push_front(30);
+    ll.push_front(40);
+    ll.push_front(50);
+
+    ll.disp();
+    println!("------------------");
+    if let Some(val) = ll.pop_front() {
+        println!("Deleted value: {}", val);
+    }
+    ll.disp();
+    println!("------------------");
+    if let Some(val) = ll.pop_front() {
+        println!("Deleted Value: {}", val);
+    }
+}
+
+struct Node<T>  {
+    val: T,
+    next: Option<Box<Node<T>>>
+}
+
+struct LList<T> {
+    head: Option<Box<Node<T>>>,
+    count: usize
+}
+
+impl<T> LList<T>
+where T: Debug {
+    fn new() -> LList<T> {
+        LList {
+            head: None,
+            count: 0
+        }
+    }
+
+    fn push_front(&mut self, val: T) {
+        let new_node = Box::new(Node {val, next: self.head.take()});
+        self.head = Some(new_node);
+        self. count += 1;
+    }
+
+    fn pop_front(&mut self) -> Option<T> {
+        let opt = self.head.take();
+        if let Some(boxed_node) = opt {
+            self.head = boxed_node.next;
+            self.count -= 1;
+            Some(boxed_node.val)
+        }
+        else {
+            None
+        }
+    }
+
+    fn disp(&self) {
+        let mut opt = &self.head;
+
+        while let Some(boxed_node) = opt {
+            print!("{:?} ", boxed_node.val);
+            opt = &boxed_node.next;
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            80. Ders 21/01/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şmdi de Rust'ın standart kütüphanesindeki mem modülü üzerinde duralım. mem modülünde genellikle göstericilerin işin içine
+    karıştığı aşağı seviyeli fonksiyonlar ve yapılar bulunmaktadır. Bu bölümde mem modülündeki önemli olanları üzerinde
+    duracağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    mem modülündeki size_of fonksiyonu (C'de sizeof bir operatördür) bir türün bellekte kapladığı byte uzunluğunu vermektedir.
+    Fonksiyonun parametrik yapısı şöyledir:
+
+    pub const fn size_of<T>() -> usize
+
+    Burada size_of fonksiyonunun generic olduğuna ve parametresinin bulunmadığına dikkat ediniz. Fonksiyon usize türünden
+    değerle geri dönmektedir. Fonksiyonun parametresi olmadığı için ve geri dönüş değeri de generic parametre türünden
+    olmadığı için generic tür otomatik tespit edilemeyeceğinden programcının byte uzunluğunu elde etmek istediği türü
+    açısal parantezler içerisinde açıkça belirtmesi gerekmektedir. Örneğin:
+
+    struct Sample {
+        a: i16,
+        b: i32,
+        c: i64
+    }
+    //...
+
+    let size = std::mem::size_of::<Sample>();
+    println!("{}", size);           // 16
+
+    Burada Sample yapısının bellekte kapladığı alan elde edilmiştir. Hizalama nedeniyle bu yapı türünden değişkenler bellekte
+    16 byte yer kaplayacaktır. Bu tür durumlarda hizalama göz önüne alınarak yapının a alanı i32 alınabilir:
+
+      struct Sample {
+        a: i32,
+        b: i32,
+        c: i64
+    }
+
+    Örneğin:
+
+    let size = std::mem::size_of::<String>();
+    println!("{}", size);       // 24
+
+    Burada String türünden bir değişkenin 64 bit sistemlerde bellekte 24 byte yer kapladığı görülecektir. Çünkü bir String
+    değişkeni içerisinde "bir adres, string'in uzunluğu ve kapasitesi" tutulmaktadır. Örneğin:
+
+    let size = std::mem::size_of::<[i32; 10]>();
+    println!("{}", size);           // 40
+
+    Her biri i32 elemanlardan oluşan 10 byte'lık bir i32 türünden dizi bellekte toplam 40 byte yer kaplamaktadır. Örneğin:
+
+    let size = std::mem::size_of::<&i32>();
+    println!("{}", size);       // 8
+
+    Referanslar aslında birer gösterici olduğuna göre bir referans için 64 bit sistemlerde bellekte 8 byte yer ayrılacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    size_of fonksiyonu bir türün uzunluğunu elde etmektedir. Bir ifadenin türünün uzunluğunu elde etmek için size_of_val
+    fonksiyonu kullanılmaktadır. (C'deki sizeof operatörünün hem türle hem de ifadeyle kullanıldığını anımsayınız.) Fonksiyonun
+    parametrik yapısı şöyledir:
+
+    pub const fn size_of_val<T>(val: &T) -> usize
+    where
+        T: ?Sized,
+
+    Görüldüğü gibi fonksiyon ifadenin kendisini değil adresini almaktadır. Dolayısıyla bir ödünç alma söz konusudur, sahiplik
+    devri yapılmamaktadır. Örneğin:
+
+    let x = 10i64;
+    let size = size_of_val(&x);
+    println!("{}", size);       // 8
+
+    Örneğin:
+
+    let a: [i32; 10] = [0; 10];
+    let result = size_of_val(&a);
+    println!("{}", result);     // 40
+
+    Her ne kadar Rust'ın gramerinde size_of bir fonksiyon gibi ele alınmış olsa da aslında tıpkı C'de olduğu gibi tamamen
+    derleme zamanında adeta bir operatör gibi işleme sokulmaktadır. Yani size_of ve size_of_val birer fonksiyon olsa da
+    operatör gibi ele alınmaktadır. Bu fonksiyonların tanımlamalarındaki const anahtar sözcüğüne dikkat ediniz:
+
+    pub const fn size_of<T>() -> usize
+    pub const unsafe fn size_of_val<T>(ptr: *const T) -> usize
+    where
+        T: ?Sized,
+
+    const fonksiyonlar tıpkı C++'taki const ve const_eval fonksiyonlar gibi derlme aşamasında çağrılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    mem modülündeki drop fonksiyonunu daha önce görmüştük. Bu aslında sahipliği alıp ilgili değerin drop edilmesini sağlayan
+    içi boş bir fonksiyondu:
+
+    pub fn drop<T>(_x: T) {}
+
+    mem modülündeki forget fonksiyonu da sahipliği almaktadır ancak bu fonksşyon sahipliğini aldığı değişken ya da değeri
+    drop etmemektedir. Tabii bu durum bellek sızıntılarına yol açabilir. Ancak bazen değişkenler Rust dışındaki başka
+    kütüphanelere gönderiliyor olabilir. Bu durumda boşaltım o kütüphane tarafından yapılıyor olabilir. Fonksiyonun parametrik
+    yapısı şöyledir:
+
+    pub const fn forget<T>(t: T)
+
+    Aşağıdaki örnekte drop metodu çağrılmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let s = Sample { val: 10 };
+    std::mem::forget(s);
+    //...
+}
+
+struct Sample {
+    val: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    mem modülündeki take fonksiyonu bir değişkenin içerisindeki değeri onun sahipliğini almadan elde ederek aynı türden
+    başka bir değer olarak vermektedir. Ancak aynı zamanda değerini elde ettiği değişkenin içerisine o türün default değerini
+    de yerleştirmektedir. Fonksiyonun parametrik yapısı şöyledir:
+
+    pub fn take<T>(dest: &mut T) -> T
+    where
+        T: Default
+
+    Gördüğünüz gibi take generic bir fonksiyondur. Değişkenin adresini mut biçimde alarak o türden bir değere geri dönmektedir.
+    T türünün Default trait'ini desteklemesi gerektiğine dikkat ediniz. Çünkü take adresini aldığı değişkenin içerisine o
+    türün default değerini de yerleştirmektedir. Nümerik türler için default ilişkili fonksiyonun 0 değerine geri döndüğünü, bool
+    türü için false değerine geri döndüğünü, Option türü için de None değerine geri döndüğünü anımsayınız. Örneğin:
+
+    #[derive(Default)]
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping: {}", self.val);
+        }
+    }
+
+    Bir değişkenin take fonksiyonunda kullanılabilmesi için o değişkenin türünün Default trait'ini destekliyor olması
+    gerekmektedir. Kullanıma dikkat ediniz:
+
+    fn main() {
+        let mut s = Sample { val: 10 } ;
+        let k: Sample;
+
+        k = std::mem::take(&mut s);
+        println!("{}", k.val);          // 10
+        println!("{}", s.val);          // 0
+    }
+
+    Burada s değişkeninin içerisindeki değer s'nin sahipliği devredilmeden yeni bir Sample değeri olarak elde edilmektedir.
+    Dolayısıyla artık s'nin içerisinde default değer bulunacaktır. Burada dikkat edilmesi gereken nokta blok bittiğinde
+    hem k için hem de s için drop işleminin yapılacağıdır. Çünkü take fonksiyonu s'nin içerisindeki değeri almakla birlikte
+    onun sahipliğini almamaktadır, yalnızca onun içerisindeki değeri çalmaktadır. Yukarıdaki kodu çalıştırdığınızda
+    ekranda (stdout dosyasında) şunları göreceksiniz:
+
+    10
+    0
+    Dropping: 10
+    Dropping: 0
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut s = Sample { val: 10 };
+    let k: Sample;
+
+    k = std::mem::take(&mut s);
+    println!("{}", k.val);          // 10
+    println!("{}", s.val);          // 0
+}
+
+#[derive(Default)]
+struct Sample {
+    val: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aslında daha önce görmüş olduğumuz Option<T> türünün take metodu da std::mem::take fonksionunu çağrımaktadır:
+
+    impl<T> Option<T> {
+        fn take(&mut self) -> MyOption<T> {
+            std::mem::take(self)
+        }
+        //...
+    }
+
+    Burada take metodunun parametresinin &mut T türünden olduğuna dikkat ediniz. O halde doğrudan bu self parametresi
+    std::mem::take fonksiyonuna argüman olarak geçirilmiştir. Aşağıdaki örnekte bu gerçekleştirimin nasıl yapıldığına yönelik
+    bir ipucu verilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut opt1: MyOption<i32> = MyOption::Some(123);
+    let opt2: MyOption<i32>;
+
+    opt2 = opt1.take();
+
+    match opt1 {
+        MyOption::Some(val) => println!("{}", val),
+        MyOption::None => println!("None")
+    }
+
+    match opt2 {
+        MyOption::Some(val) => println!("{}", val),
+        MyOption::None => println!("None")
+    }
+}
+
+enum MyOption<T> {
+    Some(T),
+    None
+}
+
+impl<T> Default for MyOption<T> {
+    fn default() -> Self {
+        MyOption::None
+    }
+    //...
+}
+
+impl<T> MyOption<T> {
+    fn take(&mut self) -> MyOption<T> {
+        std::mem::take(self)
+    }
+}
+
+impl<T> Drop for MyOption<T> {
+    fn drop(&mut self) {
+        println!("droping...");
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki take fonksiyonun kendisi nasıl yazılmıştır? Anımsanacağı gibi std::ptr modülünün read fonksiyonu ya da gösterici türünün
+    read metodu değişkenin içerisindeki değeri okuyup sahipliği almadan yeni bir değer olarak veriyordu. std::ptr modülünün
+    write fonksiyonu ya da gösterici türünün write metodu da hedefi drop etmeden onun içerisine yeni değer yerleştiriyordu. ptrt
+    modülündeki read ve write fonksiyonlarının parametrik yapıları şöyleydi:
+
+    pub const unsafe fn read<T>(src: *const T) -> T
+    pub const unsafe fn write<T>(dst: *mut T, src: T)
+
+    Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("dropping...")
+        }
+    }
+
+    fn main() {
+        let s = Sample { val: 10 };
+        let k: Sample;
+
+        unsafe {
+            k = std::ptr::read(&s);
+        }
+        println!("{}", s.val);
+        println!("{}", s.val);
+    }
+
+    Bu örnekte sahiplik devredilmeden read fonksiyonun Sample içerisindeki byte'ları alarak yeni bir Sample değeri oluşturuğunu
+    ve o değerle geri döndüğünü görüyoruz. Ekranda (stdout dosyasında) şunlar görülecektir:
+
+    10
+    10
+    dropping...
+    dropping...
+
+    Anımsayacağınız gibi ptr modülünün write fonksiyonu da hedefi drop etmeden ona yeni bir değer yerleştirmektedir. Örneğin:
+
+    fn main() {
+        let s = Sample { val: 10 };
+        let mut k = Sample { val: 20 };
+
+        unsafe {
+            std::ptr::write(&mut k, s);
+        }
+    }
+
+    Bu örnekte eğer k = s yapılsaydı k'daki değer önce drop edilip s'teki değer k'ya taşınacaktı. Halbuki write fonksiyonu
+    k'yı drop etmeden onu ezerek s'deki değeri taşımaktadır. Dolayısıyla bu örnekte ekranda tek bir "dropping..." yazısı
+    görülecektir.
+
+    İşte std::mem::take fonksiyonu aslında std::ptr::read ve std::ptr::write fonksiyonu kullanılarak yazılmıştır. Örneğin
+    take fonksiyonunu biz de şöyle yazabiliriz:
+
+    fn mytake<T>(dest: &mut T) -> T
+    where
+        T: Default {
+        unsafe {
+            let result = std::ptr::read(dest);
+            std::ptr::write(dest, T::default());
+            result
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut s = Sample { val: 10 };
+    let k: Sample;
+
+    k = mytake(&mut s);
+    println!("{}", k.val);      // 10
+    println!("{}", s.val);      // 0
+}
+
+fn mytake<T>(dest: &mut T) -> T
+where
+    T: Default {
+    unsafe {
+        let result = std::ptr::read(dest);
+        std::ptr::write(dest, T::default());
+        result
+    }
+}
+
+#[derive(Default)]
+struct Sample {
+    val: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aslında std::mem modülünde replace isimli daha genel bir fonksiyon bulunmaktadır. replace fonksiyonunun take fonksiyonundan
+    tek farkı değişkeni okduktan sonra ona default değer yerleştirmek yerine parametresiyle aldığı değeri yerleştirmesidir.
+    Fonksşyonun parametrik yapısı şöyledir:
+
+    pub const fn replace<T>(dest: &mut T, src: T) -> T
+
+    Fonksiyonun birinci parametresi değerin okunduğu ve yerleştirileceği değişkenin adresini almaktadır. İkinci parametresi
+    ise değer okunduktan sonra yerleştirilecek değeri belirtmektedir. İkinci parametrenin referans olmadığına dikkat ediniz.
+    Yani ikinci parametre sahipliği almaktadır. Örneğin:
+
+    let mut s = Sample { val: 10 };
+    let k: Sample;
+
+    k = std::mem::replace(&mut s, Sample { val: 20 });
+    println!("{}", k.val);      // 10
+    println!("{}", s.val);      // 20
+
+    Burada s değişken drop edilmeden içindeki değer okunmuş ve yen bir Sample değeri olarak k değişkenine yerleştirilmiştir.
+    Ancak s değişkenine default değer değil Sample { val: 20 } değeri yerleştirilmiştir. Tabii take fonksiyonu aslında daha
+    genel olan replace fonksiyonunu çağırarak da yazılabilir:
+
+    fn mytake<T>(dest: &mut T) -> T
+    where
+        T: Default {
+        std::mem::replace(dest, T::default())
+    }
+
+    Tabii replace fonksiyonu da std::ptr::read ve std::ptr::write fonksiyonları kullanılarak benzer biçimde yazılabilir:
+
+    fn myreplace<T>(dest: &mut T, src: T) -> T
+    where
+        T: Default {
+        unsafe {
+            let result = std::ptr::read(dest);
+            std::ptr::write(dest, src);
+            result
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut s = Sample { val: 10 };
+    let k: Sample;
+
+    k = std::mem::replace(&mut s, Sample { val: 20 });
+    println!("{}", k.val);      // 10
+    println!("{}", s.val);      // 20
+}
+
+#[derive(Default)]
+struct Sample {
+    val: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    mem modülündeki swap fonksiyonu aynı türden iki mut değişkenin içerisindeki değerleri değiştirmektedir. Bu fonksiyon
+    da değişkenleri drop etmez ve onların sahipliklerini almaz. Fonksiyonun parametrik yaısı şöyledir:
+
+    pub const fn swap<T>(x: &mut T, y: &mut T)
+
+    Örneğin:
+
+    #[derive(Debug)]
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("dropping: {}", self.val);
+        }
+    }
+
+    fn main() {
+        let mut s = Sample { val: 10 };
+        let mut k = Sample { val: 20 };
+
+        std::mem::swap(&mut s, &mut k);
+        println!("s: {:?}", s);     // s: Sample { val: 20 }
+        println!("k: {:?}", k);     // k: Sample { val: 10 }
+    }
+
+    Tabii swap fonksiyonu da std::ptr::read ve std::ptr::write fonksiyonları kullanılarak yazılabilir:
+
+    fn myswap<T>(x: &mut T, y: &mut T) {
+        unsafe {
+            let tempx = std::ptr::read(x);
+            let tempy = std::ptr::read(y);
+
+            std::ptr::write(y, tempx);
+            std::ptr::write(x, tempy);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut s = Sample { val: 10 };
+    let mut k = Sample { val: 20 };
+
+    myswap(&mut s, &mut k);
+    println!("s: {:?}", s);     // s: Sample { val: 20 }
+    println!("k: {:?}", k);     // k: Sample { val: 10 }
+}
+
+fn myswap<T>(x: &mut T, y: &mut T) {
+    unsafe {
+        let tempx = std::ptr::read(x);
+        let tempy = std::ptr::read(y);
+
+        std::ptr::write(y, tempx);
+        std::ptr::write(x, tempy);
+    }
+}
+
+#[derive(Debug)]
+struct Sample {
+    val: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        81. Ders 26/01/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    mem modülündeki transmute fonksiyonu kaynak türdeki bir değeri byte'ları aynı olacak biçimde hedef türde bir değer
+    haline getirmektedir. Fonksiyonun parametrik yapısı şöyledir:
+
+    pub const unsafe fn transmute<Src, Dst>(src: Src) -> Dst
+
+    Fonksiyonun iki generic parametreye sahip olduğuna ve unsafe olduğuna dikkat ediniz. Fonksiyon parametresiyle aldığı
+    değerin byte'larını hedef türde bir değer haline getirip o değerle geri dönmektedir. Tabii böyle bir dönüştürme ancak
+    özel durumlarda ve anlamlıysa uygulanmalıdır. Örneğin:
+
+    let a: i32 = 100;
+    let b: f32;
+
+    b = unsafe {
+        std::mem::transmute(a)
+    };
+    println!("{}", b);      // dikkat anlamsız bir değer çıkacaktır!
+
+    Burada i32 türünün üçerisindeki 100 değerini oluşturan byte'lar f32 haline getirilmiştir. Tabii bir böyle bir işlem
+    sonucunda anlamlı bir f32 değeri elde edilmeyecektir. Çünkü tamsayı formatı ile gerçek sayı sayı formatı tamamen
+    farklıdır. Örneğin:
+
+    let a: i32 = 0x12345678;
+    let bytes: [u8; 4];
+
+    bytes = unsafe {
+        std::mem::transmute(a)
+    };
+    for b in bytes {
+        print!("{:x} ", b);         // 78 56 34 12
+    }
+    println!();
+
+    Burada 4 byte'tan oluşan i32 türünden bir değişkenin içerisindeki byte'lar 4 elemanlı u8 türünden bir dizi haline
+    getirilmiştir. Little Endian makinelerde ekrana (stdout dosyasına) 78 56 34 12 değerleri basılacaktır.
+
+    transmute fonksiyonundaki kaynak ve hedef türlerin uzunlukları farklıysa bu durum derleme aşamasında error oluşturmaktadır.
+    Örneğin:
+
+    let a: i32 = 0x12345678;
+    let b: f64;
+
+    b = unsafe {
+        std::mem::transmute(a)      // error!
+    };
+
+    Burada i32 türü f64 türüne transmute yapılmak istenmiştir. Bu işlem derleme aşamasında error ile sonuçlanacaktır.
+
+    transmute fonksiyonundaki parametrenin referans olmadığına dikkat ediniz. Dolayısıyla fonksiyon sahipliği almaktadır.
+    Ancak bu fonksiyon parametresiyle aldığı değeri hedefe kopyaladığından dolayı artık parametresiyle aldığı bu değeri
+    drop etmemektedir. Yani fonksiyon adeta kaynak türdeki değeri hedef türe taşımaktadır. Örneğin:
+
+    fn main() {
+        let s = Sample { a: 10, b: 20 };
+        let pt: Point;
+
+        pt = unsafe {
+            std::mem::transmute(s)
+        };
+
+        println!("{}, {}", pt.x, pt.y);
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    struct Point {
+        x: i32,
+        y: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Drop Sample: {}, {}", self.a, self.b);
+        }
+    }
+
+    impl Drop for Point {
+        fn drop(&mut self) {
+            println!("Drop Point: {}, {}", self.x, self.y);
+        }
+    }
+
+    Burada aynı uzunluktaki Sample değişkenin içerisindeki değer pt değişkenine taşınmıştır. Çağrıma dikkat ediniz:
+
+    pt = unsafe {
+        std::mem::transmute(s)
+    };
+
+    Burada Sample türünden değişken adeta Point türünden değişkene taşınmış gibi olmaktadır. Örneğimizde artık s drop
+    edilmeyecektir, ancak pt drop edilecektir. Programın çıktısı şöyle olacaktır:
+
+    10, 20
+    Drop Point: 10, 20
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let s = Sample { a: 10, b: 20 };
+    let pt: Point;
+
+    pt = unsafe {
+        std::mem::transmute(s)
+    };
+
+    println!("{}, {}", pt.x, pt.y);
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+struct Point {
+    x: i32,
+    y: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Drop Sample: {}, {}", self.a, self.b);
+    }
+}
+
+impl Drop for Point {
+    fn drop(&mut self) {
+        println!("Drop Point: {}, {}", self.x, self.y);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            82. Ders 28/01/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    transmute fonksiyonunu biz de aşağıdaki gibi yazabiliriz:
+
+    pub unsafe fn mytransmute<T, U>(value: T) -> U {
+        assert!(std::mem::size_of::<T>() == std::mem::size_of::<U>());
+
+        let mut out = std::mem::MaybeUninit::<U>::uninit();
+        std::ptr::copy_nonoverlapping(
+            &value as *const T as *const u8,
+            out.as_mut_ptr() as *mut u8,
+            std::mem::size_of::<T>(),
+        );
+        std::mem::forget(value);
+        out.assume_init()
+    }
+
+    Fonksiyonun başındaki assrt! makrosu eğer iki türün uzunlukları eşit değilse programın sonlanmasına yol açmaktadır.
+    Anımsayacağınız gibi kaynak ve hedef türün uzunlukları farklıysa transmute işlemi zaten derleme aşamasında error ile
+    sonuçlanıyordu. Biz henüz MaybeUninit türünü görmedik. İzleyen paragraflarda bu türün üzerinde duracağız. std::ptr
+    modülündeki copy_nonoverlapping fonksiyonuna geçirilen argümanlara dikkat ediniz. Fonksiyonun birinci parametresi kaynak
+    adresi, ikinci parametresi hedef adresi ve üçüncü parametresi de aktarılacak eleman sayısını (örneğimizde byte sayısını)
+    belirtmektedir. Anımsayacağınız gibi transmute edilen değer (yani parametre değişkenine taşınan değer) transmute
+    işleminden sonra drop edilmiyordu. forget fonksiyonu bunu sağlamak için çağrılmıştır. Fonksiyonun sonunda MaybeUninit
+    türünün assume_init metodunun çağrıldığına ve fonksiyonun bunun geri dönüş değeri ile geri döndürüldüğüne dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let s = Sample { a: 10, b: 20 };
+    let pt: Point;
+
+    pt = unsafe {
+        mytransmute(s)
+    };
+
+    println!("{}, {}", pt.x, pt.y);
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+struct Point {
+    x: i32,
+    y: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Drop Sample: {}, {}", self.a, self.b);
+    }
+}
+
+impl Drop for Point {
+    fn drop(&mut self) {
+        println!("Drop Point: {}, {}", self.x, self.y);
+    }
+}
+
+pub unsafe fn mytransmute<T, U>(value: T) -> U {
+    assert!(std::mem::size_of::<T>() == std::mem::size_of::<U>());
+
+    let mut out = std::mem::MaybeUninit::<U>::uninit();
+    std::ptr::copy_nonoverlapping(
+        &value as *const T as *const u8,
+        out.as_mut_ptr() as *mut u8,
+        std::mem::size_of::<T>(),
+    );
+    std::mem::forget(value);
+    out.assume_init()
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    std::mem modülünde transmute fonksiyonunun yanı sıra ona çok benzeyen bir de transmute_copy isimli bir fonksiyon vardır.
+    Fonksiyonun parametrik yapısı şöyledir:
+
+    pub const unsafe fn transmute_copy<Src, Dst>(src: &Src) -> Dst
+
+    Bu fonksiyonun transmute fonksiyonundan tek farkı parametresinin referans olmasıdır. Yani fonksiyon parametresine geçirilen
+    argümanın sahipliğini almamaktadır. Fonksiyonun işlevi transmute ile aynıdır. Tabii fonksiyon parametresine geçirilen
+    argümanın sahipliğini almadığına göre artık onun üzerinde forget fonksiyonunu da uygulamayacaktır. (Zaten isminin
+    transmute_copy olduğuna dikkat ediniz.) Örneğin:
+
+    fn main() {
+        let s = Sample { a: 10, b: 20 };
+        let pt: Point;
+
+        pt = unsafe {
+            std::mem::transmute_copy(&s)
+        };
+
+        println!("{}, {}", pt.x, pt.y);
+    }
+
+    Burada transmute_copy fonksiyonuna s değişkeninin adresinin geçirildiğine dikkat ediniz. Tabii artık hem pt için hem de
+    s değişkeni için drop işlemi yapılacaktır. Bu program çalıştırıldığında aşağıdaki gibi bir çıktının görünmesi gerekir:
+
+    10, 20
+    Drop Point: 10, 20
+    Drop Sample: 10, 20
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let s = Sample { a: 10, b: 20 };
+    let pt: Point;
+
+    pt = unsafe {
+        std::mem::transmute_copy(&s)
+    };
+
+    println!("{}, {}", pt.x, pt.y);
+}
+
+struct Sample {
+    a: i32,
+    b: i32
+}
+
+struct Point {
+    x: i32,
+    y: i32
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Drop Sample: {}, {}", self.a, self.b);
+    }
+}
+
+impl Drop for Point {
+    fn drop(&mut self) {
+        println!("Drop Point: {}, {}", self.x, self.y);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    std::mem modülündeki çok kullanılan önemli bir tür de MaybeUninit isimli türdür. Bu tür şöyle tanımlanmıştır:
+
+    pub union MaybeUninit<T> {
+        /* private fields */
+    }
+
+    Buradaki union anahtar sözcüğü üzerinde daha sonra duracağız. Türün bir generic parametreye sahip olduğuna dikkat ediniz.
+
+    Normal olarak Rust'ta henüz değer atanmamış değişkenler atama ifadesi dışında kullanılamazlar. Örneğin onların adreslerini
+    alamayız:
+
+    let a: i32;
+    let r: &i32;
+    let pi32: *const i32;
+
+    r = &a;         // error!
+    pi32 = &a;      // error!
+
+    O halde biz bir değişklenin adresini alıp gösterici yoluyla oraya bir değer yazmak istesek bile Rust'ta ona ilkdeğer
+    vermek zorundayız. Bu durum değişkenlere bazen gereksiz ilkdeğer vermeyi zorunlu hale getirmektedir. Örneğin:
+
+    fn main() {
+        let mut a: i32;
+
+        foo(&mut a);                // error!
+        println!("{}", a);
+    }
+
+    fn foo(a: &mut i32) {
+        *a = 100;
+    }
+
+    Burada aslında foo fonksiyonu a değişkenin içerisine değer yerleştirmektedir. Ancak henüz ilkdeğer atanmamış değişkenlerin
+    adresi alınamadığı için foo çağrısında error oluşacaktır. Bu durumda biz değişkene aslında ezilecek olan gereksiz bir ilkdeğer
+    vermek zorunda kalırız:
+
+    let mut a: i32 = 0;
+
+    foo(&mut a);       // geçerli
+
+    Yukarıdaki örnekte i32 küçük bir tamsayı türüdür. Ancak bu durum dizilerde daha dramitk hale gelmektedir. Örneğin:
+
+    fn main() {
+        let mut a: [i32; 100] = [0; 100];
+
+        fill_array(&mut a);
+
+        println!("{:?}", a);
+    }
+
+    fn fill_array(a: &mut [i32; 100]) {
+        for i in 0..a.len() {
+            a[i] = i as i32;
+        }
+    }
+
+    Burada görüldüğü gibi biz mecburen adresini almadan önce 100 elemanlı dizinin her elemanına değer atamak zorunda kaldık.
+    Bu gereksiz atama işlemi bir zaman kaybına yol açacaktır.
+
+    Aynı sorun aşağıdaki gibi bir durumda da ortaya çıkacaktır:
+
+    let mut a: [i32; 100];
+
+    for i in 0..100 {
+        a[i] = i as i32;
+    }
+
+    Biz dizinin tüm elemanlarına değer vermeden bir dizinin herhangi bir elemanına atama amaçlı bile erişemeyiz.
+
+    İşte MaybeUninit türü yukarıdaki sorunu çözmek için bulundurulmuştur. Biz MaybeUninit<T> türünden bir değişkeni yarattığımızda
+    aslında T türünden içerisine ilkdeğer verilmemiş bir değişken yaratmış gibi oluruz.
+
+    MaybeUninit türünden bir değişkene ilkdeğeri birkaç biçimde verilebilmektedir. MaybeUninit türünün uninit ilişkili
+    fonksiyonu aslında T türünden değişkene değer atamadan MaybeUninit<T> değişkenine değer vermeyi sağlamaktadır. Örneğin:
+
+    use std::mem::MaybeUninit;
+
+    let a: MaybeUninit<i32> = MaybeUninit::uninit();
+
+    Burada biz a değişkenine ilkdeğer vermiş gibi olduk. Ancak a değişkenin tuttuğu i32 türünden değişkene değer vermedik.
+    Biçimsel (formal) olarak buradaki örnekte MaybeUninit::uninit() ile i32 türünden ilkdeğerverilmemiş bir değer yaratılmış
+    bu değer a'ya atanmıştır. Tabii daha önceden de belirttiğimiz gibi derleyiciler bu durumda kodu optimize ederek böyle bir
+    aslında hiç yapmamaktadır.
+
+    uninit ilişki fonksiyonu ile ilkdeğer verme aşağıdaki gibi yapılmazdı:
+
+    let a = MaybeUninit::uninit();      // error!
+
+    Burada generic T parametresinin türü tespit edilememektedir. Ancak aşağıdaki ilkdeğer verme geçerlidir:
+
+    let a = MaybeUninit::<i32>::uninit();           // geçerli
+
+    Örneğin:
+
+    let a: MaybeUninit<[i32; 100]> = MaybeUninit::uninit();
+
+    Burada biz a değişkenine ilkdeğer vermiş olduk, ancak a değişkeninin tuttuğu [i32; 100] dizisine ilkdeğer vermedik.
+
+    MaybeUninit<T> türünden değişkene en çok uninit ilişkili fonksiyonuyla ilkdeğer verilmektedir. Ancak ilkdeğer verme
+    için iki yöntem daha vardır. Türün zeroed isimli ilişkili fonksiyonu içi sıfırlarla dolu MaybeUninit değişkeni oluşturmaktadır.
+    Örneğin:
+
+    let a: MaybeUninit<[i32; 100]> = MaybeUninit::zeroed();
+
+    Tabii böyle bir ilkdeğer verme genellikle MaybeUninit kullanımı ile çelişmektedir. Çünkü burada dizinin her elemanına
+    gerçekten 0 değeri yerleştirilecektir. Benzer biçimde değişkenin içerisine new ilişkili fonksiyonuyla belirli değerler
+    yerleştirilerek de MaybeUninit değişkeni yaratılabilmektedir. Örneğin:
+
+    let a: MaybeUninit<i32> = MaybeUninit::new(100);
+
+    Tabii bu da birkaç istisnai durum dıişında MaybeUninit kullanımı ile çelişmektedir. Yukarıda da belirttiğimiz gibi
+    genellikle MaybeUninit türünden değişkene ilkdeğer vermek için türün uninit ilişkili fonksiyonu kullanılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit<T> türünden bir değişken T türü kadar yer kaplamaktadır. Yani bu tür T türünden değer dışında ek bir alana
+    sahip değildir. Örneğin:
+
+    let a: MaybeUninit<i32> = MaybeUninit::uninit();
+
+    println!("{}", std::mem::size_of_val(&a));      // 4
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit<T> türündeki T türü Copy türünden olmasa bile tutulan T değeri drop edilmemektedir.. Örneğin:
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("dropping: {}", self.val);
+        }
+    }
+
+    fn main() {
+        let s: MaybeUninit<Sample> = MaybeUninit::new(Sample { val: 10 });
+
+        // drop çağrılmayacak!
+    }
+
+    Burada MaybeUninit değişkeni tarafından tutulan Sample değeri için drop metodu çağrılmayacaktır. Bu çağrımın yapılmasını
+    programcı kendisi manuel bir biçimde sağlamalıdır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit<T> türünden bir değişkenin içerisine T türünden değer yazmak için türün write metodu kullanılmaktadır.
+    Metodun parametrik yapısı şöyledir:
+
+    pub const fn write(&mut self, val: T) -> &mut T
+
+    Metot parametresiyle belirtilen val değerini değişkenin içerisindeki T değerine yerleştirip bu T  türünden değerin
+    mut referansıyla geri dönmektedir. Metodun unsafe olmadığına dikkat ediniz. Örneğin:
+
+    let mut a: MaybeUninit<i32> = MaybeUninit::uninit();
+    let r: &mut i32;
+
+    r = a.write(100);
+    println!("{}", *r);         // 100
+
+    Burada a değişkenin içerisindeki i32 türünden alana 100 değeri yerleştirilmiştir. write metodu aynı zamanda tutulan
+    değişkenin T türündne mut referansını da vermektedir.
+
+    write metoodu eğer değişkende daha önce bir değer varsa ve T copy türündne değilse o değeri ezmeden önce drop etmez.
+    Örneğin:
+
+    fn main() {
+        let mut s: MaybeUninit<Sample> = MaybeUninit::new(Sample { val: 10 });
+
+        s.write(Sample { val: 20 });
+    }
+
+    Burada Sample yapısı için drop metodu write işleminde de blok sonunda da çağrılmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit türünden değişkenler genellikle mut yapılır. Çünkü onların içerisine daha sonra bir şeyler yazılacaktır.
+    MaybeUninit türünün as_ptr ve as_mut_ptr metotları değişkenin tuttuüu T türünden değerin sırasıyla const olan ve mut olan
+    adreslerini vermektedir. Metotların parametrik yapıları şöyledir:
+
+    pub const fn as_ptr(&self) -> *const T
+    pub const fn as_mut_ptr(&mut self) -> *mut T
+
+    Bu sayede biz gösterici yoluyla da MaybeUninit türünden dğeişkenin içerisindeki değeri alıp değiştirebiliriz. Örneğin:
+
+    let mut a: MaybeUninit<i32> = MaybeUninit::uninit();
+    let pi32: *mut i32;
+
+    pi32 = a.as_mut_ptr();
+    unsafe {
+        *pi32 = 10;
+    }
+
+    Artık biz ilkdeğer verilmemiş bir değişkenin adresini fonksiyona gönderip onun fonksiyon tarafından set edilmesini
+    sağlayabiliriz:
+
+    fn main() {
+        let mut a: MaybeUninit<i32> = MaybeUninit::uninit();
+        let pi32: *mut i32;
+
+        pi32 = a.as_mut_ptr();
+        foo(pi32);
+
+        unsafe {
+            println!("{}", *pi32);      // 10
+        }
+    }
+
+    fn foo(a: *mut i32) {
+        unsafe {
+            *a = 10;
+        }
+    }
+
+    Yukarıdaki örneği bir yapı üzerinde de verebiliriz:
+
+    use std::mem::MaybeUninit;
+
+    fn main() {
+        let mut s: MaybeUninit<Sample> = MaybeUninit::uninit();
+        let ps: *mut Sample;
+
+        ps = s.as_mut_ptr();
+        foo(ps);
+
+        unsafe {
+            println!("{}", (*ps).val);
+        }
+    }
+
+    fn foo(s: *mut Sample) {
+        unsafe {
+            (*s).val = 100;
+        }
+    }
+
+    struct Sample {
+        val: i32
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("dropping: {}", self.val);
+        }
+    }
+
+    Burada herhangi bir drop çağrısı yapılmayacaktır.
+
+    Biz MaybeUninit değişkenin adresini de fonksiyona aktarıp fonksiyon içerisinde de işlemleri yapabilirdik. Örneğin:
+
+    fn main() {
+        let mut s: MaybeUninit<Sample> = MaybeUninit::uninit();
+
+        foo(&mut s);
+        //...
+    }
+
+    fn foo(s: &mut MaybeUninit<Sample>) {
+        s.write(Sample { val: 10 });
+    }
+
+    Burada write metoduna Sample türünden değerin geçirilmesi gerektiğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit<T> türünün en önemli metotlarından biri assume_init denilen metottur. Bu metot doğrudan bize değişken içerisinde
+    tutulan T değerini vermektedir. Ancak aynı zamanda değişkeni de tüketmektedir. Yani bu metodu çağırdıktan sonra biz artık
+    MaybeUninit değişkenini kullanamayız. assume_init metodunun parametrik yapısı şöyledir:
+
+    pub const unsafe fn assume_init(self) -> T
+
+    Metodun self parametresinin referans olmadığına ve metodun da unsafe olduğuna dikkat ediniz. Örneğin:
+
+    fn main() {
+        let mut us: MaybeUninit<Sample> = MaybeUninit::uninit();
+
+        us.write(Sample { val: 10 });
+
+        let s = unsafe {
+            us.assume_init()
+        };
+
+        println!("{}", s.val);      // 10
+    }
+
+    Bu örnekte us isimli MaybeUninit türünden değişken tüketilerek onun içerisinde değer elde edilmiştir. Biz yukarıda
+    MaybeUninit türünden değişkenlerin için drop edilmediğini belirtmiştik. Ancak onun içerisindeki değeri assume_init
+    ile aldığımızda artık elde ettiğimiz değer için drop işlemi yapılacaktır. Örneğimizde s değişkeni blok bittiğinde
+    drop edilecektir. s
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            83. Ders 04/02/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    assume_init metodu MaybeUninit değişkeni içerisindeki değeri tüketerek almaktadır. Yani bu işlemden sonra MaybeUninit
+    değişkeni artık kullanılamaz. Eğer MaybeUninit değişkeninini tüketmeden onun içerisindeki T değerini elde etmek istiyorsanız
+    assume_init_mut metodunu kullanabilirsiniz. Netodun parametrik yapısı şöyledir:
+
+    pub const unsafe fn assume_init_mut(&mut self) -> &mut T
+
+    Metotun parametresinin self değil &mut self olduğuna dikkat ediniz. Metot değişkenin tuttuğu T türünden değerin mut adresiyle
+    geri dönmektedir. Bu işlemden sonra biz yine MaybeUninit değişkenini ve onun tuttuğu T türünden değeri kullanabiliriz.
+    Metodun unsafe olduğuna dikkat ediniz. Örneğin:
+
+    let mut ua = MaybeUninit::<i32>::uninit();
+    let r: &mut i32;
+
+    r = unsafe {
+        ua.assume_init_mut()
+    };
+
+    *r = 10;
+    println!("{}", *r);
+
+    Burada assume_init_mut metodu ile değişkenin tuttuğu T türünden değerin mut adresi elde edilmiş, sonra da bu T değeri
+    referans yoluyla değiştirilmiştir. Tabii biz assume_init_mut ile verilen adresi mut bir referansa atadktan sonra artık
+    bu referansın faaliyet alanı boyunca bu a değişkeninin içerisindeki T değerini kullanamayız. Örneğin:
+
+    let mut ua = MaybeUninit::<i32>::uninit();
+    let r: &mut i32;
+
+    r = unsafe {
+        ua.assume_init_mut()
+    };
+
+    let b = unsafe {
+        ua.assume_init()     // // error!
+    };
+
+    *r = 10;
+    println!("{}", *r);
+
+    Türün assume_init_ref metodunun assume_init_mut metodundan tek farkı değişkenin içerisindeki T değerinin referansını
+    mut olmayan bir rererans olarak vermektedir. Metodun parametrik yapısı şöyledir:
+
+    pub const unsafe fn assume_init_ref(&self) -> &T
+
+    Metodun unsafe olduğuna ve geri dönüş değerinin mut olmayan bir referans olduğuna dikkat ediniz. Örneğin:
+
+    let mut us = MaybeUninit::<Sample>::uninit();
+    us.write(Sample { val: 10 });
+
+    let r = unsafe {
+        us.assume_init_ref()
+    };
+    println!("{}", r.val);
+
+    MaybeUninit türünün assume_init_read isimli metodu değişkeni tüketmeden onun içerisindeki değeri elde etmektedir.
+    Metodun parametrik yapısı şöyledir:
+
+    pub const unsafe fn assume_init_read(&self) -> T
+
+    Metodun parametresinin &self türündne olduğuna dikkat ediniz. Metot MaybeUninit değişkeni içerisinde tutulan değerle
+    geri dönmektedir, ancak değişkeni tüketmemektedir. Bu nedenle biz örneğin birden fazla kez bu metodu kullanarak
+    değer elde edebiliriz. Tabii elde etiğimiz u drin hepsi drop edilecektir.
+
+    let mut us = MaybeUninit::<Sample>::uninit();
+    us.write(Sample { val: 10 });
+
+    let a = unsafe {
+        us.assume_init_read()
+    };
+    println!("{}", a.val);      // 10
+
+    let b = unsafe {
+        us.assume_init_read()
+    };
+    println!("{}", b.val);      // 10
+
+    Bu örnekte Sample türünden iki ayrı a ve b değişkeni elde edilmiştir. Faaliyet alanı bittiğinde bu a ve b değişkenleri
+    drop edilecektir.
+
+    MaybeUninit türünün assume_init_drop metodunun ri dönüş değeri yoktur (Yani () türündendir) . Bu metot değişkenin içerisinde
+    tutulan T değerini o anda drop etmektedir. Ancak değişkenin kendisini tüketmemektedir. Metodun parametrik yapısı şöyledir:
+
+    pub unsafe fn assume_init_drop(&mut self)
+
+    Metodun unsafe olduğuna ve geri dönüş değerinin olmadığına dikkat ediniz. Örneğin:
+
+    let mut us = MaybeUninit::<Sample>::uninit();
+    us.write(Sample { val: 10 });
+
+    unsafe {
+        us.assume_init_drop();
+    }
+    us.write(Sample { val: 20 });     // geçerli
+
+    Burada biz assume_init_drop metodu ile us değişkenin tuttuğu Sample değerini drop ettik. Ancak us değişkeninin kendisini
+    tüketmedik. Bu nedenle us değişkeni kullanabiliriz. Yani onun içerisine yeni bir değer yazabiliriz. assume_init_drop ile
+    drop edilen T değerini unsafe bağlamda yeniden kullanmaya çalışırsanız bu durum tanımsız davranış oluşturacaktır.
+    Çünkü drop edilmiş olan değer kaynaklarını boşaltmış olabilir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Anımsayazağınız gibi dizilere ilkdeğer vermeden dizinin herhangi bir elemanına değer atayamıyorduk. Örneğin:
+
+    let mut a: [i32; 1_000_000];
+
+    a[0] = 10;       // error!
+
+    Bu tür durumlarda dizilerin tüm elemanlarına pratik bir biçimde ilkdeğer verebiliyorduk. Örneğin:
+
+    let mut a: [i32; 1_000_000] = [0; 1_000_000];
+
+    a[0] = 10;        // geçerli
+
+    Dizi küçükse ona ilkdeğer vermek önemli bir zaman kaybına yol açmaz. Ancak dizi büyükse dizi elemanlarına yukarıdaki
+    gibi ilkdeğer verilmesi bir zaman kaybına yol açacaktır. Ayrıca eğer dizi elemanlarına sonra değerler aktarılıyorsa ilkdeğer
+    vermek gereksiz hale de gelmektedir. Örneğin:
+
+    let mut a: [i32; 1_000_000] = [0; 1_000_000];
+
+    for i in 0..a.len() {
+        a[i] = i as i32;
+    }
+
+    İşte bu durumda büyük diziler için MaybeUninit türünün kullanılması gerekebilmektedir. Örneğin:
+
+    let mut a: [MaybeUninit<i32>; 100_000] = [MaybeUninit::uninit(); 100_000];
+
+    Burada dizinin kendisinin değil elemanlarının MaybeUninit olduğuna dikkat ediniz. Aslında burada verilen ilkdeğer
+    gerçek anlamda bir ilkdeğer değildir. Çünkü MaybeUninit::uninit() metodu aslında "ilkdeğer verme" anlamına gelmektedir.
+    Dolayısıyla derleyici yukarıdaki ilkdeğer verme işleminde ne kod olarak ne zamn olarak bir yük oluşturmayacaktır.
+    Yukarıdaki bildirim adeta C'deki aşağıdaki bildirimle eşdeğer hale gelmektedir:
+
+    int a[100000];
+
+    Artık yukarıdaki Rust dizisinin elemanlarına ilkdeğerlerini verebiliriz:
+
+    for i in 0..a.len() {
+        a[i].write(i as i32);
+    }
+
+    Şimdi dizinin ilk 10 elemanın içerisindeki değerleri yazdıralım:
+
+    for i in 0..10 {
+        let ri = unsafe {
+            a[i].assume_init_mut()
+        };
+        print!("{} ", *ri)
+    }
+    println!();
+
+    Tabii Copy türleri için assume_init ya da assume_init_read metotlarını da kullanabilirdik:
+
+    for i in 0..10 {
+        unsafe {
+            print!("{} ", a[i].assume_init());
+        };
+    }
+    println!();
+
+    Yerel dizilerin stack'te yaratıldığınıve stack miktarının da şletim sistemlerinde göreli olarak düşün olduğunu
+    anımsayınız. Bu nedenle çok büyük dizileri zaten stack'te yaratamayabilirsiniz. Büyük dizilerin heap'te yaratılması
+    doğru tekniktir. Bu tür durumlarda Rust'ta doğrudan dizi kullanmak yerine izleyen paragraflarda ele alacağımız Vec
+    yapısını kullanmak daha uygundur. Vec yapısı Rust'ta dinamik büyütülen dizileri temsil etmektedir. Bu yapı C++'ın
+    vector sınıfına benzetilebilir. Tabii Vec yerine biraz zahmetli de olsa Box kullanabiliriz. Örneğin:
+
+    let a: Box<[MaybeUninit<i32>; 1_000_000]>;
+
+    a = Box::new([MaybeUninit::uninit(); 1_000_000]);
+
+    Burada büyük diziyi her elemanı MaybeUninit<i32> olacak biçimde heap'te yaratmış olduk. Tabii bu yaratımı daha pratik
+    bit biçimde eşdeğer olarak şöyle de yapabilirdik:
+
+    let a = Box::new([MaybeUninit::<i32>::uninit(); 1_000_000]);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    MaybeUninit konusunu kapatmadan önce türün ilişkili fonksiyonları ve metotları üzerinde bir özet yapmak istiyoruz:
+
+    - Türün uninit ilişkili fonksiyonu değişkeni içerisindeki T değerine ilkdeğer verilmemiş olarak yaratmaktaır.
+
+    - Türün new ilişkili fonksiyonu değişkeni içerisindeki T değerine ilkdeğer vererek yaratmakmaktadır.
+
+    - Türün zerod ilişkili fonksiyonu değişkeni içerisindeki T değeri sıfırlanmış olarak yaratmaktadır.
+    (Amaç bakımından bu metot uç durumlarda kullanılabilir.)
+
+    - Türün write metodu değişkenin içerisine  T değerini yazmak için kullanılmaktadır.
+
+    - Türün as_ptr ve as_mut_ptr metotları değişkenin içerisindeki T değerinin adresini bir gösterici olarak vermektedir.
+
+    - assume_init metodu değişkenin tuttuğu T değerini vermektedir. Ancak bu metot değişkeni tüketmektedir.
+
+    - assume_init_read değişkenin tuttuğu T değerini vermektedir. Ancak bu metot değişkeni tüketmemektedir.
+
+    - assume_init_mut değişkenin tuttuğu T değerininin mut referansını vermektedir. Bu metot değişkeni tüketmemektedir.
+
+    - assume_init_ref değişkenin tuttuğu T değerininin mut olmayan referansını vermektedir. Bu metot değişkeni tüketmemektedir.
+
+    - assume_init_drop değişkenin tuttuğu T değerini drop etmek için kullanılmaktadır. Bu metot değişkeni tüketmemektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'taki Vec yapısını ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Uzunluğu baştan bilinmeyen programın çalışma zamanı sırasında değişebilen dizilere veri yapıları dünyasında "dinamik
+    dizi (dynamic array)" denilmektedir. C'nin standart kütüphanesinde dinamik diziler için hazır fonksiyonlar yoktur. C'de
+    dinamik diziler malloc ve realloc fonksiyonlarıyla manuel bir biçimde yaratılmaktadır. C++'ta dinamik diziler için
+    vector isimli sınıf şablonu bulundurulmuştur. Java ve C#'ta da dinamik diziler ArrayList isimli sınıfla temsil edilmiştir.
+
+    Dinamik dizilere neden gereksinim duyulmaktadır? İşte pek çok uygulamada dizinin uzunşuğu baştan bilinmemektedir. Dizinin
+    uzunluğu programın çalışma zamanı sırasında birtakım koşullara göre değişebilmektedir. Örneğin bir dizin ağacındaki bütün
+    dosyaların bilgilerini bir dizide saklayacak olalım. Baştan dizin ağacında kaç tane dosya olduğunu bilemeyiz. Önce bunun
+    sayısını hesaplayıp sonra onların bilgilerini ele geçirmek de işlemleri çok yavaşlatacaktır. Ya da örneğin TCP/IP'de
+    bir porttan gelen bilgileri bir dizide saklamak isteyebiliriz. Port'tan ne kadar bilgi geleceğini baştan bilemeyiz.
+    Ya da örneğin bir metin dosyasındaki "ankara" yazılarının dosyanın hangi offset'lerinde bulunduğunu bir dizide saklamak
+    isteyebiliriz. Dosyada kaç tane "ankara" yazısının bulunduğunu baştan bilemeyiz. Bu tür örneklerdeki ortak nokta şudur:
+    Bir dizi yaratılacaktır, ancak dizinin uzunluğu baştan belli değildir. O halde dizi gerektikçe büyütülecektir.
+
+    Dinamk dizilerde başlangıçta dizi küçük bir uzunlukla heap'te yaratılır. Bu dizi dolduğunda dizi büyütülür. Ancak büyütme
+    işleminin birer birer her yeni eleman geldiğinde yapılması iyi bir teknik değildir. Çünkü bellek tahsisatları göreli
+    olarak yavaş işlemlerdendir. Her eleman geldiğinde dinamik dizinin uzunluğunu bir artırmak toplam tahsisat süresini uzatacaktır.
+    Bu durumda aklınıza diziyi birer birer değil N'er N'er büyütmek gelebilir. Örneğin dizi baştan 4 uzunlukta açılabilir.
+    Dolunca 4 elemanlık daha büyütülebilir. Böyle hep 4 eleman 4 eleman büyütme yapılabilir. Ancak bu yöntem de genellikle
+    tercih edilmemektedir. Bu yöntemde de yine yeniden tahsisat işlemleri zaman alıcı olmaktadır. En çok tercih edilen
+    yöntem diziyi "öncekenin belirli bir katı kadar (tipik olarak iki katı kadar)" büyütmektir. Örneğin dizi başlangıçta
+    heap'te 4 eleman uzunlukta yaratılabilir. Dolunca 8, o da dolunca 16, o da dolunca 32 biçiminde hep öncekinin iki katı
+    kadar büyütme yapılabilir. Bu biçimdeki büyütme geometik ya da üstel bir artışa yol açmaktadır. Dolayısıyla dizinin
+    büyütülmesi logaritmik karmaşıklığa düşürülmektedir. İşte programlama dillerinin standart kütüphanelerinde bulunan
+    dinamik dizilere ilişkin veri yapılarında genellikle büyütme öncekinin iki katı olacak biçimde yapılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            84. Ders 09/02/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta dinamik diziler std::vec modülünde bulunan Vec isimli yapıyla temsil edilmiştir. Vec ismi standart prelude içerisinde
+    use edildiği için biz bu ismi doğrudna kullanabiliriz. Vec yapısının alanları Rust'ın standart kütüphanesinde açıkça
+    belirtilmemiş olsa da yapının standart kütüphanenin kaynak kodlarında aşağıdaki gibi tanımlandığı görülmektedir:
+
+    pub struct Vec<T, A: Allocator = Global> {
+        buf: RawVec<T, A>,
+        len: usize,
+    }
+
+    Yapının iki generic parametresinin olduğunu görüyorsunuz. T generic parametresi dinamik dizinin türünü belirtmektedir.
+    A generic parametresi ise tahsisatlar için kullanılacak tahsisat yapısını belirtmektedir. Bu generic parametrenin Allocator
+    isimli bir trait'i desteklemek zorunda olduğuna dikkat ediniz. Tahsisat metotları bu Alloctor trait'inde belirtilmiştir.
+    Bu generic parametreye default olarak Global isimli bir Allocator türünün iliştirildiğini görüyorsunuz. Yani biz Allocator
+    belirtmezsek Global isimli yapıdaki tahsisat metotlarıyla tahsisat yapılacaktır. Allocator trait'i std::alloc modülünde
+    şöyle tanımşanmıştır:
+
+    pub unsafe trait Allocator {
+        // Required methods
+        fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError>;
+        unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout);
+
+        // Provided methods
+        fn allocate_zeroed(
+            &self,
+            layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow_zeroed(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn shrink(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        fn by_ref(&self) -> &Self
+        where Self: Sized { ... }
+    }
+
+    Görüldüğü gibi yapının zorunlu (required) iki metodu vardır: allocate ve deallocate. Diğer metotlar bu metotlar kullanılarak
+    yazılmış olan metotlardır. Global isimli Allocator yapısı da std::alloc modülünde tanımlanmıştır. Aslında buradaki aynı
+    mantık C++'ın vector sınıfında da vardır. C++'ın vector sınıfı da isteğe bağlı olarak bir allocator almaktadır. Programcılar
+    seyrek olarak kendi tahsisat fonksiyonlarıyla tahsisatın yapılmasını isterler.
+
+    Orijinal gerçekleştirimdeki yapının buf alanının RawVec isimli başka bir generic yapı türünden olduğuna dikkat ediniz.
+    Buradaki RawVec yapısı dışarıya açılmış olan standart bir yapı değildir. Gerçekleştirimi kolaylaştırmak için kullanılmıştır.
+    Bu nedenle "The Rust Standard Library" dokümanlarında bu RawVec hakkında herhangi bir bilgi yoktur. Ancak Rust'ın kaynak
+    kodlarına bakıldığında bu RawVec yapısının aşağıdaki gibi tanımlandığı görülmektedir:
+
+    pub(crate) struct RawVec<T, A: Allocator = Global> {
+        ptr: Unique<T>,
+        cap: usize,
+        alloc: A,
+    }
+
+    Görüldüğü gibi yapı dinamik dizinin başlangıç adresini, kapasitesini ve Allocator nesnesini tutmaktadır. (Unique akıllı
+    gösterici yapısını henüz görmedik.) Global isimli allocator yapısının aslında hiçbir alanı yoktur. Yani bu yapı yer
+    kaplamamaktadır. Rust yer kaplamayan yapılar için bellekte aslında hiç yer ayırmamaktadır. O halde biz yukarıdaki
+    tanımlamayı basitleştirirsek Vec yapısının alanlarının şunlardan oluştuğunu varsayabiliriz:
+
+    ┌─────┐
+    │ ptr │──┐
+    ├─────┤  │
+    │ cap │  │
+    ├─────┤  │
+    │ len │  │
+    └─────┘  │
+             ▼
+        Heap: [elem₀]
+              [elem₁]
+              [elem₂]
+              [...]
+
+    O halde Vec türünden bir yapı değişkeni 64 bit sistemlerde bellekte 3 * 8 = 24 byte kaplayacaktır. (Allocator alanının
+    yapıda yer kaplamadığını belirtmiştik). Örneğin:
+
+    println!("{}", std::mem::size_of::<Vec<i32>>());        // 24
+
+    Tabii bir Vec değişkeninin kapladığı alanın dinamik dizinin türüyle bir ilgisi yoktur. Çünkü dizi yapının içerisinde
+    değil heap'te tahsis edilmektedir. Örneğin:
+
+    println!("{}", std::mem::size_of::<Vec<f64>>());        // 24
+
+    Her ne kadar Rust Standart Kütüphanesinin dokümanlarında Vec yapısının elemanları hakkında açıklama yapılmamış olsa da
+    biz burada bu elemanların anlamlarını da açıklamak istiyoruz. Yapının ptr elemanı heap'te tahsis edilen dinamik dizinin
+    başlangıç adresini tutmaktadır. cap elemanı (capacity sözcüğünden geliyor) o anda tahsis edilmiş eleman sayısını turmaktadır.
+    len ise dizide dolu olan elemanların sayısını tutmaktadır. Örneğin Vect türünden bir değişkenin o andaki cap değeri 6
+    olduğu halde len değeri 3 olabilir. len değeri cap değerine eriştiğinde yeniden tahsisat yapılıp cap büyütülmektedir.
+    Tabii bu sıkıcı işlemlerle programcı uğraşmaz, bu işlemler yapının metotları tarafından arka planda yapılmaktadır.
+    Vec türünden değişkenin alanlarının anlamını aşağıdaki şekille betimleyebiliriz:
+
+     Stack'teki Vec
+        Değişkeni                               Heap
+    ┌─────────────┐                 ┌───┬───┬───┬───┬───┬───┐
+    │ ptr         │────────────────>│ 1 │ 2 │ 3 │ ? │ ? │ ? │
+    ├─────────────┤                 └───┴───┴───┴───┴───┴───┘
+    │ cap: 6      │                   ^               ^
+    ├─────────────┤                   │               │
+    │ len: 3      │                   len=3           cap=6
+    └─────────────┘
+
+    Burada görüldüğü gibi ptr alanı dinamik dizinin heap'teki adresini, cap alanı tahsis edilmiş olan alanın uzunluğunu
+    ve len alanı ise dinamik dizide var olan eleman sayısını turmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec türünden bir nesne çeşitli biçimlerde yaratılabilmektedir. Yapının new ilişkili fonksiyonu ile içi boş bir Vec değeri
+    yaratılabilmektedir. new ilişkili fonksiyonunun parametrik yapısı şöyledir:
+
+    pub const fn new() -> Vec<T>
+
+    Örneğin:
+
+    let v: Vec<i32> = Vec::new();
+
+    Yaratımı şöyle de yapabilirdik:
+
+    let v = Vec::<i32>::new();
+
+    Ancak aşağıdaki gibi bir bağlama error oluşturacaktır. Örneğin:
+
+    let v = Vec::new();     // error! T türü çıkarsanamıyor
+
+    Rust'ın tür belirleme mekanizması esnek olduğu için yukarıdkai gibi bildirim aslında daha sonra push yapıldığında
+    geçerli hale gelebilmektedir. Örneğin:
+
+    let v = Vec::new();
+
+    v.push(10);     // bu noktada artık derleyici T türünün i32 olduğunu anlamaktadır.
+
+    Bir Vec değeri new ile yapatıldığında len ve capacity değerleri 0 olmaktadır. Yani heap'te henüz herhangi bir tahsisat
+    yapılmanaktadır.
+
+    vec! isimli makro bir sentaksını kullanarak o dizinin elemanlarından Vec oluşturmaktadır. Örneğin:
+
+    let v: Vec<i32>;
+
+    v = vec![10, 20, 30, 40, 50];
+
+    Burada yaratılan Vec değerinin içerisinde köşeli paramtez içerisinde belirtilen elemanlar bulunacaktır. vec! makro
+    isminden sonra normal parantezlerin kullanılmadığına dikkat ediniz. Örneğin:
+
+    let v = vec![0; 10];
+
+    Burada oluşturulan vektöre 10 tane 0 değeri yerleştirilmiştir. vec! makrosu std modülü içerisindedir. Standart prelude
+    içerisinde belirtildiği için doğrudan kullanılabilmektedir. Yani herhangi bir use işleminin yapılmasına gerek yoktur.
+    Tabii biz istersek yine de tam niteliklendirme yapabiliriz:
+
+    let v = std::vec![10, 20, 30, 40, 50];
+
+    vec! makrosuyla oluşturulan vektörün capacity değerinin ne olacağı dokümanlarda belirtilmemiş olsa da mevcut gerçekleştirimde
+    len ve capacity değerleri makroda belirtilen eleman sayısı kadardır.
+
+    Bir vektör belli bir kapasite ile de yaratılabilmektedir. Bunun için with_capacity ilişkili fonksiyonu kullanılmaktadır.
+    Fonksiyonun parametrik yapısı şöyledir:
+
+    pub fn with_capacity(capacity: usize) -> Vec<T>
+
+    Bazen vektöre yerleştirceğimiz eleman sayısı hakkında bir öngörümüz olabilir. Bu durumda kapasitenin gittikçe artırılması
+    yerine ona bşlangıçta belli bir değer vermek işlemleri hızlandırabilmektedir. Örneğin:
+
+    let v: Vec<i32> = Vec::with_capacity(100);
+
+    Burada v vektörünün uzunuğu 0 ancak kapasite değeri en az 100'dür.
+
+    Rust standartlarında with_capacity ilişkili fonksiyonu ile vektör yaratıldığında vektörün kapasitesinin fonksiyonun ikinci
+    parametresinde belirtilen miktardan daha büyük olabileceği belirtilmiştir.
+
+    Vektör türünden değer oluşturmanın diğer bir yolu da Vec yapısının From trait'inden gelen from metotlarını kullanmaktır.
+    Vec yapısı çeşitli türler için From trait'ini desteklemektedir. Bunların listesini aşağıda veriyoruz:
+
+    fn from(s: [T; N]) -> Vec<T>
+    fn from(s: &[T; N]) -> Vec<T>
+    fn from(s: &[T]) -> Vec<T>
+    fn from(s: &mut [T]) -> Vec<T>
+    fn from(s: &mut [T; N]) -> Vec<T>
+    impl From<&str> for Vec<u8>
+    fn from(s: Box<[T], A>) -> Vec<T, A>
+
+    Buradan şu sonuçları çıkartabiliriz:
+
+    - Bir vektör aynı türden bir dizi ile oluşturulabilir. Bu durumda dizinin sahipliği devredilir.
+    - Bir vektör aynı türden bir dizinin referansı ile oluşturulabilir. Bu durumda dizinin sahipliği devredilmez.
+    - Bir vektör aynı türden bir dizi diliminin referansı ile oluşturulabilir.
+    - Bir vektör string dilim referansı ile oluşturulabilir. Bu durumda vektörün T türünün u8 olması gerekir.
+    - Bir vektör heap'te tahsis edilmiş olan bir dilim ile oluşturuabilir.
+
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let v = Vec::from(a);
+
+    Burada bir diziden vektör elde edilmiştir. Buradaki dizi i32 türünden olduğu için Copy türünden değildir. Dolayısıyla
+    biz from işleminden sonra da bu diziyi kullanabiliriz. Ancak dizi örneğin Smaple yapısı türünden olsaydı artık from
+    işleminden sonra diziyi kullanamazdık. Tabii her zaman sahiplik devri olmadan diziden vektör yapılmasını istiyorsak
+    dizi değişkenin adresini from ilişkili fonksiyonuna geçirmeliyiz. Örneğin:
+
+    fn main() {
+        let s: [Sample; 3] = [Sample::new(10), Sample::new(20), Sample::new(30)];
+        let v = Vec::from(&s);
+        //...
+    }
+
+    Örneğin:
+
+    let a: [i32; 10] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let v = Vec::from(&a[2..5]);
+
+    Burada dizinin 2'den 5'inni indeksine kadarki elemanları bir dilim referansı olarak elde edilmiş ve from fonksiyonu
+    tarafından vektöre dönüştürülmüştür. Örneğin:
+
+    let s: &str = "This is a test";
+    let v = Vec::from(s);
+
+    Burada bir string dilimi verilerek oradaki UTF-8 değerlerinden bir vektör oluşturulmuştur. Örneğimizdeki v değişkeni
+    Vec<u8> türündendir.
+
+    Her from metodu için ilili türün içerisinde bir into metodunun "kaplayıcı destekleme (blanket implementation)" yoluyla
+    oluşturulduğunu anımsayınız. Biz yukarıdaki türlerden değerleri de into metodu yoluyla Vec türüne dönüştürebiliriz.
+    Örneğin:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+    let v: Vec<i32>;
+
+    v = a.into();
+
+    [i32; 5] türü vec<i32> türünün from ilişkili fonksiyonu ile Vec<i32> türüne  dönüştürülebiliyorsa aynı işlem [i32; 5]
+    türünün into metodula da yapılabilmektedir. Örneğin:
+
+    let s = "This is a test";
+    let v: Vec<u8> = s.into();
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Dolaşılabilir (iterable) türlerin collect isimli metotları ile bu dolaşılabilir türlerin içerisindeki değerlerden Vec
+    oluşturulabilmektedir. Dolaşılabilir türlerin oluşturulması konusu ayrı bir başlıkta ele alınacaktır. Örneğin daha önce
+    görmüş olduğumuz Range yapısı dolaşıabilir bir türdür. Onun collect metodu ile biz Range içerisindeki değerlerden Vec
+    yapabiliriz:
+
+    let v: Vec<i32> = (0..10).collect();
+
+    Burada v vektörü 0'dan 10!a kadar (10 dahil değil) değerlerden oluşturulmuştur. Örneğin:
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir vektörün içerisindeki eleman sayısı len metoduyla, kapasitesi ise capacity metouyla elde edilebilmektedir. Bu
+    metotların parametrik yapısı şöyledir:
+
+    pub const fn len(&self) -> usize
+    pub const fn capacity(&self) -> usize
+
+    Örneğin:
+
+    let v = vec![10, 20, 30, 40, 50];
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 5, capacity: 5
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vektörün boş olup olmadığı is_empty metodu ile test edilebilir. is_empty metodunun geri dönüş değeri şöyledir:
+
+    pub const fn is_empty(&self) -> bool
+
+    is_empty() ile len() == 0 aynı anlamdadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Artık vektör üzerinde işlemler yapan Vec sınıfının metotlarını inceleyebiliriz. Vektörün sonuna eleman eklemek için
+    push metodu kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn push(&mut self, value: T)
+
+    Tabii gördüğünüz gibi vektöre eleman ekleyebilmek için vektörün mut olması gerekmektedir. Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = Vec::new();
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 0, capacity: 0
+        v.push(10);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 1, capacity: 4
+        v.push(20);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 2, capacity: 4
+        v.push(30);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 3, capacity: 4
+        v.push(40);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 4, capacity: 4
+        v.push(50);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 5, capacity: 8
+    }
+
+    Burada görüldüğü gibi Vec gerçekleştiriminde vektöre ilk kez eleman eklendğinde kapasite 4 ile başlatılmıştır. Bu
+    kapasite dolunca artık büyütme eskisinin iki katı kadar yapılmıştır. Rust Standart Kütüphanesinin dokümanlarında büyütmenin
+    öncekinin iki katı biçiminde yapılacağı yönünde kesin bir yargıda bulunulmamıştır. Ancak "genellikle ik katı biçiminde
+    yapılır gibi" bir ipucu verilmiştir. push metodunun ikinci parametresinin (value parametresinin) referans olmadığına dikkat
+    ediniz. Yani metot ilgili değerin sahipliğini almaktadır.
+
+    push işlemi yeniden tahsisat yapılmıyorsa O(1) karmaşıklıkta yeninden tahsisat yapılıyorsa O(N) karmaşıklıkta yapılmaktadır.
+    Bu biçimdeki karmaşıklığa (yani O(1) karmaşıklıkla ama logaritmik olarak O(N) karmaşıklıkya yapılan işlemlerin karmaşıklığına)
+    İngilizce "amortized constant time" denilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+ fn main() {
+    let mut v: Vec<i32> = Vec::new();
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 0, capacity: 0
+    v.push(10);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 1, capacity: 4
+    v.push(20);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 2, capacity: 4
+    v.push(30);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 3, capacity: 4
+    v.push(40);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 4, capacity: 4
+    v.push(50);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 5, capacity: 8
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            85. Ders 11/02/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec bir yapı olduğu için Copy türüne ilişkin değldir. Dolayısıyla biz bir Vec değerini aynı türden bir değişkene atadığımızda
+    sahipliği taşımış oluruz. Tabii Vec türünden değişken ya da değer faaliyet alanı bittiğinde drop edilmektedir. Eğer
+    Vec<T> değişkenindeki T türü Copy türünden değilse vektördeki her eleman için drop metodu çağrılacaktır. drop metotları
+    yine dizilerde olduu gibi baştan itibaren düz sırada çağrılmaktadır. Bu durumu aşağıdaki örnekle analiz edebilirsiniz:
+
+    fn main() {
+        let mut v: Vec<Sample> = Vec::new();
+
+        v.push(Sample::new(10));
+        v.push(Sample::new(20));
+        v.push(Sample::new(30));
+        v.push(Sample::new(40));
+        v.push(Sample::new(50));
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Sample { val }
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping: {}", self.val);
+        }
+    }
+
+    Burada main fonksiyonun ana bloğu bittiğinde v değişkeni drop edilecektir. v değişkeni drop edilirken de onun tuttuğu
+    elemanlar da düz sırada drop edilecektir. Ekranda (stdout dosyasında) şunları göreceksiniz:
+
+    Dropping: 10
+    Dropping: 20
+    Dropping: 30
+    Dropping: 40
+    Dropping: 50
+
+    Normal yapılarda olduğu gibi bir vektörü sahipliğini deveretmeden fonksiyonlara referans yoluyla (yani ödünç alma yoluyla)
+    geçirebiliriz. Örneğin:
+
+    fn main() {
+        let mut v: Vec<Sample> = Vec::new();
+
+        v.push(Sample::new(10));
+        v.push(Sample::new(20));
+        v.push(Sample::new(30));
+        v.push(Sample::new(40));
+        v.push(Sample::new(50));
+
+        disp(&v);
+    }
+
+    fn disp(vr: &Vec<Sample>) {
+        for i in 0..vr.len() {
+            print!("{} ", vr[i].val);
+        }
+        println!();
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Sample { val }
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping: {}", self.val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<Sample> = Vec::new();
+
+    v.push(Sample::new(10));
+    v.push(Sample::new(20));
+    v.push(Sample::new(30));
+    v.push(Sample::new(40));
+    v.push(Sample::new(50));
+}
+
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Self {
+        Sample { val }
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının pop metodu vektörün sonundaki elemanı vektörden alıp (yani çıkarıp) onu geri dönüş değeri biçiminde
+    vermektedir. Metodun parametrik yapısı şöyledir:
+
+    pub fn pop(&mut self) -> Option<T>
+
+    Metodun Option<T> türü ile geri döndüğüne dikkat ediniz. Eğer vektörde hiç eleman yoksa metot Option<T>::None değeri
+    ile geri dönmektedir. pop işlemi O(1) karmaşıklıkta gerçekleştirilmektedir. push ve pop metotlarıyla bir bir stack
+    sistemi oluşturabiliriz. Örneğin:
+
+        fn main() {
+        let mut v: Vec<i32> = Vec::new();
+        let mut val: i32;
+
+        v.push(10);
+        v.push(20);
+        v.push(30);
+        v.push(40);
+        v.push(50);
+
+        while !v.is_empty() {
+            val = v.pop().unwrap();
+            print!("{} ", val);
+        }
+        println!();
+    }
+
+    Burada pop metodundan elde edilen Option değeri unwrap işlemine sokularak değer elde edilmiştir. Biz döngüde vektör
+    boş olana kadar işlem yaptığımıza göre unwrap asla başarısız olmayacaktır.
+
+    pop metodunun elemanı taşıyarak verdiğine dikkat ediniz. Yani elde ettiğimiz eleman Copy türünden değilse onu atadığımız
+    değişken faaliyet alanını kaybettiğinde drop edilecektir.
+
+    pop kapasite düşümü yapmamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+ fn main() {
+    let mut v: Vec<i32> = Vec::new();
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 0, capacity: 0
+    v.push(10);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 1, capacity: 4
+    v.push(20);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 2, capacity: 4
+    v.push(30);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 3, capacity: 4
+    v.push(40);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 4, capacity: 4
+    v.push(50);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());      //  len: 5, capacity: 8
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    insert metodu araya eleman eklemek için kullanılmaktadır. Tabii sıranın bozulmaması için diğer elemanalr kaydırılmaktadır.
+    Dolayısıyla insert işlemi O(N) karmaşıklıkta yapılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn insert(&mut self, index: usize, element: T)
+
+    Metodun index parametresi insert pozisyonunu, element parametresi ise insert edilecek değeri belirtmektedir. Metodun
+    element parametresiin referans olmadığına, insert edilecek değerini sahipliğini aldığına dikkat ediniz. Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+        v.insert(5, 1000);
+
+        for i in 0..v.len() {
+            print!("{} ", v[i]);
+        }
+        println!();
+    }
+
+    Eğer insert metoduna geçirilen index geçerli bir index değilse panic oluşmaktadır. Ancak diğer pek çok programlama
+    dilinde olduğu gibi insert sona eklemek amacıyla da kullanılabilmektedir. Yani eğer insert pozisyonu len() ile aynıysa
+    insert geçerlidir ve bu sona ekleme anlamına gelmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    v.insert(5, 1000);
+
+    for i in 0..v.len() {
+        print!("{} ", v[i]);
+    }
+    println!();
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vektörün herhangi bir elemanını silmek için remove metodu kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn remove(&mut self, index: usize) -> T
+
+    Görüldüğü gibi eleman silinen eleman aynı zamanda geri dönüş değeri olarak da verilmektedir. Tabii bu eleman için drop
+    işlemi geri dönüş değeri üzerinden yapılacaktır. Eğer remove metounda geçirilen index pozisyonu geçersizse panic
+    oluşmaktadır. Örneğin:
+
+    fn main() {
+        let mut v: Vec<Sample> = Vec::new();
+        let s: Sample;
+
+        v.push(Sample::new(10));
+        v.push(Sample::new(20));
+        v.push(Sample::new(30));
+        v.push(Sample::new(40));
+        v.push(Sample::new(50));
+
+        s = v.remove(3);
+        println!("Removed element: {}", s.val);
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Sample { val }
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping: {}", self.val);
+        }
+    }
+
+    Burada vektörün 3'üncü indeksteki elemanı remove edilmiştir. Biz de kodumuzda bu elemanı alarak s değişkenine yerleştirdik.
+    Yerel değişkenlerin ters sırada drop edildiğini anımsayınız. Bu durumda ekranda (stdout dosyasında) şunları göreceksiniz:
+
+    Dropping: 40
+    Dropping: 10
+    Dropping: 20
+    Dropping: 30
+    Dropping: 50
+
+    Tabii biz remove edilen elemanı kullanmak istemeyebiliriz. Örneğin:
+
+    v.remove(3);
+
+    Burada biz remove metodunun geri dönüş değerini bir değeişkene atamamış olsak da yine bu geri dönüş değeri için çağrı
+    bittikten hemen sonra drop işlemi yapılacaktır.
+
+    remove işlemi O(N) karmaşıklıkta yapılmaktadır. remove işleminde kapsite değişmemektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    remove işleminin O(N) karmaşıklıkta yapıldığını belirtmiştik. Çünkü sırayı korumak için bir döngü gerekmektedir. Ancak
+    sıranın korunması önemli değilse silinecek elemanla son eleman yer değiştirilip len değeri de bir eksiltilebilir. Böylece
+    silme işlemi O(1) karmaşıklıkta yapılabilir. İşte bu işlemi yapam swap_remove isminde bir metot vardır. Metodun parametrik
+    yapısı şöyledir:
+
+    pub fn swap_remove(&mut self, index: usize) -> T
+
+    Yine geçersiz indeks pozisyonu için panic oluşturulmaktadır. swap_remove önce swap yapıp sonra pop işlemi yapmaktadır.
+    Yine silinen eleman geri dönüş değeri olarak verilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    append metodu bir vektörün sonuna aynı türden başka bir vektörü eklemek için kullanılmaktadır. Netodun parametrik
+    yapısı şöyledir:
+
+    pub fn append(&mut self, other: &mut Vec<T, A>)
+
+    Metodunun ikinci parametresinin aynı türdne mut bir referans olduğuna dikkat ediniz. Metot ödünç aldığı vektörün içini
+    boşaltmaktadır. (Tabii siz "maden metot diğer vektörün içini boşaltıyor peki o zaman neden sahipliğini almıyor" diye
+    düşünebiliriniz. Bunun nedeni aktarımın hızlı yapılmasını sağlamak içindir.) Yani başka bir deyişle bu metot ikinci
+    parametresindeki tüm elemanları vektörün sonuna taşımaktadır. Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = [10, 20, 30, 40, 50].to_vec();
+        let mut k = vec![60, 70, 80, 90, 100];
+
+        v.append(&mut k);
+
+        println!("{:?}", v);        // [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        println!("{:?}", k);        // []
+    }
+
+    Burada s vektörü ile k vektörünün her ikisinin de Vec<i32> türündne olduğuna dikkat ediniz. append işleminden sonra
+    k tamamen boşaltılmıştır. Dolayısıyla k'nın içeriğini yazdırmak istediğimizde bir şey yazılmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının extend metodu aslında append metodundan daha genel bir kullanıma sahiptir. extend metodu Extend trait'inden
+    gelen bir metottur. Extend trait'i std::iter modülünde şöyle tanımlanmıştır:
+
+    pub trait Extend<A> {
+        // Required method
+        fn extend<T>(&mut self, iter: T)
+            where T: IntoIterator<Item = A>;
+
+        // Provided methods
+        fn extend_one(&mut self, item: A) { ... }
+        fn extend_reserve(&mut self, additional: usize) { ... }
+    }
+
+    Görüldüğü gibi Extend trait'inin zorunlu textend isimli tek bir metodu vardır. Bu metot IntoItreator trait'ini destekleyen
+    bir tür türünden olmak zorundadır. Başka bir deyişle extend metodu parametre olarak dolaşılabilir bir nesneyi almaktadır.
+    extend metodu bu dolaşılabilir nesneyi dolaşıp onun içerisindekileri vektörün sonuna eklemektedir. Tabii dolaşılabilir
+    nesneden elde edilen değerlerin vektörün türüyle aynı olması gerekir. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+    let a = [60, 70, 80, 90, 100];
+
+    v.extend(a);
+    v.extend(1..10);
+
+    println!("{:?}", v);        // [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    Burada extend metoduna i32 veren dolaşılabilir nesneler parametre olarak geçirilmiştir. extend metoduna parametre olarak
+    verilen dolaşılabilir nesnedeki değerler taşınmaktadır. Yukarıdaki örneğimizde dizi ve Range içerisindeki değerler Copy
+    türünden olduğu için bir taşıma yapılmamıştır. Dolayısıyla yukarıdaki örnekte extend işlemindne sonra biz diziyi
+    kullanmaya devam edebiliriz. Örneğin:
+
+    fn main() {
+        let mut v: Vec<String> = vec![String::from("Ali"), String::from("Ali"), String::from("Selami")];
+        let names: [String; 2] = [String::from("Ayşe"), String::from("Fatma")];
+
+        v.extend(names);
+
+        println!("{:?}", v);                // ["Ali", "Ali", "Selami", "Ayşe", "Fatma"]
+        println!("{}", names[0]);           // error!
+    }
+
+    Bu örnekte dizi elemanları Copy türündne olmadığı için ve extend onları taşıdığı için artık extend sonrasında dizi
+    kullanılamayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının reserve metodu vektörün kapasitesini artırmak için kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn reserve(&mut self, additional: usize)
+
+    Metodun ikinci parametresi len() değerine ek yapılacak değeir belirtmektedir. Bazı programlama dillerinde reserve
+    ismindeki metotlar kapasitenin yeni değerini parametre olarak almaktadır. Halbuki Rust'ta bu parametre len() değerine
+    yapılacak eklemeyi (capacity parametresi) belirtir. Eğer len() + additional değeri capacity değerine eşit ya da ondan
+    küçükse metot bir şey yapmaz. Ancak len() + addtional() değeri capacity değerinden büyükse bu durumda capacity değeri
+    en az len() + additional kadar olacak biçimde yeniden tahsisat yapılır. Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+        v.reserve(3);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 10
+    }
+
+    Buarada biz reserve metoduyla capacity en az len() + 3 olacak biçimde artırmak istedik. Ancak metot capacity değerini
+    8 çıkarmadı 10'a çıkardı.
+
+    reserve işe aynı parametrik yapıya sahip olan reserve_exact isimli bir metot da vardır:
+
+    pub fn reserve_exact(&mut self, additional: usize)
+
+    Bu metodun reserve metodundan tek farkı çağrı sonucunda yeni kapasitenin tam olarak len() + additional değeri kadar
+    olmasıdır. (reserve metodunda daha büyük olabildiğine dikkat ediniz.) Bu metot da eğer o anki capacity değeri len() +
+    additional değerinden küçük ya da ona eşirse bir şey yapmamaktadır. Yani reserve ve reserve_exact kapasite düşümü
+    yapmamaktadır. Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+        v.reserve_exact(3);
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 8
+    }
+
+    Burada vektörde 5 eleman vardı ve vektörün kapasitesi de 5'ti. Biz 3 eleman daha talep ettik. Yeni kapasite 8 oldu.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            86. Ders 16/02/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının resize metodu vektörün eleman sayısını büyütmek ya da küçültmek için kullanılmaktadır. Metodun parametrik
+    yapısı şöyledir:
+
+    pub fn resize(&mut self, new_len: usize, value: T)
+
+    Metodun ikinci parametresi vektörün yeni uzunluğunu, üçüncüparametresi ise vektörün büyütülmesi durumunda doldurulacak
+    değeri belirtmektedir. Örneğin vektörde 5 eleman bulunuyor olsun. Biz resize ile sanki vektörde 10 eleman varmış gibi
+    bir durum oluşturabiliriz. Peki buradaki fazladan 5 elemanın değeri ne olacaktır? İşte resize metodu doldurulacak değeri
+    de parametre yoluyla almaktadır. resize metodu eleman sayısını düşürmek için de kullanılabilir. Örneğin biz 5 elemanın
+    bulunduğu bir vektörü 3 eleman olacak biçimde küçültebiliriz. Bu durmda sondaki 2 eleman silinecektir. Vektör resize ile
+    büyütüldüğünde yeniden tahsisat yapılabilir. Her ne kadar dokümanlarda standart biçimde belirtilmediyse de büyütme yine
+    eskisinin iki katı olacak biçimde yapılmaktadır. Genel olarak programlama dillerindeki Vec gibi dinamik dizilerde eleman
+    sayısı düşürürüldüğünde kapasite bundan etikilenmemektedir. (Yani kapasite düşürülmemektedir.) "Rust Standard Library"
+    dokümanlarında vektör resize ile küçültüldüğünde kapasite düşümünün yapılmayacağı açıkça belirtilmemiştir. (Bu durum
+    muhtemelen unutulmuş olabilir. Çünkü truncate metodunda kapasite düşümünün yapılmayacağı açıkça belirtilmiştir.) Ancak
+    mevcut Rust kütüphanesinde kapasite düşümü yapılmamaktadır.  Örneğin:
+
+    fn main() {
+        let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+        println!("{:?}", v);
+
+        v.resize(8, 0);
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 8, capacity: 10
+        println!("{:?}", v);
+
+        v.resize(3, 0);
+
+        println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 3, capacity: 510
+        println!("{:?}", v);
+    }
+
+    Burada ekranda (stdout dosyasında) şu çıktıları göreceksiniz:
+
+    len: 5, capacity: 5
+    [10, 20, 30, 40, 50]
+    len: 8, capacity: 10
+    [10, 20, 30, 40, 50, 0, 0, 0]
+    len: 3, capacity: 10
+    [10, 20, 30]
+
+    resize metodunun kullanılabilmesi için T türünün Clone trait'ini destekliyor olması gerekmektedir. Çünkü bizim metoda
+    verdiğimiz değer clone edilerek vektöre yerleştirilmektedir. Copy türlerinin zaten Clone trait'ini de desteklediğini
+    anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+    println!("{:?}", v);
+
+    v.resize(8, 0);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 8, capacity: 10
+    println!("{:?}", v);
+
+    v.resize(3, 0);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 3, capacity: 510
+    println!("{:?}", v);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    resize metodunun resize_with isminde bir benzeri de vardır. Bu metot vektörün büyütülmesi durumunda eklenecek elemanları
+    fonksiyonun geri dönüş değerinden elde edilmektedir. Ancak doldurma yapılırken her değer için callback fonksiyon yeniden
+    çağrılmamaktadır. Callback fonksiyon yalnızca bir kez çağrılıp oradan elde edilen değerle doldurma yapılmaktadır. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+    println!("{:?}", v);
+
+    v.resize_with(8, i32::default);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 8, capacity: 10
+    println!("{:?}", v);
+
+    v.resize(3, 0);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 3, capacity: 510
+    println!("{:?}", v);
+
+    Burada ekranda (stdout dosyasında) şuk çıktıyı göreceksiniz:
+
+    len: 5, capacity: 5
+    [10, 20, 30, 40, 50]
+    len: 8, capacity: 10
+    [10, 20, 30, 40, 50, 0, 0, 0]
+    len: 3, capacity: 10
+    [10, 20, 30]
+
+    Gördüğünüldüğü gibi eklenen elemanlar i32::default metodu ile doldurulmuştur. i32::default metodunun 0 değeri verdiğini
+    anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 5, capacity: 5
+    println!("{:?}", v);
+
+    v.resize_with(8, i32::default);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 8, capacity: 10
+    println!("{:?}", v);
+
+    v.resize(3, 0);
+
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 3, capacity: 510
+    println!("{:?}", v);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    resize ile küçültme yapılırken eğer T türü copy türünden değilse küçültme sırasında vektörden atılan elemanlar düz sırada
+    drop edilmektedir. Örneğin:
+
+    #[derive(Debug)]
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Sample {
+            Sample { val  }
+        }
+    }
+
+    impl Clone for Sample {
+        fn clone(&self) -> Sample {
+            Sample {val: self.val}
+        }
+    }
+
+    fn main() {
+        let mut v: Vec<Sample> = vec![Sample::new(10), Sample::new(20), Sample::new(30), Sample::new(40), Sample::new(50)];
+
+        println!("{:?}", v);
+
+        v.resize(3, Sample::new(0));
+
+        println!("{:?}", v);
+    }
+
+    Burada v.resize(3, Sample::new(0)) çağrısı ile vektörün eleman sayısı 3'e düşürülmüştür. Ancak vektörden atılan 2 eleman
+    da drop edilmektedir. Tabii resize çağrısında yaratılan Smaple değeri de metot çağrısından sonra drop edilecektir. Bu
+    pogramı çalıştırdığınızda ekranda (stdout dosyasında) şöyle bir çıktı göreceksiniz:
+
+    [Sample { val: 10 }, Sample { val: 20 }, Sample { val: 30 }, Sample { val: 40 }, Sample { val: 50 }]
+    Dropping: 40
+    Dropping: 50
+    Dropping: 0
+    [Sample { val: 10 }, Sample { val: 20 }, Sample { val: 30 }]
+    Dropping: 10
+    Dropping: 20
+    Dropping: 30
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<Sample> = vec![Sample::new(10), Sample::new(20), Sample::new(30), Sample::new(40), Sample::new(50)];
+
+    println!("{:?}", v);
+    v.resize(3, Sample::new(0));
+    println!("{:?}", v);
+}
+
+#[derive(Debug)]
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Sample {
+        Sample { val  }
+    }
+}
+
+impl Clone for Sample {
+    fn clone(&self) -> Sample {
+        Sample {val: self.val}
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının shrink_to_fit metodu kapasiteyi düşürmek için kullanılmaktadır. Genellikle bu metotla kapasite len() değerine
+    çekilmektedir. Ancak standartlar bunu garanti etmemektedir. Vektöre sürekli eleman eklendiğini düşünelim. Bir süre sonra
+    kapasite len() değerinden oldukça büyük bir hale gelebilecektir. İşte artık vektöre eleman eklenmeyecekse programcı bu
+    fazla kapasiteden shrink_to_fit metoduyşa kurtulmak isteyebilir. Metodun parametrik yapısı şöyledir:
+
+    pub fn shrink_to_fit(&mut self)
+
+    Görüldüğü gibi metot ek bir parametre almamaktadır. Örneğin:
+
+    let mut v: Vec<i32> = Vec::new();
+
+    for i in 0..100 {
+        v.push(i);
+    }
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 100, capacity: 128
+
+    v.shrink_to_fit();
+    println!("len: {}, capacity: {}", v.len(), v.capacity())        // len: 100, capacity: 100
+
+    Burada boş bir vektöre 100 eleman eklenmiştir. Elemanlar eklendikten sonra len() değeri 100, capacity() değeri ise 128
+    olmuştur. İşte shrink_to_fit metodu kapasitenin 100'e çekilerek fazla alanın serbest bırakılmasına yol açmıtır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = Vec::new();
+
+    for i in 0..100 {
+        v.push(i);
+    }
+    println!("len: {}, capacity: {}", v.len(), v.capacity());
+
+    v.shrink_to_fit();
+    println!("len: {}, capacity: {}", v.len(), v.capacity());
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    shrink_to_fit metodunun shrink_to isminde bir benzeri de vardır. Bu metot kapasiteyi parametresiyle aldığı değere çekmeye
+    çalışmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn shrink_to(&mut self, min_capacity: usize)
+
+    Metodun ikinci parametresi len() değerinden küçük ya d aona eşit girilirse kapasite len() değerine, büyük girilirse
+    parametrede belirtilen değere çekilmeye çalışılmaktadır. Ancak standartlar işlem sonrasında kapasitenin len() ya da
+    ikinci parametrede belirtilen değerden daha büyük de bırakılabileceğini belirtmektedir. Örneğin:
+
+    let mut v: Vec<i32> = Vec::new();
+
+    for i in 0..10 {
+        v.push(i);
+    }
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 16
+
+    v.shrink_to(12);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 12
+
+    v.shrink_to(5);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 10
+
+    Burada boş bir vektöre 10 eleman eklenmiştir. Bu elemanlar eklendikten sonda len() değeri 10, capacity değeri 16
+    olmuştur. Sonra shrink_to metodu ile kapasite 12'ye düşürülmüştür. shrink_to ile kapasitenin 10'un aşağısına düşürülemediğine
+    dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = Vec::new();
+
+    for i in 0..10 {
+        v.push(i);
+    }
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 16
+
+    v.shrink_to(12);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 12
+
+    v.shrink_to(5);
+    println!("len: {}, capacity: {}", v.len(), v.capacity());       // len: 10, capacity: 10
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bizim amacımız vektörü küçültmekse resize metoduna aslında kullanılmayacak bir parametre geçiyor durumda oluruz. İşte
+    bunu engellemek için Vec yapısının truncate metodu bulundurulmuştur. truncate metodu yalnızca vektörün hangi uzunluğa
+    küçültüleceğini bizden istemektedir. Parametrik yapısı şöyledir:
+
+    pub fn truncate(&mut self, len: usize)
+
+    Metodun ikinci parametresi vektörün yeni uzunluğunu belirtmektedir. Eğer bu parametre vektörün o anki uzunluğuna eşit
+    ya da ondan büyükse metot hiçbir şey yapmamaktadır. Metodun kapasite değişikliği yapmadığı dokümanlarda açıkça
+    belirtilmiştir.  truncate metodu da vektörden atılan elemanları düz sırada drop etmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<Sample> = vec![Sample::new(10), Sample::new(20), Sample::new(30), Sample::new(40), Sample::new(50)];
+
+    println!("{:?}", v);
+    v.truncate(3);
+    println!("{:?}", v);
+}
+
+#[derive(Debug)]
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Sample {
+        Sample { val  }
+    }
+}
+
+impl Clone for Sample {
+    fn clone(&self) -> Sample {
+        Sample {val: self.val}
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının drain isimli metodu vektörden yine eleman silmek için kullanılmaktadır. Ancak silinecek elemanları drain
+    bir range biçiminde istemektedir. drain metodu elemanları taşıyarak bize Drain isimli bir yapı türüyle vermektedir.
+    Drain yapısı dolaşılabilir (iterable) bir yapıdır. Biz metodun geri dönüş değerinden elde ettiğimiz Drain değerini
+    collect metodunu sokarak onlardna yenidne bir vektör oluşturabiliriz. drain metodunun parametrik yapısı şöyledir:
+
+    pub fn drain<R>(&mut self, range: R) -> Drain<'_, T, A>
+    where
+        R: RangeBounds<usize>,
+
+    Burada metodun generic olduğuna ve ikinci parametresinin de bu generic türden olduğua dikkat ediniz. Bu generic türün
+    RangeBounds isimli trait'i desteklemesi gerekmektedir. Bizim daha önce gördüğümüz range yapıları bu trait'i desteklemektedir.
+    Yani biz metodun ikinci parametresine bir range değeri geçebiliriz. Metodun Drain isimli bir yapı türünden bir değerle
+    geri döndüğünü belitmiştik. Örneğin:
+
+    let mut v: Vec<Sample> = vec![Sample::new(10), Sample::new(20), Sample::new(30), Sample::new(40), Sample::new(50)];
+    let vd: Vec<Sample>;
+
+    vd = v.drain(1..3).collect();
+
+    println!("{:?}", v);
+    println!("{:?}", vd);
+
+    Burada drain metodu ile vektördeki 1'inci ve 2'inci indeksteki elemanlar vektörden taşınıp başka bir vektöre aktarılmıştır.
+    Bu kod parçası çalıştırıldığında ekranda (stdout) dosyasında şunlar görünecektir:
+
+    [Sample { val: 10 }, Sample { val: 40 }, Sample { val: 50 }]
+    [Sample { val: 20 }, Sample { val: 30 }]
+    Dropping: 20
+    Dropping: 30
+    Dropping: 10
+    Dropping: 40
+    Dropping: 50
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<Sample> = vec![Sample::new(10), Sample::new(20), Sample::new(30), Sample::new(40), Sample::new(50)];
+    let vd: Vec<Sample>;
+
+    vd = v.drain(1..3).collect();
+
+    println!("{:?}", v);
+    println!("{:?}", vd);
+}
+
+#[derive(Debug)]
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Sample {
+        Sample { val  }
+    }
+}
+
+impl Clone for Sample {
+    fn clone(&self) -> Sample {
+        Sample {val: self.val}
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping: {}", self.val);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının dedup isimli metodu yan yana aynı elemanlardan varsa yinelenen elemanları silmektedir. Metodun parametrik
+    yapısı şöyledir:
+
+    pub fn dedup(&mut self)
+
+    Örneğin:
+
+    let mut v: Vec<i32> = vec![1, 1, 2, 3, 3, 4, 4, 5, 5, 5, 2, 3];
+
+    println!("{:?}", v);            // [1, 1, 2, 3, 3, 4, 4, 5, 5, 5, 2, 3]
+    v.dedup();
+    println!("{:?}", v);           //  [1, 2, 3, 4, 5, 2, 3]
+
+    Tüm yinelenenler (mükerrerler) elemanların vektörden silinmesi için vektörün önce sort edilip sonra dedup işlemi uygulanabilir.
+    dedup işlemi ile peşi sıra giden aynı elemanlardna hangisinin bırakılacağı konusunda bir belirlemede bulunulmamıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut v: Vec<i32> = vec![1, 1, 2, 3, 3, 4, 4, 5, 5, 5, 2, 3];
+
+    println!("{:?}", v);            // [1, 1, 2, 3, 3, 4, 4, 5, 5, 5, 2, 3]
+    v.dedup();
+    println!("{:?}", v);           //  [1, 2, 3, 4, 5, 2, 3]
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de vektör içerisindeki elemanlara erişim üzerind duralım. Biz daha ince dizide olduğu gibi vektör elemanlarını
+    [] operatörü elde etmiştik. Vec yapısının Index ve IndexMut trait'lerini desteklediğini belirtmiştik. [] operatörü
+    ile vektörün elemanlarına erişirken eğer index geçerli değilse painic oluşmaktadır. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    println!("{}", v[20]);          // panic!
+
+    Eğer panic oluşması istenmiyorsa dilimlerin get ve get_mut metotları kullanılabilir. Dilimlerin bu metotların parametrik
+    yapısına dikkat ediniz:
+
+    pub fn get<I>(&self, index: I) -> Option<&<I as SliceIndex<[T]>>::Output>
+    where
+        I: SliceIndex<[T]>,
+
+    pub fn get_mut<I>(&mut self, index: I) -> Option<&mut <I as SliceIndex<[T]>>::Output>
+    where
+        I: SliceIndex<[T]>,
+
+    Burada metodun ikinci parametresinin generic bir türden olduğuna dikkat ediniz. Buı türün SliceIndex<[T]> trait'ini
+    destekliyor olması gerekmektedir. Metodun geri dönüş değeri Option türündendir. Yukarıdaki paraöetrik yapı size karmaşık
+    gelebilir. Ancak buradaki öz basittir: Eğer index geçerli bir indeks ise vektördeki erişilen elemanın referansı Some
+    varyantı olarak elde edilmektedir. Eğe index geçersize None varyantı elde edilmektedir. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let i = 20;
+    let valr: &i32;
+
+    valr = match v.get(i) {
+        Some(valr) => valr,
+        None => {
+            println!("invalid index!..");
+            std::process::exit(0)
+        }
+    };
+    println!("{}", *valr);
+
+    Bu metotların Vec yapısına ait olmadığına dilimlerin metotları olduğuna dikkat ediniz.
+
+    Aşağıdaki programda klavyeden (stdin dosyasından) bir indeks okunmuştur. Vektörün bu indeksli elemanına erişim yapılmıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::Write;
+
+fn main() {
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let valr: &i32;
+    let index: usize;
+    let mut s: String = String::new();
+
+    print!("Erişilecek indeksi giriniz:");
+    std::io::stdout().flush().unwrap();
+    std::io::stdin().read_line(&mut s).expect("cannot read line!..");
+    index = s.trim().parse().expect("cannot parse!..");
+
+    valr = match v.get(index) {
+        Some(valr) => valr,
+        None => {
+            println!("invalid index!..");
+            std::process::exit(0)
+        }
+    };
+    println!("{}", *valr);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    [] operatörünün içerisine range değerleri de yerleştirebiliriz. Bu durumda biz dizi dilimi  elde ederiz. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    let rs: &[i32];
+
+    rs = &v[2..6];
+
+    for valr in rs {
+        print!("{} ", *valr);
+    }
+    println!();
+
+    Tabii range geçerli değilse yine panic oluşmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vektörün elemanına ve son elemanına erişmek için dilimlerin first(), last(), first_mut() ve last_mut() metotları
+    kullanılabilmetedir. Bu metotların parametrik yapıları şöyledir:
+
+    pub fn first(&self) -> Option<&T>
+    pub fn first_mut(&mut self) -> Option<&mut T>
+    pub fn last(&self) -> Option<&T>
+    pub fn last_mut(&mut self) -> Option<&mut T>
+
+    Metotların geri dönüş değerlerinin Option türünden referans olduğuna dikkat ediniz. Eğer vektör boşsa vektörün ilk ve
+    son elemanı bulunmayacaktır. Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    println!("{}", *v.first().unwrap());            // 10
+    println!("{}", *v.last().unwrap());             // 100
+
+    first ve last metotlarının referans verdiğine dikkat ediniz. Örneğin biz vektörün ilk elemanını şöyle değiştirebiliriz:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    *v.first_mut().unwrap() = 1000;
+    println!("{:?}", v);            // [1000, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+    Bu metotların Vec yapısına ait olmadığına dilimlerin metotları olduğuna dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    println!("{}", *v.first().unwrap());            // 10
+    println!("{}", *v.last().unwrap());             // 100
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec yapısının elemanlarını belli bir indeksten bölmek için dilimlerin at ve split_at_mut metotları kullanılabilir.
+    Metotlar bize dizi dilim referanslarında oluşan ikili bir demet verir. Metotların parametrik yapıları şöyledir:
+
+    pub fn split_at(&self, mid: usize) -> (&[T], &[T])
+    pub fn split_at_mut(&mut self, mid: usize) -> (&mut [T], &mut [T])
+
+    Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let (v1, v2): (&[i32], &[i32]) = v.split_at(5);
+
+    println!("{:?}", v1);
+    println!("{:?}", v2);
+
+    Tabii burada biz demetin türünü açıkça belirtmek zorunda değildik. Eğer bölme indeksi geçerli değilse metot panik
+    oluşturmaktır. Ancak ilk 0 ve len() indeksleri için parçaların biri boş dilim referansı oluşturabilmektedir.
+
+    split_mut ve split_mut_at metotlarının unchecked'li biçimleri de vardır:
+
+    pub unsafe fn split_at_unchecked(&self, mid: usize) -> (&[T], &[T])
+    pub unsafe fn split_at_mut_unchecked(&mut self, mid: usize) -> (&mut [T], &mut [T])
+
+    Bu metotlar indeks'te sınır kontrolü uygulamamaktadır. Metotların unsafe olduğuna dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+    let (v1, v2): (&[i32], &[i32]) = v.split_at(11);
+
+    println!("{:?}", v1);
+    println!("{:?}", v2);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        87. Ders 18/02/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vektörü dolaşmak için tipik yollardan biri daha önceden de yaptığımız gibi indeskli dolaşımdır. Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for i in 0..v.len() {
+        print!("{} ", v[i]);
+    }
+    println!();
+
+    Ancak Vec yapısı IntoIterator trait'ini desteklediği için for döngüsüyle dolaşılabilir. Ancak bu dolaşımda vektörün
+    elemanları taşınmaktadır. Dolayısıyla vektör de tüketilmektedir. Başka bir deyişle dolaşım sırasında vektörün elemanları
+    for döngüsündeki döngü değişkenine taşınmaktadır. Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for val in v {
+        print!("{} ", val);
+    }
+    println!();
+
+    println!("{:?}", v);        // error!
+
+    Burada vektör tüketildiği için artık kullanılamamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vec türünde bir değiiken ile iter metodunu kullandığımızda aslında (dizilerde de görmüştük) dilim (slice) türünün iter
+    metodu çağrılmaktadır. Bu iter metodunun da dilimdeki elemanları referans yoluyla dolaşan bir teratör verdiğini de
+    diziler konusunda belirtmiştik. Dolayısıyla biz bu iter metoduyla yine vektördeki elemanları referans yoluyla dolaşabiliriz.
+    Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for rval in v.iter() {
+        print!("{} ", *rval);
+    }
+    println!();
+
+    println!("{:?}", v);        // geçerli
+
+    Burada for döngüsündeki rval değişkeni artık &i32 türündendir. Burada dolaşım ödünç alma yoluyla yapıldığı için vektör
+    tüketilmemektedir. Yani dolaşımdan sonra biz vektörü yine kullanabiliriz.
+
+    Benzer biçimde biz Vec türünden bir değişkenle iter_mut metodunu çağırdığımızda yine dilim türünün iter_mut metodu
+    çağrılmaktadır. Böylece vektör elemanları mut referans yoluyla dolaşılmaktadır. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for rval in v.iter_mut() {
+        *rval += 1;
+    }
+    println!();
+
+    println!("{:?}", v);        // [11, 21, 31, 41, 51]
+
+    Burada artık rval değişkeni &mut i32 türündendir. Döngü içerisinde vektörün tüm elemanlarına 1 toplanmıştır.
+
+    Aslında vektörü referans yoluyla dolaşırken iter metodunu çağırmak yerine doğrudan vektör dğeişkenin adresini de
+    alabiliriz. Örneğin:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for val in &v {
+        print!("{} ", *val);
+    }
+    println!();
+
+    Burada aslında v.iter() ifadesi ile &v ifadesi aynı sonuçlara yol açmaktadır. Bu konunun ayrıntıları ayrı bir başlık
+    altında iteratör konusunda ele alınacaktır. Yukarıdaki işlemin diğer bir eşdeğeri de şudur:
+
+    let v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    let rv = &v;
+    for val in rv.into_iter() {
+        print!("{} ", *val);
+    }
+
+    Benzer biçimde biz Vec türünden bir değişkenle iter_mut metodunu çağırarak dolaşmakla vektör değişkenin adresini &mut
+    ile alarak dolaşmak arasında işlevsel fark yoktur. Örneğin:
+
+    let mut v: Vec<i32> = vec![10, 20, 30, 40, 50];
+
+    for rval in &mut v {
+        *rval += 1;
+    }
+    println!();
+
+    println!("{:?}", v);        // [11, 21, 31, 41, 51]
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de klavyeden (stdin dosyasından)= alınan isimleri Vec<String> türündne bir vektöre yerleştirelim. Bu işlemi şöyle
+    yapabiliriz:
+
+    use std::io::{stdin, stdout};
+    use std::io::Write;
+
+    let mut names: Vec<String> = Vec::new();
+
+    loop {
+        let mut name: String = String::new();
+        print!("Bir isim giriniz:");
+        stdout().flush().unwrap();
+
+        std::io::stdin().read_line(&mut name).expect("cannot read_line");
+        name = name.trim().to_string();
+        if name == "quit" {
+            break;
+        }
+        names.push(name);
+    }
+
+    Burada her defasında yeni bir String yaratılıp o String vektöre yerleştirilmiştir. Klavyeden "quit" girildiğinde
+    döngüden çıkılmıştır. Bu kodda dikkat edilmesi gereken noktalar şunlardır:
+
+    - Maalesef Rust'ta inplace biçimde trim işlemi yapan hazır bir metot yoktur. String üzerinde trim yapıldığında &str
+    biçiminde string dilimi elde edilmektedir. Bu dilim de aslında asıl String değişkeninde bir aralık belirtmektedir.
+    Dolayısıyla bu string diliminin yeniden String türüne dönüştürülmesi gerekmektedir. Aşağıdaki işlemde eski String
+    değerinin drop edildiğine dikkat ediniz:
+
+    name = name.trim().to_string();
+
+    - read_line metodu Windows sistemlerindeyazının sonunda "\r\n" karakterlerinin her ikisini de bırakmaktadır. Oysa
+    Linux ve macOS sistemlerinde bu metot yazının sonunda yalnızca "\n" bırakmaktadır. "\r" ve "\n" karakterleri boşluk
+    karakteri olduğu için trim metodu bunları da ortadan kaldırmaktadır.
+
+    - Biz buaradaki vektörü aşağıdaki gibi alamazdık:
+
+    let mut names: Vec<&str>;
+
+    Çünkü bu durumda string dilimi String değeri içerisinde bir aralık belirtitği için o String nesnesinin yaşıyor olması
+    gerekecektir. Bu da Rust'un taşıma kurallarına aykırılık oluşturacaktır.
+
+    - Örneğimizde döngünün her yinelenemesinde yeniden farklı bir String nesnesinin yaratıldığına dikkat ediniz:
+
+    loop {
+        let mut name: String = String::new();
+        //...
+    }
+
+    Burada izleyen paragraflarda da ele alacağımız gibi aslında döngünün her yinelenmesinde aynı değişkene atanan farklı bir
+    String nesnesi heap'te oluşturulmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::{stdin, stdout};
+use std::io::Write;
+
+fn main() {
+    let mut names: Vec<String> = Vec::new();
+
+    loop {
+        let mut name: String = String::new();
+        print!("Bir isim giriniz:");
+        stdout().flush().unwrap();
+
+        std::io::stdin().read_line(&mut name).expect("cannot read_line");
+        name = name.trim().to_string();
+
+        if name == "quit" {
+            break;
+        }
+        names.push(name);
+    }
+
+    for name in &names {
+        println!("{}", *name);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        88. Ders 23/02/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir vektör bir fonksiyona yine sahipliği devredilerek ya da ödünç alma yoluyla (yani adresiyle) geçirilebilmektedir.
+    Örneğin:
+
+    fn main() {
+        let v: Vec<String> = vec!["ali".to_string(),
+                                "veli".to_string(),
+                                "selami".to_string(),
+                                "ayşe".to_string(),
+                                "fatma".to_string()];
+        disp(v);
+    }
+
+    fn disp(v: Vec<String>) {
+        for val in v {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    Burada vektör sahipliği devredilerek fonksiyona aktarılmıştır. Ancak örneğin:
+
+    fn main() {
+        let v: Vec<String> = vec!["ali".to_string(),
+                                "veli".to_string(),
+                                "selami".to_string(),
+                                "ayşe".to_string(),
+                                "fatma".to_string()];
+        disp(&v);
+    }
+
+
+    fn disp(v: &Vec<String>) {
+        for val in v {
+            print!("{} ", val);
+        }
+        println!("");
+    }
+
+    Burada vektör ödünç alma yöntemiyle yani adresi alınarak fonksiyona aktarılmıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi bir yapının Copy türünden olmayan bir elemanının sahipliği devredildiği zaman artık o yapı bütünsel
+    biçimde kullanılamaz. Çünkü sahiplik kısmen devredilmiştir. Yine anımsayacağınız gibi bir dizi Copy türünden değilse
+    dizinin herhangi bir elemanının sahipliğini devredemiyorduk. Yani dizilerde eleman türü Copy türünden değilse kısmi
+    sahiplik devri yoktur. İşte aynı durum vektörler için de geçerlidir. Örneğin:
+
+     let v: Vec<String> = vec!["ali".to_string(),
+                              "veli".to_string(),
+                              "selami".to_string(),
+                              "ayşe".to_string(),
+                              "fatma".to_string()];
+
+    let s = v[2];       // error! vektör elemanlarının sahipliği devredilemez
+
+    Vektörün sahipliğinin bütünsel olarak devredilebildiğine ancak belli bir elemanın kısmi bir biçimde sahipliğinin
+    devredilemediğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de String yapısını ayrıntılı olarak inceleyelim. String yapısı Rust'ta en fazla kullanılan standart yapılardan
+    biridir. Biz de örneklerimizde String türün kullandık. Ancak bu tür hakkında ayrıntılı açıklamalar yapmadık.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta String türü aslında içsel olarak Vec<u8> türünden bir elemana sahip bir yapıdır. Aşğıdaki gibi tanımlanmıştır:
+
+    pub struct String {
+        vec: Vec<u8>,
+    }
+
+    String yapısı std::string modülünde bulunmaktadır. Ancak standart prelude içerisinde use edildiği için doğrudan
+    kullanılabilmektedir. Yukarıda String yapısının vec isimli bir elemanın olduğunu görüyorsunuz. Ancak bu eleman private
+    durumdadır. Yani modül dışından bu elemana erişim yoktur. Bu konu izleyen bölümlerde ayrıntılarıyla ele alınacaktır.
+    String yapısının bir vektör ile aynı uzunlukta yer kapladığına dikkat ediniz. String için de len ve capacity değerleri
+    söz konusudur. String için kapasite yine vektördeki prensiplerle (yani eskisinin iki katı olacak biçimde) tahsis edilmektedir.
+    Örneğin:
+
+    fn main() {
+        let s = String::new();
+
+        println!("{}", std::mem::size_of_val(&s));      // 24
+    }
+
+    64 bit sistemde bir vektörün 3 * 8 = 24 byte yer kapladığını anımsayınız.
+
+    String yapısında da len ve capacity isiml metotlar usize türünden String içerisinde tutulan yazının byte uzunluğunu
+    (karakter uzunlupunu değil) ve yazı için ayrılan kapasite değerini vermektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String türünden değişkenler çeşitli biçimlerde oluşturulabilmektedir. String yapısının new ilişkili fonksiyonu içi boş
+    bir String değeri oluşturmaktadır. Örneğin:
+
+    let mut s = String::new();
+
+    println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 0, capacity: 0
+
+    new ilişkili fonklsiyonuyla String değeri oluşturulduğunda len() ve capacity() değerlerinin 0 olacağı resmi dokümanlarda
+    belirtilmiştir. Yani kapasite için henüz bir tahsisat yapılamamktadır.
+
+    Bir String değeri String yapısının From trait'inden gelen from metodu ile string dilim referansı verilerek de oluşturulabilir.
+    Zaten biz bu biçimde String değerleri oluşturmuştuk. Örneğin:
+
+     let mut s = String::from("ankara");
+
+    println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 6, capacity: 6
+
+    Bu biçimde String yaratıldığında len() ve capacity() değerleri string'in byte uzunluğu kadar olmaktadır. from metodunun
+    From<T> trait'inden geldiğini anımsayınız. from metodunun String için yazımı şöyle yapılmış olmalıdır:
+
+    impl From<&str> fort String {
+        fn from(s: &str) -> String {
+            //...
+        }
+    }
+
+    Anımsanacağı gibi bir tür From trait'ini T türü için destekliyorsa bu T türü de Into trait'ini o tür için desteklemektedir.
+    Bu desteklemenin "kaplayıcı destekleme (blanket implementation)" yoluyla yapıldığını anımsayınız. O halde &str türünde
+    de String türüne dönüştürme yapan bir into metodu olmalıdır:
+
+    let mut s: String = "ankara".into();
+
+    into metodu Into trait'inden geldiği için ve Intı trait'i başka türler için de desteklendiği için hedef türün açıkça
+    belirtilmesi gerekmektedir.
+
+    Elimizde bir string dilim referansı varsa (örneğin iki tırnak içerisinde bir yazı varsa) string dilimlerinin to_string
+    metoduyla da String değeri oluşturulabilmektedir. Zaten biz bu to_string metodunu daha önce çokça kullanmıştık. Örneğin:
+
+    let mut s = "ankara".to_string();
+
+    println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 6, capacity: 6
+
+    to_string bize String verdiği için ayrıca tür belirtilmesine gerek yoktur.
+
+    String dilimlerinin to_owned isimli metotları da benzer biçimde dilimden bir String oluşturabilmektedir. Bu metodun
+    to_string metodundan çok küçük bir farkı vardır. Örneğin:
+
+    let mut s = "ankara".to_owned();
+
+    println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 6, capacity: 6
+
+    Tıpkı Vec yapısında olduğu gibi String yapısında da with_capacity isimli bir ilişkili fonksiyon vardır. Bu fonksiyon
+    String değerini belli bir kapasiyetle oluşturmaktadır. Örneğin:
+
+    let mut s = String::with_capacity(50);
+
+    println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 0, capacity: 50
+
+    format! isimli makro print! makrosu gibi kullanılmaktadır. Ancak ekrana (stdout dosyasına) yazdırmak yerine yazılacakları
+    bir String olarak vermektedir. print! makrosunu C'deki printf fonksiyonuna benzetirseniz, format! makrosunu da sprintf
+    fonksiyonuna benzetebilirsiniz. Örneğin:
+
+    fn main() {
+        let a = 10;
+        let b = 20;
+        let mut s: String;
+
+        s = format!("a = {}, b = {}", a, b);
+        println!("len: {}, capacity: {}", s.len(), s.capacity());       // len: 14, capacity: 20
+        println!("{}", s);      // a = 10, b = 20
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısının from_utf8 ilişkili fonksiyonu bizden UTF-8 formatında değerler barındıran Vec<u8> değerini alır, ondan
+    bir String oluşturur. Fonksiyonun parametrik yapısı şöyledir:
+
+    pub fn from_utf8(vec: Vec<u8>) -> Result<String, FromUtf8Error>
+
+    Görüldüğü gibi fonksiyon Result türüne geri dönmektedir. Çünkü her türlü byte dizilimi UTF-8 formatında geçerli bir
+    Unicode yazı oluşturmamktadır. Örneğin:
+
+    fn main() {
+    let mut v: Vec<u8> = vec![0x61, 0xC4, 0x9F, 0x72, 0xC4, 0xB1, 0x20, 0x64, 0x61, 0xC4, 0x9F, 0xC4, 0xB1];
+    v.reserve(500);
+
+    let s = match String::from_utf8(v) {
+            Ok(s) => s,
+            Err(e) => {
+                println!("invalid UTF-8 format");
+                std::process::exit(1);
+            }
+        };
+
+        println!("{}", s);          // ağrı dağı
+    }
+
+    Kütüphanenin kaynak kodlarına bakıldığında from_utf_8 ilişkili fonksiyonunun şöyle yazılmış olduğu görülmektedir:
+
+    pub fn from_utf8(vec: Vec<u8>) -> Result<String, FromUtf8Error> {
+        match str::from_utf8(&vec) {
+            Ok(..) => Ok(String { vec }),
+            Err(e) => Err(FromUtf8Error { bytes: vec, error: e }),
+        }
+    }
+
+    Burada önce str::from_utf8 fonksiyonu ile vektörün içerisindeki byte'ların geçerli bir Unicode yazı oluşturup oluşturmadığına
+    bakılmış Eğer byte dizilimi geçerli bir Unicode yazı oluşturuyorsa doğrudan String yapısının vec elemanına sahiplik
+    devredilmiştir. Ancak Rust dokğmanları bu ayrıntıda bir bilgi vermemektedir.
+
+    from_utf8 ilişkili fonksiyonunun from_utf8_unchecked isimli unsafe bir biçimidi de vardır:
+
+    pub unsafe fn from_utf8_unchecked(bytes: Vec<u8>) -> String
+
+    Fonksiyon başarılı geçerlilik sınaması yapmadığı için Result türüne değil doğrudan String türüne geri dönmektedir.
+    Tabii Vec<u8> içeisindeki byte'lar geçerli bir Unicode yazı oluşturmuyorsa tanımsız davranış oluşacaktır.
+
+    Ayrıca yapının UTF-16 word değerlerinden String yapan from_utf16 isimli bir ilişkili fonksiyonu da vardır:
+
+    pub fn from_utf16(v: &[u16]) -> Result<String, FromUtf16Error>
+
+    Burada fonksiyounun Vec<u16> değil u16 türünden dilim referansı aldığına dikkat ediniz. Tabii zaten Vec<u16> türünden
+    bir değişkenin adresini aldığımızda &[u16] elde edebilmekteyiz. fron_utf8 fonksiyonunun Vec<u8> almasının nedeni
+    nuhtemelen sahipli alarak doğrudan yapının içerisindeki vec elemanına yerleştirme yapmaktır. Halbuki from_utf16 fonksiyonu
+    ödünç alma uygulamaktadır. Yani buradaki u16 değerlerinin kopyası String değişkenine aktarılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String bir yapı olduğuna göre bir String diğerine atandığı zaman hedef drop edilip sahiplik devredilmektedir. Örneğin:
+
+    let s = String::from("ankara");
+    let mut k = String::from("istanbul");
+
+    k = s;
+
+    println!("{}", k);      // ankara
+    println!("{}", s);      // error!
+
+    Burada k = s ataması ile önce k drop edilecektir. Bu sırada k için yapılmış olan tahsisat geri bırakılacaktır. Sonra da
+    s'nin sahipliği k'ya devredilecektir. Artık s kullanılamayacaktır.
+
+    Eğer biz bir String değişkeninin sahipliğini aktarmadan onun içerisindeki yazının yeni bir String biçiminde kopyasını
+    oluşturmak istiyorsak clone metodunu kullanmalıyız. Anımsacağı gibi clone metodu Clone isimli trait'ten gelmektedir.
+    Örneğin:
+
+    let s = String::from("ankara");
+    let mut k = String::from("istanbul");
+
+    k = s.clone();
+    println!("{}", k);      // ankara
+    println!("{}", s);      // ankara2
+
+    Burada s'nin sahipliği devredilmemiştir. s'nin ieçrisindeki yazıyı barındıran yeni bir String oluşturulmuştur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir String değişkenini ödünç alma yoluylayani sahipliği devretmeden adres yoluyla fonksiyona aktarabiliriz. Bu durumda
+    fonksiynun parametre değişkeni &String ya da &mut String türünden olur. Örneğin:
+
+    fn main() {
+        let s = String::from("ankara");
+
+        disp(&s);
+    }
+
+    fn disp(s: &String) {
+        println!("{}", *s);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Programa dillerinin önemli bir bölümünde String nesnelerinin [] operatörüyle belli bir karakterine erişilebilmektedir.
+    Çünkü o dillerde String nesneleri yazıyı UTF-8 formatında tutmamaktadır. Dolayısıyla yazının i'inci karakterine O(1)
+    karmaşıklıkta erişim yapılabilmektedir. Ancak Rust'ta String türü yazıları UTF-8 formatında tuttuğu için yazının i'inci
+    karakterine O(1) karmaşıklıkta erişilememektedir. [] operatörü O(1) karmaşıklığı çağrıştırdığı için String içerisindekileri
+    yazının karakterine [] operatöryle erişime Rust'ta izin verilmemiştir. Peki yazının i'inci karakterine erişmenin yolu
+    nedir? İşte bu işlem tek admda yapılmamaktadır. Önce String değişkeni üzerinde chars metodu uygulanıp Chars isimli bir
+    yapı türünden değer elde edilmektedir. Bu Chars yapısı dolaşılabilir (iterable) bir yapıdır. Yani String içerisinde
+    tutulan karakterleri adım adım dolaşabilme yetemeğine sahiptir. Aslında chars metodu String yapısının değil string
+    diliminin (yani str türünün) bir metodudur. Ancak izleyen paragraflarda da ele alacağımız gibi String türü Deref
+    dönüştürmesiyle &str türüne dönüştürülebilmektedir. Chars yapısının nth isimli metodu UTF-8 byte'ları üzerinde
+    ilerleyerek yazının i'inci karakterini bize char türünden vermektedir. chars metodunun verdiği Chars değeri dolaşılabilir
+    olduğu için yapının bazı elemanlarını güncellemektedir. Bu nedenle Chars yapısının metotları genellikle &mut self
+    parametresi almaktadır. nth metodu da &mut self parametresine sahiptir. Yani bizim alacağımız Chars değişkeninin
+    mut olması gerekmektedir Örneğin:
+
+    let s = String::from("ankara");
+    let c: char;
+
+    let mut cs = s.chars();
+    let c = cs.nth(2).unwrap();
+    println!("{}", c);  // k
+
+    nth metodu Option<char> türüne geri dönmektedir. Bu nedenle biz yukarıdaki kod parçasında unwrap uyguladık. Rust'ta
+    geçici yapı ve enum değişkenleri doğrudan mut metotları çağırmakta kullanılabilmektedir. Dolayısıyla yukarıdaki kod
+    parçasını biz aşağıdaki gibi de yazabilirdik:
+
+    let s = String::from("ankara");
+    let c: char;
+
+    c = s.chars().nth(3).unwrap();
+    println!("{}", c);  // k
+
+    Tabii chars aslında string diliminin (yani str türünün) bir metodudur. Dolayısıyla biz benzer biçimde bir string'in de
+    n'inci karakterni bu biçimde elde edebiliriz:
+
+    let s: &str = "ankara";
+    let c: char;
+
+    c = s.chars().nth(2).unwrap();
+    println!("{}", c);      // k
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        89. Ders 25/02/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String diliminin chars metodunun Chars isimli türden dolaşılabilir bir değer verdiğini belirtmiştik. Bu durumda biz bir
+    String değişkeni içerisindeki yazıyı ya da doğrudan iki tırnaklı bir string'i for döngüsüyle dolaşabiliriz. Bu dolaşım
+    sırasında yazının karakterleri char türü biçiminde elde edilecektir. Örneğin:
+
+    fn main() {
+        let s = String::from("ağrı dağı");
+        let k = "uludağ";
+
+        for ch in s.chars() {
+            print!("{}", ch);
+        }
+        println!();
+
+        for ch in k.chars() {
+            print!("{}", ch);
+        }
+        println!();
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String türünden bir değişkenin adresini aldığımızda eğer hedef &str türü ise otomatik olarak Deref<Target=str> dönüştürmesi
+    devreye girip  buradan String içerisindeki yazıya ilişkin string diliminin referansı elde edilmektedir. Örneğin:
+
+    let s = String::from("ağrı dağı");
+    let sr: &str;
+
+    sr = &s;        // String --> &str
+
+    Burada sr = &s işleminde hedef tür  &str olduğu için String içerisindeki yazıya ilişkin dilim referansı elde edilmiştir.
+    Tabii biz String değişkeninin adresini alıp onu &String türünden bir referansa da yerleştirebiliriz. Örneğin:
+
+    let s = String::from("ağrı dağı");
+    let sr: &String;
+
+    sr = &s;
+
+    println!("len: {}, capacity: {}", sr.len(), sr.capacity());
+
+    Rust'ın kurallarına göre değişkenin adresi türü belirtilmemiş bir değişkene atanıyorsa Deref dönüştürmesi uygulanmamaktadır.
+    Örneğin:
+
+    let s = String::from("ağrı dağı");
+    let sr = &s;        // sr değişkeni &String türünden
+
+    Burada let deyiminde değişkenin türü belirtilmediği için Deref dönüştürmesi uygulanmamıştır. O halde sr değişkeni
+    &String türünden olur. Örneğin:
+
+    fn main() {
+        let s = String::from("ağrı dağı");
+
+        disp_msg(&s);       // String --> &str dönüştürmesi yapılacak
+    }
+
+    fn disp_msg(sr: &str) {
+        println!("{}", sr);
+    }
+
+    Burada derleyici disp_msg fonksiyonunun parametresinin &str türünden olduğunu gördüğü için Deref<Target=str> dönüştürmesi
+    uygulamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String diliminin bytes isimli metodu da bize dilim içerisindeki byte'ları (karakterleri değiğl) dolaşan dolaşılabilir
+    bir nesne vermektedir. Bu nesne dolaşıldığında string dilimi içerisindeki UTF-8 kodlamasına ilişkin byte'lar elde
+    edilmektedir. Örneğin:
+
+    fn main() {
+        let s = String::from("ağrı dağı");
+
+        for b in s.bytes() {
+            print!("{:02X} ", b);       // 61 C4 9F 72 C4 B1 20 64 61 C4 9F C4 B1
+        }
+        println!();
+    }
+
+    Burada Türkçe karakterlerin 2 byte ile temsil edildiğine dikkat ediniz. Her ne kadar bytes metodu aslında string diliminin
+    metoduysa da biz onu String türünden bir değerle de çağırabilmekteyiz. bytes metodu bize Bytes türünden bir değer vermektedir:
+
+    pub fn bytes(&self) -> Bytes<'_>
+
+    string diliminin char_indices isimli metodu da bize bir dolaşılabilir CharIndices isimli yapı türünden dolaşılabilir
+    bir nesne vermektedir. Bu nesne dolaşıldığında indeks ve Unicode karakterden oluşan ikili demetler elde edilmektedir.
+    Bu demetin türü (usize, char) biçimindedir. Buradaki indeks ilgili Unicode karakterin UTF-8 byte'larının neresinden
+    başladığını belirtmektedir. Örneğin:
+
+    fn main() {
+        let s = String::from("ağrı dağı");
+
+        for (index, ch) in s.char_indices() {
+            println!("index: {}, char: {}", index, ch);
+        }
+    }
+
+    Burada ekrana (stdout dosyasına) şunlar basılacaktır:
+
+    index: 0, char: a
+    index: 1, char: ğ
+    index: 3, char: r
+    index: 4, char: ı
+    index: 6, char: <BURADA SPACE VAR>
+    index: 7, char: d
+    index: 8, char: a
+
+    Index'lerin sırayla gitmediğine dikkat ediniz. Çünkü Türkçe karakterler UTF-8 kodlamasında iki byte yer kaplamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Strig diliminin isd_empty metodu dilime ilişkin yazının boş olup olmadığına bakmaktadır. Örneğin:
+
+    let s = String::new();
+
+    println!("{}", s.is_empty());       // true
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir String'in tuttuğu yazıya bir karakter eklemek için push metodu, bir yazı eklemek için push_str metodu kullanılmaktadır.
+    Bu metotların parametrik yapıları şöyledir:
+
+    pub fn push(&mut self, ch: char)
+    pub fn push_str(&mut self, string: &str)
+
+    Metotların &mut self aldığına dikkat ediniz. Örneğin kalvyeden (stdin dosyasından) alınan yazıları bir String değişkeninin
+    sonuna ekleyen bir programı şöyle yazabiliriz:
+
+    use std::io::{stdin, stdout, Write};
+
+    fn main() {
+        let mut text = String::new();
+        let mut s: String;
+
+        loop {
+            s = getstr("Bir yazı giriniz:");
+            if s == "quit" {
+                break;
+            }
+            text.push_str(&s);
+        }
+        println!("{}", text);
+    }
+
+    fn getstr(msg: &str) -> String {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().to_string()
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String ile tutulan yazının belli bir yerine karakter eklemek için insert metodu, başka bir yazı eklemek için insert_str
+    metodu kullanılmaktadır. Metotların parametrik yapısı şöyledir:
+
+    pub fn insert(&mut self, idx: usize, ch: char)
+    pub fn insert_str(&mut self, idx: usize, string: &str)
+
+    Metotların ikinci parametreleri insert işleminin yapılacağı indeksi belirtmektedir. Geçersiz indeks durumunda panic
+    oluşmaktadır. Aşağıdkai programda kavyeden (stdin dosyasından) okunan yazı biriktirilen yazının başına insert edilmiştir:
+
+    use std::io::{stdin, stdout, Write};
+
+    fn main() {
+        let mut text = String::new();
+        let mut s: String;
+
+        loop {
+            s = getstr("Bir yazı giriniz:");
+            if s == "quit" {
+                break;
+            }
+            text.insert_str(0, &s);
+        }
+        println!("{}", text);
+    }
+
+    fn getstr(msg: &str) -> String {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().to_string()
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yazı içerisindeki alt yazıları başka yazılarla yer değiştirmek için string diliminin (yani str türünün) replace ve replacen
+    metotları kullanılmaktadır. Bu metotların parametrik yapıları şöyledir:
+
+    pub fn replace<P>(&self, from: P, to: &str) -> String
+    where
+        P: Pattern,
+
+    pub fn replacen<P>(&self, pat: P, to: &str, count: usize) -> String
+    where
+        P: Pattern,
+
+    Görüldüüğü gibi metotlar değiştirilmiş String nesneleri vermektedir. replace metodu tüm uyuşan alt yazıları değiştirirken
+    replacen metodu bunlardan ilk count tanesini değiştirmektedir. Örneğin:
+
+    fn main() {
+        let text = "Ankara, Ankara güzel Ankara, seni görmek ister her bahtı kara";
+        let result_text: String;
+
+        result_text = text.replace("Ankara", "İstanbul");
+        println!("{}", result_text);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısının remove metodu belli bir byte indeksindeki karakteri silmek için, pop metodu ise yazının sonundaki
+    karakteri silmek için kullanılmaktadır. Metotların parametrik yapıları şöyledir:
+
+    pub fn remove(&mut self, idx: usize) -> char
+    pub fn pop(&mut self) -> Option<char>
+
+    Metotlar silinen karakteri bize vermektedir. remove metodunun parametresi karakter indeksi değil UTF-8 byte dizilimindeki
+    byte indeksidir. Eğer verilen indeks yazıdan büyükse ya da belli bir UTF-8 karakterinin başlanngıcında değilse panic
+    oluşmaktadır. Örneğin:
+
+    fn main() {
+        let mut s = "Türkçe".to_string();
+
+        s.remove(1);
+        println!("{}", s);      // Trkçe
+
+        let mut s = "Türkçe".to_string();
+
+        s.remove(2);
+        println!("{}", s);      // panic!
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısındaki truncate metodu yazıyı budamak için, clear metodu ise yazıyı tamamen silmek için kullanılmaktadır.
+
+    pub fn truncate(&mut self, new_len: usize)
+    pub fn clear(&mut self)
+
+    truncate metodunun ikinci parametresi yazının yeni byte uzunluğunu (karakter uzunluğunu değil) belirtmektedir. Bu değer
+    >= len() ise metot panic oluşturmaz ancak bir şey de yapmaz. Ancak ikinci parametrede belirtilen byte uzunluğu UTF-8
+    diziliminde bir karakterin başında değilse panic oluşmaktadır. Her iki metotun da kapasite üzerinde bir etkisi yoktur.
+    Örneğin:
+
+    fn main() {
+        let mut s = "Türkçe".to_string();
+
+        s.truncate(4);
+        println!("{}", s);      // Tür
+
+        let mut s = "Türkçe".to_string();
+
+        s.truncate(2);          // panic!
+        println!("{}", s);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısının drain metodu Vec yapısının drain metodu gibi çalışmaktadır. Bu metot bir range değerini parametre
+    olarak alır o aralığı asıl String nesnesindne siler ve o aralığı bize Drain nesnesi biçiminde verir. Drain türünün
+    dolaşılabilir olduğunu anımsayınız. Metodun parametrik yapısı şöyledir:
+
+    pub fn drain<R>(&mut self, range: R) -> Drain<'_>
+    where
+        R: RangeBounds<usize>,
+
+    Parametre olarak girilen range karakter değil byte indekslerini belirtmektedir. Eğer bu range içerisindeki byte indeksleri
+    karakter sınırlarında olmzsa yine panic oluşmaktadır. Örneğin:
+
+    fn main() {
+        let mut s = "Ağrı dağı çok yüksek".to_string();
+        let result: String;
+
+        result = s.drain(1..6).collect();
+        print!("string after removing: {}", s);             // string after removing: A dağı çok yüksek
+        print!("drained string: {}", result);               // drained string: ğrı
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısının split_off metodu belli bir byte indeksinden itibaren yazıyı ikiye böler. Yaıznın soldaki kısmı orijinal
+    String nesnesinde kalır. Sağdaki kısmı ise yeni bir String nesnesi olarak geri döndürülür. Metodun parametrik yaısı şöyledir:
+
+    pub fn split_off(&mut self, at: usize) -> String
+
+    Burada bölme [0, at) ve [at, len()] biçiminde yapılmaktadır. Eğer usize UTF-8 byte diziliminde bir karakterin başında
+    değilse ya da string'in byte uzunluğundan büyükse panic oluşmaktadır. Orijinal String nesnesinin kapasitesinde
+    herhangi bir küçültme yapılmamaktadır. Örneğin:
+
+    fn main() {
+        let mut s = String::from("ankara");
+        let right_part: String;
+
+        right_part = s.split_off(3);
+        println!("original string: {}, right_part: {}", s, right_part);     // original string: ank, right_parg: ara
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String diliminin split isimli metodu bir yazıyı belli ayıraçlardan parçalara ayırmaktadır. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn split<P>(&self, pat: P) -> Split<'_, P>
+    where
+        P: Pattern,
+
+    split metodunun generic olduğuna dikkat ediniz. Metot bizden ayrışma için kullanılacak karakterleri istemektedir. Bize
+    de Split isimli bir yapı türünden dolaşılabilir bir nesne vermektedir. Biz metodun geri döndürdüğü nesneyi for döngüsü
+    ile dolabiliriz. Örneğin:
+
+    fn main() {
+        let text = "ali, veli, selami";
+        let sp: std::str::Split<_>;
+
+        sp = text.split(',');
+
+        for sr in sp {
+            println!("{}", sr);
+        }
+    }
+
+    split metodu generic olduğu için biz parametre olarak başka türleri de kullanabiliriz. Örneğin ayrıştırma birden fazla
+    karakterden oluşan bir yazı ile de yapılabilir:
+
+    fn main() {
+        let text = "ali, veli, selami";
+        let sp: std::str::Split<_>;
+
+        sp = text.split(", ");
+
+        for sr in sp {
+            println!("{}", sr);
+        }
+    }
+
+    split metodunda kalıp belirten P generic parametresinin Pattern isimli desteklemek zorunda olduğuna dikkat ediniz.
+    char türü ve String türü Pattern trait'ini desteklemektedir. Peki birden fazla karakterden ayrıştırma nasıl yapılmaktadır?
+    İşte &[char] türü de Pattern trait'ini desteklemektedir. Dolayısıyla biz bu işlemi şöyle yapabiliriz:
+
+    let text = "ali, veli, selami, ayşe, fatma";
+    let sp: std::str::Split<_>;
+
+    sp = text.split(&[',', ' ']);
+
+    Burada ayrıştırma şöyle yapılmaktadır: İlk ',' karakteri görüldüğünde bunun solu ayrıştırılır. Sonra ' ' görüldüğünde
+    bunun bir şey olmadığı için boş bir string elde edilir. Yani split metodu burada hem virgül karakterini hem de boşluk
+    karakterini ayıraç kabul etmektedir. Örneğin:
+
+    text = "ali,,,,,---veli---,,,----selami---";
+
+    Eğer biz buarada "ali", "veli", "selami" elde etmek istiorsak ya regex kullanmalıyız ya da boş olan string'leri filer
+    gibi bir metotla atmalıyız.
+
+    let text = "ali,,,,,---veli---,,,----selami---";
+
+    for sr in text.split(&[',', '-']).filter(|s| !s.is_empty()) {
+        println!("{}", sr);
+    }
+
+    split metodunun yalnız ilk n tanesini ayrıran splitn isimli bir benzeri de vardır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String dilinin split_whitespace metodu yazıyı tüm boşluk karakterlerinden ayrıştırmaktadır. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn split_whitespace(&self) -> SplitWhitespace<'_>
+
+    Burada geri dönüş değerine ilişkin split_whitespace yapısı dolaşılabilir bir türdür. Örneğin:
+
+    let text = "ali   veli   selami ayşe      fatma";
+
+    for sr in text.split_whitespace() {
+        println!("{}", sr);
+    }
+
+    Biz split_whitespace çağrısından elde ettiğimiz dolaşılabilir nesne üzerinde collect metodunu çağırarak onu bir vektöre
+    de dönüştürbiliriz. Tabii vektörün &str türlerini tutan bir vektör olmalıdır. Örneğin:
+
+    let text = "ali veli selami ayşe fatma";
+    let v: Vec<&str>;
+
+    v = text.split_whitespace().collect();
+
+    for sr in v {
+        println!("{}", sr);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            90. Ders 04/03/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir String değeri köşeli parantezler içerisine range değerleri getirilerek dilimlenebilmektedir. Dilimleme sonucunda
+    string dilimi elde edilmektedir. Anımsanacağı gibi string dilimleri adres alınmadıktan sonra kullanılamıyordu. Örneğin:
+
+    let s = "String::from("this is a test");
+    let rs: &str;
+
+    rs = &s[2..4];
+    println!("{}", rs);     // is
+
+    Burada s değişkeninin içerisindeki yazı 2'den 4'e dilimlenmiştir. Tabii bu dilimlemede yine karakterler değil byte
+    offset'leri kullanılmaktadır. Bu nedenle dilimlemede belirtilen başlangıç ve bitiş indekslerinin karakter sınırında
+    olması gerekir. Örneğin:
+
+    let s = String::from("Ağrı dağı");
+    let rs: &str;
+
+    rs = &s[2..6];          // panic!
+
+    Burada 2 numaralı byte offset'i bir UTF-8 karakterinin başlangıcı değildir. Dolayısıyla panic oluşacaktır. Örneğin
+    bir byte offset'inden itibaren geri kalan tüm byte'ların oluşturduğu string dilimini elde edebiliriz:
+
+    let s = String::from("this is a test");
+    let rs: &str;
+
+    rs = &s[2..];           // 2'inci offset'ten sona kadar tüm byte'lardan dilim elde ediliyor
+    println!("{}", rs);     // is is a test
+     rs = &s[..4];          // baştan 4'üncü byte offset'ine kadar dilim elde ediliyor
+    print!("{}", rs);       // this
+
+    String değerinin dilimlenmesi string dilimi yoluyla değil doğrudan String yapısından gelmektedir. Anımsanacağı gibi
+    [] operatör desteği Index trait'inden gelmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    UTF-8 byte diziliminde dilimleme yaparken dikkat etmek gerekir. Çünkü indeksler karakter sınırlarında değilse panic
+    oluşmaktadır. İşte String diliminin get ve get_mut metotları güvenli bir biçimde string dilim referansını Option<&str>
+    biçiminde vermektedir. Metotların parametrik yapıları şöyledir:
+
+    pub fn get<I>(&self, i: I) -> Option<&<I as SliceIndex<str>>::Output>
+    where
+        I: SliceIndex<str>,
+
+    pub fn get_mut<I>(
+        &mut self,
+        i: I,
+    ) -> Option<&mut <I as SliceIndex<str>>::Output>
+    where
+        I: SliceIndex<str>,
+
+    Bu metotlar yine range değerlerini parametre olarak almaktadır. [] ile dilimlemeden tek farkları bunların indeksler
+    sınıf ötesindeyse ya da karakter sınırlarında değilse None varyantına geri dönmesidir. Örneğin:
+
+    let s = String::from("ağrı dağı");
+    let result: Option<&str>;
+
+    result = s.get(2..4);
+    match result {
+        Some(rs) => println!("{}", rs),
+        None => println!("invalid index!")
+    }
+    println!("program running...\n");
+
+    Tabii biz aslında bir ara değişken kullanmayabiliriz. Yukarıdaki örnekte kasten ara değişken kullandık:
+
+    let s = String::from("ağrı dağı");
+
+    match s.get(2..4){
+        Some(rs) => println!("{}", rs),
+        None => println!("invalid index!")
+    }
+    println!("program running...\n");
+
+    get ve get_mut metotlarının String yapısının metotları olmadığına string diliminin (Yani str türünün) metotları olduğuna
+    dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    İki string'in + operatöryle toplanması pek çok programlama dilinde var olan bir özelliktir. (C'de iki tırnaklı string'ler
+    char türden adres belirttiği için toplama işlemine sokulamamaktadır.) Bu dillerde iki string'in toplanması iki string'in
+    uç uca eklenmesi anlamına gelmektedir. Anımsayacağınız gibi Rust'ta bir yapı ya da enum türünün + operatöryşe işleme
+    sokulabilmesi için Add trait'ini destekliyor olması gerekmektedir. İşte String yapısı da Add trait'ini desteklemektedir.
+    Rust'ın standart kütüphanesinin kaynak kodlarında Add trait desteği şöyle oluşturulmuştur:
+
+    impl Add<&str> for String {
+        type Output = String;
+
+        #[inline]
+        fn add(mut self, other: &str) -> String {
+            self.push_str(other);
+            self
+        }
+    }
+
+    Add trait'inin generic parametresinin + operatörünün sağ tarafındaki operand'ın türünü belirttiğini ve Output türünün
+    ise işlem sonucunda elde edilecek türü belirttiğini anımsayınız. O halde yukarıdaki gerçekleştirime bakıldığında şu
+    anlaşılmaktadır: "Biz bir String ile bir string dilimi referansını toplayabiliriz. Buradan ürün olarak bir String
+    elde ederiz." Trait'teki add metodunun birinci parametresinin &self biçiminde değil  self biçiminde olduğuna da dikkat
+    ediniz. Yani + operatörünün sol tarafındaki String operand'ının sahipliği devredilmektedir. Bu nedenle gerçekleştirimde
+    doğrudan string'in birleştirilmesi sol taraftaki operand üzerinde yapılmıştır. Örneğin:
+
+    let s = String::from("ağrı ");
+    let result: String;
+
+    result = s + "dağı";        // geçerli
+    println!("{}", result);     // ağrı dağı
+
+    Bu örnekte toplama işlemindne sonra artık s değişkeninin kullanılamayacağına dikkat ediniz. Tabii eğer biz iki String
+    değerini toplamak istersek sağ taraftaki string'in adresini almalıyız. Çünkü bir String değerinin adresi alındığında
+    o String'e ilişkin string dilim referansı elde edilmektedir. Örneğin:
+
+    let s = String::from("ağrı ");
+    let k = String::from("dağı");
+    let result: String;
+
+    result = s + &k;            // geçerli
+    println!("{}", result);     // ağrı dağı
+
+    Burada toplama işleminin nasıl yapıldığına dikkat ediniz:
+
+    result = s + &k;
+
+    k değişkeni String türündendir, onun adresi alındağında &str değeri elde edilmektedir. Aşağıdaki bir işlemin yapılamadığına
+    dikkat ediniz:
+
+    let s = String::from("ağrı ");
+    let result: String;
+
+    result = s + &s + &s;            // error!
+
+    Çünkü s değişkeni sahipliğini kaybetmektedir.
+
+    String yapısı AddAssign<&str> trait'ini de desteklemektedir. Yani biz += operatörü ile String üzerinde birleştirme
+    yapabiliriz. Standart kütüphanein kaynak kodlarında add_asign metodu şöyle yazılmıştır:
+
+    impl AddAssign<&str> for String {
+        #[inline]
+        fn add_assign(&mut self, other: &str) {
+            self.push_str(other);
+        }
+    }
+
+    Görüldüğü gibi bu işlemin aslında push_str işleminden hiçbir farkı yoktur. Örneğin:
+
+    let mut s = String::from("ağrı ");
+
+    s += "dağı";            // eşdeğeri -> s.push_str("dağı");
+    println!("{}", s);      // ağrı dağı
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısı PartialEq<&str> ve PartialEq<String> trait'lerini desteklemektedir. Yani biz bir String değeri ile başka
+    bir String değerini ya da bir string dilim referansını == ve != operatörleriyle karşılaştırabiliriz:
+
+    use std::io::{stdin, stdout, Write};
+
+    fn main() {
+        let passwd: String;
+
+        passwd = getstr("Enter password:");
+        if passwd == "mavi ay" {
+            println!("Ok");
+        }
+        else {
+            println!("invalid password!..");
+        }
+    }
+
+    fn getstr(msg: &str) -> String {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().to_string()
+    }
+
+    Burada String ile &str değerleri karşılaştırılmıştır. Tabii karşılaştırma yazıların aynı olup olmadığına bakmaktadır.
+    PartiralEq trait'inin eq ve ne metotlarının &self parametresi aldığını anımsayınız. Yani karşılaştırma sırasında
+    sahiplik devri yapılmamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    String yapısı PartialOrd<String> trait'ini de desteklemektedir. Dolayısıyla biz iki String değerini >, <, <= ve >=
+    operatörleriyle karşılaştırabiliriz. Trait'in ilgili metotları &self parametresi almaktadır. Yani sahiplik devri
+    yapılamaktadır. Bu metotlar söz konusu yazılardaki UTF-8 kodlamasına ilişkin karakterlerin Unicode tablodaki kod
+    numaralarını temel alarak leksikografik karşılaştırma yapmaktadır. Türkçe karakterlerin Unicode kod numaraları sıralı
+    değildir. Bu konuda dikkat ediniz. Örneğin:
+
+    let s = String::from("ağrı");
+    let k = String::from("akça");
+
+    if s > k {
+        println!("s > k");      // s > k
+    }
+    else if s < k {
+        println!("s < k");
+    }
+    else {
+        println!("s == k");
+    }
+
+    Burada Türkçeye göre aslında "akça" yazısının "ağrı" yazısından büyük olması gerekir. Ancak 'ğ' karakterinin Unicode
+    kod numarası k karakterinin Unicode kod numarasından daha büyüktür. Karşılaştırmada iki operand'ın da String türünden
+    olması gerekmektedir. Yani biz String ile &str türlerini bu operatörlerle karşılaştıramayız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Dizi ilimlerininin Join isimli trait'ten gelen join isimli metotodu bulunmaktadır. Bu metot parametre olarak bir ayıraç
+    yazısı almaktadır. Dizi dilimindeki yazıları bu ayıraçla birleştirip bir String vermektedir. Bu özellik Python'dan
+    esinlenilmiştir. Örneğin:
+
+    let v: Vec<&str> = vec!["ali", "veli", "selami", "ayşe", "fatma"];
+    let result: String;
+
+    result = v.join(", ");
+    println!("{}", result);         // ali, veli, selami, ayşe, fatma
+
+    join aslında dizi diliminin bir metodudur. Vektörlerin ve dizilerin adresleri alındığında dizi dilimi oluşturdklarını
+    anımsayınız. Biz join metodunu String türünden ya da &str türünden bir dizi ile de çağırabilirdi:
+
+    let v: [&str; 5] = ["ali", "veli", "selami", "ayşe", "fatma"];
+    let result: String;
+
+    result = v.join(", ");
+    println!("{}", result);         // ali, veli, selami, ayşe, fatma
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Sayısal türleri yazıya dönüştürmek, yazı içerisindeki sayıları da sayısal türlere dönüştürmek programlama dillerinde
+    oldukça yoğun kullanılmaktadır. Anımsanacağı gibi yazı içerisindeki sayıların ilgili türe dönüştürülmesi string diliminin
+    yapısının parse metoduyla yapılıyordu. parse metodunun Result türüyle geri döndüğünü anımsayınız. parse metodunun
+    parametrik yapısı şöyledir:
+
+    pub fn parse<F>(&self) -> Result<F, <F as FromStr>::Err>
+    where
+        F: FromStr,
+
+    String diliminin parse metodu şöyle yazılmıştır:
+
+    pub fn parse<F: FromStr>(&self) -> Result<F, F::Err> {
+        FromStr::from_str(self)
+    }
+
+    Yani aslında parse metodu generic bir metottur. Rust'ta generic parametrelerin hedefe dayalı olarak tespit edildiğini
+    anımsayınız. parse metodunun parameresinin FromStr isimli bir trait'i destekleyen tür türünden olması gerekir. FromStr
+    trait'i ise şöyle tanımlanmıştır:
+
+    pub trait FromStr: Sized {
+        type Err;
+
+        // Required method
+        fn from_str(s: &str) -> Result<Self, Self::Err>;
+    }
+
+    İşte i32, i64, f32, f64 gibi temel sayısal türlerin hepsi FromStr trait'ini desteklemektedir. Dolayısıyla bu türlerin
+    içerisinde from_str isimli bir ilişkili fonksiyon bulunmaktadır. Bu from_str  bir string dilimini parametre olarak alıp
+    generic parametreyi içeren Result türüyle geri döndüğüne dikkat ediniz. Asıl dönüştürme i32, i64, f33, f64 gibi türlerin
+    from_str ilişkili fonksiyonlarıyla yapılmaktadır.  Örneğin:
+
+    let s = "123";
+    let result: Result<i32, _>;
+
+    result = s.parse();
+    if let Ok(val) = result {
+        println!("{}", val);
+    }
+    else {
+        println!("invalid number");
+    }
+
+    Burada parse metodunun generic parametresinin i32 olduğu atanan result değişkeninden anlaşılmaktadır. Tabii biz bunu
+    açıkça da belirtebilirdik:
+
+    result = s.parse::<i32>();
+
+    İşte aslında parse metodu bu generic parametreye ilişkin türün from_str metodunu çağırmaktadır. Yani bu
+    çağrının eşdeğeri şöyledir:
+
+    result = std::str::FromStr::from_str(s);
+
+    Örneğin:
+
+    fn main() {
+        let s = "123";
+        let result: i32;
+
+        result = std::str::FromStr::from_str(s).unwrap();
+        println!("{}", result);
+    }
+
+    İşte aynı işlem i32, i64, f32, f64 gibi temel türlerin from_str ilişkili fonksiyonu ile yapılabilir. Ancak byurada dikkat
+    edilmesi gereken bir nokta vardır. Bu ilişkili fonksiyonun çalışabilmesi için std::str::FromStr trait'inin faaliyet alanı
+    içerisinde olması gerekir. Örneğin:
+
+    fn main() {
+        let s = "123";
+        let a: i32;
+
+        a = i32::from_str(s).unwrap();
+        println!("{}", a);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        91. Ders 09/03/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıda bir yazının sayıya dönüştürülmesini gördük. Bu işlem string diliminin parse metodu ile ya da doğrudan ilgili
+    nümerik türün from_str ilişki fonksiyonu ile yapılabiliyordu. Şimdi bu işlemin tersinin nasıl yapıldığını görelim. Örneğin
+    elimizde i32 türünden bir değer olsun. Biz de bunu String türüne dönüştürmek isteyelim. (Tabii i32 dgibi bir değer &str
+    türüne dönüştürülemez.) İşte bu işlemler nümerik türlerin to_string metotlarıyla yapılmaktadır. Örneğin:
+
+    let a = 123;
+    let s: String;
+
+    s = a.to_string();
+    println!("{}", s);
+
+    to_string metodu aslında ToString trait'inden gelmektedir. Bu trait şöyle tanımlanmıştır:
+
+    pub trait ToString {
+        // Required method
+        fn to_string(&self) -> String;
+    }
+
+    Görüldüğü gibi metot String türünden değere geri dönmektedir. Display trait'ini destekleyen türler kaplayıcı desteklemeyle
+    ToString trait'ini de desteklemektedir. i32, i64, f32, f64 gibi nümerik türler Display trait'ini desteklediği için FromStr
+    trait'ini de destekliyor olmaktadır. (i32 gibi bir türün standart kütüphane dokümantasyonunda bu durum "Blanket
+    Implementation" kısmında ele alınmaktadır.)
+
+    Aşağıda bu işlemleri kullanan basit bir örnek verilmiştir. Burada biz bir döngü içerisinde klavyeden (yani stdin dosyasından)
+    bir yazı okuyup onu önce i32 türüne dönüştürdük. Sonra onu yeniden String türüne dönüştürüp başka bir String'in sonuna
+    ekledik. Klavyedne girilen değer 0 ise döngüyü sonlandırdık.
+
+    use std::io::{stdin, stdout, Write};
+
+    fn main() {
+        let mut s = String::new();
+        let mut val: i32;
+        let mut result_str: String = String::new();
+
+        loop {
+            print!("Bir değer giriniz:");
+            stdout().flush();
+            stdin().read_line(&mut s).unwrap();
+            val = s.trim().parse().unwrap();
+            if val == 0 {
+                break;
+            }
+            if !result_str.is_empty() {
+                result_str.push_str(", ");
+            }
+            result_str.push_str(&val.to_string());
+            s.clear();
+        }
+        println!("{}", result_str);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Örneğin klavyeden (stdin dosyasından) boşluklarla ayrılmış sayılardan oluşan bir yazı giriliyor olsun:
+
+    10 20 30 40 50
+
+    Amacımızda bu sayıları toplamk olsun. Bunu nasıl yapabiliri? Önce string diliminin string_whitespace metodu ile yazıları
+    ayrıştırırız. Sonra döngü içerisinde bu yazıları parse metodu ile i32 türüne dönüştürüp toplarız. Örneğin:
+
+    fn main() {
+        let text = getstr("Bir yazı giriniz:");
+        let result: i32;
+
+        let mut total: i32 = 0;
+        for number_str in text.split_whitespace() {
+            total += number_str.parse::<i32>().unwrap();
+        }
+        println!("{}", total);
+    }
+
+    İzleyen paragraflarda dlaşılabilir türler üzerinde yoğunlaşıp zincirleme çağrılar uygulayacağız. Aslında yukarıdaki işlem
+    tek satırla da aşağıdaki gibi yapılabilmektedir:
+
+    result = text.split_whitespace().filter_map(|s| s.parse::<i32>().ok()).sum();
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aşağıdaki örnekte bir prompt eşliğinde kullanıcının aralarına boşluk karakteri bırakarak dört işlem girmesi istenmektedir.
+    Örneğin:
+
+    CSD> 1 + 3
+
+    Program bir döngü içerisinde bu işlemin sonucunu ekrana yazdırmaktadır. "quit" yazılınca döngüden çıkılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::{stdin, stdout, Write};
+
+fn main() {
+    let mut v: Vec<&str>;
+    let mut text: String;
+    let mut result: f64;
+    let mut op1: f64;
+    let mut op2: f64;
+
+    loop {
+        text = getstr("CSD>");
+        if text == "quit" {
+           break;
+        }
+        v = text.split_whitespace().collect();
+        if v.len() != 3 {
+            println!("invalid operand!");
+            continue;
+        }
+        op1 = match v[0].parse() {
+           Ok(val) => val,
+           Err(_) => {
+                println!("invalid operand!");
+                continue;
+           }
+        };
+
+        op2 = match v[2].parse() {
+            Ok(val) => val,
+            Err(_) => {
+                println!("invalid operand!");
+                continue
+            }
+        };
+
+       result = match v[1] {
+           "+" => op1 + op2,
+           "-" => op1 - op2,
+           "*" => op1 * op2,
+           "/" => op1 / op2,
+           _ => {
+               println!("invalid operand!");
+               continue
+           }
+       };
+       println!("{}", result);
+   }
+}
+
+fn getstr(msg: &str) -> String {
+    let mut s = String::new();
+
+    print!("{}", msg);
+    stdout().flush().unwrap();
+    stdin().read_line(&mut s).expect("cannot read line!..");
+    s.trim().to_string()
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        92. Ders 11/03/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz Rust'ın standart kütüphanesindeki Vec ve String yapılarını ele aldık. Şimdi de HashMap yapısı üzerinde duracağız.
+    Bilindiği gibi anahtar-değer çiftlerini tutan ve bir anahtar verildiğinde değerin hızlı bir biçimde bulunmasını sağlayan
+    veri yapılarına "sözlük (dictionary) tarzı veri yapıları" denilmektedir. Pek çok programlama dilinin temel kütüphanelerinde
+    bu işlemi gerçekleştiren bir ya da birden fazla veri yapısı hazır bir biçimde bulundurulmaktadır.
+
+    Rust'taki HashMap yapısı "hash tablosu (hash table)" denilen veri yapısını gerçekltirmektedir. C++'a hash tabloları
+    unordered_map ve unordered_set ismi altında C++11 ile eklenmiştir. Rust'ın HashMap yapısı hash tabloları yönteminin
+    "açık adresleme (open addressing)" denilen varyasyanunu kullanmaktadır. Açık adreslemede "doğrusal yoklama (linear probing)"
+    yöntemi kullanılmaktadır. Hash tablosu yönteminde tabloya eleman ekleme, tablodan eleman silme ve anahtar verildiğinde
+    değeri elde etme işlemlerinin ortalama algoritmik karmaşıklığı O(1)'dir. Ancak yük faktörü arttıkça karmaşıklık O(N)'e
+    ıraksamaktadır.
+
+    ┌─────────────────────┬───────────────┬───────────────┐
+    │      İşlem          │  Ortalama     │  En Kötü      │
+    ├─────────────────────┼───────────────┼───────────────┤
+    │ Ekleme (Insert)     │    O(1)       │    O(n)       │
+    ├─────────────────────┼───────────────┼───────────────┤
+    │ Silme  (Delete)     │    O(1)       │    O(n)       │
+    ├─────────────────────┼───────────────┼───────────────┤
+    │ Arama  (Search)     │    O(1)       │    O(n)       │
+    └─────────────────────┴───────────────┴───────────────┘
+
+    Hash tablolarındaki "doğrusal yoklama (linear probing)" yönteminde hash tablosu belli bir uzunlukta açılır. Tablonun
+    her elemanı anaktar-değer çiftlerini tutmaktadır. Tabloyu daha azyer kaplayacak biçimde iki boyutlu olarak aşağıdaki
+    gibi temsil edebiliriz:
+
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+    ..........
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+    BBBBBBBBBB
+
+    Hash tablosundaki her bir elemana geleneksel olarak "kova (bucket)" denilmektedir. Eleman eklenirken anahtar bir hash
+    fonksiyonuna sokulur. Buradan bir 0 ile N - 1 arasında bir indeks değeri elde edilir. Sonra eleman tablonn o indeksindeki
+    kovaya yerleştirilir. Arama sırasında yine anahtar aynı hash fonksiyonuna sokulur. Yine tablonun o indeksine başvurulur.
+    Örneğin kalabalık bir okuldaki öğrencilerin numaraları anahtar, onların isimleri de değer belirtiyor olsun. Amacımız da
+    anahtarı verdiğimizde değeri hızlı bir biçimde elde etmek olsun. Hash tablomuzun da 100 kova içerdiğini düşünelim.
+    Burada hash fonksiyonun işvile 3645 gibi bir öğrenci numarasını dizi indeksine dönüştürmektir. Biz hah fonksiyonunun
+    100'e bölümünnden elde edilen kalanı verdiğini düşünelim. Bu durumda 3645 numaralı öğrenci tablonun 45'inci indeksteki
+    kovasına yerleşecektir. Ancak farklı anahtarlar aynı hash değerini de verebilmektedir. Örneğimizde 2865 numaralı öğrenci
+    için de aynı hash değeri dolayısıyla da aynı indeks elde edilecektir. İşte hash tablosu yönteminde bu duruma "çakışma
+    (collision)" denilmektedir. İşte hash tablosu yöntemi çakışma durumundaki çakışmayı ele alma biçimlerine göre çeşitli
+    alt yöntemlere ayrılmaktadır. "Ayrı zincir oluşturma (separate chaining)" yönteminde hash tablosunun bucket'leri aslında
+    bağlı listelerin head göstericilerini tutmaktadır. Yani bu yöntemde hahs tablosu aslında bir bağlı liste dizisi gibidir.
+    Örneğin Linux çekirdeğindeki hash tabloları hep bu yöntemi kullanmaktadır. Ancak programlama dillerinin çoğunda bu
+    yöntem yerine "açık adresleme-doğrusal yoklama (open addressing-linear probing)" yöntemi tercih edilmektedir.
+
+    Doğusal yoklama yönteminde tabloya eleman eklenmek istendiğinde anahtardan yine hash değeri elde edilir. Eleman doğrudan
+    o hash değerine ilişkin kovanın içerisine yerleştirilir. Çakışma durumunda elde edilen indeksten itibaren ilk boş kova
+    bulnanan kadar ilerlenir. Eleman ilk boş kovaya yerleştirilir. Tabii bu durumda aslında bu eleman başkasına ait bir
+    kovaya yerleştirilmiş olacaktır. Ancak o hash değerini elde eden anahtar da o kovanın dolu olduğunu gördüğünde ilk
+    boş kovaya yeleşecektir. Burada performansın düşük olacağını ve doğrusal yoklamanın uzayacağını düşünebilirsiniz. Ancak
+    uygulamada tablo büyük sisteme girmesi öngörülen eleman sayısından çok daha büyük açılmaktadır. Dolayısıyla doğrusal
+    yoklama büyük tablolarda önemli bir zaman kaybına yol açmamaktadır. Bu durum algoritma karmaşıklığını O(1)'de tutabilmektedir.
+
+    Hash  tablolarında tabloya eklenmiş olan eleman sayısının tablonun uzunluğuna oranına "yükleme faktörü (load factor)"
+    denilmektedir. Hash tablosu gerçekleştirimlerinde yükleme faktörü belli bir orana geldiğinde tablo büyütülmektedir.
+    Rust'ın HashMap yapısında her ne kadar standart biçimde dokümantasyonda belirtilmemiş olsa da yükleme faktörü 7/8 (%87.8)
+    değerine geldiğinde tablo eskisinin iki katı olacak biçimde büyütülmektedir. Ancak bu iki kat büyütme de dokğmanlarda
+    standart bir biçimde belirtilmemiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki HashMap yapısı std::collections modülünde şöyle tanımlanmıştır:
+
+    pub struct HashMap<K, V, S = RandomState, A: Allocator = Global> {
+        /* private fields */
+    }
+
+    Görüldüğü gibi HashMap yapısının dört generic parametresi vardır. Bunların yalnızca anahtar (K) ve değerin (V) türlerini
+    belirten ilk ikisinin belirtilmiş olması gerekir. S generic parametresi hash fonksiyonunu belirtmektedir. Default durumda
+    bu generic parametrenin RandomState isimli yapı türündne olduğuna dikkat ediniz. A generic parametresi ise tıpkı Vec
+    yapısında olduğu gibi tahsisatın yapılacağı yapıyı belirtmektedir. Uygulamacılar genellikle yalnızca ilk ikş generic
+    parametreyi belirtiler. Örneğin:
+
+    use std::collections::HashMap;
+    //...
+
+    let mut hm: HashMap<i32, String>;
+
+    Buradakş HashMap nesnesinde anahtarlar i32 türünden değerler de String türündendir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    HashMap yaoısının new ilişkili fonksiyonu boş bir hash tablosu oluşturmakta kullanılır. Örneğğin:
+
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    Hash tablosu için ayrılan kova (bucket) sayısı yapının capacity metoduyla elde edilebilmektedir:
+
+    pub fn capacity(&self) -> usize
+
+    new ilişkili fonksiyonuyla HashTable nesnesi yaratıldığında capacity değeri başlangıçta 0'dır. Eleman eklendikçe kapasite
+    7/8 yükleme faktörüne geldiğinde iki kat (tam iki kat da olmayabilir) artırılmaktadır. Yapının len metodu ise tablodaki
+    dolu eleman sayısını vermektedir:
+
+    pub fn len(&self) -> usize
+
+    Örneğin:
+
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    println!("len: {}, capacity: {}", hm.len(), hm.capacity());     // len: 0, capacity: 0
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    HashMap yapısının with_capacity ilişkili fonksiyonu hash tablosunu programcının belirlediği kapasite değeri ile
+    oluşturmaktadır:
+
+    pub fn with_capacity(capacity: usize) -> HashMap<K, V, RandomState>
+
+    Standart kütüphane dokğmanlarında bu ilişkili fonksiyonun parametresiyle belirtilen capacity değerinden daha yüksek
+    bir kapasite tahsis edebileceği belirtilmektedir. Örneğin:
+
+    let mut hm: HashMap<i32, String> = HashMap::with_capacity(100);
+
+    println!("len: {}, capacity: {}", hm.len(), hm.capacity());     // len: 0, capacity: 112
+
+    Görüldüğü gibi capacity parametresi için 100 değeri geçildiği halde fonksiyon capacity değerini 112 almıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Eğer elimizde anahtar ve değerin türlerine ilişkin iki elemanlı demetlerden oluşan dolaşılabilir bir nesne varsa
+    bu durumda biz daha önce görmüş olduğumuz Iterator yapısının collect isimli metoduyla HashMap oluşturabiliriz. Örneğin:
+
+    let v: Vec<(i32, String)> = vec![
+        (10, String::from("Ali Serçe")),
+        (20, String::from("Kaan Aslan")),
+        (30, String::from("Necati Ergin")),
+        (40, String::from("Fehmi Uzun")),
+        (50, String::from("Sibel Ünlü"))];
+
+    let mut hm: HashMap<i32, String> = v.into_iter().collect();
+    println!("{:?}", hm);
+
+    Burada (i32, String) demetlerindne oluşan bir vektör vardır. İşte bu vektörden into_iter metodu ile iteratör elde
+    edilip bu iteratörle collect metodu çağrılarak bir HashMap oluşturulabilmektedir. Buradaki Vec içerisinde bulunan
+    demetlerin birinci elemanları anahatrı, ikinci elemanları ise değeri belirtmektedir.
+
+    Aslında aynı işlem HashMap yapısının FromIterator trait'inden gelen from_iter ilişkili fonksiyonuyla da yapılabilmektedir.
+    Biz FromIterator arayüzünü dolaşılabilir türleri anlattığımız bölümde ele alacağız. Örneğin:
+
+    let v: Vec<(i32, String)> = vec![
+        (10, String::from("Ali Serçe")),
+        (20, String::from("Kaan Aslan")),
+        (30, String::from("Necati Ergin")),
+        (40, String::from("Fehmi Uzun")),
+        (50, String::from("Sibel Ünlü"))];
+
+    let mut hm: HashMap<i32, String> = HashMap::from_iter(v);
+    println!("{:?}", hm);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    HashMap içerisine anahtar-değer çifti eklemek için insert metodu kullanılmaktadır:
+
+    pub fn insert(&mut self, k: K, v: V) -> Option<V>
+
+    Eğer anahtar zaten varsa metot o anahtara ilişkin değeri günceller ve eski değerle geri döner: Eğer anahtar yoksa
+    anahtar-değer çifti tabloy yazılır ve metot None varyantıyla geri döner. Örneğin:
+
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    hm.insert(10, String::from("Ali Serçe"));
+    hm.insert(20, String::from("Necati Ergin"));
+    hm.insert(30, String::from("Gürbüz Aslan"));
+    hm.insert(40, String::from("Oğuz Karan"));
+    hm.insert(50, String::from("Güray Sönmez"));
+
+    println!("{:?}", hm);
+
+    Birden fazla anahtar-değer çiftinin tek hamlede tabloya eklenmesi için extend metodu kullanılmaktadır. extend metodu
+    aslında Extend trait'inden gelmektedir. extend metoduna biz iki elemanlı demetlerden oluşan bir dolaşılabilir nesnesi
+    vermeliyiz. Örneğin biz iki elemanlı demetlerden oluşan bir diziyi extend metoduna parametre olarak verebiliriz:
+
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    hm.insert(10, String::from("Ali Serçe"));
+    hm.insert(20, String::from("Necati Ergin"));
+    hm.insert(30, String::from("Gürbüz Aslan"));
+    hm.insert(40, String::from("Oğuz Karan"));
+    hm.insert(50, String::from("Güray Sönmez"));
+
+    hm.extend([(38, String::from("Cavit Uzun")),
+        (59, String::from("Sibel Ünlü")),
+        (87, String::from("Ayşe Er"))]);
+
+    println!("{:?}", hm);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Belli bir anahtara karşı gelen değeri elde etmek için get metodu kullanılmaktadır:
+
+    pub fn get<Q>(&self, k: &Q) -> Option<&V>
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+
+    get metodunun generic olduğuna dikkat ediniz. get metodunun generic parametresi aranacak anahtarın türünü belirtmektedir.
+    Tabii biz bu generic parametreyi açıkça belirtmek zorunda değiliz. Metodun Option<&V> türü ile geri döndüğüne dikkat
+    ediniz. Metot başarı durumunda değerin kova içerisindeki referansına başarısızlık durumunda None varyantına geri dönmektedir.
+    Buradan elde ettiğimiz referansın mut olmadığına dikkat ediniz. Eğer mut referans elde etmek istiyorsanın aynı metodun
+    get_mut ismindeki benzerini kullanmalısınız:
+
+    pub fn get_mut<Q>(&mut self, k: &Q) -> Option<&mut V>
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+
+    Örneğin:
+
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    hm.insert(10, String::from("Ali Serçe"));
+    hm.insert(20, String::from("Necati Ergin"));
+    hm.insert(30, String::from("Gürbüz Aslan"));
+    hm.insert(40, String::from("Oğuz Karan"));
+    hm.insert(50, String::from("Güray Sönmez"));
+
+    hm.extend([(38, String::from("Cavit Uzun")),
+        (59, String::from("Sibel Ünlü")),
+        (87, String::from("Ayşe Er"))]);
+
+    if let Some(rvalue) = hm.get(&30) {
+        println!("Found, value is {}", *rvalue);
+    }
+    else {
+        println!("cannot find key!...n");
+    }
+
+    Şimdi de anahtarı bulup değer değiştirelim:
+
+    if let Some(rvalue) = hm.get_mut(&30) {
+        *rvalue = String::from("Hüseyin Büte");
+    }
+    else {
+        println!("cannot find key!...n");
+    }
+
+    Pek çok dildeki sözlük tarzı nesnelerde olduğu gibi Rust'ın HashMap yapısında da [] operatörü anahtar verildiğinde
+    değerin elde edilmesi için kullanılmaktadır Örneğin:
+
+    let name: &String = &hm[&10];
+
+    Burada köşeli parantezin içerisindeki ifadenin anahtarın referasnı olması gerekmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            93. Ders 16/03/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Belli bir anahtarın HashMap içerisinde olup olmadığını belirlemek için contains_key isimli metot kullanılmaktadır. Metodun
+    parametrik yapısı şöyledir:
+
+    pub fn contains_key<Q>(&self, k: &Q) -> bool
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+
+    Metod anahtar varsa true değerine yoksa false değerine geri dönmektedir. Aşağıdaki örnekte anahtar klavyeden (stdin
+    dosyasından) okunup HashMap içerisinde olup olmadığına bakılmıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::{stdin, stdout, Write};
+use std::collections::HashMap;
+
+
+
+fn main() {
+    let mut hm: HashMap<i32, String> = HashMap::new();
+
+    hm.insert(10, String::from("Ali Serçe"));
+    hm.insert(20, String::from("Necati Ergin"));
+    hm.insert(30, String::from("Gürbüz Aslan"));
+    hm.insert(40, String::from("Oğuz Karan"));
+    hm.insert(50, String::from("Güray Sönmez"));
+
+    let mut val: i32;
+    let mut s: String = String::new();
+
+    loop {
+        print!("Anahtarı giriniz:");
+        std::io::stdout().flush().unwrap();
+
+        std::io::stdin().read_line(&mut s).unwrap();
+        val = s.trim().parse().unwrap();
+        s.clear();
+        if val == 0 {
+            break;
+        }
+
+        if hm.contains_key(&val) {
+            println!("Key found!..")
+        }
+        else {
+            println!("Key not found!..")
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Belli bir anahtar-değer çiftini HashMap'ten silmek için remove metodu kullanılmaktadır. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn remove<Q>(&mut self, k: &Q) -> Option<V>
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+
+    Gördüğünüz gibi metot silinecek anahtar değerin referansını almaktadır. Metot eğer anahtar varsa onu silmekle birlikte
+    onun değerini de geri döndürmektedir. Anahtar yoksa metot None varyantına geri dönmektedir. Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        println!("{:?}", hm);
+
+        if let Some(val) = hm.remove(&30) {
+            println!("Key 30 removed, its value: {}", val);
+        }
+        else {
+            println!("key not found!..");
+        }
+    }
+
+    remove_entry metodu da benzerdir. Ancak bu metot silinen anahtarın yalnızca değrini değil anahtar ve değerini ikili
+    bir demet biçiminde vermektedir. Metodun parametrik yapısı şöyledir:
+
+    pub fn remove_entry<Q>(&mut self, k: &Q) -> Option<(K, V)>
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+
+    Anahtar yoksa yoksa yine metot None varyantına geri dönmektedir. Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        println!("{:?}", hm);
+
+        if let Some((key, val)) = hm.remove_entry(&30) {
+            println!("Key {} removed, its value: {}", key, val);
+        }
+        else {
+            println!("key not found!..");
+        }
+    }
+
+    retain metodu bir callback fonksiyonu parametre olarak almaktadır. HashMap içerisindeki tüm anahtar-değer çiftlerininin
+    referanslarını bu fonksiyona argüman yaparak bu fonksiyonu çağırmaktadır. Fonksiyonun geri dönüş değeri bool türden
+    olmalıdır. retain koşulu sağlamayan anahtar-değer çiftlerini HashMap'ten silmektedir. Callback fonksiyonun birinci
+    parametresi &K, ikinci parametresi ise &mut V türünden olmalıdır. (Yani fonksiyon anahtarın mut olmayan referansını
+    ancak değerin mut referansını almaktadır.) Metodun parametrik yapısı şöyledir:
+
+    pub fn retain<F>(&mut self, f: F)
+    where
+        F: FnMut(&K, &mut V) -> bool,
+
+    Aşağıdaki örnekte anahtar değeri 35'ten büyük olanlar HashMap'te bırakılmış diğerleri ise HashMap'ten silinmiştir:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        fn myfilter(key: &i32, val: &mut String) -> bool {
+            *key > 35
+        }
+
+        hm.retain(myfilter);
+        println!("{:?}", hm);
+    }
+
+    HashMap yapısının clear metodu veri yapısının içerisindeki tüm anahtar-değer çiftlerini silmektedir. Ancak bu işlemden
+    kapasite etkilenmemektedir. Metodun parametrik yapısı şöyledir:
+
+    pub fn clear(&mut self)
+
+    Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        println!("{:?}", hm);
+        hm.clear();
+        println!("{:?}", hm);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    HashMap üzerinde for döngüsüyle gezinmenin tıpkı dizilerde olduğu gibi üç yolu vardır. HashMap için, &HashMap için ve
+    &mut HashMap için IntoIterator trait'i desteklenmiştir. Dolayısıyla bir HashMap türünden bir değeri, referansı ve mut
+    bir referansı for döngüsüyle kullanabiliriz. Eğer for döngüsüne HashMap verirsek dolaşım sırasında (K, V) demetleri elde
+    edilir. Eğer for döngüsüne &HashMap verirsek dolaşım sırasında (&k, &V) demetleri elde edilir. Eğer for döngüsüne
+    &mut HashMap verirsek dolaşım sırasında (&K, &mut V) demetleri elde edilir. Birinci durumda referans söz konusu
+    olmadığı için HashMap de tüketilmektedir. Yani dolaşım sonrasında artık biz asıl HashMap değişkenini kullanamayız.
+    Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        for (key, val) in hm {
+            println!("{}, {}", key, val);
+        }
+    }
+
+    Burada for döngüsünde HashMap değişikinin kendisi kullanılmıştır. Dolayısıyla döngünün her yinelenmesinde (i32, String)
+    biçiminde demetler elde edilmektedir. for döngüsünde demet açımı yapılabildiğini anımsayınız Biz yukarıdaki dolaşımdan
+    sonra artık hm değişkenini kullanamayız. Çünkü hm içerisindeki değerler String türündendir ve String türü de Copy
+    türünden değildir. Örneğin:
+
+    for (key, val) in &hm {
+        println!("{}, {}", *key, *val);
+    }
+
+    Burada for döngüsüne &HashMap verilmiştir. Döngünün her yinelenmesinde (&i32, &String) biçiminde demetler elde edilecektir.
+    Tabii burada bir ödünç alma söz konusu olduğu için orijinal hm değişkenini biz döngüden sonra kullanabiliriz. Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        for (key, val) in &hm {
+            println!("{}, {}", *key, *val);
+        }
+
+        println!("-----------------------");
+
+        for (key, val) in &hm {
+            println!("{}, {}", *key, *val);
+        }
+    }
+
+    Eğer biz for döngüsüne &mut HashMap verirsek bu durumda döngünün her yinelenmesinde (&i32, &mut String) elde ederiz.
+    (Anahtarın mut referans olmadığına dikkat ediniz.) Örneğin:
+
+    for (key, val) in &mut hm {
+        println!("{}, {}", *key, *val);
+    }
+
+    Burada key değişkeni &i32 türünden, val değişkeni ise &mut String türündendir.
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        for (key, val) in &mut hm {
+            val.push_str("-test");
+        }
+
+        println!("-----------------------");
+
+        for (key, val) in &hm {
+            println!("{}, {}", *key, *val);
+        }
+    }
+
+    Burada birinci dolaşımda değer olan String nesnelerinin sonuna "-test" yazısı eklenmiştir.
+
+    Tıpkı dizi dilimlerinde olduğu gibi HashMap yapısının da i,ter ve iter_mut isimli iki metdu vardır. hm değişkeni HashMap
+    türünden olmak üzere for döngüsüne &hm vermekle hm.iter() ifadesini vermekl arasında, &mut hm vermekle de hm.iter_mut()
+    ifadesini vermek arasında işlevsel hiçbir fark yoktur. Tabii siz "madem &hm ile hm.iter(), &mut hm ile hm.iter_mut()
+    aynı işleve yol açıyor neden bunların ikisi de var?" diye sorabilirsiniz.Açıkça metot çağrısı metot çağrı zincirinin
+    oluşturulmasını sağlayabilmektedir. Ayrıca ne yapılmak istendiği metot çağrısı ile daha iyi ifade edilebilmektedir.
+    Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        for (key, val) in hm.iter_mut() {
+            val.push_str("-test");
+        }
+
+        println!("-----------------------");
+
+        for (key, val) in hm.iter() {
+            println!("{}, {}", *key, *val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Programlama dillerindek sözlük tarzı veri yapılarının hemen hepsinde "yalnızca anahtarları elde etmenin" ve "yalnızca
+    değerleri etmenin" de yolları vardır. İşte Rust'ta da bu işlemler into_keys ve into_values metotlarıyla yapılmaktadır.
+    Bu metotlar sırasıyla bize anahtarları ve değerleri dolaşmakta kullanılan dolaşılabilir nesneler vermektedir. Bu dolaşımlarda
+    anahtarlar ve değerlerin kendileri elde edilmektedir. Dolayısıyla bu dolaşımlar HashMap içerisindeki anahtar-değer
+    çiftlerini tüketmektedir. Örneğin:
+
+    let v: Vec<String> = hm.into_values().collect();
+    println!("{:?}", v);
+
+    Burada HashMap içerisindeki String değerleri vektör haline getirilmiştir.
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let mut hm: HashMap<i32, String> = HashMap::new();
+
+        hm.insert(10, String::from("Ali Serçe"));
+        hm.insert(20, String::from("Necati Ergin"));
+        hm.insert(30, String::from("Gürbüz Aslan"));
+        hm.insert(40, String::from("Oğuz Karan"));
+        hm.insert(50, String::from("Güray Sönmez"));
+
+        let v: Vec<String> = hm.into_values().collect();
+        println!("{:?}", v);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            94. Ders 18/03/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Rust'ın standart lütüphanesindeki LinkedList<T> yapısını inceleyelim. LinkedList yapısı çift bağlı liste
+    oluşturmaktadır. Bilindiği gibi önceki elemanın sonraki elemanı gösterdiği, sonraki elemanın da önceki elemanı gösterdiği
+    liste tarzı veri yapılarına "çift bağlı liste (doubly linke list)" denilmektedir. Çift bağlı listelerde ilk ve son
+    düğümler birer göstericiyle tutulmaktadır.
+
+    LinkedList<T> std::collections modülünde bulunmaktadır ve generic yapıdır. Generic parametre bağlı listenin düğümlerinde
+    tutulacak elemanın türünü belirtmektedir. LinkedList türünden bir değişken 64 bit sistemlerde 24 byte yer kaplamaktadır
+    (head göstericisi 8 byte + tail göstericisi 8 byte + listedeki eleman sayısını tutan len alanı 8 byte = 24 byte).
+
+    Bağlı listeler eleman ardışıllığının zorunlu olmadığı diziler gibi düşünülebilir. Bağlı listeler şu durumlarda dizilere
+    ya da vektörlere tercih edilmektedir:
+
+    - Ardışıl alan sıkıntısının bulunduğu yerlerde. Başka bir deyişle fragmente olmuş bellek bölgelerinde
+    - Birden fazla dinamik büyüyen listenin aynı bellek bölgesini kullandığı durumlarda
+    - Araya elemen ekleme (insert) işleminin ve aradaki elemanı silme işleminin (remove) yoğun yapıldığı veri yapılarında
+    - Uzunluğu baştan bilinmeyen dinamik kuyruk sistemlerinin ve stack sistemlerinin gerçekleştiriminde
+
+    Bağlı listelerde elemana erişim O(N) karmaşıklıkta (yani bir döngü ile) yapılabilmektedir. Farklı elemanlara erişimin
+    yoğun yapıldığı durumlarda bağlı diziler ya da vektörler tercih edilmelidir. Aşağıdaki bağlı listelerle vektörleri
+    karşılaştıran bir tablo veriyoruz:
+
+    ┌──────────────────────────┬────────────────┬────────────────┐
+    │        İşlem             │ Vec            │   LinkedList   │
+    ├──────────────────────────┼────────────────┼────────────────┤
+    │ Sonuna ekleme (ve silme) │ O(1) amortize  │ O(1)           │
+    │ Başa ekleme ve silme     │ O(n)           │ O(1)           │
+    │ Araya ekleme ve silme    │ O(n)           │ O(1)*          │
+    │ İndeksle erişim          │ O(1)           │ O(n)           │
+    │ Bellek düzeni            │ Ardışık        │ Dağınık        │
+    │ Cache performansı        │ İyi            │ Kötü           │
+    │ İki listeyi birleştirme  │ O(n)           │ O(1)           │
+    └──────────────────────────┴────────────────┴────────────────┘
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    LinkedList türünden bir değer oluşturmak için yine yapının new ilişkili fonksiyonu kullanılmaktadır. Örneğin:
+
+    use std::collections::LinkedList;
+    //...
+
+    let ll: LinkedList<i32> = LinkedList::new();
+
+    Tabii tür bilgisi new metodu çağrılırken de verilebilirdi:
+
+    let ll = LinkedList::<i32>::new();
+
+    Yine dolaşılabilir ya da dolaşım nesnelerinden hareketle collect metodu yardımıyla bağlı liste oluşturulabilmektedir.
+    Örneğin:
+
+    let ll: LinkedList<i32> = (0..10).collect();
+
+    println!("{:?}", ll);       // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    Örneğin:
+
+    let ll: LinkedList<i32> = [10, 20, 30, 40, 50].into_iter().collect();
+
+    println!("{:?}", ll);       // [10, 20, 30, 40, 50]
+
+    Ya da örneğin:
+
+    let ll: LinkedList<i32> = vec![10, 20, 30, 40, 50].into_iter().collect();
+
+    println!("{:?}", ll);       // [10, 20, 30, 40, 50]
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listedeki eleman sayısı len metodula elde edilebilir. Tabii bu metot yine bize usize türünden değer vermektedir.
+    Örneğin:
+
+    let ll: LinkedList<i32> = vec![10, 20, 30, 40, 50]
+        .into_iter()
+        .collect();
+
+    println!("{}", ll.len());       // 5
+
+    Bağlı listenin boş olup olmadığı is_empty metoduyla kontrol edilebilir. Tabii aynı işlem aslında len() == 0 işlemiyle
+    yapılabilmektedir. Örneğin:
+
+    let ll: LinkedList<i32> = LinkedList::new();
+
+    if ll.is_empty() {
+        println!("empty");
+    }
+    else {
+        println!("Not empty");
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin sonuna düğüm eklemek için push_back metodu kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn push_back(&mut self, elt: T)
+
+    Görüldüğü gibi eklenecek eleman taşınarak listenin sonuna yerleştirilmektedir. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll: LinkedList<String> = LinkedList::new();
+
+        ll.push_back(String::from("Ankara"));
+        ll.push_back(String::from("İstanbul"));
+        ll.push_back(String::from("İzmir"));
+        ll.push_back(String::from("Eskişehir"));
+        ll.push_back(String::from("Bursa"));
+
+        println!("{:?}", ll);           // ["Ankara", "İstanbul", "İzmir", "Eskişehir", "Bursa"]
+    }
+
+    Bağlı listenin başına düğüm eklemek için de push_front metodu kullanılmaktadır. Metodun parametrik yapısı şöyledir:
+
+    pub fn push_front(&mut self, elt: T)
+
+    Değerin taşınarak bağlı listenin başına yerleştirildiğine dikkat ediniz. Örneğin:
+
+    fn main() {
+        let mut ll: LinkedList<String> = LinkedList::new();
+
+        ll.push_front(String::from("Ankara"));
+        ll.push_front(String::from("İstanbul"));
+        ll.push_front(String::from("İzmir"));
+        ll.push_front(String::from("Eskişehir"));
+        ll.push_front(String::from("Bursa"));
+
+        println!("{:?}", ll);           // ["Bursa", "Eskişehir", "İzmir", "İstanbul", "Ankara"]
+    }
+
+    Bir bağlı listenin sonuna aynı türden bir bağlı liste append metouyla eklenebilmektedir. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn append(&mut self, other: &mut LinkedList<T>)
+
+    Ekleme işlemi O(1) karmaşıklıkta yapılmaktadır. Eklemeden sonra eklenen liste boş hale getirilmektedir. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll: LinkedList<String> = LinkedList::new();
+        let mut ll_other: LinkedList<String> = LinkedList::new();
+
+        ll.push_front(String::from("Ankara"));
+        ll.push_front(String::from("İstanbul"));
+        ll.push_front(String::from("İzmir"));
+        ll.push_front(String::from("Eskişehir"));
+        ll.push_front(String::from("Bursa"));
+
+        ll_other.push_front(String::from("Samsun"));
+        ll_other.push_front(String::from("Çanakkale"));
+        ll_other.push_front(String::from("Sinop"));
+
+        ll.append(&mut ll_other);
+
+        println!("{:?}", ll);           // ["Bursa", "Eskişehir", "İzmir", "İstanbul", "Ankara", "Sinop", "Çanakkale", "Samsun"]
+        println!("{:?}", ll_other);     // []
+    }
+
+    Aşağıdaki örnekte klavyeden (stdin dosyasından) girilen yazılar bağlı listeye eklenmiştir:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll = LinkedList::<String>::new();
+
+        loop {
+            let mut s = getstr("Bir şehir giriniz:");
+            if s == "quit" {
+                break;
+            }
+            ll.push_back(s);
+        }
+        println!("{:?}", ll);
+    }
+
+    use std::io::{stdin, stdout, Write};
+
+    fn getstr(msg: &str) -> String {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().to_string()
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin sonuna birden fazla eleman eklemek için extend metodu kullanılmaktadır. Aslında bu metot daha önceden de
+    sözünü ettiğimiz Extend<T> trait'inden gelmektedir. extend metodunun parametresi ilgili türden değerler veren dolaşılabilir
+    bir nesne olmalıdır. extend bu dolaşılabilir nesnedeki elemanları taşıyarak listeye klemektedir. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll: LinkedList<String> = LinkedList::new();
+
+        ll.push_front(String::from("Ankara"));
+        ll.push_front(String::from("İstanbul"));
+        ll.push_front(String::from("İzmir"));
+        ll.push_front(String::from("Eskişehir"));
+        ll.push_front(String::from("Bursa"));
+
+        ll.extend([
+            String::from("Malatya"),
+            String::from("Çanakkale"),
+            String::from("Muş")
+        ].into_iter());
+
+        println!("{:?}", ll);   // ["Bursa", "Eskişehir", "İzmir", "İstanbul", "Ankara", "Malatya", "Çanakkale", "Muş"]
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin tüm elemanlarını silmek için yine clear metodu kullanılmaktadır. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll: LinkedList<String> = LinkedList::new();
+
+        ll.push_front(String::from("Ankara"));
+        ll.push_front(String::from("İstanbul"));
+        ll.push_front(String::from("İzmir"));
+        ll.push_front(String::from("Eskişehir"));
+        ll.push_front(String::from("Bursa"));
+
+        println!("{:?}", ll);           // ["Bursa", "Eskişehir", "İzmir", "İstanbul", "Ankara"]
+        ll.clear();
+        println!("{:?}", ll);           // []
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Listenin sonundaki elemanı alıp listedenatmak için pop_back metodu kullanılmaktadır. Metodun parametrik yapısı
+    şöyledir:
+
+    pub fn pop_back(&mut self) -> Option<T>
+
+    Metodun son elemanın sahipliğini de devrettiğine dikkat ediniz. Liste boşsa metot None varyantına geri dönmektedir.
+    Aşağıdaki örnekte bir baplı listenin sonuna elemam eklenip sonundan eleman alınarak bir stack sistemi oluşturulmuştur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::collections::LinkedList;
+
+fn main() {
+    let mut stack: Stack<i32> = Stack::new();
+
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    stack.push(40);
+    stack.push(50);
+
+    while let Some(val) = stack.pop() {
+        print!("{} ", val);
+    }
+    println!();
+}
+
+struct Stack<T> {
+    stack: LinkedList<T>,
+}
+
+impl<T> Stack<T> {
+    fn new() -> Self {
+        Stack {stack: LinkedList::new()}
+    }
+
+    fn push(&mut self, val: T) {
+        self.stack.push_back(val);
+    }
+    fn pop(&mut self) -> Option<T> {
+        self.stack.pop_back()
+    }
+
+    fn len(&self) -> usize {
+        self.stack.len()
+    }
+
+    fn is_empty(&self) -> bool {
+        self.stack.is_empty()
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin başındaki elemanı alarak listedne atmak için de benzer biçimde pop_front metodu bulundurulmuştur:
+
+    pub fn pop_front(&mut self) -> Option<T>
+
+    Aşağıda aynı stack sistemi bağlı listenin başına eleman eklenip başından eleman alınarak gerçekleştirilmiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::collections::LinkedList;
+
+fn main() {
+    let mut stack: Stack<i32> = Stack::new();
+
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    stack.push(40);
+    stack.push(50);
+
+    while let Some(val) = stack.pop() {
+        print!("{} ", val);
+    }
+    println!();
+}
+
+struct Stack<T> {
+    stack: LinkedList<T>,
+}
+
+impl<T> Stack<T> {
+    fn new() -> Self {
+        Stack {stack: LinkedList::new()}
+    }
+
+    fn push(&mut self, val: T) {
+        self.stack.push_front(val);
+    }
+    fn pop(&mut self) -> Option<T> {
+        self.stack.pop_front()
+    }
+
+    fn len(&self) -> usize {
+        self.stack.len()
+    }
+
+    fn is_empty(&self) -> bool {
+        self.stack.is_empty()
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta araya insert işlemi için ve aradaki elemanı silmek için metotlar bulunmamaktadır. Çünkü Rust'ta bağlı listenin
+    düğümleri dışarı verilmemektedir. Ancak Rust'ta henüz stabil olmayan belli indeksteki elemanı silmek için bir remove
+    metodu da eklenmiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin ilk elemanı front metodu ile son elemanı da back metodu ile elde edilebilmektedir. Bu metotlar bu
+    elemanların adreslerini referans olarak vermektedir. Parametrik yapıları şöyledir:
+
+    pub fn front(&self) -> Option<&T>
+    pub fn back(&self) -> Option<&T>
+
+    Eğer bu elemanlar üzerinde değişiklik yapılmak isteniyorsa front_mut ve back_mut metotları kullanılmalıdır:
+
+    pub fn front_mut(&mut self) -> Option<&mut T>
+    pub fn back_mut(&mut self) -> Option<&mut T>
+
+    Tabii bu metotlar baplı liste boişsa None varyantına geri dönmektedir. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let mut ll: LinkedList<i32> = LinkedList::new();
+
+        ll.push_back(10);
+        ll.push_back(20);
+        ll.push_back(30);
+        ll.push_back(40);
+        ll.push_back(50);
+
+        if let Some(ri32) = ll.front_mut() {
+            *ri32 = 100;
+        }
+
+        if let Some(ri32) = ll.back_mut() {
+            *ri32 = 200;
+        }
+        println!("{:?}", ll);   // [100, 20, 30, 40, 200]
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bağlı listenin dolaşılması yine iteratör yoluyla yapılmaktadır. Bu konuda tasarım dizilerle ve HashMap yapısıyla benzer
+    biçimddir. IntoIteratır trait'i LinkedList<T> için &LinkedList<T> için ve &mut LinkedList<T> için desteklenmiştir.
+    Bu durumda yapının into_iter metodu ile iteratör alınırsa bağlı liste elemanları tüketilerek dolaşılır. Örneğin:
+
+    let mut ll: LinkedList<String> = LinkedList::new();
+
+    ll.push_front(String::from("Ankara"));
+    ll.push_front(String::from("İstanbul"));
+    ll.push_front(String::from("İzmir"));
+    ll.push_front(String::from("Eskişehir"));
+    ll.push_front(String::from("Bursa"));
+
+    for val in ll.into_iter() {
+        print!("{} ", val);
+    }
+
+    Burada for döngüüsndeki val döngü değişkeni String türündendir ve bağlı liste içeisindeki String değerleri val değişkenine
+    taşınaral bağlı liste tüketilmiştir. Biz bu for döngüsünden sonra artık bağlı listeyi kullanamayız.
+
+    Eğer LinkedList<T> değişkeninin adresi alınarak bağlı liste for döngüsüyle dolaşılırsa bu durumda dolaşım sırasında
+    bağlı listedeki elemanların referansları elde edilir. Örneğin:
+
+    for val in &ll {
+        print!("{} ", *val);
+    }
+
+    Artık buradaki val değişkeni &String türündendir. Yani dolaşım ödünç alma yoluyla yapılmaktadır. Dolaşım sonrasında biz
+    yine ll bağlı listesini kullanabiliriz.
+
+    Eğer LinkedList<T> değişkeninin mut adresi alınarak dolaşım yapılırsa dolaşım sırasında düğüm içerisindeki değerlerin
+    mut adresleri elde edilir. Dolayısıyla p değerler değiştirilebilir. Örneğin:
+
+    for val in &mut ll {
+        val.push_str("-tr");
+    }
+
+    Burada artık val değişkeni &mut String türündendir. Dolayısıyla biz mut referans isteyeb push_str metodunu val ile
+    çağırabiliriz.
+
+    Tıpkı dizilerde ve HashMap yapısında olduğu gibi LinkedList yapısında ayrıca iter ve iter_mut metotları bulundurulmuştur.
+    for döngüsü ile LinkedList<T> değişkeninin adresinin alınıp dolaşılmasıyla iter metoduyla dolaşım arasında, mut adresinin
+    alınarak dolaşılmasıyla da iter_mut metoduyla dolaşım arasında işlevsel bir farklılık yoktur. Metot zincirleri için
+    ve okunabilirlik için bu metotlar bulundurulmuştur. Örneğin:
+
+    let mut ll: LinkedList<String> = LinkedList::new();
+
+    ll.push_front(String::from("Ankara"));
+    ll.push_front(String::from("İstanbul"));
+    ll.push_front(String::from("İzmir"));
+    ll.push_front(String::from("Eskişehir"));
+    ll.push_front(String::from("Bursa"));
+
+    for val in ll.iter_mut() {
+        val.push_str("-tr");
+    }
+
+    for val in ll.iter() {
+        print!("{} ", *val);
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki ben bağlı listenin n'inci elemanını nasıl elde edebilirim? n'inci elemanın elde edilmesi O(1) karmaşıklıkta
+    yapılamadığı için LinkedList yapısında [] desteği bulundurulmamıştır. ([] operatörünün O(1) erişimler için bulundurulduğunu
+    anımsayınız.) O halde tek yapılacak şey iteratör elde edip bağlı liste üzerinde bu iteratörle yürümektir. Bunu yapanın
+    en basit yolu daha önce de gördüğümüz iteratörü n defa ilerleten nth metodunu kullanmaktadır. Örneğin:
+
+    let mut ll: LinkedList<String> = LinkedList::new();
+
+    ll.push_front(String::from("Ankara"));
+    ll.push_front(String::from("İstanbul"));
+    ll.push_front(String::from("İzmir"));
+    ll.push_front(String::from("Eskişehir"));
+    ll.push_front(String::from("Bursa"));
+
+    if let Some(val) = ll.iter().nth(3) {
+        println!("{}", *val);
+    }
+    else {
+        println!("invalid index!");
+    }
+
+    Burada iter metodu yerine iter_mut metodunu kullanırsak nth metodu da bize mut bir referans verecektir. Tabii bağlı
+    listenin n'inci elemanı bir sayaç eşliğinde for döngüüsyle manuel yürünerek de elde edilebilir. Örneğin:
+
+    let mut i = 0;
+    let mut opt: Option<&String> = None;
+
+    for val in &ll {
+        if i == 3 {
+            opt = Some(val);
+            break;
+        }
+        i += 1;
+    }
+    if let Some(val) = opt {
+        println!("{}", *val);
+    }
+    else {
+        println!("invalid index!");
+    }
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            95. Ders 23/03/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi biz daha önce heap'te tahsisatları Box yapısını kullanarak yapıyorduk. Box bir yapı olduğu için Box
+    türünden değerlerin sahipliği de vardı. Peki Box gibi bir yapı heap'teki tahsisatları nasıl yapmaktadır? Biz Box yapısının
+    heap'teki tahsisatı allocator yapısı yoluyla yaptığını belirtmiştik. Sistemde Allocator isimli default bir allocator
+    yapısı bulunmaktaydı. Box yapısının nasıl tanımlandığını yeniden anımsatmak istiyoruz:
+
+    pub struct Box<T, A = Global>(/* private fields */)
+        where
+            A: Allocator,
+            T: ?Sized;
+
+        allocator yapılarının Allocator isimli bir trait'i desteklemek zorunda olduğuna dikkat ediniz. Global isimli allocator
+        yapısı std::alloc modülünde tanımlanmıştır. Allocator trait'i de aynı modülde şöyle tanılanmıştır:
+
+    pub unsafe trait Allocator {
+        // Required methods
+        fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError>;
+        unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout);
+
+        // Provided methods
+        fn allocate_zeroed(
+            &self,
+            layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow_zeroed(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn shrink(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        fn by_ref(&self) -> &Self
+        where Self: Sized { ... }
+    }
+
+    Allocator trait'ini destekleyen yapıların (örneğin Global yapısı) iki metodu bulunmak zorundadır: allocate ve deallocate.
+    O halde Box yapısı da aslında Allocator türünün allocate ve deallocate metotlarıyla tahsisatlarını yapıp geri bırakmaktadır.
+    Box içerisinde bir allocator türünden bir değişken bulunuyor olsa da bu değişkenin hiçbir alanı (field) olmadığı için
+    Box içerisinde yer kaplamamaktadır. Dolayısıyla Box türünden bir değişken aslında yalnızca bir gösterici tutmaktadır.
+    Bu anlattıklarımızı şöyle özetleyebiliriz:
+
+    - Biz şimdiye kadar heap'te tahsisatları dolaylı bir içinde Box yapısı yoluyla gerçekleştirdik.
+    - Box yapısı aslında heap tahsisatlarını allocator olarak aldığı yapının alloc ve dealloc metotlarıyla yapmaktadır.
+    - Box kullanırken bizin bir allocator türü vermemiz zorunlu değildir. Bu durumda Box std::alloc modülündeki Global
+    isimli allocator yapısını kullanır.
+    - Allocator yapıları std::alloc modülündeki Allocator trait'ini desteklemek zorundadır. Zaten alloc ve deallaoc bu
+    trait desteğinden gelmektedir.
+
+    Bu bölümde bir aşama daha ileri gidip aslında Global gibi allocator yapılarının heap tahsisatlarını nasıl yaptığı
+    üzerinde duracağız. Tabii dinamik tahsisatlar aslında yalnızca Box yapısı ile yapılmamaktadır. Şimdiye kadar görmüş
+    olduğumuz Vec gibi, String gibi, LinkedList gibi yapılar da tahsisatlarını std:alloc modülündeki yapıları ve fonksiyonları
+    kullanarak yapmaktadır. Bu yapların da allocator kullandıklarını anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Aşağı seviyeli heap tahsisatları Rust'ta std::alloc modülündeki yapılar ve fonksiyonlar yoluyla gerçekleştirilmektedir.
+    Rust'ta heap'te tahsis edilecek byte uzunluğu ve tahsisattaki hizalama bilgisi Layout isimli bir yapıyla temsil edilmektedir.
+    Programcının önce tahsisatına ilişkin bir Layout nesnesi oluşturması gerekmektedir. Yukarıda da belirttiğimiz gibi bir
+    Layout nesnesi "uzunluk" ve "hizalama" belirten iki değere sahiptir. Layout iki alana sahip generic olmayan bir yapıdır.
+    Şöyle tanımlanmıştır:
+
+    pub struct Layout {
+        size: usize,
+        align: Alignment,
+    }
+
+    Buradaki align alanı usize türünden hizalama bilgisini tutan Alignment isimli bir yapı türündedir. Ancak bu alanlar
+    private biçimdedir. Yani kullanıcılar zaten doğrudan bu alanlara erişememektedir. Bir Layout türünden değişken 64 bit
+    sistemlerde 8 + 8 = 16 byte yer kaplamaktadır
+
+    Layout türünden değer oluşturabilmek için Layout yspısının birkaç ilişkili fonksiyonu kullanılmaktadır. Layout yapısının
+    new ilişkili fonksiyonu generic bir fonksiyondur. Bu fonksiyon generic parametresiyle belirtilen türden bir elemanlık
+    yeri belirtmektedir. Bu fonksiyonla Layout değeri oluşturulurken hizalama bilgisi olarak o sistemde o tür için gereken
+    hizalama gereksinimi kullanılmaktadır. Her tür için hizalamanın ne olması gerektiğini zaten derleyici bilmektedir.
+    Biz bir layout değişkeni içerisindeki uzunluk ve hizalama bilgilerini yapının size ve align metotlarıyla elde edebilmekteyiz.
+    Bu metotlar usize türünden değer vermektedir. Örneğin:
+
+    let layout = Layout::new::<i32>();
+
+    println!("size: {}, align: {}", layout.size(), layout.align());     // size: 4, align: 4
+
+    Burada biz Layout::new::<i32>() çağrısı ile bir tane i32 türünden nesnenn tahsis edilmesi için gereken Layout bilgilerini
+    oluşturmuş olduk. Tabii i32 türünden nesneler için hizalama 4'ün katları biçimindedir.
+
+    Anımsanacağı gibi C'nin malloc fonksiyonunda bir hizalama bilgisi yoktur. Bu fonksiyon yalnızca argüman olarak tahsis
+    edilecek byte miktarını almaktadır. Peki bu durumda tahsis edilecek alanın hangi tür olarak kullanılacağı bilinmediğine
+    göre malloc hizalamayı neye göre yapmaktadır? İşte malloc herhangi bir tür için makul olabilecek bir hizalama kullanmaktadır.
+    Bu da 64 bit sistemlerde 16 byte, 32 bit sistemlerde 8 byte hizalamadır. C'ye C11 ile birlikte aligned_alloc isimli bir
+    fonksiyon da eklenmiştir. Bu fonksiyon Rust'taki gibi hizalama bilgisini de almaktadır:
+
+    #include <stdlib.h> a
+
+    void *aligned_alloc(size_t alignment, size_t size);
+
+    Rust'ta Layout yapısı türünden bir değer oluşturmanın diğer bir yolu da from_size_align ilişkili fonksiyonunu
+    kullanmaktır. Bu fonksiyonun iki parametresi vardır ve fonksiyon Result türü ile geri dönmektedir:
+
+    pub const fn from_size_align(
+        size: usize,
+        align: usize,
+    ) -> Result<Layout, LayoutError>
+
+    Fonksiyon geçersiz parametreler girildiğinde Err varyantına geri dönmektedir. Örneğin her sistemde heap alanının
+    maksimum bir uzunluğu vardır. Bu değer aşılırsa Layout değeri başarılı bir biçimde oluşturulamaz. Aynı zamanda
+    hizalama değerlerinin de 2'nin katları olması zounludur. Örneğin:
+
+    use std::alloc::Layout;
+
+    fn main() {
+        let layout = Layout::from_size_align(20, 4).unwrap();
+
+        println!("size: {}, align: {}", layout.size(), layout.align());     // size: 20, align: 4
+    }
+
+    Örneğin:
+
+    use std::alloc::Layout;
+    use std::process::exit;
+
+    fn main() {
+        let layout: Layout;
+
+        layout = match Layout::from_size_align(20, 7) {
+            Ok(layout) => layout,
+            Err(err) => {
+                eprintln!("layout error: {}", err);
+                exit(0)
+            }
+        };
+
+        println!("size: {}, align: {}", layout.size(), layout.align());     // size: 20, align: 4
+    }
+
+   Burada 7 değeri geçerli bir hizalama belirtmemektedir. Dolayısıyla from_size_align ilişkili fonksiyonu Err varyantına
+   geri dönecektir.
+
+   Layout yapısının for_value ilişkili fonksiyonu generic biçimdedir. Fonksiyon bizden bir değerin referansını alır, o
+   değerin türüne ilişkin Layout değerini oluşturur. Örneğin:
+
+   use std::alloc::Layout;
+
+    fn main() {
+        let s = Sample { a: 10, b: 20 };
+        let layout = Layout::for_value(&s);
+
+        println!("size: {}, align: {}", layout.size(), layout.align());     // size: 8, align: 4
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    Belli bir türden belli bir uzunlukta dizi için Layout nesnesi oluşturmayı sağlayan array isimli generic bir ilişkili
+    fonksiyon da bulunmaktadır. Fonksiyonun parametrik yapısı şöyldir:
+
+    pub const fn array<T>(n: usize) -> Result<Layout, LayoutError>
+
+    Örneğin biz i32 türünden 10 elemanlı bir dizi tahsis etmek isteylimi. Bunun için gerekli Layout nesnesini aşağıdaki gibi
+    oluşturabiliriz:
+
+    use std::alloc::Layout;
+
+    fn main() {
+        let s = Sample { a: 10, b: 20 };
+        let layout = Layout::array::<i32>(10).expect("invalid size");
+
+        println!("size: {}, align: {}", layout.size(), layout.align());     // size: 40, align: 4
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Layout türünden değer oluşturulduktan sonra asıl tahsisat std::alloc modülündeki alloc fonksiyonuyla  yapılmaktadır.
+    Fonksiyonun parametrik yapısı şöyldir:
+
+    pub unsafe fn alloc(layout: Layout) -> *mut u8
+
+    Fonksiyon Layout bilgisini parametre olarak alıp tahsis edilen bellek bölgesinin adresini *mut u8 biçiminde vermektdir.
+    Fonksiyonun unsafe olduğuna dikkat ediniz. Tahsisat başarısızsa fonksiyon null göstericiye geri dönmektedir. Fonksiyonun
+    başarısı pointer yapısının is_null metoduyla kontrol edilmelidir. Örneğin 10 elemanlı i32 türünden bir diziyi heap'te tahsis
+    edelim:
+
+    let pi32: *mut i32;
+    let layout = Layout::array::<i32>(10).expect("invalid size");
+
+    unsafe {
+        pi32 = alloc(layout) as *mut i32;
+        if pi32.is_null() {
+            eprintln!("cannot allocate memory!..");
+            exit(1);
+        }
+        //...
+    }
+
+    Elde ettiğimiz bu adresi tıpkı C'de olduğu gibi bir dizi olarak kullanabiliriz:
+
+    use std::alloc::{Layout, alloc};
+    use std::process::exit;
+
+    fn main() {
+        let pi32: *mut i32;
+        let layout = Layout::array::<i32>(10).expect("invalid size");
+
+        unsafe {
+            pi32 = alloc(layout) as *mut i32;
+
+            if pi32.is_null() {
+                eprintln!("cannot allocate memory!..");
+                exit(1);
+            }
+            for i in 0..10 {
+                *pi32.add(i) = i as i32;
+            }
+            for i in 0..10 {
+                print!("{} ", *pi32.add(i));
+            }
+            println!();
+        }
+    }
+
+    Gösterici türlerinin rad ve write metotlarını görmüştük. Aynı işlemi bu metotları kullanarak da yapabiliriz:
+
+    use std::alloc::{Layout, alloc};
+    use std::process::exit;
+
+    fn main() {
+        let pi32: *mut i32;
+        let layout = Layout::array::<i32>(10).expect("invalid size");
+
+        unsafe {
+            pi32 = alloc(layout) as *mut i32;
+
+            if pi32.is_null() {
+                eprintln!("cannot allocate memory!..");
+                exit(1);
+            }
+            for i in 0..10 {
+                pi32.add(i).write(i as i32);
+            }
+            for i in 0..10 {
+                print!("{} ", pi32.add(i).read());
+            }
+            println!();
+        }
+    }
+
+    alloc fonksiyonun tahsis edilen alanı aynı zamanda sıfırlayan alloc_zerod isimli bir biçimi de vardır.:
+
+    pub unsafe fn alloc_zeroed(layout: Layout) -> *mut u8
+
+    Bu fonksiyonu C'deki calloc fonksiyonuna benzetebilirsiniz.
+
+    Yukarıdaki örnekte tahsis edilen alanı serbest bırakmadık. Daha önce alloc fonksiyonuyla tahsis edilmiş olan heap alanı
+    dealloc fonksiyonuyla serbest bırakılabilmektedir. dealloc fonksiyonun parametrik yapısı şöyledir:
+
+    pub unsafe fn dealloc(ptr: *mut u8, layout: Layout)
+
+    Görüldüğü gibi dealloc fonksiyonu hem tahsis edilmiş olan adresi hem de oluşturulmuş olan Layout bilgisini istemektedir.
+    Örneğin:
+
+    let pi32: *mut i32;
+    let layout = Layout::array::<i32>(10).expect("invalid size");
+
+    unsafe {
+        pi32 = alloc(layout) as *mut i32;
+
+        if pi32.is_null() {
+            eprintln!("cannot allocate memory!..");
+            exit(1);
+        }
+        for i in 0..10 {
+            pi32.add(i).write(i as i32);
+        }
+        for i in 0..10 {
+            print!("{} ", pi32.add(i).read());
+        }
+        println!();
+
+        dealloc(pi32 as *mut u8, layout);
+    }
+
+    C'deki free fonksiyonuna NULL adres geçildiğinde free fonksiyonu bu durumu görmezden gelip herhangi bir serbest bırakma
+    işlemi yapmamaktadır. Ancak Rust'ta bu işlevsellik yoktur. Yani Rust'ta biz dealloc fonksiyonun ilk parametresi için NULL
+    gösterici geçemeyiz.
+
+    C'deki free fonksiyonunub ve C++'taki operator new fonksiyonunun yalnızca tahsis  edilmiş alanın başlangıç adresini
+    istediğini anımsayınız. Peki Rust'ta durum neden böyle? Aslında C'deki ve C++'taki tahsisat algoritmaları zaten tahsis
+    edilmiş olan alanın uzunluğunu gizlice o alanın hemen başında tutmaktadır. Rust ise bu uzunluğu bunu açıkça istemektedir.
+    Örneğn C'nin malloc fonksiyonu aslında geri döndürdüğü adresin yukarısında bu alanın uzunluğunu da saklamaktadır:
+
+   ┌──────────────┐
+   │   uzunluk    │
+   ├──────────────┤ ◄── malloc fonksiyonunun geri döndürdüğü adres
+   │              │
+   │ kullanılacak │
+   │    alan      │
+   │              │
+   └──────────────┘
+
+    malloc fonksiyonu aslında yukarıdaki bloğun tamamaını tahsis edip tahsis ettiği bloğun başına uzunluk bilgisini
+    yazmaktadır.
+
+    C'deki ve C++'taki tasarımda bir fonksiyonun tahsis edilmiş bir alanın adresiyle geri dönmesi durumunda uzunluğun dışarıya
+    iletilmesine gerek kalmamaktadır. Halbuki Rust'ta o bilginin de iletilmesi gerekmektedir. Bu tür durumlarda demetleri
+    tercih etmelisiniz. Örneğin:
+
+    unsafe fn alloc_array(size: usize) -> (*mut i32, Layout) {
+        let pi32: *mut i32;
+        let layout = Layout::array::<i32>(10).expect("invalid size");
+
+        pi32 = alloc(layout) as *mut i32;
+        (pi32, layout)
+    }
+
+    Fonksiyonun hem tahsis edilen alanın başlangıç adresine hem de Layout bilgisine geri döndüğüne dikkat ediniz. Fonksiyon
+    şöyle kullanılabilir:
+
+    use std::alloc::{Layout, alloc, dealloc};
+    use std::process::exit;
+
+    fn main() {
+        unsafe {
+            let (pi32, layout) = alloc_array(10);
+
+            if pi32.is_null() {
+                eprintln!("cannot allocate memory!..");
+                exit(1);
+            }
+            for i in 0..10 {
+                pi32.add(i).write(i as i32);
+            }
+            for i in 0..10 {
+                print!("{} ", pi32.add(i).read());
+            }
+            println!();
+
+            dealloc(pi32 as *mut u8, layout);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        96. Ders 25/03/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta da realloc fonksiyonu bulunmaktadır. Fonksiyonun parametrik yapısı şöyledir:
+
+    pub unsafe fn realloc(ptr: *mut u8, layout: Layout, new_size: usize) -> *mut u8
+
+    Fonksiyonun birinci parametresi daha önce tahsis edilmiş olan dinamik alanın başlangıç adresini, ikinci parametresi ise
+    birinci parametredeki bloğun Layout bilgisini belirtir. Fonksiyonun üçüncü parametresi bloğun yeni uzunluğunu belirtmektedir.
+    Fonksiyon başarı duumunda yeni bloğun başlangıç adresine, başarısızlık durumunda null adrese geri dönmektedir. Blok yer
+    değiştirse de değiştirmese de artık eski adresinin kullanılmaması gerekir. Eski adresin kullanılması tanımsız davranışa
+    yol açmaktadır. C'deki realloc fonksiyonunun birinci parametresi NULL adres girildiğinde realloc fonksiyonun malloc
+    gibi davrandığını anımsayınız. Rust'taki realloc fonksiyonunda böyle bir işlevsellik yoktur. Rust'taki realloc fonksiyonunda
+    dealloc için yeni bir Layout değerinin de yaratılması gerekmektedir. Bu da fonksiyonun kullanımını zorlaştırmaktadır.
+
+    Aşağıdaki örnekte bir döngü içerisinde klavyeden (stdin dosyasından) bir değer okunmuş ve dinamik tahisat her defasında
+    1 eleman daha büyütülerek (böyle bir büyütmenin aslında iyi bir teknik olmadığını belirtmiştik) okunan değer diznamik
+    diziye yerleştirilmiştir. Klavyeden 0 girildiğinde döngü sonlandırılmış ve dinamik dizideki değerler yazdırılmıştır:
+
+    use std::alloc::{Layout, alloc, realloc, dealloc};
+    use std::process::exit;
+
+    fn main() {
+        let mut val: i32;
+        let mut pi32: *mut i32;
+        let mut pi32_old: *mut i32;
+        let mut size = 0usize;
+        let mut layout: Layout;
+        let mut layout_old: Layout;
+
+        unsafe {
+            layout = Layout::array::<i32>(size + 1).expect("invalid size");
+            pi32 = alloc(layout) as *mut i32;
+            if pi32.is_null() {
+                eprintln!("cannot allocate memory!");
+                exit(1);
+            }
+            pi32_old = pi32;
+            layout_old = layout;
+        }
+
+        loop {
+            val = geti32("Bir değer giriniz:");
+            if val == 0 {
+                break;
+            }
+            unsafe {
+                pi32.add(size).write(val);
+                size += 1;
+                layout = Layout::array::<i32>(size).expect("invalid size");
+                pi32 = realloc(pi32 as *mut u8, layout, layout.size()) as *mut i32;
+                if pi32.is_null() {
+                    dealloc(pi32_old as *mut u8, layout_old);
+                    eprintln!("cannot allocate memory!");
+                    exit(1);
+                }
+                layout_old = layout;
+                pi32_old = pi32;
+            }
+        }
+
+        unsafe {
+            for i in 0..(size) {
+                print!("{} ", *pi32.add(i))
+            }
+        }
+        println!();
+
+        unsafe {
+            dealloc(pi32 as *mut u8, layout);
+        }
+    }
+
+    use std::io::{stdin, stdout, Write};
+
+    fn geti32(msg: &str) -> i32 {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().parse().unwrap()
+    }
+
+    Bu kodda döngüye girmeden önce bir kez tahsisat yapılmıştır. Dolayısıyla aslında klavyedne 0 girildiğinde fazladan
+    bir elemanlık daha fazla tahsisat yapılmış olacaktır. Bu bir sorun değildir. C'de realloc fonksiyonu malloc gibi de
+    davranabildiği için dışarıda ayrı bir tahsisatın yapılmasına gerek kalmamaktadır. Örneğin:
+
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    int main(void)
+    {
+        int *pi = NULL, pi_new;
+        size_t n = 1;
+        int val;
+
+        for (;;) {
+            printf("Bir deger giriniz:");
+            scanf("%d", &val);
+            if (val == 0)
+                break;
+            pi_new = realloc(pi, sizeof(int) * n);
+            if (pi_new == NULL) {
+                fprintf(stderr, "cannot allocae memory!..\n");
+                free(pi);
+                exit(EXIT_FAILURE);
+            }
+            pi = pi_new;
+            pi[n - 1] = val;
+            ++n;
+        }
+
+        for (size_t i = 0; i < n - 1; ++i)
+            printf("%d ", pi[i]);
+        printf("\n");
+
+        free(pi);
+
+        return 0;
+    }
+
+    Tabii biz Rust kodunu şöyle de düzenleyebilirdik:
+
+    use std::alloc::{Layout, alloc, realloc, dealloc};
+    use std::process::exit;
+
+    fn main() {
+        let mut val: i32;
+        let mut pi32: *mut i32 =  std::ptr::null_mut();
+        let mut pi32_old: *mut i32;
+        let mut size = 0usize;
+        let mut layout =  Layout::array::<i32>(size).expect("invalid size");
+        let mut layout_old: Layout;
+
+        loop {
+            val = geti32("Bir değer giriniz:");
+            if val == 0 {
+                break;
+            }
+            pi32_old = pi32;
+            layout_old = layout;
+            layout = Layout::array::<i32>(size + 1).expect("invalid size");
+
+            pi32 = if size == 0 {
+                unsafe {
+                    alloc(layout) as *mut i32
+                }
+            }
+            else {
+                unsafe {
+                    realloc(pi32 as *mut u8, layout, layout.size()) as *mut i32
+                }
+            };
+
+            if pi32.is_null() {
+                eprintln!("cannot not allocate memory!");
+                unsafe {
+                    if pi32_old.is_null() {
+                        dealloc(pi32_old as *mut u8, layout_old);
+                    }
+                }
+                exit(1);
+            }
+            unsafe {
+                *pi32.add(size) = val;
+            }
+            size += 1;
+        }
+
+        unsafe {
+            for i in 0..(size) {
+                print!("{} ", *pi32.add(i))
+            }
+        }
+        println!();
+
+        unsafe {
+            dealloc(pi32 as *mut u8, layout);
+        }
+    }
+
+    use std::io::{stdin, stdout, Write};
+
+    fn geti32(msg: &str) -> i32 {
+        let mut s = String::new();
+
+        print!("{}", msg);
+        stdout().flush().unwrap();
+        stdin().read_line(&mut s).expect("cannot read line!..");
+        s.trim().parse().unwrap()
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        97. Ders 30/03/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi std::alloc modülüne ilişkin bazı ayrıntılar üzerinde duracağız. Aslında alloc, alloc_zeroed, realloc ve dealloc
+    fonksiyonları default allocator nesnesinin metotlarını çağırmaktadır. Default allocator nesnesi GlobalAlloc isimli bir
+    trait'i destekleyen bir yapı ya da enum türünden olmak zorundadır. Default allocator nesnesinin static global bir
+    biçimde bildirilmiş olması ve bildiriminde de #[global_allocator] özniteliğinin iliştirilmiş olması zorunludur. O halde
+    default allocator oluşturmak için sırasıyla şunlar yapımalıdır:
+
+    1) GlobalAlloc isimli trait'i destekleyen bir yapı ya da enum tanımlanmlıdır.
+    2) Bu yapı ya da enum türünden static global bir değişken tanımlanmalı ve onun önüne de #[global_allocator] özniteliğinin
+    işiltirilmesi gerekir.
+
+    #[global_allocator] özniteliği yerel bir değişkene ve birden fazla static global değişkene iliştirilemez.
+
+    GlobalAlloc trait'i şöyle tanımlanmıştır:
+
+    pub unsafe trait GlobalAlloc {
+        // Required methods
+        unsafe fn alloc(&self, layout: Layout) -> *mut u8;
+        unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout);
+
+        // Provided methods
+        unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 { ... }
+        unsafe fn realloc(
+            &self,
+            ptr: *mut u8,
+            layout: Layout,
+            new_size: usize,
+        ) -> *mut u8 { ... }
+    }
+
+    Buradan da görüldüğü gibi trait'in alloc ve dealloc metotları yazılmak zorundadır. Ancak alloc_zeroed ve realloc
+    metotları yazılmak zorunda değildir. Eğer bu metotlar programcı tarafından yazılmaza zten alloc ve dealloc kullanılarak
+    yazılmış default metotlar devreye girecektir.
+
+    Peki biz default allocator oluşturmadığımızda global olan alloc, alloc_zeroed, reallov ve dealloc fonksiyonları hangi
+    allocator nesnesini kullanmaktadır? İşte aslında Rust'ta bu durum "belirsiz (unspecified)" bırakılmıştır. (Yani default
+    durumda hangi allocator nesnesinin kullanılacağı hakkında zorunlu bir şey söylenmemiştir.) Ancak "Rust Standard Library"
+    dokümanlarında mevcut Rust kütüphanelerinin default durumda System isimli yapı türünden (tabii bu yapı da GlobalAlloc
+    trait'ini desteklemektedir) isimli bir statik global bir değişkeni kullandığı belirtilmektedir. (Hem yapının isminin
+    hem değişken isminin aynı olması Rust'ta bir soruna yol açmamaktadır.) Yani default durumda adeta aşağıdaki gibi bir
+    static global tanımlama yapılmış gibidir:
+
+    #[global_allocator]
+    static DefaultAllocatorObject: System = System;
+
+    System isimli yapının bir alanı (yani elemanı) yoktur. Yani bu yapı birimsel bir yapıdır (unit struct). Birimsel yapılar
+    türünden değişkenlerin doğrudan yapı ismi veilerek hiç küme parantezleri açılmadan bildirilebileceğini aınımsayınız.
+
+    O halde default durumda aslında global fonksiyonlar olan alloc, alloc_zeroed, realloc ve dealloc fonksiyonları bu System
+    yapısı türünden yapının alloc, alloc_zeroed, realloc ve dealloc metotlarını çağırmaktadır. System yapısının içerisindeki
+    alloc metodu UNIX/Linux ve macOS sistemlerinde libc kütüphanesindeki malloc fonksiyonunu (bu C'nin malloc fonksiyonudur),
+    Windows sistemlerinde ise HeapAlloc isimli API fonksiyonunu çağırmaktadır. System yapısının dealloc metodu ise UNIX/Linux
+    ve macOS sistemlerinde libc kütüphanesindeki free fonksiyonunu (bu C'nin free fonksiyonudur), Windows sistemlerinde de
+    HeapFree API fonksiyonunu çağırmaktadır. Örneğin UNIX/Linux ve macOS sistemlerinde global düzeydeki alloc fonksiyonun
+    çağırma grafı şöyledir:
+
+    alloc ---> System yapısı türünden nesne ile yapının alloc metodu ---> C'nin malloc fonksiyonu
+
+    Örneğin biz allocatır yapımızı tanımlayıp default allocator nesnesini şöyle değiştirebiliriz:
+
+    struct MyAllocator;
+
+    unsafe impl GlobalAlloc for MyAllocator {
+        unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+            writeln!(stderr(), "alloc called");
+            System.alloc(layout)
+        }
+
+        unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+            writeln!(stderr(), "dealloc called");
+            System.dealloc(ptr, layout)
+        }
+    }
+
+    #[global_allocator]
+    static MYALLOC: MyAllocator = MyAllocator;
+
+    Burada alloc ve dealloc metotlarında println! kullanmayınız. Çünkü bu makrolar kendi içerisinde alloc işlemi yapmaktadır.
+    Bu durumda son döngü oluşabilecektir. Biz println! makrosu yerine writeln! makrosunu kullandık.
+
+    Testi de şöyle yapabiliriz:
+
+    use std::alloc::{Layout, alloc, dealloc, GlobalAlloc, System};
+    use std::io::{stderr};
+
+    fn main() {
+        let ptr: *mut u8;
+        let layout = Layout::new::<u8>();
+
+        unsafe {
+            ptr = alloc(layout);
+            if !ptr.is_null() {
+                dealloc(ptr, layout);
+            }
+        }
+    }
+
+    MyAllocator yapısı içerisinde System birimsel yapısının alloc ve dealloc metotları çağrılmıştır. Birimsel yapılarda
+    yapının isminin aynı zamanda o türden bir değer anlamına geldiğini anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::alloc::{Layout, alloc, dealloc, GlobalAlloc, System};
+use std::io::{stderr};
+
+fn main() {
+    let ptr: *mut u8;
+    let layout = Layout::new::<u8>();
+
+    unsafe {
+        ptr = alloc(layout);
+        if !ptr.is_null() {
+            dealloc(ptr, layout);
+        }
+    }
+}
+
+struct MyAllocator;
+
+unsafe impl GlobalAlloc for MyAllocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        writeln!(stderr(), "alloc called");
+        System.alloc(layout)
+    }
+
+    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+        writeln!(stderr(), "dealloc called");
+        System.dealloc(ptr, layout)
+    }
+}
+
+#[global_allocator]
+static MYALLOC: MyAllocator = MyAllocator;
+struct Sample;
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Burada bir nokta üzerinde durmak istiyoruz. System yapısı ve yukarıda oluşturduğumuz MyAllocator yapısı birimsel
+    yapılardır. Birimsel yapıların alanları (yani veri elemanları) yoktur. Bu durumda neden GlobalAlloc trait'indeki alloc
+    ve dealloc metotlarının &self parametresi aldığını merak edebilirsiniz. İşte tahsisat yapıları oluşturulurken durumsal
+    bilgilerin de saklanması gerekebilmektedir. System yapısı doğrudan işletim sisteminin tahsisat fonksiyonlarını çağırdığı
+    için onun içerisinde herhangi bir durumsal bilgi yoktur. Ancak tasarım genel amaçlı biçimde yapıldığı için alloc ve
+    dealloc birer metot olarak bulundurulmuştur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    BizString gibi, Vec gibi, HashMap gibi LinledList gibi generic yapılarda bir allocator geneic parametresinin bulunduğunu
+    görmüştük. Örneğin Vec yapısı şöyle tanımlanmıştı:
+
+    pub struct Vec<T, A: Allocator = Global> {
+        buf: RawVec<T, A>,
+        len: usize,
+    }
+
+    Burada A generic paranetresi girilmezse ats::alloc modülündeki Allocator trait'ini destekleyen Global yapısının
+    kullanılacağı belirtilmektedir. O halde konuya iki tür daha girmektedir: Allocator trait'i ve Global yapısı.
+
+    Allocator isimli trait veri yapıları tarafından tahsisat amacıyla kullanım için düşünülmüştür. Allocator trait'i şöyle
+    tanımlanmıştır:
+
+    pub unsafe trait Allocator {
+        // Required methods
+        fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError>;
+        unsafe fn deallocate(&self, ptr: NonNull<u8>, layout: Layout);
+
+        // Provided methods
+        fn allocate_zeroed(
+            &self,
+            layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn grow_zeroed(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        unsafe fn shrink(
+            &self,
+            ptr: NonNull<u8>,
+            old_layout: Layout,
+            new_layout: Layout,
+        ) -> Result<NonNull<[u8]>, AllocError> { ... }
+        fn by_ref(&self) -> &Self
+        where Self: Sized { ... }
+    }
+
+    Global isimli yapı da bu Allocator trait'ini desteklemektedir ve veri yapılarına ilişkin yapıların kullandığı default
+    tahsisat yapısıdır. Ancak heniz Allocator trait'i ve Global yapısı stabil kabul edilmemektedir. Bu nedenle Rust
+    derleyicilerinin deneysel (nightly) sürümlerinde programcılara açılmaktadır. Yani Allocator trait'ini ve Global
+    yapısını Rust kütüphanesi kullanmaktadır ancak henüz bunların programcılar tarafındna kullanılmasına izin verilmemeketedir.
+    Dolayısıyla henüz biz Vec gibi, String gibi, HashMap gibi, LibkedList gibi yapılar için kendi tahsisat fonksiyonlarımızı
+    devreye sokamamaktayız. Ancak Rust dokümanlarında belirtilmemiş olsa da default Allocator olarak kullanılan Global
+    yapısındaki tahsisat metotları global düzeydeki alloc, alloc_zeroed, realloc ve dealloc fonksiyonları kullanmaktadır.
+    Başka bir deyişle biz default allocator nesnesini değiştirdiğimizde bu veri yapılarına ilişkin yapılar da bizim
+    tahsisat metotlarımızı kullanmaya başlayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'ta dolaşılabilir (iterable) türlerin nasıl oluşturulduğu konusunu ele alacağız. İngilizce orijinal
+    terminolojide "iterable" ve "iterator" sözcükleri Rust bağlamında farklı anlamlara gelmektedir. Biz kurusumuzda "iterable"
+    sözcüğünün Türkçe karşılığı olarak "dolaşılabilir", "iterator" sözcüğünün Türkçe karşılığı olarak da "dolaşım" sözcüğünü
+    kullanacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki for döngüleri aslında "dolaşılabilir (iterable)" olan tüm değişkenleri ve değerleri dolaşmakta kullanılan genel
+    bir deyimdir. for döngüsünün genel biçimini şöyle belirtmiştir:
+
+    for <kalıp> in <dolaşılabilir_değişken_ya_da_değer> {
+        //...
+    }
+
+    Yani elimizdeki bir değişken ya da değer eğer dolaşılabilir bir yapı ya da enum türündense onu for döngüsüyle kullanabiliriz.
+    Başka bir deyişle Rust'taki for döngüleri dolaşılabilir her türle kullanılabilmektedir. Örneğin:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let a = [10, 20, 30, 40, 50];
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!();
+
+        let v = vec![10, 20, 30, 40, 50];
+
+        for val in a {
+            print!("{} ", val);
+        }
+        println!();
+
+        let ll: LinkedList<i32> = (0..10).collect();
+
+        for val in ll {
+            print!("{} ", val);
+        }
+        println!();
+    }
+
+    Peki for döngüsü bu farklı türleri nasıl dolaşabilmektedir? İşte for döngüsü aslında IntoIterator ve Iterator isimli
+    trait'lere dayalı olarak yazılmıştır. Aşağıdaki for döngüsüne dikkat ediniz:
+
+    for pattern in iterable {
+        //...
+    }
+
+    Aslında bu for döngüsünün derleyici tarafından açılan eşdeğeri şöyledir:
+
+    {
+        let mut iterator = iterabale.into_iter();
+        loop {
+            match iterator.next() {
+                Some(pattern) => {
+                    // ...
+                }
+                None => break,
+            }
+        }
+    }
+
+    Bu eşdeğerlikte aslında birbirleriyle ilişkili iki trait kullanılmaktadır: IntoIterator ve Iteraor trait'leri. Bu
+    kullanım aslında mantık olarak Python gibi bazı programlama dillerindeki mantıkla bire bir örtüşmektedir. Ancak Rust'taki
+    dolaşılabilir türlerin kavramsal karmaşıklığı biraz daha fazladır. Yani konunun anlaşılması diğer dillere göre biraz
+    daha zor olabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Dolaşılabilir bir tür türünden değişken ya da değeri dolaşma işlemi iki adımda gerçekleşmektedir:
+
+    1) Dolaşılabilir değişken ya da değer ile IntoIterator trait'inden gelen into_iter metodu çağrılır ve buradan bir
+    dolaşım nesnesi elde edilir.
+
+    2) Dolaşım, dolaşım nesnesi ile Iterator trait'inden gelen next metotlarının çağrılmasıyla yapılır.
+---------------------------------------------------------------------------------------------------------------------------*/
 
 
 
