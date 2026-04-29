@@ -13854,14 +13854,14 @@ use std::mem::discriminant;
     &T türü PartialEq trait'ini desteklediği (implemente ettiği) için bu türün eq ve ne isimli iki metodu da vardır. Böylece
     biz aynı türden iki referansı "onların gösterdikleri yerdeki değerler eşit mi" diye karşılaştırabiliriz. Örneğin:
 
-    let a: i32 = 10;
-    let b: i32 = 10;
-    let result: bool;
+        let a: i32 = 10;
+        let b: i32 = 10;
+        let result: bool;
 
-    let ra: &i32 = &a;
-    let rb: &i32 = &b;
+        let ra: &i32 = &a;
+        let rb: &i32 = &b;
 
-    result = ra.eq(rb);         // true
+        result = ra.eq(rb);         // true
 
     Burada ra.eq(rb) çağrısı ile ra ve rb referanslarının içerisindeki adresler karşılaştırılmamaktadır, onların gösterdiği
     yerdeki değerler karşılaştırılmaktadır. Yani burada yapılan işlemin eşdeğeri *ra == *rb biçimindedir. Operatör metotları
@@ -13870,17 +13870,17 @@ use std::mem::discriminant;
     da *ra == *rb ile eşdeğerdir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a: i32 = 10;
-    let b: i32 = 10;
-    let result: bool;
+        fn main() {
+            let a: i32 = 10;
+            let b: i32 = 10;
+            let result: bool;
 
-    let ra: &i32 = &a;
-    let rb: &i32 = &b;
+            let ra: &i32 = &a;
+            let rb: &i32 = &b;
 
-    result = ra == rb;
-    println!("{}", result);     // true
-}
+            result = ra == rb;
+            println!("{}", result);     // true
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     &T türleri PartialOrd isimli trait'i de desteklemektedir. Bu trait'in lt, le, gt, ge isimli metotları vardır. Dolayısıyla
@@ -13890,22 +13890,22 @@ fn main() {
     >, >=, < ve <= operatörleri de kullanılabilir. Yani gt yerine > operatörü, ge yerine >= operatörü, lt yerine < operatörü
     ve le yerine de <= operatörü kullanılabilir. Örneğin:
 
-    let a: i32 = 10;
-    let b: i32 = 12;
-    let result: bool;
+        let a: i32 = 10;
+        let b: i32 = 12;
+        let result: bool;
 
-    let ra: &i32 = &a;
-    let rb: &i32 = &b;
+        let ra: &i32 = &a;
+        let rb: &i32 = &b;
 
-    if ra > rb {
-        println!("*ra > *rb");
-    }
-    else if ra < rb {
-        println!("*ra < *rb");
-    }
-    else {
-        println!("*ra == *rb");
-    }
+        if ra > rb {
+            println!("*ra > *rb");
+        }
+        else if ra < rb {
+            println!("*ra < *rb");
+        }
+        else {
+            println!("*ra == *rb");
+        }
 ---------------------------------------------------------------------------------------------------------------------------
 
     Yukarıdaki açıklamaların özeti şudur: "Biz aynı türden iki referansı karşılaştırdığımızda aslında onların gösterdiği
@@ -13915,31 +13915,31 @@ fn main() {
     yukarıda belirttiğimiz PartialEq ve PartialOrd trait'lerini destekliyor olması gerekir. Örneğin biz aşağıdkai gibi iki
     Sample refransını karşılaştıramayız. Çünkü iki Sample değeri karşılaştırılamamaktadır.
 
-    struct Sample {
-        a: i32,
-        b: i32
-    }
-
-    impl Sample {
-        fn new(a: i32, b: i32) -> Self {
-            Self { a, b }
+        struct Sample {
+            a: i32,
+            b: i32
         }
 
-        fn foo(&self, msg: &str) {
-            println!("{}: {}, {}", msg, self.a, self.b);
+        impl Sample {
+            fn new(a: i32, b: i32) -> Self {
+                Self { a, b }
+            }
+
+            fn foo(&self, msg: &str) {
+                println!("{}: {}, {}", msg, self.a, self.b);
+            }
+            //...
         }
         //...
-    }
-    //...
 
-    let a = Sample::new(10, 20);
-    let b = Sample::new(10, 20);
-    let result: bool;
+        let a = Sample::new(10, 20);
+        let b = Sample::new(10, 20);
+        let result: bool;
 
-    let ra = &a;
-    let rb = &b;
+        let ra = &a;
+        let rb = &b;
 
-    result = ra == rb;      // error!
+        result = ra == rb;      // error!
 
 ---------------------------------------------------------------------------------------------------------------------------
     r ifadesi T türünden bir referans belirtiyor olsun (yani &T türünden olsun) bu r referansı ile bir T türünün metotlarını
@@ -13955,51 +13955,51 @@ fn main() {
     aynı adresin olup  olmadığını) karşılaştırmaz. İşte adres karşılaştırması için std::ptr modülündeki eq fonksiyonu
     kullanılmaktadır. Örneğin:
 
-    let a = 10;
-    let b = 10;
+        let a = 10;
+        let b = 10;
 
-    let ra = &a;
-    let rb = &b;
+        let ra = &a;
+        let rb = &b;
 
-    let mut result: bool;
+        let mut result: bool;
 
-    result = ra == rb;
-    println!("{}", result);         // true
+        result = ra == rb;
+        println!("{}", result);         // true
 
-    result = std::ptr::eq(ra, rb);
-    println!("{}", result);         // false
+        result = std::ptr::eq(ra, rb);
+        println!("{}", result);         // false
 
     Biz daha önce değer ifadelerinin de (yani C'deki "sağ taraf değerlerinin" de) adresinin alınabildiğini belirtmiştik.
     O halde sizce aşağıdaki iki referansın içerisindeki adresler aynı olur mu?
 
-    let ra = &10;
-    let rb = &10;
+        let ra = &10;
+        let rb = &10;
 
-    let result == std::ptr::eq(ra, rb);     // true ama zorunlu değil
+        let result == std::ptr::eq(ra, rb);     // true ama zorunlu değil
 
     Bu sorunun yanıtı aslında 10 değerinin yerleştirileceği iki farklı geçici değişkenin yaratılıp yaratılmayacağı ile
     ilgilidir. Örneğimizdeki referanslar mut olmadığına göre bu iki 10 değeri için derleyiciler tek bir değişken oluşturabilirler.
     Ancak bu zorunlu değildir. Yani bu durum derleyici optimizasyonuna bağlıdır. Tabii aşağıdaki durumda mecburen derleyici
     iki geçici değişken için farklı yerler ayıracaktır:
 
-    let ra = &mut 10;
-    let rb = &10;
+        let ra = &mut 10;
+        let rb = &10;
 
-    let result == std::ptr::eq(ra, rb);     // kesinlikle false
+        let result == std::ptr::eq(ra, rb);     // kesinlikle false
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let ra = &mut 10;
-    let rb = &10;
+        fn main() {
+            let ra = &mut 10;
+            let rb = &10;
 
-    let result = std::ptr::eq(ra, rb);
-    print!("{}", result);      // false
-}
+            let result = std::ptr::eq(ra, rb);
+            print!("{}", result);      // false
+        }
 
-struct Sample {
-    a: i32,
-    b: i32
-}
+        struct Sample {
+            a: i32,
+            b: i32
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Aslında pek çok durumda bizim bir referansın gösterdiği yerdeki değişkene ya da değere erişmek için * operatörünü kullanmamıza
@@ -14008,26 +14008,26 @@ struct Sample {
     Rust'ta "artimetik operatörler ve diğer bazı operatörler için otomatik dereferans işleminin yapıldığını" varsayabilirsiniz.
     Örneğin:
 
-    let a: i32 = 10;
-    let b: i32 = 20;
-    let ra: &i32 = &a;
-    let rb: &i32 = &b;
-    let mut result: i32;
+        let a: i32 = 10;
+        let b: i32 = 20;
+        let ra: &i32 = &a;
+        let rb: &i32 = &b;
+        let mut result: i32;
 
-    result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
-    println!("result: {}", result);         // 11
+        result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
+        println!("result: {}", result);         // 11
 
-    result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
-    println!("result: {}", result);         // 30
+        result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
+        println!("result: {}", result);         // 30
 
     Görüldüğü gibi biz &T türü ile doğrudan T türünü işlemlere sokabiliyoruz. Bu davranış C++'taki referans davranışına
     oldukça benzemektedir. Ancak atama işlemi sırasında böyle otomatik bir dereferans işlemi yapılmamaktadır. Örneğin:
 
-    let a: i32 = 10;
-    let ra: &i32 = &a;
-    let result: i32;
+        let a: i32 = 10;
+        let ra: &i32 = &a;
+        let result: i32;
 
-    result = ra;        // error!
+        result = ra;        // error!
 
     Rust'ta temel türlerle otomatik dereferans yapılmasını sağlayan operatör işlemleri (dolayısıyla desteklenen operatör
     trait'leri) şunlardır:
@@ -14041,19 +14041,19 @@ struct Sample {
     Konun ayrıntıları trait'leri bölümünde ele alınacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a: i32 = 10;
-    let b: i32 = 20;
-    let ra: &i32 = &a;
-    let rb: &i32 = &b;
-    let mut result: i32;
+        fn main() {
+            let a: i32 = 10;
+            let b: i32 = 20;
+            let ra: &i32 = &a;
+            let rb: &i32 = &b;
+            let mut result: i32;
 
-    result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
-    println!("result: {}", result);         // 11
+            result = ra + 1;                        // geçerli ve *ra + 1 ile aynı anlmada
+            println!("result: {}", result);         // 11
 
-    result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
-    println!("result: {}", result);         // 30
-}
+            result = ra + rb;                        // geçerli ve *ra + *rb ile aynı anlmada
+            println!("result: {}", result);         // 30
+        }
 
 --------------------------------------------------------------------------------------------------------------------------
     Referanslar adreslerle aktarımın (call by reference) güvenli bir biçimde yapılmasını sağlamaktadır. Çünkü bir referans
@@ -14070,16 +14070,16 @@ fn main() {
 ---------------------------------------------------------------------------------------------------------------------------
     Rust'ta göstericiler (ham göstericiler) *const T ya da *mut T türleriyle temsil edilmektedir. Örneğin:
 
-    let p: *const i32;
+        let p: *const i32;
 
     Burada p değişkeni *const i32 türündendir. Örneğin:
 
-    let p: *mut i64;
+        let p: *mut i64;
 
     Burada p değişkeni *mut i64 türündendir. Görüldüğü gibi Rust'ta gösterici bildirirken const ya da mut belirleyicilerinden
     birinin mutlaka belirtilmesi gerekmektedir. Örneğin aşağıdaki bildirim geçersizdir:
 
-    let p: *i32;       // error! *'dan sonra const ya da mut belirleyicileri gerekir.
+        let p: *i32;       // error! *'dan sonra const ya da mut belirleyicileri gerekir.
 
     Biz yukarıdaki bildirimlerle C'deki gibi göstericiler oluşturduk. Rust'taki göstericiler tıpkı C'dekiler gibi bellekte
     herhangi bir yeri gösterebilirler, artırılıp eksiltilebilirler.
@@ -14088,9 +14088,9 @@ fn main() {
     Rust'ta bağlama (yani bildirim) ve atama dışındaki tüm gösterici işlemlerinin unsafe bağlamda yapılması zorunlu tutulmuştur.
     unsafe bağlam oluşturmanın tipik yolu unsafe blok kullanmaktır.
 
-    unsafe {
-        //...
-    }
+        unsafe {
+            //...
+        }
 
     unsafe bağlam unsafe fonksiyonlarla ve trait'lerle de oluşturulabilmektedir.
 
@@ -14099,33 +14099,33 @@ fn main() {
     gördüğümüz & ve &mut operatörleriyle alınmaktadır. Tıpkı referanslarda olduğu gibi mut olmayan bir değişkenin adresi &
     operatörüyle alınıp aynı türden const bir göstericiye atanabilmektedir. Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let pi32: *const i32;
 
-    pi32 = &a;      // geçerli
+        pi32 = &a;      // geçerli
 
     Burada &a ifadesinde a değişkeni mut olmayan bir değişken olduğu için const bir adres belirtmektedir. Yine tıpkı referanslarda
     ve C'deki göstericilerde olduğu gibi mut bir değişkenin adresi aynı türden const bir göstericiye atanabilmektedir. Örneğin:
 
-    let mut a: i32 = 10;
-    let pi32: *const i32;
+        let mut a: i32 = 10;
+        let pi32: *const i32;
 
-    pi32 = &a;      // geçerli, mut bir değişkenin adresi const bir göstericiye atanabilir
+        pi32 = &a;      // geçerli, mut bir değişkenin adresi const bir göstericiye atanabilir
 
     Tabii bunun tersi yapılamamaktadır. Yani mut olmayan bir değişkenin adresi mut bir göstericiye atanamamaktadır. Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *mut i32;
+        let a: i32 = 10;
+        let pi32: *mut i32;
 
-    pi32 = &a;      // error, mut olmayan bir değişkenin adresi mut bir göstericiye atanamaz
+        pi32 = &a;      // error, mut olmayan bir değişkenin adresi mut bir göstericiye atanamaz
 
     mut bir değişkenin adresini mut bir göstericiye atamak için yine adres alırken &mut operatörünü kullanmak gerekir.
     Örneğin:
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32;
+        let mut a: i32 = 10;
+        let pi32: *mut i32;
 
-    pi32 = &mut a;
+        pi32 = &mut a;
 
 
     Aslında & ve &mut operatörleri Rust'ta referans türünden değerler vermektedir. Ancak Rust'ta &T türünden *const T türüne,
@@ -14137,14 +14137,14 @@ fn main() {
     değişken gösterici değil referans olarak belirlenir. Yani Rust default durumda hep referans kullanımını ön planda tutmuştur.
     Örneğin:
 
-    let a: i32 = 10;
-    let b = &a;
+        let a: i32 = 10;
+        let b = &a;
 
     Burada b değişkeni &i32 türündendir, *const i32 türünden değildir. Tabii izleyen paragraflarda da göreceğimiz gibi açıkça
     tür dönüştürmesi yapılırsa bu durumda derleyici kalıptaki değişkenin gösterici olduğunu anlayabilecektir:
 
-    let a: i32;
-    let b = &a as *const i32;
+        let a: i32;
+        let b = &a as *const i32;
 
     Burada artık b bir referans değil göstericidir.
 
@@ -14154,20 +14154,20 @@ fn main() {
     Göstericinin gösterdiği yerdeki değişkene ya da değere yine tek operand'lı * operatörüyle (defreference operator) erişilmektedir.
     Tabii erişimlerin unsafe bağlam içerisinde yapılması gerekir. Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let pi32: *const i32;
 
-    pi32 = &a;
+        pi32 = &a;
 
-    unsafe {
-        println!("{}", *pi32);      // 10
-    }
+        unsafe {
+            println!("{}", *pi32);      // 10
+        }
 
     unsafe blok da bir blok deyimidir. Dolayısıyla bir değer üretmektedir. Yani aşağıdaki gibi bir atama geçerlidir:
 
-     b = unsafe {
-        *pi32
-    };
+        b = unsafe {
+            *pi32
+        };
 
     Burada *pi32 ifadesinin unsafe blok içerisinde bulunması gerekir. Ancak atanacak olan değişkenin unsafe blok içerisinde
     bulunmasına gerek yoktur.
@@ -14179,69 +14179,69 @@ fn main() {
     alınabilmektedir. Bizim ilgili değişkenin ya da değerin adresini mut bir göstericiye yerleştirebilmemiz için onun adresini
     &mut opeatörüyle almamız gerekir. Örneğin:
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32;
+        let mut a: i32 = 10;
+        let pi32: *mut i32;
 
-    pi32 = &mut a;
+        pi32 = &mut a;
 
-    unsafe {
-        *pi32 = 20;
-    }
+        unsafe {
+            *pi32 = 20;
+        }
 
-    println!("{}", a);          // 20
+        println!("{}", a);          // 20
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a: i32 = 10;
-    let pi32: *mut i32;
+        fn main() {
+            let mut a: i32 = 10;
+            let pi32: *mut i32;
 
-    pi32 = &mut a;
+            pi32 = &mut a;
 
-    unsafe {
-        *pi32 = 20;
-    }
+            unsafe {
+                *pi32 = 20;
+            }
 
-    println!("{}", a);          // 20
-}
+            println!("{}", a);          // 20
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Biz daha önce iki değişkenin içerisindeki değerleri yer değiştiren swap isimli fonksiyonunu referansları kullanarak
     yazmıştık. Şimdi de aynı fonksiyonu göstericileri kullanarak yazalım:
 
-    fn swap(a: *mut i32, b: *mut i32) {
-        unsafe {
-            let temp = *a;
-            *a = *b;
-            *b = temp;
+        fn swap(a: *mut i32, b: *mut i32) {
+            unsafe {
+                let temp = *a;
+                *a = *b;
+                *b = temp;
+            }
         }
-    }
 
     Bu fonksiyonu çağırırken bizim i32 türünden iki mut değişkenin adresini &mut operatörüyle alıp fonksiyona göndermemiz gerekir.
     Örneğin:
 
-    let mut a: i32 = 10;
-    let mut b: i32 = 20;
+        let mut a: i32 = 10;
+        let mut b: i32 = 20;
 
-    swap(&mut a, &mut b);
+        swap(&mut a, &mut b);
 
     Fonksiyondan çıkıldığında değişkenlerin içerisindeki değerler yer değiştirmiş olacaktır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a: i32 = 10;
-    let mut b: i32 = 20;
+        fn main() {
+            let mut a: i32 = 10;
+            let mut b: i32 = 20;
 
-    swap(&mut a, &mut b);
-    println!("a = {}, b = {}", a, b);        // a = 20, b = 10
-}
+            swap(&mut a, &mut b);
+            println!("a = {}, b = {}", a, b);        // a = 20, b = 10
+        }
 
-fn swap(a: *mut i32, b: *mut i32) {
-    unsafe {
-        let temp = *a;
-        *a = *b;
-        *b = temp;
-    }
-}
+        fn swap(a: *mut i32, b: *mut i32) {
+            unsafe {
+                let temp = *a;
+                *a = *b;
+                *b = temp;
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Pekiyi Rust'ta bir göstericinin içerisindeki adresi nasıl artırıp eksiltiriz? Anımsanacağı gibi C'de biz adres bilgilerini
@@ -14259,24 +14259,24 @@ fn swap(a: *mut i32, b: *mut i32) {
     kullanabiliriz. Yine tıpkı C'de olduğu gibi bir göstericinin içindeki adres 1 artırıldığında ya da 1 eksiltildiğinde adresin
     sayısal bileşeni adresin türünin uzunluğu kadar artırılıp eksiltilmektedir. Örneğin:
 
-    let pi: *const i32;
-    ...
+        let pi: *const i32;
+        ...
 
-    pi = p.offset(1);
+        pi = p.offset(1);
 
     Burada pi göstericisinin içerisindeki adresin sayısal bileşeni 1 değil i32 türü 4 byte olduğu için 4 artırılmaktadır.
     Örneğin:
 
-    let a: i32 = 10;
-    let b: i32 = 20;
-    let mut pi: *const i32;
+        let a: i32 = 10;
+        let b: i32 = 20;
+        let mut pi: *const i32;
 
-    pi = &a;
-    unsafe {
-        println!("{:p}", pi);
-        pi = pi.offset(1);
-        println!("{:p}", pi);
-    }
+        pi = &a;
+        unsafe {
+            println!("{:p}", pi);
+            pi = pi.offset(1);
+            println!("{:p}", pi);
+        }
 
     Burada ekrana bastırılan iki adres değeri arasında 4 fark olması gerekir.
 
@@ -14284,15 +14284,15 @@ fn swap(a: *mut i32, b: *mut i32) {
     gerekir. Böyle erişimler Rust'ta da C'de oldupu gibi "tanımsız davranış (undefined behavior)" oluşturmaktadır. Rust'ta
     aşağıdaki gibi işlemlerin error oluşturacağını bir kez daha vurgulamak istiyoruz:
 
-    unsafe {
-        pi += 1;            // error
-        pi = pi + 1;        // error
-    }
+        unsafe {
+            pi += 1;            // error
+            pi = pi + 1;        // error
+        }
 
     offset metotlarının wrapping_offset isminde benzerleri de vardır:
 
-    pub const fn wrapping_offset(self, count: isize) -> *const T
-    pub const fn wrapping_offset(self, count: isize) -> *mut T
+        pub const fn wrapping_offset(self, count: isize) -> *const T
+        pub const fn wrapping_offset(self, count: isize) -> *mut T
 
     Bu metotlar adreste taşma olduğunda yeniden belleğin başına geçilmesini (yani "wrapping" yapılmasını) sağlamaktadır.
 
@@ -14300,18 +14300,18 @@ fn swap(a: *mut i32, b: *mut i32) {
     eksiltim yapabilmekteyiz. Rust'ta ayrıca aylnızca artırım yapabilmek için add metodu ve yalnızca eksiltim yapabilmek
     için sub metodu da bulundurulmuştur:
 
-    pub const unsafe fn add(self, count: usize) -> *const T
-    pub const unsafe fn add(self, count: usize) -> *mut T
-    pub const unsafe fn sub(self, count: usize) -> *const T
-    pub const unsafe fn sub(self, count: usize) -> *mut T
+        pub const unsafe fn add(self, count: usize) -> *const T
+        pub const unsafe fn add(self, count: usize) -> *mut T
+        pub const unsafe fn sub(self, count: usize) -> *const T
+        pub const unsafe fn sub(self, count: usize) -> *mut T
 
     Bu metotların artırım ve eksiltim değerlerini usize türüyle aldıklarına dikkat ediniz. Yani add yalnızca artırım için,
     sub ise yalnızca eksiltim için kullanılmaktadır. Bu metotların wrapping_ önekli sarma yapan biçimleri de vardır:
 
-    pub const unsafe fn wrapping_add(self, count: usize) -> *const T
-    pub const unsafe fn wrapping_add(self, count: usize) -> *mut T
-    pub const unsafe fn wrapping_sub(self, count: usize) -> *const T
-    pub const unsafe fn wrapping_sub(self, count: usize) -> *mut T
+        pub const unsafe fn wrapping_add(self, count: usize) -> *const T
+        pub const unsafe fn wrapping_add(self, count: usize) -> *mut T
+        pub const unsafe fn wrapping_sub(self, count: usize) -> *const T
+        pub const unsafe fn wrapping_sub(self, count: usize) -> *mut T
 
     Anımsanacağı gibi C'de aynı türden iki adres bilgisi çıkartılabilmektedir. Elde edilen ürün ptrdiff_t türünden olmaktadır.
     ptrdiff_t türü derleyicileri yazanlar tarafından işaretli bir tamsayı türü biçiminde typedef edilmektedir. C'de aynı türden
@@ -14319,23 +14319,23 @@ fn swap(a: *mut i32, b: *mut i32) {
     bölümü biçiminde elde edilmektedir. (Yani örneğin örneğin C'de a bir dizi olmak üzere &a[1] - a[0] işleminden elde edilecek
     değer her zaman 1'dir. Rust'ta da biz aynı türden iki adres bilgisini çıkartabiliriz. Bunun için offset_from metodu kullanılmaktadır:
 
-    pub const unsafe fn offset_from(self, origin: *const T) -> isize
+        pub const unsafe fn offset_from(self, origin: *const T) -> isize
 
     Metodun geri dönüş değerinin isize türünden olduğuna dikkat ediniz. Burada elde edilen değer yine C'de olduğu gibi adreslerin
     sayısal bileşenleri arasındaki farkın adresin tür uzunluğuna bölünmesiyle elde edilmektedir. (Yani "iki adres arasında
     ilgili türden kaç değer var" hesabı yapılmaktadır.) Biz bu metot ile aynı türden biri mut olan diğeri olmayan, ya da
     ikisi de mut olan ya da ikisi de mut olmayan iki adresi çıkartabiliriz. Örneğin:
 
-    let a: i32 = 10;
-    let p1: *const i32 = &a;
-    let p2: *const i32;
-    let result: isize;
+        let a: i32 = 10;
+        let p1: *const i32 = &a;
+        let p2: *const i32;
+        let result: isize;
 
-    unsafe {
-        p2 = p1.add(5);
-        result = p2.offset_from(p1);
-        println!("{}", result);         // 5
-    }
+        unsafe {
+            p2 = p1.add(5);
+            result = p2.offset_from(p1);
+            println!("{}", result);         // 5
+        }
 
     Gösterici türlerinin başka faydalı metotları da vardır. Ancak diğer metotları biz kullanacağımız zaman açıklayacağız.
     Siz de dokümanlardan diğer metotlar gözden geçirebilirsiniz:
@@ -14349,44 +14349,44 @@ fn swap(a: *mut i32, b: *mut i32) {
     dizinin adresiyle çağrılıyordu. Rust'ta ileride ayrı bir başlık halinde yeniden ele alacağımız üzere [T; N] türünden, [T]
     türünden ve &[T; N] türünden &[T] türüne otomatik tür dönüşümü (type coercion) vardır. Örneğin:
 
-    fn main() {
-        let a:[i32;5] = [10, 20, 30, 40, 50];
+        fn main() {
+            let a:[i32;5] = [10, 20, 30, 40, 50];
 
-        disp(&a);       // disp(&a[..]);
-    }
-
-    fn disp(sr: &[i32]) {
-        for i in 0..sr.len() {
-            print!("{} ", sr[i]);
+            disp(&a);       // disp(&a[..]);
         }
-        println!("");
-    }
+
+        fn disp(sr: &[i32]) {
+            for i in 0..sr.len() {
+                print!("{} ", sr[i]);
+            }
+            println!("");
+        }
 
     Ancak Rust'ta biz bir dizinin adresini aldığımızda onu bir göstericiye atayamayız. Örneğin:
 
-    let a:[i32;5] = [10, 20, 30, 40, 50];
-    let pi32: *const i32;
+        let a:[i32;5] = [10, 20, 30, 40, 50];
+        let pi32: *const i32;
 
-    pi32 = &a;      // error
+        pi32 = &a;      // error
 
     Biz mut olmayan bir dizinin başlangıç adresini as_ptr metodu ile mut bir dizinin başlangıç adresini ise as_ptr ya da
     as_mut_ptr metodu ile elde edebiliriz. (Bu metotlar aslında dizilerin değil dilimlerin metotlarıdır.) Anımsanacağı gibi
     dizinin uzunluğunu da len metoduyla elde edebiliyorduk. Örneğin:
 
-    let a:[i32; 5] = [10, 20, 30, 40, 50];
-    let pi32: *const i32;
+        let a:[i32; 5] = [10, 20, 30, 40, 50];
+        let pi32: *const i32;
 
-    pi32 = a.as_ptr();      // geçerli
+        pi32 = a.as_ptr();      // geçerli
 
     Tabii biz C'de de yaptığımız gibi bu göstericinin içerisindeki adresi artıra artıra dizinin tüm elemanlarına erişebiliriz.
     Çünkü dizi elemanlarının bellekte ardışıl bir biçimde dizildiği garanti edilmektedir. Örneğin:
 
-    unsafe {
-        for i in 0..a.len() {
-            print!("{} ", *pi32.add(i));
+        unsafe {
+            for i in 0..a.len() {
+                print!("{} ", *pi32.add(i));
+            }
+            println!();
         }
-        println!();
-    }
 
     Burada erişimin *pi32.add(i) biçiminde yapıldığına dikkat ediniz. (Bu ifade adeta C'deki *(p + i) ya da p[i] ifadesine
     benzemektedir.) Metot çağrım operatörü * operatöründen daha önceliklidir. Bu ifadedeki diğer bir nokta da adres artırımının
@@ -14394,34 +14394,34 @@ fn swap(a: *mut i32, b: *mut i32) {
     usize türündendir. Halbuki offset metodunun parametresi isize türünden olmak zorundadır. İşte Rust'ta dizileri fonksiyonlara
     burada uyguladığımız teknikle aktarabiliriz. Örneğin:
 
-    fn disp(pi32: *const i32, size: usize) {
-        for i in 0..size {
-            unsafe {
-                print!("{} ", *pi32.add(i));
+        fn disp(pi32: *const i32, size: usize) {
+            for i in 0..size {
+                unsafe {
+                    print!("{} ", *pi32.add(i));
+                }
             }
         }
-    }
 
     Fonksiyonu şöyle çağırabiliriz:
 
-    let a:[i32;5] = [10, 20, 30, 40, 50];
+        let a:[i32;5] = [10, 20, 30, 40, 50];
 
-    disp(a.as_ptr(), a.len());
+        disp(a.as_ptr(), a.len());
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a:[i32;5] = [10, 20, 30, 40, 50];
+        fn main() {
+            let a:[i32;5] = [10, 20, 30, 40, 50];
 
-    disp(a.as_ptr(), a.len());
-}
-
-fn disp(pi32: *const i32, size: usize) {
-    for i in 0..size {
-        unsafe {
-            print!("{} ", *pi32.add(i));
+            disp(a.as_ptr(), a.len());
         }
-    }
-}
+
+        fn disp(pi32: *const i32, size: usize) {
+            for i in 0..size {
+                unsafe {
+                    print!("{} ", *pi32.add(i));
+                }
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Aslında dizilerde kullandığımız as_ptr, as_mut_ptr ve len gibi metotlar dizi türünün metotları değildir. Dilimlerin
@@ -14433,53 +14433,53 @@ fn disp(pi32: *const i32, size: usize) {
     Şimdi de göstericilerle dizi elemanları üzerinde değişiklik yapan bir örnek verelim. Örneğimizdeki bsort fonksiyonu boubble
     sort algoritmasını kullanarak dizi elemanlarını sıraya dizmektedir.
 
-    fn bsort(pi32: *mut i32, size: usize) {
-        for i in 0..size - 1 {
-            for k in 0..size - 1 - i {
-                unsafe {
-                    if *pi32.add(k) > *pi32.add(k + 1) {
-                        let temp = *pi32.add(k);
-                        *pi32.add(k) = *pi32.add(k + 1);
-                        *pi32.add(k + 1) = temp;
+        fn bsort(pi32: *mut i32, size: usize) {
+            for i in 0..size - 1 {
+                for k in 0..size - 1 - i {
+                    unsafe {
+                        if *pi32.add(k) > *pi32.add(k + 1) {
+                            let temp = *pi32.add(k);
+                            *pi32.add(k) = *pi32.add(k + 1);
+                            *pi32.add(k + 1) = temp;
+                        }
                     }
                 }
             }
         }
-    }
 
     Burada pi32 göstericisinin mut olduğuna dikkat ediniz. Fonksiyon mut dizinin adresiyle ve uzunluğuyla çağrılmalıdır:
 
-    let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
+        let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
 
-    bsort(a.as_mut_ptr(), a.len());
+        bsort(a.as_mut_ptr(), a.len());
 
     mut dizinin adresinin as_mut_ptr metoduyla alındığına dikkat ediniz.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
+        fn main() {
+            let mut a:[i32;10] = [30,17, 4, 92, 44, 65, 21, 98, 10, 1];
 
-    bsort(a.as_mut_ptr(), a.len());
+            bsort(a.as_mut_ptr(), a.len());
 
-    for val in a.into_iter() {
-        print!("{} ", val);
-    }
-    println!("");
-}
+            for val in a.into_iter() {
+                print!("{} ", val);
+            }
+            println!("");
+        }
 
-fn bsort(pi32: *mut i32, size: usize) {
-    for i in 0..size - 1 {
-        for k in 0..size - 1 - i {
-            unsafe {
-                if *pi32.add(k) > *pi32.add(k + 1) {
-                    let temp = *pi32.add(k);
-                    *pi32.add(k) = *pi32.add(k + 1);
-                    *pi32.add(k + 1) = temp;
+        fn bsort(pi32: *mut i32, size: usize) {
+            for i in 0..size - 1 {
+                for k in 0..size - 1 - i {
+                    unsafe {
+                        if *pi32.add(k) > *pi32.add(k + 1) {
+                            let temp = *pi32.add(k);
+                            *pi32.add(k) = *pi32.add(k + 1);
+                            *pi32.add(k + 1) = temp;
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii Rust'ta aslında dizilerin yukarıdaki gibi gösterici kullanılarak fonksiyonlara aktarılması iyi bir teknik değildir.
@@ -14499,16 +14499,16 @@ fn bsort(pi32: *mut i32, size: usize) {
     Artık burada göstericinin içerisinde NULL adres vardır. NULL adres C ile Rust arasındaki uyumu korumak için de kullanılmaktadır.
     Bir göstericinin içerisinde NULL adres olup olmadığı göstericinin is_null metodu ile kontrol edilmektedir. Örneğin:
 
-    if pi32.is_null() {
-       //...
-    }
-    else {
+        if pi32.is_null() {
         //...
-    }
+        }
+        else {
+            //...
+        }
 
     Eğer mut bir göstericiye NULL adres atanacaksa std::ptr::mut_null fonksiyonu kullanılmalıdır. Örneğin:
 
-    let pi32: *mut i32 = std::ptr::mut_null();
+        let pi32: *mut i32 = std::ptr::mut_null();
 
     is_null metodunun mut'lu ayrı bir biçiminin olmadığına dikkat ediniz.
 
@@ -33472,7 +33472,2356 @@ struct Sample;
     2) Dolaşım, dolaşım nesnesi ile Iterator trait'inden gelen next metotlarının çağrılmasıyla yapılır.
 ---------------------------------------------------------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            98. Ders 06/04/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------------------------------------------------------
+    IntoIterator trait'i std::iter modülünde şöyle tanımlanmıştır:
+
+    pub trait IntoIterator {
+        type Item;
+        type IntoIter: Iterator<Item = Self::Item>;
+
+        // Required method
+        fn into_iter(self) -> Self::IntoIter;
+    }
+
+    Bu tanımlama size biraz karışık gelebilir. Bu trait'i desteklemek için destekleyeceğimiz yapı ya da enum türünde bizim
+    iki ilişkili türü (associated type) açıkça belirtmemiz gerekir: Item ve IntoIter. Ancak IntoIter ilişkili türünün
+    Iterator isimli trait'i destekleyen bir tür türünden olması zorunludur. Ayrıca Iterator trait'indeki Item ilişkili
+    türününde desteklenen yapı ya da enum türündeki Item türü ile aynı olması gerekir. IntoIterator trait'inde into_iter
+    isimli bir metodun da bulunması zorunludur. Bu metodun parametrik yapısına dikkat ediniz. Metodun self parametresi
+    referans değildir. Yani buna geçirilecek değer sahipliğini devretnektedir. into_iter metodu desteklenen türde belirtilmiş
+    olan IntoIter türüne geri dönmek zorundadır. Burada da görüldüğü gibi IntoIterator trait'ini destekleyen yapı ya da
+    enum türünün into_iter isimli bir metodun bulunması ve metodun da iterator geri döndürmesi gerekmektedir. IntoIterator
+    trait'i std::iter modülünde bulunuyor olsa da standart prelude içerisinde use edilmiştir. Dolayısıyla doğrudan
+    kullanılabilir.
+
+    Iterator trait'i de std::iter modülünde şöyle tanımlanmıştır:
+
+    pub trait Iterator {
+        type Item;
+
+        // Required method
+        fn next(&mut self) -> Option<Self::Item>;
+
+        // Provided methods ...
+    }
+
+    Burada Iterator trait'inin Item isimli bir ilişkili türü olduğunu görüyorsunuz. Programcı Iterator trait'ini destekleyen
+    bir yapı ya da enum türü tanımlayacaksa bu Item türünü açıkça belirtmek zorundadır. Trait'in next isimli zorunlu bir
+    metodu vardır. Yani bu metot trait'i destekleyen türden programcı tarafından yazılmak zorundadır. next metodunun
+    parametresinin &mut self olduğuna dikkat ediniz. Geri dönüş değeri ise Option<Self::İtem> türündendir. Yani next metodu
+    aslında bize başarı durumunda Item türünden değer, başarısızlık durumunda ise None değeri vermektedir. Bir iteratör
+    her nex yapıldıkça Some(val) değerleri elde edilir. Artık verecek bir değer kalmadıysa iteratör de None değeri vermektedir.
+    O halde bir iteartörle tüm değerleri elde etmek için next metodu None verene kadar işleme devam edilmesi gerekir.
+    Iteratır trait'inin 75 tane isteğe bağlı (provided) metodu vardır. Bu metotlar yazılmak zorunda değildir. Bunlar
+    default biçimde next kullanılarak yazılmış durumdadır. Iterator trait'i de std::iter modülünde bulunuyor olsa da
+    standart prelude içeirisnd euse edildiği için program içerisinde doğrudan kullanılabilmektedir.
+
+    IntoIterator ve Iterator trait'leri hakkında kafa karışıklığını azaltmak için anahtar noktaları yeniden vurgulamak
+    istiyoruz:
+
+    - Iterator traitîndeki Item isimli ilişki tür bu iteratör ilerletildiğinde hangi türden değer elde dileceğini belirtmektedir.
+    Örneğin:
+
+    struct MyIterator {
+        //...
+    }
+
+    impl Iterator for MyIterator {
+        type Item = String;
+        //...
+    }
+
+    Burada MyIterator ilerletildiğinde String türden değerler elde edilecektir. Şimdi MyIterator yapısının next metodunu
+    da dah abelirgin hale getirelim:
+
+    impl Iterator for MyIterator {
+        type Item = String;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            //...
+        }
+    }
+
+    Görüldüğü gibi her next işleminde next metodu bize String vermektedir. next metodu verecek bir şey kalmadığında None
+    değerine geri dönecektir. Tabii biz geri dönüş değerini Option<Self::Item> yerine açıkça Option<String> biçiminde de
+    belirtiebilirdik. Çünkü bu iki tür zaten aynı anlama gelmektedir.
+
+    - IntoIterator trait'i bize Iterator veren trait'tir. IntoIterator trait'indeki Item ilişkili türü ieratörün her next
+    işleminde vereceği değerin türünü belirtmektedir. IntoIterator ilişkili türü ise into_iter metodunun vereceği iteratör
+    nesnesinin türünü belirtmektedir.
+
+    - İteratör yolula dolaşmak için programcının iki tür (yapı ya da enum) tanımlaması gerekmektedir. Birincisi iteratörü
+    veren tür, ikincisi ilerlemeyi sağlayan tür.
+
+    İteratör veren türe İngilizce "iterable type", dolaşımı sağlayan türe ise İngilizce "iterator type" denilmektedir.
+    Biz "iterable type" yerine Türkçe "dolaşılabilir tür", "iterator type" yerine de Türkçe "dolaşım türü" diyeceğiz:
+
+    İngilizce "iterable" ---> Türkçe "dolaşılabilir"
+    İngilizce "iterator" ---> Türkçe "dolaşım"
+
+    Her ne kadar dolaşılabilir tür ile dolaşım türü farklı türler biçiminde genelleştirilmişse de bir tür hem dolaşılabilir
+    hem de dolaşım türü olabilir. Yani örneğin bir struct hem IntoIterator trait'ini destekleyebilir hem de Iterator trait'ini
+    destekleyebilir. Basit dolaşımlar için tek tür üzerinden işlem yapmak genellikle yeterli olmaktadır. Aslında zaten
+    yalnızca dolaşım türü oluşturulduğunda aynı zamanda "kaplayıcı destekleme" sayesinde otomatik olarak aynı tür dolaşılabilir
+    hale de gelmektedir. Bu durumu izleyen paragraflarda ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi Range yapısının bir benzerini oluşturan bir örnek üzerinde çalışalım. Örneğimizdeki dolaşılabilir yapı MyRange
+    yapısıdır:
+
+    struct MyRange {
+        start: i32,
+        stop: i32,
+        step: i32,
+    }
+
+    impl MyRange  {
+        fn new(start: i32, stop: i32, step: i32) -> Self {
+            MyRange { start, stop, step}
+        }
+    }
+
+    Bu yap türünden bir değişken ya da değer dolaşıldığında step değerinden itibaren, stop değerine kadar (stop değeri dahil
+    değil) step artırımlarla i32 türünden sayılar elde edilecektir. Bizim öncelikle bu türün dolaşılabilir olmasını sağlamak
+    için IntoIterator trait'ini desteklememiz gerekir. Destekleme işlemini şöyle yapabiliriz:
+
+    impl IntoIterator for MyRange {
+        type Item = i32;
+        type IntoIter = MyRangeIterator;
+
+        fn into_iter(self) -> Self::IntoIter {
+            MyRangeIterator {
+                current: self.start,
+                stop: self.stop,
+                step: self.step
+            }
+        }
+    }
+
+    Burada Item türü i32 olduğuna göre dolaşımdan i32 türünden değerler elde edilecektir. IntoIter türü verilecek dolaşım
+    türünün türünü belirtmektedir. Örneğimizde into_iter metodu MyRangeIterator türünden bir yapı değeri vermektedir.
+    Anımsanacağı gibi MyRangeIterator türünün Iterator trait'ini Item ilişkili türü i32 olacak biçimde bulundurması gerekir.
+    Asıl dolaşımı bu MyRangeIterator türü yapacaktır. Bu tür de şöyle tanımlanmıştır:
+
+    struct MyRangeIterator {
+        current: i32,
+        stop: i32,
+        step: i32,
+    }
+
+    Buradaki current değeri dolaşım sırasında verilen son değeri temsil etmektedir. current değerinin start değerinden
+    başlatıldığına dikkat ediniz. MyRangeIterator türünün Iterator trait'ini Item = i32 olacak biçimde desteklemesi gerekir.
+    Destekleme işlemi şöyle yapılabilir:
+
+    impl Iterator for MyRangeIterator {
+        type Item = i32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.current < self.stop {
+                let prev_val = self.current;
+                self.current += self.step;
+                Some(prev_val)
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    Görüldüğü gibi cuırrent değeri stop değerindne küçükse current artırılmış ancak netot artırımından önceki değerle
+    geri döndürülmüştür. Eğer current değeri stop değerinden küçük değilse metot None ile geri dönddürülmüştür.
+
+    Burada oluşturduğumuz dolaşılabilir yapıyı artık for döngüsü ile dolaşabiliriz. Örneğin:
+
+    let mr: MyRange = MyRange::new(10, 20, 1);
+
+    for val in mr {
+        print!("{} ", val);
+    }
+    println!();
+
+    Dolaşımdan sonra artık buradaki mr değişkeni tüketilmektedir. Yani dolaşımdan sonra artık biz mr değişkenini
+    kullanamyız. (into_iter trait'inin self parametresine sahip olduğunu anımsayınız.) Tabii biz açıkça değişken kullanmadan
+    da dolaşımı şöyle yapabilirdik:
+
+    for val in MyRange::new(10, 20, 1) {
+        print!("{} ", val);
+    }
+    println!();
+
+    Şimdi de for döngüsünün eşdeğerini manuel oluşturalım:
+
+    let mr: MyRange = MyRange::new(10, 20, 1);
+
+    let mut iterator = mr.into_iter();
+    loop {
+        let val = match iterator.next() {
+            Some(val) => val,
+            None => break,
+        };
+        print!("{} ", val);
+    }
+    println!();
+
+    for döngüsünün eşdeğeri while let deyimiyle de şöyle oluşturulabilir:
+
+    let mr: MyRange = MyRange::new(10, 20, 1);
+
+    let mut iterator = mr.into_iter();
+    while let Some(val) = iterator.next() {
+        print!("{} ", val);
+    }
+    println!();
+
+    Örneği bir bütün olarak aşağıda veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mr: MyRange = MyRange::new(10, 20, 1);
+
+    for val in MyRange::new(10, 20, 1) {
+        print!("{} ", val);
+    }
+    println!();
+
+    //...
+    let mr: MyRange = MyRange::new(10, 20, 1);
+    let mut iterator = mr.into_iter();
+
+    loop {
+        let val = match iterator.next() {
+            Some(val) => val,
+            None => break,
+        };
+        print!("{} ", val);
+    }
+    println!();
+
+    //...
+    let mr: MyRange = MyRange::new(10, 20, 1);
+    let mut iterator = mr.into_iter();
+
+    while let Some(val) = iterator.next() {
+        print!("{} ", val);
+    }
+    println!();
+}
+
+struct MyRange {
+    start: i32,
+    stop: i32,
+    step: i32,
+}
+
+impl MyRange  {
+    fn new(start: i32, stop: i32, step: i32) -> Self {
+        MyRange { start, stop, step}
+    }
+}
+
+impl IntoIterator for MyRange {
+    type Item = i32;
+    type IntoIter = MyRangeIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        MyRangeIterator {
+            current: self.start,
+            stop: self.stop,
+            step: self.step
+        }
+    }
+}
+
+struct MyRangeIterator {
+    current: i32,
+    stop: i32,
+    step: i32,
+}
+
+impl Iterator for MyRangeIterator {
+    type Item = i32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.current < self.stop {
+            let prev_val = self.current;
+            self.current += self.step;
+            Some(prev_val)
+        }
+        else {
+            None
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            99. Ders 08/04/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Elimizde bir dolaşım nesnesi varsa biz onu dolaşılabilir bir nesne gibi de kullanabiliriz. Yani bir yapı ya da enum
+    türünün yalnızca Iterator trait'ini desteklemesini sağladığınızda sanki o tür IntoIterator trait'ini de destekliyormuş
+    gibi kullanılabilmektedir. Başka bir deyişle "bir "iterator" değeri sanki "iterable" bir değermiş gibi de kullanılabilmektedir.
+    Böylece biz kendi yapı ya da enum türlerimiz için eğer mümkün olabiliyorsa yalnızca Iterator trait'ini destekleyebiliriz.
+    Örneğin:
+
+    struct MyRange {
+        current: i32,
+        stop: i32,
+        step: i32,
+    }
+
+    impl MyRange  {
+        fn new(start: i32, stop: i32, step: i32) -> Self {
+            MyRange { current: start, stop, step}
+        }
+    }
+
+    Burada biz start değerini tutmaya gerek görmedik. start değerini zaten current değer olarak sakladık. Şimdi buradaki
+    MyRange yapımızın Iterator trait'ini desteklemesini sağlayalım:
+
+    impl Iterator for MyRange {
+        type Item = i32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.current < self.stop {
+                let prev_val = self.current;
+                self.current += self.step;
+                Some(prev_val)
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    Burada aslında MyRange bir dolaşım (iterator) türüdür. Ancak biz onu dolaşılabşlir (iterable) bir tür gibi de kullanbilmekteyiz:
+
+
+    let mr: MyRange = MyRange::new(10, 20, 1);
+
+    for val in MyRange::new(10, 20, 1) {
+        print!("{} ", val);
+    }
+    println!();
+
+    Tabii for döngüsünün eşdeğerinde for ifadesi için önce ito_iter metodu çağrılmaktadır. Biz bu metodu yine açıkça
+    çağırabiliriz:
+
+    let mr: MyRange = MyRange::new(10, 20, 1);
+    let mut iterator = mr.into_iter();
+
+    while let Some(val) = iterator.next() {
+        print!("{} ", val);
+    }
+    println!();
+
+    Peki biz IntoIterator trait'ini desteklemedğimiz halde nasıl into_iter metodunu kullanabilmekteyiz? İzleyen paragrafta
+    bunu açıklayacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    std:iter modülünde aşağıdaki gibi bir kapsayıcı destekleme (blanket implementation) bulundurulmuştur:
+
+    impl<T: Iterator> IntoIterator  for T {
+        type Item = T::Item;
+        type IntoIter: T;
+
+        fn into_iter(self) -> Self::IntoIter {
+            self
+        }
+    }
+
+    Buradaki kapsayıcı destekleme şu anlama gelmektedir: "Iterator trait'ini destekleyen her tür aynı zamanda IntoIterator
+    trait'ini de destekliyormuş gibi kullanabilir." Örneğin:
+
+    struct MyRange {
+        current: i32,
+        stop: i32,
+        step: i32,
+    }
+
+    impl MyRange  {
+        fn new(start: i32, stop: i32, step: i32) -> Self {
+            MyRange { current: start, stop, step}
+        }
+    }
+
+    impl Iterator for MyRange {
+        type Item = i32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.current < self.stop {
+                let prev_val = self.current;
+                self.current += self.step;
+                Some(prev_val)
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    Buradaki MyRange türü Iterator trait'ini desteklemektedir. Ama sanki IntoIterator trait'ini de destekliyor gibi
+    kullanılabilmeketdir. Yukarıdaki kapsayıcı destekleme adeta aşağıdaki gerçekleştirimi de koda eklemiş olmaktadır:
+
+    impl IntoIteraotor for MyRange {
+        type Item = MyRange::Item;
+        type IntoIter = MyTange;
+
+        fn into_iter(self) -> MyRange {
+            self
+        }
+    }
+
+    Burada iterator deeri ile iterable değerin aynı olduğuna dikkat ediniz. Biz MyRange türünden bir değeri for döngüsüne
+    soktupumuzda bu değer üzerinde önce into_iter metodu çağrılır. O metot metot zaten değerin kendisini verir. Sonra da
+    aynı değerle next çağrıları yapılır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki mademki biz yalnızca Iterator trait'ini desteklediğimizde zaten IntoIterator trait'i de otomatik desteklenmiş oluyor,
+    peki o zaman bizim açıkça IntoIterator trait'ini desteklememize gerek var mı? İşte tek bir tür hem dolaşılabilir tür
+    hem de dolaşım türü olabiliyorsa bu durumda gerçekten yalnızca Iterator trait'ini desteklememiz yeterli olur. Ancak
+    bazı durumlarda aynı tür hem dolaşılabilir hem de dolaşım türü yapılamamaktadır. Bu tür durumlarda bizim IntoIterator
+    trait'ini destekleyip iteratör vermemiz ve dolaşımı da bu iteratörle yapmamız gerekir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi dilimlerde, vec gibi LinkedList gibi veri yapılarında iter ya da iter_mut metotları kullanılarak
+    referans yoluyla dolaşım yapılabiliyordu. Referans yoluyla dolaşım aynı zamanda açıkça & ve ya da &mut operatörleriyle
+    de eşdeğer bir biçimde yapılabiliyordu. Örneğin:
+
+    let v = vec![10, 20, 30, 40, 50];
+
+    for val in v.iter() {
+        print!("{} ", *val);
+    }
+    println!();
+
+    Bu işlem işlevsel olarak aşağıdaki gibi de yapılabilmektedir:
+
+    let v = vec![10, 20, 30, 40, 50];
+
+    for val in &v {
+        print!("{} ", *val);
+    }
+    println!();
+
+    Peki bu referans yoluyla dolaşmalar nasıl gerçekleştirilmektedir?
+
+    İşte tüketici dolaşmanın yanı sıra referans yoluyla dolaşma için genellikle programcılar kendi türleri içerisinde iter
+    ve iter_mut isminde metotlar yerleştirmektedir. Bu metotlar da referansla dolaşımı sağlayan ve Iterator trait'ini
+    destekleyen yapılar türünden değerle geri dönmektedir. Bu durumu bir örnekle açıklayalım. Ancak örneği aşağıdaki gibi
+    basir bir yapı üzerinde kurgulayalım:
+
+    struct Numbers {
+        numbers: [i32; 5],
+    }
+
+    impl Numbers {
+        fn new(numbers: [i32; 5]) -> Self {
+            Numbers {numbers}
+        }
+    }
+
+    Görüldüğü gibi burada yapı 5 elemanlı i32 türünden bir dizi alanına sahiptir. Biz bu yapıyı dolaştığımızda tüketici
+    biçimde bu dizi içerisindeki elemanları elde edecek olalım. Bunun için Numbers yapısının IntoIterator trait'ini desteklemesi
+    gerekir:
+
+    impl IntoIterator for Numbers {
+        type Item = i32;
+        type IntoIter = NumbersIterator;
+
+        fn into_iter(self) -> Self::IntoIter {
+            NumbersIterator { numbers: self.numbers, cur_index: 0}
+        }
+    }
+
+    struct NumbersIterator {
+        numbers: [i32; 5],
+        cur_index: usize,
+    }
+
+    impl Iterator for NumbersIterator {
+        type Item = i32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.cur_index < self.numbers.len() {
+                let prev_index = self.cur_index;
+                self.cur_index += 1;
+                Some(self.numbers[prev_index])
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    Görüldüğü gibi Numbers yapısının into_iter metodu bize NumbersIterator türünden bir iteratör vermektedir. Verilen
+    iteratörü dolaştığımızda da bu dizinin elemanlarını elde etmekteyiz. Örneğin:
+
+    let nums = Numbers::new([10, 20, 30, 40, 50]);
+
+    for val in nums {
+        print!("{} ", val);
+    }
+    println!();
+
+    Burada dolaşımın nums değişkenini tükettiğine dikkat ediniz. Aynı dolaşımı ikinci kez yapamayız. Şimdi de aşağıdaki gibi
+    referans yoluyla dolaşımı mümkün hale getirmek için yapıya iter metodu ekleyelim:
+
+    for r in nums.iter() {
+        print!("{} ", *r);
+    }
+    println!();
+
+    Bu iter metodunun referans yoluyla dolaşımı sağlayabilen bir iteratör geri döndürmesi gerekir:
+
+    impl Numbers {
+        //...
+        fn iter(&self) -> Iter {
+            Iter { numbers: &self.numbers, cur_index: 0 }
+        }
+    }
+    struct NumbersRefIterator<'a> {
+        numbers: &'a [i32],
+        cur_index: usize,
+    }
+
+    impl<'a> Iterator for NumbersRefIterator<'a> {
+        type Item = &'a i32;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.cur_index < self.numbers.len() {
+                let prev_index = self.cur_index;
+                self.cur_index += 1;
+                Some(&self.numbers[prev_index])
+            }
+            else {
+                None
+            }
+        }
+    }
+
+    Artık biz iter metodu yoluyla aynı Numbers değişkeninin birden fazla kez dolaşabiliriz:
+
+    for r in nums.iter() {
+        print!("{} ", *r);
+    }
+    println!();
+
+    for r in nums.iter() {
+        print!("{} ", *r);
+    }
+    println!();
+
+    İşte LinkedList gibi yapıların iter metodu da buradaki mantıkla gerçekleştirilmiştir. (Vec yapısında &v yapıldığında
+    Deref dönüştürmesi uylanmakta ve aslında dilimin iter metodu çalıştırışmaktadır.)
+
+    Peki aynı dolaşımın adres alınarak aşağıdaki gibi yapılabilmesini nasıl sağlarız:
+
+    for r in &nums {
+        print!("{} ", *r);
+    }
+
+    Burada &nums ifadesi &Numbers türündendir. Bu tür de dolaşılabilir olmadığı için döngüde error oluşacaktır. İşte
+    genellikle programcılar bunu &T türünün (örneğimizde &Numbers türü) IntoIterator trait'ini desteklemesi yoluyla
+    sağlamaktadır. Örneğin:
+
+    impl<'a> IntoIterator for &'a Numbers {
+        type Item = &'a i32;
+        type IntoIter = NumbersRefIterator<'a>;
+
+        fn into_iter(self) -> Self::IntoIter {
+            NumbersRefIterator { numbers: &self.numbers, cur_index: 0 }
+        }
+    }
+    Artık biz tıpkı LinkedList gibi yapılarda olduğu gibi Numbers yapısı türünden bir değişken ya da değerin  adresini alarak
+    referans yoluyla dolaşımı sağlayabiliriz:
+
+    for r in &nums {
+        print!("{} ", *r);
+    }
+    println!();
+
+    Bu örnekte bir noktaya dikkat ediniz. Biz aslında bu örnekte iter metodunu yazmak yerine Deref trait'ini [T] türü için
+    de destekleyebilirdik. Böylece nums.iter() ifadesinde dizi diliminin iter metodu çağrılmış olurdu. Dizi dilimleri de
+    zaten kendiliğinden dolaşılabilir durumdadır. Deref trait'i sayesinde &nums ifadesi de yine &[i32] türüne dönüştürülürdü
+    ve işlemler basit bir biçimde yapılabilirdi. Ancak bizim bu örnekteki amacımız iter metodunun ve &nums gibi bir ifadenin
+    referans yoluyla dolaşımı nasıl yaptığını açıklamaktı.
+
+    Aşağıda örneği bir bütün olarak veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let nums = Numbers::new([10, 20, 30, 40, 50]);
+
+    for r in nums.NumbersRefIterator() {
+        print!("{} ", *r);
+    }
+    println!();
+
+    for r in &nums {
+        print!("{} ", *r);
+    }
+    println!();
+
+}
+
+struct Numbers {
+    numbers: [i32; 5],
+}
+
+impl Numbers {
+    fn new(numbers: [i32; 5]) -> Self {
+        Numbers {numbers}
+    }
+
+    fn NumbersRefIterator(&self) -> NumbersRefIterator {
+        NumbersRefIterator { numbers: &self.numbers, cur_index: 0 }
+    }
+}
+
+impl IntoIterator for Numbers {
+    type Item = i32;
+    type IntoIter = NumbersIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        NumbersIterator { numbers: self.numbers, cur_index: 0}
+    }
+}
+
+struct NumbersIterator {
+    numbers: [i32; 5],
+    cur_index: usize,
+}
+
+impl Iterator for NumbersIterator {
+    type Item = i32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index < self.numbers.len() {
+            let prev_index = self.cur_index;
+            self.cur_index += 1;
+            Some(self.numbers[prev_index])
+        }
+        else {
+            None
+        }
+    }
+}
+
+struct NumbersRefIterator<'a> {
+    numbers: &'a [i32],
+    cur_index: usize,
+}
+
+impl<'a> Iterator for NumbersRefIterator<'a> {
+    type Item = &'a i32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index < self.numbers.len() {
+            let prev_index = self.cur_index;
+            self.cur_index += 1;
+            Some(&self.numbers[prev_index])
+        }
+        else {
+            None
+        }
+    }
+}
+
+impl<'a> IntoIterator for &'a Numbers {
+    type Item = &'a i32;
+    type IntoIter = NumbersRefIterator<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        NumbersRefIterator { numbers: &self.numbers, cur_index: 0 }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            100. Ders 13/04/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de basitleştirilmiş bir vektör veri yapısı oluştrup ona dolaşılabilirlik sağlayalım. Bunun için MyVec isimli bir
+    yapı şöyle tanımlanabilir:
+
+    struct MyVec<T> {
+        vecptr: *mut T,
+        capacity: usize,
+        len: usize,
+    }
+
+    İçi boş bir vektör yine geleneksel olarak new ilişkili fonksiyonuyla yaratılabilir:
+
+    impl<T> MyVec<T> {
+        fn new() -> Self {
+            MyVec {
+                vecptr: ptr::null_mut(),
+                capacity: 0,
+                len: 0
+            }
+        }
+        //...
+    }
+
+    Burada görüldüğü gibi tamamen içi boş olan bir MyVec değeri oluşturulmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        101. Ders 15/04/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Vektördeki capacity ve len değerlerini veren metotları şöyle oluşturabiliriz:
+
+    impl<T> MyVec<T> {
+        fn new() -> Self {
+            MyVec {
+                vecptr: ptr::null_mut(),
+                capacity: 0,
+                len: 0
+            }
+        }
+
+        pub fn capacity(&self) -> usize {
+            self.capacity
+        }
+
+        pub fn len(&self) -> usize {
+            self.len
+        }
+
+        pub fn is_empty(&self) -> bool {
+            self.len == 0
+        }
+        //...
+    }
+
+    is_empty metodu da görüldüğü gibi vektörün boş olup olmadığı bilgisini vermektedir. Şimdi de vektörümüze sona eleman
+    ekleyen push metodunu ekleyelim:
+
+    use std::ptr;
+    use std::alloc::{alloc, dealloc, realloc, Layout};
+
+    impl<T> MyVec<T> {
+        //...
+
+        pub fn push(&mut self, value: T) {
+            if self.len == self.capacity {
+                self.grow();
+            }
+            unsafe {
+                ptr::write(self.vecptr.add(self.len), value);
+            }
+            self.len += 1;
+        }
+
+        fn grow(&mut self) {
+            let new_cap = if self.capacity == 0 { 4 } else { self.capacity * 2 };
+            let new_layout = Layout::array::<T>(new_cap).expect("invalid layout!");
+
+            let new_ptr = if self.capacity == 0 {
+                unsafe { alloc(new_layout) }
+            } else {
+                let old_layout = Layout::array::<T>(self.capacity).unwrap();
+                unsafe { realloc(self.vecptr as *mut u8, old_layout, new_layout.size()) }
+            };
+
+            self.vecptr = new_ptr as *mut T;
+            self.capacity = new_cap;
+        }
+    }
+
+    push metodunda önce self.len == self.capacity kontrolünün yapıldığoını görüyorunuz. Eğer bu iki değer eşitse bu durumda
+    vektör grow metodu çağrılarak iki kat büyütülmüştür. grow metodunda büyütme için std::alloc modülündeki realloc fonksiyonunun
+    kullanıldığına dikkat ediniz. Ancak Rust'ta henüz alloc yapmadan realloc işlemi yapılamamaktadır. Bu nedenle büyütme
+    işlemi şöyle yapılmıştır:
+
+    let new_ptr = if self.capacity == 0 {
+        unsafe { alloc(new_layout) }
+    }
+    else {
+        let old_layout = Layout::array::<T>(self.capacity).unwrap();
+        unsafe { realloc(self.vecptr as *mut u8, old_layout, new_layout.size()) }
+    };
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de MyVec yapımıza asıl konumuz olan IntoIterator desteğini verelim. IntoIterator trait'inin tüketici bir dolaşma
+    yaptığını anımsayınız. IntoIterator desteği şöyle verilebiliriz:
+
+    impl<T> IntoIterator for MyVec<T> {
+        type Item = T;
+        type IntoIter = MyVecIterator<T>;
+
+        fn into_iter(self) -> MyVecIterator<T> {
+            let mvi = MyVecIterator {
+                ptr: self.vecptr,
+                capacity: self.capacity,
+                len: self.len,
+                cur_index: 0,
+            };
+            std::mem::forget(self);
+            mvi
+        }
+    }
+
+    Görüldüğü gibi into_iter metodu MyVecIterator<T> türünden bir iteratör nesnesi vermektedir. MyVecIterator<T> türü de
+    şöyle tanımlanmıştır:
+
+    struct MyVecIterator<T> {
+        ptr: *mut T,
+        capacity: usize,
+        len: usize,
+        cur_index: usize,
+    }
+
+    into_iter metodunda std::mem::forget fonksiyonu çağrılarak ana MyVec nesnesi için drop işleminin yapılması engellenmiştir.
+    Eğer bu çağrı yapılmazsa iteratör yoluyla elemanlar tüketildikten sonra ana MyVec nesnesi için de drop işlemi yapılırdı.
+    Bu da tanımsız davranışa yol açardı. MyVecIterator yapısı için Iteratır trait'i de şöyle desteklenmiştir:
+
+    impl<T> Iterator for MyVecIterator<T> {
+        type Item = T;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.cur_index == self.len {
+                return None;
+            }
+            let item = unsafe { ptr::read(self.ptr.add(self.cur_index)) };
+            self.cur_index += 1;
+            Some(item)
+        }
+    }
+
+    Burada bir noktaya dikkat ediniz. orijinal nesnedeki değerler read fonksiyonu ile kopyalanarak elde edilmektedir. Fakat
+    yukarıda da belirttiğimiz gibi orijinal nesne için zaten drop işlemi yapılmayacaktır. Ancak burada iki noktaya dikkat
+    etmek gerekir:
+
+    1) for döngüsünden break ile erken çıkılırsa vektördeki bazı değerler drop edilmemiş olacaktır.
+    2) Ana MyVec nesnesinin ptrvec elemanının gösterdiği alan halen boşaltılmamıştır.
+
+    İşte bu sorunları MyVecIterator<T> yapımız için yazacağımız drop metodunda giderebiliriz:
+
+    impl<T> Drop for MyVecIterator<T> {
+        fn drop(&mut self) {
+            for i in self.cur_index..self.len {
+                unsafe {
+                    ptr::drop_in_place(self.ptr.add(i));
+                }
+            }
+            let layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe {
+                dealloc(self.ptr as *mut u8, layout);
+            }
+        }
+    }
+
+    Burada manuel drop işleminin vektörün her elemanı için değil cur_şndex alanının belirttiği elemandan itibaren yapıldığına
+    dikkat ediniz. Eğer vektördeki tüm elemanlar tüketilmişse zaten cur_index değeri len değerine eşit olacak ve bu döngü
+    hiç dönmeyecektir. Nihayet metodun sonunda asıl MyVec nesnesinin ptrvec döstericisinin gösterdiği heap alanı dealloc
+    fonksiyonu ile serbest bırakılmıştır. capacity alanının buradaki Layout değerinin oluşturulabilmesi için MyVecIterator<T>
+    yapısına geçirildiğine dikkat ediniz.
+
+    Tabii biz hiç vektörümüzü iteratör yoluyla tüketmezsek vektörümüzün yine boşaltılması gerekir. Yani bizim MyVec<T> için
+    drop metodunu da yazmamız gerekir:
+
+    impl<T> Drop for MyVec<T> {
+        fn drop(&mut self) {
+            for i in 0..self.len {
+                unsafe {
+                    ptr::drop_in_place(self.vecptr.add(i));
+                }
+            }
+            let layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe {
+                dealloc(self.vecptr as *mut u8, layout);
+            }
+        }
+    }
+
+    Yukarıdaki tasarımın alternatifi şöyle de olabilirdi: Biz MyVecIterator<T> yapısına doğrudan sahiplik devri ile MyVec
+    nesnesini de geçirebilirdik.
+
+    Artık vektörümüzü aşağdıdaki gibi bir test kodu ile dolaşabiliriz:
+
+    fn main() {
+        let mut mv: MyVec<Sample> = MyVec::new();
+
+        mv.push(Sample::new(10));
+        mv.push(Sample::new(20));
+        mv.push(Sample::new(30));
+        mv.push(Sample::new(40));
+        mv.push(Sample::new(50));
+
+        for s in mv {
+            s.disp();
+        }
+    }
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Self {val}
+        }
+
+        fn disp(&self) {
+            println!("Sample({})", self.val);
+        }
+    }
+
+    impl Drop for Sample {
+        fn drop(&mut self) {
+            println!("Dropping Sample({})", self.val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de vektör elemanlarının referans yolu ile dolaşılmasını sağlayalım. Daha önceden de belirttiğimiz gibi Rust'ta
+    bunun için kullanılan kalıp yapıya iter ve iter_mut metotlarının eklenmesidir. Bu metotlar referans yoluyla dolaşımı
+    sağlayacak bir iteratör nesnesine geri dönmelidir. Şimdi MyVec yapımıza iter metodunu ekleyelim:
+
+    impl<T> MyVec<T> {
+        //...
+
+        fn iter(&self) -> MyVecRefIterator<T> {
+            MyVecRefIterator {
+                ptr: self.vecptr,
+                len: self.len,
+                cur_index: 0,
+                _fantom: std::marker::PhantomData,
+            }
+        }
+    }
+
+    Burada görüldüğü gibi iter metodu MyVecRefIterator türünden bir iteratör yapısıyla geri döndürülmüştür. B yapı şöyle
+    tanımlanmıştır:
+
+    struct MyVecRefIterator<'a, T> {
+        ptr: *const T,
+        len: usize,
+        cur_index: usize,
+        _fantom: std::marker::PhantomData<&'a T>,
+    }
+
+    Yapının _fantom alanının PhantomData türündne olduğuna dikkat ediniz. Anımsayacağınız gibi PhantomData türü bir yapı
+    ya da enum türü bir ömür parametresine sahipse ancak bu türün hiçbir elemanı bu ömür parametresini kullanmıyorsa oluşacak
+    error durumunu engellemek için dummy bir alan oluşturmak için kullanılmaktadır. Şimdi de MyVecRefIterator<'a, T> türünün
+    Iterator trait'in desteklemesini sağlayalım:
+
+    impl<'a, T> Iterator for  MyVecRefIterator<'a, T> {
+        type Item = &'a T;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.cur_index == self.len {
+                None
+            }
+            else {
+                let item = unsafe { &*self.ptr.add(self.cur_index) };
+                self.cur_index += 1;
+                Some(item)
+            }
+        }
+    }
+
+    Iterator trait'inden gelen Item ilişkli türünün artık &T türünden olduğuna dikkat ediniz. Yani her next işlemi bize
+    vektörün bir elemanının referansını (adresini) vermektedir.
+
+    Artık vektörümüzü referans yoluyla da dolaşabiliriz. Örneğin:
+
+    fn main() {
+        let mut mv: MyVec<Sample> = MyVec::new();
+
+        mv.push(Sample::new(10));
+        mv.push(Sample::new(20));
+        mv.push(Sample::new(30));
+        mv.push(Sample::new(40));
+        mv.push(Sample::new(50));
+
+        for r in mv.iter() {
+            r.disp();
+        }
+}
+
+    struct Sample {
+        val: i32,
+    }
+
+    impl Sample {
+        fn new(val: i32) -> Self {
+            Self {val}
+        }
+
+        fn disp(&self) {
+            println!("Sample({})", self.val);
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de aynı biçimde MyVec<T> yapımıza iter_mut metodunu ekleyelim:
+
+    impl<T> MyVec<T> {
+        //...
+
+        fn iter_mut(&mut self) -> MyVecRefMutIterator<T> {
+            MyVecRefMutIterator {
+                ptr: self.vecptr,
+                len: self.len,
+                cur_index: 0,
+                _fantom: std::marker::PhantomData,
+            }
+        }
+    }
+
+    Burada iter_mut metodunun parametresinin &mut self olduğuna ve metodun  MyVecRefMutIterator<T> türünden bir iteratör
+    nesnesiyle geri döndüğüne dikkat ediniz. MyVecRefMutIterator<T> şöyle tanımlanmıştır:
+
+    struct MyVecRefMutIterator<'a, T> {
+        ptr: *mut T,
+        len: usize,
+        cur_index: usize,
+        _fantom: std::marker::PhantomData<&'a T>,
+    }
+
+    ptr alanın artık mut bir gösterici olduğuna dikkat ediniz. MyVecRefMutIterator<'a, T> türüne iteratör desteğini de şöyle
+    verebiliriz:
+
+    impl<'a, T> Iterator for  MyVecRefMutIterator<'a, T> {
+        type Item = &'a mut T;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.cur_index == self.len {
+                None
+            }
+            else {
+                let item = unsafe { &mut *self.ptr.add(self.cur_index) };
+                self.cur_index += 1;
+                Some(item)
+            }
+        }
+    }
+
+    Anımsanacağı gibi dizileri, Vec yapısını, HashMap yapısını, LinkedList yapısını iter ya da iter_mut metotlarıyla
+    dolaşmanın eşdeğer biçimi doğrudan & ya da &mut operatörü ile adres alarak dolaşmaydı. Örneğin:
+
+    let mut a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for r in a.iter() {
+        //...
+    }
+
+    Bu biçiminde dolaşmayla aşağıdaki biçimde dolaşma eşdeğer etkiyi yaratmaktaydı:
+
+    let a: [i32; 5] = [10, 20, 30, 40, 50];
+
+    for r in &a {
+        //...
+    }
+
+    Benzer biçimde:
+
+    for r in a.iter_mut() {
+        //...
+    }
+
+    Biçiminde dolaşmayla aşağıdaki biçimde dolaşma eşdeğer etkiyi yaratmaktaydı:
+
+    for r in &mut a {
+        //...
+    }
+
+    Aynı eşdeğerliliği yazmış olduğumuz MyVec türü için de oluşturabiliriz. Biz MyVec yapısını aşağıdaki gibi
+    kullanabilmek istiyoruz:
+
+    for r in &mv {
+        r.disp();
+    }
+
+    Burada &mv ile into_iter çağrılacağına göre &MyVec<T> türünün intoIterator trait'ini desteklemesi gerekmektedir. Bu desteği
+    şöyle verebiliriz:
+
+    impl<'a, T> IntoIterator for &'a MyVec<T> {
+        type Item = &'a T;
+        type IntoIter =  MyVecRefIterator<'a, T>;
+
+        fn into_iter(self) -> MyVecRefIterator<'a, T> {
+            self.iter()
+        }
+    }
+
+    Burada görüldüğü gibi &MyVec<T> türü için IntoIterator desteği verilmiştir. self.iter() metodu zaten MyVecRefIterator<'a, T>
+    türünden değeri oluşturmaktadır. Benzer biçimde &mut MyVec türü için de IntoIterator trait'ini aşağıdaki gibi destekleyebiliriz:
+
+    impl<'a, T> IntoIterator for &'a mut MyVec<T> {
+        type Item = &'a mut T;
+        type IntoIter =  MyVecRefMutIterator<'a, T>;
+
+        fn into_iter(self) -> MyVecRefMutIterator<'a, T> {
+            self.iter_mut()
+        }
+    }
+
+    Aşağıda tüm örnek bir bütün olarak verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::ptr;
+use std::alloc::{alloc, dealloc, realloc, Layout};
+
+fn main() {
+    let mut mv: MyVec<Sample> = MyVec::new();
+
+    mv.push(Sample::new(10));
+    mv.push(Sample::new(20));
+    mv.push(Sample::new(30));
+    mv.push(Sample::new(40));
+    mv.push(Sample::new(50));
+
+    for r in mv.iter() {
+        r.disp();
+    }
+
+    println!("----------------");
+
+    for r in &mv {
+        r.disp();
+    }
+
+    println!("----------------");
+
+    for r in mv.iter_mut() {
+        r.val += 1;
+    }
+
+    for r in mv.iter() {
+        r.disp();
+    }
+}
+
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Self {
+        Self {val}
+    }
+
+    fn disp(&self) {
+        println!("Sample({})", self.val);
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping Sample({})", self.val);
+    }
+}
+
+struct MyVec<T> {
+    vecptr: *mut T,
+    capacity: usize,
+    len: usize,
+}
+
+impl<T> MyVec<T> {
+    fn new() -> Self {
+        MyVec {
+            vecptr: ptr::null_mut(),
+            capacity: 0,
+            len: 0
+        }
+    }
+
+    pub fn capacity(&self) -> usize {
+        self.capacity
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.len == 0
+    }
+
+    pub fn push(&mut self, value: T) {
+        if self.len == self.capacity {
+            self.grow();
+        }
+        unsafe {
+            ptr::write(self.vecptr.add(self.len), value);
+        }
+        self.len += 1;
+    }
+
+    fn grow(&mut self) {
+        let new_cap = if self.capacity == 0 { 4 } else { self.capacity * 2 };
+        let new_layout = Layout::array::<T>(new_cap).expect("invalid layout!");
+
+        let new_ptr = if self.capacity == 0 {
+            unsafe { alloc(new_layout) }
+        }
+        else {
+            let old_layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe { realloc(self.vecptr as *mut u8, old_layout, new_layout.size()) }
+        };
+
+        self.vecptr = new_ptr as *mut T;
+        self.capacity = new_cap;
+    }
+
+    fn iter(&self) -> MyVecRefIterator<T> {
+        MyVecRefIterator {
+            ptr: self.vecptr,
+            len: self.len,
+            cur_index: 0,
+            _fantom: std::marker::PhantomData,
+        }
+    }
+
+    fn iter_mut(&mut self) -> MyVecRefMutIterator<T> {
+        MyVecRefMutIterator {
+            ptr: self.vecptr,
+            len: self.len,
+            cur_index: 0,
+            _fantom: std::marker::PhantomData,
+        }
+    }
+}
+
+impl<T> IntoIterator for MyVec<T> {
+    type Item = T;
+    type IntoIter = MyVecIterator<T>;
+
+    fn into_iter(self) -> MyVecIterator<T> {
+        let mvi = MyVecIterator {
+            ptr: self.vecptr,
+            capacity: self.capacity,
+            len: self.len,
+            cur_index: 0,
+
+        };
+        std::mem::forget(self);
+        mvi
+    }
+}
+
+struct MyVecIterator<T> {
+    ptr: *mut T,
+    capacity: usize,
+    len: usize,
+    cur_index: usize,
+}
+
+impl<T> Iterator for MyVecIterator<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            return None;
+        }
+        let item = unsafe { ptr::read(self.ptr.add(self.cur_index)) };
+        self.cur_index += 1;
+        Some(item)
+    }
+}
+
+impl<T> Drop for MyVecIterator<T> {
+    fn drop(&mut self) {
+        for i in self.cur_index..self.len {
+            unsafe {
+                ptr::drop_in_place(self.ptr.add(i));
+            }
+        }
+        let layout = Layout::array::<T>(self.capacity).unwrap();
+        unsafe {
+            dealloc(self.ptr as *mut u8, layout);
+        }
+    }
+}
+
+impl<'a, T> IntoIterator for &'a MyVec<T> {
+    type Item = &'a T;
+    type IntoIter =  MyVecRefIterator<'a, T>;
+
+    fn into_iter(self) -> MyVecRefIterator<'a, T> {
+        self.iter()
+    }
+}
+
+impl<'a, T> IntoIterator for &'a mut MyVec<T> {
+    type Item = &'a mut T;
+    type IntoIter =  MyVecRefMutIterator<'a, T>;
+
+    fn into_iter(self) -> MyVecRefMutIterator<'a, T> {
+        self.iter_mut()
+    }
+}
+
+impl<T> Drop for MyVec<T> {
+    fn drop(&mut self) {
+        for i in 0..self.len {
+            unsafe {
+                ptr::drop_in_place(self.vecptr.add(i));
+            }
+        }
+        let layout = Layout::array::<T>(self.capacity).unwrap();
+        unsafe {
+            dealloc(self.vecptr as *mut u8, layout);
+        }
+    }
+}
+
+struct MyVecRefIterator<'a, T> {
+    ptr: *const T,
+    len: usize,
+    cur_index: usize,
+    _fantom: std::marker::PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for  MyVecRefIterator<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            None
+        }
+        else {
+            let item = unsafe { &*self.ptr.add(self.cur_index) };
+            self.cur_index += 1;
+            Some(item)
+        }
+    }
+}
+
+struct MyVecRefMutIterator<'a, T> {
+    ptr: *mut T,
+    len: usize,
+    cur_index: usize,
+    _fantom: std::marker::PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for  MyVecRefMutIterator<'a, T> {
+    type Item = &'a mut T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            None
+        }
+        else {
+            let item = unsafe { &mut *self.ptr.add(self.cur_index) };
+            self.cur_index += 1;
+            Some(item)
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki örnekte karmaşıklık oluşturmamak için MyVec yapısındaki göstericiyi NonNull olarak almadık. Aslında daha
+    güvenli bir yaklaşım MyVec yapısının şöyle olmaısıdır:
+
+    struct MyVec<T> {
+        vecptr: NonNull<T>,
+        capacity: usize,
+        len: usize,
+    }
+
+    Gerçekten standart kütüphanedeki Vec yapısı da yukarıdaki gibi NonNull<T> kullanılarak gerçekleştirilmiştir. Tabii bu
+    durumda bizim kod üzerinde pek çok yerde değişiklik yapmamız gerekir. Aşağıda değişiklik yapılmış kodu bir bütün olarak
+    veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::ptr::{self, NonNull};
+use std::alloc::{alloc, dealloc, realloc, Layout};
+
+fn main() {
+    let mut mv: MyVec<Sample> = MyVec::new();
+
+    mv.push(Sample::new(10));
+    mv.push(Sample::new(20));
+    mv.push(Sample::new(30));
+    mv.push(Sample::new(40));
+    mv.push(Sample::new(50));
+
+    for r in mv.iter() {
+        r.disp();
+    }
+
+    println!("----------------");
+
+    for r in &mv {
+        r.disp();
+    }
+
+    println!("----------------");
+
+    for r in mv.iter_mut() {
+        r.val += 1;
+    }
+
+    for r in mv.iter() {
+        r.disp();
+    }
+}
+
+struct Sample {
+    val: i32,
+}
+
+impl Sample {
+    fn new(val: i32) -> Self {
+        Self {val}
+    }
+
+    fn disp(&self) {
+        println!("Sample({})", self.val);
+    }
+}
+
+impl Drop for Sample {
+    fn drop(&mut self) {
+        println!("Dropping Sample({})", self.val);
+    }
+}
+
+struct MyVec<T> {
+    vecptr: NonNull<T>,  // dangling ile başlatılır; capacity == 0 iken asla dereference edilmez
+    capacity: usize,
+    len: usize,
+}
+
+impl<T> MyVec<T> {
+    fn new() -> Self {
+        MyVec {
+            vecptr: NonNull::dangling(),  // null_mut() yerine dangling pointer
+            capacity: 0,
+            len: 0
+        }
+    }
+
+    pub fn capacity(&self) -> usize {
+        self.capacity
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.len == 0
+    }
+
+    pub fn push(&mut self, value: T) {
+        if self.len == self.capacity {
+            self.grow();
+        }
+        unsafe {
+            ptr::write(self.vecptr.as_ptr().add(self.len), value);
+        }
+        self.len += 1;
+    }
+
+    fn grow(&mut self) {
+        let new_cap = if self.capacity == 0 { 4 } else { self.capacity * 2 };
+        let new_layout = Layout::array::<T>(new_cap).expect("invalid layout!");
+
+        let new_ptr = if self.capacity == 0 {
+            unsafe { alloc(new_layout) }
+        }
+        else {
+            let old_layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe { realloc(self.vecptr.as_ptr() as *mut u8, old_layout, new_layout.size()) }
+        };
+
+        // NonNull::new_unchecked: alloc/realloc null döndürürse tanımsız davranış;
+        // standart kütüphanedeki Vec de aynı yaklaşımı kullanır
+        self.vecptr = unsafe { NonNull::new_unchecked(new_ptr as *mut T) };
+        self.capacity = new_cap;
+    }
+
+    fn iter(&self) -> MyVecRefIterator<T> {
+        MyVecRefIterator {
+            ptr: self.vecptr,
+            len: self.len,
+            cur_index: 0,
+            _fantom: std::marker::PhantomData,
+        }
+    }
+
+    fn iter_mut(&mut self) -> MyVecRefMutIterator<T> {
+        MyVecRefMutIterator {
+            ptr: self.vecptr,
+            len: self.len,
+            cur_index: 0,
+            _fantom: std::marker::PhantomData,
+        }
+    }
+}
+
+impl<T> IntoIterator for MyVec<T> {
+    type Item = T;
+    type IntoIter = MyVecIterator<T>;
+
+    fn into_iter(self) -> MyVecIterator<T> {
+        let mvi = MyVecIterator {
+            ptr: self.vecptr,
+            capacity: self.capacity,
+            len: self.len,
+            cur_index: 0,
+        };
+        std::mem::forget(self);
+        mvi
+    }
+}
+
+struct MyVecIterator<T> {
+    ptr: NonNull<T>,
+    capacity: usize,
+    len: usize,
+    cur_index: usize,
+}
+
+impl<T> Iterator for MyVecIterator<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            return None;
+        }
+        let item = unsafe { ptr::read(self.ptr.as_ptr().add(self.cur_index)) };
+        self.cur_index += 1;
+        Some(item)
+    }
+}
+
+impl<T> Drop for MyVecIterator<T> {
+    fn drop(&mut self) {
+        for i in self.cur_index..self.len {
+            unsafe {
+                ptr::drop_in_place(self.ptr.as_ptr().add(i));
+            }
+        }
+        if self.capacity > 0 {
+            let layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe {
+                dealloc(self.ptr.as_ptr() as *mut u8, layout);
+            }
+        }
+    }
+}
+
+impl<'a, T> IntoIterator for &'a MyVec<T> {
+    type Item = &'a T;
+    type IntoIter = MyVecRefIterator<'a, T>;
+
+    fn into_iter(self) -> MyVecRefIterator<'a, T> {
+        self.iter()
+    }
+}
+
+impl<'a, T> IntoIterator for &'a mut MyVec<T> {
+    type Item = &'a mut T;
+    type IntoIter = MyVecRefMutIterator<'a, T>;
+
+    fn into_iter(self) -> MyVecRefMutIterator<'a, T> {
+        self.iter_mut()
+    }
+}
+
+impl<T> Drop for MyVec<T> {
+    fn drop(&mut self) {
+        for i in 0..self.len {
+            unsafe {
+                ptr::drop_in_place(self.vecptr.as_ptr().add(i));
+            }
+        }
+        if self.capacity > 0 {
+            let layout = Layout::array::<T>(self.capacity).unwrap();
+            unsafe {
+                dealloc(self.vecptr.as_ptr() as *mut u8, layout);
+            }
+        }
+    }
+}
+
+struct MyVecRefIterator<'a, T> {
+    ptr: NonNull<T>,
+    len: usize,
+    cur_index: usize,
+    _fantom: std::marker::PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for MyVecRefIterator<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            None
+        }
+        else {
+            let item = unsafe { &*self.ptr.as_ptr().add(self.cur_index) };
+            self.cur_index += 1;
+            Some(item)
+        }
+    }
+}
+
+struct MyVecRefMutIterator<'a, T> {
+    ptr: NonNull<T>,
+    len: usize,
+    cur_index: usize,
+    _fantom: std::marker::PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for MyVecRefMutIterator<'a, T> {
+    type Item = &'a mut T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.cur_index == self.len {
+            None
+        }
+        else {
+            let item = unsafe { &mut *self.ptr.as_ptr().add(self.cur_index) };
+            self.cur_index += 1;
+            Some(item)
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kurusumuzun bu bölümünde Rust'ta "kapanımlar (closures)" kullanımı üzerinde duracağız. Programa dillerinde bir ifade
+    içerisinde fonksiyonların oluşturularak kullanılabilmesi durumuna "lambda ifadeleri (lambda expression)" ya da
+    "kapanım (closure)" denilmektedir. Rust "lambda expression" terimi yerine "closure" terimini kullanmayı seçmiştir.
+    Lambda ifadeleri ya da kapanımlar fonksiyonel programlama dillerinden impreratif dillere aktarılmış özelliklerdendir.
+    Dolayısıyla dili daha fonksiyonel hale getirmektedir.
+
+    Eğer bir fonksiyon ya da metot parametre olarak bizden bir fonksiyon istiyorsa normal olarak biz o fonksiyonu önce
+    tanımlarız sonra argüman olarak veririz. Örneğin:
+
+    fn main() {
+        let v = vec![10, 20, 30, 40, 50];
+
+        v.iter().for_each(foo);
+    }
+
+    fn foo(r: &i32) {
+        println!("{}", *r);
+    }
+
+    Burada for_each metodu Iterator trait'indne gelmektedir. Anımsanacaği gibi iter metotları elemanların referanslarıyla
+    dolaşım yapmaktadır. İşte for_each metodu her elemanın referansı alarak parametresiyle belirtilen fonksiyonu çağırmaktadır.
+    İşte biz "önce fonksiyonu tanımla sonra fonksiyonu argüman olarak ver" yaklaşımı yerine doğrudan fonksiyonu ifade iöerisinde
+    oluşturup argüman olarak verebilmekteyiz. Örneğin:
+
+    fn main() {
+        let v = vec![10, 20, 30, 40, 50];
+
+        v.iter().for_each(|r| { println!("{}", *r)});
+    }
+
+    Burada for_each metodu Iterator trait'inden gelmektedir. Iterator trait'indne gelen map metodu da benzer mekanizmayı
+    kullanmaktadır. map metodu bizden bir fonksiyon alır, dolaşımdam elde ettiği her değeri o fonksiyona verir ve fonksiyonların
+    geri dönüş değerlerinden oluşan yeni bir Iterator nesnesine geri döner. Örneğin:
+
+    fn main() {
+        let v = vec![10, 20, 30, 40, 50];
+        let k: Vec<i32>;
+
+        k = v.iter().map(foo).collect();
+        println!("{:?}", k);            // [11, 21, 31, 41, 51]
+    }
+
+    fn foo(r: &i32) -> i32 {
+        *r + 1
+    }
+
+    Biz bu örnekte vektör içerisindeki elemanların referanları ile foo fonksiyonunu çağırıp bu fonksiyonun geri döndürdüğü
+    değerlerden bir vektör oluşturduk. Bu işlemi kapanımla daha basit bir biçimde yapabilirdik
+
+    fn main() {
+        let v = vec![10, 20, 30, 40, 50];
+        let k: Vec<i32>;
+
+        k = v.iter().map(|r| *r + 1).collect();
+        println!("{:?}", k);
+    }
+
+    Iterator trait'inin filter isimli metodu bizden bir fonksiyon ister. Dolaşımdma elde ettiği değerlerin referansları ile
+    vizden aldığı fonksiyonu çağırır, true ile geri dönen değerleri asıl veri yapısından taşıyarak veren dolaşılabilir bir
+    nesne ile geri döner. Bu metot "koşulu sağlayan elamanların elde edilmesinde" kullanılmaktadır. Taşıma işlemi yaptığı
+    için metodun into_iter gibi bir metodun geri döndürdüğü iteratör ile açğrılması uygundur. Örneğin:
+
+    fn main() {
+        let v = vec![10, 3, 7, 4, 9];
+        let k: Vec<i32>;
+
+        k = v.into_iter().filter(foo).collect();
+        println!("{:?}", k);        // [10, 4]
+    }
+
+    fn foo(r: &i32) -> bool {
+        *r % 2 == 0
+    }
+
+    Burada v vektörünün çift olan elemanları vektörden taşınarak diğer vektöre yerleştirilmiştir. Callback fonksiyonun parametresinin
+    referans olduğuna ve geri dönüş değerinin de bool türden olduğuna dikkat ediniz. Aynı işlemi kapanımla daha basit bir
+    biçimde şöyle yapabilirdik:
+
+    fn main() {
+        let v = vec![10, 3, 7, 4, 9];
+        let k: Vec<i32>;
+
+        k = v.into_iter().filter(|r| *r % 2 == 0).collect();
+        println!("{:?}", k);            // [10, 4]
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta kapanım işlemlerinin genel biçimleri şöyledir:
+
+    1) || <ifade> ya da || { ... }
+
+    2) |<parametre_listesi>| <ifade> ya da |<parametre_listesi>| { ... }
+
+    3) |<parametre>: <tür>, parametre: <tür>, ...| <ifade> ya da |<parametre>: <tür>, parametre: <tür>, ...| { ... }
+
+    4) |<parametreler>| -> <geri_dönüş_değeri_türü> { ... }
+
+    Genel biçimlerdeki ifade eğer tek bir ifadeyi belirtmektedir. Ancak kapanım birden fazla deyim içeriyorsa blok oluşturmak
+    zorunludur. Kapanım için geri dönüş değeri belirtiliyorsa da kapanım için blok oluşturmak zorunludur.
+
+    Rust'ta (tıpkı C++'ta olduğu gibi) her kapanım diğerlerinden farklı bir tür belirtmektedir. Biz kapanıma ilişkin tür
+    bilgisini elde edemeyiz ve onu kullanamyız. Ancak bu türü derleyici bildiği için bir kapanımı let deyimiyle bir değişkene
+    atayabiliriz. Örneğin:
+
+    let closure = |a| a * a;
+
+    Burada biz closure değişkeninin türünü bilmiyoruz. Onu yalnızca derleyici biliyor. Örneğin:
+
+    let c1 = || ->i32 {println!("Ok"); 100};
+    let mut c2 = || ->i32 {println!("Ok"); 100};
+
+    Burada c1 ve c2 kapanımları tamamen aynı atomlardan oluşmaktadır. Ancak bunların türleri yine de farklıdır. Bu nedenle
+    örneğin biz c1 kapanımını c2 kapanımına atayamayız:
+
+    c2 = c1;        // error!
+
+    Kapanım türünden değişkenler ve değerler fonksiyon çağırma operatörüyle kullanılabilmektedir. Bu durumda kapanım bir
+    fonksiyon gibi çağrılabilmektedir. Örneğin:
+
+    fn main() {
+        let closure = |a| a * a;
+        let result: i32;
+
+        result = closure(10);
+        println!("{}", result);     // 100
+    }
+
+    Görüldüğü gibi biz closure isimli değişkenin türünü bilmiyor olsak da onu bir fonksiyon gibi çağırabilmekteyiz.
+
+    Peki biz bir kapanımın türünü bilmediğimize göre onun türünü yalnızca derleyici bildiğine göre bir kapanımı bir fonksiyona
+    nasıl parametre olarak geçirebiliriz? Örneğin:
+
+    let f = |a| {println!("{}", a)};
+
+    Burada f bir kapanımdır. Ancak biz türünü bilmemekteyiz. f kapanımını foo fonksiyonuna argüman olarak geçirecek olalım:
+
+    foo(f);
+
+    Peki foo fonksiyonunu nasıl tanımlayabiliriz? İşte mademki kapanım türünü biz değil derleyici biliyor bu duurmda generic
+    fonksiyonlardan faydalanabiliriz:
+
+    fn foo<F> (f: F) {
+        //...
+    }
+
+    Şimdi artık derleyici F generiz parametresinin türünü tespit edebilecektir. Fakat bu durumda da biz bu fonksiyonu
+    çağıramaz durumda olacağız:
+
+    fn foo<F> (f: F) {
+        f(10);              // error!
+    }
+
+    Anımsayacağınız gibi generic bir fonksiyonun içerisindeki kodlar tüm türler parametreler için anlamlı olmak zorundadır.
+    Eğer bu kodlar bazı türler için anlamlıysa bizim tür kısıtı ile bu durumu belirlememiz gerekir. İşte Rust'ta kapanımlar
+    bazı trait'leri desteklemektedir. Bu trait'ler yoluyla kısıtlar oluşturulmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir kapanım  boru (pipe) sembolleri ile oluşturulmaktadır. Eğer boru sembolünün içi boşsa bu kapanım parametresizdir.
+    Dolayısıyla bu kapanım çağrılırken argüman belirtilmez. Çrneğin:
+
+    let msg = || {println!("Ok"); };
+
+    msg();
+
+    Kapanımı bir fonksiyon gibi düşünmelisiniz. Yukarıdaki kapanım parametresi olmayan geri dnüş değeri () olan (yani bir
+    değer geri döndürmeyen) bir fonksiyon gibidir. Kapanımdaki son ifadenin türü kapanımın geri dönüş değerinin türünü
+    belirtmektedir. Örneğin:
+
+    let f = || {println!("Ok"); 100};
+
+    Burada f sanki geri parametresi olmayan geri dönüş değeri i32 türünden olan bir fonksiyon gibidir. Çünkü son ifadenin
+    türü i32'dir. Aşağıdaki kapanıma bir kez daha dikkat ediniz:
+
+    let msg = || { println!("Ok"); };
+
+    Burada son ifade olmadığı için () (yani unit) kabul edilmektedir. Bu da kapanımın geri dönüş değerinin olmadığı anlamına
+    gelmektedir. Örneğin:
+
+    let msg = || { println!("Ok") };
+
+    Burada son ifade println! çağrısıdır. Bu çağrı da () değerine geri döndüğü için kapanımın geri dönüş değeri yoktur.
+
+    Bir kapanımda yalnızca tek bir ifade varsa kapanımın gövdesinin blok içerisine alınmasına gerek yoktur. Örneğin:
+
+    let msg = || println!("Ok");
+
+    Buradaki noktalı virgül let deyimini bitiren noktalı virgüldür. Burada kapanım yalızca println!("Ok") makrosundan
+    oluşmaktadır. (Gerçi bu makro da aslında bir blok oluşturmaktadır.) Örneğin:
+
+    let f = || 10;
+
+    Bu f kapanımının  parametresi yoktur, geri dönüş değeri i32 türündendir. Kapanımın gövdesinde birden fazla deyim bulundurulacaksa
+    bloklama zorunludur. Örneğin:
+
+    let f = || { println!("Ok"); 100};
+
+    Burada f kapanımının parametresi yoktur, geri dönüş değeri i32 türündendir. Tabii biz kapanımları farklı satırlara
+    yazabiliriz. Ancak kısa kapanımların aynı satıra yazılması tercih edilmektedir. Örneğin:
+
+    fn main() {
+        let f = || {
+            for i in 0..10 {
+                print!("{} ", i)
+            };
+            println!();
+        };
+
+        f();
+    }
+
+    Kapanımların geri dönüş değerleri boru kapatıldıktan sonra -> atomu ile açıkça belirtilebilir. Bu durumda tek bir ifade
+    olsa bile bloklama zorunludur. Örneğin:
+
+    fn main() {
+        let f = || -> i32 {
+            let mut total = 0;
+            for i in 1..=10 {
+                total += i;
+            };
+            total
+        };
+
+        println!("{}", f());
+    }
+
+    Burada kapanımın paramtresi yoktur, ancak geri dönüş değeri i32 türündendir. Tabii biz geri dönüş değerini belirtmeseydik
+    de derleyici bunu tespit edebilecekti:
+
+    fn main() {
+        let f = ||  {
+            let mut total = 0;
+            for i in 1..=10 {
+                total += i;
+            };
+            total
+        };
+
+        println!("{}", f());
+    }
+
+    Yukarıda da belirttiğimiz gibi eğer kapanımda geri dönüş değerinin türü belirtilmişse blok zorunludur. Örneğin aşağıdaki
+    kapanım sentaksı geçerli değildir:
+
+    let f = || -> i32 100;      // error!
+
+    Ancak aşağıdaki geçerlidir:
+
+    let f = || -> i32 { 100 };
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        104. Ders 27/04/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kapanım parametrelerinin bildirimi boru sembollerinin içerisinde yapılır. Parametrelerin türü belirtilmek zorunda değildir.
+    Örneğin:
+
+    let c = |a| a * a;
+
+    Burada a bu kapanımın parametresidir. Bu kapanım parametresiyle aldıüı değerin karesine geri dönmektedir. Peki bu a
+    parametresi hangi türdendir? İşte kapanım parametrelerinin türleri belirtilemezse parametrelerin türleri kapanım ilk kez
+    çağrılırken argüman olarak geçilen ifadenin türleri dikkate alınarak belirlenmektedir. Örneğin:
+
+
+    let c = |a| a * a;
+    let result: i32;
+
+    result = c(10);
+    println!("{}", result);     // 100
+
+    Burada kapanım c(10) biçiminde çağrılmıştır. 10 değeri default olarak i32 türünden kabul edildiği için a parametre
+    değişkeni de i32 türündendir. Bu durumda kapanımın geri dönüş değeri de mecburen i32 türünden olacaktır.
+
+    Parametrelerinin türü belirtilmemiş olan kapanımları generic sanmayınız. Bunların parametre türleri kapanım ilk çağrıldığında
+    belirlenir bir daha da değişmez. Örneğin:
+
+    let c = |a| a * a;
+    let result1: i32;
+    let result2: i64;
+
+    result1 = c(10);
+    result2 = c(10i64);       // error!
+
+    Burada ilk çağrıda kapanımın a parametre değişkeni i32 olarak belirlenmiştir. Dolayısıyla ikinci çağrıda tür uyuşmazlığı
+    oluşacaktır.
+
+    Kapanım parametrelerinde açıkça tür belirtilebilir. Bu durumda derleyeci belirtilen türü dikkate almaktadır. Örneğin:
+
+    let c = |a: i64| a * a;
+    let result;
+
+    result = c(10);
+    println!("{}", result);     // 100
+
+    Burada artık kapanımın a parametre değişkeni i64 türündendir. Aşağıdaki kapanıma dikkat ediniz:
+
+    let c = |a| a * a;
+    let result = c(10);
+
+    Bu kapanım aşağıdakiyle eşdeğerdir:
+
+    let c = |a: i32| -> i32 { a * a };
+
+    Tabii kapanımların birden fazla parametresi bulunabilir. Örneğin:
+
+    let add = |a, b| a + b;
+    let result: i32;
+
+    result = add(10, 20);
+    println!("{}", result);
+
+    Burada add kapanımının artık iki parametresi vardır. İlk çağrım ifadesi dikkate alındığında bu kapanımın aşağıdakiyle
+    eşdeğer olduğunu söyleyebiliriz:
+
+    let add = |a: i32, b: i32| -> i32 { a + b };
+
+    Kapanım parametrelerinin bazılarında tür belirtilip bazılarında belirtilmeyebilir. Ancak bu iyi bir teknk değildir.
+    Örneğin:
+
+    let add = |a: i32, b, c: i32| a + b + c;
+
+    Burada a ve c i32 türündendir ancak b'nin ilk çağrımdaki argüman türü dikkate alınarak belirlenecektir.
+
+    Bir kapanım bir ifade içerisinde oluşturulup hemen çağrılabilir. Ancak bu tür durumlara çok seyrek gereksinim duyulmaktadır.
+    Örneğin:
+
+    let result: i32;
+
+    result = (|a| a * a)(10);
+    println!("{}", result);     // 100
+
+    Eğer hiç ara değişken kullanmadan kapanımı hemen çağıracaksanız kapanımı yukarıdaki gibi parantez içerisine almalısınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kapanımlar aslında derleyici tarafından yapılara dönüştürülmektedir. İzleyen konuları iyi anlayabilmek için kapanımları
+    derleyicinin kendisinin oluşturduğu bir yapı türünden değermiş gibi ele almalısınız. Örneğin:
+
+    let c = |a| a * a;
+    let result: i32;
+
+    result = c(10, 20);
+
+    Aslında burada derleyici bir yapı oluşturup o yapı türünden bir değer yaratmaktadır. Siz burada c değişkenini bir yapı
+    değişkeni gibi düşünmelisiniz. Yukarıdaki kapanımı derleyici aşağıdakine benzer bir yapı gibi ele almaktadır:
+
+    struct CompilerGeneratedName {
+    }
+
+    impl CompilerGeneratedName {
+        fn new() -> Self {
+            Self {}
+        }
+
+        fn call(&self, a: i32, b: i32) -> i32 {
+            a + b
+        }
+    }
+    //...
+
+    let c = crate::CompilerGeneratedName {};
+    let result: i32;
+
+    result = c.call(10, 20);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Programlama dillerindeki kapanım ya da lambda ifadelerinin en önemli özelliklerinden biri bunların dış faaliyet alanındaki
+    değişkenleri doğrudan kullanabilmesidir. Bu olguya dış faaliyet alanındaki değişkenlerin "ele geçirilmesi (capturing)"
+    denilmektedir. Örneğin:
+
+    fn main() {
+        let x = 10;
+
+        println!("{}", x);      // 10
+
+        let c = |a|  a * x;
+        let result: i32;
+
+        result = c(5);
+        println!("{}", result);     // 50
+    }
+
+    Buradaki kapanıma dikkat ediniz:
+
+    let c = |a|  a * x;
+
+    Kapanımdaki x dış faaliyet alanındaki main fonksiyonun yerel değişkeni olan x'tir. Biz yukarıda kapanımların aslında
+    bir yapıya benzediğini belirtmiştik. Yukarıdaki kapanımın yapısal eşdeğeri şöyle oluşturulabilir:
+
+    struct CompilerGeneratedName<'a> {
+        x: &'a i32,
+    }
+
+    impl<'a> CompilerGeneratedName<'a> {
+        fn new(x: &'a i32) -> Self {
+            Self { x }
+        }
+
+        fn call(&self, a: i32) -> i32 {
+            *self.x * a
+        }
+    }
+
+    fn main() {
+        let x = 10;
+        let result: i32;
+
+        println!("{}", x);      // 10
+
+        let c = CompilerGeneratedName::new(&x);
+        result = c.call(10);
+
+        println!("{}", result);
+    }
+
+    Görüldüğü gibi dış faalyet alanındaki x adresi alınarak bir referans biçiminde yapıya aktarılmıştır.
+
+    Rust'ta dış faaliyet alanındaki değişkenler default olarak kapanımlara referans yoluyla aktarılmaktadır. Ancak dış
+    faaliyet alanındaki değişken mut ise ve kapanım içerisinde o değişkenin değeri değiştiriliyorsa aktarım mut referans
+    biçiminde yapılmaktadır. Örneğin:
+
+    let mut x = 10;
+    let c = |a| {
+        x += 1;
+        a * x
+    };
+
+    Burada dış faaliyet alanındaki x değişkeni kapanıma mut bir referans biçiminde aktarılmaktadır. Buradaki kapanımı
+    yapısal bir biçimde şöyle ifade edebiliriz:
+
+    struct CompilerGeneratedName<'a> {
+        x: &'a mut i32,
+    }
+
+    impl<'a> CompilerGeneratedName<'a> {
+        fn new(x: &'a mut i32) -> Self {
+            Self { x }
+        }
+
+        fn call(&self, a: i32) -> i32 {
+            *self.x += 1;
+            a * *self.x
+        }
+    }
+
+    Akratımın mut bir referansla yapıldığına dikkat ediniz. Tabii kapanım dış faaliyet alanındaki değişkenleri kullanmıyorsa
+    bu durumda bir aktarım da söz konusu olmayacaktır.
+
+    Dış faaliyet alanındaki değişkenlerin referans yoluyla değil de sahipliklerini devrederek kapanıma aktarılması isteniyorsa
+    kapanım ifadesinde boru sembollerinden önce move anahtar sözcüğünün yerleştirilmesi gerekir. Örneğin:
+
+    fn main() {
+        let s = String::from("ankara");
+
+        let c = move || {
+            println!("{}", s);
+        };
+
+        c();
+
+        println!("{}", s);      // error! s taşındı
+    }
+
+    Burada s yapı değişkeninin sahipliği devredilerek kapanıma aktarılmıştır. Dolayısıyla biz arık s değişkenini aşağıda
+    kullanamayız. Şimdiş move anahtar sözcüğünü kaldıralım:
+
+    fn main() {
+        let s = String::from("ankara");
+
+        let c = || {
+            println!("{}", s);
+        };
+
+        c();
+
+        println!("{}", s);      // geçerli
+    }
+
+    Burada default durumda ele geçirme referans yoluyla yapıldığı için kapanım çağrısından sonra biz s değişkenini
+    kullanabilmekteyiz. Tabii anımsayacağınız gibi "taşıma" yalnızca Copy türünden olmayan türler için söz konusu olmaktadır.
+    Örneğin:
+
+    fn main() {
+        let x = 10;
+
+        let c = move || {
+            println!("{}", x);
+        };
+
+        c();
+
+        println!("{}", x);      // geçerli
+    }
+
+    i32 türü Copy olduğu için taşınması söz konusu değildir.
+
+    Ancak Rust'ta dış faaliyet alanındak bazı değişkenler referans yoluyla bazıları sahiplik devri yoluyla kapanımlara
+    aktarılamamaktadır. Yani ya tüm değişkenler referans yoluyla ya da sahiplik devri yoluyla kapanımlara aktarılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Konuya girişte de belirttiğimiz gibi kapanımların asıl amacı bir ifade içerisinde hem fonksiyonu tanımlayıp hem de onu
+    başka bir fonksiyona parametre yoluyla aktarmaktır. Fonksiyonların kapanım türünden parametrelere sahip olması fonksiyonel
+    programlama dillerinin en önemli özelliklerindendir. Şimdi de kapanımların nasıl fonksiyonlara aktarıldığı üzerinde duracağız.
+
+    Daha önceden de belirttiğimiz gibi her kapanım diğerlerinden farklı bir tür türündendir. Kapanımların türlerini ancak
+    derleyici bilmektedir. İşte bu nedenden dolayı kapanımların fonksiyonlara aktarılması generic fonksiyonlar yoluyla ya da
+    dyn trait'ler yoluyla yapılabilmektedir. Örneğin:
+
+    fn main() {
+        let c = || { println!("closure"); };
+
+        foo(c);
+    }
+
+    fn foo<F>(f: F) {
+        //...
+    }
+
+    Burada fonksiyonun F generic parametresinin türü yukarıda tanımlanan kapanım türündendir. Ancak burada şöyle bir sorun
+    da vardır. Generic bir fonksiyonun içindeki kodun generic parametrenin türü ne olursa olsun geçerli olması gerekir. Bu
+    nedenle biz buradaki foo içerisinden kapanımı çağıramayız:
+
+    fn foo<F>(f: F) {
+        f();            // error!
+    }
+
+    Burada örneğin F türü i32 olsa fonksiyon kodu geçersiz hale gelecektir. Anımsanacağı gibi bu tür durumlarda "bu generic
+    parametreyle bunları yapabilirsin" anlamına gelen sınırlama (bounding) uygulanması gerekmektedir. İşte kapanımn sınırlamaları
+    için üç trait bulundurulmuştur:
+
+    FnOnce
+    FnMut
+    Fn
+
+    Eğer generic parametre bu trait'ler ile sınırlandırılırsa onu fonksiyon çağırma operatörüyle kullanabiliriz. Sınırlama
+    yapılırken yukarıdkai trait'lerde parametre türleri ve geri dönüş değerinin türü belirtilmektedir. Eğer geri dönüş değerinin
+    türü belirtilmezse () (unit) kabul edilmektedir. Örneğin:
+
+    fn foo<F: Fn()>(f: F) {
+        f();
+    }
+
+    Tabii biz sınırlamaları where sentaksıyla da oluşturabiliyorduk:
+
+    fn foo<F>(f: F)
+    where F: Fn() {
+        f();
+    }
+
+    Buradaki sınırlamanın Fn() biçiminde yapıldığına dikkat ediniz. Bu sentaks kapanımın parametreye sahip olmadığı ve
+    geri dönüş değerinin olmadığı anlamına gelmektedir. Örneğin:
+
+    let c = |a: i32| -> i32 { a * a};
+
+    Buradaki kapanımı fonklsiyona aktarabilmek için generic parametre üzerinde Fn(i32) -> i32 koşulunu belirtiebiliriz:
+
+    fn main() {
+        let c = |a: i32| -> i32 { a * a};
+
+        foo(c, 10);     // 100
+    }
+
+    fn foo<F>(f: F, a: i32)
+    where F: Fn(i32) -> i32 {
+        let result: i32;
+
+        result = f(a);
+        println!("{}", result);
+    }
+
+    Burada c kapanımı fonksiyonun f parametresine, 10 değeri de fonksiyonun a parametresine aktarılmıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki aşağıdaki üç trait arasında ne farklılık vardır?
+
+    FnOnce
+    FnMut
+    Fn
+
+    İşte aslında bu trait'ler birbirinden türetilmiş durumdadır. FnMut trait'i FnOnce trait'inden, Fn trait'i de FnMut trait'inden
+    türetilmiştir. Programcı yazdığı kapanımın dış faaliyet alanındaki değişkenleri ele geçirme (capture etme) biçimine göre
+    bu trait'lerden uygun olanını tercih etmektedir. Hangi durumda hangi trait ile sınırlama oluşturulabileceği aşağıdaki
+    tabloda belirtilmektedir:
+
+    ┌───────────────────────────┬─────────────────────┬──────┬───────┬────────┬─────────────────────────┐
+    │    Closure türü           │     Örnek           │  Fn  │ FnMut │ FnOnce │ Kaç kez çağrılabilir?   │
+    ├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+    │ Hiç capture yok           │ |a: i32| a * a      │  ✓   │   ✓   │   ✓    │ Sınırsız                │
+    ├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+    │ Capture'ı yalnızca okuyan │ || println!("{s}")  │  ✓   │   ✓   │   ✓    │ Sınırsız                │
+    ├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+    │ Capture'ı değiştiren      │ || { count += 1; }  │  ✗   │   ✓   │   ✓    │ Birden fazla            │
+    ├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+    │ Capture'ı tüketen         │ move || drop(s)     │  ✗   │   ✗   │   ✓    │ Yalnızca bir kez        │
+    └───────────────────────────┴─────────────────────┴──────┴───────┴────────┴─────────────────────────┘
+
+    Dış faaliyet alanındaki değişkeni sahipliğini alarak ele geçiren kapanımlar için ancak FnOnce kullanılabilmektedir.
+    İsminden anlaşıldığı gibi sahiplik devredildiği için bu tür kapanımlar yalnızca bir kez çağrılabilmektedir. Örneğin:
+
+    fn main() {
+        let s = String::from("ankara");
+
+        foo(move || { println!("{}", s)});
+    }
+
+    fn foo<F: >(f: F)
+    where F: FnOnce() {
+        f();
+    }
+
+    Burada kapanım move anahtar sözcüğüyle sahipliği alarak oluşturulmuştur. Dolayısıyla bu kapanım bir kez çağrıldıktan
+    sonra s değişkeninin sahipliği devredileceği için artık ikinci kez çağrılamayacaktır. Eğer FnOnce kısıtına rağmen
+    biz bu kapanımı birden fazla kez çağırmak istersek error oluşacaktır. Örneğin:
+
+    fn foo<F: >(f: F)
+    where F: FnOnce() {
+        f();
+        f();     // error!
+    }
+
+    Eğer kapanım dış faaliyet alanındaki değişkenleri mut referans yoluyla ele geçiriyorsa bu durumda sınırlama FnOnce ya da
+    FnMut olabilir, ancak Fn olamaz. Örneğin:
+
+    fn main() {
+        let mut count: i32 = 10;
+
+        foo(|| { count += 1 });
+        println!("{}", count);      // 11
+    }
+
+    Buradaki kapanım dış faaliyet alanındaki değişkeni referans yoluyla değiştirmiştir. Bu kapanımı parametre olarak alan
+    generic fonksiyondaki kıst FnOnce oalbilir:
+
+    fn foo<F: >(f: F)
+    where F: FnOnce() {
+        f();
+    }
+
+    Bu örneğimizdeki sınırlama FnMut da olabilir. Ancak FnMut trait'indeki fonksiyon çağırma işleminde kullanılan metot
+    &mut self parametresi almaktadır. Dolayısıyla eğer kısıt FnMut ile oluşturulacaksa parametre değişkeninin de mut
+    olması gerekir. Örneğin:
+
+    fn foo<F: >(mut f: F)
+    where F: FnMut() {
+        f();
+    }
+
+    Bu tür durumlarda özel bir amacınız yoksa "daha spesifik olanı" tercih edebilirsiniz. Daha spesifik demekle türetme
+    şemasında daha aşağıda olanı (yani FnMut) kastediyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+<BURADA KALDIK>
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            GEÇİCİ NOTLAR
+---------------------------------------------------------------------------------------------------------------------------*/
+
+┌───────────────────────────┬─────────────────────┬──────┬───────┬────────┬─────────────────────────┐
+│ Closure türü              │ Örnek               │  Fn  │ FnMut │ FnOnce │ Kaç kez çağrılabilir?   │
+├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+│ Hiç capture yok           │ |a: i32| a * a      │  ✓   │   ✓   │   ✓    │ Sınırsız                │
+├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+│ Capture'ı yalnızca okuyan │ || println!("{s}")  │  ✓   │   ✓   │   ✓    │ Sınırsız                │
+├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+│ Capture'ı mutate eden     │ || { count += 1; }  │  ✗   │   ✓   │   ✓    │ Birden fazla            │
+├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
+│ Capture'ı tüketen         │ move || drop(s)     │  ✗   │   ✗   │   ✓    │ Yalnızca bir kez        │
+└───────────────────────────┴─────────────────────┴──────┴───────┴────────┴─────────────────────────┘
 
 
 
