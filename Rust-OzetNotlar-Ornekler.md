@@ -14518,92 +14518,92 @@ use std::mem::discriminant;
     Fonksiyonların tüm gövdesi unsafe yapılabilmektedir. Bunun için fonksiyon tanımlanırken fn anahtar sözcüğünün soluna
     unsafe niteleyicisi (function qualifier) getirilmektedir. Örneğin:
 
-    unsafe fn foo() {
-        //...
-    }
+        unsafe fn foo() {
+            //...
+        }
 
     unsafe bir fonksiyonun içerisinde biz gösterici işlemlerini doğrudan yapabiliriz. Ancak unsafe fonksiyonlar yalnızca
     unsafe bağlamdan çağrılabilmektedir. Yani unsafe bir fonksiyonu tipik olarak biz bir unsafe blok içerisinden çağırabiliriz.
     Örneğin:
 
-    fn main() {
-        let mut a: i32 = 3;
+        fn main() {
+            let mut a: i32 = 3;
+
+            unsafe {
+                foo(&mut a);
+            }
+            println!("{}", a);
+        }
+
+        unsafe fn foo(pi32: *mut i32) {
+            *pi32 *= *pi32
+        }
+
+    Burada foo içerisinde gösterici işlemlerinin doğrudan yapılabildiğine dikkat ediniz. Çağrım unsafe bağlamda yapılmıştır:
 
         unsafe {
             foo(&mut a);
         }
-        println!("{}", a);
-    }
-
-    unsafe fn foo(pi32: *mut i32) {
-        *pi32 *= *pi32
-    }
-
-    Burada foo içerisinde gösterici işlemlerinin doğrudan yapılabildiğine dikkat ediniz. Çağrım unsafe bağlamda yapılmıştır:
-
-    unsafe {
-        foo(&mut a);
-    }
 
     main fonksiyonu unsafe yapılamamaktadır. Ayrıca Rust'ta safe isminde de bir fonksiyon niteleyicisi vardır. Ancak bu
     niteleyici extern bloklarda kullanılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a: i32 = 3;
+        fn main() {
+            let mut a: i32 = 3;
 
-    unsafe {
-        foo(&mut a);
-    }
-    println!("{}", a);
-}
+            unsafe {
+                foo(&mut a);
+            }
+            println!("{}", a);
+        }
 
-unsafe fn foo(pi32: *mut i32) {
-    *pi32 *= *pi32
-}
+        unsafe fn foo(pi32: *mut i32) {
+            *pi32 *= *pi32
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bir unsafe fonksiyon başka bir unsafe fonksiyonu doğrudan çağırabilir. Örneğin:
 
-    fn main() {
-        let mut a: i32 = 3;
+        fn main() {
+            let mut a: i32 = 3;
 
-        unsafe {
-                foo(&mut a);
-            }
-            println!("{}", a);
-    }
+            unsafe {
+                    foo(&mut a);
+                }
+                println!("{}", a);
+        }
 
-    unsafe fn foo(pi32: *mut i32) {
-        *pi32 *= *pi32;
-        bar(pi32);
-    }
+        unsafe fn foo(pi32: *mut i32) {
+            *pi32 *= *pi32;
+            bar(pi32);
+        }
 
-    unsafe fn bar(pi32: *mut i32) {
-        *pi32 += 2;
-    }
+        unsafe fn bar(pi32: *mut i32) {
+            *pi32 += 2;
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Yapılar ve enum türlerine ilişkin göstericiler de bildirilebrilir. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32
-    }
-
-    impl Sample {
-        fn new(a: i32, b: i32) -> Sample {
-            Sample { a, b }
+        struct Sample {
+            a: i32,
+            b: i32
         }
 
-        fn disp(&self) {
-            println!("{}, {}", self.a, self.b);
-        }
-    }
-    //...
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                Sample { a, b }
+            }
 
-    let s = Sample::new(10, 20);
-    let ps: *const Sample = &s;
+            fn disp(&self) {
+                println!("{}, {}", self.a, self.b);
+            }
+        }
+        //...
+
+        let s = Sample::new(10, 20);
+        let ps: *const Sample = &s;
 
     Burada ps göstericisi Sample türünden mut olmayan bir göstericidir. Pekiyi ps göstericisi ile bu yapının a ve b elemanlarına
     nasıl erişebiliriz? Referanslarda doğrudan nokta operatörüyle erişim yapabiliyorduk. Ancak göstericilerde doğrudan nokta
@@ -14612,15 +14612,15 @@ unsafe fn foo(pi32: *mut i32) {
     ps bir yapı türünden gösterici a da bu yapının elemanı olmak üzere erişim (*ps).a biçiminde yapılmaktadır. Rust'ta bunun
     daha pratik bir yolu yoktur. Örneğin:
 
-    println!("{}, {}", (*ps).a, (*ps).b);
+        println!("{}, {}", (*ps).a, (*ps).b);
 
     nokta operatörünün * operatörnden daha yüksek öncelikli olduğunu anımsayınız. Bu nedenle *ps ifadesi paranteze alınmak
     zorundadır. Yapı türünden gösterici ile yapının metotları da aynı biçimde çağrılmaktadır. Örneğin ps bir yapı türünden
     gösterici, foo da yapının bir metodu olmak üzere çağrım (*ps).foo() biçiminde yapılmalıdır. Örneğin:
 
-    unsafe {
-        (*ps).disp();
-    }
+        unsafe {
+            (*ps).disp();
+        }
 ---------------------------------------------------------------------------------------------------------------------------
     Gösterici türlerinin as_ref isminde ve as_mut isminde metotları da vardır. Bu metotlar göstericiyi referans haline getirmektedir.
     Ancak göstericinin içerisinde null adres olabileceği için bu dönüştürme başarısız da olabilmektedir. Bu nedenle as_ref ve
@@ -14628,93 +14628,93 @@ unsafe fn foo(pi32: *mut i32) {
     null adres varsa None varyantına, yoksa Some(r) varyantına geri dönmektedir. Tabii as_ref ve as_mut metotları yine unsafe
     bağlamdan yani blok ya da fonksiyon içerisinden çağrılabilmektedir. Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *const i32 = &a;
+        let a: i32 = 10;
+        let pi32: *const i32 = &a;
 
-    unsafe {
-        if let Some(r) = pi32.as_ref() {
-            println!("{}", *r);
+        unsafe {
+            if let Some(r) = pi32.as_ref() {
+                println!("{}", *r);
+            }
+            else {
+                println!("null pointer!..");
+            }
         }
-        else {
-            println!("null pointer!..");
-        }
-    }
 
     Burada Some(r) kalıbındaki r değişkeni &i32 türündendir. Tabii bu işlemi match ifadesiyle de yapabilirdik:
 
-    let a: i32 = 10;
-    let pi32: *const i32 = &a;
+        let a: i32 = 10;
+        let pi32: *const i32 = &a;
 
-    unsafe {
-        match pi32.as_ref() {
-            Some(rc) => println!("rc: {}", rc),
-            None => println!("null pointer!.."),
+        unsafe {
+            match pi32.as_ref() {
+                Some(rc) => println!("rc: {}", rc),
+                None => println!("null pointer!.."),
+            }
         }
-    }
 
     Eğer göstericimiz mut ise bu durumda as_mut bize Option<&mut T> türünden değer verecektir. Yani Some(r) işleminden
     biz artık &mut T türünden değer elde ederiz. Örneğin:
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32 = &mut a;
+        let mut a: i32 = 10;
+        let pi32: *mut i32 = &mut a;
 
-    unsafe {
-        if let Some(r) = pi32.as_mut() {
-            *r = 20;
+        unsafe {
+            if let Some(r) = pi32.as_mut() {
+                *r = 20;
+            }
+            else {
+                println!("null pointer!..");
+            }
+            println!("{}", *pi32);
         }
-        else {
-            println!("null pointer!..");
-        }
-        println!("{}", *pi32);
-    }
 
     unsafe bloğun da bir deyim belirttiğini anımsayınız. Dolayısıyla biz referansı unsafe blok dışına aşağıdaki gibi çıkartabiliriz.
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32 = &mut a;
+        let mut a: i32 = 10;
+        let pi32: *mut i32 = &mut a;
 
-    let r = unsafe {
-        if let Some(r) = pi32.as_mut() {
-            r
-        }
-        else {
-            panic!("null pointer!..");
-        }
-    };
+        let r = unsafe {
+            if let Some(r) = pi32.as_mut() {
+                r
+            }
+            else {
+                panic!("null pointer!..");
+            }
+        };
 
     Burada if let ifadesinin else kısmının "divergent" olmak zorunda olduğuna dikkat ediniz. Tabii bu örnekte else kısımda
     panic uyguladığımız için aslında if let yerine doğrudan Option<T> enum türünün unwrap ve expect metotlarını da kullanabilirdik:
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32 = &mut a;
+        let mut a: i32 = 10;
+        let pi32: *mut i32 = &mut a;
 
-    let r = pi32.as_mut().expect("null pointer!..");
+        let r = pi32.as_mut().expect("null pointer!..");
 
 ---------------------------------------------------------------------------------------------------------------------------
     Yapı türünden göstericilere as_ref ya da as_mut metodu uygulayarak yapı elemanlarına referans sentaksıyla da erişebiliriz.
     Örneğin:
 
-    let s = Sample::new(10, 20);
-    let ps: *const Sample = &s;
+        let s = Sample::new(10, 20);
+        let ps: *const Sample = &s;
 
-    unsafe {
-        if let Some(r) = ps.as_ref() {
-            r.disp();
+        unsafe {
+            if let Some(r) = ps.as_ref() {
+                r.disp();
+            }
+            else {
+                println!("null pointer!..");
+            }
         }
-        else {
-            println!("null pointer!..");
-        }
-    }
 
     Tabii aslında daha kompakt bir biçimde de yapı türünden türünden göstericiyi referansa dönüştürüp metot çağrımını nokta
     operatörü ilede  uygulayabiliriz. Örneğin:
 
-    let s = Sample::new(10, 20);
-    let ps: *const Sample = &s;
+        let s = Sample::new(10, 20);
+        let ps: *const Sample = &s;
 
-   unsafe {
-       ps.as_ref().expect("null pointer!..").disp();
-   }
+        unsafe {
+            ps.as_ref().expect("null pointer!..").disp();
+        }
 
    Burada ps.as_ref().expect("null pointer!..") ifadesi ile Sample türünden bir referans elde edildiğine dikkat ediniz.
 
@@ -14722,11 +14722,11 @@ unsafe fn foo(pi32: *mut i32) {
     Rust'taki referansları C++'taki referanslarla karıştırmayınız. Rust'taki referanslar C++'taki biraz göstericilere biraz
     da referanslara benzemektedir. Aşağıdaki C++ koduna dikkat ediniz:
 
-    int a = 10;
-    int &r = a;
-    int *pi;
+        int a = 10;
+        int &r = a;
+        int *pi;
 
-    pi = &r;        // geçerli
+        pi = &r;        // geçerli
 
     C++'ta referanslar adres tutarlar ama referansları kullandığımızda biz her zaman o referansın içerisindeki adreste bulunan
     nesneye erişmiş oluruz. Ayrıca C++'ta referanslar asıl nesnenin bir takma adını (alias) belirtmektedir. Yani C++ standartlarına
@@ -14734,7 +14734,7 @@ unsafe fn foo(pi32: *mut i32) {
     kullanabilir. Tabii pek çok durumda bu mümkün değildir. Bu nedenle referanslar tipik olarak adres tutarlar. C++'ta
     aşağıdaki ifade geçerlidir:
 
-    pi = &r;        // geçerli
+        pi = &r;        // geçerli
 
     Burada r ifadesi aslında r referansının gösterdiği yerdeki nesneyi yani a'yı belirtmektedir. Dolayısıyla burada aslında
     a'nın adresi alınmaktadır. Bu adres de aynı türden bir göstericiye yerleştirilmiştir. Ancak Rust'ta referanslarla göstericiler
@@ -14742,33 +14742,33 @@ unsafe fn foo(pi32: *mut i32) {
     Rust'ta referansın referansı söz konusu olabilmektedir. Bu C'deki "göstericiyi gösteren göstericilere" benzemektedir. Bu
     nedenle yukarıdaki kodun eşdeğer Rust karşılığı geçersizdir:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let r: &i32 = &a;
+        let pi32: *const i32;
 
-    pi32 = &r;      // error!
+        pi32 = &r;      // error!
 
     Burada &r ifadesi &&i32 türündendir, pi32 ifadesi ise *const i32 türündendir. Yani türlerin birbirleriyle bir ilgisi yoktur.
     Pekiyi gerçekten biz Rust'ta referansın refere ettiği değişkenin ya da değerin adresini almak istesek bunu nasıl yapabiliriz?
     İşte bunun bir yolu C programcılarına biraz tuhaf gelebilecek olan &*r ifadesini kullanmaktır:
 
-    pi32 = &*r;      // geçerli
+        pi32 = &*r;      // geçerli
 
     Burada önce *r işlemi yapılıp i32 türünden bir değişkene ya da değere erişilecek sonra onun adresi alınacaktır.
 
     Aslında zaten referansın içerisinde adres oludğuna göre bir referans aynı türden bir göstericiye de doğrudan atanabilir.
     Örneğin:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let r: &i32 = &a;
+        let pi32: *const i32;
 
-    pi32 = r;      // geçerli
+        pi32 = r;      // geçerli
 
     Referansın bu biçimde otomatik gösterici türüne dönüştürülmesi ilk zamanlarda Rust'ta mümkün değildi. Eskiden Rust'ta bu işlem
     yukarıdaki gibi &*r ifadesiyle ya da aşağıdaki gibi tür dönüştümesiyle yapılabiliyordu:
 
-    pi32 = r as *const i32;
+        pi32 = r as *const i32;
 
     Sonraları "otomatik dönüştürme (type coersion)" kuralları revize edildi ve bu dönüştürme doğrudan yapılabilir hale geldi.
     Mevcut kurallarda artık &T türünden *const T türüne ve &mut T türünden *mut T ya da *const T türüne otomatik dönüştürme
@@ -14780,28 +14780,28 @@ unsafe fn foo(pi32: *mut i32) {
     belirttiğimiz referans türlerinden gösterici türlerine otomatik dönüştürme yokken aşağıdaki gibi bir işlem tür dönüştürmesi
     olmadan yapılamıyordu:
 
-    let a: i32 = 10;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let pi32: *const i32;
 
-    pi32 = &a;      // eskiden bu durum error oluşturuyordu
+        pi32 = &a;      // eskiden bu durum error oluşturuyordu
 
     O ilk zamanlarda &T türünden *const T türüne otoşmatik dönüştürme olmadığı için yukarıdaki atama işlemi error oluşturuyordu.
     Bu işlem ancak tür dönüştürmesi ile yapılabiliyordu:
 
-    pi32 = &a as *const i32;        // eskiden böyle yapılıyordu
+        pi32 = &a as *const i32;        // eskiden böyle yapılıyordu
 
     Sonraları Rust'a &T türünden *const T türüne, &mut T türünden de *mut T türüne ve *const T türlerine otomatik dönüştürme eklendiği
     için artık bu atama doğrudan aşağıdaki gibi yapılabilmektedir:
 
-    pi32 = &a;
+        pi32 = &a;
 
     Bu açıklamar eşliğinde artık bir referasnın doğrudan aynı türdne bir göstericiye nasıl atanabildiği daha iyi anlaşılmaktadır:
 
-    let a: i32 = 10;
-    let r: &i32 = &a;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let r: &i32 = &a;
+        let pi32: *const i32;
 
-    pi32 = r;       //  &i32 türünden *const i32 türüne otomatik dönüştürme vardır
+        pi32 = r;       //  &i32 türünden *const i32 türüne otomatik dönüştürme vardır
 
     Burada &i32 türünden *const i32 türüne otomatik dönüştürme uygulanmaktadır.
 
@@ -14812,47 +14812,47 @@ unsafe fn foo(pi32: *mut i32) {
     durumda bu göstericiyi *const u8 türüne dönüştürmemiz gerekir. İşte böylesi dönüştürmeleri as operatörüyle yapabiliriz.
     Örneğin:
 
-    let a: i32 = 0x12345678;
-    let pi32: *const i32 = &a;
-    let pu8: *const u8;
+        let a: i32 = 0x12345678;
+        let pi32: *const i32 = &a;
+        let pu8: *const u8;
 
-    pu8 = pi32 as *const u8;
+        pu8 = pi32 as *const u8;
 
-    for i in 0..4 {
-        unsafe {
-            print!("{:02X} ", *pu8.offset(i));
+        for i in 0..4 {
+            unsafe {
+                print!("{:02X} ", *pu8.offset(i));
+            }
         }
-    }
-    println!();
+        println!();
 
     Burada *const i32 türünden *const u8 türüne dönüştürmenin as operatörüyle aşağıdaki gibi yapıldığına dikkat ediniz:
 
-    pu8 = pi32 as *const u8;
+        pu8 = pi32 as *const u8;
 
     Ancak Rust'ta doğrudan &T türünden *const K türüne as operatörüyle de dönüştürme yapılamamaktadır. Örneğin:
 
-    let a: i32 = 0x12345678;
-    let pu8: *const u8;
+        let a: i32 = 0x12345678;
+        let pu8: *const u8;
 
-    pu8 = &a as *const u8;      // error!
+        pu8 = &a as *const u8;      // error!
 
     Burada &a ifadesi &i32 türündendir bu tür de as operatöryle *const u8 türüne dönüştürülememektedir. Bu dönüştürme ancak
     iki kere as operatörü kullanılarak yapılabilmektedir. Önce &a ifadesi as operatörüyle *const i32 dönüştürülmeli sonra
     *const i32 türünden *const u8 türüne dönüştürme yapılmalıdır:
 
-    let a: i32 = 0x12345678;
-    let pu8: *const u8;
+        let a: i32 = 0x12345678;
+        let pu8: *const u8;
 
-    pu8 = &a as *const i32 as *const u8;        // iki kez as operatörü kullanılmalı
+        pu8 = &a as *const i32 as *const u8;        // iki kez as operatörü kullanılmalı
 
     Ayrıca Rust'ta as operatörüyle bile &T türünden &mut T türüne, *const T türünden de *mut T türüne dönüştürme yapılamamaktadır.
     (Halbuki örneğin C'de const bir nesnenin adresi const olmayan adres dönüştürmesi eşliğinde (const away cast) const olmayan
     bir göstericiye atanabilmektedir.) Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *mut i32;
+        let a: i32 = 10;
+        let pi32: *mut i32;
 
-    pi32 = &a as *mut i32;      // error!
+        pi32 = &a as *mut i32;      // error!
 
     Ancak &mut T türünden &T türüne, *mut T türünden *const T türüne dönüştürmenin zaten otomatik biçimde yapıldığını
     anımsayınız.
@@ -14863,22 +14863,22 @@ unsafe fn foo(pi32: *mut i32) {
     bir tamsayı türünden gösterici türlerine as operatöryle dönüştürme yapılabilmektedir. Örneğin biz 0x12345678 adresini u8
     türünden bir göstericiye aşağıdaki gibi tür dönüştürmesi yaparak atayabiliriz:
 
-    let pu8: *const u8;
-    pu8 = 0x12345678 as *const u8;      // geçerli
+        let pu8: *const u8;
+        pu8 = 0x12345678 as *const u8;      // geçerli
 
     Tabii burada sayının sabit biçiminde olması gerekmez. a herhangi bir tamsayı türünden olmak üzere aşağıdaki dönüştürme
     de geçerlidir:
 
-    pu8 = a as *const u8;      // geçerli
+        pu8 = a as *const u8;      // geçerli
 
     Yukarıdaki işlemin tersi de as operatörüyle yapılabilmektedir. Yani bir göstericinin içerisindeki adres bilgisi herhangi
     bir tamsayı türüne as operatörüyle dönüştürülebilmektedir. Tabii bu dönüştürme için ideal tür usize türüdür. Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *const i32 = &a;
-    let b: usize;
+        let a: i32 = 10;
+        let pi32: *const i32 = &a;
+        let b: usize;
 
-    b = pi32 as usize;      // geçerli
+        b = pi32 as usize;      // geçerli
 
     Rust'ta farklı türden göstericiler as operatörüyle birbirlerine dönüştürülebilmektedir. Gösterici türlerinden tamsayı
     türlerine, tamsayı türlerinden gösterici türlerine yine as operatöryle dönüştürme syapılabilmektedir. Ancak bunlara
@@ -14903,71 +14903,71 @@ unsafe fn foo(pi32: *mut i32) {
     ile kullanılmak zorundadır. Yani &raw atomlarını yine const ya da mut anahtar sözcüklerinden biri izlemek zorundadır.
     Örneğin:
 
-    let a: i32 = 10;
-    let pi32: *const i32;
+        let a: i32 = 10;
+        let pi32: *const i32;
 
-    pi32 = &raw const a;
+        pi32 = &raw const a;
 
     Biz burada a değişkeninin adresini pi32 göstericisine atadık. Bunu aşağıdaki gibi de yapanbilirdik:
 
-    pi32 = &a;
+        pi32 = &a;
 
     Ancak &raw operatörü hiç referans semantiğini devreye sokmadan doğrudan adres alma işlemini yapmaktadır. Pek çok durumda
     &a ile adres almakla &raw const ile adres almak arasında ya da &mut ile adres almakla &raw mut ile adres almak arasısında
     kodumuz bakımından bir farklılık olmamaktadır. Ancak bazı seyrek durumlarda farklılık ortaya çıkabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let a: i32 = 10;
-    let pi32: *const i32;
+        fn main() {
+            let a: i32 = 10;
+            let pi32: *const i32;
 
-    pi32 = &raw const a;        // geçerli
+            pi32 = &raw const a;        // geçerli
 
-    unsafe {
-        println!("{}", *pi32);
-    }
-}
+            unsafe {
+                println!("{}", *pi32);
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Tabii bu biçimde mut bir değişkenin adresini *mut T türünden bir göstericiye atayacaksak operatörü &raw mut biçiminde
     kullanmalıyız. Örneğin:
 
-    let mut a: i32 = 10;
-    let pi32: *mut i32;
+        let mut a: i32 = 10;
+        let pi32: *mut i32;
 
-    pi32 = &raw mut a;
+        pi32 = &raw mut a;
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let mut a: i32 = 10;
-    let pi32: *mut i32;
+        fn main() {
+            let mut a: i32 = 10;
+            let pi32: *mut i32;
 
-    pi32 = &raw mut a;
+            pi32 = &raw mut a;
 
-    unsafe {
-        *pi32 = 20;
-        println!("{}", a);
-    }
-}
+            unsafe {
+                *pi32 = 20;
+                println!("{}", a);
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Biz Rust'ta bir değer ifadesinin (yani C'de bir sağ taraf değerinin) adresini alabiliyorduk. Bu durum derleyici o sabiti
     önce aynı türden bir geçici değişkenin içine yerleştirip o geçici değişkenin adresni alıyordu. Bu biçimde biz ham göstericilere
     de sabitlerinm adresini atayabiliriz. Örneğin:
 
-    let pi32: *const i32;
+        let pi32: *const i32;
 
-    pi32 = &10;         // geçerli
-    unsafe {
-        println!("{}", *pi32);
-    }
+        pi32 = &10;         // geçerli
+        unsafe {
+            println!("{}", *pi32);
+        }
 
     Ancak değer ifadelerinin adresleri &raw operatörü ile alınamamaktadır. Yani &raw operatörü bu bağlamda C'deki & operatörü
     gibi işlev görmektedir:
 
-    let pi32: *const i32;
+        let pi32: *const i32;
 
-    pi32 = &raw const 10;       // error!
+        pi32 = &raw const 10;       // error!
 
 ---------------------------------------------------------------------------------------------------------------------------
     Bu bölümde Rust'taki "sahiplik (ownership)" ve "ödünç alma (borrow)" mekanizması üzerinde duracağız. Sahiplik ve ödünç
@@ -14982,58 +14982,58 @@ fn main() {
     nesnelerinin karşılıklı elemanları birbirine atanmaktadır. Bu durum çoğu kez bir soruna yol açmamaktadır. Öneğin C'de
     aşağıdaki gibi bir yapı olsun:
 
-    struct complex {
-        double real;
-        double imag;
-    };
+        struct complex {
+            double real;
+            double imag;
+        };
 
     Bu türden iki yapı nesnesinin birbirine atanması sırasında hiçbir soruna yol açmayacaktır. Örneğin:
 
-    struct complex z1 = {3, 4};
-    struct complex z2 = {5, 3};
-    ...
+        struct complex z1 = {3, 4};
+        struct complex z2 = {5, 3};
+        ...
 
-    z2 = z1;
+        z2 = z1;
 
     Aslında bu atamada derleyci tarafından şu işlem uygulanmaktadır:
 
-    z2.real = z1.real;
-    z2.imag = z1.imag;
+        z2.real = z1.real;
+        z2.imag = z1.imag;
 
     Böyle bir atamanın bir soruna yol açmayacağı açıktır. Ancak eğer yapının bir elemanı tahsis edilmiş olan bir kaynağa referans
     ediyorsa bu türden iki yapı nesnesinin birbirine atanması sonucunda kaynak ve hedef yapı nesnelerinin elemanları aynı nesneye
     referans eder duruma gelmektedir. Bu durum da potansiyel bazı sorunlara yol açmaktadır. Bu sorunu göstericiler üzerinde örnekle
     açıklayalım. C'de aşağıdaki gibi bir yapı söz konusu olsun:
 
-    struct sample {
-        int a;
-        size_t len;
-        char *ptr;
-    };
+        struct sample {
+            int a;
+            size_t len;
+            char *ptr;
+        };
 
     Burada sample yapısının ptr elemanı dinamik olarak tahsis edilmiş bir alanı, len ise bu alanın uzunluğunu göstermektedir.
     a elemanı ise konumuzla ilgili olmayan herhangi bir elemanı belirtmektedir. Şimdi bu yapı türünden iki nesne yaratalım.
     Burada ve aşağıdaki örneklerde malloc fonksiyonunun başarı kontrolünü kodu kısaltmak için bilerek yapmayacağız:
 
-    struct sample s = {10, 100, (char *) malloc(100)};
-    struct sample k = {20, 200, (char *) malloc(200)};
+        struct sample s = {10, 100, (char *) malloc(100)};
+        struct sample k = {20, 200, (char *) malloc(200)};
 
     Şimdi bu yapı nesnelerini birbirine atayalım:
 
-    k = s;
+        k = s;
 
     Burada çözülmesi gereken iki potansiyel sorun vardır:
 
-    1) k nesnesinin ptr elemanı free hale getirilmeden s nesnesinin ptr elemanı ona atanmış olacaktır. Bu atamada bellek
-    sızıntısı oluşacaktır.
+        1) k nesnesinin ptr elemanı free hale getirilmeden s nesnesinin ptr elemanı ona atanmış olacaktır. Bu atamada bellek
+        sızıntısı oluşacaktır.
 
-    2) Atamadan sonra hem s'nin hem de k'nın ptr elemanları aynı dinamik alanı gösteriyor olacaktır. Bu durumda o alanın
-    free hale getirilmesi bu iki nesnenin ikisi de yok yok olduğunda yapılmalıdır. Bunu ayarlamak da bir çaba gerektirmektedir.
+        2) Atamadan sonra hem s'nin hem de k'nın ptr elemanları aynı dinamik alanı gösteriyor olacaktır. Bu durumda o alanın
+        free hale getirilmesi bu iki nesnenin ikisi de yok yok olduğunda yapılmalıdır. Bunu ayarlamak da bir çaba gerektirmektedir.
 
     Birinci problemi şöyle çözebiliriz:
 
-    free(k.ptr);
-    k = s;
+        free(k.ptr);
+        k = s;
 
     Ancak ikinci problemin çözümü daha zordur. Programcının bu nesnenin ömürlerini kontrol etmesi ve uygun bir noktada dinamik
     alanı free hale getirmesi gerekir. Bu ikinci sorunu çözmenin klasik yollarından biri göstericinin gösterdiği yerdeki dinamik
@@ -15041,59 +15041,59 @@ fn main() {
     çağırması (örneğin deallocate isminde bir fonksiyon olabilir) istenir. Bu fonksiyon da referans sayacını bir eksiltir,
     referans sayacı 0'a düştüğünde free işlemini yapar. Örneğin:
 
-    struct buf {
-        size_t refcount;
-        size_t len;
-        char str[];
-    }
+        struct buf {
+            size_t refcount;
+            size_t len;
+            char str[];
+        }
 
-    struct sample {
-        int a;
-        struct buf *ptr;
-    };
+        struct sample {
+            int a;
+            struct buf *ptr;
+        };
 
     Artık nesneyi yaratan bir fonksiyon yazabiliriz:
 
-    void create_sample(struct sample *s, int a, size_t len)
-    {
-        s->a = a;
-        s->ptr = (struct buf *) malloc(sizeof(size_t) + sizeof(size_t) + len);
-        s->ptr.refcount = 1;
-    }
+        void create_sample(struct sample *s, int a, size_t len)
+        {
+            s->a = a;
+            s->ptr = (struct buf *) malloc(sizeof(size_t) + sizeof(size_t) + len);
+            s->ptr.refcount = 1;
+        }
 
     Referans sayacının başlangıç değerinin 1 olduğuna dikkat ediniz. deallocate fonksiyonu şöyle yazılabilir:
 
-    void deallocate(struct sample *ps)
-    {
-        if (--ps->ptr->refcount == 0)
-            free(ps->ptr);
-    }
+        void deallocate(struct sample *ps)
+        {
+            if (--ps->ptr->refcount == 0)
+                free(ps->ptr);
+        }
 
     Tabii C'de bu referans sayacının artırılmasını programcı kendisi sağlamalıdır. Bunu kolaylaştırmak için bir atama fonksiyonu
     yazabilir:
 
-    void assign(struct sample *left, const struct sample *right)
-    {
-        deallocate(left);
-        left->a = right->a;
-        left->len = g->len;
-        left->ptr = right->ptr;
-        ++right->ptr->refcount;     /* left->ptr ve right->ptr zaten aynı yapıyu gösteriyor */
-    }
+        void assign(struct sample *left, const struct sample *right)
+        {
+            deallocate(left);
+            left->a = right->a;
+            left->len = g->len;
+            left->ptr = right->ptr;
+            ++right->ptr->refcount;     /* left->ptr ve right->ptr zaten aynı yapıyu gösteriyor */
+        }
 
     Yazdığımız sistemin kullanımı da şöyle olabilir:
 
-    struct sample s;
-    struct sample k;
+        struct sample s;
+        struct sample k;
 
-    create_sample(&s, 10, 100);
-    create_sample(&k, 20, 100);
-    ...
+        create_sample(&s, 10, 100);
+        create_sample(&k, 20, 100);
+        ...
 
-    assign(&k, &s);
-    ...
-    deallocate(&k);
-    deallocate(&r);
+        assign(&k, &s);
+        ...
+        deallocate(&k);
+        deallocate(&r);
 
 
     Böyle bir referans sayacı sistemi manuel bir biçimde yukarıdaki gibi oluşturulabilir. Ancak bunun genelleştirilmesi
@@ -15109,41 +15109,41 @@ fn main() {
     nesnelerinin içerisindeki göstericilerin gösterdiği dinamik alanların atama sırasında kopyaları çıkartılır. Böylece
     nesnelerin aynı yeri göstermesi engellenir. Örneğin:
 
-    struct sample {
-        int a;
-        size_t len;
-        char *ptr;
-    };
+        struct sample {
+            int a;
+            size_t len;
+            char *ptr;
+        };
 
-    void assign(struct sample *left, struct sample *right)
-    {
-        if (left == right)
-            return;
-        free(left->ptr);
-        left->a = right->a;
-        left->len = right->len;
-        left->ptr = (char *)malloc(right->len);
-        memcpy(left->ptr, right->ptr, right->len);
-    }
+        void assign(struct sample *left, struct sample *right)
+        {
+            if (left == right)
+                return;
+            free(left->ptr);
+            left->a = right->a;
+            left->len = right->len;
+            left->ptr = (char *)malloc(right->len);
+            memcpy(left->ptr, right->ptr, right->len);
+        }
 
     Artık nesnelerin kullanımı bitince doğrudan ptr göstericisi free hale getirilebilir:
 
-    void deallocate(struct sample *ps)
-    {
-        free(ps->ptr);
-    }
+        void deallocate(struct sample *ps)
+        {
+            free(ps->ptr);
+        }
 
     Kullanım şöyle olabilir:
 
-    struct sample s = {10, (char *) malloc(10), 100};
-    struct sample k = {20, (char *) malloc(10), 200};
-    ...
+        struct sample s = {10, (char *) malloc(10), 100};
+        struct sample k = {20, (char *) malloc(10), 200};
+        ...
 
-    assign(&s, &k);
-    ...
+        assign(&s, &k);
+        ...
 
-    deallocate(&k);
-    dealloace(&s);
+        deallocate(&k);
+        dealloace(&s);
 
     Yukarıda da belirttiğimiz gibi C++'ta iki sınıf nesnesi biribirine atandaığında ismine "kopya atama operatör fonksiyonu
     (copy assignment operator)" denilen özel bir fonksiyon çağrılmaktadır. Sınıfı yazanlar da bu fonksiyonun içini yazarak
@@ -15155,30 +15155,30 @@ fn main() {
     "taşınmış ("move" edilmiş)" olur ve kaynak değişken artık kullanılamaz. Derleyici bu durumu derleme aşamasında denetlemektedir.
     Böylece Rust'ta zaten hiçbir zaman yukarıdaki sorun ortaya çıkmayacaktır. Örneğin:
 
-    struct Sample {
-        a: i32,
-        ptr: *const u8;
-    }
+        struct Sample {
+            a: i32,
+            ptr: *const u8;
+        }
 
     Burada Sample yapısının new metodunda bu ptr elemanı için bir alanın tahsis edildiğini varsayalım. Yani yapının ptr elemanı
     tıpkı yukarıdaki C örneklerindeki gibi tahsis edilmiş olan dinamik alanın başlangıç adresini tutuyor olsun:
 
-    let s: Sample = Sample::new(10, 100);
-    let k: Sample;
+        let s: Sample = Sample::new(10, 100);
+        let k: Sample;
 
     Biz burada aşağıdaki gibi bir atama yapmış olalım:
 
-    k = s;
+        k = s;
 
     Rust böyle bir atamada tıpkı C'de olduğu gibi yapının karşılıklı elemanlarını birbirine atamaktadır. Ancak atamadan sonra
     artık s'in kullanılmasına izin vermemektedir. Dolayısıyla yukarıdaki sorun Rust'ta zaten hiç oluşmayacaktır.Çünkü biz bu
     atamadan sonra eğer s'i kullanmaya çalışırsak zaten derleme zamanında error oluşacaktır. Ancak burada yine de çözülmesi
      gereken bir sorun daha vardır. Sorunu açıklayalım:
 
-    let s: Sample = Sample::new(10, 100);
-    let k: Sample = Sample::new(20, 200);
+        let s: Sample = Sample::new(10, 100);
+        let k: Sample = Sample::new(20, 200);
 
-    k = s;
+        k = s;
 
     Burada derleyici s'in tüm elemanlarını k'ya atadığında k'daki ptr göstericisinin gösterdiği yer free hale getirilemeyecektir.
     Bu durumda bellek sızıntısı (memory leak) oluşacaktır. İşte Rust'ta bu sorun Drop isimli trait ile çözülmştür. Rust
@@ -15190,17 +15190,17 @@ fn main() {
 
     Buradan şöyle bir özet yapabiliriz:
 
-    1) Aynı türden iki yapı ya da enum değişkeni birbirine atandığında aslında sağdaki yapı değişkeninin içeriği soldaki
-    yapı değişkenine taşınmaktadır ("move" edilmektedir.) Atama işleminden sonra artık sağdaki değişken herhangi bir biçimde
-    kullanılamaz.
+        1) Aynı türden iki yapı ya da enum değişkeni birbirine atandığında aslında sağdaki yapı değişkeninin içeriği soldaki
+        yapı değişkenine taşınmaktadır ("move" edilmektedir.) Atama işleminden sonra artık sağdaki değişken herhangi bir biçimde
+        kullanılamaz.
 
-    2) Atama sırasında eğer soldaki yapı ya da enum türü için drop metodu yazılmışsa derleyici atamadan önce bu drop metodunu
-    çağırır. Boşaltımlar tipik olarak programcı tarafından bu drop metotlarında yapılmalıdır.
+        2) Atama sırasında eğer soldaki yapı ya da enum türü için drop metodu yazılmışsa derleyici atamadan önce bu drop metodunu
+        çağırır. Boşaltımlar tipik olarak programcı tarafından bu drop metotlarında yapılmalıdır.
 
-    3) Yapı ya da enum değişkeninin faaliyet alanı bittiğinde tıpkı diğer bazı dillerdeki "destructor" mekanizmasında olduğu
-    gibi eğer değişkenin içerisindeki değer taşınmamışsa ve ilgili yapı ya da enum türü için drop metodu yazılmışsa drop
-    metodu derleyici tarafından çağrılmaktadır. Böylece faaliyet alanını bitiren yapı ya da enum değişkenlerinin tahsis
-    etmiş olduğu kaynaklar otomatik olarak boşaltılabilmektedir.
+        3) Yapı ya da enum değişkeninin faaliyet alanı bittiğinde tıpkı diğer bazı dillerdeki "destructor" mekanizmasında olduğu
+        gibi eğer değişkenin içerisindeki değer taşınmamışsa ve ilgili yapı ya da enum türü için drop metodu yazılmışsa drop
+        metodu derleyici tarafından çağrılmaktadır. Böylece faaliyet alanını bitiren yapı ya da enum değişkenlerinin tahsis
+        etmiş olduğu kaynaklar otomatik olarak boşaltılabilmektedir.
 ---------------------------------------------------------------------------------------------------------------------------
 # 47. Ders 08/09/2025 - Pazartesi
 
@@ -35757,71 +35757,4938 @@ impl<'a, T> Iterator for MyVecRefMutIterator<'a, T> {
     Bu tür durumlarda özel bir amacınız yoksa "daha spesifik olanı" tercih edebilirsiniz. Daha spesifik demekle türetme
     şemasında daha aşağıda olanı (yani FnMut) kastediyoruz.
 ---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        105. Ders 29/04/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
+    Örneğin aşağıdaki gibi bir kapanımı foo fonksiyonuna parametre olarak geçirmek isteyelim:
+
+    fn main() {
+        let msg: String = String::from("Msg");
+
+        foo(|a| { println!("{}: {}", msg, a); });
+    }
+
+    Burada foo fonksiyonunun generic parametresi için Fn sınırlamasını ya da FnMut sınırlamasını ya da  FnOnce sınırlamasını
+    kullanabiliriz. Ancak en kısıtlayıcı olan Fn olduğu için için Fn sınırlamasını kullanmayı tercih edebiliriz:
+
+    fn foo<F>(f: F)
+    where F: Fn(i32) {
+        f(100);
+    }
+
+    FnMut trait'inin call metodu &mut self parametresi  aldığı için parametre değişkeninin de mut olması gerekir. Örneğin:
+
+    fn foo<F>(mut f: F)
+    where F: FnMut(i32) {
+        f(100);
+    }
+
+    foo fonksiyonunun generic parametresi FnOnce sınırlamasına sahip olsa da biz yine aktarımı yapabilirdik. Örneğin:
+
+    fn foo<F>(mut f: F)
+    where F: FnOnce(i32) {
+        f(100);
+    }
+
+    Örneğin:
+
+    fn main() {
+        let msg: String = String::from("Square");
+
+        let c = move |a| { println!("{}: {}", msg, a * a)};
+        foo(c);
+        foo(c);     // eeror
+    }
+
+    Burada dış faaliyet alanındaki msg kapanıma staşınarak (yani sahipliği devrederek) aktayılmıştır. Dolayısıyla biz burada
+    fonksiyonu bireden fazla kez çağıramayız. Burada artık foonksiyonun generic parametresi FnOnce sınırlamasına ilişkin
+    olmak zorundadır. Tabii foo fonksiyonu içerisinde de kapanımı birden fazla kez çağıramayız. Örneğin:
+
+    fn main() {
+        let c = move |a| { println!("{}", a * a); };
+
+        foo(c);
+    }
+
+    Biz burada foo fonksiyonu için FnOnce, FnMut ve Fn sınırlamalarından herhangi birini kullanabiliriz. Ancak bu tür durumlarda
+    başka bir gerekçe yoksa daha spesifik olan yani türetme şemasındaki daha aşğıda bulunan Fn trait'i sınırlama oluşturmanın
+    daha uygun olduğunıu belirtmiştik. Burada sınırlama FnOnce ile yapıldığında artık kapanımın birden fazla kez çağrılması
+    da mümün olmamaktadır:
+
+    fn foo<F>(mut f: F)
+    where F: FnOnce(i32) {
+        f(10);
+        f(20);          // error!
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir kapanımı bir yapı gibi düşünmelisiniz. Örneğin:
+
+    let s = String::from("----");
+    let k = String::from("-----");
+    let c = |a: i32| { println!("{}{}{}", s, a * a, k); };
+
+    println!("{}", std::mem::size_of_val(&c));      // 16
+
+    Burada c kapanımı dış faaliyet alanındaki s ve k değişkenlerini referans yoluyla kullanmaktadır. Bu kullanım için Rust
+    derleyicisisi kapanıma bu değişkenlerin referanslarını geçirir ve kapanım bu referansları saklar. Bu nedenle bu kapanım
+    bellekte 16 byte kaplayacaktır. Burada kapanımın içerisindeki bilgilerin saklanmadığına dikkat ediniz. Bu kapanım
+    çağrıldığında aslında bir metot çağrılmaktadır (bu metoda call metodu diyebiliriz.) Yukarıdaki c kapanımının şöyle
+    oluşturulduğunu varsayabilirsiniz:
+
+    struct CompilerGeneratedName<'a> {
+        s: &'a String,
+        k: &'a String,
+    }
+
+    impl<'a> CompilerGeneratedName<'a> {
+        fn call(&self, a: i32) {
+            println!("{}{}{}", self.s, a * a, self.k);
+        }
+    }
+    //...
+
+    let s = String::from("----");
+    let k = String::from("-----");
+
+    let c = CompilerGeneratedName {s: &s, k: &s};
+    c.call(10);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi derleyici bir kapanım gördüğünde dış faaliyet alanından kullanlan değişkenleri bu yapının
+    alanlarına yerleştirip yapı için call metotları yazmaktadır. Kapanımın içerisindeki kod da bu call metotlarına taşınmaktadır.
+    FnOnce, FnMut ve Fn trait'lerindeki call metotlarının self paramereleri şöyledir:
+
+    FnOnce ---> self
+    FnMut  ---> &mut self
+    Fn     ---> &self
+
+    Bu üç trait'in türetme şeması şöyleydi:
+
+      FnOnce
+        ^
+        |
+        |
+      FnMut
+        ^
+        |
+        |
+       Fn
+
+    Aşağıdaki kapanıma bakınız:
+
+    let s = String::from("----");
+    let k = String::from("-----");
+    let c = |a: i32| { println!("{}{}{}", s, a * a, k); };
+
+    Burada c kapanımı dış faaliyet alanındaki değişkenleri referans yoluyla kullanmaktadır. Bu durumda bu kapanım Fn trait'ini
+    destekler. Tabii Fn trait'i FnMut trait'inden, FnMut trait'i de FnOnce trait'inden türetildiği için bu kapanım ile
+    üç farklı call metodu da çağrılabilir hale gelmektedir. Yani bu kapanım yukarıdaki self parametrelerine sahip olan
+    üç farklı call metoduna sahip gibidir.
+
+    O halde özetle derleyici bir kapanım gördüğünde önce bu kapanımın hangi trait'leri desteklediğine karar verir ve o
+    trait'lerindeki call metotlarını yazar. Kapanım çağrıldığında da aslında bu call metotları çağrılır. Hangi kapanımda
+    hangi trait desteklendiği şöyşl belirlenmektedir:
+
+    ┌───────────────────────────┬─────────────────────┬────────┐
+    │    Closure türü           │     Örnek           │ Trait  │
+    ├───────────────────────────┼─────────────────────┼────────┤
+    │ Hiç capture yok           │ |a: i32| a * a      │  Fn    │
+    ├───────────────────────────┼─────────────────────┼────────┤
+    │ Capture'ı yalnızca okuyan │ || println!("{s}")  │  Fn    │
+    ├───────────────────────────┼─────────────────────┼────────┤
+    │ Capture'ı değiştiren      │ || { count += 1; }  │ FnMut  │
+    ├───────────────────────────┼─────────────────────┼────────┤
+    │ Capture'ı tüketen         │ move || drop(s)     │ FnOnce │
+    └───────────────────────────┴─────────────────────┴────────┘
+
+    Örneğin kapanım şöyle olsun:
+
+    let s = String::from("----");
+    let k = String::from("-----");
+    let c = |a: i32| { println!("{}{}{}", s, a * a, k); };
+
+    Buradaki c için aşağıdaki gibi bir yapı oluşturulduğunu varsayalım:
+
+    struct CompilerGeneratedName<'a> {
+        s: &'a String,
+        k: &'a String,
+    }
+
+    Bu kapanm Fn trait'ni desteklediği için ve Fn trait', de FnMut trait'inden, FnMut trait'i de FnOnce trait'indne türetildiği
+    için aşağıdaki üç call metodu da desteklenmiş olacaktır:
+
+    impl<'a> Fn for CompilerGeneratedName<'a> {
+        //...
+        fn call(&self, a: i32) {
+            //...
+        }
+    }
+
+    impl<'a> FnMut for CompilerGeneratedName<'a> {
+        //...
+        fn call(&mut self, a: i32) {
+            //...
+        }
+    }
+
+    impl<'a> FnOnce for CompilerGeneratedName<'a> {
+        //...
+        fn call(self, a: i32) {
+            //...
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Tabii kapanımlar referans yoluyla da fonksiyona aktarılabilir. Örneğin:
+
+    fn main() {
+        let s = String::from("----");
+        let k = String::from("-----");
+        let c = |a: i32| { println!("{}{}{}", s, a * a, k); };
+
+        foo(&c);
+    }
+
+    fn foo<F> (f: &F)
+    where F: Fn(i32) {
+        f(10);
+    }
+
+    Burada fonksiyonun parametre değişkeninin &F türünden olduğuna dikkat ediniz. c bir yapıdeğişkeni gibi olduğuna göre
+    c yapı değişkeninin referansı fonkssiyona geçirilmiştir. Tabii kapanım doğrudan argümanda kullanılıyorsa adres yoluyla
+    aktarmanın bir önemi kalmamaktadır. Örneğin:
+
+    fn main() {
+        let s = String::from("----");
+        let k = String::from("-----");
+
+        foo(|a: i32| { println!("{}{}{}", s, a * a, k); });
+    }
+
+    Burada zaten kapanım doğrudan fonksiyonun parametre değişkenine atanmkatadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Fn, FnMut ve FnOnce trait'leri dyn trait'lerdir. Yani istenirse trait'lerin call metotları dinamik bir biçimde yani
+    sanal fonksiyon gibi de çağrılabilir. Örneğin:
+
+    fn main() {
+        let c = |a: i32| { a * a };
+
+        foo(&c);
+    }
+
+    fn foo (f: &dyn Fn(i32) -> i32)
+    {
+        f(10);
+    }
+
+    Burada fonksiyonun f parametresi trait türünden dyn bir referanstır. f(10) çağrısı sanal fonksiyon tablosu yoluyla
+    yapılmaktadır. Peki generic fonksiyon yazmak yerine dyn referansa sahip fonksiyon yazmak arasında ne fark vardır? İşte
+    generic fonksiyonlar her defasında ilgili generic parametre için derleyici tarafından monomorfize edilmektedir. Halbuki
+    sanal fonksiyon yoluyla çapırmada aslında bir fonksiyon vardır. Örneğin:
+
+    fn main() {
+        let c = |a: i32| { a * a };
+        let k = |a: i32| { a * a * 2};
+
+        foo(&c);
+        foo(&k);
+    }
+
+    fn foo (f: &dyn Fn(i32) -> i32)
+    {
+        println!("{}", f(10));
+    }
+
+    Buradaki foo aşağıdaki gibi olsaydı c ve m türleri için ayrı ayrı yazılırdı:
+
+    fn foo<F> (f: &F)
+    where F: Fn(i32) -> i32
+    {
+        println!("{}", f(10));
+    }
+
+    Biz sanal fonksiyon tablosu yoluyla çağırma uyguladığımız zaman kapanımlar farklı trait'leri destekiyor olsa da
+    taban trait yoluyla bunları yine tek bir fonksiyonla işleme sokabailiriz:
+
+    fn main() {
+        let mut x = 10;
+
+        let mut c = |a: i32| { a * a };                 // Fn
+        let mut k = |a: i32| { x += 1; a * a * 2};      // FnMut
+
+        foo(&mut c);
+        foo(&mut k);
+    }
+
+    fn foo(f: &mut dyn FnMut(i32) -> i32)
+    {
+        println!("{}", f(10));
+    }
+
+    Burada c kapanımı Fn trait'ini desteklemektedir. Dolayısıyla aynı zamanda FnMut trait'ini de destekliyor duurumdadır.
+    İki kapanımın desteklediği trait'ler farklı olsa da foo fonksiyonu taban trait türünden dyn referansa sahip olduğundan
+    bir sorun oluşmayacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz her kapanım türünün derleyici tarafından bir yapı gibi ele alındığını belirtmiştik. Yapıların da default durumda
+    Copy türünden olmadığını dolayısıyla taşındığını anımsayınız. Peki bu durumda bir kapanımı diğerine atadığımızda kapanımın
+    sahipliği devredilecek midir? Örneğin:
+
+    let x = 10;
+    let c = |a: i32| { println!("{}", a + x); };
+
+    c(10);
+
+    let k = c;
+    c(10);          // geçerli
+
+    Burada k = c işleminde c'nin sahipliği k'ya deveredilseydi sonraki çağrım error oluştururdu. Halbuki örneğimizdeki c'nin
+    sahipliği devredilmemektedir. Çünkü bu örnekteki kapanım Copy türündendir.
+
+    Rust'ta bir kapanımın Copy türünden olup olmadığı şöyle belirlenmektedir:
+
+    1) Eğer kapanım dış faaliyet alanından hiçbir değişkeni kullanmıyorsa kapanım Copy türündendir.
+    2) Eğer kapanım dış faaliyet alanındaki değişkenleri kullanıyor fakat onları değiştirmiyorsa (yani dış faaliyet
+    alanındaki değişkenleri mut olmayan referans yoluyla yakalıyorsa) kapanım Copy türündendir.
+    3) Eğer kapanım dış faaliyet alanındaki değişkenleri kullanıyor ve en az bir tanesini değiştiriyorsa (yani dış faaliyet
+    alanındaki en az bir değişkeni mut referans yoluyla yakalıyorsa) kapanım Copy türünden değildir.
+    4) Eğer kapanım tanımlanırken move anahtar sözcüğü kullanılmışsa ancak dış faaliyet alanından kullanılan değişkenlerin
+    hepsi Copy türündense kapanım Copy türündendir, eğer en az bir tanesi Copy türünden değilse kapanım Copy türünden değildir.
+
+    Yukarıda vermiş olduğumuz örnekteki kapanıma dikkat ediniz:
+
+    let x = 10;
+    let c = |a: i32| { println!("{}", a + x); };
+
+    Burada c kapanımı dış faaliyet alanındaki x değişkenini mut olmayan referans yoluyla yakalamaktadır. Bu durumda c
+    kapanımı Copy türünden değildir. Yani biz bu c kapanımını başka bir değişkene atarsak sahip devri yapmış olmayız.
+    Örneğin:
+
+    let mut x = 10;
+    let mut c = |a: i32| { x += 1; println!("{}", a + x); };
+
+    c(10);      // geçerli
+
+    let mut k = c;
+    c(10);      // error!
+
+    Buradaki kapanım artık dış faaliyet alanındaki x değişkenini değiştirmektedir. O halde artık bu kapanım Copy türünden
+    değildir. Dolayısıyla let mut k = c işlemiyle kapanımın sahipliği devredilmiştir. Dolayısıyla artık bu işlemden sonra
+    bir c'yi kullanamayız. Kapanımlardaki Copy oluşturma kurallarını aşağıdaki tabloyla da özetleyebiliriz:
+
+    ┌─────────────────────────┬──────────────────────────────┬───────────────┐
+    │      Yakalama Mod       │    Yakalanan değer türü      │ Kapanım Copy? │
+    ├─────────────────────────┼──────────────────────────────┼───────────────┤
+    │   Immutable borrow      │      Herhangi bir tür        │    Evet       │
+    │   (&T olarak yakalar)   │   (Copy veya non-Copy)       │               │
+    ├─────────────────────────┼──────────────────────────────┼───────────────┤
+    │   Mutable borrow        │      Herhangi bir tür        │    Hayır      │
+    │ (&mut T olarak yakalar) │   (Copy veya non-Copy)       │               │
+    ├─────────────────────────┼──────────────────────────────┼───────────────┤
+    │   Move (by value)       │      Copy türü               │    Evet       │
+    │   (move || ...)         │   (örn: i32, bool, f64)      │               │
+    ├─────────────────────────┼──────────────────────────────┼───────────────┤
+    │   Move (by value)       │      Non-Copy türü           │    Hayır      │
+    │   (move || ...)         │   (örn: String, Vec)         │               │
+    └─────────────────────────┴──────────────────────────────┴───────────────┘
+
+    Temel kural:
+    • &T      → kapanım her zaman Copy'dir (tür ne olursa olsun)
+    • &mut T  → kapanım hiçbir zaman Copy değildir
+    • move    → yakalanan tüm değerler Copy ise Copy, değilse Copy değil
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın standart kütüphanesinde kapanım türünden parametreye sahip fonksiyonlar ve metotlar bulunmaktadır. Örneğin
+    Option enum türünün is_none_or isimli metodunun parametrik yapısı şöyledir:
+
+    pub fn is_none_or(self, f: impl FnOnce(T) -> bool) -> bool
+
+    Burada aslında fonksiyon aşağıdakiyle eşdeğerdir:
+
+    impl<T> Option<T> {
+        //...
+        fn is_none_or<F>(self, f: F: FnOnce(T) -> bool) -> bool  {
+            //...
+        }
+        //...
+    }
+
+    Metot parametresi T türünden, geri dönüş değeri bool türünden olan bir kapanımı (ya da ufonksiyon) almaktadır. Metot
+    ilgili enum içerisinde None varsa ya da None yoksa ama T türünden değer bu kapanıma yapılıp kapanım çağrıldığında
+    kapanım true değerine geri dönüyorsa true değerine geri dönmektedir. Örneğin:
+
+    fn main() {
+        let o: Option<i32> = Some(-1);
+        let result: bool;
+
+        result = o.is_none_or(|a: i32| a == -1);
+        println!("{}", result);     // true
+    }
+
+    Burada is_none_or metodu ya None ise ya da Some(val) olup da val == -1 ise true vermektedir.
+
+    Örneğin Iterator trait'inin map metodu bizden bir kapanım (ya da fonksiyon) ister, dolaşarak elde ettiği her değeeir
+    o kapanıma argüman olarak geçirip geri dönüş dğerlerindem oluşan bir iterator nesnesi verir. Biz de onu collect metoduyla
+    başka bir tür haline getirebiliriz:
+
+    fn main() {
+        let a: [i32; 5] = [10, 20, 30, 40, 50];
+        let v: Vec<i32>;
+
+        let iterator = a.into_iter();
+
+        v = iterator.map(|a| a * a).collect();
+        println!("{:?}", v);
+    }
+
+    Biz daha önce bu örneği kapanım yerine fonksiyon yoluyla da yapmıştık. Bir iteratörle dolaşım yapılırken belli koşulu
+    sağlayanları elde etmek için kulalnılan filter metodu da kapanım (ya da fonksiyon) parametresi alabilmektedir.
+    Örneğin:
+
+    fn main() {
+        let a: [i32; 5] = [21, 18, 43, 72, 17];
+        let v: Vec<i32>;
+
+        let iterator = a.into_iter();
+
+        v = iterator.filter(|a| a % 2 == 0).collect();
+        println!("{:?}", v);            // [18, 72]
+    }
+
+    filter metodunun parametresi iteratör'ün Item türünden geri dönüş değeri de bool türdne olan bir kapanım ya da fonksiyondur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        106. Ders 04/05/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Rust'ta fonksiyon göstericileri konusunu ele alaım. Fonksiyonlar aslında ardışıl makne komutlarından oluşmaktadır.
+    Tıpkı C'de olduğu gibi bir fonksiyonun yalnızca ismi (yani (...) operatörü kullanılmadan yalnızca ismi) o fonksiyonun
+    bellekteki başlangıç adresini belirtmektedir. Belli bir adresteki fonksiyonun çağrılması için de (...) operatörü
+    kullanılmaktadır. Rust'taki bu semantik C'dekine oldukça benzemektedir.
+
+    Rust'ta fonksiyon göstericileri fn tür ismiyle bildirilmektedir. Buradaki fn anahtar sözcüğünü Fn trait'i ile karıştırmayınız.
+    (Fn trait'indeki F'nin büyük harf olduğuna, fn anahtar sözcüğündeki f'nin ise küçük harf olduğuna dikkat ediniz.) Bir
+    fonksiyon göstericisinin türü fn anahtar sözcüğü ile parametre türleri ve geri dönüş değerinin türü kullanılarak
+    belirtilmektedir. Bir fonksiyon göstericisine ancak parametre türleri ve geri dönüş değerinin türü aynı olan fonksiyonların
+    adresleri yerleştirilebilmektedir. Örneğin:
+
+    let f: fn(i32) -> i32;
+
+    Burada f fonksiyon göstericisi fn(i32) -> i32 türündendir. Parametresi i32 türünden olan ve geri dönüş değeri de i32
+    türünden olan fonksiyonların adreslerini tutabilmektedir. Örneğin:
+
+    let f: fn(i32, i32) -> f64
+
+    Burada f bir fonksiyon göstericisidir. Bu fonksiyon göstericisi parametreleri i32, i32 türünden olan ve geri dönüş değeri
+    f64 türünden olan fonksiyonların adreslerini tutabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz bir fonksiyon göstericisine parametre türleri ve geri dönüş değeri aynı olan fonksiyonların adreslerini atayabiliriz.
+    Fonksiyon isimlerinin "fonksiyonarın makine komutlarının başlangıç adresini belirttiğini" söylemiştik. Örneğin:
+
+    fn main() {
+        let mut f: fn(i32, i32) -> i32;
+
+        f = add;            // geçerli
+        //...
+        f = multiply;       // geçerli
+        //...
+        f = div;            // error!
+        //...
+
+    }
+
+    fn add(a: i32, b: i32) -> i32 {
+        a + b
+    }
+
+    fn multiply(a: i32, b: i32) -> i32 {
+        a * b
+    }
+
+    fn div(a: f64, b: f64) -> f64 {
+        a / b
+    }
+
+    Bu örnekte biz f fonksiyon göstericisine add fonksiyonunun adresini atayabiliriz. Çünkü add fonksiyonunun parametrelerinin
+    ve geri dönüş değerinin türü f fonksiyon göstericisininkilerle aynıdır. Aynı biçimde biz f fonksiyon göstericisine
+    multiply fonksiyonunun da adresini atayabiliriz. Ancak f fonksiyon göstericisine div fonksiyonunun adresini atayamayız.
+    Çünki burada türler farklıdır.
+
+    Bir fonksiyon göstericisini fonksiyon çağırma operatörüyle kullanabiliriz. Bu durumda fonksiyon göstericisinin içerisindeki
+    adreste bulunan fonksiyon çağrılır. Örneğin:
+
+    f = add;
+    result = f(10, 20);
+
+    Burada aslında add fonksiyonu çağrılmaktadır. Çünkü f göstericisinin içerisinde add fonksiyonunun adresi vardır. Örneğin:
+
+    fn main() {
+        let mut f: fn(i32, i32) -> i32;
+        let mut result: i32;
+
+        f = add;
+        result = f(10, 20);
+        println!("{}", result);     // 30
+
+        f = multiply;
+        result = f(10, 20);
+        println!("{}", result);     // 200
+    }
+
+    fn add(a: i32, b: i32) -> i32 {
+        a + b
+    }
+
+    fn multiply(a: i32, b: i32) -> i32 {
+        a * b
+    }
+
+    Tabii siz "zaten fonksiyonu doğrudan çağırabiliyorum, neden onun adresini önce bir fonksiyon göstericisine atayıp da
+    o fonksiyon göstericisi yluyla çağırayım?" diye düşünebilirsiniz. Ancak fonksiyon göstericileri "fonksiyonların
+    genelleştirilmesi için", "callback mekanizmalarının oluşturıulması için" mecburen kullanılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir fonksiyon bizden aldığı bir fonksiyonu belli koşullarda çağırıyorsa bu kalıba "callback fonksiyon kalıbı" denilmektedir.
+    Aşağıdaki fonksiyona dikkat ediniz:
+
+    use std::thread;
+    use std::time::Duration;
+
+    fn do_each_second(f: fn() -> bool) {
+        loop {
+            if !f() {
+                break;
+            }
+            thread::sleep(Duration::from_secs(1));
+        }
+    }
+
+    Burada do_each_second fonksiyonu bir saniye periyotla parametresiyle aldığı fonksiyonu çağırmaktadır. Çağırdığı fonksiyon
+    true ile geri dönerse çağırmaya devam etmekte, false geri döndüğünde ise işlemini sonlandırmaktadır. Bu fonksiyon aslında
+    genel bir fonksiyondur. Biz ona değişik şeyler yaptırabiliriz:
+
+    use std::io::{stdout, Write};
+    use chrono::{Local, Timelike};
+
+    fn main() {
+        do_each_second(disp_period);
+        println!();
+        do_each_second(disp_current_time);
+    }
+
+    fn disp_period() -> bool {
+        static mut count: i32 = 0;
+
+        print!(".");
+        stdout().flush().unwrap();
+
+        unsafe {
+            count += 1;
+
+            if count == 10 {
+                false
+            } else {
+                true
+            }
+        }
+    }
+
+    fn disp_current_time() -> bool {
+        let now = Local::now();
+        print!("{}\r", now.format("%H:%M:%S"));
+        stdout().flush().unwrap();
+
+        !(now.hour() == 21 && now.minute() == 50 && now.second() == 0)
+    }
+
+    disp_period fonksiyonu 10 kez her saniyede ekrana (stdout dosyasına) nokta basmaktadır. disp?current_time fonksiyonu
+    ise her saniyede ekrana (stdout dosyasına) o zamank saati basmaktadır. Bu fonksiyonun belli bir saate gelindiğinde
+    false ile döndürüldüğüne dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::{stdout, Write};
+use chrono::{Local, Timelike};
+
+fn main() {
+    do_each_second(disp_period);
+    println!();
+    do_each_second(disp_current_time);
+}
+
+fn disp_period() -> bool {
+    static mut count: i32 = 0;
+
+    print!(".");
+    stdout().flush().unwrap();
+
+    unsafe {
+        count += 1;
+
+
+        if count == 10 {
+            false
+        } else {
+            true
+        }
+    }
+}
+
+fn disp_current_time() -> bool {
+    let now = Local::now();
+    print!("{}\r", now.format("%H:%M:%S"));
+    stdout().flush().unwrap();
+
+    !(now.hour() == 21 && now.minute() == 50 && now.second() == 0)
+}
+
+// Kütüphane içerisinde
+
+use std::thread;
+use std::time::Duration;
+
+fn do_each_second(f: fn() -> bool) {
+    loop {
+        if !f() {
+            break;
+        }
+        thread::sleep(Duration::from_secs(1));
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Anımsanacağı gibi Iterator trait'inin for_each isimli bir metodu vardı. Biz de benzer işlemi yapan bir for_each fonksiyonu
+    yazalım:
+
+    fn for_each<I>(iterator: I, f: fn(I::Item) -> bool) -> bool
+    where
+        I: Iterator
+    {
+        for val in iterator {
+            if !f(val) {
+                return false;
+            }
+        }
+        true
+    }
+
+    Fonksiyonun birinci parametresi bir iterator türündendir. Fonksiyon bu iteratörü dolaşarak ikinci parametresiyle
+    belirtilen fonksiyonu çağırmaktadır. Callback fonksiyon false ile geri döndüğünde dolaşım sonlandırılmaktadır. Örneğimizdeki
+    for_each fonksiyonunun geri dönüş değeri erken sonlandırma yapılıp yapılmadığını belirtmektedir. Fonksiyonu şöyle
+    kullanabiliriz:
+
+    fn main() {
+        let a = [1, 2, 3, 4, 5];
+
+        for_each(a.into_iter(), disp_square);
+
+    }
+
+    fn disp_square(val: i32) -> bool {
+        println!("{}", val * val);
+        true
+    }
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    for_each(a.into_iter(), disp_square);
+}
+
+fn disp_square(val: i32) -> bool {
+    println!("{}", val * val);
+    true
+}
+
+fn for_each<I>(iterator: I, f: fn(I::Item) -> bool) -> bool
+where
+    I: Iterator
+{
+    for val in iterator {
+        if !f(val) {
+            return false;
+        }
+    }
+    true
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyon göstericileri konusunda Rust'ta C'den farklı olarak ilginç bir semantik vardır. Aslında Rust'ta bir fonksiyonun
+    ismi o ffonksiyona özgü farklı bir tür belirtmektedir. Örneğin:
+
+    fn square(a: i32) -> i32 {
+        a * a
+    }
+
+    Burada square ismini kullanıdğımızda bu fonksiyonun başlangıç adresini kullanmış oluruz. Ancak square ifadesi Rust'ta
+    fn(i32) -> i32 türünden değildir. Program genelinde tek olan (unique) derleyicinin belirlediği anonim bir tür türündendir.
+    Ancak bu anonim türlerden aynı parametrik yapıya ve geri dönüş değeri türüne sahip fonksiyon göstericilerine otomatik
+    dönüşüm (type coercion) bulunmaktadır. Örneğin:
+
+    let f: fn(i32) -> i32;
+
+    f = square;     // geçerli
+
+    Burada square derleyicinin belirlediği bir tür türündendir ancak bu tür doğrudan f göstericisine atanabilmektedir. Peki
+    neden burada square fn(i32) -> i32 türünden kabul edilmiyor da program genelinde tek olan tür türünden kabul ediliyor?
+    İşte bunun nedeni fonksiyon isimlerinin belirttiği fonksiyon adreslerinin derleme zamanında biliniyor olmasıdır. Örneğin:
+
+    let f = square;
+
+    Burada f değişkeni fn(i32) -> i32 türünden değildir. square ile aynı türdendir. Bu tür durumlarda bldirilen değişken
+    için aslında derleyici bellekte hiç yer ayırmamaktadır. Yani buradaki f değişkeninin size_of_val değeri 0'dır. Biz bu
+    f yoluyla yine square fonksiyonunu çağırabiliriz. Çrneğin:
+
+    let result = f(10);
+
+    Bu durumda derleyici f değişkenine square ataması yapıldığı için aslında square fonksiyonunun çağrıldığını anlayabilmektedir.
+    Dolayısıyla f için bellekte hiç yer ayırmadan doğrudan square fonksiyonunu çağırabilmektedir.
+
+    İki fonksiyonun parametre türleri ve geri dönüş değerleri aynı olsa bile bu fonksyonun isimleri farklı türler belirtmektedir.
+    Örneğin:
+
+    fn square(a: i32) -> i32 {
+        a * a
+    }
+
+    fn cube(a: i32) -> i32 {
+        a * a * a
+    }
+    //...
+
+    let mut f = square;
+
+    f = cube;       // error!
+
+    Burada f değişkeni square ile aynı türdendir. Ancak square ile cube aynı türden değildir. Tabii her iki ifade de
+    aynı fonksiyon göstericisine atanabilmektedir:
+
+    let mut f: fn(i32) -> i32;
+
+    f = square;     // geçerli
+    //...
+    f = cube;       // geçerli
+
+    Hem square ifadeasinin türünden hem de cube ifadesinin üründen uyumlu göstericisi türüne otomatik dönüştürme olduğuna
+    dikkat ediniz.
+
+    Yukarıda açıkladığımız durumun C'den farklı olduğuna dikkat ediniz. Ancak bu farklılık önemli bir etkiye yol açmamaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta bir kapanım (closure) eğer dış faaliyet alanındaki hiçbir değişkeni kullanmıyorsa (yani capture etmiyorsa) kendisi
+    ile uyumlu fonksiyon göstericilerine atanabilmektedir. Yani "ele geçirmeyen kapanım türünden onunla uyumlu fonksiyon
+    göstericisi türüne" otomatik dönüştürme (coercion) vardır. Örneğin:
+
+    let f: fn(i32) -> i32;
+
+    f = |a: i32| -> i32 { a * a};       // geçerli
+
+    Örneğimizdeki kapanım dış faaliyet alanındaki hiçbir değişkeni kullanmamaktadır, parametre türleri ve geri dönüş değerinin
+    türü fonksiyon göstericisi ile uyumludur. Bu nedenle fonksiyon göstericisine yapılan atama geçerlidir. Bu durumda örneğin
+    bir fonksiyonun ya da metodun parametresi bir fonksiyon göstericisi türündense biz o fonksiyona uyumlu bir fonksiyonu
+    ya da ele geçirmeyen (capture etmeyen) bir kapanımı argüman olarak verebiliriz. Örneğin:
+
+    fn main() {
+        foo(bar, 10);               // 100
+        foo(|a| a * a * a, 10);     // 1000
+    }
+
+    fn foo(f: fn(i32) -> i32, a: i32) {
+        println!("{}", f(a));
+    }
+
+    fn bar(a: i32) -> i32 {
+        a * a
+    }
+
+    Yukarıda da belirttiğimiz gibi dış faaliyet alanındaki değişkenleri kullana kapanımlar fonksiyon göstericilerine uyumlu
+    da olsa atanamazlar. Örneğin:
+
+    fn main() {
+        let f: fn() -> i32;
+        let a = 10;
+
+        f = || a * 2;            // error!
+        println!("{}", f());
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                                107. Ders 06/05/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir fonksiyonun geri dönüş değeri bir fonksiyon göstericisi olabilir. Örneğin:
+
+    fn foo() -> fn(i32) -> i32 {
+        bar
+    }
+
+    Burada foo fonksiyonu parametresi i32 türünden ve geri dönüş değer i32 türünden olan bir fonksiyon gösterici ile (yani
+    fonksiyon adresi ile) geri dönmektedir. Yani biz buradaki foo fonksiyonunu çağırdığımızda bar fonksiyonunun adresini
+    elde ederiz. Örneğin:
+
+    fn main() {
+        let f: fn(i32) -> i32;
+
+        f = foo();
+
+        let val = f(10);
+        println!("{}", val);
+    }
+
+    fn foo() -> fn(i32) -> i32 {
+        bar
+    }
+
+    fn bar(a: i32) -> i32 {
+        a * a
+    }
+
+    Burada aslında f(10) çağrısı ile bar fonksiyonu çağrılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Fonksiyon göstericilerinden oluşan diziler söz konusu olabilir. Örneğin:
+
+    let fs: [fn(i32) -> i32; 3];
+
+    Burada fs 3 elemanlı bir dizidir. Ancak dizinin her elemanı parametre i32 türünden geri dönüş değeri i32 türünden
+    fonksiyonların adreslerini tutan birer fonksiyon göstericisidir. Örneğin:
+
+    fn main() {
+    let fs: [fn(i32) -> i32; 3] = [square, cube, power4];
+    let mut result: i32;
+
+    for f in fs {
+            result = f(2);
+            println!("{}", result);
+        }
+    }
+
+    fn square(a: i32) -> i32 {
+        a * a
+    }
+
+    fn cube(a: i32) -> i32 {
+        a * a * a
+    }
+
+    fn power4(a: i32) -> i32 {
+        a * a * a * a
+    }
+
+    Bir yapının bir alanı da fonksiyon göstericisi olabilir. Örneğin:
+
+    struct Cmd {
+        name: &'static str,
+        f: fn(&[&str]),
+    }
+
+    Aşağıdaki örnekte bir komut satırı (REPL) uygulaması örneği verilmiştir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::io::{stdin, stdout, Write};
+use std::vec::Vec;
+
+fn main() {
+    let cmds: [Cmd; 3] = [
+        Cmd {name: "dir", f: dir_proc},
+        Cmd {name: "copy", f: copy_proc},
+        Cmd {name: "rename", f: rename_proc},
+    ];
+    let mut flag: bool;
+    let mut params: Vec<&str>;
+
+    loop {
+        print!("CSD>");
+        std::io::stdout().flush().unwrap();
+        let mut cmd_name: String = String::new();
+        stdin().read_line(&mut cmd_name).expect("cannot read_line");
+        cmd_name = cmd_name.trim().to_string();
+        params = cmd_name.split_whitespace().collect();
+        if cmd_name == "quit" {
+            break;
+        }
+        if params.len() == 0 {
+            continue;
+        }
+
+        flag = false;
+        for cmd in cmds.iter() {
+            if cmd.name == params[0] {
+                (cmd.f)(&params[1..]);
+                flag = true;
+                break;
+            }
+        }
+        if !flag {
+            println!("bad command!...");
+        }
+    }
+}
+
+struct Cmd {
+    name: &'static str,
+    f: fn(&[&str]),
+}
+
+fn dir_proc(params: &[&str]) {
+    if params.len() != 0 {
+        println!("wrong number of argğments...");
+        return
+    }
+    println!("dir");
+}
+
+fn copy_proc(params: &[&str]) {
+    if params.len() != 2 {
+        println!("wrong number of argğments...");
+        return
+    }
+    println!("copy {} {}", params[0], params[1])
+}
+
+fn rename_proc (params: &[&str]) {
+    if params.len() != 2 {
+        println!("wrong number of argğments...");
+        return
+    }
+    println!("rename {} {}", params[0], params[1])
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kapanımları parametre olarak alan fonksiyonların genellikle &dyn yerine generic biçimde oluşturulduğunu anımsayınız.
+    İşte bir generic fonksiyonun ya da metodun generic parametresi eğer Fn, FnMut ya da FnOnce trait'leri ile sınırlanmışsa
+    bir o generic fonksiyon ya da metodu uyumlu fonksiyon göstericileri ile ya da fonksiyon adresleri ile çağırabiliriz.
+    Örneğin:
+
+    fn foo<F>(f: F, a: i32)
+    where F: Fn(i32) -> i32 {
+        let result: i32;
+
+        result = f(10);
+        println!("{}", result);
+    }
+
+    Burada foo generic bir fonksiyondur. Biz bu generic fonksiyonu uyumlu bir kapanımla ya da bir fonksiyon ismiyle ya da
+    bir fonksiyon gösterici ile çağırabiliriz. Örneğin:
+
+    fn main() {
+        let f: fn(i32) -> i32 = square;
+
+        foo(|a| a * a, 10);    // geçerli
+        foo(square, 10);       // geçerli!
+        foo(f, 10);            // geçerli!
+
+    }
+
+    fn foo<F>(f: F, a: i32)
+    where F: Fn(i32) -> i32 {
+        let result: i32;
+
+        result = f(10);
+        println!("{}", result);
+    }
+
+    fn square(a: i32) -> i32 {
+        a * a
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki örnekte biz generic fonksiyon kullandık. Çokbiçimli (polymorphic) olarak da aynı işlemleri yapabilirdik. Tabii
+    bu durumda fonksiyonun parametresi &dyn Fn ya da &dyn FnMut olmalıdır. FnOnce trait'i sahiplik devarldığı için bu bağlamda
+    kullanıamamaktadır. Örneğin:
+
+    fn main() {
+        let f: fn(i32) -> i32 = square;
+
+        foo(&(|a| a * a), 10);    // geçerli
+        foo(&square, 10);         // geçerli!
+        foo(&f, 10);              // geçerli!
+    }
+
+    fn foo(f: &dyn Fn(i32) -> i32, a: i32) {
+        let result: i32;
+
+        result = f(10);
+        println!("{}", result);
+    }
+
+    fn square(a: i32) -> i32 {
+        a * a
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta metotların adreslerini tutan fonksiyon göstericileri de bildirilebilmektedir. Ancak bu tür fonksiyon göstericilerinin
+    bildirimi ve çağrılması ancak UFCS (Uniform Function Call Syntax) sentaksıyla mümkündür. Yani metotlar tamamen fonksiyonmuş
+    gibi düşünülüp ona ilişkin fonksiyon göstericileri oluşturulmalıdır. Örneğin:
+
+    struct Sample {
+        a: i32,
+        b: i32,
+    }
+
+    impl Sample {
+        fn disp(&self) {
+            println!("{}, {}", self.a, self.b);
+        }
+
+        fn set(&mut self, a: i32, b: i32) {
+            self.a = a;
+            self.b = b;
+        }
+    }
+
+    Biz burada Sample::disp metodunun adresini fonksiyon göstericisine şöyle atayıp metodu çağırabiliriz:
+
+    let mut s = Sample { a: 10, b: 20 };
+    let fdisp: fn(&Sample);
+
+    fdisp = Sample::disp;
+    fdisp(&s);
+
+    Metodun bir fonksiyonmuş gibi çağrıldığına dikkat ediniz. &s parametresi metodun &self parametresine geçirilmektedir.
+    set metıdu için de ayını şöyle yapabiliriz:
+
+    let fse: fn(&mut Sample, i32, i32);
+
+    fse = Sample::set;
+    fse(&mut s, 30, 40);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+fn main() {
+    let mut s = Sample { a: 10, b: 20 };
+    let fdisp: fn(&Sample);
+
+    fdisp = Sample::disp;
+    fdisp(&s);
+
+    let fse: fn(&mut Sample, i32, i32);
+
+    fse = Sample::set;
+    fse(&mut s, 30, 40);
+    fdisp(&s);
+}
+
+struct Sample {
+    a: i32,
+    b: i32,
+}
+
+impl Sample {
+    fn disp(&self) {
+        println!("{}, {}", self.a, self.b);
+    }
+
+    fn set(&mut self, a: i32, b: i32) {
+        self.a = a;
+        self.b = b;
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'ta modüller konusunu ve use deyimini ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki modüller kullanım amacı bakımından C++'taki ve C#'taki isim alanlarına (namespaca), Java'daki paketler,
+    Pythondaki modüllere benzemektedir. Modüller temelde "isim çakışmasını (name collision)" engellemek amacıyla bulundurulmuştur.
+
+    Örneğin biz farklı kişiler ya da kurumlar tarafından yazılmış iki kütüphane crate'ini kullanmak isteyelim. Bu iki
+    kütüphaneyi yazanlar tesadüfen fonksiyonlarına ya da yapılarına aynı isimleri vermiş olabilirler. Bu durumda eğer modüller
+    olmasaydı biz bu isimleri kullandığımızda derleyici hangi kütüphanedeki fonksiyonu ya da yapıyı kullandığımızı anlayamazdı.
+    Halbuki modüller sayesinde kişiler ya da kurumlar kendi fonksiyonlarını ve türlerini kendilerinin oluşturduğu modüllerde
+    tanımlarlar. Böylece o isimler niteliklendirilmiş olur ve isim çakışması engellenir. Örneğin x kurumu foo fonksiyonunu
+    x modülünün içerisinde, y kurumu ise y modülünün içerisinde tanımlamış olsun. Artık biz bu fonksiyonları modül ismini
+    belirterek (niteliklendirerek) çağırırız:
+
+    x::foo();
+    y::foo();
+
+    Böylece isim çakışması durumunda bir sorun yaşamayız. Tabii bu iki şirket düşük bir olasılık da olsa modüllerine aynı
+    isimleri vermiş olabilir. Ancak bu durumda da yine çakışmanın engellenmesi için başka yöntemlr uygulanabilmektedir.
+    "The Rust Reference" dokümanlarında modüller konusu "Items" başlığının altında "6.1. Modules" bölümünde ele alınmıştır.
+    Ancak modüllere ilişkin yardımcı konular doküman içerisinde değişiklik yerlerde bulunmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir modül tanımlamanın genel biçimi şöyledir:
+
+    [görünürlük] mod <modül_ismi> {
+        //...
+    }
+
+    Buradaki  görünürlük (visibilty) kullanılmak zorunda değildir. Örneğin:
+
+    mod mymodule {
+        fn foo() {
+            println!("foo");
+        }
+
+        fn bar() {
+            println!("bar");
+        }
+
+        struct Sample {
+            a: i32,
+            b: i32,
+        }
+    }
+
+    Burada mymodule isimli bir modül oluşturulmuştur. Bu modülün içerisine iki fonksiyon ve bir yapı yerleştirilmiştir.
+    Tabii aynı faaliyet alanında aynı isimli birden fazla modül tanımlanamamaktadır.
+
+    Bir modüldeki isimler o modülün ismi ve :: operatörü ile kullanılabilmektedir. Yani örneğin biz modülün dışından
+    o modüldeki isimleri doğrudan kullanamayız:
+
+    fn main() {
+        foo();                              // error!
+        bar();                              // error!
+        let s = Sample { a: 10, b: 20};     // error!
+    }
+
+    mod mymodule {
+        fn foo() {
+            println!("foo");
+        }
+
+        fn bar() {
+            println!("bar");
+        }
+
+        struct Sample {
+            a: i32,
+            b: i32,
+        }
+    }
+
+    Biz modüldeki isimleri modül ismiyle niteliklendirerek kullanmayız. Ancak burada da başka bir sorunla karşılaşırız:
+
+    fn main() {
+        mymodule::foo();                              // error!
+        mymodule::bar();                              // error!
+        let s = mymodule::Sample { a: 10, b: 20};     // error!
+    }
+
+    Burada niteliklendirme doğru yapılmıştır. Sorun modül içerisindeki isimlerin dışarıya kapalı (private) olmasıdır.
+    Bu isimleri dışarıya açmak görünürlük belirten anahtar sözükleri isimlerin önüne getiririz. Bu görünürlük belirten
+    anahtar sözcüklerin işlevlerini ileride ayrı bir paragrafta ele alacağız. Ancak pub görünürlüğü modüldeki elemanın
+    dışarıdan istenildiği kullanılabileceğini belirtmektedir. Örneğin:
+
+    mod mymodule {
+        pub fn foo() {              // fonksiyonun başına pub getirildiğine dikkat ediniz
+            println!("foo");
+        }
+
+        pub fn bar() {              // fonksiyonun başına pub getirildiğine dikkat ediniz
+            println!("bar");
+        }
+
+        pub struct Sample {         // yapının başına pub getirildiğine dikkat ediniz
+            a: i32,
+            b: i32,
+        }
+    }
+
+    Şimdi biz sorunun önemli kısmını çözdük. Ancak yine bir error oluşturan bir durum vardır:
+
+    fn main() {
+        mymodule::foo();                              // geçerli
+        mymodule::bar();                              // geçerli
+        let s = mymodule::Sample { a: 10, b: 20};     // error!
+    }
+
+    Buradaki foo ve bar çağrıları artık geçerlidir. Hem niteliklendirilmiştir hem de artık modülde pub yapılmıştır. Sample
+    ismine erişimde de bir sorun yoktur. Ancak Sample içerisindeki a ve b alan isimleri private olduğu için modül dışından
+    erişim mümkün değildir. Burada bir çözüm Sample türünden nesneyi yaratan new ilişkili fonksiyonunun pub olarak tanımlanması
+    ve yaratımın bununla yapılmasıdır. Örneğin:
+
+    mod mymodule {
+        pub fn foo() {
+            println!("foo");
+        }
+
+        pub fn bar() {
+            println!("bar");
+        }
+
+        pub struct Sample {
+            a: i32,
+            b: i32,
+        }
+
+        impl Sample {
+            pub fn new(a: i32, b: i32) -> Self {
+                Sample { a, b}
+            }
+        }
+    }
+
+    Burada Sample yapısının a ve b alanları dışarısı için private durumdadır. Ancak bu yaratımı yapan new ilişkili
+    fonksiyonu pub olduğu için artık modül dışından kullanılabilecektir:
+
+    fn main() {
+        mymodule::foo();                                // geçerli
+        mymodule::bar();                                // geçerli
+        let s = mymodule::Sample::new(10, 20);          // geçerli
+    }
+
+    Aynı modül içerisindeki isimlerin o modülde kullanımı için bir kısıtlama yoktur. Yani örneğin mymodule modülündeki
+    foo private olsa bile bar tarafından çağrılabilir. ÖrneğimizdeSample yapısının a ve b alanları private olduğu halde
+    aynı modülden kullanılabilmiştir. Bir modüldeki tüm isimler aynı modüldeki fonksiyonlar ve metotlar tarafından doğrudan
+    kullanılabilirler. Görünürlük (visibility) modül dışından erişimleri kısıtlama ya da mümkün hale getirme işlevini
+    yerine getirmektedir.
+
+    Biz şimdilik modül içerisindeki isimlerin dışarıdan kullanılabilmesi için onları pub yapacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta diğer dillerde olduğu gibi iç içe modüller tanımlanabilmektedir. Aslında Rust'ta en dış bölge de bir modül kabul
+    edilmektedir. (C++, C# gibi dillerde bu edışarıdkai isim alanına "global isim alanı (global namespace)" dendiğini anımsayınız.)
+    Örneğin:
+
+    fn main() {
+        foo();
+        let s = Sample { a: 10, b: 20 };
+    }
+
+    fn foo() {
+        println!("foo");
+    }
+
+    struct Sample {
+        a: i32,
+        b: i32,
+    }
+
+    Burada main ve foo fonksiyonları ve Sample yapısı da aslında bir modül içerisindedir. Rust'taki en dış bölgenin oluşturduğu
+    modüle "crate modülü" denilmektedir. Biz crate modül ismini kullanarak da bu isimleri kullanabiliriz:
+
+    fn main() {
+        crate::foo();
+        let s = crate::Sample { a: 10, b: 20 };
+    }
+
+    Tabii yukarıda da belirttiğimiz gibi aynı modül içerisindeki isimler hiç niteliklendirilmeden doğrudan kullanılabilmektedir.
+    Aynı modül içerisinde tüm isimler sanki pub gibi düşünülmelidir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir modülün içerisinde başka bir modülün tanımlanması da aynı biçimde yapılmaktadır. Örneğin:
+
+    mod x {
+        pub fn foo() {
+            println!("x::foo");
+        }
+
+        mod y {
+            pub fn bar() {
+                println!("x::bar");
+            }
+        }
+    }
+
+    Buradaki foo, x modülünün içerisinde, bar ise x::y modülünün içerisindedir. Normal olarak biz iç modüle dış modülün
+    ismini de niteliklendirerek erişiriz. Örneğin biz x içerisindeki foo fonksiyonunu şöyle çağırırız:
+
+    x::foo();       // geçerli
+
+    O halde bar fonksiyonunu da şöyle çağırmalıyız:
+
+    x::y::bar();    // error!
+
+    Ancak burada yine bir erişim sorunu vardır. Modüller de birer öğe (items) olduğu için onlara da görünürlük
+    iliştirilebilmektedir. Biz yukarıda bir modül içerisindeki bir fonksiyon ya da metotta aynı modüldeki öğeleri doğrudan
+    kullanabileceğimizi ve bu kullanımlarda bir erişim sorunu yaşamayacağımızı belirtmiştik. Şimdi koda bir bütün olarak
+    yeniden bakınız:
+
+    fn main() {
+        x::foo();           // geçerli
+        x::y::bar();        // error!
+    }
+
+    mod x {
+        pub fn foo() {
+            println!("x::foo");
+        }
+
+        mod y {
+            pub fn bar() {
+                println!("x::bar");
+            }
+        }
+    }
+
+    Burada main de x de aynı modüldedir. Bu nedenle x modülünün pub yapılmasına gerek yoktur. Ancak x modülünün içerisinde
+    y modülü main ile aynı modülde değildir. Bu durumda ona dışarıdan erişmek için onu pub yapabiliriz:
+
+    fn main() {
+        x::foo();           // geçerli
+        x::y::bar();        // geçerli
+    }
+
+    mod x {
+        pub fn foo() {
+            println!("x::foo");
+        }
+
+        pub mod y {
+            pub fn bar() {
+                println!("x::bar");
+            }
+        }
+    }
+
+    Özetle erişimin yapıldığı yer ile erişilen öğe (item) aynı modüldeyse görünütrlük ne olursa olsun erişim yapılır.
+    Ancak farklı bir modüldeyse hem o modül hem de modülün içerisindeki öğeler pub olmalıdır. (Bu konuda bazı ayrıntılar
+    vardır.)
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        108. Ders 11/05/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki modüllerde isim araması (name lookup) C++, C# gibi dillerdeki isim alanlarındaki (namespaces) isim aramalarına
+    benzememektedir. Örneğin C++'da içteki isim alanında bir isim niteliksiz (yani :: operatörü olmadan) dış isim alanlarında
+    da arama yapılmaktadır. Oysa Rust'ta iç modülde niteliksiz (yani :: operatörü olmadan) biçimde kullanılan bir isim dış
+    modülde aranmamaktadır. Örneğin:
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+        }
+
+        pub mod y {
+            pub fn bar() {
+                println!("bar");
+                foo();          // error!
+                x::foo();       // error!
+            }
+        }
+    }
+
+    Burada x modülünün içerisindeki y modülünde bulunan bar fonksiyonunda dış modüldeki foo ismi ve x ismi doğrudan
+    kullanılamamaktadır. Bu tür durumlarda "mutlak yol ifadesi ile (absolute path)" isimler belirtilmelidir. Örneğin:
+    Mutlak yol ifadesi demekle ismin en dıştan itibaren (yani crate modülünden itibaren) belirtilmesi gerektiğini
+    kastediyoruz. Örneğin:
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+        }
+
+        pub mod y {
+            pub fn bar() {
+                println!("bar");
+                crate::x::foo();          // geçerli
+            }
+        }
+    }
+
+    Burada erişim en dıştan itibaren yol ifadesi crate anahtar sözcüğü ile başlatılarka yapılmıştır. Ancak Rust'ta üst
+    modül ismine mutlak yol ifadesi dışında super anahtar sözcüğü ile de erişilebilmektedir. Örneğin:
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+        }
+
+        pub mod y {
+            pub fn bar() {
+                println!("bar");
+                super::foo();          // geçerli
+            }
+        }
+    }
+
+    Burada y modülünde kullanılan super anahtar sözcüğü aslında x modülünü belirtmektedir. Tabii yol ifadesinde
+    super anahtar sözcüğü birden fazla kez de kullanılabilir. Örneğin:
+
+    fn main() {
+        x::y::z::tar();
+    }
+
+    mod x {
+        pub fn foo() {
+            println!("foo");
+        }
+
+        pub mod y {
+            pub fn bar() {
+                println!("bar");
+            }
+
+            pub mod z {
+                pub fn tar() {
+                    println!("tar");
+
+                    super::bar();                   // geçerli
+                    super::super::foo();            // geçerli
+                }
+            }
+        }
+    }
+
+    Burada super::super::foo(); çağrısı ile x modülündeki foo fonksiyonu çağrılmıştır. super ifadesini mutlak bir yol
+    ifadesi olarak düşünebilirsiniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kardeş modüllerdeki isimlere niteliksiz bir biçimde erişilememektedir. Örneğin:
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+            y::bar();       // error!
+        }
+    }
+
+    pub mod y {
+        pub fn bar() {
+            println!("bar");
+        }
+    }
+
+    Buradaki y::bar ifadesine dikkat ediniz. Erişim x modülünde yapılmaktadır. y ismi ise crate modülünün içerisindedir.
+    Yani x ile aynı modülde değildir. Dolayısıyla x modülündeki y::bar() çağrısı error ile sonuçlanacaktır. Buradaki
+    sorunun görünürlük ile ilgili olmadığına isim araması ile ilgili olduğuna dikkat ediniz. Burada erişim mutlak
+    yol ifadesi ile ya da super anahtar sözcüğü ile yapılabilir. Örneğin:
+
+    mod x {
+        pub fn foo() {
+            println!("foo");
+            super::y::bar();       // geçerli
+            crate::y::bar();       // geçerli
+        }
+    }
+
+    pub mod y {
+        pub fn bar() {
+            println!("bar");
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Üst modülün super anahtar sözcüğü ile temsil edildiğini gördük. İşte self anahtar sözcüğü de :: operatörü ile kullanıldığında
+    "erişimin yapıldığı modül" anlamına gelmektedir. Örneğin:
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+            bar();          // geçerli
+            self::bar();    // geçerli
+        }
+
+        pub fn bar() {
+            println!("bar");
+        }
+    }
+
+    Burada bar() çağırıs ile self::bar() çağrısı tamamne aynı anlama gelmektedir. self anahtar sözcüğü bu bağlamda yalnızca
+    vurgulama yapmak amacıyla kullanılmaktadır. Yoksa zaten aynı modüldeki isimler doğrudan kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir fonksiyon içeirisinde de bir modül oluşturulabilmektedir. Böyle modüllere "inline modüller" denilmektedir. Örneğin:
+    inline modüllerin sentaks ve semantiği hemen hemen normal modüllerle aynıdır. Örneğin:
+
+    fn main() {
+        x::foo();       // geçerli
+
+        mod x {
+            pub fn foo() {
+                println!("foo");
+            }
+        }
+    }
+
+    Burada eğer foo tanımlamasında pub görünürlüğü kullanılmasaydı yine erişim yapılamazdı. inline modüllerin kullanım
+    yerinden aşağıda tanımlanmış olması bir sorun oluşturmamaktadır.
+
+    inline modüller yalnızca tanımlandıkları fonksiyon içerisinde kullanılabilirler. Bu nedenle inline modüllerin başına
+    pub gibi bir görünürlük getirilmesinin bir anlamı yoktur. Ancak derleyici bu durumda error oluşturmamaktadır. Ancak
+    inline modülün alt modüllerinin private olmaktan çıkartılması gerekebilmektedir. Örneğin:
+
+    fn main() {
+        x::y::bar();
+
+        mod x {
+            pub fn foo() {
+                println!("foo");
+            }
+
+            pub mod y {
+                pub fn bar() {
+                    super::foo();       // geçerli
+                }
+            }
+        }
+    }
+
+    Burada x modülünün private olmasında bir sakınca yoktur. Ancak x içerisindeki y modülüne erişilebilmesi için onun
+    private olmaması gerekir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz şimdiye kadarki örneklerimizde modlleri hep aynı kaynak dosa içerisinde oluşturduk. Aslında modüller farklı kaynak
+    dosyalara dağılmış olarak da bulunabilmektedir. Rust'ta kaynak dosyalar zaten modül olarak kabul edilmektedir. Buna Rust
+    dünyasında "dosya modülü (file module)" da denilmektedir. Örneğin aşağıdaki gibi bir Rust kaynak dosyamız olsun:
+
+    // mymodule.rs
+
+    pub fn foo() {
+        println!("foo");
+    }
+
+    Şimdi biz aynı dizindeki "main.rs" kaynak dosyasından "mymodule.rs" dosyasındaki foo fonksiyonunu çağırabiliriz. Çünkü
+    "mymodules.rs" zaten bir modül gibi kullanılabilmektedir. Tabii derleyicinin bu durumda kaynak dosyayı belirlemesi
+    gerekmektdir. İşte bu işlem mod bildirimi yapılmaktadır. Örneğin:
+
+    // main.rs
+
+    mod mymodule;
+
+    fn main() {
+        mymodule::foo();        // geçerli
+    }
+
+    md bildiriminin genel biçimi şöyledir:
+
+    mod <modül_ismi>;
+
+    Modül isminde dosya uzantısının kullanılmadığına dikkat ediniz. Derleyici yukarıdaki modül bildirimini gördüğünde zaten
+    aynı dizinde "mymodule.rs" dosyasını aramaktadır. Örneğimizde "mymodule.rs" dosyasının içerisinde modül tanımlamasının
+    yapılmadığına dikkat ediniz. Zaten kaynak dosyalar bir modül gibi ele alınmaktadır. (Burada modül kavramı Python'daki
+    modül kavramına, modül bildirimi de Python'daki import bildirimine benzemektedir.)
+
+    mod bildiriminde derleyici modülü default durumda kullanılan modülğn bulunduğu dizinde aramaktadır. Eğer modül başka
+    bir dizindeyse modülün yeri #[path = "yol ifadesi"] özniteliği ile belirtilmek zorundadır. Bu öznitelikte modül dosyasının
+    yol ifadesi uzantıyla birlikte belirtilir. Yol ifadesi mutlak ya da göreli olabilir. Örneğin:
+
+    #[path = "../../Modules/yourmodule.rs"]
+    mod yourmodule;
+
+    Burada "yourmodule.rs" dosyası artık bulunulan modülde değil üst dizinin üst dizini içerisindeki Modules dizininin
+    içerisinde aranacaktır.
+
+    Bir Rust kaynak dosyası içerisinde de modüller olabilir. Örneğin:
+
+    // mymodule.rs
+
+    pub fn foo() {
+        println!("foo");
+    }
+
+    pub mod util {
+        pub fn bar() {
+            println!("bar");
+        }
+    }
+
+    Burada foo fonksiyonu mymodule içerisinddir, ancak bar fonksiyonu mymodule::util modülü içerisindedir. Kullanım
+    şöyle olabilir:
+
+    // main.rs
+
+    mod mymodule;
+
+    fn main() {
+        mymodule::foo();
+        mymodule::util::bar();
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de görünürlük belirten anahtar sözcüklerin işlevlerini ele alalım. Bu konu "The Rust Reference" dokümanlarında
+    "12. Names" bölümünün altındaki "12.6 Visibility and Privacy" başlığında ele alınmıştır. Rust'ta görünürlük "öğelerin
+    (items)" büyük çoğunluğunda ve yapıların alanlarında kullanılabilmektedir. Rust'ta görünürlük belirten anahtar sözcükler
+    şunlardır:
+
+    pub
+    pub(crate)
+    pub(super)
+    pub(self)
+    pub(in <path>)
+
+    Buradaki <path> modülün yol ifadesini belirtmektedir. Eğer tanımlama sırasında bugörünürlük belirten anahtar söcüklerin
+    hiçbiri  kullanılmamışsa default görünürlük private kabul edilmektedir. private görünürlük default durumdur ve bir anahtar
+    sözcükle temsil edilmemiştir.
+
+    Yukarıda hiçbir görünürlük belirten anahtar söccüğün kullanılmadığı durumda default default görünürlüğün private olduğunu
+    belirtmiştik. Ancak bunun iki istisnası vardır:
+
+    1) pub bir trait'teki elemanlar (associated items) pub durumdadır. Yani başka bir modülden bunlar kullanılabilirler.
+    Örneğin:
+
+    pub mod x {
+        pub trait Test {
+            type Item;
+
+            fn foo(&self) -> Self::Item;
+        }
+    }
+
+    Buradaki Test trait'i pub durumdadır. İşte Test::Item ilişkili türü ve foo metodu da otomatik olarak pub kabul edilmektedir.
+    Örneğin biz bu trait'i başka bir modülden aşağıdaki gibi kullanabiliriz:
+
+    mod mymodule;
+
+    struct Sample {
+        //...
+    }
+
+    impl mymodule::Test for Sample {
+        type Item = i32;                    // geçerli
+
+        fn foo(&self) -> Self::Item {       // geçerli
+            0
+        }
+    }
+
+    Zaten trait elemanlarına görünürlük iliştirilememektedir.
+
+    2) pub bir enum türünün varyantları da default olarak pub durumdadır. Örneğin:
+
+    pub enum Fruit {
+        Banana,
+        Cherry,
+        Orange
+    }
+
+    Bu enum türü pub yapılmıştır. Bu durumda bunların varyantları olan Banana, Cherry ve Orange pub durumdadır. Zaten enum
+    varyantlarının önüne görünürlük getirilememektedir. Örneğin biz enum türünü başka bir modülden şöyle kullanabiliriz:
+
+    let f = mymodule::Fruit::Orange;        // geçerli
+
+    Burada Fruit enum türü pub olduğundan zaten Orange da pub gibi ele alınmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            109. Ders 13/05/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de görünürlük (visibilty) belirten anahtar söcüklerin işlevleri üzerinde duralım.
+
+    private görünürlüğünün herhangi bir anahtar sözcükle temsil edilmediğini belirtmiştik. private görünürlüğü ilgili modülle
+    aynı modülden ve onun alt modüllerinden (descendants) erişilebilirlik anlamına gelmektedir. Yani bir öğe private görünürlüğe
+    sahipse o öğeye aynı modül içerisinden ya da onun tanımlandığı modülün alt modüllerinden erişebiliriz. Ancak başka bir
+    modülden erişemeyiz. Görünürlükle isim araması arasında bir bağlantı yoktur. Üst modüldeki private öğeler alt modülden
+    görünebildiği halde biz yine onlara nitelikli bir biçimde erişiriz. Örneğin:
+
+    fn main() {
+        //...
+    }
+
+    fn foo() {
+        println!("foo");
+    }
+
+    mod x {
+        fn bar() {
+            println!("bar");
+        }
+
+        mod y {
+            fn tar() {
+                println!("tar");
+            }
+
+            mod z {
+                fn zar() {
+                    println!("ztar");
+
+                    crate::foo();           // geçerli
+                    crate::x::bar();        // geçerli
+                    crate::x::y::tar();     // geçerli
+                }
+            }
+        }
+    }
+
+    Buradaki erişimler geçerlidir. Çünkü private görünürlüğü "alt modüllerden erişimi" mümkün hale getirmektedir. Ancak
+    bunun tersi geçerli değildir. Yani yukarıdaki örnekte main içerisinden biz x::y::z::tar fonksiyonuna erişemeyiz. Brada
+    x erişimi geçerlidir, ancak y erişiminde sorun çıkacaktır. Çünkü y modülünün görünürlüğü private durumdadır.
+
+    Yapı alanları yine default durumda private görünürlüğe sahiptir. Dolayısıyla bunlara kendi modülü içerisinden ve alt
+    mpdüllerden erişilebilirş. Örneğin:
+
+        fn main() {
+        //...
+    }
+
+    fn foo() {
+        println!("foo");
+    }
+
+    struct Sample {
+        a: i32,             // private
+        b: i32,             // private
+    }
+
+    mod x {
+        fn bar() {
+            println!("bar");
+        }
+
+        mod y {
+            fn tar() {
+                println!("tar");
+            }
+
+            mod z {
+                fn zar() {
+                    let s = crate::Sample {a: 10, b: 20};       // geçerli
+                    println!("{}, {}", s.a, s.b);               // geçerli
+                }
+            }
+        }
+    }
+
+    Burada z alt modülünden crate üst modülündeki Sample yapısına ve onun alanlarına erişilebilmektedir. private görünürlük
+    için aşağıdaki durumlrı vurgulamak istiyoruz
+
+    - Default görünürlüktür.
+    - Bir kod kendi modülündeki private öğelere erişebilir.
+    - Bir kod üst modüldeki private öğelere erişebilir.
+    - private görünürlükte "alt modüle erişebilmektedir, üst modül alt modüle erişememektedir.
+    - Görünürlükle isim araması farklıdır. Alt modülün üst modülün private elemanlarına erişebiliyor olması oradaki ismin
+    doğrudan kullanılabileceği anlamına gelmemektedir. Üst modüldeki isimler her zaman nitelikli bir biçimde kullanılmaktadır.
+    - Yapı alanları da default private görünürlüğüne sahiptir ve alt modülden bunlara erişim mümkündür.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    pub görünürlüğü "her yerden erişilebilir" anlamına gelmektedir. Örneğin:
+
+    fn main() {
+        foo();              // foo private ama aynı modülde
+        x::bar();           // x private ama aynı modülde, bar pub, o zaman erişim geçerli
+        x::y::z::zar();     // geçerli
+    }
+
+    fn foo() {
+        println!("foo");
+    }
+
+    struct Sample {
+        a: i32,             // private
+        b: i32,             // private
+    }
+
+    mod x {
+        pub fn bar() {
+            println!("bar");
+        }
+
+        pub mod y {
+            fn tar() {
+                println!("tar");
+            }
+
+        pub  mod z {
+                pub fn zar() {
+                    crate::foo();                               // geçerli
+                    crate::x::bar();                            // geçerli
+                    crate::x::y::tar();                         // geçerli
+
+                    let s = crate::Sample {a: 10, b: 20};       // geçerli
+                    println!("{}, {}", s.a, s.b);               // geçerli
+                }
+            }
+        }
+    }
+
+    Başka bir dosyada bulunan modül (dosya modülü) içerisindeki öğeler pub ise biz onlara erişebiliriz, ancak private
+    ise erişemeyiz. Örneğin:
+
+    // main.rs
+
+    mod mymodule;
+
+    fn main() {
+        mymodule::foo();        // geçerli
+    }
+
+    // mymodule.rs
+
+    pub fn foo() {
+        println!("foo");
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    pub(crate) görünürlüğü yalnızca içinde bulunulan crate'in üm modüllerinden görünebilirklik anlamına gelmektedir. Anımsanacağı
+    gibi crate terimi Rust çalıştırılabilen programın ya da bir kütüphanenin tamamını temsil etmektedir. Örneğin bir kütüphane
+    crate'miz birden fazla dosyadan oluşabilir, bu dosyalarda farklı modüler olabilir. İşte bu kütüphane içerisindeki bir
+    bir öğeye pub(crate) görünürlüğünü verirsek bu öğeye kütüphanenin her yerindne kullanabiliriz. Ancak dışarıdan kullanamayız.
+    Kütüphane crate'lerinin nasıl oluşturulduğunu izleyen paragraflarda ele alacağız. Örneğin:
+
+    pub(crate) fn foo() {
+        //...
+    }
+
+    Eğer bu fonksiyon bir kütüphane crate'inin içerisindeyse bu kütüphanein her yerinden erişilebilir ancak bu kütüphanenin
+    dışından erişilemez.
+
+    pub(crate) görünürlüğü anlaşıldığı üzere kütüphane crate'lerinde kullanılmaktadır. Binary crate'lerde bu kullanımının
+    bazı durumlarda okunablirlik sağlamasının dışında anlamlı bir işlevi yoktur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    pub(super) görünürlüğü üst modülden erişimi mümkün hale getirmektedir. private görünürlüğünde alt modül üst modüle
+    erişebilmekteydi, ancak üst modül alt modüle erişememekteydi. İşte pub(super) "bu öğe üst modülden erişebilir ancak
+    başka modüllerden erişilemez" anlamına gelmektedir. Örneğin:
+
+    fn main() {
+        x::foo();           // geçerli
+    }
+
+    pub mod x {
+        pub(super) fn foo() {
+            println!("foo");
+        }
+    }
+
+    Burada x modülünün içerisindeki foo fonksiyonuna x modülünün üst modülü olan crate modülü tarafından erişilebilmektedir.
+    Örneğin:
+
+    fn main() {
+        x::y::foo();       // error!
+    }
+
+    pub mod x {
+        pub mod y {
+            pub(super) fn foo() {
+                println!("foo");
+            }
+        }
+
+        fn bar() {
+            y::foo();       // geçerli
+        }
+    }
+
+    pub(super) görünürlüğü yalnızca üst modülü etkilemektedir, üst modülün üst modüllerini etkilememektedir. Yukarıda örnekte
+    bar fonksiyonundaki erişim geçeli olduğu halde main fonksiyonundaki erişim error oluşturmaktadır.
+
+    Tabii pub(super) görünürlüğü private görünürlüğünün sağladığı "aşağıdaki modüllerden erişilebilme" yeteneğine de sahiptir.
+    Örneğin:
+
+    pub mod x {
+        pub mod y {
+            pub(super) fn foo() {
+                println!("foo");
+            }
+
+            pub mod z {
+                fn tar() {
+                    super::foo();       // geçerli
+                }
+            }
+        }
+
+        fn bar() {
+            y::foo();       // geçerli
+        }
+    }
+
+    Burada görüldüğü gibi y modülünün içerisindeki z modülünün içerisinde bulunan tar fonksiyonundan y modülündeki foo
+    fonksiyonu çağrılmıştır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    pub(self) görünürlüğü ilgili öğeye yalnızca kendisinin bulunduğu modülden erişilebileceği anlamına gelmektedir. Tabii
+    yine private görünürlüğünde olduğu gibi alt modüllerden ilgili öğeye erişim sağlanabilmektedir. Aslında pub(self) ile
+    private arasında erişim bakımından bir farklılık yoktur. Ancak makorlar söz konusu olduğunda pub(self) farklı işlevselliğe
+    yol açabilmektedir. Örneğin:
+
+    fn main() {
+        x::foo();       // error
+    }
+
+    pub mod x {
+        pub(self) fn foo() {
+            println!("foo");
+        }
+
+        mod y {
+            fn bar() {
+                super::foo();       // geçerli
+            }
+        }
+    }
+
+    Burada foo fonksiyonun önündeki pub(self) görübürlğü kaldırılsaydı da bir farklılık oluşmayacaktı.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    pub(in <path>) görünürlüğü belli bir üst modülden modülden erişilebilirliği sağlamaktadır. Buradaki üst modülün göreli
+    yol ifadesi de olabilir, mutlak yol ifadesi de olabilir. Örneğin:
+
+    pub mod x {
+        fn foo() {
+            println!("foo");
+            y::z::tar();        // geçerli
+        }
+
+        pub mod y {
+            fn bar() {
+                println!("bar");
+            }
+
+            pub mod z {
+                pub (in crate::x) fn tar() {
+                    println!("tar");
+                }
+            }
+        }
+    }
+
+    Burada x modülünün y::z::tar fonksiyonuna özel bir erişim ayrıcalığı vardır. Buradaki tar fonksiyonun tanımlamasına
+    dikkat ediniz:
+
+    pub(in crate::x) fn tar() {
+        println!("tar");
+    }
+
+    in anahtar sözcüğünün yanında crate::x yol ifadesi vardır. Yani en tepedeki x modülü kastedilmektedir. Örneğin:
+
+     pub(in super::super) fn tar() {
+        println!("tar");
+    }
+
+    Burada tar fonksiyonuna üst modülün üst modülü erişebilmektedir. Burada önemli bir nokta daha vardır. pub(in <path>)
+    görünürlüğü ile üst modüldeki x'e erişim ayrıcalığı verildiği zaman onun altındaki ağacın tüm modüllerine de bu ayrıcalığı
+    verilmektedir. Aşağıdaki örneğe dikkat ediniz:
+
+    pub mod x {
+        fn foo() {
+            println!("foo");
+            y::z::tar();        // geçerli
+        }
+
+        pub mod y {
+            fn bar() {
+                println!("bar");
+                z::tar();       // geçerli
+            }
+
+            pub mod z {
+                pub(in crate::x) fn tar() {
+                    println!("tar");
+                }
+            }
+        }
+
+        mod z {
+            fn zar() {
+                crate::x::y::z::tar();       // geçerli
+            }
+        }
+    }
+
+    Burada z modülünün içerisindeki tar fonksiyonu x modülüne erişim ayrıcalığı vermiştir. Ancak ayrıcalık yalnızca x
+    modülünü değil ağaçta x modülünün altındaki modülleri de içermektedir. Dolayısıyla y modülünün içerisindeki bar
+    fonksiyonundan da tar fonksiyonuna erişim sağlanabilmektedir.
+
+    pub(in <path>) görünürlüğünde kullanılan yol ifadesinin öğenin içinde bulunduğu modülün herhangi bir üst modülü olması
+    zorunludur.
+
+    pub(crate) ile pub(in crate) arasında işlevsel bir farklılık yoktur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            110. Ders 20/05/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kursumuzun bu bölümünde kütüphane crate'lerinin nasıl oluşturulduğu ve nasıl kullanıldığı üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ın kendine özgü rlib denilen bir kütüphane sistemi vardır. Ancak Rust'ta C ile uyumlu statik ve dinamik kütüphaneler
+    de oluşturulabilmektedir. rlib kütüphaneleri yalnızca derlenmiş kodları değil aynı zamanda küphanenin Rust'tan kullanımına
+    ilişkin metadata bilgilerini de içermektedir. Aslında rlib dosyaları Unix türevi sistemlerde kullanılan statik kütüphane
+    formatı olan "ar"  archive formatına sahiptir. Ancak rlib dosyalarında Rust meta bilgileri için "ar" formatına bir bölüm
+    de eklenmiştir. rlib formatının içeriği aşağıdaki gibidir:
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │                         my.rlib                             │
+    │                  ar (Unix archive) formatı                  │
+    │                                                             │
+    │  ┌───────────────────────────────────────────────────────┐  │
+    │  │           !<arch>  —  ar magic header                 │  │
+    │  │      Arşivin ar formatında olduğunu belirtir (8 byte) │  │
+    │  └─────────────────────────┬─────────────────────────────┘  │
+    │                            │                                │
+    │  ┌─────────────────────────▼─────────────────────────────┐  │
+    │  │              rust.metadata.bin                        │  │
+    │  │         Tip bilgileri, trait impl'leri, pub API       │  │
+    │  │         Sembol isimleri, bağımlılık bilgisi           │  │
+    │  │         Derleyici sürümü ve edition bilgisi           │  │
+    │  └──────────────┬────────────────────────┬───────────────┘  │
+    │                 │                        │                  │
+    │  ┌──────────────▼──────────┐  ┌──────────▼──────────────┐   │
+    │  │   lib.rmeta / *.o       │  │    LLVM bitcode (.bc)   │   │
+    │  │   Makine kodu           │  │    LTO için kullanılır  │   │
+    │  │   (ELF/Mach-O/COFF)     │  │    --emit=llvm-bc ile   │   │
+    │  │   Her modül için bir .o │  │    üretilir             │   │
+    │  │   Sembol tablosu        │  │    İsteğe bağlı         │  │
+    │  └─────────────────────────┘  └─────────────────────────┘   │
+    │                            │                                │
+    │  ┌─────────────────────────▼─────────────────────────────┐  │
+    │  │              .rmeta  (hızlı metadata erişimi)         │  │
+    │  │    Bağımlı crate'lerin yalnızca tip kontrolü için     │  │
+    │  │    nesne kodu derlenmeden okunabilen kompakt format   │  │
+    │  └───────────────────────────────────────────────────────┘  │
+    │                                                             │
+    │  Her bölüm ar arşivi içinde ayrı bir "member" dosyasıdır    │
+    └─────────────────────────────────────────────────────────────┘
+
+    Buradaki Rust metadata bölümünde aşağıdaki bilgiler bulunmaktadır:
+
+    ┌─────────────────────────────────────────────┐
+    │           rust.metadata.bin                 │
+    ├─────────────────────────────────────────────┤
+    │  • Crate name + hash (disambiguation için)  │
+    │  • Rustc sürümü + edition (2021, 2024…)     │
+    │  • Tüm public type tanımları (struct, enum) │
+    │  • Trait implementasyonları                 │
+    │  • Generic fonksiyon şablonları             │
+    │  • Const/inline fn gövdeleri                │
+    │  • Bağımlı crate listesi                    │
+    └─────────────────────────────────────────────┘
+
+    Görüldüğü gibi aslında rlib statik bir kütüphanedir. Yani kütüphane çağrısı yapıldığında kütüphane içerisindeki kod
+    çalıştırılşabilen dosyaya gömülmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Binary ve kütüphane crate'leri RustRover gibi IDE'lerle oluşturulabilmektedir. Ancak bu crate'ler cargo programıyla
+    komut satırında da oluşturulmaktadır. Zaten IDE'ler de arka planda aslında cargo programını kullanmaktadır.
+
+    cargo ile binary crate oluşturmayı kursumuzun başında da görmüştük:
+
+    cargo new <isim> --bin
+
+    Örneğin:
+
+    cargo new myapp --bin
+
+    "--bin" seçeneği kullanılmasa da zaten default crate binary crate biiçimindedir. Bu komut uygulandığında oluşturulan myapp
+    dizininin içeriği şöyledir:
+
+    my_app/
+    ├── .gitignore
+    ├── Cargo.toml
+    └── src/
+        └── main.rs          ← crate root
+
+    Crate'in bütün konfigürasyon bilgileri "Cargo.toml" dosyası içerisindedir. Yani yaratılmış binary crate'teki bu dosya
+    aşağıdaki içeriğe sahiptir:
+
+    [package]
+    name = "myapp"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+
+    Buradaki ".gitignore" dosyası "git" denilen vesiyon takip sisteminde yer almayacak öğeleri belirtmek için kullanılmaktadır.
+    Bu dosyanın başlangıçtaki içeriği de şöyledir:
+
+    /target
+
+    Derlenerek crate'i oluşturacak olan kaynak dosya ise "src" dizininin altındaki "main.rs" dosyasıdır. cargo dosyaya
+    aşağıdaki gibi sembolik bir kod eklmektedir:
+
+    fn main() {
+        println!("Hello, world!");
+    }
+
+    Crate'i derlemek için crate'in bulunduğu dizine geçip "cargo build" komutunu uygulamak gerekir:
+
+    cargo build
+
+    Binary crate derlendikten sonra çalıştırılabilen dosya "target/debug" dizininde oluşturulmaktadır. Biz doğrudan onu çalıştırabiliriz
+    ya da çalıştırmayı "cargo run" komutuyla yapabiliriz:
+
+    cargo run
+
+    Default derleme debug derlemesidir. release derlemesi için --release seçeneği kullanılmaktadır:
+
+    cargo build --release
+
+    release derlemesi uygulandığında çalıştırılabilen dosya "target/release" dizininde oluşturulmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Kütüphane crate'i (yani rlib kütüphanesi) oluşturmak için "cargo new" ile --lib seçeneği kullanılır. Örneğin:
+
+    cargo new mylib --lib
+
+    Burada mylib isimli bir dizin oluşturulmaktadır. Dizzinin içeriği şöyledir:
+
+    mylib/
+    ├── .gitignore
+    ├── Cargo.toml
+    └── src/
+        └── lib.rs           ← crate root
+
+    Buradaki "Cargo.toml" dosyasının içeriği şöyledir:
+
+    [package]
+    name = "mylib"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+
+    Kütüphaneyi oluşturacak olan ana dosya "src" dizinin altındaki "lib.rs" isimli dosyadır. cargo bu dosyaya aiağıdaki
+    gibi seöbolik bir içerik eklemektedir:
+
+    pub fn add(left: u64, right: u64) -> u64 {
+        left + right
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        #[test]
+        fn it_works() {
+            let result = add(2, 2);
+            assert_eq!(result, 4);
+        }
+    }
+
+    Kütüphane crate'i de yine "cargo build" komutuyla derlenmektedir:
+
+    cargo build
+
+    Default derleme yine debug derlemesidir. Derleme sonucunda "target/debug" dizini altında libmylib.rlib" dosyası oluşmaktadır.
+    Kütüphane dosyasının başına UNIX/Linux sistemlerinde bir gelenek olan "lib" öneki getirildiğine dikkat ediniz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir binary crate oluşturulduğunda ana dosya "src/main.rs" isimli dosyadır. Eğer başka bir dosyayı ana dosya haline getirmek
+    istiyorsanız "Cargo.toml" dosyasında [[bin]] bölümüne name ve path satırını eklemelisiniz. Örneğin:
+
+    [package]
+    name = "myapp"
+    version = "0.1.0"
+    edition = "2024"
+
+    [[bin]]
+    name="myapp"
+    path="src/xmain.rs"
+
+    [dependencies]
+
+    Aynı durum kütüphane crate'inde de benzerdir. Kütüphane crate'indeki default ana dosya "src/lib" dosyasıdır. [bin] bölümüne
+    name ve path eklenebilir. Örneğin:
+
+    [package]
+    name = "mylib"
+    version = "0.1.0"
+    edition = "2024"
+
+    [lib]
+    name="mylib"
+    path="src/xlib.rs"
+
+    [dependencies]
+
+    Aslında binary crate ile kütüphane crate'i birlikte de oluşturulabilir. Bunun için "src" dizinine hem "main.rs" dosyası
+    hem de "lib.rs" dosyası yerleştirilir. Daha sonra "cargo build" yapıldığında her iki crate de oluşturulur. "Cargo.toml"
+    dosyası hem [[bin]] hem de [lib] bölümünü içerebilmektedir.
+
+    my_combined/
+    ├── .gitignore
+    ├── Cargo.toml
+    └── src/
+        ├── main.rs          ← binary crate root
+        └── lib.rs           ← library crate root
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust terminolojisinde "cargo new" ile yaratılan dizinlere "paket (package)" denilmektedir. Birden fazla paket "çalışma
+    alanı (workspace)" adı altında toplanabilmektedir. Çalışma alanlarını (workspaces) projelerden oluşan daha büyük bir
+    kap gibi düşünebilirsiniz. Bir çalışma alanı "cargo" programıyla yaratılamamaktadır. Çalışma alanlarının yaratılması
+    manuel bir biçimde yapılmaktadır. Çalışma alanlarının kök dizininde yine bir "Cargo.toml" dosyası bulunmalıdır. Bu dosyada
+    çalışma alanı içerisindeki paketler belirtilmektedir. Örneğin "myworspace" isminde bir çalışma alanı şu adımlardan
+    geçilerek oluşturulabilir:
+
+    1) Önce çalışma alanı için bir dizin yaratılır:
+
+    mkdir myworkspace
+    cd myworkspace
+
+    2) Çalışma alanı dizinin içerisinde "Cargo.toml" dosyası oluşturulur. Bu dosyada çalışma alanı içerisindeki paketler
+    "members" satırı ile belirtilir
+
+    [workspace]
+    members = [
+        "myapp",
+        "mylib",
+    ]
+    resolver = "2"   # Rust 2021 edition için önerilen
+
+    Burada çalışma alanı "mylib ve myapp" isimli iki crate'i barındrımaktadır.
+
+    3) Çalışma alanı içerisinde "cargo new" ile binary ve kütüphane crate'leri yaratılır:
+
+    cargo new myapp
+    cargo new mylib --lib
+
+    4) Artık "cargo build" yaptığımızda her iki paket de derlenecektir.
+
+    cargo build
+
+    5) Artık "cargo run" yapılırsa "binary crate" çalıştırılmaktadır. Eğer çalışma alanında birden fazla "binary crate"
+    varsa "--bin" seçeneği ile binary crate'in ismi belirtilmek zorundadır. Örneğin:
+
+    cargo run --bin myapp
+
+    Bu işlemlerle aşağıdaki gibi bir dizin yapısı oluşturulacaktır:
+
+    myworkspace/
+    ├── Cargo.toml          ← workspace root
+    ├── myapp/
+    │   ├── Cargo.toml
+    │   └── src/main.rs
+    └── mylib/
+        ├── Cargo.toml
+        └── src/lib.rs
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Peki oluşturduğumuz bir kütüphaneyi (yani kütüphane crate'ini)  binary crate içerisinden nasıl kullanabiliriz? İşte bunun
+    için binary crate'in "Cargo.toml" dosyasının içerisindeki [dependencies] bölümüne kütüphaneye ilişkin satır eklenmektedir.
+    Bu satırın sentaksı şöyledir:
+
+    [dependencies]
+    mylib = { path = "../mylib" }         # göreli yol, myapp/Cargo.toml'a göre
+
+    Buradaki path ifadesinde "rlib" dosyasının bulunduğu dizin değil, kütüphane crate'inin bulunduğu dizin (yani "Cargo.toml"
+    dosyasının bulunduğu dizin) belirtilmektedir. Tabii yol ifadesi mutlak ya da göreli olabilir. Biz daha önce Rust'ın
+    deposundan ("crates.io") belli bir paketi indirip kullanmıştık. Eğer Rust deposundan paket indirip kullanacaksanız bu
+    durumda path belirtmeye gerek yoktur. Örneğin:
+
+    [dependencies]
+    num="0.4.2"
+
+    Paket build edildiğinde zaten cargo "crates.io" deosundan ilgili paketi indirip kullanıma hazır hale getirmektedir.
+
+    Peki bir kütüphane içerisindeki öğeleleri nasıl kullanırız? Kütüphane crate'i zaten "Cargo.toml" dosyasında belirtilmiştir.
+    Dolayısıyla biz onu doğrudan crate ismi ve :: operatörüyle kullanabiliriz. Bunun için ayrıca mod bildirimi yapmaya gerek
+    yoktur. Örneğin myapp paketindeki "main.rs" içerisinden "mylib" crate'indeki add fonksiyonunu şöyle kullanabiliriz:
+
+    fn main() {
+        let result: u64;
+
+        result = mylib::add(10, 20);
+        println!("{}", result);
+    }
+
+    Tabii use öğesi sayesinde ile biz :: operatörü olmadan da fonksiyon ismini kullanabiliriz:
+
+    use mylib::add;
+
+    fn main() {
+        let result: u64;
+
+        result = add(10, 20);
+        println!("{}", result);
+    }
+
+    Kütüphane crate'inin içerisinde de ayrıca modül oluşturaniliriz. Örneğin "mylib" crate'nin içindeki "lib.rs" dosyasını
+    şöyle düzenleyelim:
+
+    pub fn add(left: u64, right: u64) -> u64 {
+        left + right
+    }
+
+    pub mod x {
+        pub fn foo() {
+            println!("foo");
+        }
+    }
+
+    Burada kütüphane içerisindeki x modülüne crate dışından erişilmesi için pub görünürlüğünün kullanıldığına dikkat ediniz.
+    Aynı zamanda x modülü içerisindeki foo fonksiyonuna da pub görünürlüğü iliştirilmiştir. Kullanım şöyle olabilir:
+
+    fn main() {
+        let result: u64;
+
+        result = mylib::add(10, 20);
+        println!("{}", result);
+
+        mylib::x::foo();
+    }
+
+    binary crate'te kütüphane crate'ini [dependencies] bölümünde package belirlemesi ile farklı bir isimde de kullanabiliriz.
+    Örneğin:
+
+    [dependencies]
+    testlib = {path = "../mylib", package="testlib"}
+
+    Artık biz kod içerisinde "mylib" yerine "testlib" diyebiliriz. Örneğin:
+
+    fn main() {
+        let result: u64;
+
+        result = testlib::add(10, 20);
+        println!("{}", result);
+
+        testlib::x::foo();
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda komut satırında yaptığımız işlemleri RustRover IDE'sinde görsel olarak da yapabiliriz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            111. Ders 01/06/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Dersin ilk iki saatinde "Rust kurs notlarının "ReadTheDocs" platformuna nasıl e-kitap olarak akratılabileceği üzerinde
+    durulmuştur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de Rust'ta dinamik kütüphane oluşturalım. Rust'ın dinamik kütüphanelerine "dylib" denilmektedir. Ancak Rust'ta
+    "dylib" kütüphanesi oluşturulduğunda bu kütüphane Rust'a hatta Rust derleyicisinin sürümüne bağlı hale gelebilmektedir.
+    Bu nedenle Rust dünyasında statik kütüphaneler dinamik kütüphanelerden çok daha fazla kullanılmaktadır. Tabii statik
+    kütüphanelerin kodları ve verileri işletim sistemi düzeyinde prosesler arasında sayfa tabanlı bir biçimde paylaştırılamamaktadır.
+    Ancak dinamik kütüphanelerde "ABI (Application Binary Interface)" uyumluluğunun sağlanmması sorunlu bir konudur. Rust
+    bazı dezavantajlarına rağmen statik kütüphane kullanımını ön planda tutmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            112. Ders 03/06/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    cargo new mydylib --lib
+
+    Sonra "Cargo.toml" dosyasının [lib] bölümünde "crate-type" özelliği "dylib" biçiminde set edilmelidir. Örneğin:
+
+    [lib]
+    name = "mydylib"
+    crate-type = ["dylib"]
+
+    Artık "cargo build" yapıldığında Windows sistemlerinde ".dll" dosyası Linux ve macOS sistemlerinde ".so" dosyası
+    oluşturulacaktır.
+
+    Aslında aynı build işleminde hem statik kütüphane hem de dinamik kütüphane birlikte de oluşturulabilir. Örneğin:
+
+    [lib]
+    name = "mydylib"
+    crate-type = ["dylib", "staticlib"]
+
+    Windows sistemlerinde dinamik kütüphaneler ".dll" dosyaları biçimindedir. Ancak dinamik kütüphaneleri kullanabilmek için
+    onlara ilişkin "import kütüphanesi" denilen ".lib" uzantılı bir dosyanın da bulundurulması gerekmektedir. DLL'lerin import
+    kütüphaneleri de her ne kadar ".lib" uzantılıysa da bunlar statik kütüphane değildir. Rust'taki "dylib" projesini build
+    yaptığımızda zaten ürün olarak ".dll.lib" dosyasının yanı sıra ".d.lib" biçiminde DLL'in import kütüphanesi de oluşturulmaktadır.
+    Örneğin yukarıdaki "mydylib" projesini build ettiğimizde "target/debug" dizininde şu dosyalar yaratılacaktır:
+
+    mydylib.dll         (asıl DLL dosyası)
+    mydylib.dll.lib     (DLL'in import kütüphanesi)
+
+    Linux ve macOS sistemlerinde import kütüphanesi biçiminde bir kavram yoktur. Orada ".so" dosyaları tek başına yeterli
+    olmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    dylib dinamik kütüphane dosyaları diğer programlama dillerinden kullanılamamaktadır. Hatta Rust'ta bile derleyici
+    sürümleri arasında uyumsuzluklar oluşabilmektedir. (Yani örneğin önceki sürümlerden birine ilişkin "dylib" derlemesinden
+    elde edilen dinamik kütüphane sonraki derleyici sürümlerinden kullanılırken bile sorun oluşma potansiyeli vardır.)
+
+    dylib kütüphanelerinin Rust'tan kullanılması oldukça kolaydır. Tıpkı statik ütüphanelerde olduğu gibi [dependencies]
+    bölümünde sylib projesinin kök dizini belirtilir. Örneğin:
+
+    [dependencies]
+    mydylib = { path = "../mydylib" }
+
+    Testi "cargo new --bin" ile bir binary projesi yaratarak yapabilirsiniz. Örneğin:
+
+    fn main() {
+        mydylib::foo();
+        mydylib::bar();
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi "dylib" dinamik kütüphaneleri C ile uyumlu değildir. Eğer Rust'ta yazdığımız kütüphaneyi
+    C'den kullanmak istersek "cdylib" dinamik kütüphanesi oluşturmalıyız. "cdylib" kütüphanesindeki ABI (Application Binary
+    Interface) belirlemeleri C derleyicileri ile uyumludur.
+
+    Rust'ta "cdylib" oluşturmak için yine "cargo new" ile "--lib" seçeneği kullanılır. Sonra da "Cargo.toml" dosyasının
+    [lib] bölümünde "crate-type" özelliği "cdylib" biçiminde set edilir. Örneğin:
+
+    [package]
+    name = "mydylib"
+    version = "0.1.0"
+    edition = "2024"
+
+    [lib]
+    name = "mycdylib"
+    crate-type = ["cdylib"]
+
+    [dependencies]
+
+    "cdylib" dinamik kütüphanelerinde Rust'ta yazılan fonksiyonların C'den kullanılmaıs için fonksiyonlara #[unsafe(no_mangle)]
+    özniteliğinin iliştirilmesi gerekmektedir. Ayrıca fonksiyon tanımlamasında extern "C" belirlemesinin de yapılması gerekir.
+    Örneğin:
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn foo() {
+        println!("foo");
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn bar() {
+        println!("bar");
+    }
+
+    Windows'ta elde edilen ".dll" dosyasının ve ".dll.lib" dosyasının kullanılabilmesi için ".dll" dosyasının çalıştırılabilir
+    dosyayla aynı dizinde olması ya da standart bazı dizinlerin içerisinde olması gerekir. Import kütüphanesi statik
+    kütüphane gibi link işlemine dahil edilmelidir. Bunun için Windows'ta Microsoft'un "cl" isimli C derleyicisini komut
+    satırında şöyle kullanabiliriz:
+
+    cl sample.c ..\mycdylib\target\debug\mycdylib.dll.lib
+
+    Burada DLL'in import kütüphanesinin komut satırında nelirtildiğine dikkat ediniz. Windows sistemlerinde 32 bit ve 64
+    bit derleme yapan C derleyicileri aynı isimde fakat farklı dizinlerde bulunmaktadır. İlgili dizimlere PATH oluşturmak
+    için "X64 Native Tools Command Prompt" ile komut satırına geçiniz. Programı yukarıdaki derledikten sonra programın
+    çalışabilmesi için DLL dosyasının da ".exe" dosyayla aynı dizinde bulunması gerekmektedir. Bunun için "mycdylib.dll"
+    dosyasını derleme yaptığınız dizine kopyalamalısınız. Windows'ta C'den DLL çağrısı yaparken zorunlu olmasa da
+    __declspec(dllimport) belirleyicisini fonksiyon prototipinin önne yerleştiriniz. Örneğin:
+
+    /* sample.c */
+
+    #include <stdio.h>
+
+    __declspec(dllimport) void foo(void);
+    __declspec(dllimport) void bar(void);
+
+    int main(void)
+    {
+        foo();
+        bar();
+
+        return 0;
+    }
+
+    Linux sistemlerindekş dşnamik kütüphanelerin uızantısı ".so" biçiminde macOS sistemlerindeki dinamik kütüphanelerin
+    uzantısı ise ".dylib" biçimindedir.(macOS sistemlerindeki dinamik kütüphanelrin uzantısının ".dylib" olması sizi
+    yanlış bir düşünceye sevk etmesin. macOS sistemlerindeki doğal dinamik kütüphanelerin Rust dinamik kütüphaneleriyle hiçbir
+    ilgisi yoktur.)
+
+    Linux ve macOS sistemlerinde import kütüphanesi biçiminde ayrı bir kütüphane yoktur. Zaten ".so" ve ".dylib" dosyalarının
+    kendisi bu amaçla kullanılabilmektedir. Biz bu sistemlerde "mycdylib" dinamik kütüphanesi oluşturduğumuzda ".so" ve ".dylib"
+    dosya isimlerinin başına fazladan bir "lib" getirilmektedir. Yani isim "libmycdylib.so" ya da "libmycdylib.dylib" biçiminde
+    olmaktadır.  Bu "lib" öneki gelenekseldir. Linux ve macOS sistemlerinde dinamik kütüphaneden çağrı yapmak için protoripin
+    önüne bir belirleyici getirilmez.. Örneğin:
+
+    /* sample.c */
+
+    #include <stdio.h>
+
+    void foo(void);
+    void bar(void);
+
+    int main(void)
+    {
+        foo();
+        bar();
+
+        return 0;
+    }
+
+    Derleme ve bağlama işleminde ".so" dosyası komut satırında belirtilmelidir. Örneğin Linux sistemlerinde derleme şöyle
+    yapılabilir:
+
+    $ gcc -o sample sample.c ../mycdylib/target/debug/libmycdylib.so
+
+    Buna alternatif olarak önce "-L" ile dizin belirtilip sonra "-l" ile başındaki "lib" öneki olmaksızın dosya da
+    belirtilebilmektedir. Örneğin:
+
+    $ gcc -o sample sample.c -L ../mycdylib/target/debug -l mycdylib
+
+    Linux ve macOS sistemlerinde dinamik kütüphane kullanan programın çalışabilmesi için LD_LIBRARY_PATH çevre değişkeninde
+    ".so" dosyasının bulunduğu dizinin belirtilmesi gerekir. (Windows'taki gibi dinamik kütüphane dosyası çalıştırılabilen
+    dosyanın bulunduğu dizine kopyalansa bile LD_LIBRARY_PATH ayarlanmadıktan sonra dinamik kütüphane yüklenemeyecektir.)
+    Kabuk üzerinde bu çevre değişkeni aşağıdaki gibi ayarlanabilir:
+
+    $ export LD_LIBRARY_PATH=../mycdylib/target/debug
+
+    Artık programı aşağıdaki çalıştırabiliriz:
+
+    $ ./sample
+
+    LD_LIBRARY_PATH ile dizinş yukarıdaki gibi oluşturmak aslında iyi bir fikir değildir. Çünkü çalıştırılabilen dosyanın
+    yeri değişirse bu göreli yol ifadesi hatalı hale gelir. Ayrıca Linux sistemlerinde dinamik bağlayıcı her zaman "/lib",
+    "/usr/lib" dizinlerine bakmaktadır. Dinamik kütüphane dosyasını bu dizinlere kopyalarsanız LD_LIBRARY_PATH ayarlamasını
+    yapmanıza gerek kalmaz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            113. Ders 10/06/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir dilde yazılmış olan fonksiyonun başka bir dilden kullanılması konusundaki en önemli sorunlardan biri tür uyumluluğunun
+    sağlanmasıdır. Rust'taki türlerle C'deki türler farklıdır. Bu konuda uyumsuzluk olmamlıdır. Örneğin Rust'ın i32 türünü
+    biz C'de int olarak kullanabiliriz. Ancak long olarak kullanamaya çalışırsak 64 bit sistemlerde uyumsuzluk oluşur.
+    C'deki yazıların sonunda null karakter bulunmaktadır. Oysa Rust'ta yazılar başlangıç adresleri ve uzunluklarıyla (&str
+    türünü anımsayınız) fonksiyonlara aktarılmaktadır. Aşağıda C türlerinin Rust karşılığı bir tablo halinde verilmiştir:
+
+    ┌──────────────────┬────────────────────────┬────────────────────────┬─────────────────────────────┐
+    │    C Türü        │  Rust Türü (önerilen)  │ Rust Türü (alternatif) │            Not              │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ int              │ std::ffi::c_int        │ i32 (genellikle)       │ Platform'a göre değişebilir │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ unsigned int     │ std::ffi::c_uint       │ u32 (genellikle)       │                             │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ long             │ std::ffi::c_long       │ i32 / i64              │ Windows'ta 32-bit!          │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ char             │ std::ffi::c_char       │ i8 veya u8             │ Platform imzasına dikkat    │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ void *           │ *mut std::ffi::c_void  │                        │ Ham bellek                  │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ size_t           │ usize                  │                        │ Garantili eşdeğer           │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ ptrdiff_t        │ isize                  │                        │                             │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ int8_t           │ i8                     │                        │ Kesin boyut                 │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ uint64_t         │ u64                    │                        │ Kesin boyut                 │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ float            │ f32                    │                        │ IEEE 754 32-bit             │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ double           │ f64                    │                        │ IEEE 754 64-bit             │
+    ├──────────────────┼────────────────────────┼────────────────────────┼─────────────────────────────┤
+    │ bool (_Bool)     │ bool                   │                        │ Değer yalnızca 0/1 olmalı   │
+    └──────────────────┴────────────────────────┴────────────────────────┴─────────────────────────────┘
+
+    Aslında bu türler eskiden std::os::raw modülünde bulunuyordu. Ancak Rust'ın 1.64 versiyonundan itibaren std::os::raw
+    modülündeki bu isimler aynı zamanda std::ffi modülüne de taşınmıştır. Örneğin biz C uyumlu char türünü std::ffi::c_char
+    olarak da std::os::raw::c_char olarak da kullanabiliriz.
+
+    char türünün Rust'ta 2 byte uzunluğunda olduğunu anımsayınız. Halbuki C'deki char türü 1 byte uzunluktadır. C'deki
+    yazıları gösteren const char * türünden gösterici Rust'ta *const c_char ile temsil edilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Örneğin aşağıdaki C fonksiyonunu Rust'ta yazmaya çalışalım:
+
+    int add(int a, int b)
+    {
+        return a + b;
+    }
+
+    Burada C'nin int türü kullanılmıştır. Her ne kadar C'nin int türü yaygın derleyicilerin hemen hepsinde 4 byte ise de
+    biz bu türü Rust'ta std::ffi:c_int türüyle temsil etmeliyiz. Bu tür için Rust'ta i32 türünü kullansak da bir sorun
+    oluşmayacaktır:
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn add(a: c_int, b: c_int) -> c_int {
+        a + b
+    }
+
+    Kütüphane "cdylib" olarak derlendikten sonra C'den bu fonksiyonu şöyle kullanabiliriz:
+
+    #include <stdio.h>
+
+    int add(int a, int b);
+
+    int main(void)
+    {
+        int result;
+
+        result = add(10, 20);
+        printf("%d\n", result);
+
+        return 0;
+    }
+
+    Rust ile C arasındaki çağrılarda en sorunlu konulardan biri C tarzı string'lerin Rust'tan kullanılmasıdır. Örneğin
+    aşağıdaki C fonksiyonunun eşdeğerini Rust'ta yazmak isteyelim:
+
+    void putmsg(const char *str)
+    {
+        puts(str);
+    }
+
+    Bu fonksiyonu Rust'ta C'den çağrılacak biçimde şöyle yazabiliriz:
+
+    use std::ffi::{c_char, CStr};
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn putmsg(msg: *const c_char) {
+        if msg.is_null() {
+            return;
+        }
+
+        let cstr: &CStr = unsafe { CStr::from_ptr(msg)};
+        let s: &str = cstr.to_str().unwrap();
+
+        println!("{}", s);
+    }
+
+    Burada önce bir NULL adres kontrolü yaptık:
+
+    if msg.is_null() {
+        return;
+    }
+
+    Daha sonra *const c_char türünü null karakter uyumlu olan CStr türüne dönüştürdük. CStr türü adeta str ürünün C uyumlu
+    hali gibidir. CStr türünden ancak referanslar bildirilebilir. Bu referanslar şişman gösterici gibidir. Yani adres ve
+    uzunluk tutmaktadır:
+
+    let cstr: &CStr = unsafe { CStr::from_ptr(msg)};
+
+    Biz &CStr türünü string dilim referansına dönüştürerek kullanırız. Bu işlem de CStr türünün to_str metoduyla yapılmaktadır.
+    to_str metıdy Result türüne geri dönmektedir. Bu nedenle unwrap edilmelidir:
+
+    let s: &str = cstr.to_str().unwrap();
+
+    Fonksiyonu C'den şöyle kullanabiliriz:
+
+    #include <stdio.h>
+
+    void putmsg(const char *str);
+
+    int main(void)
+    {
+        putmsg("ankara");
+
+        return 0;
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki yapılarla C'deki yapılar uyummlu değildir. Eğer bir yapıyı Rust'ta tanımlayıp C'den kullanacaksak bunun C
+    uyumlu olduğunu #[repr(C)] özniteliği ile belirtmeliyiz. Örneğin aşağıdaki C fonksiyonunu Rust'ta yazmak isteyelim:
+
+    struct complex {
+        double real;
+        double imag;
+    };
+
+    void disp_complex(const struct complex *z)
+    {
+        printf("%f+%fi\n", z->real, z->imag);
+    }
+
+    Bu fonksiyonu Rust'ta şöyle yazabiliriz:
+
+    use std::ffi::{c_double};
+
+    #[repr(C)]
+    pub struct complex {
+        pub real: c_double,
+        pub imag: c_double,
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn disp_complex(z: *const complex) {
+        if z.is_null() {
+            return;
+        }
+
+        let real = unsafe { (*z).real };
+        let imag = unsafe { (*z).imag };
+
+        println!("{}+{}i", real, imag);
+    }
+
+    Yapının #[repr(C)]ile özniteiklendirildiğine dikkat ediniz. Yapının kendisinin ve elemanlarının pub olması gerekir.
+    Fonksiyonu C'den şöyle kullanabiliriz:
+
+    #include <stdio.h>
+
+    struct complex {
+        double real;
+        double imag;
+    };
+
+    void disp_complex(const struct complex *z);
+
+    int main(void)
+    {
+        struct complex z = {3, 2};
+
+        disp_complex(&z);
+
+        return 0;
+    }
+
+    Demetlerin C'den kullanımına yönelik resmi bir açıklama bulunmamaktadır. Her ne kadar açıkça söylenmemiş olsa da
+    Rust'ta demetler C'deki yapılarla uyumlu gözükmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de yukarıdakilerin tam tersini yapalım. Yani C'de yazdığımız fonksiyonları Rust'tan çağıralım. Bunun için kullanılan
+    klasik yöntem proje dizininine "build.rs" isimli bir rust programı yerleştirip bu programda bağlama bilgilerini oluşturmaktadır.
+    Örneğin Linux'ta aşağıdaki fonksiyonlara sahip bir statik kütüphane oluşturmuş olalım:
+
+    /* mylib.c */
+
+    #include <stdio.h>
+
+    int add(int a, int b)
+    {
+        return a + b;
+    }
+
+    int multiply(int a, int b)
+    {
+        return a * b;
+    }
+
+    Linux'ta bu dosyadan ".a" uzantılı statik kütüphaneti şöyle oluşturabiliriz:
+
+    $ gcc -c mylib.c
+    $ ar r libmylib.a mylib.o
+
+    Burada biz "libmylib.a" statik kütüphane dosyasını oluşturmuş olduk. Bu kütüphaneyi "build.rs" yöntemi ile Rust'un
+    kullanabilmek için Rust binary crate'inin bulunduğu ana dizinde "build.rs" dosyası oluşturulur. Bu program derleme
+    aşamasında çalıştırılıp bu programın stdout dosyasına yazdırdıklarını derleyici ve bağlayıcı kullanmaktadır.
+    Bu durumda tipik olarak Rust'taki binary crate'imiz şu yapıda olacakır:
+
+    rust-app/
+    ├── Cargo.toml
+    ├── build.rs          ← link direktifleri burada
+    └── src/
+        └── main.rs       ← extern "C" bildirimleri ve kullanım
+
+    Statik kütüphane için "build.rs" dosyası şöyle oluşturulmalıdır:
+
+    fn main() {
+        // Linker'a kütüphanenin aranacağı dizini bildirir
+        println!("cargo:rustc-link-search=native=../clib");
+
+        // libmylib.a dosyasının statik olarak bağlanmsını sağlar
+        println!("cargo:rustc-link-lib=static=mylib");
+    }
+
+    Burada birinci println! çağrısı kütüphanin aranacağı dizini, ikinci println! çağrısı ise kütüphanein ismini belirtmektedir.
+    Görüldüğü gibi statik kütüphane örneğimiz "../cymylib" dizini içerisindedir. İsimde kütüphane dosyasının başında bulunan "lib"
+    öneki kullanılmamaktadır.
+
+    C'de yazılmış fonksiyonların Rust'tan kullanılması için fonksiyonların parametrik yapılarının unsafe extern "C" bloğu içerisinde
+    belirtilmiş olamsı gerekir. Örneğin:
+
+    use std::ffi::{c_int};
+
+    unsafe extern "C" {
+        fn add(a: c_int, b: c_int) -> c_int;
+        fn multiply(a: c_int, b: c_int) -> c_int;
+    }
+
+    Fonksiyonların tanımlamasının yapılmadığına yalnızca prototoip gibi parametrik yapının bildirildiğine dikkat ediniz.
+    Buradaki Rust'ın "main.rs" programı da şöyle olabilir:
+
+    use std::ffi::{c_int};
+
+    unsafe extern "C" {
+        fn add(a: c_int, b: c_int) -> c_int;
+        fn multiply(a: c_int, b: c_int) -> c_int;
+    }
+
+    fn main() {
+        let mut result: i32;
+
+        result = unsafe { add(10, 20)};
+        println!("{}", result);
+
+        result = unsafe { multiply(10, 20)};
+        println!("{}", result);
+    }
+
+    Tabii aslında kütüphanelerin binary crate içerisinde "libs" gibi bir dizine taşınması daha uygun olur. Örneğin:
+
+    rust-app/
+    ├── Cargo.toml
+    ├── build.rs          ← link direktifleri burada
+    ├── libs/
+    │   └── libmylib.a    ← C statik kütüphanesi
+    └── src/
+        └── main.rs       ← extern "C" bildirimleri ve kullanım
+
+    Tabii bu durumda "build.rs" dosyasını da şöyle düzeltmemiz gerekir:
+
+    fn main() {
+        // Linker'a kütüphanenin aranacağı dizini bildirir
+        println!("cargo:rustc-link-search=native=libs");
+
+        // libmylib.a dosyasının statik olarak linklenmesini sağlar
+        println!("cargo:rustc-link-lib=static=mylib");
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    C'de oluşturulan dinamik kütüphaneler de benzer biçimde kullanılabilmektedir. Şimdi yukarıdaki "mylib.c" dosyasını Linux'ta
+    dinamik ktüphane haline getirlim:
+
+    $ gcc -shared -fPIC -o libmylib.so mylib.c
+
+    Buradan "libmylib.so" dosyası elde edilmiştir. Bu durumda bizim "build.rs" dosyasını şöyle oluşturmamız gerekir:
+
+    fn main() {
+        println!("cargo:rustc-link-search=native=libs");
+        println!("cargo:rustc-link-lib=dylib=mylib");
+    }
+
+    Burada "libmylib.so" dosyası "libs" dizinin altında bulunmaktadır. Tabii aslında orada bulunmak zorunda değildir.
+    Biz "cargo build" işlemin yaptıktan sonra "cargo run" işleminş yapmadan önce Linux sistmelerinde LD_LIBRARY_PATH
+    çevre değişkenini ".so" dosyasının bulunduğu dizine ayarlamalıyız. Örneğin:
+
+    $ export LD_LIBRARY_PATH=libs
+
+    Peki aynı işlemi Windows'ta nasıl yapabilirdik? Windows'ta dinamik kütüphaneyi Visual Studio IDE'sini kullanarak kolay
+    bir biçimde oluşturabilirsiniz. Komut satırından DLL oluşturmanın iki yolu vardır. Birinci yol önce dosyayı "/C" seçeneği
+    ile yalnızca derlemek. Sonra da Microsoft'un "link.exe" isimli bağlayıcı programını "/DLL" seçeneği ile çalıştırmak.
+    Örneğin:
+
+    cl /c mylib.c
+    link /OUT:mydll.dll /DLL mylib.obj
+
+    Bu işlemlerden sonra "mydll.dll" soyasının yanı sıra "mydll.lib" biçiminde DLL'in import kütüphanesi de oluşturulacaktır.
+    İkinci yöntemde bu iki işlem komut satırında aşağıdaki gibi tek hamlede de yapılabilmektedir:
+
+    cl /LD /Fe:mydll.dll mylib.c
+
+    Artık DLL'i ve import kütüphanesini oluşturduk. Benzer biçimde Rust'tan bunu kullanacağız. Burada "build.rs" dosyası
+    şöyle oluşturulmalıdır:
+
+    fn main() {
+        println!("cargo:rustc-link-search=native=../mydll");
+        println!("cargo:rustc-link-lib=dylib=mydll");
+    }
+
+    Burada DLL dosyası ve import kütüphanesi "../mydll" dizinindedir. Tabii yine bu ikş dosyayı "libs" dizini açarak onun
+    içerisine yerleştirebiliriz. Windows'ta program çalıştırılırken DLL'lerin çalıştırılabilir dosyanın bulunduğu yerd
+    ya da belli dizinlerde bulunması gerektiğini anımsayınız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            114. Ders 17/06/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    C'deki yapıların Rust'tan kullanılabilmesi, Rust'taki yapın da C'den kullanılmaıs için Rust'ta C uyumlu yapı oluşturmak
+    gerekir. Bunun için Rust'ta yapı tanımlamasının başına #[repr(C)] özniteliği iliştirilmektedir. Örneğin:
+
+    #[repr(C)]
+    pub struct Point {
+        pub x: i32,
+        pub y: i32,
+    }
+
+    C'de yapı elemanlarının yapı içerisindeki yerleşimi oldukça belirlidir. Bildirimde ilk belirtilen eleman düşük adreste
+    bulunacak biçimde ardışıl yerleştirme yapılmaktadır. Ancak derleyiciler yapı elemanları arasında hizalama biçimine
+    bağlı olarak boşluklar bırakıabilmektedir. Halbuki "The Rust Reference" dokümanlarında yapı elemanlarının yerleşimi
+    konusunda açık bir belirleme yapılmamaıştır. İşte Rust'taki yapıların başında #[repr(C)] özniteliği getirildiğinde
+    Rust derleyicisi yerleşimi C'nin kurallarına göre yapmaktadır. Böylece iki dil arasında uyum sağlanabilmektedir.
+    Peki yukarıdaki yapı elemanlarındaki hizalama (alignment) ne olacaktır? İşte hizalama konusunda bir belirleme yapılmamışsa
+    Rust derleyicisinin çalıştığı sistemdeki C derleyicilerinin kullandığı default hizalama esas alınmaktadır. Default
+    hizalamada her tür adres bakımından kendi uzunluğunun katlarında olacak biçim yerleştirme yapılmaktadır. Aradaki boşluklar
+    da padding olarak bırakılmaktadır.
+
+    Şimdi Windows'ta aşağıdaki gibi bir DLL'i Rust'tan kullanmak isteyelim:
+
+    /* mylib.c */
+
+    #include <stdio.h>
+
+    struct Point {
+        int x;
+        int y;
+    };
+
+    __declspec(dllexport) void add_point(const struct Point *pt1, const struct Point *pt2, struct Point *pt3)
+    {
+        pt3->x = pt1->x + pt2->x;
+        pt3->y = pt1->y + pt2->y;
+    }
+
+    Microsoft C derleyicisi ile bu dosyayı aşağıdaki gibi "MyDll.dll" dosyası haline getirebiliriz:
+
+    cl /LD /Fe:mydll.dll mylib.c
+
+    Rust'tan kullanan program da şöyle olabilir:
+
+    use std::ffi::{c_int};
+
+    #[repr(C)]
+    struct Point {
+        x: c_int,
+        y: c_int
+    }
+
+    impl Point {
+        fn new(x: c_int, y: c_int) -> Point {
+            Point {x, y}
+        }
+    }
+
+    unsafe extern "C" {
+        fn add_point(pt1: *const Point, pt2: *const Point, pt3: *mut Point);
+    }
+
+    fn main() {
+        let p1 = Point::new(1, 2);
+        let p2 = Point::new(3, 4);
+        let mut p3 = Point::new(0, 0);
+
+        unsafe { add_point(&p1, &p2, &mut p3); }
+        println!("{}, {}", p3.x, p3.y);
+    }
+
+    C'deki yapıda özel bir hizalama kullandıysanız Rust'ta bu hizalamayı oluşturmak için #[repr(C)] özniteliğine align
+    parametresi ekleyebilirsiniz. Örneğin:
+
+    use std::ffi::{c_char};
+
+    #[repr(C, align(2))]
+    struct Sample {
+        a: c_char,
+        b: i16,
+        c: c_char,
+        d: i16
+    }
+
+    Elemanlar arasında hiç padding bırakmamakla hizalama uygulamamak aynı anlamdadır. Bu durumda #[repr(C, packed)] ile
+    sağlanmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde zaten daha önce kullanmış olduğumuz Rust'un use öğesini ayrıntılarıyla yeniden gözden geçireceğiz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta use bir "öğe (item)" olarak gramerde bulunmaktadır. "The Rust Reference" dokümanlarında use ile oluşturulan
+    ifadelere "use bildirimi (use declaration)" denilmektedir. use bildirimleri öğelerin bulundurulabileceği yerlerde
+    bulundurulabilmektedir. use bildirimlerinde "yol (path)" denilen bir terim kullanılmaktadır. Yol belli öğeye, değere,
+    türe, makroya ve özniteliğe referans eden ifadelerdir. Yol ifadeleri yol bileşenlerinden (path segments) oluşmaktadır.
+    Yol bileşenleri :: atomu ile birbirine bağlanmaktadır. Örneğin std::io::stdout yol ifadesindeki std, io ve stdout birer
+    yol bileşenidir.
+
+    use bildiriminin çeşitli sektaktik biçimleri vardır. use bildiriminden amaç başka bir faaliyet alanındaki ismi hiç ::
+    atomunu kullanmadan ya da daha az kullanarak kullanabilmektedir. Örneğin:
+
+    use std::collections::HashMap;
+
+    Biz bu use bildirimi sayesinde her defasında std::collections::HashMap yerine yalnızca HashMap ismini kullanabiliriz.
+
+    use bildiriminde her zaman bildirimin sonundaki isme referans edilmektedir. Örneğin:
+
+    use std::collections;
+
+    Burada use bildiriimii collections ismine referans etmektedir. Yani bu sayede std::collections yerine yalnızca
+    collections ismini kullanabiliriz. Tabii bu durumda HashMap gibi bir yapıyı collections::HashMap biçiminde kullanmalıyız.
+    Bu yönüyle use bildirimi Python'daki import deyimine benzemektedir.
+
+    use bildirimi faaliyet alanına bir isim sokmaktadır. Bu isim o faaliyet alanındaki başka bir isimle çakışırsa ismin
+    ne belirttiğine ve hangi bağlamda kullanıldığına bakılarak geçerlilik kontrolü yapılmaktadır. Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        let HashMap = 0;                // geçerli
+        let hm: HashMap<i32, i32>;      // geçerli
+        let x = HashMap + 10;           // geçerli
+    }
+
+    Burada HashMap isimli yerel bir değişken de oluşturulmuştur. Buradaki çakışma yukarıda kullanımlar için bir sorun
+    oluşturmamaktadır.
+
+    Belli bir faaliyet alanında aynı isimli birden fazla öğe bir arada bulunamamaktadır. Örneğin:
+
+    use std::collections::HashMap;
+
+    struct HashMap {        // error[E0255]: the name `HashMap` is defined multiple times
+        //...
+    }
+
+    Ancak farklı faaliyet alanlarında aynı isimli öğeler bulunuyor olabilir. Bu durumda C'deki gibi dar faaliyet alanında
+    sahip ismin kullanıldığı kabul edilmektedir. Örneğin:
+
+    use std::collections::HashMap;
+
+    fn main() {
+        struct HashMap {
+            //...
+        }
+        let s = HashMap {};      // geçerli bu yerel bloktaki HashMap
+    }
+
+    use bildirimleri genellikle global düzeyde yapılmaktadır. Tüm öğelerde (items) olduğu gibi use bildiriminde de bildirimin
+    faaliyet alanı içerisinde yerinin bir önemi yoktur. Yani bildirim aşağıda yapıldığı halde yukarıda kullanılabilir.
+    Örneğin:
+
+    fn main() {
+        let hm = HashMap::<i32, i32>::new();
+        //...
+    }
+
+    use std::collections::HashMap;
+
+    use bildirimleri genellikle ilgili modülün başınada yapılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    use bildirimindeki referans edilen isim yerine başka bir ismin de faaliyet alanına sokulması sağlanabilir. Bunun için
+    as anahtar sözcüğü kullanılmaktadır. Örneğin:
+
+    use std::collections::HashMap as HM;
+
+    Biz artık HashMap ismini değim HM ismini kullanbiliriz. as anahtar sözcüğü Python import deyiminde de benzer işlevde
+    bulunmaktadır. as ile yenidne isimlendirme genellikle isimleri kısatma ya da isim çakışmasında çözümleme yapmak amacıyla
+    kullanılmaktadır. Örneğin:
+
+    use std::fmt::Result as FmtResult;
+    use std::io::Result as IoResult;
+
+    Burada hen std::fmt modülünde hem de std::io modülünde Result isimli bir tür bulunmaktadır. Bu iki tür aynı faaliyet
+    alanına Result ismiyle çıkaramayız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    as anahtar sözcüğünün yanına bir isim yerine _ karakteri getirilirse bu özel bir anlama gelmektedir. Rust'ta başka bir
+    faaliyet alanındaki trait destekleniyorsa o trait fonksiyonun çağrılabilmesi için onu destekleyen türün yanı sıra o
+    trait'in de faaliyet alanında bulunması gerekir. Örneğin:
+
+    pub mod test {
+        pub trait Test {
+            fn foo(&self);
+        }
+    }
+
+    struct Sample;
+
+    impl test::Test for Sample {
+        fn foo(&self) {
+            println!("foo")
+        }
+    }
+
+    fn main() {
+        let s = Sample;
+        s.foo();            // error!
+    }
+
+    Burada s.foo çağrısındaki foo ismi bulunamayacaktır. Çünkü foo Test trait'indedir. Test trait'i de foo çağrısının
+    yapıldığı faaliyet alanında değildir. Bu durumda biz onu da faaliyet alanına sokmak zorunda kalırız:
+
+    //...
+    use test::Test;
+
+    fn main() {
+        let s = Sample {};
+        s.foo();
+    }
+
+    Ancak burada gereksiz bir biçimde Test trait'i de isim olarak faaliyet alanına girmiştir. İşte bunu engellemek için
+    as _ kullanılmaktadır. Örneğin:
+
+    //...
+    use test::Test as _;
+
+    fn main() {
+        let s = Sample {};
+        s.foo();
+    }
+
+    Burada hem biz sanki faaliyet alanı koşulunu yerine getirmiş gibi oluruz hem de aslında faaliyet alanına bir değişken
+    sokmayız.
+
+    Aslında biz bu problemle daha önce karşılaşmıştık. Örneğin klavyeden (stdin dosyasından) alına bir değerin karesini yazdıran
+    ya da benzeri bir bir programı şöyle yazmışık:
+
+    use std::io::Write;
+
+    fn main() {
+        let mut val: f64;
+        let mut s = String::new();
+
+        loop {
+            print!("Bir değer giriniz:");
+            std::io::stdout().flush().unwrap();
+
+            std::io::stdin().read_line(&mut s).unwrap();
+            val = s.trim().parse().unwrap();
+            if val == 0. {
+                break;
+            }
+            println!("{}", val * val);
+            s.clear();
+        }
+    }
+
+    Burada biz aşağıdaki use bildirimini yapmak zorunda kalıyorduk:
+
+    use std::io::Write;
+
+    Peki ama neden? İşte aslında stdout fonksionu Stdout yapısı türünden bir değer geri döndürmektedir. flush ise Write
+    isimli trait'in Stdout tarafından desteklenmesi ile oluşturulmuş bir metottur. İşte bu Write trait'inin de faaliyet
+    alanı içerisinde bulunması gerekmektedir. Tabii bu yeni bilgimizle biz bildirimi artık şöyle de yapabiliriz:
+
+    use std::io::Write as _;
+
+    Bu tür durumlarda as _ yerine as ile herhangi bir isim versek de sorun oluşmayacaktır. Yani ismin orijinal isim
+    biçiminde faaliyet alaınına sokulması gerekmemektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        115. Ders 22/06/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    use bildiriminde birden fazla isim küme parantezleri kullanılarak faaliyet alanına sokulabilir. Biz aslında bu sentaksı
+    daha önce kullanmıştık. Örneğin:
+
+    use std::collections::{HashMap, LinkedList};
+
+    Burada biz hem HashMap ismini hem de LinkedList ismini use etmiş olduk. Artık onları doğrudan kullanabiliriz:
+
+    fn main() {
+        let hm = HashMap::<i32, i32>::new();
+        let ll = LinkedList::<i32>::new();
+        //...
+    }
+
+    Küme parantezlerinin içerisinde ayrıca self anahtar sözcüğü de kullanılabilir. Buradaki self anahtar sözcüğü küme parantezi
+    öncesindeki isme referans etmektedir. Örneğin:
+
+    use std::collections::{self, HashMap, LinkedList};
+
+    Bu use bildirimi aşağıdakiyle tamamen eşdeğerdir:
+
+    use std::collections::{HashMap, LinkedList};
+    use std::collections;
+
+    Biz şimdi hem HashMap ismini, hem LinkedList ismini hem de collections ismini doğrudan kullanabiliriz. Örneğin:
+
+    fn main() {
+        let hm = HashMap::<i32, i32>::new();
+        let ll = LinkedList::<i32>::new();
+        let hs = collections::HashSet::<i32>::new();
+        //...
+    }
+
+    Küme parantezleri içerisindeki isimlerde de as cümleciği bulundurulabilmektedir. Örneğin:
+
+    use std::collections::{HashMap as HM, LinkedList as LL};
+
+    Burada HashMap ismi HM olarak, LinledList ismi ise LL olarak dışarıya çıkartılmıştır.
+
+    Küme parantezleri isimleri dışarı çıkartırken iç içe de kullanılabilmektedir. Örneğin:
+
+    use std::{
+        collections::{HashMap, LinkedList},
+        io::{Read, Write},
+    };
+
+    Burada biz tek hamlede HashMap, LinledList, Read ve Write isimlerini dışarı çıkartmış olduk. Ancak collections ve io
+    isimleri burada dışarı çıkartılmamaktadır. Bu isimleri de dışarı çıkartmak isterseniz ayrıca self kullanabilirsiniz.
+    Örneğin:
+
+    use std::{
+        collections::{self, HashMap, LinkedList},
+        io::{self, Read, Write},
+    };
+
+    Artık biz örneğin collections::HashSet gibi bir yol ifadesini de kullanabiliriz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    use bildiriminde son öğe * atomunu içerirse "ilgili modüldeki tüm isimler" faaliyet alanına sokulmuş olur. Örneğin:
+
+    use std::collections::*;
+
+    Burada std::collections modülündeki tüm isimler faaliyet alanına sokulmuştur. Benzer bir sentaksın Python'da bulunduğunu
+    anımsayınız. (Python'da from modül_ismi import * ie bir modüldeki tüm isimler faaliyet alanına sokulabilmektedir.)
+
+    Buradaki * küme parantezlerinin içine alınabilirse de bir anlamı yoktur:
+
+    use std::collections::{*, HashMap};     // gerek yok! zaten * ile HashMap de faaliyet alanına sokulmaktadır
+
+    * ile modülün tüm isimleri dışarıya aktarıldığında isim çakışmalarına dikkat etmek gerekir. * aktarımı düşük bir önceliğe
+    sahiptir. O faaliyet alanında aynı isimler varsa o isimler * ile faaliyet alanına sokulan isimleri ezip gölgelemektedir.
+    Örneğin:
+
+    pub mod mymodule {
+        pub fn foo() {
+            println!("mymodule::foo");
+        }
+
+        pub fn bar() {
+            println!("mymodule::bar");
+        }
+
+        pub const SIZE: i32 = 10;
+    }
+
+    use mymodule::*;
+
+    fn foo() {
+        println!("crate::foo");
+    }
+
+    fn main() {
+        foo();              // crate::foo
+        mymodule::foo();    // mymodule::foo
+        //...
+    }
+
+    Burada * ile myodule içeriisndeki tüm isimler dışarıya aktarılmıştır. Ancak dışarıda açıkça bir foo ismi de bulunmaktadır.
+    İşte bu durum error oluşturmaz, açıkça oluşturulmuş olan isim * ile çıkartılmış ismi gölgeler.
+    Örneğimizde foo çağrıldığında mymodule::foo değil, crate::foo çağrılmaktadır. Örneğin:
+
+    pub mod mymodule {
+        pub fn foo() {
+            println!("mymodule::foo");
+        }
+
+        pub fn bar() {
+            println!("mymodule::bar");
+        }
+
+        pub const SIZE: i32 = 10;
+    }
+
+    pub mod yourmodule {
+        pub fn foo() {
+            println!("yourmodule::foo");
+        }
+    }
+
+    use mymodule::*;
+    use yourmodule::foo;
+
+    fn main() {
+        foo();              // yourmodule::foo
+        //...
+    }
+
+    Burada iki use bildirimi yapılmıştır:
+
+    use mymodule::*;
+    use yourmodule::foo;
+
+    * ile çıkartılan isim açıkça belirtlen ismi ezmaktedir.
+
+    Ezip gölgeleme durumu yanızca * ile çıkartılan isimler için söz konusudur. Farklı modüllerdeki aynı isimler çıkartılamazlar
+    ve bu isimlerle aynı faaliyet alanında çakışan isimler bulundurulamamaktadır. Örneğin:
+
+    use mymodule::foo;
+    use yourmodule::foo;    // error!
+
+    Örneğin:
+
+    //...
+    use mymodule::*;
+    use yourmodule::*;
+
+    fn main() {
+        foo();              // error! ambiguous
+        //...
+    }
+
+    Bu örnekte iki modüldeki isimler de * ile çıkatılmıştır. Buradaki çakışmalar çakışan isim kullanılmadıktan sonra bir
+    soruna yol açmamaktadır. Örneğimizde çakışan isim kullanıldığı için error oluşmaktadır. Tabii tıpkı C++'ta olduğu gibi
+    bu tür durumlarda çakışan isimler için açıkça niteliklendirme yapmak gerekir:
+
+    //...
+    use mymodule::*;
+    use yourmodule::*;
+
+    fn main() {
+        mymodule::foo();                // mymodule::foo
+        yourmodule::foo();              // yourmodule::foo
+        //...
+    }
+
+    Örneğin:
+
+    use mymodule::foo;
+
+    fn foo() {          // error!
+        //...
+    }
+
+    Burada iki ayrı foo ismi aynı faaliyet alanına sokulmak istenmiştir. Bu durum error oluşturacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    use bildirimi (yani use öğesi) şuralarda kullanılabilir:
+
+    - Global alanda (yani crate içerisinde, şimdiye kadar biz genellikle böyle yaptık)
+    - Modüllerin içerisinde
+    - Fonksiyonların ya da metotların içerisinde
+
+    Use bildirimi nerede yapılıyorsa yalnızca o faaliyet alanında kullanılabilmektedir. Örneğin biz şimdiye kadar use
+    bildirimlerini global alanda yaptık. use ile çıkarttığımız isimleri de her fonksiyonda kullanabildik:
+
+    use std::collections::LinkedList;
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();      // geçerli
+        //...
+    }
+
+    fn foo() {
+        let ll = LinkedList::<i32>::new();      // geçerli
+        //
+    }
+
+    Burada global bölge aslında en dıştaki modül yani crate modülüdür. Bir modül içerisindeki isimler o modülün öğeleri
+    (items) içerisinden kullanılabilmektedir.
+
+    use bildirimi bir modül içerisinde yapılırsa yalnızca o modülün öğeleri tarafından kullanılabilmektedir. Örneğin:
+
+    mod mymodule {
+        use std::collections::LinkedList;
+
+        fn foo() {
+            let ll = LinkedList::<i32>::new();      // geçerli
+            //
+        }
+    }
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();      // error!
+        //...
+    }
+
+    Bu örnekte mymodule içerisinde bulunan use bildirimi o modülde etkili olmaktadır. Rust'ta iç modülün dış modülün isimlerine
+    erişemediğini modüller konusunda belirtmiştik. Örneğin:
+
+    use std::collections::LinkedList;
+
+    mod mymodule {
+        fn foo() {
+            let ll = LinkedList::<i32>::new();      // error!
+            //
+        }
+    }
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();      // geçerli
+        //...
+    }
+
+    Burada mymodule içerisinden crate'teki LinkedList ismini kullanamayız. Anımsayacağınız gibi bunun için yol ifadesini
+    crate ile ya da super ile niteliklendirmek gerekiyordu. Örneğin:
+
+    use std::collections::LinkedList;
+
+    mod mymodule {
+        fn foo() {
+            let ll = super::LinkedList::<i32>::new();      // geçerli
+            //
+        }
+    }
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();      // geçerli
+        //...
+    }
+
+    Modüller konusunda "bir alt modülün üst modüllerin private elemanlarına erişebildiğini" söylemiştik. Dolaısıyla yukarıdaki
+    örnekte use bildiriminde pub anahtar sözcüğüne gerek kalmamıştır. Ancak ğst modllerin alt modüllerin private elemanlarına
+    erişemediğini anımsayınız. Bu tür durumlarda use ile çıkartılan isimlerin dışarıdan da kullanılmasını sağlamak için
+    use bildirimine ayrıca pub görünürlüğünün verilmesi gerekir. Örneğin:
+
+    mod mymodule {
+        use std::collections::LinkedList;
+
+        pub fn bar() {
+            let ll = LinkedList::<i32>::new();
+            //...
+        }
+    }
+
+    fn main() {
+        let ll = mymodule::LinkedList::<i32>::new();        // mymodule::LinledList private!
+        //...
+    }
+
+    Burada LinkedList ismi mymodule isimli modüle çıkartılmıştır. Ancak bu private durumdadır. İşte bu ismin dışarıdan da
+    niteliklendirme yapılarak kullanılmasını sağlamak için use bildiriminde pub görünürlüğünü eklemek gerekir:
+
+    mod mymodule {
+        pub use std::collections::LinkedList;
+
+        pub fn bar() {
+            let ll = LinkedList::<i32>::new();
+            //...
+        }
+    }
+
+    fn main() {
+        let ll = mymodule::LinkedList::<i32>::new();        // geçerli
+        //...
+    }
+
+    Tabii biz başka modüldeki ismi eğer pub ise yine use ile kendi modülümüze çıkartabiliriz. Örneğin:
+
+    mod mymodule {
+        pub use std::collections::LinkedList;
+
+        pub fn bar() {
+            let ll = LinkedList::<i32>::new();
+            //...
+        }
+    }
+
+    use mymodule::LinkedList;
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();        // geçerli
+        //...
+    }
+
+    use bildirimi (diğer öğelerde (items) olduğu gibi) bir fonksiyon içerisinde yapılırsa çıkartılan isimler ancak o
+    fonksiyon içerisinde kullanılabilir. Örneğin:
+
+    fn foo() {
+        use std::collections::LinkedList;
+
+        let ll = LinkedList::<i32>::new();      // geçerli!
+        //...
+    }
+
+    fn main() {
+        let ll = LinkedList::<i32>::new();      // error!
+        //...
+    }
+
+    Öğelerin (items) bildirim sırasının önemli olmadığını anımsayınız:
+
+    fn foo() {
+        let ll = LinkedList::<i32>::new();      // geçerli!
+        //...
+
+        use std::collections::LinkedList;
+    }
+
+    use bildirimi impl bloğu içerisinde yapılırsa o impl bloğu içerisinde tanımlanmış olan metotların hepsi çıkartılmış olan
+    isimleri doğrudan kullanabilmektedir. Örneğin:
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    ANımsanacağı gibi Rust'ta her ".rs" dosyası zaten aynı zamanda bir modül anlamına da geliyordu. Biz bunlara "dosya
+    modülleri (file modules)" de diyorduk. Dosya modüllerinin kullanılabilmesi için kullanılacak modülde mod bildiriminin
+    yapılması gerekiyordu. Örneğin:
+
+    // util.rs
+
+    pub fn foo() {
+        println!("foo");
+    }
+
+    // main.rs
+
+    mod util;
+
+    fn main() {
+        util::foo();
+    }
+
+    İşte biz dosya modülleri içimn de use bildirşmi yapabiliriz. Örneğin:
+
+    mod util;
+
+    use util::*;
+
+    fn main() {
+        foo();
+    }
+
+    Burada yine mod bildiriminin gerektiğine dikkat ediniz.
+
+    Kütüphane crate'lerinde ayrıca mod bildiriminin gerekmediğini anımsayınız. (Eskiden extern bildirimi gerekiyordu, artık
+    bir süredir o da gerekmiyor). Kütüphane crate'leri zaten "Cargo.toml" dosyasının "[dependencies]" bölümünde belirtildiği
+    için ayrıca bi,r bildirim gerekmemektedir. Örneğin "Cargo.toml" dosyamız şöyle olsun:
+
+    [package]
+    name = "RustRover-Project"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+    utillib = { path = "../utillib" }
+
+    Burada artık biz doğrudan programımız içerisinde utillib ismini kullanabiliriz. Örneğin:
+
+    use utillib::*;
+
+    fn main() {
+        foo();
+        bar();
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bu bölümde Rust'ta makrolar konusunu ele alacağız. Biz şimdiye kadar aslında bazı makroları kullanmıştık. Örneğin print!
+    be println! birer makroydu. Şimdi bu konuyu ayrıntılarıyla inceleyeceğiz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Makro (macro) sözcüğü yazılımda "bir çağrıya karşılık bir kodun programa dahil edilmesi" anlamına gelmektedir. C'deki
+    makroların #define önişemci direktifiyle oluşturulduğunu anımsayınız. Makrolar pek çok dilde temel özellikleri aynı olmak
+    üzere o dile özgü bir biçimde bulunmaktadır. Rust'ın makroları C'nin makrolarına kavram olarka benzemekle birlikte Rust'a
+    özgüdür. Makrolar şu amaçlarla kullanılmaktadır:
+
+    - Yinelenen kodların kolay biçimde oluşturulması için
+    - Kısa kodlardaki fonksiyon çağırma maliyetinin (function call overhed) ortadan kaldırılması için
+    - Meta programlama (metaprogramming) yapabilmek için
+
+    Makrolar bazen fonksiyonlara benzeyebilmektedir. Çünkü hem fonksiyonlar hem de makrolar tekrarı engellemek amacıyla
+    kullanılmaktadır. Ancak bir fonksiyon çağrıldığında makine dilinde CALL işlemi yapılırken, bir makro çağrıldığında
+    bir kod yerleştirmesi yapılmaktadır. Yani makro çağrıları gerçek bir fonksiyon çağrısı gibi değildir. Makrolar fonksiyon
+    etkisi dışında bazı kod bloklarının oluşturulmaısnı kolaylaştırmak amacıyla da kullanılmaktadır. Örneğin C'de biz içerisinde
+    1 değeri olan 1000 elemanlı int türdne diziyi ilkdeğer vererek tanımlamak isteleim. Aşağıdaki işlem çok yorucudur:
+
+    int a[1000] = {1, 1, 1, .....};
+
+    Biz bu işlemi daha basit bir biçimde örneğin şöyle yapabiliriz:
+
+    #define TEN_ONE 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    #define TEN_HUNDRED TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE, TEN_ONE
+    #define TEN_THOUSAND TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED, TEN_HUNDRED
+
+    int main(void)
+    {
+        int a[1000] = {TEN_THOUSAND};
+        //...
+
+        return 0;
+    }
+
+    Görüldüğü gibi makrolar yalnızca fonksiyon etkisi sağlamak için değil kod parçaları oluşturmak için de kullanılmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            116. Ders 24/06/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'ta makrolar iki kısma ayrılmaktadır: Bildirimsel Makrolar (Declarative Macros) ve Prosedürel Makrolar (Procedural
+    Macros). Makro denince akla "bildirimsel makrolar" gelmektedir. Bildirimsel makrolara İngilizce "Macros by Example" da
+    denilmektedir. Makrolar "The Rust Reference" dokümanlarında "Macros" başlığıyla 3. Bölümde ele alınmaktadır. Biz önce
+    bildirimsel makroları (macros by example) sonra prosedürel makroları ele alacağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bildirimsel makro tanımlamanın genel biçimleri şöyledir:
+
+    macro_rules ! <macro_ismi> {
+        <makro_kuralları>
+    }
+
+    macro_rules ! <macro_ismi> (
+        <makro_kuralları>
+    );
+
+    macro_rules ! <macro_ismi> [
+        <makro_kuralları>
+    ];
+
+    Görüldüğü gibi bildirimsel bir makro macro_rules! atomlarıyla başlatılmaktadır. macro_rules bir anahtar sözcüktür. Bu
+    anahtar sözcüğü ! atomu izlemek zorundadır. Bu iki atom bitişik ya da ayrı yazılabilir. macro_rules! atomlarını bir
+    makro ismi izelemek zorundadır. Makro ismi isimlendirme kuralına uygun herhangi bir isim olabilir. Makro isminde sonra
+    bildirim parantezler içerisine alınmalıdır. Parantezler küme parantezi, normal parantez ya da köşeli parantez olabilir.
+    Bunlar arasında bir farklılık yoktur. Ancak normal parantezler ve köşeli parantezlerdne sonra ';' bulundurulmak zorundadır,
+    fakat kğme parantezlerinden sonra bu zorunluluk yoktur. Programcılar özel bir okunabilirlik gerekçesi olmadıktan sonra
+    küme parantezlerini tercih etmektedir. Örneğin:
+
+    macro_rules! foo {
+        //...
+    }
+
+    Genel biçimden de görüldüğü gibi makro parantezlerinin içi boş olamaz. En az bir makro kuralının belirtilmesi gerekir.
+
+    Makro kurallarının genel biçimi şöyledir:
+
+    (matcher) => (transcriber);
+    (matcher) => [transcriber];
+    (matcher) => {transcriber};
+
+    [matcher] => (transcriber);
+    [matcher] => [transcriber];
+    [matcher] => {transcriber};
+
+    {matcher} => (transcriber);
+    {matcher} => [transcriber];
+    {matcher} => {transcriber};
+
+    Son kuralın trancriber kısmındna sonra ';' kullanılması isteğe bağlıdır. Ancak öncekş kuralların transcriber kısmından
+    sonra ';' zorunldudur.
+
+    Makro terminolojisindeki "matcher" için biz bundan sonra Türkçe "eşleştirici" sözcüğünü, "transcriber" sözcüğü için de
+    "genişletici" sözcüğünü kullanacağız.
+
+    Buradaki sentaks match deyimine oldukça benzemektedir. Sentaksta eşleştirici ve genişletici normal parantezlere, köşeli
+    parantezlere ve küme parantezlerine alınabilmektedir. Bunların arasında farklılık yoktur. Programcılar  eşleştiricileri
+    genellikle normal paranteze, genişleticileri de küme paramtezine almaktadır. Örneğin:
+
+    macro_rules! foo {
+        ($a: expr, $b: expr) => {
+            $a + $ b
+        };
+    }
+
+    Burada bildirimsel makronun içerisinde bir tane makro kuralı vardır. Bu makro kuralının parçaları şöyledir:
+
+    eşleştirici (matcher)       -----> ($a: expr, $b: expr)
+    genişletici (transcriber)   -----> {
+                                            $a + $ b
+                                       }
+
+    Genişleticiden sonra ';' atomunun geldiğine dikkat ediniz. Biz yukarıdaki makroyu şöyle de yazabilirdik:
+
+    macro_rules! foo {
+        {$a: expr, $b: expr} => (
+            $a + $ b
+        );
+    }
+
+    Görüldüğü gibi burada eşleştirici küme parantezine, genişletici ise normal parantezlere alınmıştır. İki makro arasında
+    bir farklılık yoktur. Aynı makroyu şöyle yazabilirdik:
+
+    macro_rules! foo [
+        ($a: expr, $b: expr) => [
+            $a + $ b
+        ];
+    ];
+
+    Yukarıda da belirttiğimiz gibi makro isminden sonra normal parantezler ve köşeli parantezler kullanılırsa artık bu
+    parantezlerden sonra ';' atomunun bulundurulması gerekir.
+
+    Burada aklımızda kalacak en pratik kural makro yazarken normal parantezlerin, köşeli parantezlerin ve küme parantezlerinin
+    arasında bir fark olmadığıdır. Ancak en çok kullanılan yazım biçimi makro isminden sonra küme parantezlerinin kullanılması,
+    eşleştirici ksımının normal parantezler içerisine, genişletici kısmının da küme parantezleri içerisine alınmasıdır.
+
+    Eşleştirici (matcher) içerisindeki kalıp parçalarına eşleş (macro match) denilmektedir. Bir eşleştiricide sıfır tane
+    ya da daha fazla eşleş bulunabilmektedir. Örneğin:
+
+    macro_rules! foo {
+        ($a: expr, $b: expr) => (
+            $a + $ b
+        );
+    }
+
+    Buradaki eşleştirici şu biçimdedir:
+
+    $a: expr, $b: expr
+
+    Bu eşleştiricinin içerisinde üç eşleş bulunmaktadır:
+
+    $a: expr
+    ,
+    $b: expr
+
+    Göürüldğü gibi ',' atomu da ayrı bir eşleş belirtmektedir.
+
+    "The Rust Reference" dokğmanındaki bildirimsel makro grameri şöyle verilmiştir:
+
+    MacroRulesDefinition →
+        macro_rules ! IDENTIFIER MacroRulesDef
+
+    MacroRulesDef →
+        ( MacroRules ) ;
+        | [ MacroRules ] ;
+        | { MacroRules }
+
+    MacroRules →
+        MacroRule ( ; MacroRule )* ;?
+
+    MacroRule →
+        MacroMatcher => MacroTranscriber
+
+    MacroMatcher →
+        ( MacroMatch* )
+        | [ MacroMatch* ]
+        | { MacroMatch* }
+
+    MacroMatch →
+        Tokenexcept $ and delimiters
+        | MacroMatcher
+        | $ ( IDENTIFIER_OR_KEYWORDexcept crate | RAW_IDENTIFIER ) : MacroFragSpec
+        | $ ( MacroMatch+ ) MacroRepSep? MacroRepOp
+
+    MacroFragSpec →
+        block | expr | expr_2021 | ident | item | lifetime | literal
+        | meta | pat | pat_param | path | stmt | tt | ty | vis
+
+    MacroRepSep → Tokenexcept delimiters and MacroRepOp
+
+    MacroRepOp → * | + | ?
+
+    MacroTranscriber → DelimTokenTree
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıda da belirttiğimiz gibi eşleştirici  bir kalıp belirtmektedir. Eşleşlerdeki $ ile başlatılan isimler makro parametreleridir.
+    Makro parametrelerine birer "sentaktik öğe (fragment specifier)" iliştirilebilmektedir. Bu sentaktik öğe uyuşumda etkili
+    olmaktadır. Örneğin literal sentaktik öğesi "bir sabiti", ident sentaktik öğesi "bir değişken ismini", expr sentaktik öğesi
+    ise "bir ifadeyi" belirtir. Aşağıdaki makroya dikkat ediniz:
+
+    macro_rules! foo {
+        ($a: literal) => {
+            println!("literal");
+        };
+        ($a: ident) => {
+            println!("ident");
+        };
+        ($a: expr) => {
+            println!("expression")
+        };
+    }
+
+    Buradaki makroda üç kural vardır. Bu üç kuraldaki eşleştiricide de birer tane eşleş bulunmaktadır. Eşleşler $a ile temsil
+    edilen bir makro parametresine sahiptir. Birinci kuraldaki eşleş "makro parametresinin bir sabit olması" durumunu,
+    ikinci kuraldaki eşleş "makro parametresinin bir değişken olması durumunu" ve üçüncü kuraldaki eşleş de makro parametresinin
+    bir ifade olması" durumunu  belirtmektedir. Makro çağrılırken makro argümanından hareketle yukarıdan aşağıya doğru ilk
+    uyuşan kuralın genişleticisi (trnscriber) koda yerleştirilmeketdir. Eğer makro çağrıldığında hiçbir uyuşum sağlanamazsa
+    error oluşmaktadır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bir makro, isminden sonra ! atomu bulundurularak çağrılır. Çağrılma ifadesinde ! atomundan sonra yine normal parantezler,
+    köşeli parantezler ya da küme parantezleri bulundurulabilmektedir. Bunlar arasında bir fark yoktur. Makro parantezlerinin
+    içerisine aslında bir grup atom yerleştirilebilmektedir. Bu atomlar bir atom ağacı haline getirilip makroya iletilmektedir.
+    Bu atom ağacına "The Rust Reference" dokümanlarında "token tree" denilmektedir. Makro çağırma işleminin genel biçimi şöyledir:
+
+    makro_ismi!(atom_ağacı);
+    makro_ismi![atom_ağacı];
+    makro_ismi!{atom_ağacı}
+
+    Makro çağırma sırasında küme parantezleri kullandılığı zaman küme parantezlerinden sonra ';' atomunun bulundurulması
+    gferekmez. Çağrı sırasında paranezlerin içi boş bırakılabilir. Yani parantezler içerisinde atom ağacının kullanılması
+    zorunlu değildir.
+
+    Biz daha önce println! makrosunu hep normal parantezlerle çağırdık. Aslında yukarıdaki genel biçimde de belirttiğimiz
+    gibi çağrı sırasında köşeli parantezleri ve küme parantezlerini de kullanabilirdik. Örneğin:
+
+    fn main() {
+        println!("this is a test");         // geçerli
+        println!{"this is a test"}          // geçerli
+        println!["this is a test"];         // geçerlli
+    }
+
+    Burada küme parantezleriyle yapılan çağrımda çağrımın sonuna ';' getirilmesi zorunlu değildir. Ancak ';' atomunun
+    yerleştirilemesi bir sorunada  yol açmayacaktır. Aşağıdaki makroya yeniden dikkat ediniz:
+
+    macro_rules! foo {
+        ($a: literal) => {
+            println!("literal");
+        };
+        ($a: ident) => {
+            println!("ident");
+        };
+        ($a: expr) => {
+            println!("expr")
+        };
+    }
+
+    Bu makro çağrılıken çağrım sırasındaki parantezlerin eşleştiricideki (matcher) ya da genişleticideki (transcriber)
+    paramtezlerle aynı cins parantezler olması zorunlu değildir. Örneğin:
+
+    fn main() {
+        let a = 100;
+
+        foo!{10}            // geçerlidir
+        foo!(10 + 20);      // geçerli
+        foo![a];            // geçerli
+    }
+
+    Buradaki birinci çağrıma dikkat ediniz:
+
+    foo!{10}
+
+    Buradaki 100 hem bir sabit tanımına hem de ifade tanımına uymaktadır. Yukarıda da belirttiğimiz gibi makro kuralları
+    yukarıdan aşağıya doğru gözden geçirilmektedir ve ilk uyuşan kurala ilişkin genişletici açılmaktadır. Dolayısıyla
+    bu çağrıyla koda aşağıdaki açım yapılacaktır:
+
+    println!("literal");
+
+    Eğer biz makro kurallarını aşağıdaki gibi dizmiş olsaydık bu durumda foo!{10} çağrımında da expr kuralının açımı
+    yapılacaktı:
+
+    macro_rules! foo {
+        ($a: expr) => {
+            println!("expr");
+        };
+        ($a: literal) => {
+            println!("literal");
+        };
+        ($a: ident) => {
+            println!("ident");
+        };
+    }
+
+    Burada foo!{10} çağrısı yukarıdan aşağıya doğru ilk kez birincsi kuralla uyştuğu içim açım şöyle yapılacaktır:
+
+    println!("expression");
+
+    Yukarıda da belirttiğimiz gibi birden fazla makro kuralının uyuşması durumunda daha spesifik olanın öne alınması gerekir.
+    Aksi takdirde genel olan özel olanı ezer. Benzer biçimde foo!(a) gibi bir çağrımda a hem bir ifade hem de bir değişken
+    belirtmektedir. O halde değişken içeren kuralın da expr içeren kuraldan daha yukarıda olması anlamlıdır. Aksi takdirde
+    tüm değişkenleri zaten ifade kuralı kapacaktır. Aşağıdaki programı çalıştırarak test ediniz.
+
+    Makro çağrımının grameri de "The Rust Reference" dokğmanlarında şöyle verilmiştir:
+
+    MacroInvocation →
+        SimplePath ! DelimTokenTree
+
+    DelimTokenTree →
+        ( TokenTree* )
+        | [ TokenTree* ]
+        | { TokenTree* }
+
+    TokenTree →
+        Tokenexcept delimiters | DelimTokenTree
+
+    MacroInvocationSemi →
+        SimplePath ! ( TokenTree* ) ;
+        | SimplePath ! [ TokenTree* ] ;
+        | SimplePath ! { TokenTree* }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+macro_rules! foo {
+    ($a: ident) => {
+        println!("ident");
+    };
+    ($a: literal) => {
+        println!("literal");
+    };
+   ($a: expr) => {
+        println!("expr");
+    };
+
+}
+
+fn main() {
+    let a = 100;
+
+    foo!(10);               // literal
+    foo!(a);                // ident
+    foo!(10 + 20);          // expr
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Eşleşlerin $isim: sektaktik_öğe biçiminde olması gerekmemektedir. Eşleşlerde programcının kendisinin verdiği isimler de
+    kullanılabilmektedir. Bu durumda çağrı sırasında bu isimlerin de uyuşması gerekir. Örneğin:
+
+    macro_rules! foo {
+        (add $a: expr, $b: expr) => {
+            $a + $b
+        };
+        (sub $a: expr, $b: expr) => {
+            $a - $b
+        };
+        (div $a: expr, $b: expr) => {
+            $a / $b
+        };
+        (mul $a: expr, $b: expr) => {
+            $a * $b
+        };
+    }
+
+    Burada eşleştirici içerisinde add, sub, div ve mul gibi programcının kendisinin uydurduğu isimler eşleş olarak
+    kullanılmıştır. İşte artık bu kuralların uyuşması için çağrı sırasında bu isimlerin uygun yerlerde bulundurulması
+    gerekmektedir. Örneğin:
+
+    macro_rules! foo {
+        (add $a: expr, $b: expr) => {
+            $a + $b
+        };
+        (sub $a: expr, $b: expr) => {
+            $a - $b
+        };
+        (div $a: expr, $b: expr) => {
+            $a / $b
+        };
+        (mul $a: expr, $b: expr) => {
+            $a * $b
+        };
+    }
+
+    fn main() {
+        let mut result;
+
+        result = foo!(add 20, 10);          // 30
+        println!("{}", result);
+
+        result = foo!(sub 20, 10);
+        println!("{}", result);             // 10
+
+        result = foo!(mul 20, 10);
+        println!("{}", result);             // 200
+
+        let result = foo!(div 20, 10);
+        println!("{}", result);             // 2
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Makro çağrılırken paraztezler içerisindeki argmanlara "atom ağacı" (token tree)" demiştik. Atom ağacı bir grup atomun
+    oluşturduğu topluluktur. Eşleştiricideki kalıp uyuşum ile çağrım sırasındaki bu atom ağacı karşılaştırılmaktadır.
+    Aslında eşleştiricideki virgül atomu bir eşleş belirtir ve kalıbın bir parçası durumundadır. Örneğin:
+
+    macro_rules! foo {
+        (x y z) => {
+            println!("x y z");
+        }
+    }
+
+    Burada (x y z) çağrım sırasında aralarına virgül atomu getirilmeden kullanılmalıdır:
+
+    foo!(x y z);        // geçerli
+
+    Makroyu şöyle değiştirelim:
+
+    macro_rules! foo {
+        (x, y z) => {
+            println!("x, y z");
+        }
+    }
+
+    Artık bu makroyu çağırırken x'ten sonra bir virgül atomunu da bulundurmamız gerekir:
+
+    foo!(x, y z);       // geçerli
+
+    Görüldüğü gibi burada virgül aslında kalıbın bir parçası durumundadır. Örneğin:
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    expr sentaktik öğesi "herhangi bir ifade" ile uyuşum sağlamaktadır. Anımsanacağı gibi ifade (expression) "değişkenlerin,
+    sabitlerin ve operatörlerin herhangi bir birleşminine" denilmektedir. Örneğin:
+
+    macro_rules! foo {
+        ($a: expr) => {
+            println!("{:?}", $a);
+        }
+    }
+
+    Burada eşleştiricide bir ifade olması koşulu vardır. [10, 20, 30, 40, 50] gibi bir dizi yaratma işlemi de aslında ifade
+    tanımına uymaktadır. O halde biz bu makroyu şu biçimlerde çağırabiliriz:
+
+    let a = 10;
+
+    foo!([10, 20, 30, 40, 50]);
+    foo!(10 + 20);
+    foo!(a);
+    foo!(a + 1);
+    foo!(10);
+
+    Burada foo!(a) çağrısındaki a hem ident sentaktik öğesiyle hem de expr sentakstik öğesi ile uyuşabilmektedir. Benzer
+    biçimde foo!(10) çağrısındaki 10 da hem literal senktaktik öğesiyle hem de expr sentaktik öğesiyle uyuşmaktadır. Rust'ta
+    deyimlerin de aslında birer ifade belirttiğini anımsayınız. O halde yukarıdaki makroyu aşağıdaki gibi de çağırabiliriz:
+
+    let a = 10;
+
+   let v = foo!(if a > 10 {100} else {200});
+
+   Burada if a > 10 {100} else {200} atom ağacı aynı zamanda bir ifade de belirtmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        117. Ders 29/06/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Rust'taki makrolar C'deki makrolardan farklı biçimde çalışmaktadır. Rust'taki makrolar kalıp uyuşumunu temel alır.
+    Makro çağrımı sırasında parantezler içerisine yazılan atom ağacı eşleştirici ile karşılaştırılır ve uyuşuma bakılır.
+    Yukarıda eşleştiricilerin eşleşlerden oluşturğunu ve aslımda ',' atomunun da bir eşleş olduğunu belirtmiştir. Örneğin:
+
+    macro_rules! foo {
+        ($a: expr; $b: expr) => {
+            println!("matched");
+        };
+    }
+
+    Buradaki eşleştiricide üç eşleş vardır:
+
+    $a: expr
+    ;
+    $b: expr
+
+    Çağrımdaki atom ağacının bu eşleştirici ile uyuşöası gerekir. Bu uyuşum için de ';' atomunun solunda ve sağında birer
+    ifadenin bulunması gerekir. Örneğin:
+
+    foo!(10 + 20; 30 + 40);
+
+    Burada uyuşum sağlanacaktır. Tabii uyuşum sırasında atomların konumları dikkate alınmaktadır. Atomlar arasındaki boşluk
+    karakterlerinin bir önemi yoktur. Örneğin aşağıdaki makro yazımı ve çağrımı geçerlidir:
+
+    macro_rules! foo {
+        (
+            $a:
+            expr
+            ;
+            $b:
+            expr
+        ) => {
+            println!("matched");
+        };
+    }
+
+    fn main() {
+        foo!(10
+            + 20
+            ;
+            30
+            +
+            40);
+    }
+
+    Makromuz şöyle olsun:
+
+    macro_rules! foo {
+        ($a: expr;;; $b: expr) => {
+            println!("matched");
+        };
+    }
+
+    Artık makroyu çağırırken iki ifade arasına üç ';' atomu yerleştirmek zorudayız:
+
+    foo!(10 + 20;;; 30 + 40);
+
+    Sentaktik öğe içeren eşleşlerin ',' atomu ile ayrılması en çok tercih edilen durumdur:
+
+    macro_rules! foo {
+        ($a: expr, $b: expr) => {
+            println!("matched");
+        };
+    }
+
+    Tabii çağrım ',' atomu ile yapılmak zorundadır. Bu durum fonksiyon çağrımı sentaksına benzemektedir:
+
+    foo!(10 + 20, 30 + 40);
+
+    Örneğin:
+
+    macro_rules! create_array {
+        ($value: expr; $size: expr) => {
+            [$value; $size]
+        }
+    }
+
+    Buradaki makronun kuralı iki ifade ve bunların arasında bir tane ';' eşleşinden oluşmaktadır. Bu makronun çağrımının
+    "dizi yaratım" sentaksına benzemesi için aradaki eşleş ',' yerine ';' biçiminde alınmıştır. Örneğin:
+
+    let a = create_array!(100; 10);
+
+    Burada yapılan açım sonucunda aşağıdaki eşdeğer kod elde edilecektir:
+
+    let a = [100; 10];
+
+    Tabii sentaksı biraz daha doağllaştırmak için makro çağrımında köşeli parantezleri de kullanabilirdik:
+
+    let a = create_array![100; 10];
+
+    Örneğin:
+
+    macro_rules! create_array {
+        ($name: ident, $value: expr; $size: expr) => {
+            let $name = [$value; $size];
+        };
+    }
+
+    Burada makro bir dizi bildirimi açmaktadır. Makro kuralındak eşleştiricinin eşleşlerine dikkat ediniz:
+
+    $name: ident
+    ,
+    $value: expr
+    ;
+    $size: expr
+
+    Çağrım sırasındaki atom ağacının bu eşleştiricideki eşleşlerle eşleşmesi gerekmektedir. Örneğin:
+
+    create_array![a, 100; 10];
+
+    Burada eşleşme sağlanacaktır. Çünkü a ismi $name: ident eşleşiyle ve diğer atomlar da diğer eşleşlerle uyuşmaktadır.
+    Yukarıdaki makro çağrımıyla aşağıdaki kod açılacaktır:
+
+    let a = [100; 10];
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Makrolarda atomsal eşleşme yapıldığını gördük. Ancak atomsal eşleşmelerde bazı ayrıntılar da vardır. Eşelştirici
+    içerisindeki eşleş eğer sentaktik öğe (fragment specifier) içeriyorsa bu eşleşten sonra başka bir eşleyişin gelebilmesi
+    için bazı atomlar zounlu tutulmuştur. Buna "The Rust Reference" dokümanlarında "tamamlayıcı (followup)" denilmektedir.
+    Örneğin amacımız bir makroyu foo!(10 + 20 add 30 + 40) çağırdığımızda 30 ile 70'in toplanmasını sağlamak olsun. Diğer
+    işlemleri de benzer biçimde yapacak olalım. Makroyu aşağıdaki gibi yazamayız:
+
+    macro_rules! foo {
+        ($a: expr add $b: expr) => {
+            $a + $ b
+        };
+        ($a: expr sub $b: expr) => {
+            $a - $ b
+        };
+        ($a: expr mul $b: expr) => {
+            $a * $ b
+        };
+        ($a: expr div $b: expr) => {
+            $a / $ b
+        };
+    }
+
+    Çünkü expr sentak öğesinin tamamlayıcısının ';', ',' gibi bir ayıraç olması gerekmektedir. Biz daha önce bu makroyu
+    işlem belirten sözcüğü başa alarak ama eşleşlerin arasına ',' atomu getirerek oluşturmuştuk:
+
+     macro_rules! foo {
+        (add $a: expr, $b: expr) => {
+            $a + $b
+        };
+        (sub $a: expr, $b: expr) => {
+            $a - $b
+        };
+        (div $a: expr, $b: expr) => {
+            $a / $b
+        };
+        (mul $a: expr, $b: expr) => {
+            $a * $b
+        };
+    }
+
+    Burada expr sentaktik öğesine sahip eşleşten sonra artık ',' gibi bir ayıraç atom eşleşinin geldiğine dikkat ediniz.
+    Peki neden yukarıdaki makro derleyici tarafından açılamamaktadır? Burada add, sub, mul, div gibi isimsel atomların
+    expr sentaktik öğesinin bir parçası olabilmesi asıl sorunu oluşturmaktadır. Tabii biz eğer birinci ve üçüncü eşleşleri
+    paranteze alırsak sorunu çözeriz:
+
+    macro_rules! foo {
+        (($a: expr) add ($b: expr)) => {
+            $a + $ b
+        };
+        (($a: expr) sub ($b: expr)) => {
+            $a - $ b
+        };
+        (($a: expr) mul ($b: expr)) => {
+            $a * $ b
+        };
+        (($a: expr) div ($b: expr)) => {
+            $a / $ b
+        };
+    }
+
+    Çünkü artık expr sentaktik öğesi parantezlerle add, subi mul ve div eşleşlerinden ayrılmıştır. Ancak maalesef bu durumda
+    bizim çağrı sırasında atomsal eşleşmeyi sağlayabilmemiz için ifadeleri aparantezlere almamız gerekir. Örneğin:
+
+    let result = foo!((10 + 20) add (30 + 40));
+
+    Tamamlayıcıların neler olamsı gerektiği sentaktik öğeye göre değişmektedir. Örneğin literal sentaktik öğesi zaten tek
+    bir sabiti belirttiği için tamalayıcıya gereksimin duymamaktadır:
+
+    macro_rules! foo {
+        ($a: literal add  $b: literal) => {
+            $a + $ b
+        };
+        ($a: literal sub  $b: literal) => {
+            $a - $ b
+        };
+        ($a: literal mul  $b: literal) => {
+            $a * $ b
+        };
+        ($a: literal div  $b: literal) => {
+            $a / $ b
+        };
+    }
+
+    Bu makro geçerlidir. Çünkü literal sentaktik öğesi zaten tek bir sabit belirttiği için tamamlayıcıya gerek duymamaktadır.
+    Tabii biz makroyu çağırırken yalnızca sabitleri kullanabiliriz:
+
+    let result = foo!(10 add 20);
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de eşleşlerdeki sentaktik öğeleri tek tek örneklerle açıklayalım.
+
+    - ident sentaktik öğesi bir değişken ismiyle eşleşmektedir. Örneğin:
+
+    macro_rules! create_struct {
+        ($name: ident) => {
+            struct $name {
+                a: i32,
+                b: i32
+            }
+        };
+    }
+
+    Burada makro iki elemanlı bir yapı tanımlamaktadır. Örneğin:
+
+    create_struct!(Sample);
+
+    Bu çağrımla derleyic makroyu şöyle açacaktır:
+
+    struct Sample {
+        a: i32,
+        b: i32
+    }
+
+    ident semtaktik öğesinde tamamlayıcı olarak herhangi bir atom kullanılabilir. Yani ident sentaktik öğesinden sonra
+    hemen başlka bir eşleş kullanılabilmektedir.
+
+    - literal sentaktik öğesi tek bir sabit atom ile eşleşmektedir. literal sabit ifadeleriyle değil tek bir sabitle
+    eşleşmektedir. Örneğin:
+
+    macro_rules! create_const {
+        ($name: ident, $val: literal) => {
+            const $name: i32 = $val;
+        };
+    }
+
+    Bu makro i32 türünden const bir değişken oluşturmaktadır. Örneğin:
+
+    create_const!(a, 10);
+
+    Bu çağrım ile derleyici şu kodu açacaktır:
+
+    const a: i32 = 10;
+
+    literal semtaktik öğesinde tamamlayıcı olarak herhangi bir atom kullanılabilir. Yani literal sentaktik öğesinden sonra
+    hemen başlka bir eşleş kullanılabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        118. Ders 01/07/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    - expr sentaktik öğesi herhangi bir ifadeyle eşleşebilir. İfadenin "değişkenlerin, sabitlerin ve operatörlerini bileşmlerinden"
+    oluştuğunu anımsayınız. Örneğin:
+
+    macro_rules! foo {
+        ($val: expr) => {
+            println!("matched");
+        };
+    }
+
+    Burada aşağıdaki çağrılar eşleşme yapacaktır:
+
+    let a = 100;
+
+    foo!(10);           // matched
+    foo!(10 + 20);      // matched
+    foo!(a);            // matched
+    foo!(a + 1);        // matched
+
+    Deyimlerin de birer ifade olduğunu anımsayınız. O halde açağıdaki çaprılar da eşleşme yapacaktır:
+
+    foo!(if a > 10 {100} else {200});   // matched
+    foo!(
+        match a {
+            10 => 100,
+            100 => 1000,
+            _ => 0
+        }
+    );
+
+    expr sentaktik öğesinden sonra tamamlayıcı olarak şu eşleşlerden biri gelmek zorundadır:
+
+    =>
+    ,
+    ;
 
 ---------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
+    - ty sentaktik öğesi "tür (type)" anlamına gelmektedir. Yani eğer bir eşleşteki sentaktik öğe ty ise tipik olarak bu
+    eşleş tür ifadesiyle uyuşum sağlamaktadır. Örneğin:
 
+    macro_rules! foo {
+        ($t: ty) => {
+            println!("matched");
+        };
+    }
+
+    Biz burada makroyu şunlarla çağırabiliriz:
+
+    foo!(i32);              // matched
+    foo!([i32; 5]);         // matched
+    foo!(Vec<i32>);         // matched
+    foo!([i32]);            // matched
+    foo!(*const i32);       // matched
+    foo!(fn (i32) ->i32);
+
+    Görüldüğü gibi ty sentaktik öğesainde tür olarak kullanılabilen atom ağaçları uyuşum sağlamaktadır. Ancak tür bilgisinin
+    yanı sıra ty sektaktik öğesiyle aşağıdaki atom ağaçları da uyuşum sağlamaktadır:
+
+    Her ne kadar ty sentaktik öğesi aslında bir tür bilgisi ile eşleşiyorsa da Rust gramerinde TypePath ara sembolü ile
+    uyuşan her atom dizilimini kabul etmektedir. TypePath grameri "normal bir değişken olarak da" açılabilmektedi.r Bu
+    nedenle her ne kadar anlamsız olsa da aşağıdaki çağrımlar da uyuşum sağlamaktadır:
+
+    let a = 10;
+
+    foo!(a);        // uyuşum sağlar ama amaç dışı kullanım
+
+    ty sentaktik öğesi genişletici içerisinde bit tür olarak kullanılabilmektedir. Örneğin:
+
+    macro_rules! make_boxed {
+        ($t: ty) => {
+            Box<$t>
+        };
+    }
+
+    Burada biz make_boxed makrosuna bir tür bilgisi veririz. O da bize onun Box haline ilişkin bir bilgisi verir. Örneğin:
+
+    let b: make_boxed!(i32);
+
+    Buradaki açım aşağıdakiyle eşdeğerdir:
+
+    let b: Box<i32>;
+
+    Örneğin:
+
+    macro_rules! create_boxed {
+        ($t: ty, $val: expr) => {
+            Box::<$t>::new($val)
+        };
+    }
+
+    Buradaki makro ilgili türden Box edilmiş heap'te bir nesne yaratmaktadır. Şöyle kullanabiliriz:
+
+    let a = create_boxed!(i32, 10);
+
+    println!("{}", *a);     // 10
+
+    ty sentaktik öğesine sahip eşleşten sonra tamamlayıcı olarak şu eşleşlerden biri gelmek zorundadır:
+
+    =>
+    ,
+    =
+    |
+    ;
+    :
+    >
+    >>
+    [
+    {
+
+    - block sentaktik öğesi blok (yani küme parantezleri içerisindeki atomlar) ile uyuşum sağlamaktadır. Örneğin:
+
+    macro_rules! foo {
+        ($b: block) => {
+            loop
+                $b
+        };
+    }
+
+    Burada biz foo makrosuna bir blok veririz o da bu bloktan bir sonsuz döngü oluşturur. Örneğin:
+
+    fn main() {
+        let mut i = 0;
+
+        foo!({
+            println!("{}", i);
+            if i >= 10 {
+                break;
+            }
+            i += 1;
+        });
+    }
+
+    Makronun açımı şöyle olacaktır:
+
+    loop {
+        println!("{}", i);
+        if i >= 10 {
+            break;
+        }
+        i += 1;
+    }
+
+    Örneğin:
+
+    macro_rules! create_func {
+        ($name: ident, $b: block) => {
+            fn $name()
+                $b
+        };
+    }
+
+    Burada makro bizden bir isim ve bir blok istemektedir. Sonra da bir fonksiyon tanımlaması oluşturmaktadır. Örneğin:
+
+    macro_rules! create_func {
+        ($name: ident, $b: block) => {
+            fn $name()
+                $b
+        };
+    }
+
+    create_func!(bar, {println!("bar")});
+
+    fn main() {
+        create_func!(foo, {
+            println!("foo");
+        });
+
+        foo();
+        bar();
+    }
+
+    block sentaktik öğesine sahip eşleşten sonra herhangi bir eşleş geleblir.
+
+    - stmt sentaktik öğesine sahip bir eşleş bir deyimle uyuşum göstermektedir. Rust'ta her ne kadar temel deyimler ee birer
+    birer "ifade" belirtiyorsa da "deyim" grameri daha geniş oluşturulmuştur. Deyimlerin sentaktik açılımını anımsayınız:
+
+    Statement →
+      ;
+    | Item
+    | LetStatement
+    | ExpressionStatement
+    | OuterAttribute* MacroInvocationSemi
+
+    if gibi match gibi deyimler ExpressionStatement ara sembolünün altındadır:
+
+    ExpressionStatement →
+      ExpressionWithoutBlock ;
+    | ExpressionWithBlock ;?
+
+    ExpressionWithoutBlock →
+        OuterAttribute* ExpressionWithoutBlockNoAttrs
+
+    ExpressionWithoutBlockNoAttrs →
+        LiteralExpression
+    | PathExpression
+    | OperatorExpression
+    | GroupedExpression
+    | ArrayExpression
+    | AwaitExpression
+    | IndexExpression
+    | TupleExpression
+    | TupleIndexingExpression
+    | StructExpression
+    | CallExpression
+    | MethodCallExpression
+    | FieldExpression
+    | ClosureExpression
+    | AsyncBlockExpression
+    | ContinueExpression
+    | BreakExpression
+    | RangeExpression
+    | ReturnExpression
+    | UnderscoreExpression
+    | MacroInvocation
+
+    ExpressionWithBlock →
+        OuterAttribute* ExpressionWithBlockNoAttrs
+
+    ExpressionWithBlockNoAttrs →
+      BlockExpression
+        | ConstBlockExpression
+        | UnsafeBlockExpression
+        | LoopExpression
+        | IfExpression
+        | MatchExpression
+
+
+    Görüldüğü gibi gramerde "deyim kavramı", ifade kavramından daha eniş bir tanıma sahiptir. Yani bazı deyimler aynı
+    zamanda ifadedir ancak bazıları aynı zamanda ifade değildir. Bu durumda bazı deyimler expr sentaktik öğesiyle de
+    stmt sentaktik öğesiyle de uyuşabildiği halde bazı deyimler yalnızca stmt sentaktik öğesiyle uyuşamamaktadır.
+    Örneğin let deyimi bir ifade belirtmemektedir. Doayısıyla let deyimi expr sentaktik öğesi ile uyuşmaz. Ancak gramere
+    bakıldığında her ifadenin aynı zamanda bir deyim oldupu da görülmektedir. Özetle, her ifade bir deyimdir, ancak her deyim
+    bir ifade değildir.
+
+    Aşağıdaki makrolara dikkat ediniz:
+
+    macro_rules! foo {
+        ($s: stmt) => {
+            println!("matched");
+        };
+    }
+
+    macro_rules! bar {
+        ($e: expr) => {
+            println!("matched");
+        };
+    }
+
+    Biz burada foo makrosunu şöyle çağırabiliriz:
+
+    foo!(let a = 10);       // matched
+
+    Çünkü let bir deyim belirtmektedir. Ancak bar makrosunu aynı atom ağacıyla çağıramayız:
+
+    bar!(let a = 10);       // error!
+
+    Çünkü let deyimi bir ifade belirtmemektedir. Örneğin:
+
+    let a = 10;
+
+    foo!(if a > 0 {100} else {200});        // matched
+    bar!(if a > 0 {100} else {200});        // matched
+
+    if hem bi deyim hem de bir ifadedir. Örneğin:
+
+    foo!(10 + 20);        // matched
+    bar!(10 + 20);        // matched
+
+    Gramerde her şfadenin aynı zamanda bir deyim belirttiğini de anımsayınız.
+
+    Öğelerin (items) de birer deyim belirttiğini anımsayınız. Bu durumda aşağıdaki çağrı uyuşum sağlayacaktır:
+
+    foo!(
+        fn bar() -> i32 {
+            println!("bar");
+            0
+        }
+    );          // matched
+
+    Fonksiyon tanımalamaları da bir öğe belirttiği için yukarıda çağrım uyuşum sağlayacaktır.
+
+    stmt sentaktik öğesine sahip eşleşten sonra tamamlayıcı olarak şu eşleşlerden biri gelmek zorundadır:
+
+    =>
+    ,
+    ;
+
+    - item sentaktik öğesi "öğe (item)" gramerine uygun atom ağıcıyla uyuşum sağlamaktadır. "The Rust Reference" dokmanında
+    Item grameri şöyle açılmıştır:
+
+    Item →
+        OuterAttribute* ( VisItem | MacroItem )
+
+    VisItem →
+        Visibility?
+        (
+            Module
+        | ExternCrate
+        | UseDeclaration
+        | Function
+        | TypeAlias
+        | Struct
+        | Enumeration
+        | Union
+        | ConstantItem
+        | StaticItem
+        | Trait
+        | Implementation
+        | ExternBlock
+        )
+
+    MacroItem →
+        MacroInvocationSemi
+        | MacroRulesDefinition
+
+    Öğelerin de birer deyim belirttiğini anısayınız. Yani öeğelr hem item sentaktik öğesi ile hem de stmt sentaktik öğesi
+    ile uyuşum sağlamaktadır. Örneğin:
+
+    macro_rules! foo {
+        ($i: item) => {
+            $i
+        };
+    }
+
+    fn main() {
+        foo!(
+            fn bar() -> i32 {
+                println!("bar");
+                0
+            }
+        );        // matched
+
+        let result = bar();
+        println!("{}", result);
+    }
+
+    Örneğin:
+
+        macro_rules! foo {
+        ($i: item) => {
+            pub $i
+        };
+    }
+
+    foo!(
+        struct Sample {
+            a: i32,
+            b: i32
+        }
+    );
+
+    fn main() {
+        let s = Sample {a: 10, b: 20};
+
+        println!("{}, {}", s.a, s.b);
+    }
+
+    item sentaktik öğesine sahip eşleşten sonra herhangi bir eşleş geleblir.
 ---------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
-
+                                                119. Ders 08/07/2026 - Çarşamba
 ---------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
+    - tt sentaktik öğesi "herhangi bir atom ağacı (yani atomsal dizilim)" ile uyuşum sağlamaktadır. Ancak tt sentaktik öğesinde
+    atom ağacının tek bir kköü olması gerekir. Örneğin:
 
+    10 + 20
+
+    Buradaki bir atom dizilimi vardır. Ancak ağacın tek bir kök yoktur. Halbuki örneğiN:
+
+    (10 + 20)
+
+    Artık burada ağacın tek bir kökü vardır . İşte tt sentaktik öğesi tek köklü atom dizilimi ile uyuşmaktadır. Örneğin:
+
+    macro_rules! foo {
+        ($t: tt) => {
+            println!("matched");
+        };
+    }
+
+    fn main() {
+        foo!((10 + 20));        // matched
+        foo!(10 + 20);          // error!
+    }
+
+    tt sentaktik öğesindeki atom diziliminin tek bir kökünün olmasının zorunlu belirtmiştik. Peki tek kök demekle neyi
+    kastediyoruz? Aşağıdaki ifadeye dikkat ediniz:
+
+    10 + 20
+
+    Burada aslında üç ayrı atom vardır. Siz bunu dışarıdaki üç ayrı kutuya benzetebilirsiniz. Halbuki örneğin:
+
+    (10 + 20)
+
+    Bunu daha büyük bir kutunun içeisindeki üç ayrı kutuya benzetebilirsiniz. Dışarıdan bakıldığında ilk ifadede üç kutu
+    vardır, ancak ikinci ifadede tek kutu vardır. Örneğin:
+
+    {
+        let x = 10;
+
+        x + 20
+    }
+
+    Bu atom dizliminde de dışarıdan bakıldığında aslında tek bir kutu varmış gibidir. Diğer atomlar o kutunun içerisindedir.
+    Birden fazla atomu bloklayarak tek köklü bir atom ağacı haline getirebildiğimizi görüyordunuz. Örneğin:
+
+
+    fn test() {
+        //..
+    }
+
+    Bu tek köklü bir atom ağac değildir. Çünkü burada fn atomu foo atomu () atomları { } atomları dışarıda ayrı ayrı
+    bulunmaktadır. Ancak bu fonksiyonu bloklayarak ağacın tek kök olmasını sağlayabiliriz:
+
+    {
+        fn test() {
+            //..
+        }
+    }
+
+    Tabii bu sentaksın geçerli olması için bu atom ağacının bir fonlsiyon içerisinde bulunması gerekir.
+
+    Özetle tt sentaktik öğesi ile eşleşim olması için atom grubunun şu biçimlerde olması gerekmektedir:
+
+    1) Herhangi bir tek atom. Örneğin bir değişken, sabit, operatör, anahtar sözcük vs.
+    2) Ayraçlarla sarılmış bir grup atom. Yani (...), [...] veya {...} ile sarmalanmış atomlar.
+
+    tt sentaktik öğesi için paraztezlere alınmış anlamsız atom dizilimleri kullanılabilir. Bu durumda uyuşum sağlanır.
+    Yani atom diziliminin gerçerli olması gerekmemektedir. Örneğin:
+
+    macro_rules! foo {
+        ($t: tt) => {
+            println!("matched");
+        };
+    }
+
+    fn main() {
+        foo!((+*/-));           // matched
+    }
+
+    Rust'ın makroları sentaks analizinden daha önce devere sokulmaktadır. Tabi açım yapılan kodun makronun çağrıldığı yere
+    göre geçerli olması gerekir. Örneğin:
+
+    macro_rules! foo {
+        ($t: tt) => {
+            $t
+        };
+    }
+
+    fn main() {
+        foo!((+*/-));
+    }
+
+    Burada açım yapıldığında geçersiz bir kod oluşacaktır:
+
+    fn main() {
+        (+*/-)
+    }
+
+    tt sentaktik öğesine sahip eşleşten sonra herhangi bir eşleş geleblir.
 ---------------------------------------------------------------------------------------------------------------------------*/
 
-
 /*---------------------------------------------------------------------------------------------------------------------------
+    - lifetime sentaktik öğesi 'a gibi 'static gibi ömür belirtien ifadelerle eşleşmektedir. Örneğin:
 
+    macro_rules! foo {
+        ($name: ident, $l: lifetime) => {
+            fn $name() -> &$l str {
+                "ankara"
+            }
+        };
+    }
+
+    Buradaki makro kuralına dikkat ediniz. Bu makro kuralı bir fonksiyon tanımı oluşturmaktadır. Fonksiyonun ismi makronun
+    birinci parametresinde alınmıştır, geri dönüş derindeki ömür ifadesi ise ikinci parametresinden alınmıştır. Makroyu
+    şöyle kullanabiliriz:
+
+    foo!(test, 'static);
+
+    Burada makro aşağıdaki gibi bir fonksiyon açacaktır:
+
+    fn test() -> &'static str {
+        "ankara"
+    }
+
+    test fonksiyonu şöyle çağırabiliriz:
+
+    fn main() {
+        let s = test();
+
+        println!("{}", s);
+    }
+
+    lifetime sentaktik öğesine sahip eşleşten sonra herhangi bir eşleş geleblir.
 ---------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
 
+/*---------------------------------------------------------------------------------------------------------------------------
+    - path sentaktik öğesi "yol ifadeleriyle" uyuşum sağlamaktadır. Biz yol ifadelerini modüller kısmında açıklamıştık.
+    Anımsanacağınız gibi yol ifadeleri "başka bir modüldeki bir öğeye referans eden ifadelere" denilmektedir. Örneğin:
+
+    use std::collections::HashMap;
+
+    Buradaki std::collections::HashMap iafdesi bir yol ifadesidir. Tek bir ismin de bir yol ifadesi belirttiğini anımsayınız.
+    Örneğin:
+
+    macro_rules! foo {
+        ($p: path) => {
+            println!("matched")
+        };
+    }
+
+    fn main() {
+        foo!(std::collections::HashMap);        // matched
+        foo!(xxx);                              // matched
+    }
+
+    path sentaktik öğesine sahip eşleşten sonra tamamlayıcı olarak aşağıdaki eşleşlerden birinin gelmesi gerekir:
+
+    =>
+    ,
+    =
+    |
+    ;
+    :
+    >
+    >>
+    [
+    {
+
+    Bu tamamlayıcılar eşleşler ty sentaktik öğesindekilerle aynıdır.
 ---------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
 
+/*---------------------------------------------------------------------------------------------------------------------------
+    - pat ve pat_param sentaktik öğeleri match deyiminde gördüğümüz kalıp belirten ifadelerle uyuşum sağlamaktadır. pat ile
+    pat_param arasındaki tek fark pat_param sentaktik öğesinin | ile veya kalıbını içermemesidir. Örneğin:
+
+    macro_rules! foo {
+        ($p: pat) => {
+            println!("matched")
+        };
+    }
+
+    fn main() {
+        foo!(10);               // matched
+        foo!(x);                // matched
+        foo!(10 | 20 | 30);     // matched
+        foo!(1..20);            // matched
+    }
+
+    pat sentakik öğesine sahip eşleşten sonra tamamlayıcı olarak aşağıdaki eşleşlerden birinin gelmesi gerekir:
+
+    =>
+    ,
+    =
+    if
+    in
+
+    pat_param sentakik öğesine sahip eşleşten sonra ise tamamlayıcı olarak aşağıdaki eşleşlerden birinin gelmesi gerekir:
+
+    =>
+    ,
+    =
+    |
+    if
+    in
+
+    pat_param sentaktik öğesi | ile veya kalıbına uyuşum sağlamadığı için tamamlayıcı kümesinde | atomunun da yer aldığına
+    dikkat ediniz.
+
+    - vis sentaktik öğesi pub gibi pub(crate) gibi görünürlük belirten belirleyicilerle uyuşum sağlamaktadır. Görünürlük beliren
+    belirleyicileri biz modüller konusunda ele almıştık.Bunların listesini anımsayınız.
+
+    pub
+    pub(crate)
+    pub(super)
+    pub(self)
+    pub(in <path>)
+
+    Örneğin:
+
+    macro_rules! foo {
+        ($v: vis, $name: ident) => {
+            $v struct  $name {
+                $v a: i32,
+                $v b: i32
+            }
+        };
+    }
+
+    mod x {
+        foo!(pub, Sample);
+    }
+
+    fn main() {
+        let s = x::Sample {a: 10, b: 20};
+
+        println!("{}, {}", s.a, s.b);
+    }
+
+    Buradaki foo makrosu belli bir görünürlüğe ve isme sahip iki alanlı bir yapı tanımlaması açmaktadır.
+
+    vis sentakik öğesine sahip eşleşten sonra ise tamamlayıcı olarak aşağıdaki eşleşlerden birinin gelmesi gerekir:
+
+    ,
+    ;
+    Bir tür başlatabilen herhangi bir atom
+    değişken ismi
+    yol ifadesi
 ---------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
 
+/*---------------------------------------------------------------------------------------------------------------------------
+    -meta sentaktik öğesi öznitelik olarak köşeli parantezlerin içerisine yerleştirilebilen atom dizilimleriyle uyuşmaktadır.
+    Örneğin:
+
+    macro_rules! foo {
+        ($m: meta) => {
+            println!("matched")
+        }
+    }
+
+    fn main() {
+        foo!(derive(Clone, Copy));      // matched
+        foo!(derive(Debug));            // matched
+        foo!(repr(u8));                 // matched
+    }
+
+    Burada foo makrosu çağrılırken #[...] içerisine yazılabilecek her şeyin uyuşum sağladığına dikkat ediniz. Örneğin:
+
+    macro_rules! foo {
+        ($t: item, $m: meta) => {
+            #[$m]
+            $t
+        }
+    }
+
+    foo!(
+        struct Sample {
+            a: i32,
+            b: i32,
+        }, derive(Clone, Copy)
+    );
+
+    fn main() {
+        let s = Sample {a: 10, b: 30};
+        let k = s;
+
+        println!("{}, {}", s.a, s.b);
+    }
+
+    Burada makro bir yapının başına #[derive(Clone, Copy)] özniteliğini iliştirmektedir. meta sentaktik öğesine sahip
+    eşleşten sonra herhangi bir eşleş geleblir.
 ---------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------------------------------------------------------
-
----------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
-<BURADA KALDIK>
+    Şimdi de makrolarda "yineleme (repitition)" özelliği üzerinde duralım. vec makrosunu anımsayınız. Bu makro bir vektör
+    yaratıp verdiğimiz değerleri o vektöre yerleştirip bize o vektörü veriyordu. Örneğin:
+
+    let v = vec![10, 20, 30, 40, 50];
+
+    println!("{:?}", v);
+
+    Peki biz bu vec makrosunu nasıl yazabiliriz. İçi dolu bir vektör oluşturabilmek için önce Vec::new ilişkili fonksiyonu
+    ile vektörün yaratılması sonra da push metotlarıyla elemanların eklenmesi gerekir. Burada sorun makronun değişken sayıda
+    argümanla çağrılabilirliğini sağlamaktadır. Eğer bunu yapamazsak biz yalnızca belli sayıda argüman alan makroları
+    oluşturabiliriz. Örneğin:
+
+    macro_rules! myvec {
+        ($a: expr, $b: expr, $c: expr) => {
+            {
+                let mut v = Vec::new();
+
+                v.push($a);
+                v.push($b);
+                v.push($c);
+                v
+            }
+        };
+    }
+
+    Burada makro üç parametreye sahiptir. Dolayısıyla biz myvec makromuzla üç değere sahip bir vektör oluşturabiliriz:
+
+    fn main() {
+        let v = myvec![10, 20, 30];
+
+        println!("{:?}", v);        // [10, 20, 30]
+    }
+
+    Makronun yazımına ayrıca dikkat ediniz. Kuralın genişleticisi içerisinde bir blok şfadesinin kullanılması gerekmiştir.
+    Çünkü bir bloğunun sonucu bir değişkene atanabilmektedir.
+
 ---------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------------------------------------------------------
                                             GEÇİCİ NOTLAR
 ---------------------------------------------------------------------------------------------------------------------------*/
 
-┌───────────────────────────┬─────────────────────┬──────┬───────┬────────┬─────────────────────────┐
-│ Closure türü              │ Örnek               │  Fn  │ FnMut │ FnOnce │ Kaç kez çağrılabilir?   │
-├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
-│ Hiç capture yok           │ |a: i32| a * a      │  ✓   │   ✓   │   ✓    │ Sınırsız                │
-├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
-│ Capture'ı yalnızca okuyan │ || println!("{s}")  │  ✓   │   ✓   │   ✓    │ Sınırsız                │
-├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
-│ Capture'ı mutate eden     │ || { count += 1; }  │  ✗   │   ✓   │   ✓    │ Birden fazla            │
-├───────────────────────────┼─────────────────────┼──────┼───────┼────────┼─────────────────────────┤
-│ Capture'ı tüketen         │ move || drop(s)     │  ✗   │   ✗   │   ✓    │ Yalnızca bir kez        │
-└───────────────────────────┴─────────────────────┴──────┴───────┴────────┴─────────────────────────┘
 
 
 
