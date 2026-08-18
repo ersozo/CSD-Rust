@@ -15228,193 +15228,193 @@ use std::mem::discriminant;
     de kullanılabilmektedir. Biz de kursumuzda bu trait'i std::ops::Drop yerine yalnızca Drop biçiminde kullanacağız. Drop
     trait'i şöyle tanımlanmıştır:
 
-    pub trait Drop {
-        fn drop(&mut self);
-    }
+        pub trait Drop {
+            fn drop(&mut self);
+        }
 
     Bir trait'in desteklenmesi ("implemente" edilmesi) demek o trait içerisindeki metotların ilgili yapı ya da enum türünde
     trait'te belirtilen parametrik yaıyla tanımlanması demektir. O halde biz yapımız ya da enum türümüz için bu drop metodunu
     tanımlarken onun parametresini &mut self biçiminde bildirmeliyiz. trait'ler konusunda göreceğimiz gibi bir trait'in
     desteklenmesi (yani trait'teki metotların yazılması) aşağıdaki sentaksla yapılmaktadır:
 
-    impl <trait_ismi> for <yapı_ya_da_enum_ismi> {
-        //...
-    }
-
-    Örneğin:
-
-    impl Drop for Sample {
-        fn drop(&mut self) {
+        impl <trait_ismi> for <yapı_ya_da_enum_ismi> {
             //...
         }
-    }
+
+        Örneğin:
+
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                //...
+            }
+        }
 
     Şimdi drop mekanizmasının çalışmasını açıklamada yardımcı olacak bir örnek verelim:
 
-    fn main() {
-        let s: Sample = Sample::new(10, 20);
-        let mut k: Sample = Sample::new(30, 40);
+        fn main() {
+            let s: Sample = Sample::new(10, 20);
+            let mut k: Sample = Sample::new(30, 40);
 
-        println!("one");
-        k = s;
-        println!("two");
-    }
-
-    struct Sample {
-        a: i32,
-        b: i32
-    }
-
-    impl Sample {
-        fn new(a: i32, b: i32) -> Sample {
-            println!("Sample created: {}, {}", a, b);
-            Sample { a, b }
+            println!("one");
+            k = s;
+            println!("two");
         }
 
-         fn disp(&self) {
-            println!("{}: {}", self.a, self.b);
+        struct Sample {
+            a: i32,
+            b: i32
         }
-    }
 
-    impl Drop for Sample {
-        fn drop(&mut self) {
-            println!("drop called: {}, {}", self.a, self.b  );
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                println!("Sample created: {}, {}", a, b);
+                Sample { a, b }
+            }
+
+            fn disp(&self) {
+                println!("{}: {}", self.a, self.b);
+            }
         }
-    }
+
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                println!("drop called: {}, {}", self.a, self.b  );
+            }
+        }
 
     Programın çalıştırılmasıyla ekranda şunları göreceksiniz:
 
-    Sample created: 10, 20
-    Sample created: 30, 40
-    one
-    drop called: 30, 40
-    two
-    drop called: 10, 20
+        Sample created: 10, 20
+        Sample created: 30, 40
+        one
+        drop called: 30, 40
+        two
+        drop called: 10, 20
 
     Burada sırasıyla neler olmaktadır? Açıklayalım. Programın akışı s'in bağlandığı noktaya geldiğinde Sample::new çağrılacak
     ve ekrana ilk satır basılacaktır:
 
-    Sample created: 10, 20
+        Sample created: 10, 20
 
     Sonra programın akışı k'nın bağlandığı satıra geldiğinde yine Saple::new çarılacak ve ekrana ikinci satır basılacaktır:
 
-    Sample created: 30, 40
+        Sample created: 30, 40
 
     Sonra programın akışı println!("one") çağrısına gelecek ve üçüncü satır basılacaktır:
 
-    one
+        one
 
     Daha sonra programın akışı k = s atamasının yapıldığı satıra gelecektir. Burada Sample yapısı için Drop trait'i desteklendiğinden
     ve k'ya değer atanmış olduğundan k için drop metodu derleyici tarafından çağrılacaktır. Böylece ekrana dördüncü satır
     basılacaktır:
 
-    drop called: 30, 40
+        drop called: 30, 40
 
     k için drop çağrıldıktan sonra s'in karşılıklı elemanları k'ya atanacaktır. Bundan sonra s kullanılamayacağı için biz buna
     s'in k'ya taşınması da demekteyiz. Daha sonra programın akışı println!("two") çağrısına gelecektir. Böylece ekrana beşinci
     satır da basılacaktır:
 
-    two
+        two
 
     Artık programın akışı k'nın bildirildiği bloğu bitirdiği için k'nın faaliyet alanı sona erecektir. Bu noktada derleyici
     tarafından k için drop metodu çağrılacaktır. Böylece ekrana son satır da basılacaktır:
 
-    drop called: 10, 20
+        drop called: 10, 20
 
     Şimdi de main fonksiyonunun aşağıdaki gibi olduğunu varsayalım:
 
-    fn main() {
-        let s: Sample = Sample::new(10, 20);
-        let k: Sample;
+        fn main() {
+            let s: Sample = Sample::new(10, 20);
+            let k: Sample;
 
-        println!("one");
-        k = s;
-        println!("two");
-    }
+            println!("one");
+            k = s;
+            println!("two");
+        }
 
     Burada k'ya henüz değer atanmadığına dikkat ediniz. O halde k = s atamasında k için drop metodu çağrılmayacaktır. Ancak
     tabii blok bittiğinde k için drop metodu çağrılacaktır. Program çalıştırıldığında ekranda şunlar görülecektir:
 
-    Sample created: 10, 20
-    one
-    two
-    drop called: 10, 20
+        Sample created: 10, 20
+        one
+        two
+        drop called: 10, 20
 ---------------------------------------------------------------------------------------------------------------------------
 
     drop metodu programcı tarafından açıkça çağrılamamaktadır. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        s.drop();       // error: explicit use of destructor method
-    }
+            s.drop();       // error: explicit use of destructor method
+        }
 
     Burada drop metodu programcı tarafından açıkça çağrılmak istenmiştir. Bu durum error oluşturacaktır. Mevcut Rust derleyicimiz
     bu durum için aşağıdaki gibi bir hata mesajını basmaktadır:
 
-    "explicit use of destructor method"
+        "explicit use of destructor method"
 
     Eğer ilgili değişken istenildiği zaman drop edilmek isteniyorsa std::mem::drop fonksiyonu kullanılmalıdır. Bu fonksiyon
     için standart prelude içerisinde use işlemi yapıldığı için drop ismini doğrudan da kullanabiliriz. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        println!("one");
-        drop(s);
-        println!("two");
-    }
+            println!("one");
+            drop(s);
+            println!("two");
+        }
 
     Burada s için drop metodu dolaylı olarak drop fonksiyonu yoluyla çağrılmıştır. Program çalıştırıldığında ekrana şunlar
     çıkacaktır:
 
-    Sample created: 10, 20
-    one
-    drop called: 10, 20
-    two
+        Sample created: 10, 20
+        one
+        drop called: 10, 20
+        two
 
     Bu sayede dolaylı da olsa drop metodunun istediğiniz yerde çağrılmasını sağlayabilirsiniz. std::mem::drop fonksiyonunun
     parametrik yapısı şöyledir:
 
-    pub fn drop<T>(_x: T)
+        pub fn drop<T>(_x: T)
 
     drop generic bir fonksiyondur ve görüldüğü gibi parametresi de referans değildir. Yani drop fonksiyonuna argüman olarak
     geçirdiğimiz değişken aslında fonksiyonun parametre değişkenine taşınmaktadır. Biz drop fonksiyonundan sonra artık bu
     değişkeni kullanamayız. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        drop(s);
+            drop(s);
 
-        s.disp();       // error!
-    }
+            s.disp();       // error!
+        }
 
     Burada s değişkeni drop fonksiyonunun parametre değişkenine taşındığı için drop çağrısından sonra artık s kullanılamamaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
     Anımsanacağı gibi mut olmayan bir değişkenin adresi mut bir referansa ya da göstericiye atanamıyordu. Örneğin:
 
-    fn foo(r: &mut Sample) {
+        fn foo(r: &mut Sample) {
+            //...
+        }
         //...
-    }
-    //...
 
-    let s = Sample::new(10, 20);
-    foo(&mut s);            // error!
+        let s = Sample::new(10, 20);
+        foo(&mut s);            // error!
 
     s mut olmadığı için biz onun adresini &mut operatörüyle alamayız. Dolayısıyla onun adresini mut bir referansa atayamayız.
     Ancak tabii istersek ilgili değişkeni mut bir değişkene atayıp (ya da taşıyıp) onun adresini &mut operatöryle alabiliriz.
 
-    fn foo(r: &mut Sample) {
+        fn foo(r: &mut Sample) {
+            //...
+        }
         //...
-    }
-    //...
 
-    let s = Sample::new(10, 20);
-    let mut k = s;
+        let s = Sample::new(10, 20);
+        let mut k = s;
 
-    foo(&mut k);            // geçerli
+        foo(&mut k);            // geçerli
 
     Burada s değişkeni mut değildir ancak mut bir değişkene taşınmıştır. Sonra da o mut değişkenin adresi &mut operatörüyle
     alınmıştır.
@@ -15425,27 +15425,27 @@ use std::mem::discriminant;
 
     std::ops::Drop trait'inin drop metodunun &mut self parametresine sahip olduğunu anımsayınız. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32
-    }
-
-    impl Sample {
-        fn new(a: i32, b: i32) -> Sample {
-            println!("Sample created: {}, {}", a, b);
-            Sample { a, b }
+        struct Sample {
+            a: i32,
+            b: i32
         }
 
-         fn disp(&self) {
-            println!("{}: {}", self.a, self.b);
-        }
-    }
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                println!("Sample created: {}, {}", a, b);
+                Sample { a, b }
+            }
 
-    impl Drop for Sample {
-        fn drop(&mut self) {
-            println!("drop called: {}, {}", self.a, self.b  );
+            fn disp(&self) {
+                println!("{}: {}", self.a, self.b);
+            }
         }
-    }
+
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                println!("drop called: {}, {}", self.a, self.b  );
+            }
+        }
 
     Normal olarak &mut self parametresine sahip olan metotlar mut değişkenlerle çağrılmak zorundadır. Pekiyi drop metodu da
     &mut self parametresine sahip olduğuna göre yalnızca mut değişkenler mi ro edilebilmektedir? İşte hayır, drop metodu manuel
@@ -15464,24 +15464,24 @@ use std::mem::discriminant;
     bir değişkenin adresini istemektedir. Tabii fonksiyon unsafe olduğu için çağırmanın da unsafe bağlamda yapılması gerekir.
     Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        // blok sonunda s için drop_in_place çağrısının yapıldığını varsayabilirsiniz
-    }
+            // blok sonunda s için drop_in_place çağrısının yapıldığını varsayabilirsiniz
+        }
 
     Burada blok sonunda s için derleyici tarafından drop_in_place çağrısının yapıldığını varsayabilirsiniz. Ancak burada mut
     olmayan bir değişkenle *mut parametreli bir fonksiyon çağrılmış olacaktır. Rust derleyicisi bu durumu kendi içerisinde
     halledebilmektedir. Ancak biz de gerekli tür dönüştürmesini uygulayıp bu fonksiyonu kendimiz çağırabiliriz. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        unsafe {
-            std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
+            unsafe {
+                std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
+            }
+            //...
         }
-        //...
-    }
 
     Burada unsafe blok içerisinde drop_in_place fonksiyonu açıkça çağrılmıştır. Tabii bu fonksiyon da eğer ilgili tür tarafından
     Drop trait'i desteklenmişse drop metodunun çağrılmasına yol açacaktır.
@@ -15496,15 +15496,15 @@ use std::mem::discriminant;
 
     Fonksiyon değişkenin sahipliğini almakta ve drop metodunun çağrılmasını kendi içerisinde engellemektedir. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        unsafe {
-            std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
-            std::mem::forget(s);
+            unsafe {
+                std::ptr::drop_in_place(&s as *const Sample as *mut Sample);
+                std::mem::forget(s);
+            }
+            //...
         }
-        //...
-    }
 
     drop_in_place fonksiyonu standart prelude içerisinde use edilmemiştir. Dolayısıyla bu isim niteliklendirme yapılmadan
     tek başına kullanılamaz.
@@ -15524,25 +15524,25 @@ use std::mem::discriminant;
     çağrılmaktadır. Rust'ta da aynı semantik uygulanmıştır. Rust'ta drop metotları blok içerisindeki bildirim sırasının ters
     sırasında çağrılmaktadır. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
-        let k = Sample::new(30, 40);
+        fn main() {
+            let s = Sample::new(10, 20);
+            let k = Sample::new(30, 40);
 
-        //...
-    }
+            //...
+        }
 
     Burada önce s sonra k bildirilmiştir, o halde akış blok sonuna geldiğinde önce k için sonra s için drop metodu çağrılacaktır.
     Örneğin:
 
-    fn main() {
-        let s: Sample;
-        let k: Sample;
+        fn main() {
+            let s: Sample;
+            let k: Sample;
 
-        k = Sample::new(10, 20);
-        s = Sample::new(30, 40);
+            k = Sample::new(10, 20);
+            s = Sample::new(30, 40);
 
-        //...
-    }
+            //...
+        }
 
     Değişkene atama sırasının önemli olmadığına bildirim sırasının önemli olduğunu vurgulamak istiyoruz. Burada blok
     içerisinde önce s sonra k bildirilmiştir, akış blok sonuna geldiğinde önce k için sonra s için drop metotları çağrılacaktır.
@@ -15556,16 +15556,16 @@ use std::mem::discriminant;
     alanı da belirtmektedir. Böylece bir fonksiyonun içerisinde iç içe bloklar söz konusu olabilir. Bu durumda drop metotları
     değişken hangi blokta bildirilmişse o bloğun sonunda çağrılacaktır. Örneğin:
 
-    fn main() {
-        let s = Sample::new(10, 20);
+        fn main() {
+            let s = Sample::new(10, 20);
 
-        {
-            let k = Sample::new(30, 40);
+            {
+                let k = Sample::new(30, 40);
+                //...
+            }
+
             //...
         }
-
-        //...
-    }
 
     Burada k değişkeni için drop metodu programın akışı iç bloktan çıkarken çağrılacaktır. s değişkeni için ise drop metodu
     programın akışı main fonksiyonun ana bloğu biterken çağrılacaktır. drop metotlarının her zaman bildirime göre ters sırada
@@ -15573,13 +15573,13 @@ use std::mem::discriminant;
 
     Diğer deyimlerin blokları da bu bağlamda bir faaliyet alanı belirtmektedir. Örneğin:
 
-    if a > 0 {
-        let s = Sample::new(10, 20);
-        //...
-    }
-    else {
-        //...
-    }
+        if a > 0 {
+            let s = Sample::new(10, 20);
+            //...
+        }
+        else {
+            //...
+        }
 
     Burada a > 0 ise s için drop metodu if deyiminin doğruysa kısmındaki bloğun sonunda çağrılacaktır.
 
@@ -15591,64 +15591,64 @@ use std::mem::discriminant;
 
     Bir yapı başka bir yapı ya da enum türünden alanlara sahip olabilir. Örneğin:
 
-    struct A {
-        a: i32
-    }
+        struct A {
+            a: i32
+        }
 
-    struct B {
-        x: A,
-        y: A,
-    }
+        struct B {
+            x: A,
+            y: A,
+        }
 
     Burada B yapısının x ve y alanları A yapısı türündendir. Yapıların impl blokları şöyle olsun:
 
-    impl A {
-        fn new(a: i32) -> A {
-            A {a}
+        impl A {
+            fn new(a: i32) -> A {
+                A {a}
+            }
+
+            fn disp(&self) {
+                println!("{}", self.a);
+            }
         }
 
-        fn disp(&self) {
-            println!("{}", self.a);
-        }
-    }
+        impl B {
+            fn new(x: i32, y: i32) -> B {
+                B {x: A::new(x), y: A::new(y)}
+            }
 
-    impl B {
-        fn new(x: i32, y: i32) -> B {
-            B {x: A::new(x), y: A::new(y)}
+            fn disp(&self) {
+                self.x.disp();;
+                self.y.disp();
+            }
         }
-
-        fn disp(&self) {
-            self.x.disp();;
-            self.y.disp();
-        }
-    }
 
     Bu yapılar için Drop trait'inin desteklendiğini düşünelim. drop metotları da şöyle tanımlanmış olsun:
 
-    impl Drop for A {
-        fn drop(&mut self) {
-            println!("A dropped: {}", self.a);
+        impl Drop for A {
+            fn drop(&mut self) {
+                println!("A dropped: {}", self.a);
+            }
         }
-    }
 
-    impl Drop for B {
-        fn drop(&mut self) {
-            println!("B dropped");
+        impl Drop for B {
+            fn drop(&mut self) {
+                println!("B dropped");
+            }
         }
-    }
 
     Burada B türünden bir değişken oluşturmuş olalım:
 
-    let b = B::new(10, 20);
+        let b = B::new(10, 20);
 
-    Bu değişkenle disp metodunu çağıralım:
+        Bu değişkenle disp metodunu çağıralım:
 
-    b.disp();
+        b.disp();
 
      B'nin disp metodu x ve y için A yapısının disp metodunu çağırmaktadır. Ekranda şunlar görülecektir:
 
-    10
-    20
+        10
+        20
 
     Pekiyi bu b değişkeni drop edilirken (örneğin programın akışı bloğun sonuna geldiğinde) ne olacaktır? İşte bu durumda
     "önce içeren yapı değişkeni için (örneğimizde b) drop metodu çağrılır sona alanlar için (örneğimizde x ve y) bildirim
@@ -15658,9 +15658,9 @@ use std::mem::discriminant;
     drop metodu çalıştırılacaktır. Alanlar için drop metotlarının çağrılma sırası içeren yapıdaki bildirim sırasına göredir
     (yani yukardan aşağıya doğrudur). Yukarıdaki örnekte programın akışı blok sonuna geldiğinde ekrana şunlar basılacaktır:
 
-    B dropped
-    A dropped: 10
-    A dropped: 20
+        B dropped
+        A dropped: 10
+        A dropped: 20
 
     Tabii yapılar bu biçimde iç içe kullanılmış olabilir. Bu işlemler burada açıkladığımız gibi özyinelemeli biçimde
     yürütülmektedir.
@@ -15670,172 +15670,172 @@ use std::mem::discriminant;
     düz sırada yani bildirim sırasına göre çağrılmaktadır.
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let b = B::new(10, 20);
+        fn main() {
+            let b = B::new(10, 20);
 
-    b.disp();
-    //...
-}
+            b.disp();
+            //...
+        }
 
-struct A {
-    a: i32
-}
+        struct A {
+            a: i32
+        }
 
-impl A {
-    fn new(a: i32) -> A {
-        A {a}
-    }
+        impl A {
+            fn new(a: i32) -> A {
+                A {a}
+            }
 
-    fn disp(&self) {
-        println!("{}", self.a);
-    }
-}
+            fn disp(&self) {
+                println!("{}", self.a);
+            }
+        }
 
-impl Drop for A {
-    fn drop(&mut self) {
-        println!("A dropped: {}", self.a);
-    }
-}
+        impl Drop for A {
+            fn drop(&mut self) {
+                println!("A dropped: {}", self.a);
+            }
+        }
 
-struct B {
-    x: A,
-    y: A,
-}
+        struct B {
+            x: A,
+            y: A,
+        }
 
-impl B {
-    fn new(x: i32, y: i32) -> B {
-        B {x: A::new(x), y: A::new(y)}
-    }
+        impl B {
+            fn new(x: i32, y: i32) -> B {
+                B {x: A::new(x), y: A::new(y)}
+            }
 
-    fn disp(&self) {
-        self.x.disp();;
-        self.y.disp();
-    }
-}
+            fn disp(&self) {
+                self.x.disp();;
+                self.y.disp();
+            }
+        }
 
-impl Drop for B {
-    fn drop(&mut self) {
-        println!("B drop");
-    }
-}
+        impl Drop for B {
+            fn drop(&mut self) {
+                println!("B drop");
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Demetler drop edilirken demet elemanları yine düz sırada drop edilmektedir. Örneğin:
 
-    struct Sample {
-        a: i32,
-        b: i32
-    }
-
-    impl Sample {
-        fn new(a: i32, b: i32) -> Sample {
-            println!("Sample created: {}, {}", a, b);
-            Sample { a, b }
+        struct Sample {
+            a: i32,
+            b: i32
         }
 
-        fn disp(&self) {
-            println!("{}: {}", self.a, self.b);
-        }
-    }
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                println!("Sample created: {}, {}", a, b);
+                Sample { a, b }
+            }
 
-    impl Drop for Sample {
-        fn drop(&mut self) {
-            println!("Sample dropped: {}, {}", self.a, self.b  );
+            fn disp(&self) {
+                println!("{}: {}", self.a, self.b);
+            }
         }
-    }
+
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                println!("Sample dropped: {}, {}", self.a, self.b  );
+            }
+        }
 
     Aşağıdaki gibi bir demet bildirilmiş olsun:
 
-    fn main() {
-        let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+        fn main() {
+            let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
 
-        //...
-    }
+            //...
+        }
 
     Blok bittiğinde demet drop edilirken demet elemanları için düz sırada drop metotları çağrılacaktır. Program çalıştırıldığında
     ekrana şunlar basılacaktır:
 
-    Sample created: 10, 20
-    Sample created: 30, 40
-    Sample created: 50, 60
-    Sample dropped: 10, 20
-    Sample dropped: 30, 40
-    Sample dropped: 50, 60
+        Sample created: 10, 20
+        Sample created: 30, 40
+        Sample created: 50, 60
+        Sample dropped: 10, 20
+        Sample dropped: 30, 40
+        Sample dropped: 50, 60
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
-    //...
-}
+        fn main() {
+            let t = (Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+            //...
+        }
 
-struct Sample {
-    a: i32,
-    b: i32
-}
+        struct Sample {
+            a: i32,
+            b: i32
+        }
 
-impl Sample {
-    fn new(a: i32, b: i32) -> Sample {
-        println!("Sample created: {}, {}", a, b);
-        Sample { a, b }
-    }
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                println!("Sample created: {}, {}", a, b);
+                Sample { a, b }
+            }
 
-    fn disp(&self) {
-        println!("{}: {}", self.a, self.b);
-    }
-}
+            fn disp(&self) {
+                println!("{}: {}", self.a, self.b);
+            }
+        }
 
-impl Drop for Sample {
-    fn drop(&mut self) {
-        println!("Sample dropped: {}, {}", self.a, self.b  );
-    }
-}
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                println!("Sample dropped: {}, {}", self.a, self.b  );
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Yapılar ya da enum türleri türünden diziler drop edildiğinde dizi elemanları için ilk elemandan son elemana doğru düz
     sırada drop metotları çalıştırılmaktadır. Örneğin:
 
-    fn main() {
-        let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
-        //...
-    }
+        fn main() {
+            let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
+            //...
+        }
 
     Burada akış blok sonuna geldiğinde dizi drop edilirken dizi elemanları ilk elemandan itibaren düz sırada drop edilecektir.
     Program çalıştırıldığında ekrana şunlar basılacaktır:
 
-    Sample created: 10, 20
-    Sample created: 30, 40
-    Sample created: 50, 50
-    Sample dropped: 10, 20
-    Sample dropped: 30, 40
-    Sample dropped: 50, 50
+        Sample created: 10, 20
+        Sample created: 30, 40
+        Sample created: 50, 50
+        Sample dropped: 10, 20
+        Sample dropped: 30, 40
+        Sample dropped: 50, 50
 ---------------------------------------------------------------------------------------------------------------------------
 
-fn main() {
-    let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
-    //...
-}
+        fn main() {
+            let s: [Sample; 3] = [Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 50)];
+            //...
+        }
 
-struct Sample {
-    a: i32,
-    b: i32
-}
+        struct Sample {
+            a: i32,
+            b: i32
+        }
 
-impl Sample {
-    fn new(a: i32, b: i32) -> Sample {
-        println!("Sample created: {}, {}", a, b);
-        Sample { a, b }
-    }
+        impl Sample {
+            fn new(a: i32, b: i32) -> Sample {
+                println!("Sample created: {}, {}", a, b);
+                Sample { a, b }
+            }
 
-    fn disp(&self) {
-        println!("{} {}", self.a, self.b);
-    }
-}
+            fn disp(&self) {
+                println!("{} {}", self.a, self.b);
+            }
+        }
 
-impl Drop for Sample {
-    fn drop(&mut self) {
-        println!("Sample dropped: {}, {}", self.a, self.b  );
-    }
-}
+        impl Drop for Sample {
+            fn drop(&mut self) {
+                println!("Sample dropped: {}, {}", self.a, self.b  );
+            }
+        }
 
 ---------------------------------------------------------------------------------------------------------------------------
     Biz bir ifade içerisinde o anda bir yapı ya da enum türünden değer oluşturabiliyorduk. Bunlara geçici değişken demiştik.
@@ -15845,7 +15845,7 @@ impl Drop for Sample {
     onların yaratımlarına göre ters sırada drop edilirler. Bu davranış C++'taki geçici sınıf nesneleri için yıkıcı fonksiyonların
     çağrılmasındaki sıraya oldukça benzemektedir. Örneğin:
 
-    s.foo().bar().tar();
+        s.foo().bar().tar();
 
     Böyle bir ifadede foo fonksiyonu bir geçici yapı değişkeni geri döndürmüş olsun, bununla bar metodu çağrılmış olsun, bar
     metodunun da yine geçici bir yapı değişkeni ile geri döndüğünü varsayalım. Onunla da tar metodu çağrılmış olsun. tar
@@ -15853,14 +15853,14 @@ impl Drop for Sample {
     oluşturulmaktadır. İşte ifade bittiğinde bunlar ters sırada drop edilecektir. Yani önce bar metodunun geri döndürdüğü geçici
     değişken sonra foo metodunun geri döndürdüğü geçici değişken drop edilecektir. Örneğin:
 
-    foo(&Sample::new(), &Sample::new(), &Sample::new());
+        foo(&Sample::new(), &Sample::new(), &Sample::new());
 
     Burada fonksiyon çağrılırken geçici değişkenler soldan sağa yaratılacak ifade bittiğinde de (yani fonksiyon geri döndükten
     sonra) boşaltım sağdan sola yapılacaktır.
 
     Aynı ifadede birden fazla geçici değişkenin yaratılması operatör işlemleri ile de karşımıza çıkabilmektedir. Örneğin:
 
-    result = Complex::new(10, 2) + Complex::new(3, 3) + Complex::new(4, 1);
+        result = Complex::new(10, 2) + Complex::new(3, 3) + Complex::new(4, 1);
 
     Burada yapı türünden geçici değişkenler + operatörüyle işlemine sokulmuştur. Toplama işlemi sonucunda da geçici değişkenler
     oluşmaktadır. Son oluşan geçici değişken result değişkenine taşınmaktadır. Burada da boşaltımlar ters sırada yaılacaktır.
@@ -15870,15 +15870,15 @@ impl Drop for Sample {
     değişkenleri parametre listesine göre ters sırada drop edilmektedir. Bu bağlamda fonksiyonların parametre değişkenleri ana
     bloğun başında sırasıyla bildirilmiş yerel değişken gibi ele alınmaktadır. Örneğin:
 
-    fn main() {
-        foo(Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
-        //...
+        fn main() {
+            foo(Sample::new(10, 20), Sample::new(30, 40), Sample::new(50, 60));
+            //...
 
-    }
+        }
 
-    fn foo(a: Sample, b: Sample, c: Sample) {
-        //...
-    }
+        fn foo(a: Sample, b: Sample, c: Sample) {
+            //...
+        }
 
     Burada yaratılan geçici değişkenlerin sahipliği foo fonksiyonunun parametre değişkenlerine devredilmiştir. Bunların
     drop edilmesi ters sırada (yani örneğimizde c, b, a sırasına göre) yapılacaktır.
@@ -40684,6 +40684,1570 @@ fn main() {
     Çünkü bir bloğunun sonucu bir değişkene atanabilmektedir.
 
 ---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        120. Ders 13/07/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki makronun istenildiği kadar argümanla çağrılmasını sağlayabilmek için makroya "yineleme (repitition)" özelliğinin
+    kazandırılması gerekir. Yineleme "düzenli ifadelerde kullanılan *, + ve ? yineleme operatörleriyle oluşturulmaktadır.
+    Yineleme işlemi eşleştirici $'lı paranteze alınarak oluşturulmaktadır. Eşleştiriciden sonra fakat yineleme operatöründen
+    önce bir ayrıcı atom bulunabilir. "The Rust Reference" dokümanlarında yinelemeli makronun gramaeri şöyle verilmektedir:
+
+
+    MacroRule →
+       MacroMatcher => MacroTranscriber
+
+    MacroMatcher →
+      ( MacroMatch* )
+    | [ MacroMatch* ]
+    | { MacroMatch* }
+
+   MacroMatch →
+      Tokenexcept $ and delimiters
+    | MacroMatcher
+    | $ ( IDENTIFIER_OR_KEYWORDexcept crate | RAW_IDENTIFIER ) : MacroFragSpec
+    | $ ( MacroMatch+ ) MacroRepSep? MacroRepOp
+
+    (Yukarıdaki BNF granerinde (IDENTIFIER_OR_KEYWORDexcept crate | RAW_IDENTIFIER ) kısmındaki parantezler parantez atomlarını
+    değil BNF'nin | operatörü için gereken gruplama parantezini belirtmektedir. Aslında BNF notasyonunda sentaktik gruplama
+    için küme parantezleri ve köşeli parantezler de kullanılşabilmektedir. Ancak "The Rust Reference" dokümanı normal parantezi
+    tercih etmiştir. Fakat yukarıdan da göreceğiniz gibi bu yanlış anlaşılmaya açıktır. Orijinal dokümanlarda "son semboller
+    (terminal symbols)" beyaz zemin içerisinde belirtilmiştir. Ancak text editörlerde bu olanak yoktur.)
+
+    Anımsanacağı gibi MacroRule eşleştiriciden (MacroMatcher), => atomundan ve genişleticiden (MacroTranscriber) oluşmaktadır.
+    eşleştirici normal parantezler, köşeli parantezzler ya da küme parantezleri içerisinde sıfır tane ya da daha fazla eşleşten
+    (MacroMatch) oluşmaktadır. İşte anımsanacağı gibi eşleşler eğer makro parametresi içeriyorsa $'lı paranteze alınıyordu.
+    Gramerdeki MacroRepSep isteğe bağlı olarak kullanılan ayırıcı atomu ve MacroRepOp ise *, + ve ? karakterlerinden
+    yalnızca birini belirtmektedir. Ayırıcı atom için genellikle ',' kullanılmaktadır. Örneğin kural çöyle olsun:
+
+    ($($val:expr),* ) => {
+        //...
+    }
+
+    Buradaki en dıştaki parantezler eşleştiricinin parantezidir. Anımsayacağınız gibi buradaki parantezler normal parantezler
+    olabileceği gibi köşeli parantezler ya da küme parantezleri de olabilmektedir. Gramerden görüldüğü gibi yineleme oluşturabilmek
+    için bu en dıştaki parantezlerin içerisinde $'lı bir normal parantezin bulunuyor olması gerekir. Yani yinelemeli eşleştirici
+    tipik olarak şu biçimlerde oluşturulmaktadır:
+
+    ($(...),*)
+    [$(...),*]
+    {$(...),*]
+
+    Buradaki ',' ve * yerine başka bir ayırıcı ve yineleme operatörü bulunabilir. İç parantezin içerisinde tipik olarak
+    makro parametreleri bulunmaktadır. Bu durumda tipik bir yinelemeli eşleştirici şu sentaksa sahip olmaktadır:
+
+    ($($val:expr),* ) => {
+        //...
+    }
+
+    Peki yukarıdaki yinelemeli eşleştirici ne anlama gelmektedir? Burada aslında $val: expr eşleşi 0 kez ya da daha
+    fazla yinelenebilmektedir. $val: expr eşleşinden sonra ',' ayırıcı atomu bulunabilir de bulunmayabilir de. Örneğin:
+
+    macro_rules! foo {
+        ($($val: expr),*)  => {
+            //...
+        };
+    }
+
+    Burada biz foo makrosunu sıfır tane ifadeyle ya da daha fazla ifadeyle çağırabiliriz. İfadeler arasında ',' atomunun
+    bulunması gerekir. Örneğin:
+
+    foo!();                         // geçerli
+    foo!(10);                       // geçerli
+    foo!(10, 20);                   // geçerli
+    foo!(10, 20);                   // geçerli
+
+    Ancak argüman listesinin sonunda ayırıcı atom (örneğimizde ',') bulundurulamaz. Örneğin:
+
+    foo!(10, 20, );                 // error!
+
+    Peki genişletici içerisinde eşleştiricideki yineleyen eşleşleri nasıl elde edebiliriz? İşte bunun için aşağıdaki
+    sentaks kullanılmaktadır:
+
+    $(
+        //...
+    )*
+
+    Burada parazntezlerin sonunda + yineleme operatörü de bulunabilmektedir:
+
+    $(
+        //...
+    )+
+
+    Bu sentaks "yinelenen her bir eşleş için parantez içerisindeki kodun yeniden açılacağını" belirtmektedir. Örneğin:
+
+    macro_rules! myvec {
+        ($($val: expr),*)  => {
+            {
+                let mut v = Vec::new();
+
+                $(
+                    v.push($val);
+                )*
+
+                v
+            }
+        };
+    }
+
+    Burada makronun genişleticisindeki yinelenme sentaksına dikkat ediniz:
+
+    $(
+        v.push($val);
+    )*
+
+    Bu sentaks makroya argüman olarak girilen her ifade için vektöre push yapılacağını belirtmektedir. Örneğin:
+
+    let v = myvec!(10, 20, 30, 40, 50);
+
+    Burada aslında makro açımı sonrasında şöyle bir kod elde edilmektedir:
+
+    let v = {
+        let mut v = Vec::new();
+
+        v.push(10);
+        v.push(20);
+        v.push(30);
+        v.push(40);
+        v.push(50);
+
+        v
+    };
+
+    Eşleştiricideki ayıraç atom ',' olmak zorunda değildir. Örneğin:
+
+    macro_rules! calc_total {
+        ($($val: expr);*) => {
+            {
+                let mut total = 0;
+
+                $(
+                    total += $val;
+                )*
+
+                total
+            }
+        };
+    }
+
+    Burada makro argümanlarının toplamına geri döndürülmüştür. Ancak ',' yerine ';' ayıraç olarak kullanılmıştır. Çağırma
+    şöyle yapılabilir:
+
+    fn main() {
+        let result = calc_total!(1; 2; 3; 4; 5);
+
+        println!("{}", result);     // 15
+    }
+
+    Peki biz ayıraç olarak herhangi bir atom kullanabilir miyiz? Evet ancak "tamamlayıcı (followup)" kuralına uymak
+    koşuluyla. Örneğin yukarıdaki makroda expr sentaktik öğeleri yan yana gelmektedir. O halde yukarıdaki örnekte ayıracın
+    expr sentaktik öğesinden sonra kullanılabilecek tamamlayıcı olması gerekir. expr sentaktik öğesinden sonra kullanılabilecek
+    tamamlayıcların listesini anımsayınız:
+
+    =>
+    ,
+    ;
+
+    Örneğin:
+
+    macro_rules! calc_total {
+        ($($val: expr)=>*) => {
+            {
+                let mut total = 0;
+
+                $(
+                    total += $val;
+                )*
+
+                total
+            }
+        };
+    }
+
+    fn main() {
+        let result = calc_total!(1 => 2 => 3 => 4 => 5);
+
+        println!("{}", result);     // 15
+    }
+
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        121. Ders 20/07/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    vec gibi bazı makrolar çağrılırken sonunda isteğe bağlı olarak virgül bulundurulabiliyordu. Örneğin:
+
+    let v = vec![1, 2, 3, 4, 5, ];         // geçerli
+
+    Bizim yazdığımız myvec şöyleydir:
+
+    macro_rules! myvec {
+        ($($val: expr),*)  => {
+            {
+                let mut v = Vec::new();
+
+                $(
+                    v.push($val);
+                )*
+
+                v
+            }
+        };
+    }
+
+    Buradaki yineleme "ifadeler arasında virgül olabilir" anlamına gelmektedir. Burada myvec çağrılırken sonuna ekstra bir virgül
+    getirilemez:
+
+    let v = myvec![1, 2, 3, 4, 5, ];       // error!
+
+    İşte bunu sağlayabilmek için ayrıca isteğe bağlı $(,)? biçiminde bir virgül kalıbının da eklenmesi gerekir:
+
+    macro_rules! myvec {
+        ($($val: expr),*, $(,)?)  => {
+            {
+                let mut v = Vec::new();
+
+                $(
+                    v.push($val);
+                )*
+
+                v
+            }
+        };
+    }
+
+    Artık makromunuzu sonunda virgül olacak biçimde çağırabiliriz:
+
+    let v = myvec![1, 2, 3, 4, 5, ];       // geçerli
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi de hash_map makrosunu yazmaya çalışalım. Anımsayacağınız gibi hash_map makrosu henüz karalı sürüme aktarılmamıştı.
+    Makroyu şöyle yazabiliriz:
+
+    use std::collections::HashMap;
+
+    macro_rules! my_hash_map {
+        ($($key: expr => $value: expr),*)  => {
+            {
+                let mut hm = HashMap::new();
+
+                $(
+                    hm.insert($key, $value);
+                )*
+
+                hm
+            }
+        };
+    }
+
+    Burada kuraldaki eşleitiriciye dikkat ediniz:
+
+    ($($key: expr => $value: expr),*)
+
+    En dıştaki parantezler eşleştirici parantezleridir. Anımsayacağınız gibi bu parantezler aslında köşeli parantez biçiminde
+    ya da küme parantezi biçiminde de olabilir. Yineleme için $() paramtez kalbının kullanıldığını anımsayınız. Burada
+    yinelenen öğeler şunlardır:
+
+    $($key: expr => $value: expr),*
+
+    Anahtarla değeri ayırmak için => eşleşi kullanılmıştır. Yine bunların arasına virgül atomu getirilebilmektedir.
+    Örnek kullanım şöyle olabilir:
+
+    fn main() {
+        let hm = my_hash_map! {
+            10 => String::from("Ali"),
+            20 => String::from("Veli"),
+            30 => String::from("Selami")
+        };
+
+        println!("{:?}", hm);
+    }
+
+
+    Tabii burada biz makroyu küme parantezleriyle çağırmak zorunda değiliz. Normal parantezlerle de köşeli parantezlerle de
+    çağırabiliriz. Çağrımn sırasında hangi parantezlerin daha uygunolacağı makroya bağlı olarak dğeişebilmektedir. Birden
+    fazla eşleş bulunduğu durumda kğme parantezleri daha okunabilir bir durum oluşturabilmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use std::collections::HashMap;
+
+macro_rules! my_hash_map {
+    ($($key: expr => $value: expr),*)  => {
+        {
+            let mut hm = HashMap::new();
+
+            $(
+                hm.insert($key, $value);
+            )*
+
+            hm
+        }
+    };
+}
+
+fn main() {
+    let hm = my_hash_map! {
+        10 => String::from("Ali"),
+        20 => String::from("Veli"),
+        30 => String::from("Selami")
+    };
+
+    println!("{:?}", hm);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Bildirimsel makrolar özyinelemeli biçimde oluşturulabilmektedir Bu sayede Rust'ta neta programlama yapılabilmektedir.
+    Makrolardaki özyinelemenin algısal karmaşıklığı fazla olduğu için bir örnek vermekle yetineceğiz. Aşağıdkai find_min
+    makrosuna dikkat ediniz:
+
+    macro_rules! find_min {
+        ($x:expr) => {
+            $x
+        };
+        ($x:expr, $($rest:expr),+) => {
+            {
+                let rest_min = find_min!($($rest),+);
+                if $x < rest_min { $x } else { rest_min }
+            }
+        };
+    }
+
+    Bu makroda iki kural vardır. Birinci kuraldaki eşleştiricinin tek bir eşleşi vardır. İkinci kuraldaki eşleştirici
+    yineleme içermektedir. Yineleme operatörünün + olduğuna dikkat ediniz Bu durumda ikinci kuralın eşleştiricisi en az
+    aralarında virgül olan iki argümanla çağrıldığında uyuşum sağlanacaktır. Biz bu makroyu aşağdaki gibi tek argümanla
+    çağırmış olalım:
+
+    result = find_min!(10);
+
+    Burada birinci eşleştirici uyuşum sağlayacağı için 10 değeri elde edilecektir. Şimdi makroyu iki argümanla çağıralım:
+
+    result = find_min!(10, 20);
+
+    Burada ikinci eşleştirici uyuşum sağlayacaktır ve genişletici açılacaktır:
+
+    {
+        let rest_min = find_min!($( $rest),+ );
+        if $x < rest_min { $x } else { rest_min }
+    }
+
+    Burada yeniden find_min makrosunun çağrıldığını görüyorsunuz. Ancak artık find_min 20 ile çağrılmış gibi etki gösterecektir.
+    Yani bu çağrıdan 20 elde edilecektir. İşte bu 20 değeri ilk argüman olan 10 ile karşlaştırılmış ve hangisi küçükse o
+    değer elde edimiştir. Dolayısıyla burada 10 değeri elde edilecektir. Şimdi makroyu üç argümanla çağıralım:
+
+    result = find_min!(10, 20, 30);
+
+    Burada yine ikinci eşleştirici uyuşum sağlayacaktır. Ancak gemişleticideki çağrı bu kez find_min!(20, 30) biçiminde
+    olacaktır. Bu çağrı da ikinci eşleştirici ile uyuşacaktır. Yeniden aynı genişletici açılınca oradan 30 elde edilecektir.
+    20 ile 30 değerlerinin küçüğü 20 olduğu için önce 20 elde edilecek sonra bu 20 değeri 10 ile karşılaştırılarak nihai
+    olarak 10 değeri elde edilecektir. Yani buradaki açımlar şöyle yürütülmektedir:
+
+    find_min(10, 20, 30)
+        find_min!(20, 30)
+            find_min!(30)
+                30 değeri elde edilir
+        20 ile 20 kaşılaştırılıp 20 elde edilir
+    10 ile 20 karşılaştırılıp 10 elde edilir
+
+    find_min!(10, 20, 30) çağrısının kod açımını şöyle de ifade edebiliriz:
+
+    {
+        let rest_min = {
+            let rest_min = {
+                30
+            };
+            if 20 < rest_min { 20 } else { rest_min }
+        };
+        if 10 < rest_min { 10 } else { rest_min }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yineleme iç içe de olabilir. Örneğin:
+
+    macro_rules! nested_vec {
+        ($([$($elem:expr),*]),* $(,)?) => {
+            vec![
+                $(
+                    vec![$( $elem ),*]
+                ),*
+            ]
+        };
+    }
+
+    Buradaki makrodnun eşleştiricisine dikkat ediniz:
+
+    ($([$( $elem:expr ),* ]),* $(,)?)
+
+    En dıştaki parantezler eşleştiricinin parantezleridir. Yinelenen eşleşlere dikkat ediniz:
+
+    $([$( $elem:expr ),* ]),*
+
+    Burada köşeli parantezler eşleş görevindedir ve köşeli paranetz içerisinde yine yineleme kalıbı bulunmaktadır. Yani
+    buradaki eşleştirici virgüllerle ayrılmış köşeli parantezlerden, köşeli parantezler de virgüllerle ayrılmış ifadelerden
+    oluşmaktadır. Örneğin:
+
+    let mut nv = nested_vec![
+        [10, 20, 30, 50],
+        [40, 50],
+        [70, 80, 90, 100]
+    ];
+
+    Buradakinvm değişkeninin Vec<Vec<i32>> türündne olduğuna dikkat ediniz. Biz dıştaki vektörü dolaşırsak vektörşer elde
+    ederiz. Örneğin:
+
+    for v in nv {
+       for x in v {
+           print!("{} ", x);
+       }
+       println!();
+   }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+macro_rules! nested_vec {
+    ($([$($elem:expr),*]),* $(,)?) => {
+        vec![
+            $(
+                vec![$( $elem ),*]
+            ),*
+        ]
+    };
+}
+
+fn main() {
+    let mut nv = nested_vec![
+        [10, 20, 30, 50],
+        [40, 50],
+        [70, 80, 90, 100]
+    ];
+
+   for v in nv {
+       for x in v {
+           print!("{} ", x);
+       }
+       println!();
+   }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz Rust'taki makroları iki gruba yaırmıştık: Bildirimsel makrolar (declarative macros) ve prosedürel makrolar (Procedural
+    macros). Bildirimsel makrolara İngilizce "macro by example" da deniyoordu. Bildirimsel makroları gördük. Şimdi de prosedürel
+    makrolara üzerinde duracağız.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Prosedürel makrolar isminden de anlaşıldığı gibi bir fonksiyon biçiminde yazılmaktadır. Bildirmsel makrolara göre daha
+    esnek kullanımlar sunmaktadır. Prosedürel makrolar da kendi aralarında üç gruba ayrılmaktadır:
+
+    1) #[proc_macro] özniteligi ile oluşturulanlar
+    2) #[proc_macro_derive(isim)] özniteliği ile oluşturulanlar3
+    3) #[proc_macro_attribute] özniteliğiyle oluşturulanlar
+
+    Birinci gruba İnlizce "function like macros", ikinci gruba "derive macros" ve üçncü gruba da "attribute macros"
+    da denilmektedir. Bunlardna en fazla kullanılan prosedürel makrolar #[proc_macro] özniteliği ile oluşturulan makrolardır.
+    Bunların kullanımları (ama semantikleri değil) biribine oldukça benzerdir. Biz bu makroları sırasıyla göreceğiz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Prosedürel makrolar ayrı bir crate içerisinde bulunmak zorundadır. Bunlar adeta kütüphane oluşturur gibi oluşturulmaktadır.
+    Prosedürel makrolar "library crate" içerisinde bulunurlar ve by create'in en dışında tanımlanmak zorundadırlar. (Yani
+    bunları kütüphane crate'inin içerisindeki başka bir modülde tanımlayamayız. crate'in ana modülünde yani en dışarıda
+    tanımlamak zorundayız.)
+
+    Prosedürel makro için kütüphane crate'ini şöyle oluşturabiliriz:
+
+    cargo new procmacro --lib
+
+    RustRover IDE'si ile de kütüphane crate'inin görsel biçimde oluşturulabildiğini anımsayınız.
+
+    Kütüphane crate'i yaratıldıktan sonra "Cargo.toml" dosyasının açılıp [lib] bölümünde proc-macro = true direktifinin
+    yerleştirilmesi gerekmektedir:
+
+    [lib]
+    proc-macro = true
+
+    Kütüphane crate'imizin "Cargo.toml" dosyası şöyledir:
+
+    [package]
+    name = "procmacro"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+
+    [lib]
+    proc-macro = true
+
+    Minmal bir makro create'in "lib.rs" dosyası içerisinde aşağıdaki gibi tanımlanabilir:
+
+    use proc_macro::TokenStream;
+
+    #[proc_macro]
+    pub fn my_macro(input: TokenStream) -> TokenStream {
+        input
+    }
+
+    Buradaki my_macro isimli makronun bir fonksiyon gibi tanımlandığına dikkat ediniz. Ancak fonksiyonun başında #[proc_macro]
+    özniteliği bulunmaktadır. Bu özniteliği kullanabilmemiz için "Cargo.toml" dosyasında proc-macro = true direktifinin bulunuyor
+    olması gerekir. Aksi takdirde bu öznitelik derleyici tarafından tanınmayacaktır. #[prc_macro] özniteliğiye oluşturulan
+    prosedürel makroların tek parametresi olur. O parametre de proc_macro modülündeki TokenStream isimli yapı türündendir.
+    Fonksiyonun geri dönüş değerinin de aynı yapı türünden olduğuna dikkat ediniz.nStream yapısı standart prelude içerisinde
+    use edilmediği için use işlemini biz yaptık. Buradaki makro aslında hiçbir şey yapmamaktadır. Biz bu makroya girdi
+    olarak ne vermişsel makro da onu açmaktadır.
+
+    Prosedürel makrolar başka bir crate'ten tipik olarak da "binary crate'ten" kullanılmaktadır. Prosedürel makroların
+    kullanılması için daha önce görmüş olduğumuz "kütüphane kullanımındaki" adımların uygulanması gerekir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            122. Ders 22/07/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıdaki prosedürel makroyu binary crate'imiz içerisinde "Cargo.toml" dosyasında [dependencies] belirterek
+    kullanabiliriz:
+
+    // Cargo.toml
+
+    [package]
+    name = "macrotest"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+    procmacro = { path = "../procmacro" }
+
+    Prosedürel makroyu "main.rs" içerisinde şöyle kullanabiliriz:
+
+    use procmacro::my_macro;
+
+    fn main() {
+        let s = my_macro!("test");
+
+        println!("{}", s);      // test
+    }
+
+    Görüldüğü gibi my_macro!("test") çağrısı "test" üretmiştir. Örneğin:
+
+    my_macro!{
+        fn foo() {
+            println!("foo");
+        }
+    }
+
+    my_macro aynı atom yığınını çıktı olarak vereceğine göre aslında biz fonksiyon tanımlamış gibi olduk.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    proc_macro modülü yalnızca proc-macro = true direktifi belirtilmiş crate'lerden kullanılabilmektedir. Örneğin biz bir
+    binary crate içerisinde proc_macro örnetiğini ve TokenStream yapısını kullanamayız:
+
+    use proc_macro::TokenStream;        // error!
+
+    fn main() {
+        //...
+    }
+
+    Debug ve test işlemlerinin kolay yapılabilmesi için binary crate'lerden kullanılabilen proc-macro2 isimli bir modül de
+    oluşturulmuştur. Bunun için tabii binary crate'in dependencies bölümünde proc-macro2 crate'ini belirtmek gerekir:
+
+    [package]
+    name = "macrotest"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+    proc-macro2 = "1.0"
+
+    Artık proc_macro2 modülündeki orijinali ile (yani proc_macro modülündekiyle) aynı olan TokenStream ve diğer türleri
+    kullanabiliriz:
+
+    use proc_macro2::TokenStream;       // geçerli
+
+    fn main() {
+        //...
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi TokenTree ve TokenStream Türleri üzerinde duralım. Biz daha önce TokenTree türünden bahsetmiştik. TokenTree tek
+    bir atomu temsil ediyordu. Ancak bu atom normal, köşeli ve küme paramtezleriyle oluşturulmuş bir grup atomu da temsil
+    edebiliyordu. TokenTree proc_macro modülünde aşağıdaki gibi bir enum biçiminde tanımlanmıştır:
+
+    pub enum TokenTree {
+        Group(group),
+        Ident(ident),
+        Punct(punct),
+        Literal(literal),
+    }
+
+    Görüldüğü gibi bir TokenTree bir Group olabilir, bir Ident olabilir, bir Punct olabilir, bir Literal olabilir. Bu türlerin
+    hepsi proc_macro modülünde tanımlanmıştır.
+
+    Buradaki Ident türü anahtar sözcük ve değişken olan atomları temsil etmektedir. (Makrolar parse aşamasından önce devreye
+    girdiği için bu aşamada anahtar sözcük ile değişken atomların bir farkı yoktur.) Örneğin:
+
+    fn foo(a: i32) {
+        //...
+    }
+
+
+    Buradaki fn, foo, a, i32 atomlarının hepsi Ident ile temsil edilmektedir. Bir Ident türünden değer yaratmak için Ident
+    yapısının new ilişkili fonksiyonu kullanılabilir. Örneğin:
+
+    use proc_macro2::{Ident, Span};
+
+    fn main() {
+        let ident: Ident = Ident::new("foo", Span::call_site());
+        println!("{}", ident);          // foo
+    }
+
+    new ilişkili fonksiyonunun ikinci parametresi Span isimli yapı türündendir. Span değeri örneğimizde Span::call_site()
+    çağrısıyle elde edilmiştir. Ident olarak girilen yazının değişken isimlendirme kurallarına uygun bir isim olması gerekir.
+    Aksi takdirde panic oluşacaktır.
+
+    Punct yapısı ayıraç atomları ve operatörleri temsil etmektedir. Ancak -> gibi += gibi atomlar tek bir atom değil iki
+    ayrı atom gibi temsil edilmektedir. Bunların tek atom olup olduğu Punct değeri aratılırken new ilişkili fonksiyonunun
+    Spacing türündne ikinc parametresiyle belirtilmektedir. Spacing aiağıdaki gi bir enum türüdür:
+
+    pub enum Spacing {
+        Joint,
+        Alone,
+    }
+
+    Punct değeri yaratılıken Spacing::Joint girilirse sonraki Puvct ile yaratılan Punct tek bir atom olarak ele alınır. Alone
+    ise ilgili karakterin tek atom oludğunu belirtmektedir. Örneğin:
+
+    use proc_macro2::{Punct, Spacing};
+
+    fn main() {
+        let punct1: Punct = Punct::new('+', Spacing::Joint);
+        let punct2: Punct = Punct::new('=', Spacing::Alone);
+
+        println!("{}{}", punct1, punct2);          // +=
+    }
+
+    Punct değişkeni içerisindeki Spacing bilgisi yapının spacing metodu ile elde elde edilebilir.
+
+    Literal türü sabitleri temsil etmektedir. Literal türünden değer oluşturmak için her sabite ilişkin ilişkili fonksiyon
+    bulunmaktadır. Bunların listesini veriyoruz:
+
+    ┌───────────────────────┬─────────────────────────┬──────────────────────────────┐
+    │      Fonksiyon        │       Parametre         │           Açıklama           │
+    ├───────────────────────┼─────────────────────────┼──────────────────────────────┤
+    │ i8_suffixed           │ n: i8                   │ Örn. 10i8                    │
+    │ i16_suffixed          │ n: i16                  │ Örn. 10i16                   │
+    │ i32_suffixed          │ n: i32                  │ Örn. 10i32                   │
+    │ i64_suffixed          │ n: i64                  │ Örn. 10i64                   │
+    │ i128_suffixed         │ n: i128                 │ Örn. 10i128                  │
+    │ isize_suffixed        │ n: isize                │ Örn. 10isize                 │
+    │ u8_suffixed           │ n: u8                   │ Örn. 10u8                    │
+    │ u16_suffixed          │ n: u16                  │ Örn. 10u16                   │
+    │ u32_suffixed          │ n: u32                  │ Örn. 10u32                   │
+    │ u64_suffixed          │ n: u64                  │ Örn. 10u64                   │
+    │ u128_suffixed         │ n: u128                 │ Örn. 10u128                  │
+    │ usize_suffixed        │ n: usize                │ Örn. 10usize                 │
+    │ f32_suffixed          │ n: f32                  │ Örn. 1.5f32                  │
+    │ f64_suffixed          │ n: f64                  │ Örn. 1.5f64                  │
+    ├───────────────────────┼─────────────────────────┼──────────────────────────────┤
+    │ i8_unsuffixed         │ n: i8                   │ Eksiz tamsayı literal'i      │
+    │ i16_unsuffixed        │ n: i16                  │ "                            │
+    │ i32_unsuffixed        │ n: i32                  │ "                            │
+    │ i64_unsuffixed        │ n: i64                  │ "                            │
+    │ i128_unsuffixed       │ n: i128                 │ "                            │
+    │ isize_unsuffixed      │ n: isize                │ "                            │
+    │ u8_unsuffixed         │ n: u8                   │ "                            │
+    │ u16_unsuffixed        │ n: u16                  │ "                            │
+    │ u32_unsuffixed        │ n: u32                  │ "                            │
+    │ u64_unsuffixed        │ n: u64                  │ "                            │
+    │ u128_unsuffixed       │ n: u128                 │ "                            │
+    │ usize_unsuffixed      │ n: usize                │ "                            │
+    │ f32_unsuffixed        │ n: f32                  │ Eksiz gerçek sayı literal'i  │
+    │ f64_unsuffixed        │ n: f64                  │ "                            │
+    ├───────────────────────┼─────────────────────────┼──────────────────────────────┤
+    │ string                │ string: &str            │ Örn. "hello" (kaçışlar dahil)│
+    │ character             │ ch: char                │ Örn. 'a'                     │
+    │ byte_character        │ byte: u8                │ Örn. b'a'   (Rust 1.79+)     │
+    │ byte_string           │ bytes: &[u8]            │ Örn. b"hello"                │
+    │ c_string              │ string: &CStr           │ Örn. c"hello" (Rust 1.79+)   │
+    └───────────────────────┴─────────────────────────┴──────────────────────────────┘
+
+    Örneğin:
+
+    use proc_macro2::{Literal};
+
+    fn main() {
+        let literal = Literal::f64_unsuffixed(3.14);
+
+        println!("{}", literal);        // 3.14
+
+        let literal = Literal::f64_suffixed(3.14);
+
+        println!("{}", literal);        // 3.14f64
+    }
+
+    Normal parantezler, köşeli parantezler ve kğme parantezleri içerisindeki atomların hepsi Group isimli türle temsil
+    edilmiştir. Örneğin:
+
+    fn foo(a: i32, b: i32) -> i32 {
+        (a + b) * 2
+    }
+
+    Buradaki atom türleri şöyledir:
+
+    ┌──────────────────┬────────────────────────────────┬────────────────────────────────┐
+    │      Token       │         TokenTree Türü         │           Açıklama             │
+    ├──────────────────┼────────────────────────────────┼────────────────────────────────┤
+    │ fn               │ Ident                          │ Anahtar sözcükler de Ident'tir │
+    │ foo              │ Ident                          │ Fonksiyon ismi                 │
+    │ (a: i32, b: i32) │ Group (Delimiter::Parenthesis) │ Parametre listesi              │
+    │ -                │ Punct                          │ Spacing::Joint                 │
+    │ >                │ Punct                          │ Spacing::Alone                 │
+    │ i32              │ Ident                          │ Geri dönüş türü                │
+    │ { (a + b) * 2 }  │ Group (Delimiter::Brace)       │ Fonksiyon gövdesi              │
+    └──────────────────┴────────────────────────────────┴────────────────────────────────┘
+
+    Group türünden bir değer Group yapısının new ilişkili fonksiyonu ila oluşturulmaktadır. Bu fonksiyonun parametrik yapısı
+    şöyledir:
+
+    pub fn new(delimiter: Delimiter, stream: TokenStream) -> Group
+
+    Fonksiyonun birincvi parametresi parantezin nasıl bir parantez olduğunu belirtir:
+
+    pub enum Delimiter {
+        Parenthesis,
+        Brace,
+        Bracket,
+        None,
+    }
+
+    İkinci parametre zaten izleyen paragraflarda aöıklayacağımız TokenStream türündendir. Burada bir özyineleme söz konusudur.
+    Yani TokenStream değeri TokenTree değerlerinden oluşurken Group TokenTree değeri de TokenStream değerindne oluşmaktadır.
+    Zaten özyineleme yapılmadan Rust sentaksınının oluşturulması mümkün de değildir. İzleyen paragraflarda göreceğimiz gibi
+    bir string'ten TokenStream oluşturulabilmektedir. Örneğin:
+
+    use proc_macro2::{Group, TokenStream, Delimiter};
+
+    fn main() {
+        let ts: TokenStream = "1 + 2".parse().unwrap();
+        let group = Group::new(Delimiter::Parenthesis, ts);
+
+        println!("{}", group);  // (1 + 2)
+    }
+
+    Group yapısının stream isimli metodu Group içerisindeki TokenStream değerini, delimiter metodu ise ayıracı varmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Biz yukarıda TpkenTree türlerini tek tek ele aldık. Şimdi de TokenStream türü üzerinde duralım. TokenStream aslında
+    TokenTree değerlerini tutan bir collection nesne gibidir. Yani TokenStream dolaşılabilir. Dolaşıldıkça onu oluşturan
+    TokenTree değerleri elde edilir.
+
+    Bir TokenStream değeri tipik olarak bir string diliminin parse edilmesiyle oluşturulmaktadır. TokenStream yapısı FromStr
+    trait'ini desteklemektedir. Anımsayacağınız gibi bu trait'in from_str isimli bir metodu vardır:
+
+    pub trait FromStr: Sized {
+        type Err;
+
+        // Required method
+        fn from_str(s: &str) -> Result<Self, Self::Err>;
+    }
+
+    İşte TokenStream yapısının FromStr trait'inden gelen from_str fonksiyonu bir string dilimini parametre olarak alır,
+    onu parse edip TokenStream nesnesi verir. Örneğin:
+
+    use proc_macro2::{TokenStream};
+    use std::str::FromStr;
+
+    fn main() {
+        let ts = TokenStream::from_str("fn add(a: i32, b: i32) -> i32 { (a + b) * 2}").unwrap();
+
+        println!("{:?}", ts);
+    }
+
+    from_str fonksiyonu std::str::FromStr trait'indne geldiği için bu trait'in faaliyet alanı içerisinde olması gerekir.
+    Anımsayacağınız gibi zaten str yapısının parse netodu generic yazılmıtır ve from_str fonksiyonunu çağırmaktadır:
+
+    impl str {
+        //...
+        pub fn parse<F: FromStr>(&self) -> Result<F, F::Err> {
+            FromStr::from_str(self)
+        }
+        //...
+    }
+
+    O halde biz bir TokenStrem nesnesini aslında parse metodu ile de oluşturabiliriz:
+
+    use proc_macro2::{TokenStream};
+
+    fn main() {
+        let ts: TokenStream = "fn add(a: i32, b: i32) -> i32 { (a + b) * 2}".parse().unwrap();
+
+        println!("{:?}", ts);
+    }
+
+    TokenStream yapısı IntoIterator trait'ini desteklemektedir. Dolayısıyla tüketici dolaşım yapan into_iter metodu vardır.
+    Biz bir döngü içerisinde TokenStream içerisindeki TokenTree değerlerini elde edebiliriz:
+
+    use proc_macro2::{TokenStream};
+
+    fn main() {
+        let ts: TokenStream = "fn add(a: i32, b: i32) -> i32 { (a + b) * 2}".parse().unwrap();
+
+        for tt in ts.into_iter() {
+            println!("{}", tt);
+        }
+    }
+
+    Buradan aşağıdaki çıktı elde edilmektedir:
+
+    fn
+    add
+    (a : i32 , b : i32)
+    -
+    >
+    i32
+    { (a + b) * 2 }
+
+    Eğer tüketici dolaşım yapmak istemiyorsanız TokenSTream değerini clone işlemine sokabilirsiniz:
+
+    for tt in ts.into_iter().clone() {
+        //...
+    }
+
+    TokenStreamn yapısının iter ve iter_mut metotları yoktur. Şimdi TokenStream nesnesini türlerini tespit ederek
+    dolaşalım:
+
+    use proc_macro2::{TokenTree, TokenStream, Ident, Punct, Literal, Group};
+
+    fn main() {
+        let ts: TokenStream = "fn add(a: i32, b: i32) -> i32 { (a + b) * 2}".parse().unwrap();
+
+        for tt in ts.into_iter() {
+            match tt {
+                TokenTree::Group(group) => {
+                    println!("Group: {}", group);
+                },
+                TokenTree::Ident(ident) => {
+                    println!("Ident: {}", ident);
+                },
+                TokenTree::Punct(punct) => {
+                    println!("Punct: {} ({:?})", punct, punct.spacing());
+
+                }
+                TokenTree::Literal(literal) => {
+                    println!("Literal: {}", literal);
+                },
+                _ => ()
+            }
+        }
+    }
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        123. Ders 27/07/2026 - Pazartesi
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Group da bir çeşit TokenStream olduğuna göre biz Group nesnesini de dolaşabiliriz. Tabii Group nesneleri Group nesnelerini
+    de içerbilir. Bu durumda bir TokenStream özyinelemeli (recursive) bir biçimde dolaşılabilir.  Aşağıda özniyinelemeli
+    dolaşımı veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+use proc_macro2::{TokenTree, TokenStream, Ident, Punct, Literal, Group, Delimiter};
+
+fn disp_token_stream(ts: TokenStream, level: usize) {
+    for tt in ts.into_iter() {
+        print!("{:level$}", "");
+        match tt {
+            TokenTree::Group(group) => {
+
+                let (open, close) = match group.delimiter() {
+                    Delimiter::Parenthesis => ('(', ')'),
+                    Delimiter::Brace => ('{', '}'),
+                    Delimiter::Bracket => ('[', ']'),
+                    Delimiter::None => (' ', ' ')
+                };
+                println!("Group {}", open);
+                disp_token_stream(group.stream(), level + 4);
+                println!("{:level$}{}", "", close);
+            },
+            TokenTree::Ident(ident) => {
+                println!("Ident: {}", ident);
+            },
+            TokenTree::Punct(punct) => {
+                println!("Punct: {} ({:?})", punct, punct.spacing());
+            }
+            TokenTree::Literal(literal) => {
+                println!("Literal: {}", literal);
+            },
+            _ => ()
+        }
+    }
+}
+
+fn main() {
+    let ts: TokenStream = "fn add(a: i32, b: i32) -> i32 { (a + b) * 2}".parse().unwrap();
+
+    disp_token_stream(ts, 0);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    quote isimli bir makro atomarı bir yazı biçiminde değil doğrudan alıp ondan TokenStream nesnesi oluşturmaktadır. Ancak
+    bu quote makrosu henüz Rust'ın stabil sürümlerinde yer almaktadır. Yani halen "nightly" sürümlerine ilişkin bir özelliktir.
+    Ancak quote isimli bir paket debug işlemleri için ayrıca oluşturulmuştur. Bu paket yoluyla quote makarosunu kullanabiliriz.
+    Gerek kütüphane crate'imizde gerekse binary crate'imizde bu quote makrousnu kullanabilmek için [depnedencies] bölümüne
+    aşağıdaki satırın eklenmesi gerekmektedir:
+
+    [dependencies]
+    proc-macro2 = "1.0"
+    quote = "1.0"
+
+    library crate'te proc-macro2 kullanmaya gerek yoktur. quote makrosunu kullanırken aşağıdaki use işlemini yapabiliriz:
+
+    use quote::quote;
+
+     let ts: TokenStream = quote! {
+        fn foo() {
+            println!("foo");
+        }
+    };
+
+    Ancak bir noktaya dikkatinizi çekmek istiyoruz. "quote" paketindeki quote makrosu bize proc-macro2 paketindeki TokenStream
+    yapısı türünden nesne vermektedir. Eğer quote makrosunu kütüphane crate'indne kullanacaksanız proc-macro2'deki TokenStream
+    nesnesini standart kütüphanedeni TokenStream nesnesine döüştürmeniz gerekir. proc-macro2 paketindeki TokenStream yapısı
+    From trait'ini kaplayıcı destekleme dolayısıyla da Into trait'ini desteklemektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Şimdi yukarıdaki bilgilerden hareketle prosedürel makromuzu kütüphane crate'i içerisinde oluşturalım:
+
+    use proc_macro::TokenStream;
+
+    #[proc_macro]
+    pub fn my_macro(input: TokenStream) -> TokenStream {
+        "fn foo() { println!(\"foo\");}".parse().unwrap()
+    }
+
+    Kütüphane crate'imizin "Cargo.toml" dosyası şöyledir:
+
+    [package]
+    name = "procmacro"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+
+    [lib]
+    proc-macro = true
+
+    Şimdi de binary crate içerisinde makromuzu kullanalım:
+
+    use procmacro::my_macro;
+
+    my_macro!();
+
+    fn main() {
+        foo();
+    }
+
+    Binary crate'imizin "Cargo.toml" dosyası da şöyledir:
+
+    [package]
+    name = "macrotest"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+    procmacro = { path = "../procmacro" }
+
+    Burada my_macro! çağrısı aşağıdaki atomları koda açacaktır:
+
+    fn foo() { println!(\"foo\");}
+
+    Yukarıda da belirttiğimiz gibi eğer kütüphane crate'inde quote makrosunu kullanacaksak bu durumda kütüphane crate'indeki
+    "Cargo.toml" içerisinde buu belirtmeliyiz:
+
+    [package]
+    name = "procmacro"
+    version = "0.1.0"
+    edition = "2024"
+
+    [dependencies]
+    quote = "1.0"
+
+    [lib]
+    proc-macro = true
+
+    Şimdi kürüphane crate'i içerisind yukarıdaki makroyu quote makrosunu kullanarak yazalım:
+
+    use proc_macro::TokenStream;
+    use quote::quote;
+
+    #[proc_macro]
+    pub fn my_macro(input: TokenStream) -> TokenStream {
+        quote! {
+            fn foo() {
+                println!("foo");
+            }
+        }.into()
+    }
+
+    Buradaki into metodu proc_macro2::TokenStream türünü proc_macro::TokenStream türüne dönüştürmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    ELimizde bir TokenStream değeri olsun. Bunun içerisindeki n'inci TokenTree değerini elde edebilir miyiz? TokenStream
+    değerini into_iterator yoluyla tüketici bir biçimde dolaşarak bu işlemi yapabiliriz. Ya da doğrudan into_iterator ile
+    aldığımız iterator nesnesini doğrudan n defa ilerletebiliriz. Bunun için zaten Iterator trait'inin nth metodun bulunduğunu
+    anımsayınız. Örneğin:
+
+    let tt: TokenTree = ts.into_iter().nth(n).expect("not enough tokens");
+
+    Ya da alternatif olarak iterator'ü collect yapıp onu bir vektöre de dönüştürbiliriz:
+
+    let ttvec: Vec<TokenTree> = stream.into_iter().collect();
+
+    Artık vektörün n'inci elemanını elde edebiliriz. Ancak Rust'ta vektörün elemanları Copy türünden değilse onun belli
+    bir elemanını taşıyamadığımızı anımsayınız.
+
+    Aşağıdaki örnekte prosedürel makroya tek bir Ident atom içeren TokenStream geçirilmiştir. Prosedürel makroda da bunun
+    ismi alınrak ondan bir fonksiyon oluşturulmuştur.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+// lib.rs
+
+use proc_macro::{TokenStream, TokenTree};
+use quote::quote;
+
+#[proc_macro]
+pub fn my_macro(input: TokenStream) -> TokenStream {
+    let ttvec: Vec<TokenTree> = input.into_iter().collect();
+
+    if ttvec.len() != 1 {
+        panic!("expected only an identifier");
+    }
+    if let TokenTree::Ident(ident) = &ttvec[0] {
+        let name: String = ident.to_string().parse().unwrap();
+
+        format!("fn {}() {{ println!(\"{name}\", );}}", name).parse().unwrap()
+    }
+    else {
+        panic!("invalid token");
+    }
+}
+
+// main.rs
+
+use procmacro::my_macro;
+
+my_macro!(foo);
+my_macro!(bar);
+
+fn main() {
+    foo();
+    bar();
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                        124. Ders 29/07/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki prosedürel makroyu quote makrosunu kullanarak oluşturabilit miydik? Burada önemli bir sorun quote makrosunun
+    atomları bire bir oluşturmasıdır. Örneğin:
+
+    quote! {
+        fn name() {
+            println!("foo");
+        }
+    }.into()
+
+    Buradaki name üretilen TokenStream değerinde name biçiminde kalacaktır. Halbuki bizim istediğimiz şey name değişkeninin
+    içerisindeki yazının oraya yerleşmesini sağlamaktır. İşte quote makrosu içerisinde bir değişkeni # ile kullanabilmek için
+    o değişkenin türünün ToTokens arayüzünü destekliyor olması gerekmektedir. ToTokens trait'i şöyle tanımlanmıştır:
+
+    pub trait ToTokens {
+        // Zorunlu metot
+        fn to_tokens(&self, tokens: &mut TokenStream);
+    }
+
+    Trait'in isteğe bağlı başka metotları da vardır.
+
+    proc-macro2 modülündeki atom belirten türler (Ident, Punct gibi) bu trait'i desteklemektedir. (Ancak standart proc_macro
+    modülündeki türler desteklememektedir.) quote modülünde de println mantığıyla çalışan format_ident isminde bir makro
+    vardır. Bu makro bir String değerini alıp bize onu içeren bir proc_macro::Ident değeri vermektedir. Biz de quote makrosuyla
+    bu işlemi şöyle yapabiliriz:
+
+    //...
+    let name: String = ident.to_string().parse().unwrap();
+    let fname = format_ident!("{}", name);
+
+     quote! {
+        fn #fname() {
+            println!(#name);
+        }
+    }.into()
+
+    Tabii aslında biz proc-macro2::Ident değerini zaten proc-macro2::Ident::new(...) işlemiyle de yaratabilirdik.
+    proc_macro2 modülünde String türü içim ToTokens trait'i desteklenmiştir. Biz String türünden bir değişkeni # ile
+    kullandığımızda quote makrosu o string'in içerisindeki yazıyı iki tırnak içeisinde koda yerleştirmektedir. Biz fonksiyon
+    ismini oluştururken proc_macro2::Ident değerinden hareket ettik. String türünden bir değerden hareket etseydik fonksiyon
+    ismi iki tırnakla üretilirdi. Yani biz makronun ilgili kısmını aşağıdaki gibi yazsaydık error oluşurdu:
+
+     let name: String = ident.to_string().parse().unwrap();
+
+     quote! {
+        fn #name() {
+            println!(#name);
+        }
+    }.into()
+
+    Burada fonksiyon ismi iki tırnaklı oluşturulacağından sorun ortaya çıkacaktır.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+// lib.rs
+
+use proc_macro::{TokenStream, TokenTree};
+use quote::{quote, format_ident};
+
+#[proc_macro]
+pub fn my_macro(input: TokenStream) -> TokenStream {
+    let ttvec: Vec<TokenTree> = input.into_iter().collect();
+
+    if ttvec.len() != 1 {
+        panic!("expected only an identifier");
+    }
+    if let TokenTree::Ident(ident) = &ttvec[0] {
+        let name: String = ident.to_string().parse().unwrap();
+        let fname = format_ident!("{}", name);
+
+        quote! {
+            fn #fname() {
+                println!(#name);
+            }
+        }.into()
+
+    }
+    else {
+        panic!("invalid token");
+    }
+}
+
+// main.rs
+
+use procmacro::my_macro;
+
+my_macro!(foo);
+my_macro!(bar);
+
+fn main() {
+   foo();
+   bar();
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Yukarıdaki işlemler biraz karmaşıktır. Karmaşıklığın nedeni büyük ölçüde proc_macro ile proc_macro2 türlerinin aynı
+    anda kullanılmasından kaynaklanmaktadır. Biz anahtar noktaları şöyle özetleyebiliriz:
+
+    - Prosedürel makroların girdisi de çıktısı da proc_macro::TokenStream türündendir.
+
+    - proc_macro2 modülü standart bir modül değildir. Ayrı bir paket olarak indirilmektedir. Bu paketin oluşturulmasının
+    nedeni proc_macro standart modülünün yalnızca kütüphane crate'leri içerisinde kullanılmasıdır. proc_macro2 paketi
+    tamamen proc_macro modülünü taklit etmekle birlikte daha serbest bir kullanım sunmaktadır.
+
+    - quote makrosu quote isimli bir pakettedir. Bu quote paketi proc_macro2 paketi ile birlikte kullanılmaktadır. quote
+    makrosunun çıktısı proc_macro2::TokenStream türündendir. Bu nedenle biz örneklerimizde into metodula onu standart
+    TokenStream türüne dönüştürdük.
+
+    - quote makrosundaki # kullanımı quote makrosunun bir buluşudur. Dolayısıyla ToTokens trait'i de quote paketi içerisindedir.
+
+    - quote makrosunda # kullanmak için değişkenin quote::ToTokens trait'ini destekliyor olması gerekir.
+
+    - quote paketinde proc_macro2 paketindeki TokenTree türleri için ToTokens trait'i desteklenmiştir. Dolayısıyla biz
+    örneğin proc_macro2::Ident türünden bir dğeişkeni quote makrosu içerisinde # ile kullanabiliriz.
+
+    - quote paketinde ayı zamanda String türünü de ToTokens trait'ini desteklemesi sağlanmıştır. Bir String değeri quote
+    makrosunda # ile kullanılırsa oraya makro iki tırnak içeirisnde string'in içerisindeki yazıyı yerleştirmektedir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Prosedürel makroya bir örnek daha verelim. Makromuzun ismi describe_tokens olsun. Biz bu makroya birtakım atomları verelim.
+    Makro da bize onların türlerini yazı olarak versin. Bunu sağlamak için prosedürel makroyu tek string sabitinden oluşan
+    bir atom içeren TokenStream ile geri döndürmek gerekir. Makro aşağıdaki gibi yazılabilir:
+
+    #[proc_macro]
+    pub fn describe_tokens(input: TokenStream) -> TokenStream {
+        let mut report = String::new();
+
+        for tree in input {
+            let line = match tree {
+                TokenTree::Group(group) => format!(
+                    "Group(delimiter = {:?}, inner_token_count = {})",
+                    group.delimiter(),
+                    group.stream().into_iter().count()
+                ),
+                TokenTree::Ident(ident) => format!("Ident({ident})"),
+                TokenTree::Punct(punct) => {
+                    format!("Punct('{}', spacing = {:?})", punct.as_char(), punct.spacing())
+                }
+                TokenTree::Literal(literal) => format!("Literal({literal})"),
+            };
+            report.push_str(&line);
+            report.push('\n');
+        }
+
+        quote! { #report }.into()
+    }
+
+    Burada girdiyş belirten TokenSTream nesnesinin for döngüsüyle dolaşıldığına dikkat edşniz. Her TokenTree için string'e
+    bir satır eklenmiştir. (Ancak burada Group elde edildiğinde onun özyinelemeli bir biçimde dolaşılmadığına dikkat ediniz.)
+    Fonksiyonun geri dönüş değerine dikkat ediniz:
+
+    quote! { #report }.into()
+
+    Burada yapılan işlem aşağıdaki gibidir:
+
+    quote! { "..........." }.into()
+
+    quote makrosunun proc_macro2::TokenStream verdiğini belirtmiştik. O halde burada aslında tek bir yazı oluşturulmaktadır.
+    Makroyu şöyle kullanabiliriz:
+
+    use procmacro::describe_tokens;
+
+    fn main() {
+        let result = describe_tokens! { (10 + 20) * 2};
+
+        println!("{}", result);
+    }
+
+    Çağrıya dikat ediniz:
+
+    let result = describe_tokens! { (10 + 20) * 2};
+
+    Burada makro geri döndürülen TokenSTream değerini açmaktadır. O da bir string'tir. Yani aslında makro açıldıktan sonra
+    şöyle bir eşdeğerlik oluşacaktır:
+
+    let result = "..........";
+---------------------------------------------------------------------------------------------------------------------------*/
+
+// lib.rs
+
+use proc_macro::{TokenStream, TokenTree};
+use quote::quote;
+
+#[proc_macro]
+pub fn describe_tokens(input: TokenStream) -> TokenStream {
+    //let input = proc_macro2::TokenStream::from(input);
+    let mut report = String::new();
+
+    for tree in input {
+        let line = match tree {
+            TokenTree::Group(group) => format!(
+                "Group(delimiter = {:?}, inner_token_count = {})",
+                group.delimiter(),
+                group.stream().into_iter().count()
+            ),
+            TokenTree::Ident(ident) => format!("Ident({ident})"),
+            TokenTree::Punct(punct) => {
+                format!("Punct('{}', spacing = {:?})", punct.as_char(), punct.spacing())
+            }
+            TokenTree::Literal(literal) => format!("Literal({literal})"),
+        };
+        report.push_str(&line);
+        report.push('\n');
+    }
+
+    quote! { #report }.into()   // String -> str literal
+}
+
+// main.rs
+
+use procmacro::describe_tokens;
+
+fn main() {
+    let result = describe_tokens! { (10 + 20) * 2};
+
+    println!("{}", result);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------
+                                            125. Ders 05/08/2026 - Çarşamba
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    Prosedürel makroların yazımında kolaylık sağlayan diğer bir paket de syn isimli pakettir. Bu paketin en son sürümü "2.0"
+    idi. Ancak birkaç hafta önce "3.0.0" sürümü de kullanıma sunulmuştur. Tabii paketi kullanabilmek için yine [dependencies]
+    bölümünde paketi belirtmemiz gerekir:
+
+    [dependencies]
+    proc-macro2 = "1.0"
+    syn = { version = "3.0.0", features = ["full"] }
+
+    syn paketinin tüm özelliklerinin kullanılabilmesi için features = ["full"] bağımlılık parametresinin de kullanılması
+    gerekmektedir.
+
+    syn paketi atomlardan bir parse ağacı (abstract syntax tree, kısaca AST) oluşturmak için kullanılmaktadır. syn paketi
+    içerisinde bir grup makro vardır. Bunlar arasında en çok kullanılanı parse_macro_input isimli makrodur. Bu makronun tipik
+    kullanımı şşyledir:
+
+    ast = parse_macro_input!(input as T);
+
+    Burada input TokenStream olmalıdır. T ise bu TokenStream'deki atomların dönüştürüleceği hedef sentaks ağacını belirtmektedir.
+    Örneğin türetme tarzı prosedürel makrolarda buradaki T tipik olarak DeriveInput olur:
+
+    ast = parse_macro_input!(input as DeriveInput);
+
+    Makro içerisindeki as anahtar sözcüğünün tür dönüştürme operatöryle bir ilgisi yoktur. Bu makroda bir eşleş görevindedir.
+    Yani kalıbın bir parçasıdır. Genel biçimde belirttiğimiz T aslında syn paketindeki başka sentaktik öğeler de olabilir.
+    Örneğin:
+
+    Syn::Expr
+    syn::ItemFn        // fn foo() { ... }
+    syn::ItemStruct    // struct S { ... }
+    syn::ItemEnum      // enum E { ... }
+    syn::ItemImpl      // impl S { ... } / impl Tr for S { ... }
+    syn::ItemTrait     // trait T { ... }
+    syn::ItemMod       // mod m { ... }
+    syn::ItemUse       // use std::fmt;
+    syn::ItemConst     // const N: usize = 3;
+    syn::ItemStatic    // static X: u8 = 0;
+    syn::ItemType      // type Alias = Vec<u8>;
+    syn::Item          // umbrella enum over all of the above
+
+    syn::Ident         // a single identifier: my_name
+    syn::Path          // a::b::C (each segment may carry generic args)
+    syn::Lifetime      // 'a
+    syn::Type          // any type; TypePath, TypeReference, TypeSlice,
+                    //   TypeArray, TypeTuple, TypeBareFn, ...
+    syn::Lit           // umbrella over literals
+    syn::LitStr        // "text"  (.value() resolves escapes)
+    syn::LitInt        // 42u8    (.base10_parse::<usize>() for the value)
+    syn::LitBool       // true
+
+    Biz bu makro ile TokenStream ile belirtilen atom yığınını sentaks ağacına dönüştürerek oardaki sentaktik öğeleri daha
+    rahat kullanabiliriz. Tabii geçerli sentaks ağacının oluşturulabilmesi için TokenStream ile belirtilen atom yığının da
+    geçerli bir Rust sentaksına ilişkin olması gerekir. Örneğin:
+
+    #[proc_macro]
+    pub fn syn_test(input: TokenStream) -> TokenStream {
+        let ast: ItemFn = parse_macro_input!(input as ItemFn);
+
+        let function_name = &ast.sig.ident;
+        eprintln!("FUNCTION NAME: {}", function_name);
+
+        TokenStream::new()
+    }
+
+    Burada test işlemi sırasında prosedürel makrolarda stderr dosyasına yazdırma yaptığımızda yazılanlar "cargo build"
+    ile makronun kullanıldığı crate derlenirken ekranda gözükecektir. Bu makro binary crate içerisinden şöyle kullanılabilir:
+
+    syn_test!(fn foo() {});
+
+    Örneğin biz bir fonksiyonun ismini şöyle elde edip iki tırnaklı bir biçimde dışarıya verebiliriz:
+
+    #[proc_macro]
+    pub fn syn_test(input: TokenStream) -> TokenStream {
+        let ast: ItemFn = parse_macro_input!(input as ItemFn);
+        let s: String = ast.sig.ident.to_string();
+        quote! {#s}.into()
+    }
+
+    parse_macro_input makrosu en çok türetme tarzı prosedürel makrolarda kullanılmaktadır.
+
+    syn paketindeki makroların bazıları doğrudan binary crate'lerden de kullanılabilmektedir. Örneğin parse_str fonksiyonu
+    string alır ve ondan parse ağacı oluşturup bize verir. Oluşturduğu parse ağacının türü bizim makroya girdiğimiz Rust
+    kod parçasına göre değişmektedir. Örneğin:
+
+    let ast: ItemFn = parse_str("fn foo() {}").unwrap();
+
+    parse_str fonksiyonu generic biçimde yazılmıştır. Dolayısıyla atama sırasında hedef türün belli olması gerekir.
+    Fonksiyonun parametrik yapısı şöyledir:
+
+    pub fn parse_str<T: Parse>(s: &str) -> Result<T>
+
+    syn paketindeki diğer faydalı bir makro da parse_quote makrosudur. Bu makro doğrudan atom yığınını argüman olarak aşır.
+    Bize parse ağacına ilişkin ilgili türden değer verir. Örneğin:
+
+     let ast: ItemFn = parse_quote!{
+        fn foo() {
+            println!("foo");
+        }
+    };
+
+    Burada da yime hedef türün belli olması gerekir.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------------------------------------------------
+    #[proc_macro_derive(isim)] özniteliği ile oluşturulan makrolara türetme makroları (derive macros) da denilmektedir. Şimdi
+    bu türetme makrolarını ele alacağız.
+
+    Türetme makroları struct, enum ve union türlerine uygulanabilmektedir. Aslıda biz türetme makrolarını kursumuzda kullandık.
+    Türetme makroları #[derive(isim)] biçiminde kullanılmaktadır Örneğin:
+
+    #[derive(my_derive_macro)]
+    struct Sample {
+        // ...
+    }
+
+    Türetmek makroları yine kütüphane crate'i içerisinde pub görünürlüğe sahip biçimde, crate'in kökünde oluşturulmaktadır.
+    Türetmek makrolarını oluşturmanın genel biçimi şöyledir:
+
+    #[proc_macro_derive(isim)]
+    pub fn func_name(input: TokenStream) -> TokenStream {
+        //...
+    }
+
+    Buradaki öznitelik içerisinde bulunan isim derive özniteliği uygulanırken kullanılan ismi belirtmektedir. Örneğin:
+
+    #[proc_macro_derive(my_derive_macro)]
+    pub fn my_derive_macro_proc(input: TokenStream) -> TokenStream {
+        TokenStream::new()
+    }
+
+    Biz bu türetme makrosunu binary crate'ten aşağıdaki gibi kullanabiliriz:
+
+    #[derive(my_derive_macro)]
+    struct Sample {
+        //...
+    }
+
+    türetme makrosundaki fonksiyonun isminin bir önemi yoktur. Peki bir türetme makrosu yukarıdaki gibi kullanıldığında
+    ne olmaktadır? İşte parse işlemi sırasında makronun uygulandığı tür (örneğimizde Sample yapısı) türetme makrosuna
+    TokenStream olarak geçirilmektedir. Yani örneğimizde türetme makrosunun input değişkeni struct Sample tanımlamasına
+    ilişkin atomları tutmamaktadır. Türetme makroları söz konusu türü koddan kaldırmaz. Yani yukarıdaki örnek kullanımda
+    türetme makrosu boş bir TokenStream verse bile Sample yapısı tanımlanmış olmaya devam eder. Türetme makroları mevcut
+    tanımlamaya bir ek oluşturmaktadır.
+
+    Örneğin biz bir türe impl bloğu ile foo isminde bir ilişkili fonksiyon eklemek isteyelim. Bunun için bizim aşağıdaki
+    gibi bir TokenStream üretmemiz gerekir:
+
+    impl Sample {
+        fn foo() {
+            println!("Sample::foo");
+        }
+    }
+
+    Tabii buradaki Smaple ismini biizm input parametresinden elde etmemiz gerekir. İşte daha önceden de belirttiğimiz gibi
+    syn paketindeki parse_öacro_input makrosu bu tür durumlarda oldukça kullanışlıdır. Çünkü parse edillmemiş bir atom
+    yığınından tür ismini elde etmek sanıldığı kadar kolay değildir. Örneğin:
+
+    #[derive(my_derive_macro)]
+    struct Sample {
+        //...
+    }
+
+    Siz burada TokenStream içerisindeki ikinci atomun türün ismini verdiğini düşünebilirsiniz. Ancak örneğin yapının başına
+    görünürlük belirten pub gibi anahtar sözcük getirildiğinde artık yapının ismi üçüncü atomda olacaktır:
+
+    #[derive(my_derive_macro)]
+    struct Sample {
+        //...
+    }
+
+    İşte parse_macro_input makrosu tüm parse işlemini zaten bizim yapmaktadır. parse_macro_input makrosunda as eşleşinden
+    sonra DeriveInput kullanılırsa türetme makrolarının uygulandığı tüm türler için parse işlemi yapılmaktadır. Dolayısıyla
+    türetme makrosu hangi türe uygulanmış olursa olsun onun bilgilerin aynı biçimde elde edebiliriz. Örneğin:
+
+    #[proc_macro_derive(my_derive_macro)]
+    pub fn my_derive_macro_proc(input: TokenStream) -> TokenStream {
+        let ast = parse_macro_input!(input as DeriveInput);
+        let name = &ast.ident;
+        let name_str = name.to_string();
+
+        quote! {
+            impl #name {
+                fn foo() {
+                    println!("{}::foo", #name_str);
+                }
+            }
+        }.into()
+    }
+
+    Burada ast artık DeriveInput türündendir. Bu türün ident alanı proc_macro2::Ident türünden türün ismini vermektedir.
+    Biz bu tür ismini quote makrosu içerisinde # ile kullanırsak türün ismini elde ederiz. Bu örneğin kütüphane ve binary
+    crate'ini aşağıda veriyoruz.
+---------------------------------------------------------------------------------------------------------------------------*/
+
+// lib.rs
+
+use proc_macro::{TokenStream};
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput};
+
+#[proc_macro_derive(my_derive_macro)]
+pub fn my_derive_macro_proc(input: TokenStream) -> TokenStream {
+    let ast = parse_macro_input!(input as DeriveInput);
+
+    let name = &ast.ident;
+    let name_str = name.to_string();
+
+    quote! {
+        impl #name {
+            fn foo() {
+                println!("{}::foo", #name_str);
+            }
+        }
+    }.into()
+}
+
+// main.rs
+
+use procmacro::{my_derive_macro};
+
+#[derive(my_derive_macro)]
+struct Sample {
+    //...
+}
+
+#[derive(my_derive_macro)]
+struct Mample {
+    //...
+}
+
+fn main() {
+    Sample::foo();
+    Mample::foo();
+}
+
+// Kütüphane crate'inin Cargo.toml dosyası
+
+[package]
+name = "procmacro"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "3.0.0", features = ["full"] }
+
+[lib]
+proc-macro = true
+
+// Binary crate'inin Cargo.toml Dosyası
+
+[package]
+name = "macrotest"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+procmacro = { path = "../procmacro" }
+
+/*---------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 /*---------------------------------------------------------------------------------------------------------------------------
                                             GEÇİCİ NOTLAR
